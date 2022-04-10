@@ -2,7 +2,7 @@
 #include <vector>
 #include <math.h>
 #include <memory>
-#include "Vector.hpp"
+#include "../common/Vector.hpp"
 
 class platform {
 private:

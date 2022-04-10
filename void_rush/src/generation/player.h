@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <math.h>
-#include "Vector.hpp"
+#include "../common/Vector.hpp"
 class player {
 private:
 	float jumpvel;

@@ -6,7 +6,7 @@
 		}
 	],
 	"settings": {
-		"files.exclude": {			
+		"files.exclude": {
 			"**/.git": true,
 			"**/.svn": true,
 			"**/.hg": true,
@@ -46,15 +46,15 @@
 			"**/compile_commands.json": true,
 			"*.json": true,
 			"compile_commands.json": true,
-			"**/*.json": true,
 			"**/graph.dot": true,
 			"*.dot": true,
 			"graph.dot": true,
 			"**/*.dot": true,
 			"*.ods": true,
-			"*.csv": true
+			"*.csv": true,
+			"**/*.o": true
 		},
-		"explorerExclude.backup": {},
+		"explorerExclude.backup": null,
 		"c-cpp-flylint.flawfinder.enable": false,
 		"c-cpp-flylint.flexelint.enable": false,
 		"c-cpp-flylint.lizard.enable": false,

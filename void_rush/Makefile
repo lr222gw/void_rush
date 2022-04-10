@@ -5,6 +5,7 @@ CXXFLAGS = -glldb -std=c++17
 #CXXFLAGS = -g -std=c++17
 #Explicit rules
 SRC := $(wildcard src/*.cpp)
+SRC := $(wildcard src/*/*.cpp)
 OBJ := $(SRC:.cpp=.o)
 
 

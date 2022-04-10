@@ -3,8 +3,8 @@
 #include <iostream>
 #include <fstream>
 
-#include "Vector.hpp"
-#include "Helper.h"
+#include "../common/Vector.hpp"
+#include "../common/Helper.h"
 
 struct test{
 
@@ -25,7 +25,7 @@ Vector3 resultingForce;
 Vector3 force_g;
 
 void Start(){
-    std::ofstream csv_file("proto_outputs/whatever2.csv");
+    std::ofstream csv_file("../proto_outputs/whatever2.csv");
     csv_file << "time," <<  "X," <<  " Y" <<  "\n";
 
     //Run
