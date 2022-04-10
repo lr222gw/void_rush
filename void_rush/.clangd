@@ -1,0 +1,22 @@
+CompileFlags:
+  # Treat code as C++, use C++17 standard, enable more warnings.
+  Add: [-xc++, -std=c++17, -Wall, -Wno-missing-prototypes]
+  # Remove extra warnings specified in compile commands.
+  # Single value is also acceptable, same as "Remove: [-mabi]"
+  Remove: -mabi
+Diagnostics:
+  # Tweak Clang-Tidy checks.
+  ClangTidy:
+    Add: [performance*, readability*]
+    Remove: [readability-uppercase-literal-suffix]
+    #CheckOptions:
+    #  readability-identifier-naming.VariableCase: CamelCase
+#---
+# Use Remote Index Service for LLVM.
+#If:
+  # Note: This is a regexp, notice '.*' at the end of PathMatch string.
+#  PathMatch: /path/to/llvm/.*
+#Index:
+#  External:
+#    Server: clangd-index.llvm.org:5900
+#    MountPoint: /path/to/llvm/

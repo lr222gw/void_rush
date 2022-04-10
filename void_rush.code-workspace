@@ -1,0 +1,121 @@
+{
+	
+	"folders": [
+		{
+			"path": "void_rush"
+		}
+	],
+	"settings": {
+		"files.exclude": {			
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/Thumbs.db": true,
+			"**/void_rush.vcxproj.filters": true,
+			"*.filters": true,
+			"void_rush.vcxproj.filters": true,
+			"**/*.filters": true,
+			"**/compile_then_create_graph.bat": true,
+			"*.bat": true,
+			"compile_then_create_graph.bat": true,
+			"**/*.bat": true,
+			"**/void_rush.vcxproj": true,
+			"*.vcxproj": true,
+			"void_rush.vcxproj": true,
+			"**/*.vcxproj": true,
+			"x64": true,
+			"*.ilk": true,
+			"*.pdb": true,
+			"*.vcxproj.user": true,
+			"src/*.o": true,
+			"*.o": true,
+			"temp.json": true,
+			".clang-tidy": true,
+			"**/.clangd": true,
+			".clangd": true,
+			"**/.clang-format": true,
+			".clang-format": true,
+			"**/.cache": true,
+			".cache": true,
+			"**/create_graph.sh": true,
+			"*.sh": true,
+			"create_graph.sh": true,
+			"**/*.sh": true,
+			"**/compile_commands.json": true,
+			"*.json": true,
+			"compile_commands.json": true,
+			"**/*.json": true,
+			"**/graph.dot": true,
+			"*.dot": true,
+			"graph.dot": true,
+			"**/*.dot": true,
+		},
+		"explorerExclude.backup": {},
+		"c-cpp-flylint.flawfinder.enable": false,
+		"c-cpp-flylint.flexelint.enable": false,
+		"c-cpp-flylint.lizard.enable": false,
+		"c-cpp-flylint.clang.enable": false,
+		"c-cpp-flylint.cppcheck.standard": [
+			"c++17","c++20"
+		],
+		"c-cpp-flylint.cppcheck.inconclusive": false,		
+		"c-cpp-flylint.cppcheck.severityLevels": {
+
+			"error": "Error",
+			"warning": "Warning",
+			"style": "Information",
+			"performance": "Information",
+			"portability": "Information",
+			"information": "Information"
+		},
+		"c-cpp-flylint.cppcheck.suppressions": [
+			"variableScope"
+		],
+		"lldb.showDisassembly": "auto",
+		"lldb.dereferencePointers": true,
+		"lldb.consoleMode": "commands",
+		"taskExplorer.exclude": [
+			"**/.vscode-test/**",
+			"**/bin/**",
+			"**/build/**",
+			"**/CompiledOutput/**",
+			"**/dist/**",
+			"**/doc/**",
+			"**/ext/**",
+			"**/out/**",
+			"**/output/**",
+			"**/packages/**",
+			"**/release/**",
+			"**/releases/**",
+			"**/samples/**",
+			"**/sdks/**",
+			"**/static/**",
+			"**/target/**",
+			"**/test/**",
+			"**/third_party/**",
+			"**/vendor/**",
+			"**/work/**",
+			"/c:/Users/Lowe/Desktop/void_rush/void_rush/Makefile"
+		],
+		"taskExplorer.pathToMake": "make",
+		"taskExplorer.groupMaxLevel": 2,
+		"taskExplorer.showExecuteWithArgumentsButton": true,
+		"workspace.isHidden": true,
+		"taskExplorer.showLastTasks": false,
+		"taskExplorer.enableWorkspace": true
+	},
+	"extensions": {
+		"recommendations": [
+			"gruntfuggly.activitusbar",
+			"amiralizadeh9480.cpp-helper",
+			"llvm-vs-code-extensions.vscode-clangd",
+			"sarper.close-sidebar-on-debug-session-end",
+			"vadimcn.vscode-lldb",
+			"redvanworkshop.explorer-exclude-vscode-extension",
+			"eamodio.gitlens",
+			"spmeesseman.vscode-taskexplorer"
+		]
+	}
+}

@@ -1,0 +1,27 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+    {
+        "key": "shift+alt+oem_4",
+        "command": "workbench.action.terminal.focus"
+    },
+    {
+        "key": "ctrl+f1 f1",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Build-Build Debug void_rush"
+    },
+    {
+        "key": "ctrl+f1 f2",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Build-Build Release void_rush"
+    },
+    {
+        "key": "ctrl+f1 ctrl+f1",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Run-void_rush Debug"
+    },
+    {
+        "key": "ctrl+f1 ctrl+f2",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Run-void_rush Release"
+    }
+]

@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug - void_rush",
+            "program": "${workspaceFolder}/void_rush_debug.exe",
+            "cwd": "${workspaceFolder}",
+            //"preLaunchTask": "compile",
+            //"preLaunchTask": "clang++ build active file", 
+            "preLaunchTask": "Build-Build Debug void_rush",
+            "postDebugTask": "extra-Gen_graph",
+			"expressions": "native",
+            
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Release - void_rush",
+            "program": "${workspaceFolder}/void_rush.exe",
+            "cwd": "${workspaceFolder}",
+            //"preLaunchTask": "compile",
+            //"preLaunchTask": "clang++ build active file", 
+            "preLaunchTask": "Build-Build Release void_rush",            
+            "postDebugTask": "extra-Gen_graph",
+			"expressions": "native",
+            
+        },
+    ]
+}

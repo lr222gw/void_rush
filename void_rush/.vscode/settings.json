@@ -1,0 +1,17 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "*.bat": true,
+        "*.vcxproj": true,
+        "**/void_rush.vcxproj.filters": true,
+        "void_rush.vcxproj.user": true,
+        "temp.json": true,
+        "src/*.o": true
+    },
+    "explorerExclude.backup": null
+}

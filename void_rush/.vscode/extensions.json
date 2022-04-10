@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "gruntfuggly.activitusbar",
+        "amiralizadeh9480.cpp-helper",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "sarper.close-sidebar-on-debug-session-end",
+        "vadimcn.vscode-lldb",
+        "redvanworkshop.explorer-exclude-vscode-extension",
+        "eamodio.gitlens",
+        "spmeesseman.vscode-taskexplorer"
+    ]
+}

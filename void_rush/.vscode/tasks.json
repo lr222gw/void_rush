@@ -1,0 +1,156 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "extra-Gen_graph",
+            "command": "neato -n -Tpng -o graph.png graph.dot",
+            "args": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "detail": "Generate graph for map generation"
+        },
+        {
+            "type": "shell",
+            "label": "extra-DUMMY",
+            "command": "neato -n -Tpng -o graph.png graph.dot",
+            "args": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "detail": "Dummy task to put the only Extra in a group..."
+        },
+        {
+            "type": "shell",
+            "label": "Build-Build Debug void_rush",
+            "command": "make void_rush_debug.exe",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Builds void_rush for debugging"
+        },
+        {
+            "type": "shell",
+            "label": "Build-Build Release void_rush",
+            "command": "make void_rush.exe",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Builds void_rush for release"
+        },
+        {
+            "type": "shell",
+            "label": "Run-void_rush Release",
+            "command": "make run_void_rush",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            
+            "detail": "Builds then run void_rush for release"
+        },
+        {
+            "type": "shell",
+            "label": "Run-void_rush Debug",
+            "command": "make run_void_rush_debug",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Builds then run void_rush for Debug"
+        },
+        {
+            "type": "shell",
+            "label": "clean-fix_me_plz",
+            "command": "make fixplz",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Cleans, rebuilds, fix compilation_database",
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "clean-Generate Database-no warning cdb",
+            "command": "make gen_cdb_noWarn",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Generate the compile_database.json",
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "clean-Generate Database-some warnings cdb",
+            "command": "make gen_cdb_someWarn",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Generate the compile_database.json",
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "clean-Generate Database-extra warnings cdb",
+            "command": "make gen_cdb_extraWarn",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Generate the compile_database.json",
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "clean-Generate Database-pedantic warnings cdb",
+            "command": "make gen_cdb_pedanticWarn",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Generate the compile_database.json",
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "clean-Generate Database-every warnings cdb",
+            "command": "make gen_cdb_everyWarn",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Generate the compile_database.json",
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "clean-clean void_rush",
+            "command": "make clean",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Cleans void_rush build files, vscode files and clang cache",
+            "problemMatcher": []
+        }
+    ]
+}
