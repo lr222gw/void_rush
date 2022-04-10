@@ -36,7 +36,7 @@ int main()
     float h;
     std::string content;
 
-    std::ofstream csv_file("whatever.csv");
+    std::ofstream csv_file("proto_outputs/whatever.csv");
     csv_file << "time," <<  "X," <<  " Y" <<  "\n";
     //Jag testar att göra en ändring här
     while (t < 16) {    
