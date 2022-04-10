@@ -64,6 +64,8 @@ gen_cdb: $(OBJ) gen_cdb_extraWarn
 
 fixplz: clean gen_cdb void_rush_debug.exe
 
+gen_clang_format:	
+	clang-format.exe -style="{BasedOnStyle : "GNU", IndentWidth : 4, ObjCBlockIndentWidth : 4, TabWidth : 4, AlwaysBreakAfterDefinitionReturnType : None, AlwaysBreakAfterReturnType : None, BraceWrapping: {AfterCaseLabel:  true, AfterClass:      true, AfterControlStatement: Always, AfterEnum:       true, AfterFunction:   true, AfterNamespace:  true, AfterObjCDeclaration: true, AfterStruct:     true, AfterUnion:      true, AfterExternBlock: true,  BeforeCatch:     true,  BeforeElse:      true,  BeforeLambdaBody: true, BeforeWhile:     true, IndentBraces:    false}, BreakBeforeBraces : Custom}" -dump-config > .clang-format
 
 clean:		
 	del void_rush.exe
@@ -72,6 +74,7 @@ clean:
 	del *.ilk
 	del *.pdb	
 	del src\*.o
+	del /S src\*.o
 	del .cache\clangd\index\*.idx	
 	
 
