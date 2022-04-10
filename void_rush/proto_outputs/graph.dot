@@ -1,0 +1,169 @@
+digraph {
+Platform_0 [
+label = "P_0
+X: 0
+Y: 0
+Z: 0"
+pos = "0,0!"
+]
+Platform_1 [
+label = "P_1
+X: 8.82761
+Y: 10.2843
+Z: -15.2781"
+pos = "200,160!"
+]
+Platform_0 -> Platform_1[ label = "Dist:20.4234" ]
+Platform_2 [
+label = "P_2
+X: 9.60362
+Y: 17.5876
+Z: 0.0344954"
+pos = "340,180!"
+]
+Platform_1 -> Platform_2[ label = "Dist:16.9829" ]
+Platform_3 [
+label = "P_3
+X: 17.6342
+Y: 23.6534
+Z: -6.31259"
+pos = "460,340!"
+]
+Platform_2 -> Platform_3[ label = "Dist:11.8983" ]
+Platform_4 [
+label = "P_4
+X: 19.4638
+Y: 38.0485
+Z: -17.7193"
+pos = "760,380!"
+]
+Platform_3 -> Platform_4[ label = "Dist:18.4575" ]
+Platform_5 [
+label = "P_5
+X: 25.3555
+Y: 44.7615
+Z: -3.94471"
+pos = "880,500!"
+]
+Platform_4 -> Platform_5[ label = "Dist:16.417" ]
+Platform_6 [
+label = "P_6
+X: 34.7688
+Y: 44.9768
+Z: -4.25567"
+pos = "880,680!"
+]
+Platform_5 -> Platform_6[ label = "Dist:9.42089" ]
+Platform_7 [
+label = "P_7
+X: 43.0184
+Y: 58.0403
+Z: -8.08922"
+pos = "1160,860!"
+]
+Platform_6 -> Platform_7[ label = "Dist:15.9188" ]
+Platform_8 [
+label = "P_8
+X: 50.3007
+Y: 61.3632
+Z: 1.55047"
+pos = "1220,1000!"
+]
+Platform_7 -> Platform_8[ label = "Dist:12.5298" ]
+Platform_9 [
+label = "P_9
+X: 62.3146
+Y: 62.5183
+Z: -4.1632"
+pos = "1240,1240!"
+]
+Platform_8 -> Platform_9[ label = "Dist:13.3535" ]
+Platform_10 [
+label = "P_10
+X: 74.1239
+Y: 71.1916
+Z: -6.13675"
+pos = "1420,1480!"
+]
+Platform_9 -> Platform_10[ label = "Dist:14.7845" ]
+Platform_11 [
+label = "P_11
+X: 81.3143
+Y: 75.5498
+Z: 2.91456"
+pos = "1500,1620!"
+]
+Platform_10 -> Platform_11[ label = "Dist:12.354" ]
+Platform_12 [
+label = "P_12
+X: 89.1426
+Y: 78.7158
+Z: 9.18307"
+pos = "1560,1780!"
+]
+Platform_11 -> Platform_12[ label = "Dist:10.5167" ]
+Platform_13 [
+label = "P_13
+X: 92.7584
+Y: 84.8366
+Z: 19.7322"
+pos = "1680,1840!"
+]
+Platform_12 -> Platform_13[ label = "Dist:12.7209" ]
+Platform_14 [
+label = "P_14
+X: 101.16
+Y: 89.1142
+Z: 31.8768"
+pos = "1780,2020!"
+]
+Platform_13 -> Platform_14[ label = "Dist:15.3743" ]
+Platform_15 [
+label = "P_15
+X: 107.306
+Y: 94.0654
+Z: 42.6501"
+pos = "1880,2140!"
+]
+Platform_14 -> Platform_15[ label = "Dist:13.3552" ]
+Platform_16 [
+label = "P_16
+X: 116.712
+Y: 94.4113
+Z: 54.9921"
+pos = "1880,2320!"
+]
+Platform_15 -> Platform_16[ label = "Dist:15.5215" ]
+Platform_17 [
+label = "P_17
+X: 129.744
+Y: 99.1954
+Z: 53.9787"
+pos = "1980,2580!"
+]
+Platform_16 -> Platform_17[ label = "Dist:13.9188" ]
+Platform_18 [
+label = "P_18
+X: 138.042
+Y: 104.689
+Z: 53.0065"
+pos = "2080,2760!"
+]
+Platform_17 -> Platform_18[ label = "Dist:9.9988" ]
+Platform_19 [
+label = "P_19
+X: 139.289
+Y: 116.519
+Z: 43.9073"
+pos = "2320,2780!"
+]
+Platform_18 -> Platform_19[ label = "Dist:14.977" ]
+Platform_20 [
+label = "P_20
+X: 151.862
+Y: 117.439
+Z: 31.3583"
+pos = "2340,3020!"
+]
+Platform_19 -> Platform_20[ label = "Dist:17.7875" ]
+}

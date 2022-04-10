@@ -21,6 +21,19 @@
         {
             "type": "lldb",
             "request": "launch",
+            "name": "Debug - gen graph",
+            "program": "${workspaceFolder}/void_rush_debug.exe",
+            "cwd": "${workspaceFolder}",
+            //"preLaunchTask": "compile",
+            //"preLaunchTask": "clang++ build active file", 
+            "preLaunchTask": "Build-Build Debug void_rush",
+            "postDebugTask": "extra-Gen_graph",
+			"expressions": "native",
+            
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
             "name": "Release - void_rush",
             "program": "${workspaceFolder}/void_rush.exe",
             "cwd": "${workspaceFolder}",

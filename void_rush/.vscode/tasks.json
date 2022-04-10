@@ -4,7 +4,7 @@
         {
             "type": "shell",
             "label": "extra-Gen_graph",
-            "command": "neato -n -Tpng -o graph.png graph.dot",
+            "command": "neato -n -Tpng -o proto_outputs/graph.png proto_outputs/graph.dot",
             "args": [],
             "group": {
                 "kind": "test",
@@ -14,13 +14,14 @@
         },
         {
             "type": "shell",
-            "label": "extra-DUMMY",
-            "command": "neato -n -Tpng -o graph.png graph.dot",
+            "label": "extra-Build,Run,Generate graph",
+            "command": ["neato -n -Tpng -o proto_outputs/graph.png proto_outputs/graph.dot"],
             "args": [],
             "group": {
                 "kind": "test",
                 "isDefault": true
             },
+            "dependsOn" : [ "Run-void_rush Debug"],
             "detail": "Dummy task to put the only Extra in a group..."
         },
         {
