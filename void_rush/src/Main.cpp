@@ -1,15 +1,14 @@
+#include "generation/proto.hpp"
+#include "physics/proto.hpp"
 #include <cmath>
 #include <corecrt_math.h>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <time.h>
-#include "physics/proto.hpp"
-#include "generation/proto.hpp"
 
-int main()
+int main ()
 {
-    physics_proto();
-    generation_proto();
-
+    physics_proto ();
+    generation_proto ();    
     return 0;
 }
