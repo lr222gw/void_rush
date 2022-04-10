@@ -14,7 +14,7 @@
             //"preLaunchTask": "compile",
             //"preLaunchTask": "clang++ build active file", 
             "preLaunchTask": "Build-Build Debug void_rush",
-            "postDebugTask": "extra-Gen_graph",
+            //"postDebugTask": "extra-Gen_graph",
 			"expressions": "native",
             
         },
@@ -27,7 +27,7 @@
             //"preLaunchTask": "compile",
             //"preLaunchTask": "clang++ build active file", 
             "preLaunchTask": "Build-Build Release void_rush",            
-            "postDebugTask": "extra-Gen_graph",
+            //"postDebugTask": "extra-Gen_graph",
 			"expressions": "native",
             
         },
