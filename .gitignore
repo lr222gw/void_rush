@@ -376,3 +376,5 @@ void_rush/compile_commands.json
 void_rush/temp.json
 
 
+
+*.o
