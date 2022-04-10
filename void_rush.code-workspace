@@ -51,6 +51,8 @@
 			"*.dot": true,
 			"graph.dot": true,
 			"**/*.dot": true,
+			"*.ods": true,
+			"*.csv": true
 		},
 		"explorerExclude.backup": {},
 		"c-cpp-flylint.flawfinder.enable": false,
