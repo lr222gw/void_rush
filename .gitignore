@@ -378,3 +378,5 @@ void_rush/temp.json
 
 
 *.o
+
+void_rush/proto_outputs/graph.dot
