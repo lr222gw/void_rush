@@ -376,7 +376,7 @@ void_rush/compile_commands.json
 void_rush/temp.json
 
 
-
+void_rush/src/*/*.o
 *.o
 
 void_rush/proto_outputs/graph.dot
