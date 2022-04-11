@@ -6,14 +6,6 @@
 #include "../common/Helper.hpp"
 #include "../common/Vector.hpp"
 
-#define MASS 50.0f
-#define GRAV_A 9.82f
-#define JMP_SPD 20.0f
-#define START_V 60.0f
-#define RUN_TIME 21
-#define JMP_1 8
-#define JMP_2 13
-#define FRICTION 1.0f
 
 struct test
 {
@@ -23,8 +15,14 @@ struct test
 
     bool grounded = false;
 
-    Vector3 jumpSpeed = Vector3 (0.0f, JMP_SPD, 0.0f);
-    Vector3 gravityAcceleration = Vector3 (0.0f, GRAV_A, 0.0f);
+    float mass = 50.0f;
+    float grav_a = -9.82;
+    float start_v = 60.0f;
+    float jmp_spd = 20.0f;
+    float friction = 1.0f;
+
+    Vector3 jumpSpeed = Vector3 (0.0f, jmp_spd, 0.0f);
+    Vector3 gravityAcceleration = Vector3 (0.0f, grav_a, 0.0f);
     Vector3 acceleration;
     Vector3 velocity;
     Vector3 position;
