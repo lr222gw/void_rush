@@ -13,6 +13,7 @@
 #define RUN_TIME 21
 #define JMP_1 8
 #define JMP_2 13
+#define FRICTION 1.0f
 
 struct test
 {
@@ -21,7 +22,6 @@ struct test
     float deltlaT = 1;
 
     bool grounded = false;
-    float frictionCheat = 1.0f;
 
     Vector3 jumpSpeed = Vector3 (0.0f, JMP_SPD, 0.0f);
     Vector3 gravityAcceleration = Vector3 (0.0f, GRAV_A, 0.0f);
