@@ -6,6 +6,14 @@
 #include "../common/Helper.hpp"
 #include "../common/Vector.hpp"
 
+#define MASS 50.0f
+#define GRAV_A 9.82f
+#define JMP_SPD 20.0f
+#define START_V 60.0f
+#define RUN_TIME 21
+#define JMP_1 8
+#define JMP_2 13
+
 struct test
 {
     float time = 0;
@@ -15,9 +23,8 @@ struct test
     bool grounded = false;
     float frictionCheat = 1.0f;
 
-    float mass = 50.0f;
-    Vector3 jumpSpeed = Vector3 (0.0f, 20.0f, 0.0f);
-    Vector3 gravityAcceleration = Vector3 (0.0f, -9.82f, 0.0f);
+    Vector3 jumpSpeed = Vector3 (0.0f, JMP_SPD, 0.0f);
+    Vector3 gravityAcceleration = Vector3 (0.0f, GRAV_A, 0.0f);
     Vector3 acceleration;
     Vector3 velocity;
     Vector3 position;
@@ -26,12 +33,12 @@ struct test
 
     void Start ();
     void Run (std::ofstream &csv_file);
-    void WriteToFile (std::ofstream &csv_file);
+    void WriteToFile (std::ofstream &csv_file) const;
     void Jump ();
-    void SetVelocity (Vector3 v);
+    void SetVelocity (Vector3 vec);
     void SetPos (Vector3 pos);
     void Move (Vector3 step);
     void Update (float deltaT);
-    Vector3 GetPos ();
-    Vector3 GetPushVector (Vector3 enemyPos, Vector3 playerPos);
+    Vector3 GetPos () const;
+    static Vector3 GetPushVector (Vector3 enemyPos, Vector3 playerPos);
 };
