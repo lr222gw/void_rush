@@ -1,4 +1,5 @@
 #pragma once
+#include <corecrt_math.h>
 #include <math.h>
 
 struct Vector2
@@ -72,10 +73,23 @@ struct Vector3
         x = x / magnitude ();
         y = y / magnitude ();
     }
+    static Vector3 normalize(Vector3 vec){
+        Vector3 ret = Vector3(0.0f, 0.0f, 0.0f);
+        float len = vec.length();
+        if(len != 0){
+            ret.x = vec.x/len;
+            ret.y = vec.y/len;
+            ret.z = vec.z/len;
+        }
+        return ret;
+    }
+
 
     float magnitude ()const { return sqrtf (x * x + y * y); }
-
+    static float magnitude(Vector2 vec){return sqrtf(vec.x*vec.x + vec.y*vec.y); }
     float length ()const { return sqrtf (x * x + y * y + z * z); }
+    static float lenght(Vector3 vec){return sqrtf(vec.x*vec.x + vec.y*vec.y +vec.z*vec.z); }
+
 
     Vector3 &operator-= (const Vector3 &other);
     Vector3 &operator+= (const Vector3 &other);
