@@ -22,8 +22,9 @@ bool generation::start (int selectedDiff)
     srand (this->seed);
     Vector3 dVect = Vector3 ();
     Vector3 position = this->startPlat->getPos ();
+    float minStepMod = 2;
     float stepMax = pl->getJumpDistance ();
-    float stepMin = pl->getJumpDistance () / 2 * selectedDiff;
+    float stepMin = pl->getJumpDistance () / minStepMod * selectedDiff;
     float distance = 0.0f;
     float stepMaxZ = pl->jumpHeight ();
     platform *current = startPlat;
@@ -36,7 +37,7 @@ bool generation::start (int selectedDiff)
         position.z += dVect.z;
         // Using the height the new platform to determine max distance
         stepMax = pl->getJumpDistance (position.z);
-        stepMin = stepMax / 2.0f * selectedDiff;
+        stepMin = stepMax / minStepMod * selectedDiff;
         // Generating x and y pos
         dVect.x = randF (0, 1);
         dVect.y = randF (0, 1);
@@ -78,7 +79,5 @@ float generation::randF (float min, float max)
 {
     float random = min + ((float)rand ()) / ((float)RAND_MAX / (max - min));
     // std::cout << "random float " << random << std::endl;
-    // float diff = max - min;
-    // float r = random * diff;
     return random;
 }

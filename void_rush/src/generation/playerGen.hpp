@@ -6,11 +6,11 @@
 class player
 {
   private:
+    Vector3 pos;
     float jumpvel;
     float speed;
-    float launchangle;
     float gravity;
-    Vector3 pos;
+    float launchangle;
 
   public:
     player ();

@@ -20,11 +20,11 @@ platform::platform (Vector3 pos, int obstacles, int difficluty)
 
 platform::~platform () {}
 
-void platform::setPosition (float x, float y, float z)
+void platform::setPosition (float xPos, float yPos, float zPos)
 {
-    this->pos.x = x;
-    this->pos.y = y;
-    this->pos.z = z;
+    this->pos.x = xPos;
+    this->pos.y = yPos;
+    this->pos.z = zPos;
 }
 
 void platform::setPosition (Vector3 position) { this->pos = position; }
@@ -38,16 +38,16 @@ void platform::move (float xOfset, float yOfset, float zOfset)
 
 Vector3 platform::getPos () { return this->pos; }
 
-float platform::distance (Vector3 position)
+float platform::distance (Vector3 position) const
 {
     return sqrtf (pow (this->pos.x - position.x, 2)
                   + pow (this->pos.y - position.y, 2)
                   + pow (this->pos.z - position.z, 2));
 }
 
-float platform::distance (std::vector<float> &position)
+float platform::distance (std::vector<float> &position) const
 {
-    return sqrtf (pow (this->pos.x - position[0], 2.0)
-                  + pow (this->pos.y - position[1], 2.0)
-                  + pow (this->pos.z - position[2], 2.0));
+    return sqrtf (pow (this->pos.x - position[0], 2)
+                  + pow (this->pos.y - position[1], 2)
+                  + pow (this->pos.z - position[2], 2));
 }
