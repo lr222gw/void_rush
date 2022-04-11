@@ -17,7 +17,6 @@ void physics_proto ()
     Vector2 gravity;
     Vector2 drag;
     gravity.y = -9.82f;
-
     Vector2 grav = Vector2 (0.0f, -9.82f);
     Vector2 v = v0; // Vector2(0.0f, 0.0f);
     Vector2 force_grav = grav * mass;
@@ -36,25 +35,6 @@ void physics_proto ()
     while (t < 16)
     {
 
-        // Förlag 1:
-
-        // acc = (force_grav)/mass;
-
-        // v = v+acc*t;
-
-        // pos = pos + v*t;
-
-        // Förslag 2:
-        // pos = pos + v*t;
-
-        // acc = (force_grav)/mass;
-
-        // v = v+acc*t;
-
-        // Förslag 3:
-        //  v.x = v0.x;
-        // v.y = gravity.y*t;
-        // pos = v*t;
 
         // Förslag Kaströrelse:
         float angle = 3.14 / 6;
