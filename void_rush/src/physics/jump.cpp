@@ -37,11 +37,11 @@ void test::Update (float deltaT)
     {
         if (velocity.x > 0)
         {
-            velocity.x -= frictionCheat;
+            velocity.x -= FRICTION;
         }
         if (velocity.z > 0)
         {
-            velocity.z -= frictionCheat;
+            velocity.z -= FRICTION;
         }
     }
     // Update position
