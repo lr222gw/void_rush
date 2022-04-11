@@ -39,11 +39,11 @@ void test::Update (float deltaT)
     if (!grounded)
     {
         // Update forces
-        force_g = gravityAcceleration * MASS;
+        force_g = gravityAcceleration * mass;
         // Set resulting force
         resultingForce = force_g;
         // Update acceleration
-        acceleration = resultingForce / MASS;
+        acceleration = resultingForce / mass;
         // Update velocity
         velocity = velocity + acceleration * deltaT;
     }
