@@ -1,13 +1,12 @@
 #include "puzzle_math.hpp"
-#include <string>
 
-MathPuzzle::MathPuzzle(const Vector3& position, int seed, int width, int length) : Puzzle(position, seed, width, length)
+MathPuzzle::MathPuzzle(const Vector3& position, int seed) : Puzzle(position, seed)
 {
 }
 
 std::string MathPuzzle::GetComponents() const
 {
-    return std::to_string(components[0]) + " " + arithmetic + " " + std::to_string(components[1]) + " = " + std::to_string(components[2]) + "\nThese are your choices: " + std::to_string(choices[0]) + " " + std::to_string(choices[1]) + " " + std::to_string(choices[2]);
+    return std::to_string(components[0]) + " " + arithmetic + " " + std::to_string(components[1]) + " = " + std::to_string(components[2]);
 }
 
 void MathPuzzle::Interaction()
@@ -24,6 +23,7 @@ void MathPuzzle::Interaction()
 
 void MathPuzzle::InitiatePuzzle()
 {
+    srand(Puzzle::GetSeed());
     int typeOfQuestion = (int)rand() % 4 + 1;
 
     //Question is addition or subtraction

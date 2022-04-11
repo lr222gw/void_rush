@@ -1,6 +1,6 @@
 #include "puzzle_hidden.hpp"
 
-HiddenPuzzle::HiddenPuzzle(const Vector3& position, int seed, int width, int length) : Puzzle(position, seed, width, length)
+HiddenPuzzle::HiddenPuzzle(const Vector3& position, int seed) : Puzzle(position, seed)
 {
     
 }
