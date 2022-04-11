@@ -11,7 +11,7 @@
 
 #include "DeferredRendering.h"
 #include "ShadowMap.h"
-#include "Graphics.h"
+//#include "Graphics.h"
 #include "DynamicCubeEnviroment.h"
 #include "QuadTree.h"
 #include "TrashCollector.h"
