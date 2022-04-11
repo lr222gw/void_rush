@@ -1,21 +1,24 @@
 #include "Platform.hpp"
 
 platform::platform ()
-    : pos ({ 0.0f, 0.0f, 0.0f }), obstacles (0), difficluty (0), next (nullptr)
+    : pos ({ 0.0f, 0.0f, 0.0f }), obstacles (0), difficluty (0), rotation (0.0), next (nullptr)
 {
+    platformShape.setShapeCube (this->pos);
 }
 
-platform::platform (std::vector<float> pos, int obstacles, int difficluty)
-    : obstacles (obstacles), difficluty (difficluty), next (nullptr)
+platform::platform (std::vector<float> pos, int obstacles, int difficluty, double rotation)
+    : obstacles (obstacles), difficluty (difficluty), rotation (rotation), next (nullptr)
 {
     this->pos.x = pos[0];
     this->pos.y = pos[1];
     this->pos.z = pos[2];
+    platformShape.setShapeCube (this->pos);
 }
 
-platform::platform (Vector3 pos, int obstacles, int difficluty)
-    : pos (pos), obstacles (obstacles), difficluty (difficluty), next (nullptr)
+platform::platform (Vector3 pos, int obstacles, int difficluty, double rotation)
+    : pos (pos), obstacles (obstacles), difficluty (difficluty), rotation (rotation), next (nullptr)
 {
+    platformShape.setShapeCube (this->pos);
 }
 
 platform::~platform () {}

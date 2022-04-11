@@ -1,5 +1,7 @@
 #pragma once
 #include "../common/Vector.hpp"
+#include "../common/Shape.hpp"
+#include "../common/Matrix.hpp"
 #include <math.h>
 #include <memory>
 #include <vector>
@@ -11,11 +13,12 @@ class platform
     Vector3 pos;
     int obstacles;
     int difficluty;
-
+    double rotation;
+    Shape platformShape;
   public:
     platform ();
-    platform (std::vector<float> pos, int obstacles, int difficluty);
-    platform (Vector3 pos, int obstacles, int difficluty);
+    platform (std::vector<float> pos, int obstacles, int difficluty, double rotation = 0.0);
+    platform (Vector3 pos, int obstacles, int difficluty, double rotation = 0.0);
     ~platform ();
     void setPosition (float xPos, float yPos, float zPos);
     void setPosition (Vector3 position);
