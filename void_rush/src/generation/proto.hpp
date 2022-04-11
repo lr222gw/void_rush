@@ -15,7 +15,6 @@ void generation_proto ()
     levelGen.assignPlayer (pl);
     levelGen.start (1);
     std::vector<platform *> platforms = levelGen.getPlatforms ();
-    int f = 4;
 
     std::ofstream out ("proto_outputs/graph.dot");
     out << "digraph {\n";
@@ -60,7 +59,7 @@ void generation_proto ()
         {
             out << "Platform_" << i - 1 << " -> "
                 << "Platform_" << i;
-            out << "[ label = \"Dist:"
+            out << "[ label = \"Dist: "
                 << platforms[i - 1]->distance (
                        platforms[i - 1]->next->getPos ())
                 << "\" ]"
