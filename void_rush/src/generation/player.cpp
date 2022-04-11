@@ -15,23 +15,23 @@ void player::moveto (const Vector3 &pos)
 float player::getJumpDistance ()
 {
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
-    float t = (vel * sin (this->launchangle)
+    float time = (vel * sin (this->launchangle)
                + sqrtf (powf (vel * sinf (this->launchangle), 2.0f)
                         + 2 * this->gravity * this->pos.z))
               / this->gravity;
 
-    return this->speed * t;
+    return this->speed * time;
 }
 
 float player::getJumpDistance (float height)
 {
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
-    float t = (vel * sin (this->launchangle)
+    float time = (vel * sin (this->launchangle)
                + sqrtf (powf (vel * sinf (this->launchangle), 2.0f)
                         + 2 * this->gravity * (this->pos.z - height)))
               / this->gravity;
 
-    return this->speed * t;
+    return this->speed * time;
 }
 
 float player::jumpHeight ()

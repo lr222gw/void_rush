@@ -8,7 +8,7 @@
 
 int main ()
 {
-    //physics_proto ();
-    generation_proto ();    
+    // physics_proto ();
+    generation_proto ();
     return 0;
 }
