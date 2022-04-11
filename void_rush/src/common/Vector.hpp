@@ -1,4 +1,5 @@
 #pragma once
+#include <corecrt_math.h>
 #include <math.h>
 
 struct Vector2
@@ -23,147 +24,29 @@ struct Vector2
         y = y / length ();
     }
 
-    float length () { return sqrtf (x * x + y * y); }
+    float length ()const { return sqrtf (x * x + y * y); }
 
-    Vector2 operator/ (const Vector2 &other)
-    {
-        Vector2 ret;
-        ret.x = this->x / other.x;
-        ret.y = this->y / other.y;
-        return ret;
-    }
+    Vector2 operator/ (const Vector2 &other) const;
+    Vector2 operator/ (const float &other) const;
+    Vector2 operator+ (const Vector2 &other) const;
+    Vector2 operator* (const Vector2 &other) const;
+    Vector2 operator- (const Vector2 &other) const;
+    Vector2 operator* (const int &other) const;
+    Vector2 operator* (const float &other) const;
+    Vector2 operator* (const double &other) const;
 
-    Vector2 operator/ (const float &other)
-    {
-        Vector2 ret;
-        ret.x = this->x / other;
-        ret.y = this->y / other;
-        return ret;
-    }
-
-    Vector2 operator+ (const Vector2 &other)
-    {
-        Vector2 ret;
-        ret.x = this->x + other.x;
-        ret.y = this->y + other.y;
-        return ret;
-    }
-
-    Vector2 operator* (const Vector2 &other)
-    {
-        Vector2 ret;
-        ret.x = this->x * other.x;
-        ret.y = this->y * other.y;
-        return ret;
-    }
-
-    Vector2 operator- (const Vector2 &other)
-    {
-        Vector2 ret;
-        ret.x = this->x - other.x;
-        ret.y = this->y - other.y;
-        return ret;
-    }
-
-    Vector2 operator* (const int &other)
-    {
-        Vector2 ret;
-        ret.x = this->x * other;
-        ret.y = this->y * other;
-        return ret;
-    }
-
-    Vector2 operator* (const float &other)
-    {
-        Vector2 ret;
-        ret.x = this->x * other;
-        ret.y = this->y * other;
-
-        return ret;
-    }
-
-    Vector2 operator* (const double &other)
-    {
-        Vector2 ret;
-        ret.x = this->x * other;
-        ret.y = this->y * other;
-
-        return ret;
-    }
-
-    Vector2 &operator-= (const Vector2 &other)
-    {
-
-        this->x -= other.x;
-        this->y -= other.y;
-        return *this;
-    }
-    Vector2 &operator+= (const Vector2 &other)
-    {
-        this->x += other.x;
-        this->y += other.y;
-        return *this;
-    }
-    Vector2 &operator*= (const Vector2 &other)
-    {
-        this->x *= other.x;
-        this->y *= other.y;
-        return *this;
-    }
-    Vector2 &operator/= (const Vector2 &other)
-    {
-        this->x /= other.x;
-        this->y /= other.y;
-        return *this;
-    }
-    Vector2 &operator-= (const float &other)
-    {
-        this->x -= other;
-        this->y -= other;
-        return *this;
-    }
-    Vector2 &operator+= (const float &other)
-    {
-        this->x += other;
-        this->y += other;
-        return *this;
-    }
-    Vector2 &operator*= (const float &other)
-    {
-        this->x *= other;
-        this->y *= other;
-        return *this;
-    }
-    Vector2 &operator/= (const float &other)
-    {
-        this->x /= other;
-        this->y /= other;
-        return *this;
-    }
-    Vector2 &operator-= (const int &other)
-    {
-        this->x -= other;
-        this->y -= other;
-        return *this;
-    }
-    Vector2 &operator+= (const int &other)
-    {
-        this->x += other;
-        this->y += other;
-        return *this;
-    }
-    Vector2 &operator*= (const int &other)
-    {
-        this->x *= other;
-        this->y *= other;
-        return *this;
-    }
-    Vector2 &operator/= (const int &other)
-    {
-        this->x /= other;
-        this->y /= other;
-        return *this;
-    }
+    Vector2 &operator-= (const Vector2 &other);
+    Vector2 &operator+= (const Vector2 &other);
+    Vector2 &operator*= (const Vector2 &other);
+    Vector2 &operator/= (const Vector2 &other);
+    Vector2 &operator-= (const float &other);
+    Vector2 &operator+= (const float &other);
+    Vector2 &operator*= (const float &other);
+    Vector2 &operator/= (const float &other);
+    Vector2 &operator-= (const int &other);
+    Vector2 &operator+= (const int &other);
+    Vector2 &operator*= (const int &other);
+    Vector2 &operator/= (const int &other);
 };
 
 struct Vector3
@@ -190,191 +73,47 @@ struct Vector3
         x = x / magnitude ();
         y = y / magnitude ();
     }
-
-    float magnitude () { return sqrtf (x * x + y * y); }
-
-    float length () { return sqrtf (x * x + y * y + z * z); }
-
-    Vector3 &operator-= (const Vector3 &other)
-    {
-
-        this->x -= other.x;
-        this->y -= other.y;
-        this->z -= other.z;
-        return *this;
-    }
-    Vector3 &operator+= (const Vector3 &other)
-    {
-        this->x += other.x;
-        this->y += other.y;
-        this->z += other.z;
-        return *this;
-    }
-    Vector3 &operator*= (const Vector3 &other)
-    {
-        this->x *= other.x;
-        this->y *= other.y;
-        this->z *= other.z;
-        return *this;
-    }
-    Vector3 &operator/= (const Vector3 &other)
-    {
-        this->x /= other.x;
-        this->y /= other.y;
-        this->z /= other.z;
-        return *this;
-    }
-    Vector3 &operator-= (const float &other)
-    {
-        this->x -= other;
-        this->y -= other;
-        this->z -= other;
-        return *this;
-    }
-    Vector3 &operator+= (const float &other)
-    {
-        this->x += other;
-        this->y += other;
-        this->z += other;
-        return *this;
-    }
-    Vector3 &operator*= (const float &other)
-    {
-        this->x *= other;
-        this->y *= other;
-        this->z *= other;
-        return *this;
-    }
-    Vector3 &operator/= (const float &other)
-    {
-        this->x /= other;
-        this->y /= other;
-        this->z /= other;
-        return *this;
-    }
-    Vector3 &operator-= (const int &other)
-    {
-        this->x -= other;
-        this->y -= other;
-        this->z -= other;
-        return *this;
-    }
-    Vector3 &operator+= (const int &other)
-    {
-        this->x += other;
-        this->y += other;
-        this->z += other;
-        return *this;
-    }
-    Vector3 &operator*= (const int &other)
-    {
-        this->x *= other;
-        this->y *= other;
-        this->z *= other;
-        return *this;
-    }
-    Vector3 &operator/= (const int &other)
-    {
-        this->x /= other;
-        this->y /= other;
-        this->z /= other;
-        return *this;
+    static Vector3 normalize(Vector3 vec){
+        Vector3 ret = Vector3(0.0f, 0.0f, 0.0f);
+        float len = vec.length();
+        if(len != 0){
+            ret.x = vec.x/len;
+            ret.y = vec.y/len;
+            ret.z = vec.z/len;
+        }
+        return ret;
     }
 
-    Vector3 operator- (const Vector3 &other)
-    {
-        Vector3 ret;
-        ret.x = this->x - other.x;
-        ret.y = this->y - other.y;
-        ret.z = this->z - other.z;
-        return ret;
-    }
-    Vector3 operator+ (const Vector3 &other)
-    {
-        Vector3 ret;
-        ret.x = this->x + other.x;
-        ret.y = this->y + other.y;
-        ret.z = this->z + other.z;
-        return ret;
-    }
-    Vector3 operator* (const Vector3 &other)
-    {
-        Vector3 ret;
-        ret.x = this->x * other.x;
-        ret.y = this->y * other.y;
-        ret.z = this->z * other.z;
-        return ret;
-    }
-    Vector3 operator/ (const Vector3 &other)
-    {
-        Vector3 ret;
-        ret.x = this->x / other.x;
-        ret.y = this->y / other.y;
-        ret.z = this->z / other.z;
-        return ret;
-    }
-    Vector3 operator- (const float &other)
-    {
-        Vector3 ret;
-        ret.x = this->x - other;
-        ret.y = this->y - other;
-        ret.z = this->z - other;
-        return ret;
-    }
-    Vector3 operator+ (const float &other)
-    {
-        Vector3 ret;
-        ret.x = this->x + other;
-        ret.y = this->y + other;
-        ret.z = this->z + other;
-        return ret;
-    }
-    Vector3 operator* (const float &other)
-    {
-        Vector3 ret;
-        ret.x = this->x * other;
-        ret.y = this->y * other;
-        ret.z = this->z * other;
-        return ret;
-    }
-    Vector3 operator/ (const float &other)
-    {
-        Vector3 ret;
-        ret.x = this->x / other;
-        ret.y = this->y / other;
-        ret.z = this->z / other;
-        return ret;
-    }
-    Vector3 operator- (const int &other)
-    {
-        Vector3 ret;
-        ret.x = this->x - other;
-        ret.y = this->y - other;
-        ret.z = this->z - other;
-        return ret;
-    }
-    Vector3 operator+ (const int &other)
-    {
-        Vector3 ret;
-        ret.x = this->x + other;
-        ret.y = this->y + other;
-        ret.z = this->z + other;
-        return ret;
-    }
-    Vector3 operator* (const int &other)
-    {
-        Vector3 ret;
-        ret.x = this->x * other;
-        ret.y = this->y * other;
-        ret.z = this->z * other;
-        return ret;
-    }
-    Vector3 operator/ (const int &other)
-    {
-        Vector3 ret;
-        ret.x = this->x / other;
-        ret.y = this->y / other;
-        ret.z = this->z / other;
-        return ret;
-    }
+
+    float magnitude ()const { return sqrtf (x * x + y * y); }
+    static float magnitude(Vector2 vec){return sqrtf(vec.x*vec.x + vec.y*vec.y); }
+    float length ()const { return sqrtf (x * x + y * y + z * z); }
+    static float lenght(Vector3 vec){return sqrtf(vec.x*vec.x + vec.y*vec.y +vec.z*vec.z); }
+
+
+    Vector3 &operator-= (const Vector3 &other);
+    Vector3 &operator+= (const Vector3 &other);
+    Vector3 &operator*= (const Vector3 &other);
+    Vector3 &operator/= (const Vector3 &other);
+    Vector3 &operator-= (const float &other);
+    Vector3 &operator+= (const float &other);
+    Vector3 &operator*= (const float &other);
+    Vector3 &operator/= (const float &other);
+    Vector3 &operator-= (const int &other);
+    Vector3 &operator+= (const int &other);
+    Vector3 &operator*= (const int &other);
+    Vector3 &operator/= (const int &other);
+
+    Vector3 operator- (const Vector3 &other) const;
+    Vector3 operator+ (const Vector3 &other) const;
+    Vector3 operator* (const Vector3 &other) const;
+    Vector3 operator/ (const Vector3 &other) const;
+    Vector3 operator- (const float &other) const;
+    Vector3 operator+ (const float &other) const;
+    Vector3 operator* (const float &other) const;
+    Vector3 operator/ (const float &other) const;
+    Vector3 operator- (const int &other) const;
+    Vector3 operator+ (const int &other) const;
+    Vector3 operator* (const int &other) const;
+    Vector3 operator/ (const int &other) const;
 };
