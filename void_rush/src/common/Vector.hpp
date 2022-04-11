@@ -84,12 +84,13 @@ struct Vector3
         return ret;
     }
 
+    float magnitude ()const { return sqrtf (x * x + y * y); }
 
+    float length ()const { return sqrtf (x * x + y * y + z * z); }
     float magnitude ()const { return sqrtf (x * x + y * y); }
     static float magnitude(Vector2 vec){return sqrtf(vec.x*vec.x + vec.y*vec.y); }
     float length ()const { return sqrtf (x * x + y * y + z * z); }
     static float lenght(Vector3 vec){return sqrtf(vec.x*vec.x + vec.y*vec.y +vec.z*vec.z); }
-
 
     Vector3 &operator-= (const Vector3 &other);
     Vector3 &operator+= (const Vector3 &other);
