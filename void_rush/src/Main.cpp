@@ -1,5 +1,6 @@
 #include "generation/proto.hpp"
 #include "physics/proto.hpp"
+#include "pussle/proto.hpp"
 #include <cmath>
 #include <corecrt_math.h>
 #include <fstream>
