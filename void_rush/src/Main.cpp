@@ -9,6 +9,7 @@
 int main ()
 {
     // physics_proto ();
+    int test = 0;
     generation_proto ();
     return 0;
 }
