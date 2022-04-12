@@ -71,7 +71,7 @@ Material::~Material()
 void Material::loadTexture(std::string filename, Graphics*& gfx, int WhatRSV, ID3D11ShaderResourceView** def)
 {
 	ID3D11Texture2D* tex;
-	if (CreateTexture(filename, gfx->getDevice(), tex, this->texSRVPS[WhatRSV])) {
+	if (CreateTexture("assets/"+filename, gfx->getDevice(), tex, this->texSRVPS[WhatRSV])) {
 		TC::GetInst().add(this->texSRVPS[WhatRSV]);
 		flags.Maps[WhatRSV] = true;
 	}

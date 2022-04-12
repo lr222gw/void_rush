@@ -31,6 +31,9 @@
     <Filter Include="3D_engine\headers">
       <UniqueIdentifier>{ceee9576-44dd-42a3-992c-b9cfdf3628d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\TTT">
+      <UniqueIdentifier>{17aa3f71-4eb2-4847-8408-dbac63251edd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -199,6 +202,9 @@
       <Filter>3D_engine</Filter>
     </ClCompile>
     <ClCompile Include="src/3Dproj/WindowHelper.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\Collision3D.cpp">
       <Filter>3D_engine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -404,6 +410,9 @@
     <ClInclude Include="src/3Dproj/WindowHelper.h">
       <Filter>3D_engine\headers</Filter>
     </ClInclude>
+    <ClInclude Include="src\3Dproj\Collision3D.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src/3Dproj/BillBoardUpdate.hlsl" />
@@ -431,5 +440,53 @@
   <ItemGroup>
     <None Include="src/3Dproj/MVP.hlsli" />
     <None Include="src/3Dproj/Transforms.hlsli" />
+    <None Include="..\assets\obj\Camera.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
+    <None Include="..\assets\obj\DCube.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
+    <None Include="..\assets\obj\DoubleMesh.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
+    <None Include="..\assets\obj\GroundLowPloy.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
+    <None Include="..\assets\obj\indoor_plant_02.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
+    <None Include="..\assets\obj\nanosuit.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
+    <None Include="..\assets\obj\newsun.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
+    <None Include="..\assets\obj\quad2.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
+    <None Include="..\assets\obj\quadYoda.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
+    <None Include="..\assets\obj\roundsol.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
+    <None Include="..\assets\obj\Shield.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
+    <None Include="..\assets\obj\skybox_cube.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
+    <None Include="..\assets\obj\Sting-Sword-lowpoly.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
+    <None Include="..\assets\obj\stol.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
+    <None Include="..\assets\obj\stormtrooper.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
+    <None Include="..\assets\obj\untitled.mtl">
+      <Filter>Resource Files\TTT</Filter>
+    </None>
   </ItemGroup>
 </Project>

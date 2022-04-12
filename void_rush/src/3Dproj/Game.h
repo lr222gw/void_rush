@@ -11,7 +11,7 @@
 
 #include "DeferredRendering.h"
 #include "ShadowMap.h"
-//#include "Graphics.h"
+#include "Graphics.h"
 #include "DynamicCubeEnviroment.h"
 #include "QuadTree.h"
 #include "TrashCollector.h"
@@ -20,6 +20,8 @@
 #include "DebugCamera.h"
 #include "flags.h"
 #include "skybox.h"
+
+#include "Collision3D.h"
 
 //git
 class Game {
@@ -31,7 +33,6 @@ public:
 	void ForwardDraw();
 	void DrawAllShadowObject();//without any otherShaders
 	void updateShaders(bool vs = true, bool ps = true);
-	bool processMessage();
 private:
 	MSG msg = {};
 	Graphics *gfx;

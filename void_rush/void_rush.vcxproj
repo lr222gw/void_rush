@@ -275,6 +275,7 @@
     <ClCompile Include="src/3Dproj/WindowClass.cpp" />
     <ClCompile Include="src/3Dproj/WindowContainer.cpp" />
     <ClCompile Include="src/3Dproj/WindowHelper.cpp" />
+    <ClCompile Include="src\3Dproj\Collision3D.cpp" />
     <ClCompile Include="src\common\Helper.cpp" />
     <ClCompile Include="src\generation\Generate.cpp" />
     <ClCompile Include="src\generation\Platform.cpp" />
@@ -339,6 +340,7 @@
     <ClInclude Include="src/3Dproj/WindowClass.h" />
     <ClInclude Include="src/3Dproj/WindowContainer.h" />
     <ClInclude Include="src/3Dproj/WindowHelper.h" />
+    <ClInclude Include="src\3Dproj\Collision3D.h" />
     <ClInclude Include="src\common\Helper.hpp" />
     <ClInclude Include="src\common\Vector.hpp" />
     <ClInclude Include="src\Generate.h" />
@@ -530,6 +532,22 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\assets\obj\Camera.mtl" />
+    <None Include="..\assets\obj\DCube.mtl" />
+    <None Include="..\assets\obj\DoubleMesh.mtl" />
+    <None Include="..\assets\obj\GroundLowPloy.mtl" />
+    <None Include="..\assets\obj\indoor_plant_02.mtl" />
+    <None Include="..\assets\obj\nanosuit.mtl" />
+    <None Include="..\assets\obj\newsun.mtl" />
+    <None Include="..\assets\obj\quad2.mtl" />
+    <None Include="..\assets\obj\quadYoda.mtl" />
+    <None Include="..\assets\obj\roundsol.mtl" />
+    <None Include="..\assets\obj\Shield.mtl" />
+    <None Include="..\assets\obj\skybox_cube.mtl" />
+    <None Include="..\assets\obj\Sting-Sword-lowpoly.mtl" />
+    <None Include="..\assets\obj\stol.mtl" />
+    <None Include="..\assets\obj\stormtrooper.mtl" />
+    <None Include="..\assets\obj\untitled.mtl" />
     <None Include="src/3Dproj/MVP.hlsli" />
     <None Include="src/3Dproj/Transforms.hlsli" />
   </ItemGroup>
