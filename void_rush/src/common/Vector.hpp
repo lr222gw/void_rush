@@ -76,9 +76,9 @@ struct Vector3
         y = y / magnitude ();
     }
     void normalize(){
-        x = x / magnitude();
-        y = y / magnitude();
-        z = z / magnitude();
+        x = x / length();
+        y = y / length();
+        z = z / length();
     }
     static Vector3 normalize(Vector3 vec){
         Vector3 ret = Vector3(0.0f, 0.0f, 0.0f);
