@@ -5,8 +5,6 @@
 class HiddenPuzzle : public Puzzle
 {
 private:
-    int width;
-    int length;
     struct Key
     {
         //Load the key 3D object 
@@ -15,9 +13,9 @@ private:
 
     };
 public:
-    HiddenPuzzle(const Vector3& position, int seed);
+    HiddenPuzzle(const Vector3& position, int seed, int width, int length);
 
-    void Interaction();
+    void Interaction() override;
 
     void InitiatePuzzle() override;
 };
