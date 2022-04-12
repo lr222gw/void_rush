@@ -28,7 +28,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 
 //int main ()
 //{
+//	
 //    physics_proto (); 
-    //generation_proto();    
-//    return 0;
+//    generation_proto();    
+//	    return 0;
 //}

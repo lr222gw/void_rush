@@ -14,13 +14,15 @@ INCLUDE_DIRECTORIES(
         ${PROJECT_SOURCE_DIR}/deps/include/
         ${PROJECT_SOURCE_DIR}/src/*/
         ${PROJECT_SOURCE_DIR}/src/
-        c:/Program Files (x86)/Windows Kits/10/Include/10.0.17134.0
+        $ENV{DXSDK_DIR}/Include
 )
 link_directories(
         
         ${PROJECT_SOURCE_DIR}/deps/lib/
         ${PROJECT_SOURCE_DIR}/src/*/
+        
 )
+
 
 
 FILE(GLOB_RECURSE src_SRCS src/*.cpp)
@@ -48,4 +50,4 @@ target_include_directories(vr PUBLIC
         ${renderer_src}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE "d3d12.lib" "dxgi.lib" "d3dcompiler.lib")
+target_link_libraries(${PROJECT_NAME} PRIVATE "d3d11.lib" "dxgi.lib" "d3dcompiler.lib")

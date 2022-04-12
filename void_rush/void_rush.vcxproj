@@ -86,15 +86,37 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\3Dproj;$(IncludePath)</IncludePath>
+    <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\3Dproj;$(IncludePath)</IncludePath>
+    <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(SolutionDir)void_rush\deps\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)void_rush\deps\3Dproj;$(IncludePath)</IncludePath>
+    <SourcePath>$(SourcePath)deps/3Dproj</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\3Dproj;$(IncludePath)</IncludePath>
+    <SourcePath>$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='scirptrun|Win32'">
+    <LibraryPath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\3Dproj;$(IncludePath)</IncludePath>
+    <SourcePath>$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='scirptrun|x64'">
+    <LibraryPath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\3Dproj;$(IncludePath)</IncludePath>
+    <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -102,10 +124,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\include;C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\3Dproj;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -120,12 +144,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\include;C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\3Dproj;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -138,11 +164,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\void_rush\deps\include;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalUsingDirectories>
+      </AdditionalUsingDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;sfml-window-d.lib;sfml-audio-d.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -157,13 +188,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\include;C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\3Dproj;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -172,17 +204,143 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='scirptrun|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\include;C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\3Dproj;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='scirptrun|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\include;C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\3Dproj;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Generate.cpp" />
+    <ClCompile Include="deps\3Dproj\AnimationModel.cpp" />
+    <ClCompile Include="deps\3Dproj\BillBoard.cpp" />
+    <ClCompile Include="deps\3Dproj\BillBoardManager.cpp" />
+    <ClCompile Include="deps\3Dproj\Camera.cpp" />
+    <ClCompile Include="deps\3Dproj\Collision.cpp" />
+    <ClCompile Include="deps\3Dproj\Convertions.cpp" />
+    <ClCompile Include="deps\3Dproj\CreateBuffer.cpp" />
+    <ClCompile Include="deps\3Dproj\D311Helper.cpp" />
+    <ClCompile Include="deps\3Dproj\debug.cpp" />
+    <ClCompile Include="deps\3Dproj\DebugCamera.cpp" />
+    <ClCompile Include="deps\3Dproj\DeferredRendering.cpp" />
+    <ClCompile Include="deps\3Dproj\deltaTime.cpp" />
+    <ClCompile Include="deps\3Dproj\DynamicCubeEnviroment.cpp" />
+    <ClCompile Include="deps\3Dproj\Game.cpp" />
+    <ClCompile Include="deps\3Dproj\GameObject.cpp" />
+    <ClCompile Include="deps\3Dproj\Graphics.cpp" />
+    <ClCompile Include="deps\3Dproj\imgui.cpp" />
+    <ClCompile Include="deps\3Dproj\imguiManager.cpp" />
+    <ClCompile Include="deps\3Dproj\imgui_demo.cpp" />
+    <ClCompile Include="deps\3Dproj\imgui_draw.cpp" />
+    <ClCompile Include="deps\3Dproj\imgui_impl_dx11.cpp" />
+    <ClCompile Include="deps\3Dproj\imgui_impl_win32.cpp" />
+    <ClCompile Include="deps\3Dproj\imgui_tables.cpp" />
+    <ClCompile Include="deps\3Dproj\imgui_widgets.cpp" />
+    <ClCompile Include="deps\3Dproj\Keyboard.cpp" />
+    <ClCompile Include="deps\3Dproj\Light.cpp" />
+    <ClCompile Include="deps\3Dproj\Material.cpp" />
+    <ClCompile Include="deps\3Dproj\Mesh.cpp" />
+    <ClCompile Include="deps\3Dproj\Model.cpp" />
+    <ClCompile Include="deps\3Dproj\Mouse.cpp" />
+    <ClCompile Include="deps\3Dproj\NOT_Main.cpp" />
+    <ClCompile Include="deps\3Dproj\object.cpp" />
+    <ClCompile Include="deps\3Dproj\otherHelps.cpp" />
+    <ClCompile Include="deps\3Dproj\plHelper.cpp" />
+    <ClCompile Include="deps\3Dproj\QuadTree.cpp" />
+    <ClCompile Include="deps\3Dproj\Random.cpp" />
+    <ClCompile Include="deps\3Dproj\ReadObjFile.cpp" />
+    <ClCompile Include="deps\3Dproj\RenderWindow.cpp" />
+    <ClCompile Include="deps\3Dproj\ResourceManager.cpp" />
+    <ClCompile Include="deps\3Dproj\rotation.cpp" />
+    <ClCompile Include="deps\3Dproj\ShadowMap.cpp" />
+    <ClCompile Include="deps\3Dproj\skybox.cpp" />
+    <ClCompile Include="deps\3Dproj\SoundManager.cpp" />
+    <ClCompile Include="deps\3Dproj\TileAnimation.cpp" />
+    <ClCompile Include="deps\3Dproj\TrashCollector.cpp" />
+    <ClCompile Include="deps\3Dproj\Vec.cpp" />
+    <ClCompile Include="deps\3Dproj\WindowClass.cpp" />
+    <ClCompile Include="deps\3Dproj\WindowContainer.cpp" />
+    <ClCompile Include="deps\3Dproj\WindowHelper.cpp" />
+    <ClCompile Include="src\common\Helper.cpp" />
+    <ClCompile Include="src\generation\Generate.cpp" />
+    <ClCompile Include="src\generation\Platform.cpp" />
+    <ClCompile Include="src\generation\player.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Platform.cpp" />
-    <ClCompile Include="src\player.cpp" />
+    <ClCompile Include="src\physics\jump.cpp" />
+    <ClCompile Include="src\physics\proto.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="deps\3Dproj\AnimationModel.h" />
+    <ClInclude Include="deps\3Dproj\BillBoard.h" />
+    <ClInclude Include="deps\3Dproj\BillBoardManager.h" />
+    <ClInclude Include="deps\3Dproj\Bone.h" />
+    <ClInclude Include="deps\3Dproj\Camera.h" />
+    <ClInclude Include="deps\3Dproj\Collision.h" />
+    <ClInclude Include="deps\3Dproj\Convertions.h" />
+    <ClInclude Include="deps\3Dproj\CreateBuffer.h" />
+    <ClInclude Include="deps\3Dproj\D311Helper.h" />
+    <ClInclude Include="deps\3Dproj\debug.h" />
+    <ClInclude Include="deps\3Dproj\DebugCamera.h" />
+    <ClInclude Include="deps\3Dproj\DeferredRendering.h" />
+    <ClInclude Include="deps\3Dproj\deltaTime.h" />
+    <ClInclude Include="deps\3Dproj\DynamicCubeEnviroment.h" />
+    <ClInclude Include="deps\3Dproj\flags.h" />
+    <ClInclude Include="deps\3Dproj\Game.h" />
+    <ClInclude Include="deps\3Dproj\GameObject.h" />
+    <ClInclude Include="deps\3Dproj\Graphics.h" />
+    <ClInclude Include="deps\3Dproj\imconfig.h" />
+    <ClInclude Include="deps\3Dproj\imgui.h" />
+    <ClInclude Include="deps\3Dproj\imguiManager.h" />
+    <ClInclude Include="deps\3Dproj\imgui_impl_dx11.h" />
+    <ClInclude Include="deps\3Dproj\imgui_impl_win32.h" />
+    <ClInclude Include="deps\3Dproj\imgui_internal.h" />
+    <ClInclude Include="deps\3Dproj\imstb_rectpack.h" />
+    <ClInclude Include="deps\3Dproj\imstb_textedit.h" />
+    <ClInclude Include="deps\3Dproj\imstb_truetype.h" />
+    <ClInclude Include="deps\3Dproj\Keyboard.h" />
+    <ClInclude Include="deps\3Dproj\Light.h" />
+    <ClInclude Include="deps\3Dproj\Material.h" />
+    <ClInclude Include="deps\3Dproj\Mesh.h" />
+    <ClInclude Include="deps\3Dproj\Model.h" />
+    <ClInclude Include="deps\3Dproj\Mouse.h" />
+    <ClInclude Include="deps\3Dproj\object.h" />
+    <ClInclude Include="deps\3Dproj\otherHelps.h" />
+    <ClInclude Include="deps\3Dproj\plHelper.h" />
+    <ClInclude Include="deps\3Dproj\point.h" />
+    <ClInclude Include="deps\3Dproj\QuadTree.h" />
+    <ClInclude Include="deps\3Dproj\Quaternion.h" />
+    <ClInclude Include="deps\3Dproj\Random.h" />
+    <ClInclude Include="deps\3Dproj\ReadObjFile.h" />
+    <ClInclude Include="deps\3Dproj\RenderWindow.h" />
+    <ClInclude Include="deps\3Dproj\ResourceManager.h" />
+    <ClInclude Include="deps\3Dproj\rotation.h" />
+    <ClInclude Include="deps\3Dproj\ShadowMap.h" />
+    <ClInclude Include="deps\3Dproj\skybox.h" />
+    <ClInclude Include="deps\3Dproj\SoundManager.h" />
+    <ClInclude Include="deps\3Dproj\stb_image.h" />
+    <ClInclude Include="deps\3Dproj\TileAnimation.h" />
+    <ClInclude Include="deps\3Dproj\TrashCollector.h" />
+    <ClInclude Include="deps\3Dproj\Vec.h" />
+    <ClInclude Include="deps\3Dproj\vertex.h" />
+    <ClInclude Include="deps\3Dproj\WindowClass.h" />
+    <ClInclude Include="deps\3Dproj\WindowContainer.h" />
+    <ClInclude Include="deps\3Dproj\WindowHelper.h" />
+    <ClInclude Include="src\common\Helper.hpp" />
+    <ClInclude Include="src\common\Vector.hpp" />
     <ClInclude Include="src\Generate.h" />
+    <ClInclude Include="src\generation\Generate.hpp" />
+    <ClInclude Include="src\generation\Platform.hpp" />
+    <ClInclude Include="src\generation\player.hpp" />
+    <ClInclude Include="src\generation\proto.hpp" />
+    <ClInclude Include="src\physics\Jump.hpp" />
+    <ClInclude Include="src\physics\proto.hpp" />
     <ClInclude Include="src\Platform.h" />
     <ClInclude Include="src\player.h" />
     <ClInclude Include="src\Vector.hpp" />

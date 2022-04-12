@@ -35,7 +35,14 @@ void GameObject::getBoundingBox(DirectX::XMVECTOR theReturn[])
 	theReturn[0] = DirectX::XMVectorAdd(DirectX::XMVector4Transform(DirectX::XMVectorMultiply(low, this->getScale().toXMvector()), rot), this->getPos().toXMvector());
 	theReturn[1] = DirectX::XMVectorAdd(DirectX::XMVector4Transform(DirectX::XMVectorMultiply(high, this->getScale().toXMvector()), rot), this->getPos().toXMvector());
 	DirectX::XMVECTOR temp = {fmax(theReturn[1].m128_f32[0],theReturn[0].m128_f32[0]),fmax(theReturn[1].m128_f32[1],theReturn[0].m128_f32[1]),fmax(theReturn[1].m128_f32[2],theReturn[0].m128_f32[2]) };
-	DirectX::XMVECTOR temp2 = { std::min(theReturn[1].m128_f32[0],theReturn[0].m128_f32[0]),std::min(theReturn[1].m128_f32[1],theReturn[0].m128_f32[1]),std::min(theReturn[1].m128_f32[2],theReturn[0].m128_f32[2]) };
+	DirectX::XMVECTOR temp2 = { 
+		min(theReturn[1].m128_f32[0],theReturn[0].m128_f32[0]),
+		min(theReturn[1].m128_f32[1],theReturn[0].m128_f32[1]),
+		min(theReturn[1].m128_f32[2],theReturn[0].m128_f32[2])
+	};
+
+	min(1,3);
+	
 	theReturn[0] = temp2;
 	theReturn[1] = temp;
 }

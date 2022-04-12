@@ -2,10 +2,14 @@
 #include <chrono>
 #include <thread>
 
+#include <fstream>
+
 Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow):
 	soundManager(1)
 {
 	
+	
+
 	gfx = new Graphics(hInstance, hPrevInstance, lpCmdLine, nCmdShow, mouse);
 	mouse = gfx->getWindosClass().getMouse();
 	keyboard = gfx->getWindosClass().getKeyboard();
