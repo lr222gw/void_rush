@@ -11,6 +11,6 @@ int main ()
 {
     // physics_proto ();
     //generation_proto ();
-    //TestIntersection();
+    TestIntersection();
     return 0;
 }

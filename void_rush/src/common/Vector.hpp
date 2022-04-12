@@ -75,6 +75,11 @@ struct Vector3
         x = x / magnitude ();
         y = y / magnitude ();
     }
+    void normalize(){
+        x = x / magnitude();
+        y = y / magnitude();
+        z = z / magnitude();
+    }
     static Vector3 normalize(Vector3 vec){
         Vector3 ret = Vector3(0.0f, 0.0f, 0.0f);
         float len = vec.length();
