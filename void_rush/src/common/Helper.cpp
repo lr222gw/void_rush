@@ -7,6 +7,11 @@ float deg_to_rad (float deg)
     return ret;
 }
 
+float get_distance(Vector3 one, Vector3 two){
+    //d = ((x2 - x1)2 + (y2 - y1)2 + (z2 - z1)2)1/2
+    return powf((powf((two.x - one.x),2)+powf((two.y - one.y),2)+powf((two.z - one.z),2)),0.5f);
+}
+
 Vector2 Projectile(float rad, float time, Vector2 velocity)
 {
     Vector2 pos;
@@ -24,3 +29,7 @@ Vector3 Projectile(float rad_x, float rad_z, float time, Vector3 velocity)
     return pos;
 }
 
+float dot (Vector3 one, Vector3 two)
+{
+    return (one.x * two.x) + (one.y * two.y) + (one.z * two.z);
+}

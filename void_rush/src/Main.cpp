@@ -1,5 +1,6 @@
 #include "generation/proto.hpp"
 #include "physics/proto.hpp"
+#include "interact/interact.hpp"
 #include <cmath>
 #include <corecrt_math.h>
 #include <fstream>
@@ -9,7 +10,7 @@
 int main ()
 {
     // physics_proto ();
-    int test = 0;
-    generation_proto ();
+    //generation_proto ();
+    //TestIntersection();
     return 0;
 }
