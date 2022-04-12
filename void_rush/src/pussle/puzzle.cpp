@@ -1,12 +1,28 @@
 #include "puzzle.hpp"
 
-Puzzle::Puzzle (const Vector3 &position, int seed, bool completed)
-    : seed (seed), position (position), completed (completed)
+Puzzle::Puzzle (const Vector3 &position, int seed, int width, int length, bool completed)
+    : seed (seed), position (position), width(width), length(length), completed (completed)
 {
-    // EMPTY
+    //Create door position based on width and length of the platform together with the origin point. 
+    //Example: if width is 500, then one of the corners is at half of width + origin coordinates.
 }
 
 bool Puzzle::GetState () const { return completed; }
+
+void Puzzle::ResetState()
+{
+    completed = false;
+}
+
+int Puzzle::GetWidth() const
+{
+    return width;
+}
+
+int Puzzle::GetLength() const
+{
+    return length;
+}
 
 int Puzzle::GetSeed() const
 {
