@@ -14,7 +14,7 @@
 bool loadVShader(std::string name, ID3D11Device* device, ID3D11VertexShader*& vShader, std::string &vShaderByteCode) {
 	std::string shaderData;
 	std::ifstream reader;
-	reader.open("deps/x64/Debug/" + name, std::ios::binary | std::ios::ate);
+	reader.open("x64/Debug/" + name, std::ios::binary | std::ios::ate);
 	if (!reader.is_open())
 	{
 		printf("cannot open vertex file\n");
@@ -41,7 +41,7 @@ bool loadVShader(std::string name, ID3D11Device* device, ID3D11VertexShader*& vS
 bool loadGShader(std::string name, ID3D11Device* device, ID3D11GeometryShader*& gShader) {
 	std::string shaderData;
 	std::ifstream reader;
-	reader.open("deps/x64/Debug/" + name, std::ios::binary | std::ios::ate);
+	reader.open("x64/Debug/" + name, std::ios::binary | std::ios::ate);
 	if (!reader.is_open())
 	{
 		std::cerr << "cannot open vertex file" << std::endl;
@@ -67,7 +67,7 @@ bool loadGShader(std::string name, ID3D11Device* device, ID3D11GeometryShader*& 
 bool loadPShader(std::string name, ID3D11Device* device, ID3D11PixelShader*& pShader) {
 	std::string shaderData;
 	std::ifstream reader;
-	reader.open("deps/x64/Debug/" + name, std::ios::binary | std::ios::ate);
+	reader.open("x64/Debug/" + name, std::ios::binary | std::ios::ate);
 	if (!reader.is_open())
 	{
 		std::cerr << "cannot open pixel file" << std::endl;
@@ -93,7 +93,7 @@ bool loadCShader(std::string name, ID3D11Device* device, ID3D11ComputeShader*& c
 {
 	std::string shaderData;
 	std::ifstream reader;
-	reader.open("deps/x64/Debug/" + name, std::ios::binary | std::ios::ate);
+	reader.open("x64/Debug/" + name, std::ios::binary | std::ios::ate);
 	if (!reader.is_open())
 	{
 		std::cerr << "cannot open pixel file" << std::endl;
@@ -118,7 +118,7 @@ bool loadHShader(std::string name, ID3D11Device* device, ID3D11HullShader*& hSha
 {
 	std::string shaderData;
 	std::ifstream reader;
-	reader.open("deps/x64/Debug/" + name, std::ios::binary | std::ios::ate);
+	reader.open("x64/Debug/" + name, std::ios::binary | std::ios::ate);
 	if (!reader.is_open())
 	{
 		std::cerr << "cannot open pixel file" << std::endl;
@@ -143,7 +143,7 @@ bool loadDShader(std::string name, ID3D11Device* device, ID3D11DomainShader*& dS
 {
 	std::string shaderData;
 	std::ifstream reader;
-	reader.open("deps/x64/Debug/" + name, std::ios::binary | std::ios::ate);
+	reader.open("x64/Debug/" + name, std::ios::binary | std::ios::ate);
 	if (!reader.is_open())
 	{
 		std::cerr << "cannot open pixel file" << std::endl;

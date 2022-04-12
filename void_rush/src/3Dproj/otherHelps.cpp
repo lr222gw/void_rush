@@ -48,7 +48,7 @@ FileInfo seeIfFileExist(std::string fileName)
 		".jpeg"
 	};
 	for (int i = 0; i < 4 && theReturn.exist == false; i++) {
-		std::string search = "Textures/" + fileName + extensions[i];
+		std::string search = "assets/textures/" + fileName + extensions[i];
 		std::ifstream f(search.c_str());
 		if (f.good())
 		{

@@ -52,19 +52,19 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	
 	lightNr = 0;
 	//soundManager.playMusic("audio/More_Plastic-Rewind.wav");
-	soundManager.loadSound("audio/ah.wav", 5, "ah1");
+	soundManager.loadSound("assets/audio/ah.wav", 5, "ah1");
 	//soundManager.loadSound("audio/ah2.wav", 1, "ah2");
 	//soundManager.loadSound("audio/moh.wav", 1, "moh");
 	//soundManager.loadSound("audio/oh1.wav", 1, "oh1");
 	
 
 	std::string skyboxTextures[6] = {
-		"Textures/Skybox/sky_stars_01bk.png",//back
-		"Textures/Skybox/sky_stars_01dn.png",//down
-		"Textures/Skybox/sky_stars_01ft.png",//front
-		"Textures/Skybox/sky_stars_01lf.png",//left
-		"Textures/Skybox/sky_stars_01rt.png",//right
-		"Textures/Skybox/sky_stars_01up.png",//up
+		"assets/textures/Skybox/sky_stars_01bk.png",//back
+		"assets/textures/Skybox/sky_stars_01dn.png",//down
+		"assets/textures/Skybox/sky_stars_01ft.png",//front
+		"assets/textures/Skybox/sky_stars_01lf.png",//left
+		"assets/textures/Skybox/sky_stars_01rt.png",//right
+		"assets/textures/Skybox/sky_stars_01up.png",//up
 	};
 	Space = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, obj[0]->getPos(), skyboxTextures);
 

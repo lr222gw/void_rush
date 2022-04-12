@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Prototyping\physics">
       <UniqueIdentifier>{d08a3f70-6b28-425c-a67b-7c1d2ba367dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{e8862f12-d5c1-4cb5-8ab9-fb42b0cb69e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D_engine\headers">
+      <UniqueIdentifier>{ceee9576-44dd-42a3-992c-b9cfdf3628d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -45,170 +51,158 @@
     <ClCompile Include="src\generation\Platform.cpp">
       <Filter>Source Files\Prototyping\generation</Filter>
     </ClCompile>
-    <ClCompile Include="deps\3Dproj\AnimationModel.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\BillBoard.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\BillBoardManager.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\Camera.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\Collision.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\Convertions.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\CreateBuffer.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\D311Helper.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\debug.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\DebugCamera.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\DeferredRendering.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\deltaTime.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\DynamicCubeEnviroment.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\Game.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\GameObject.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\Graphics.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\imgui.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\imgui_demo.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\imgui_draw.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\imgui_impl_dx11.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\imgui_impl_win32.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\imgui_tables.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\imgui_widgets.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\imguiManager.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\Keyboard.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\Light.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\Material.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\Mesh.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\Model.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\Mouse.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\NOT_Main.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\object.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\otherHelps.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\plHelper.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\QuadTree.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\Random.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\ReadObjFile.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\RenderWindow.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\ResourceManager.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\rotation.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\ShadowMap.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\skybox.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\SoundManager.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\TileAnimation.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\TrashCollector.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\Vec.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\WindowClass.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\WindowContainer.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\3Dproj\WindowHelper.cpp">
-      <Filter>3D_engine</Filter>
-    </ClCompile>
     <ClCompile Include="src\common\Helper.cpp">
       <Filter>Source Files\Prototyping</Filter>
     </ClCompile>
+    <ClCompile Include="src/3Dproj/AnimationModel.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/BillBoard.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/BillBoardManager.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/Camera.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/Collision.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/Convertions.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/CreateBuffer.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/D311Helper.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/debug.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/DebugCamera.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/DeferredRendering.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/deltaTime.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/DynamicCubeEnviroment.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/Game.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/GameObject.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/Graphics.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/imgui.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/imgui_demo.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/imgui_draw.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/imgui_impl_dx11.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/imgui_impl_win32.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/imgui_tables.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/imgui_widgets.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/imguiManager.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/Keyboard.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/Light.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/Material.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/Mesh.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/Model.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/Mouse.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/NOT_Main.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/object.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/otherHelps.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/plHelper.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/QuadTree.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/Random.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/ReadObjFile.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/RenderWindow.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/ResourceManager.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/rotation.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/ShadowMap.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/skybox.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/SoundManager.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/TileAnimation.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/TrashCollector.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/Vec.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/WindowClass.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/WindowContainer.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/WindowHelper.cpp">
+      <Filter>3D_engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Generate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vector.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\physics\Jump.hpp">
       <Filter>Source Files\Prototyping\physics</Filter>
     </ClInclude>
@@ -227,176 +221,215 @@
     <ClInclude Include="src\generation\Platform.hpp">
       <Filter>Source Files\Prototyping\generation</Filter>
     </ClInclude>
-    <ClInclude Include="deps\3Dproj\AnimationModel.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\BillBoard.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\BillBoardManager.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\Bone.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\Camera.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\Collision.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\Convertions.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\CreateBuffer.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\D311Helper.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\debug.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\DebugCamera.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\DeferredRendering.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\deltaTime.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\DynamicCubeEnviroment.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\flags.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\Game.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\GameObject.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\Graphics.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\imconfig.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\imgui.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\imgui_impl_dx11.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\imgui_impl_win32.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\imgui_internal.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\imguiManager.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\imstb_rectpack.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\imstb_textedit.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\imstb_truetype.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\Keyboard.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\Light.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\Material.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\Mesh.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\Model.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\Mouse.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\object.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\otherHelps.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\plHelper.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\point.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\QuadTree.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\Quaternion.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\Random.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\ReadObjFile.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\RenderWindow.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\ResourceManager.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\rotation.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\ShadowMap.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\skybox.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\SoundManager.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\stb_image.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\TileAnimation.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\TrashCollector.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\Vec.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\vertex.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\WindowClass.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\WindowContainer.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\3Dproj\WindowHelper.h">
-      <Filter>3D_engine</Filter>
-    </ClInclude>
     <ClInclude Include="src\common\Helper.hpp">
       <Filter>Source Files\Prototyping</Filter>
     </ClInclude>
     <ClInclude Include="src\common\Vector.hpp">
       <Filter>Source Files\Prototyping</Filter>
     </ClInclude>
+    <ClInclude Include="src/3Dproj/AnimationModel.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/BillBoard.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/BillBoardManager.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Bone.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Camera.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Collision.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Convertions.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/CreateBuffer.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/D311Helper.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/debug.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/DebugCamera.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/DeferredRendering.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/deltaTime.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/DynamicCubeEnviroment.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/flags.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Game.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/GameObject.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Generate.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Graphics.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/imconfig.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/imgui.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/imgui_impl_dx11.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/imgui_impl_win32.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/imgui_internal.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/imguiManager.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/imstb_rectpack.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/imstb_textedit.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/imstb_truetype.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Keyboard.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Light.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Material.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Mesh.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Model.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Mouse.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/object.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/otherHelps.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/plHelper.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/point.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/QuadTree.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Quaternion.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Random.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/ReadObjFile.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/RenderWindow.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/ResourceManager.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/rotation.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/ShadowMap.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/skybox.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/SoundManager.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/stb_image.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/TileAnimation.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/TrashCollector.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Vec.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vector.hpp">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/vertex.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/WindowClass.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/WindowContainer.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/WindowHelper.h">
+      <Filter>3D_engine\headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="src/3Dproj/BillBoardUpdate.hlsl" />
+    <FxCompile Include="src/3Dproj/DeferredLightningCS.hlsl" />
+    <FxCompile Include="src/3Dproj/DomainDisplaysment.hlsl" />
+    <FxCompile Include="src/3Dproj/HullDisplaysment.hlsl" />
+    <FxCompile Include="src/3Dproj/NormalForwardPS.hlsl" />
+    <FxCompile Include="src/3Dproj/PhongTessDomain.hlsl" />
+    <FxCompile Include="src/3Dproj/PhongTessHull.hlsl" />
+    <FxCompile Include="src/3Dproj/SkyBoxPS.hlsl" />
+    <FxCompile Include="src/3Dproj/SkyBoxVS.hlsl" />
+    <FxCompile Include="src/3Dproj/TestFragmentshader.hlsl" />
+    <FxCompile Include="src/3Dproj/PSSH.hlsl" />
+    <FxCompile Include="src/3Dproj/PixelBillShader.hlsl" />
+    <FxCompile Include="src/3Dproj/PixelShadow.hlsl" />
+    <FxCompile Include="src/3Dproj/SkeletonAnimationVS.hlsl" />
+    <FxCompile Include="src/3Dproj/VertexBillBoard.hlsl" />
+    <FxCompile Include="src/3Dproj/GeometryShader.hlsl" />
+    <FxCompile Include="src/3Dproj/Debugging_test.hlsl" />
+    <FxCompile Include="src/3Dproj/PSSHNormal.hlsl" />
+    <FxCompile Include="src/3Dproj/VertexDisplaysment.hlsl" />
+    <FxCompile Include="src/3Dproj/VertexShader.hlsl" />
+    <FxCompile Include="src/3Dproj/VertexShadow.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src/3Dproj/MVP.hlsli" />
+    <None Include="src/3Dproj/Transforms.hlsli" />
   </ItemGroup>
 </Project>

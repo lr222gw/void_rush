@@ -99,14 +99,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>$(SolutionDir)void_rush\deps\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)void_rush\deps\3Dproj;$(IncludePath)</IncludePath>
-    <SourcePath>$(SourcePath)deps/3Dproj</SourcePath>
+    <IncludePath>$(SolutionDir)void_rush\src\3Dproj;$(IncludePath)</IncludePath>
+    <SourcePath>
+    </SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\3Dproj;$(IncludePath)</IncludePath>
-    <SourcePath>$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)void_rush\deps\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)void_rush\src\3Dproj;$(IncludePath)</IncludePath>
+    <SourcePath>
+    </SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='scirptrun|Win32'">
     <LibraryPath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\lib;$(LibraryPath)</LibraryPath>
@@ -114,9 +116,10 @@
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='scirptrun|x64'">
-    <LibraryPath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\3Dproj;$(IncludePath)</IncludePath>
-    <SourcePath>$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)void_rush\deps\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)void_rush\src\3Dproj;$(IncludePath)</IncludePath>
+    <SourcePath>
+    </SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -164,7 +167,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\void_rush\deps\include;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\deps\include;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
@@ -172,13 +175,16 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)deps\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>d3d11.lib;sfml-window-d.lib;sfml-audio-d.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
       </Command>
     </PostBuildEvent>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -188,14 +194,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\include;C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\3Dproj;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\deps\include;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)deps\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;sfml-window.lib;sfml-audio.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -207,7 +214,7 @@
       <AdditionalIncludeDirectories>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\include;C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\3Dproj;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)deps\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='scirptrun|Win32'">
@@ -219,55 +226,55 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="deps\3Dproj\AnimationModel.cpp" />
-    <ClCompile Include="deps\3Dproj\BillBoard.cpp" />
-    <ClCompile Include="deps\3Dproj\BillBoardManager.cpp" />
-    <ClCompile Include="deps\3Dproj\Camera.cpp" />
-    <ClCompile Include="deps\3Dproj\Collision.cpp" />
-    <ClCompile Include="deps\3Dproj\Convertions.cpp" />
-    <ClCompile Include="deps\3Dproj\CreateBuffer.cpp" />
-    <ClCompile Include="deps\3Dproj\D311Helper.cpp" />
-    <ClCompile Include="deps\3Dproj\debug.cpp" />
-    <ClCompile Include="deps\3Dproj\DebugCamera.cpp" />
-    <ClCompile Include="deps\3Dproj\DeferredRendering.cpp" />
-    <ClCompile Include="deps\3Dproj\deltaTime.cpp" />
-    <ClCompile Include="deps\3Dproj\DynamicCubeEnviroment.cpp" />
-    <ClCompile Include="deps\3Dproj\Game.cpp" />
-    <ClCompile Include="deps\3Dproj\GameObject.cpp" />
-    <ClCompile Include="deps\3Dproj\Graphics.cpp" />
-    <ClCompile Include="deps\3Dproj\imgui.cpp" />
-    <ClCompile Include="deps\3Dproj\imguiManager.cpp" />
-    <ClCompile Include="deps\3Dproj\imgui_demo.cpp" />
-    <ClCompile Include="deps\3Dproj\imgui_draw.cpp" />
-    <ClCompile Include="deps\3Dproj\imgui_impl_dx11.cpp" />
-    <ClCompile Include="deps\3Dproj\imgui_impl_win32.cpp" />
-    <ClCompile Include="deps\3Dproj\imgui_tables.cpp" />
-    <ClCompile Include="deps\3Dproj\imgui_widgets.cpp" />
-    <ClCompile Include="deps\3Dproj\Keyboard.cpp" />
-    <ClCompile Include="deps\3Dproj\Light.cpp" />
-    <ClCompile Include="deps\3Dproj\Material.cpp" />
-    <ClCompile Include="deps\3Dproj\Mesh.cpp" />
-    <ClCompile Include="deps\3Dproj\Model.cpp" />
-    <ClCompile Include="deps\3Dproj\Mouse.cpp" />
-    <ClCompile Include="deps\3Dproj\NOT_Main.cpp" />
-    <ClCompile Include="deps\3Dproj\object.cpp" />
-    <ClCompile Include="deps\3Dproj\otherHelps.cpp" />
-    <ClCompile Include="deps\3Dproj\plHelper.cpp" />
-    <ClCompile Include="deps\3Dproj\QuadTree.cpp" />
-    <ClCompile Include="deps\3Dproj\Random.cpp" />
-    <ClCompile Include="deps\3Dproj\ReadObjFile.cpp" />
-    <ClCompile Include="deps\3Dproj\RenderWindow.cpp" />
-    <ClCompile Include="deps\3Dproj\ResourceManager.cpp" />
-    <ClCompile Include="deps\3Dproj\rotation.cpp" />
-    <ClCompile Include="deps\3Dproj\ShadowMap.cpp" />
-    <ClCompile Include="deps\3Dproj\skybox.cpp" />
-    <ClCompile Include="deps\3Dproj\SoundManager.cpp" />
-    <ClCompile Include="deps\3Dproj\TileAnimation.cpp" />
-    <ClCompile Include="deps\3Dproj\TrashCollector.cpp" />
-    <ClCompile Include="deps\3Dproj\Vec.cpp" />
-    <ClCompile Include="deps\3Dproj\WindowClass.cpp" />
-    <ClCompile Include="deps\3Dproj\WindowContainer.cpp" />
-    <ClCompile Include="deps\3Dproj\WindowHelper.cpp" />
+    <ClCompile Include="src/3Dproj/AnimationModel.cpp" />
+    <ClCompile Include="src/3Dproj/BillBoard.cpp" />
+    <ClCompile Include="src/3Dproj/BillBoardManager.cpp" />
+    <ClCompile Include="src/3Dproj/Camera.cpp" />
+    <ClCompile Include="src/3Dproj/Collision.cpp" />
+    <ClCompile Include="src/3Dproj/Convertions.cpp" />
+    <ClCompile Include="src/3Dproj/CreateBuffer.cpp" />
+    <ClCompile Include="src/3Dproj/D311Helper.cpp" />
+    <ClCompile Include="src/3Dproj/debug.cpp" />
+    <ClCompile Include="src/3Dproj/DebugCamera.cpp" />
+    <ClCompile Include="src/3Dproj/DeferredRendering.cpp" />
+    <ClCompile Include="src/3Dproj/deltaTime.cpp" />
+    <ClCompile Include="src/3Dproj/DynamicCubeEnviroment.cpp" />
+    <ClCompile Include="src/3Dproj/Game.cpp" />
+    <ClCompile Include="src/3Dproj/GameObject.cpp" />
+    <ClCompile Include="src/3Dproj/Graphics.cpp" />
+    <ClCompile Include="src/3Dproj/imgui.cpp" />
+    <ClCompile Include="src/3Dproj/imguiManager.cpp" />
+    <ClCompile Include="src/3Dproj/imgui_demo.cpp" />
+    <ClCompile Include="src/3Dproj/imgui_draw.cpp" />
+    <ClCompile Include="src/3Dproj/imgui_impl_dx11.cpp" />
+    <ClCompile Include="src/3Dproj/imgui_impl_win32.cpp" />
+    <ClCompile Include="src/3Dproj/imgui_tables.cpp" />
+    <ClCompile Include="src/3Dproj/imgui_widgets.cpp" />
+    <ClCompile Include="src/3Dproj/Keyboard.cpp" />
+    <ClCompile Include="src/3Dproj/Light.cpp" />
+    <ClCompile Include="src/3Dproj/Material.cpp" />
+    <ClCompile Include="src/3Dproj/Mesh.cpp" />
+    <ClCompile Include="src/3Dproj/Model.cpp" />
+    <ClCompile Include="src/3Dproj/Mouse.cpp" />
+    <ClCompile Include="src/3Dproj/NOT_Main.cpp" />
+    <ClCompile Include="src/3Dproj/object.cpp" />
+    <ClCompile Include="src/3Dproj/otherHelps.cpp" />
+    <ClCompile Include="src/3Dproj/plHelper.cpp" />
+    <ClCompile Include="src/3Dproj/QuadTree.cpp" />
+    <ClCompile Include="src/3Dproj/Random.cpp" />
+    <ClCompile Include="src/3Dproj/ReadObjFile.cpp" />
+    <ClCompile Include="src/3Dproj/RenderWindow.cpp" />
+    <ClCompile Include="src/3Dproj/ResourceManager.cpp" />
+    <ClCompile Include="src/3Dproj/rotation.cpp" />
+    <ClCompile Include="src/3Dproj/ShadowMap.cpp" />
+    <ClCompile Include="src/3Dproj/skybox.cpp" />
+    <ClCompile Include="src/3Dproj/SoundManager.cpp" />
+    <ClCompile Include="src/3Dproj/TileAnimation.cpp" />
+    <ClCompile Include="src/3Dproj/TrashCollector.cpp" />
+    <ClCompile Include="src/3Dproj/Vec.cpp" />
+    <ClCompile Include="src/3Dproj/WindowClass.cpp" />
+    <ClCompile Include="src/3Dproj/WindowContainer.cpp" />
+    <ClCompile Include="src/3Dproj/WindowHelper.cpp" />
     <ClCompile Include="src\common\Helper.cpp" />
     <ClCompile Include="src\generation\Generate.cpp" />
     <ClCompile Include="src\generation\Platform.cpp" />
@@ -277,61 +284,61 @@
     <ClCompile Include="src\physics\proto.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="deps\3Dproj\AnimationModel.h" />
-    <ClInclude Include="deps\3Dproj\BillBoard.h" />
-    <ClInclude Include="deps\3Dproj\BillBoardManager.h" />
-    <ClInclude Include="deps\3Dproj\Bone.h" />
-    <ClInclude Include="deps\3Dproj\Camera.h" />
-    <ClInclude Include="deps\3Dproj\Collision.h" />
-    <ClInclude Include="deps\3Dproj\Convertions.h" />
-    <ClInclude Include="deps\3Dproj\CreateBuffer.h" />
-    <ClInclude Include="deps\3Dproj\D311Helper.h" />
-    <ClInclude Include="deps\3Dproj\debug.h" />
-    <ClInclude Include="deps\3Dproj\DebugCamera.h" />
-    <ClInclude Include="deps\3Dproj\DeferredRendering.h" />
-    <ClInclude Include="deps\3Dproj\deltaTime.h" />
-    <ClInclude Include="deps\3Dproj\DynamicCubeEnviroment.h" />
-    <ClInclude Include="deps\3Dproj\flags.h" />
-    <ClInclude Include="deps\3Dproj\Game.h" />
-    <ClInclude Include="deps\3Dproj\GameObject.h" />
-    <ClInclude Include="deps\3Dproj\Graphics.h" />
-    <ClInclude Include="deps\3Dproj\imconfig.h" />
-    <ClInclude Include="deps\3Dproj\imgui.h" />
-    <ClInclude Include="deps\3Dproj\imguiManager.h" />
-    <ClInclude Include="deps\3Dproj\imgui_impl_dx11.h" />
-    <ClInclude Include="deps\3Dproj\imgui_impl_win32.h" />
-    <ClInclude Include="deps\3Dproj\imgui_internal.h" />
-    <ClInclude Include="deps\3Dproj\imstb_rectpack.h" />
-    <ClInclude Include="deps\3Dproj\imstb_textedit.h" />
-    <ClInclude Include="deps\3Dproj\imstb_truetype.h" />
-    <ClInclude Include="deps\3Dproj\Keyboard.h" />
-    <ClInclude Include="deps\3Dproj\Light.h" />
-    <ClInclude Include="deps\3Dproj\Material.h" />
-    <ClInclude Include="deps\3Dproj\Mesh.h" />
-    <ClInclude Include="deps\3Dproj\Model.h" />
-    <ClInclude Include="deps\3Dproj\Mouse.h" />
-    <ClInclude Include="deps\3Dproj\object.h" />
-    <ClInclude Include="deps\3Dproj\otherHelps.h" />
-    <ClInclude Include="deps\3Dproj\plHelper.h" />
-    <ClInclude Include="deps\3Dproj\point.h" />
-    <ClInclude Include="deps\3Dproj\QuadTree.h" />
-    <ClInclude Include="deps\3Dproj\Quaternion.h" />
-    <ClInclude Include="deps\3Dproj\Random.h" />
-    <ClInclude Include="deps\3Dproj\ReadObjFile.h" />
-    <ClInclude Include="deps\3Dproj\RenderWindow.h" />
-    <ClInclude Include="deps\3Dproj\ResourceManager.h" />
-    <ClInclude Include="deps\3Dproj\rotation.h" />
-    <ClInclude Include="deps\3Dproj\ShadowMap.h" />
-    <ClInclude Include="deps\3Dproj\skybox.h" />
-    <ClInclude Include="deps\3Dproj\SoundManager.h" />
-    <ClInclude Include="deps\3Dproj\stb_image.h" />
-    <ClInclude Include="deps\3Dproj\TileAnimation.h" />
-    <ClInclude Include="deps\3Dproj\TrashCollector.h" />
-    <ClInclude Include="deps\3Dproj\Vec.h" />
-    <ClInclude Include="deps\3Dproj\vertex.h" />
-    <ClInclude Include="deps\3Dproj\WindowClass.h" />
-    <ClInclude Include="deps\3Dproj\WindowContainer.h" />
-    <ClInclude Include="deps\3Dproj\WindowHelper.h" />
+    <ClInclude Include="src/3Dproj/AnimationModel.h" />
+    <ClInclude Include="src/3Dproj/BillBoard.h" />
+    <ClInclude Include="src/3Dproj/BillBoardManager.h" />
+    <ClInclude Include="src/3Dproj/Bone.h" />
+    <ClInclude Include="src/3Dproj/Camera.h" />
+    <ClInclude Include="src/3Dproj/Collision.h" />
+    <ClInclude Include="src/3Dproj/Convertions.h" />
+    <ClInclude Include="src/3Dproj/CreateBuffer.h" />
+    <ClInclude Include="src/3Dproj/D311Helper.h" />
+    <ClInclude Include="src/3Dproj/debug.h" />
+    <ClInclude Include="src/3Dproj/DebugCamera.h" />
+    <ClInclude Include="src/3Dproj/DeferredRendering.h" />
+    <ClInclude Include="src/3Dproj/deltaTime.h" />
+    <ClInclude Include="src/3Dproj/DynamicCubeEnviroment.h" />
+    <ClInclude Include="src/3Dproj/flags.h" />
+    <ClInclude Include="src/3Dproj/Game.h" />
+    <ClInclude Include="src/3Dproj/GameObject.h" />
+    <ClInclude Include="src/3Dproj/Graphics.h" />
+    <ClInclude Include="src/3Dproj/imconfig.h" />
+    <ClInclude Include="src/3Dproj/imgui.h" />
+    <ClInclude Include="src/3Dproj/imguiManager.h" />
+    <ClInclude Include="src/3Dproj/imgui_impl_dx11.h" />
+    <ClInclude Include="src/3Dproj/imgui_impl_win32.h" />
+    <ClInclude Include="src/3Dproj/imgui_internal.h" />
+    <ClInclude Include="src/3Dproj/imstb_rectpack.h" />
+    <ClInclude Include="src/3Dproj/imstb_textedit.h" />
+    <ClInclude Include="src/3Dproj/imstb_truetype.h" />
+    <ClInclude Include="src/3Dproj/Keyboard.h" />
+    <ClInclude Include="src/3Dproj/Light.h" />
+    <ClInclude Include="src/3Dproj/Material.h" />
+    <ClInclude Include="src/3Dproj/Mesh.h" />
+    <ClInclude Include="src/3Dproj/Model.h" />
+    <ClInclude Include="src/3Dproj/Mouse.h" />
+    <ClInclude Include="src/3Dproj/object.h" />
+    <ClInclude Include="src/3Dproj/otherHelps.h" />
+    <ClInclude Include="src/3Dproj/plHelper.h" />
+    <ClInclude Include="src/3Dproj/point.h" />
+    <ClInclude Include="src/3Dproj/QuadTree.h" />
+    <ClInclude Include="src/3Dproj/Quaternion.h" />
+    <ClInclude Include="src/3Dproj/Random.h" />
+    <ClInclude Include="src/3Dproj/ReadObjFile.h" />
+    <ClInclude Include="src/3Dproj/RenderWindow.h" />
+    <ClInclude Include="src/3Dproj/ResourceManager.h" />
+    <ClInclude Include="src/3Dproj/rotation.h" />
+    <ClInclude Include="src/3Dproj/ShadowMap.h" />
+    <ClInclude Include="src/3Dproj/skybox.h" />
+    <ClInclude Include="src/3Dproj/SoundManager.h" />
+    <ClInclude Include="src/3Dproj/stb_image.h" />
+    <ClInclude Include="src/3Dproj/TileAnimation.h" />
+    <ClInclude Include="src/3Dproj/TrashCollector.h" />
+    <ClInclude Include="src/3Dproj/Vec.h" />
+    <ClInclude Include="src/3Dproj/vertex.h" />
+    <ClInclude Include="src/3Dproj/WindowClass.h" />
+    <ClInclude Include="src/3Dproj/WindowContainer.h" />
+    <ClInclude Include="src/3Dproj/WindowHelper.h" />
     <ClInclude Include="src\common\Helper.hpp" />
     <ClInclude Include="src\common\Vector.hpp" />
     <ClInclude Include="src\Generate.h" />
@@ -344,6 +351,187 @@
     <ClInclude Include="src\Platform.h" />
     <ClInclude Include="src\player.h" />
     <ClInclude Include="src\Vector.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="src/3Dproj/BillBoardUpdate.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/DeferredLightningCS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/DomainDisplaysment.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/HullDisplaysment.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Hull</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Hull</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Hull</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Hull</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/NormalForwardPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/PhongTessDomain.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/PhongTessHull.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Hull</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Hull</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Hull</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Hull</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/SkyBoxPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/SkyBoxVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/TestFragmentshader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <FileType>Document</FileType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/PSSH.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/PixelBillShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/PixelShadow.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/SkeletonAnimationVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/VertexBillBoard.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/GeometryShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/Debugging_test.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/PSSHNormal.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/VertexDisplaysment.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/VertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src/3Dproj/VertexShadow.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src/3Dproj/MVP.hlsli" />
+    <None Include="src/3Dproj/Transforms.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

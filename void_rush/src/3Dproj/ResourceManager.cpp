@@ -35,21 +35,21 @@ void ResourceManager::loadThings(Graphics*& gfx)
 	//default textures
 	def = new ID3D11ShaderResourceView * [4];
 	//diffuse
-	if (!CreateTexture("Textures/Default/KdDef.png", gfx->getDevice(), gfx->getTexture(), def[0])) {
+	if (!CreateTexture("assets/textures/Default/KdDef.png", gfx->getDevice(), gfx->getTexture(), def[0])) {
 		cantLoad(L"kddef cant load");
 	}
 	//normal
-	if (!CreateTexture("Textures/Default/NormalDef2.png", gfx->getDevice(), gfx->getTexture(), def[1])) {
+	if (!CreateTexture("assets/textures/Default/NormalDef2.png", gfx->getDevice(), gfx->getTexture(), def[1])) {
 		cantLoad(L"NDef cant load");
 	}
 	//ambient
-	if (!CreateTexture("Textures/Default/KaDef2.png", gfx->getDevice(), gfx->getTexture(), def[2])) {
+	if (!CreateTexture("assets/textures/Default/KaDef2.png", gfx->getDevice(), gfx->getTexture(), def[2])) {
 		cantLoad(L"AmientDef cant load");
 	}
 	//specular//orkar inte
 	def[3] = def[2];
 	
-	if (!CreateTexture("Textures/Fire.png", gfx->getDevice(), gfx->getTexture(), Fire)) {
+	if (!CreateTexture("assets/textures/Fire.png", gfx->getDevice(), gfx->getTexture(), Fire)) {
 		cantLoad(L"Fire cant load");
 	}
 	def[3] = nullptr;
@@ -69,7 +69,7 @@ void ResourceManager::loadThings(Graphics*& gfx)
 	};
 	for (int i = 0; i < _countof(names); i++) {
 		ModelObj* model = new ModelObj();
-		model->init("obj/" + names[i], gfx, def);
+		model->init("assets/obj/" + names[i], gfx, def);
 		Models.insert(std::make_pair(names[i], model));
 	}
 	for (int i = 0; i < _countof(names); i++) {
@@ -93,7 +93,7 @@ ModelObj* ResourceManager::get_Models(std::string key, Graphics*& gfx)
 	if (Models.find(key) == Models.end()) {
 		//its not found try to add it to the library
 		ModelObj* model = new ModelObj();
-		model->init("obj/" + key, gfx, def);
+		model->init("assets/obj/" + key, gfx, def);
 		Models.insert(std::make_pair(key, model));
 
 		
