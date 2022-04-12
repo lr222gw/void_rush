@@ -33,3 +33,7 @@ float dot (Vector3 one, Vector3 two)
 {
     return (one.x * two.x) + (one.y * two.y) + (one.z * two.z);
 }
+float vec_len (Vector3 vec)
+{
+    return sqrtf (vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+}
