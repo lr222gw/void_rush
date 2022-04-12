@@ -10,8 +10,8 @@ void pussle_proto ()
     srand(seed);
     int chosenPuzzle = ChoosePuzzle();
 
-    MathPuzzle math(Vector3(1, 1, 1), seed);
-    HiddenPuzzle hidden(Vector3(1,1,1), seed);
+    MathPuzzle math(Vector3(1, 1, 1), seed, 1, 1);
+    HiddenPuzzle hidden(Vector3(1,1,1), seed, 1, 1);
 
     
     std::vector<Puzzle*> puzzleList;
@@ -27,5 +27,5 @@ void pussle_proto ()
 
 int ChoosePuzzle()
 {
-    return (int)rand() % PUZZLES ;
+    return (int)rand() % PUZZLES;
 }
