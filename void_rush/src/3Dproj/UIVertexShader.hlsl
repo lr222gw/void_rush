@@ -20,7 +20,9 @@ VertexShaderOutput main(VertexShaderInput input)
 {
     VertexShaderOutput output;
 
-    output.position = float4(input.position.x * size.x + position.x, input.position.y * size.y + position.y, 0, 0);
+    //output.position = float4(input.position.x * size.x + position.x, input.position.y * size.y + position.y, 0, 0);
+    output.position = float4(input.position.x * 0.5f, input.position.y * 0.5f, 0, 0);
+    //output.position = float4(0, 0, 0, 0);
     output.uv = input.uv;
 
     return output;

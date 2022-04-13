@@ -16,6 +16,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	rm = new ResourceManager(gfx);
 	
 	UI = new UIManager(rm, gfx);
+	UI->createUISprite("assets/textures/Fire.png", vec2(0, 0), vec2(0, 0));
 	setUpLights();
 	
 	//shadow map needs to take more lights
@@ -274,6 +275,7 @@ void Game::DrawToBuffer()
 			LightVisualizers[i]->draw(gfx, false);
 		}
 	}
+	UI->draw();
 }
 
 void Game::ForwardDraw()
