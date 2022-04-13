@@ -9,5 +9,6 @@ SamplerState testSampler;
 
 float4 main(PixelInput input) : SV_TARGET
 {
-    return diffuseTex.Sample(testSampler, input.uv);
+    return float4(diffuseTex.Sample(testSampler, input.uv).xyz,1);
+    //return float4(1,0,0,1);
 }

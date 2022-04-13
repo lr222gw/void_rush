@@ -275,7 +275,9 @@ void Game::DrawToBuffer()
 			LightVisualizers[i]->draw(gfx, false);
 		}
 	}
+	//gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), nullptr);
 	UI->draw();
+	//gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), gfx->getDepthStencil());
 }
 
 void Game::ForwardDraw()

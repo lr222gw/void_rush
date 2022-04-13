@@ -120,13 +120,15 @@ ID3D11ShaderResourceView* ResourceManager::getFire()
 	return this->Fire;
 }
 
-ID3D11ShaderResourceView* ResourceManager::getSprite(std::string textureFile, Graphics*& gfx)
+ID3D11ShaderResourceView*& ResourceManager::getSprite(std::string textureFile, Graphics*& gfx)
 {
 	ID3D11Texture2D* tex;
 	if (Sprites.find(textureFile) == Sprites.end()) {
 		//its not found try to add it to the library
 		ID3D11ShaderResourceView* SRVptr;
-		CreateTexture(textureFile, gfx->getDevice(), tex, SRVptr);
+		if (!CreateTexture(textureFile, gfx->getDevice(), tex, SRVptr)) {
+			std::cout << "stop" << std::endl;
+		}
 		Sprites.insert(std::make_pair(textureFile, SRVptr));
 	}
 	//else we return it

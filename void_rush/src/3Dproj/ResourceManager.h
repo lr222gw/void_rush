@@ -21,7 +21,7 @@ public:
 #pragma region Textures
 	ID3D11ShaderResourceView** getDef();
 	ID3D11ShaderResourceView* getFire();
-	ID3D11ShaderResourceView* getSprite(std::string textureFile, Graphics*& gfx);
+	ID3D11ShaderResourceView*& getSprite(std::string textureFile, Graphics*& gfx);
 #pragma endregion
 	Material* getdefMatrial;
 	ModelObj* get_Models(std::string key);

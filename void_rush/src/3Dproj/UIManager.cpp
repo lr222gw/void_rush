@@ -53,7 +53,7 @@ void UIManager::init(Graphics*& gfx)
 
 	D3D11_BUFFER_DESC bufferDesc;
 	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	bufferDesc.ByteWidth = sizeof(vertices) * 4;//TODO : 3 or 4?
+	bufferDesc.ByteWidth = sizeof(vertices) * 3;//TODO : 3 or 4?
 	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bufferDesc.CPUAccessFlags = 0;
 	bufferDesc.MiscFlags = 0;
@@ -69,9 +69,12 @@ void UIManager::init(Graphics*& gfx)
 
 	std::string vShaderByteCode[1];
 	//load shader
-	if (!loadVShader("UIVertexShader.cso", gfx->getDevice(), vShader, vShaderByteCode[0]) &&
+	if (loadVShader("UIVertexShader.cso", gfx->getDevice(), vShader, vShaderByteCode[0]) &&
 		loadPShader("UIPixelShader.cso", gfx->getDevice(), pShader)) 
 	{
+		//continue
+	}
+	else {
 		std::cout << "error cannot load UI shader" << std::endl;
 	}
 
