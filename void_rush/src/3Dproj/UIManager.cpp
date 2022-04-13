@@ -12,6 +12,12 @@ UIManager::~UIManager()
 	for (int i = 0; i < elements.size(); i++) {
 		delete elements[i];
 	}
+	//constBuffer->Release();
+	vertexBuffer->Release();
+	pShader->Release();
+	vShader->Release();
+	inputLayout->Release();
+	
 }
 
 void UIManager::createUIString(std::string str, vec2 pos, vec2 size)

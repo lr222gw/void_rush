@@ -97,7 +97,7 @@ Game::~Game()
 		delete billboardGroups[i];
 	}
 	delete Space;
-	
+	delete UI;
 }
 
 
