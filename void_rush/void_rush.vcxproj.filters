@@ -136,6 +136,9 @@
     <Filter Include="3D_Renderer\Header Files\UI">
       <UniqueIdentifier>{bfd053df-a583-449b-91f6-3b82136d376a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3D_Renderer\Resource Files\Shaders\UI">
+      <UniqueIdentifier>{31a8b2cc-7ea4-4111-b355-7ae35fcbc09e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src/3Dproj/D311Helper.cpp">
@@ -608,6 +611,12 @@
     </FxCompile>
     <FxCompile Include="src/3Dproj/SkyBoxVS.hlsl">
       <Filter>3D_Renderer\Resource Files\Shaders\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="src\3Dproj\UIPixelShader.hlsl">
+      <Filter>3D_Renderer\Resource Files\Shaders\UI</Filter>
+    </FxCompile>
+    <FxCompile Include="src\3Dproj\UIVertexShader.hlsl">
+      <Filter>3D_Renderer\Resource Files\Shaders\UI</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
