@@ -279,6 +279,9 @@
     <ClCompile Include="src/3Dproj/WindowContainer.cpp" />
     <ClCompile Include="src/3Dproj/WindowHelper.cpp" />
     <ClCompile Include="src\3Dproj\Collision3D.cpp" />
+    <ClCompile Include="src\3Dproj\UIElements.cpp" />
+    <ClCompile Include="src\3Dproj\UIManager.cpp" />
+    <ClCompile Include="src\3Dproj\UISprite.cpp" />
     <ClCompile Include="src\common\Helper.cpp" />
     <ClCompile Include="src\generation\Generate.cpp" />
     <ClCompile Include="src\generation\Platform.cpp" />
@@ -344,6 +347,11 @@
     <ClInclude Include="src/3Dproj/WindowContainer.h" />
     <ClInclude Include="src/3Dproj/WindowHelper.h" />
     <ClInclude Include="src\3Dproj\Collision3D.h" />
+    <ClInclude Include="src\3Dproj\UIElements.h" />
+    <ClInclude Include="src\3Dproj\UIManager.h" />
+    <ClInclude Include="src\3Dproj\UISprite.h" />
+    <ClInclude Include="src\3Dproj\UIString.h" />
+    <ClInclude Include="src\3Dproj\UISymbols.h" />
     <ClInclude Include="src\common\Helper.hpp" />
     <ClInclude Include="src\common\Vector.hpp" />
     <ClInclude Include="src\Generate.h" />

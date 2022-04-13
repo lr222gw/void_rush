@@ -130,6 +130,12 @@
     <Filter Include="Void_Rush">
       <UniqueIdentifier>{c5764fac-6a41-4066-a666-e2126b7cb852}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3D_Renderer\Source Files\UI">
+      <UniqueIdentifier>{9f1c2901-ff6e-4965-b1ce-63f7f2224df0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D_Renderer\Header Files\UI">
+      <UniqueIdentifier>{bfd053df-a583-449b-91f6-3b82136d376a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src/3Dproj/D311Helper.cpp">
@@ -299,6 +305,15 @@
     </ClCompile>
     <ClCompile Include="src\Main.cpp">
       <Filter>Void_Rush</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UIElements.cpp">
+      <Filter>3D_Renderer\Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UIManager.cpp">
+      <Filter>3D_Renderer\Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UISprite.cpp">
+      <Filter>3D_Renderer\Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -505,6 +520,21 @@
     </ClInclude>
     <ClInclude Include="src\Generate.h">
       <Filter>Protoypes\generation</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UIManager.h">
+      <Filter>3D_Renderer\Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UISprite.h">
+      <Filter>3D_Renderer\Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UIString.h">
+      <Filter>3D_Renderer\Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UISymbols.h">
+      <Filter>3D_Renderer\Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UIElements.h">
+      <Filter>3D_Renderer\Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
