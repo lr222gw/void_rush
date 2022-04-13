@@ -1,7 +1,4 @@
 #include "Game.h"
-#include <chrono>
-#include <thread>
-#include "Collision3D.h"
 
 Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow):
 	soundManager(1)
@@ -18,13 +15,14 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	//Resource manager
 	rm = new ResourceManager(gfx);
 	
+	UI = new UIManager(rm, gfx);
 	setUpLights();
 	
 	//shadow map needs to take more lights
 	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, 1920U, 1080U);
 	//this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, 640u, 360U);
 	
-	gfx->takeIM(&this->UIManager);
+	gfx->takeIM(&this->IMGUIManager);
 	
 	camera = new Camera(gfx, mouse, vec3(0,0,0), vec3(0,0,0));
 	camera->setData();
@@ -39,10 +37,10 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	}
 	
 	setUpParticles();
-	UIManager.takeObject(obj[3]);
+	IMGUIManager.takeObject(obj[3]);
 	/*IMGUI*/
 	for (int i = 0; i < nrOfLight; i++) {
-		UIManager.takeLight(light[i]);
+		IMGUIManager.takeLight(light[i]);
 	}
 	
 	

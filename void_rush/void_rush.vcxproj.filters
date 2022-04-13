@@ -318,6 +318,12 @@
     <ClCompile Include="src\3Dproj\UISprite.cpp">
       <Filter>3D_Renderer\Source Files\UI</Filter>
     </ClCompile>
+    <ClCompile Include="src\3Dproj\UIString.cpp">
+      <Filter>3D_Renderer\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UISymbols.cpp">
+      <Filter>3D_Renderer\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">

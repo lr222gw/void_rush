@@ -5,3 +5,7 @@ UIElements::UIElements(vec2 _pos, vec2 _size)
 {
 
 }
+
+UIElements::~UIElements()
+{
+}

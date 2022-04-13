@@ -20,6 +20,7 @@
 #include "DebugCamera.h"
 #include "flags.h"
 #include "skybox.h"
+#include "UIManager.h"
 
 #include "Collision3D.h"
 
@@ -43,13 +44,14 @@ private:
 	//logic and others
 	DeferredRendering *defRend;
 	DeltaTime dt;
-	ImguiManager UIManager;
+	ImguiManager IMGUIManager;
 	Mouse* mouse;
 	Keyboard* keyboard;
 	Camera* camera;
 	ShadowMap* shadowMap;
 	QuadTree* Qtree;
 	SoundManager soundManager;
+	UIManager* UI;
 	SkyBox* Space;
 	void setUpObject();
 	void setUpLights();

@@ -27,8 +27,6 @@ void UIManager::createUISprite(std::string rmsprite, vec2 pos, vec2 size)
 void UIManager::draw()
 {
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-	//gfx->get_IMctx()->IASetVertexBuffers(0,1,,strid, offset);
-	//gfx->get_IMctx()->IASetInputLayout();
 	for (int i = 0; i < elements.size(); i++) {
 		elements[i]->draw(gfx);
 	}
@@ -39,6 +37,29 @@ void UIManager::draw()
 
 void UIManager::init(Graphics*& gfx)
 {
+	UIVertex vertices[4]{
+		UIVertex(0,0,0,0),
+		UIVertex(0,1,0,1),
+		UIVertex(1,0,1,0),
+		UIVertex(1,1,1,1)
+	};
+
+	D3D11_BUFFER_DESC bufferDesc;
+	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	bufferDesc.ByteWidth = sizeof(vertices) * 4;//TODO : 3 or 4?
+	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bufferDesc.CPUAccessFlags = 0;
+	bufferDesc.MiscFlags = 0;
+
+	// Fill in the subresource data.
+	D3D11_SUBRESOURCE_DATA InitData;
+	InitData.pSysMem = vertices;
+	InitData.SysMemPitch = 0;
+	InitData.SysMemSlicePitch = 0;
+
+	// Create the vertex buffer.
+	HRESULT hr = gfx->getDevice()->CreateBuffer(&bufferDesc, &InitData, &vertexBuffer);
+
 	std::string vShaderByteCode[1];
 	//load shader
 	if (!loadVShader("UIVertexShader.cso", gfx->getDevice(), vShader, vShaderByteCode[0]) &&

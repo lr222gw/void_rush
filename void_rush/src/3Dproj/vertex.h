@@ -32,3 +32,14 @@ struct vertex {
 	}
 };
 
+struct UIVertex {
+	float pos[2];
+	float uv[2];
+	UIVertex(float posx, float posy, float uvx, float uvy) {
+		pos[0] = posx;
+		pos[1] = posy;
+		pos[0] = uvx;
+		pos[1] = uvy;
+	}
+};
+

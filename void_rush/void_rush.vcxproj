@@ -282,6 +282,8 @@
     <ClCompile Include="src\3Dproj\UIElements.cpp" />
     <ClCompile Include="src\3Dproj\UIManager.cpp" />
     <ClCompile Include="src\3Dproj\UISprite.cpp" />
+    <ClCompile Include="src\3Dproj\UIString.cpp" />
+    <ClCompile Include="src\3Dproj\UISymbols.cpp" />
     <ClCompile Include="src\common\Helper.cpp" />
     <ClCompile Include="src\generation\Generate.cpp" />
     <ClCompile Include="src\generation\Platform.cpp" />
