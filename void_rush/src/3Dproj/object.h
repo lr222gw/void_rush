@@ -45,6 +45,7 @@ public:
 
 	void updateVertexShader(Graphics*& gfx);
 	void updatePixelShader(Graphics*& gfx);
+	void updateMatrix();
 private:
 	vec3 pos;
 	vec3 rot;

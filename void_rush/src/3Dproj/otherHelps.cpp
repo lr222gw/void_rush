@@ -36,7 +36,7 @@ std::string getPathfrom(std::string fullpath, std::string breakword)
 	std::string theReturn = fullpath;
 	if (found != std::string::npos) {
 		theReturn = "";
-		for (int i = found; i < fullpath.size(); i++) {
+		for (size_t i = found; i < fullpath.size(); i++) {
 			theReturn.push_back(fullpath[i]);
 		}
 	}

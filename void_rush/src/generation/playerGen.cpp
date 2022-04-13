@@ -1,4 +1,4 @@
-#include "player.hpp"
+#include "playerGen.hpp"
 
 player::player ()
     : pos ({ 0.0f, 0.0f, 0.0f }), jumpvel (20.0f), speed (5.0f),

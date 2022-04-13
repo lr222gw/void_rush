@@ -186,7 +186,7 @@ bool getMatrialFromFile(std::string fileName, std::vector<Material*>& matrial, G
 	}
 	bool oneTex = false;
 	matrial.resize(scene->mNumMaterials);
-	for (int i = 0; i < scene->mNumMaterials; i++) {
+	for (int i = 0; i < (int)scene->mNumMaterials; i++) {
 		matrial[i] = new Material(def);
 		const aiMaterial* pMaterial = scene->mMaterials[i];
 		if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {

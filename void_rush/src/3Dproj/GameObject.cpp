@@ -30,14 +30,14 @@ vec3 GameObject::getlastPosition()
 }
 
 
-void GameObject::getBoundingBox(DirectX::XMVECTOR theReturn[])
+void GameObject::getBoundingBox(DirectX::XMFLOAT4 theReturn[])
 {
 	//rotations
 	DirectX::XMMATRIX rot(DirectX::XMMatrixRotationRollPitchYaw(this->getRot().x, this->getRot().y, this->getRot().z));
 
 	vec3 high(model->getBoundingBox()[1].x, model->getBoundingBox()[1].y, model->getBoundingBox()[1].z);
 	vec3 low(model->getBoundingBox()[0].x, model->getBoundingBox()[0].y, model->getBoundingBox()[0].z);
-
+	
 	DirectX::XMMATRIX modelMatrix = (scaleMat * rot * transMat);
 
 	DirectX::XMVECTOR bbPoints[8] = {
@@ -52,29 +52,31 @@ void GameObject::getBoundingBox(DirectX::XMVECTOR theReturn[])
 	};
 	
 	bbPoints[0] = DirectX::XMVector4Transform(bbPoints[0], modelMatrix);
-	theReturn[0] = bbPoints[0];
-	theReturn[1] = bbPoints[0];
+	DirectX::XMStoreFloat4(&theReturn[0], bbPoints[0]);
+	DirectX::XMStoreFloat4(&theReturn[1], bbPoints[0]);
 
 	for (int i = 1; i < 8; i++) {
 		bbPoints[i] = DirectX::XMVector4Transform(bbPoints[i], modelMatrix);
-		if (bbPoints[i].m128_f32[0] > theReturn[1].m128_f32[0]) {
-			theReturn[1].m128_f32[0] = bbPoints[i].m128_f32[0];
-		}
-		if (bbPoints[i].m128_f32[1] > theReturn[1].m128_f32[1]) {
-			theReturn[1].m128_f32[1] = bbPoints[i].m128_f32[1];
-		}
-		if (bbPoints[i].m128_f32[2] > theReturn[1].m128_f32[2]) {
-			theReturn[1].m128_f32[2] = bbPoints[i].m128_f32[2];
-		}
+		DirectX::XMFLOAT4 tester;
+		DirectX::XMStoreFloat4(&tester, bbPoints[i]);
 
-		if (bbPoints[i].m128_f32[0] < theReturn[0].m128_f32[0]) {
-			theReturn[0].m128_f32[0] = bbPoints[i].m128_f32[0];
+		if (tester.x > theReturn[1].x) {
+			theReturn[1].x = tester.x;
 		}
-		if (bbPoints[i].m128_f32[1] < theReturn[0].m128_f32[1]) {
-			theReturn[0].m128_f32[1] = bbPoints[i].m128_f32[1];
+		else if(tester.x < theReturn[0].x) {
+			theReturn[0].x = tester.x;
 		}
-		if (bbPoints[i].m128_f32[2] < theReturn[0].m128_f32[2]) {
-			theReturn[0].m128_f32[2] = bbPoints[i].m128_f32[2];
+		if (tester.y > theReturn[1].y) {
+			theReturn[1].y = tester.y;
+		}
+		else if (tester.y < theReturn[0].y) {
+			theReturn[0].y = tester.y;
+		}
+		if (tester.z > theReturn[1].z) {
+			theReturn[1].z = tester.z;
+		}
+		else if (tester.z < theReturn[0].z) {
+			theReturn[0].z = tester.z;
 		}
 	}
 }
@@ -87,11 +89,6 @@ DirectX::BoundingBox GameObject::getDirectXBoundingBoxFromModel()
 	DirectX::XMVECTOR low = { model->getBoundingBox()[1].x ,model->getBoundingBox()[1].y ,model->getBoundingBox()[1].z , 1 };
 	DirectX::XMVECTOR high = { model->getBoundingBox()[0].x ,model->getBoundingBox()[0].y ,model->getBoundingBox()[0].z , 1 };
 
-	//datemp[0] = DirectX::XMVectorAdd(DirectX::XMVector4Transform(DirectX::XMVectorMultiply(low, this->getScale().toXMvector()), rot), this->getPos().toXMvector());
-	//datemp[1] = DirectX::XMVectorAdd(DirectX::XMVector4Transform(DirectX::XMVectorMultiply(high, this->getScale().toXMvector()), rot), this->getPos().toXMvector());
-	//
-	//datemp[1] = { fmax(datemp[1].m128_f32[0],datemp[0].m128_f32[0]),fmax(datemp[1].m128_f32[1],datemp[0].m128_f32[1]),fmax(datemp[1].m128_f32[2],datemp[0].m128_f32[2]) };
-	//datemp[0] = { std::min(datemp[1].m128_f32[0],datemp[0].m128_f32[0]),std::min(datemp[1].m128_f32[1],datemp[0].m128_f32[1]),std::min(datemp[1].m128_f32[2],datemp[0].m128_f32[2]) };
 	vec3 themid = this->getPos() + model->getBoundingBox()[0];
 	DirectX::XMFLOAT3 midpoint(
 		themid.toXMFloat3()
@@ -133,13 +130,14 @@ vec3 GameObject::getWidthHeightDepth()
 
 void GameObject::setHeightWidthDepth()
 {
-	DirectX::XMVECTOR theReturn[2];
+	DirectX::XMFLOAT4 theReturn[2];
 	//rotations
+	this->updateMatrix();
 	getBoundingBox(theReturn);
 
-	WHD.x = theReturn[1].m128_f32[0] - theReturn[0].m128_f32[0];
-	WHD.y = theReturn[1].m128_f32[1] - theReturn[0].m128_f32[1];
-	WHD.z = theReturn[1].m128_f32[2] - theReturn[0].m128_f32[2];
+	WHD.x = theReturn[1].x - theReturn[0].x;
+	WHD.y = theReturn[1].y - theReturn[0].y;
+	WHD.z = theReturn[1].z - theReturn[0].z;
 
 }
 

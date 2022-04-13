@@ -22,6 +22,7 @@
 #include "skybox.h"
 
 #include "Collision3D.h"
+#include "Player.h"
 
 //git
 class Game {
@@ -51,6 +52,7 @@ private:
 	QuadTree* Qtree;
 	SoundManager soundManager;
 	SkyBox* Space;
+	Player* player;
 	void setUpObject();
 	void setUpLights();
 	void setUpParticles();

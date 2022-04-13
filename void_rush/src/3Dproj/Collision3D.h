@@ -10,9 +10,9 @@ struct ColCube {
 		this->highPoint = highPoint;
 		this->lowPoint = lowPoint;
 	};
-	ColCube(DirectX::XMVECTOR boundingBox[]) {
-		lowPoint = vec3(boundingBox[0].m128_f32[0], boundingBox[0].m128_f32[1], boundingBox[0].m128_f32[2]);
-		highPoint = vec3(boundingBox[1].m128_f32[0], boundingBox[1].m128_f32[1], boundingBox[1].m128_f32[2]);
+	ColCube(DirectX::XMFLOAT4 boundingBox[]) {
+		lowPoint = vec3(boundingBox[0]);
+		highPoint = vec3(boundingBox[1]);
 	};
 	ColCube(vec3 highPoint, float width, float height, float depth) {
 		this->highPoint = highPoint;

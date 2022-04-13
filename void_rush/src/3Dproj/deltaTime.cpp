@@ -14,7 +14,10 @@ void DeltaTime::restartClock()
 	this->pDt = runTime.count();
 	this->t_start = std::chrono::steady_clock::now();
 }
-
+void DeltaTime::setDeltaTime(double newdelta)
+{
+	this->pDt = newdelta;
+}
 double DeltaTime::dt()const
 {
 	return this->pDt;

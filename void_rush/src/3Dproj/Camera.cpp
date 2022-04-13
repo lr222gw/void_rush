@@ -38,7 +38,6 @@ void Camera::updateCamera() {
 }
 void Camera::updateCamera(float dt)
 {	
-	handleEvent(dt);
 	DirectX::XMMATRIX viewMatrix = DirectX::XMMATRIX(
 		1.0f,0.0f,0.0f,0.0f,
 		0.0f,1.0f,0.0f,0.0f,
@@ -78,9 +77,11 @@ void Camera::calcFURVectors()
 
 	//just add it to the pixel shader
 	movement();
-	FUL[0] = vec3(viewMatrix.r->m128_f32[2], viewMatrix.r->m128_f32[6], viewMatrix.r->m128_f32[10]);
-	FUL[1] = vec3(viewMatrix.r->m128_f32[1], viewMatrix.r->m128_f32[5], viewMatrix.r->m128_f32[9]);
-	FUL[2] = vec3(viewMatrix.r->m128_f32[0], viewMatrix.r->m128_f32[4], viewMatrix.r->m128_f32[8]);
+	DirectX::XMFLOAT4X4 theViewMatrix;
+	DirectX::XMStoreFloat4x4(&theViewMatrix, viewMatrix);
+	FUL[0] = vec3(theViewMatrix._13, theViewMatrix._23, theViewMatrix._33);
+	FUL[1] = vec3(theViewMatrix._12, theViewMatrix._22, theViewMatrix._32);
+	FUL[2] = vec3(theViewMatrix._11, theViewMatrix._21, theViewMatrix._31);
 }
 
 vec3 Camera::getForwardVec()
@@ -175,6 +176,7 @@ void Camera::movement()
 
 void Camera::handleEvent(float dt)
 {
+	//handle this event in player
 	translation = DirectX::XMFLOAT3(0, 0, 0);
 	//movement
 	if (getkey('W')) {
@@ -214,11 +216,6 @@ void Camera::handleEvent(float dt)
 		if (GetKeyState(VK_DOWN) & 0x8000) {
 			yCamRot -= mouseSensitivity * (float)dt;
 		}
-	}
-	else {
-		//MousePoint d = mouse->ReadRawDelta();
-		//xCamRot += d.x * mouse->getSense() * (float)dt;
-		//yCamRot -= d.y * mouse->getSense() * (float)dt;
 	}
 }
 

@@ -282,7 +282,7 @@
     <ClCompile Include="src\physics\proto.cpp">
       <Filter>Protoypes\physics</Filter>
     </ClCompile>
-    <ClCompile Include="src\generation\player.cpp">
+    <ClCompile Include="src\generation\playerGen.cpp">
       <Filter>Protoypes\generation</Filter>
     </ClCompile>
     <ClCompile Include="src\generation\Platform.cpp">
@@ -299,6 +299,9 @@
     </ClCompile>
     <ClCompile Include="src\Main.cpp">
       <Filter>Void_Rush</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\Player.cpp">
+      <Filter>3D_Renderer\Source Files\Game\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -467,9 +470,6 @@
     <ClInclude Include="src/3Dproj/DebugCamera.h">
       <Filter>3D_Renderer\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\3Dproj\Collision3D.h">
-      <Filter>3D_Renderer\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\common\Vector.hpp">
       <Filter>Protoypes\common</Filter>
     </ClInclude>
@@ -488,10 +488,10 @@
     <ClInclude Include="src\Platform.h">
       <Filter>Protoypes\generation</Filter>
     </ClInclude>
-    <ClInclude Include="src\player.h">
+    <ClInclude Include="src\playerGen.h">
       <Filter>Protoypes\generation</Filter>
     </ClInclude>
-    <ClInclude Include="src\generation\player.hpp">
+    <ClInclude Include="src\generation\playerGen.hpp">
       <Filter>Protoypes\generation</Filter>
     </ClInclude>
     <ClInclude Include="src\common\Helper.hpp">
@@ -505,6 +505,12 @@
     </ClInclude>
     <ClInclude Include="src\Generate.h">
       <Filter>Protoypes\generation</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\Player.h">
+      <Filter>3D_Renderer\Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\Collision3D.h">
+      <Filter>3D_Renderer\Header Files\Fysik</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

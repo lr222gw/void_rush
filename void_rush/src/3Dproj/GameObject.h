@@ -19,7 +19,7 @@ public:
 	void Updateshaders(Graphics*& gfx, bool vertex = true);
 
 	//gives 2 points 0 = the lowest in x,y and z while 1 is the highest in x,y and zdimensions
-	void getBoundingBox(DirectX::XMVECTOR theReturn[]);
+	void getBoundingBox(DirectX::XMFLOAT4 theReturn[]);
 
 	DirectX::BoundingBox getDirectXBoundingBoxFromModel();
 	DirectX::BoundingBox getDirectXBoundingBoxFromObject();

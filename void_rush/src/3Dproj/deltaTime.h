@@ -8,6 +8,7 @@ private:
 	double pDt;
 public:
 	DeltaTime();
+	void setDeltaTime(double newdelta);
 	void restartClock();
 	double dt()const;
 

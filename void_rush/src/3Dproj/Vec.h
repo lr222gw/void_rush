@@ -32,6 +32,9 @@ struct vec2 {
 	float dot(vec2 a);
 };
 struct vec3 {
+	float x;
+	float y;
+	float z;
 	vec3(float a, float b, float c) {
 		this->x = a;
 		this->y = b;
@@ -42,10 +45,15 @@ struct vec3 {
 		this->y = 0;
 		this->z = 0;
 	}
-	vec3(DirectX::XMVECTOR theVec) {
-		this->x = theVec.m128_f32[0];
-		this->y = theVec.m128_f32[1];
-		this->z = theVec.m128_f32[2];
+	vec3(DirectX::XMFLOAT4 theVec) {
+		this->x = theVec.x;
+		this->y = theVec.y;
+		this->z = theVec.z;
+	}
+	vec3(DirectX::XMFLOAT3 theVec) {
+		this->x = theVec.x;
+		this->y = theVec.y;
+		this->z = theVec.z;
 	}
 
 	vec3 Normalize();
@@ -70,9 +78,7 @@ struct vec3 {
 		//return "x: " + std::to_string(x) + " y: " + std::to_string(y) + " z: " + std::to_string(z);
 		return  std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z);
 	}
-	float x;
-	float y;
-	float z;
+	
 };
 struct vec4 {
 	vec4() {

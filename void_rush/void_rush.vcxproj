@@ -279,10 +279,11 @@
     <ClCompile Include="src/3Dproj/WindowContainer.cpp" />
     <ClCompile Include="src/3Dproj/WindowHelper.cpp" />
     <ClCompile Include="src\3Dproj\Collision3D.cpp" />
+    <ClCompile Include="src\3Dproj\Player.cpp" />
     <ClCompile Include="src\common\Helper.cpp" />
     <ClCompile Include="src\generation\Generate.cpp" />
     <ClCompile Include="src\generation\Platform.cpp" />
-    <ClCompile Include="src\generation\player.cpp" />
+    <ClCompile Include="src\generation\playerGen.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\physics\jump.cpp" />
     <ClCompile Include="src\physics\proto.cpp" />
@@ -344,17 +345,18 @@
     <ClInclude Include="src/3Dproj/WindowContainer.h" />
     <ClInclude Include="src/3Dproj/WindowHelper.h" />
     <ClInclude Include="src\3Dproj\Collision3D.h" />
+    <ClInclude Include="src\3Dproj\Player.h" />
     <ClInclude Include="src\common\Helper.hpp" />
     <ClInclude Include="src\common\Vector.hpp" />
     <ClInclude Include="src\Generate.h" />
     <ClInclude Include="src\generation\Generate.hpp" />
     <ClInclude Include="src\generation\Platform.hpp" />
-    <ClInclude Include="src\generation\player.hpp" />
+    <ClInclude Include="src\generation\playerGen.hpp" />
     <ClInclude Include="src\generation\proto.hpp" />
     <ClInclude Include="src\physics\Jump.hpp" />
     <ClInclude Include="src\physics\proto.hpp" />
     <ClInclude Include="src\Platform.h" />
-    <ClInclude Include="src\player.h" />
+    <ClInclude Include="src\playerGen.h" />
     <ClInclude Include="src\Vector.hpp" />
   </ItemGroup>
   <ItemGroup>

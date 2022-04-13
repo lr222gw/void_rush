@@ -1,7 +1,7 @@
 #include "Collision3D.h"
 
 
-bool RayRect(vec3 &rayOrigin, vec3 rayDir, ColCube &cube, vec3 &cp, vec3 &cn, float &t)
+bool RayRect(vec3& rayOrigin, vec3 rayDir, ColCube& cube, vec3& cp, vec3& cn, float& t)
 {
 	vec3 t_near = (cube.lowPoint - rayOrigin) / rayDir;
 	vec3 t_far = (cube.highPoint - rayOrigin) / rayDir;
@@ -22,7 +22,7 @@ bool RayRect(vec3 &rayOrigin, vec3 rayDir, ColCube &cube, vec3 &cp, vec3 &cn, fl
 	float tMax = txMax;
 	if (tMax > tyMax) { tMax = tyMax; }
 	if (tMax > tzMax) { tMax = tzMax; }
-	
+
 	if (!(txMin > tyMax || tyMin > txMax)) {
 		if (!(tMin > tzMax || tzMin > tMax)) {
 			if (tzMin > tMin) {
@@ -47,7 +47,7 @@ bool RayRect(vec3 &rayOrigin, vec3 rayDir, ColCube &cube, vec3 &cp, vec3 &cn, fl
 						cp = vec3(-1, 0, 0);
 					}
 				}
-				else if(t_near.y > t_near.x && t_near.y > t_near.z) {
+				else if (t_near.y > t_near.x && t_near.y > t_near.z) {
 					if (rayDir.y < 0) {
 						cp = vec3(0, 1, 0);
 					}
@@ -88,7 +88,7 @@ bool RectRect(GameObject*& objectA, ColCube& in, ColCube& target, vec3& cp, vec3
 			return true;
 		}
 	}
-	
+
 	return false;
 }
 
@@ -105,12 +105,12 @@ void moveObject(GameObject*& objectA, GameObject*& objectB, ColCube colCubeA, Co
 			lowest = dirs[i];
 		}
 	}
-	
+	float newyPos;
 	vec3 dir;
 	switch (index)
 	{
 	case 0:
-		objectA->movePos(vec3(-lowdir.x,0,0));
+		objectA->movePos(vec3(-lowdir.x, 0, 0));
 		break;
 	case 1:
 		objectA->movePos(vec3(0, -lowdir.y, 0));
@@ -122,12 +122,12 @@ void moveObject(GameObject*& objectA, GameObject*& objectB, ColCube colCubeA, Co
 		objectA->movePos(vec3(highdir.x, 0, 0));
 		break;
 	case 4:
-		//objectA->movePos(vec3(0, highdir.y, 0));
-		//+ (objectA->getPos().y - colCubeA.lowPoint.y)
-		//objectA->setPos(vec3(objectA->getPos().x, colCubeB.highPoint.y , objectA->getPos().z));
-		objectA->setPos(vec3(objectA->getPos().x, 
-			objectB->getPos().y + objectB->getWidthHeightDepth().y/2 + objectA->getWidthHeightDepth().y/2 - 0.6, 
-			objectA->getPos().z));
+		newyPos = (objectA->getPos().y - colCubeA.lowPoint.y) + colCubeB.highPoint.y;
+		objectA->setPos(vec3(objectA->getPos().x, newyPos, objectA->getPos().z));
+		//newyPos = (objectB->getPos().y + objectB->getWidthHeightDepth().y / 2 + objectA->getWidthHeightDepth().y / 2);
+		//objectA->setPos(vec3(objectA->getPos().x,
+		//	newyPos,
+		//	objectA->getPos().z));
 		break;
 	case 5:
 		objectA->movePos(vec3(0, 0, highdir.z));
@@ -135,11 +135,10 @@ void moveObject(GameObject*& objectA, GameObject*& objectB, ColCube colCubeA, Co
 	}
 }
 
-static int oua = 0;
 void collisionWithBlocking(GameObject*& objectA, GameObject*& objectB, float dt)
 {
-	DirectX::XMVECTOR a[2];
-	DirectX::XMVECTOR b[2];
+	DirectX::XMFLOAT4 a[2];
+	DirectX::XMFLOAT4 b[2];
 	objectA->getBoundingBox(a);
 	objectB->getBoundingBox(b);
 	ColCube colCubeA(a);

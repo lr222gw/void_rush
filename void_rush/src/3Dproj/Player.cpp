@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(ModelObj* file, Graphics*& gfx, Mouse* mouse, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale):
+Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale):
 	GameObject(file, gfx, pos, rot, scale)
 {
 	this->mouse = mouse;
@@ -15,7 +15,9 @@ Player::~Player()
 
 void Player::update(float dt)
 {
+	handleEvents(dt);
 	cam->setRotation(this->getRot());
+	cam->setPosition(this->getPos());
 }
 
 void Player::handleEvents(float dt)
@@ -38,35 +40,52 @@ void Player::handleEvents(float dt)
 	//change values here
 	DirectX::XMFLOAT3 translation = DirectX::XMFLOAT3(0, 0, 0);
 	if (keyboard->isKeyPressed('W')) {
-		translation = DirectX::XMFLOAT3(0, 0, -(float)dt);
+		translation = DirectX::XMFLOAT3(0, 0, -1);
+		Translate(dt, translation);
 	}
 	if (keyboard->isKeyPressed('D')) {
-		translation = DirectX::XMFLOAT3(0, 0, -(float)dt);
+		translation = DirectX::XMFLOAT3(-1, 0, 0);
+		Translate(dt, translation);
 	}
 	if (keyboard->isKeyPressed('S')) {
-		translation = DirectX::XMFLOAT3(0, 0, -(float)dt);
+		translation = DirectX::XMFLOAT3(0, 0, 1);
+		Translate(dt, translation);
 	}
 	if (keyboard->isKeyPressed('A')) {
-		translation = DirectX::XMFLOAT3(0, 0, -(float)dt);
+		translation = DirectX::XMFLOAT3(1, 0, 0);
+		Translate(dt, translation);
 	}
 	if (keyboard->isKeyPressed(VK_SPACE)) {
-		translation = DirectX::XMFLOAT3(0, 0, -(float)dt);
+		this->movePos(vec3(0, speed * dt, 0));
 	}
-	if (keyboard->isKeyPressed('W')) {
-		translation = DirectX::XMFLOAT3(0, 0, -(float)dt);
+	if (keyboard->isKeyPressed(VK_CONTROL)) {
+		this->movePos(vec3(0, -speed * dt, 0));
 	}
 
 
+}
+
+void Player::rotateWithMouse(int x, int y)
+{
+	this->addRot(vec3(
+		static_cast<float>(x) * mouse->getSense() * 0.001, 
+		static_cast<float>(y) * mouse->getSense() * 0.001, 
+		0
+	));
 }
 
 void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 {
 	DirectX::XMStoreFloat3(&translate, DirectX::XMVector3Transform(
 		DirectX::XMLoadFloat3(&translate),
-		DirectX::XMMatrixRotationRollPitchYaw(this->getyRot(), this->getxRot(), 0) *
+		DirectX::XMMatrixRotationRollPitchYaw(this->getxRot(), this->getyRot(), 0) *
 		DirectX::XMMatrixScaling(1, 1, 1)//this line is not neccessary but I am afraid to break things
 	));
 	vec2 trans(translate.x, translate.z);
 	trans.Normalize();
-	this->movePos(vec3(-trans.x * speed * dt, trans.y * speed * dt, 0));
+	this->setPos(vec3(
+		this->getPos().x - trans.x * speed * dt,
+		this->getPos().y,
+		this->getPos().z - trans.y * speed * dt
+	));
 }

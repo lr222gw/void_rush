@@ -1,6 +1,6 @@
 #pragma once
 #include "Platform.hpp"
-#include "player.hpp"
+#include "playerGen.hpp"
 #include <random>
 
 

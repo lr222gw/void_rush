@@ -218,6 +218,10 @@ void Graphics::Update(float dt, vec3 camPos)
 		LCBG.lightPos.element[i][1] = light[i]->getPos().y;
 		LCBG.lightPos.element[i][2] = light[i]->getPos().z;
 
+		//TODO
+		//om statiska ljus nej annars ja
+		LCBG.lightView.element[i] = light[i]->getLightViewProj();
+
 		LCBG.lightColor.element[i][0] = light[i]->getColor().x;
 		LCBG.lightColor.element[i][1] = light[i]->getColor().y;
 		LCBG.lightColor.element[i][2] = light[i]->getColor().z;
