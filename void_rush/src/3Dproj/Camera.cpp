@@ -54,7 +54,6 @@ void Camera::updateCamera(float dt)
 
 }
 
-
 vec3 Camera::getPos()
 {
 	return vec3(xCamPos, yCamPos, zCamPos);
