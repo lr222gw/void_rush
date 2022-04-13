@@ -38,8 +38,8 @@ struct UIVertex {
 	UIVertex(float posx, float posy, float uvx, float uvy) {
 		pos[0] = posx;
 		pos[1] = posy;
-		pos[0] = uvx;
-		pos[1] = uvy;
+		uv[0] = uvx;
+		uv[1] = uvy;
 	}
 };
 

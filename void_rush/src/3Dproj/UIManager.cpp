@@ -45,10 +45,10 @@ void UIManager::draw()
 void UIManager::init(Graphics*& gfx)
 {
 	UIVertex vertices[4]{
-		UIVertex(0,0,0,0),
-		UIVertex(0,1,0,1),
-		UIVertex(1,0,1,0),
-		UIVertex(1,1,1,1)
+		UIVertex(0,0,0,1),
+		UIVertex(0,1,0,0),
+		UIVertex(1,0,1,1),
+		UIVertex(1,1,1,0)
 	};
 
 	D3D11_BUFFER_DESC bufferDesc;
