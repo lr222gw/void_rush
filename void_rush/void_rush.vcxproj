@@ -349,7 +349,6 @@
     <ClInclude Include="src\3Dproj\Player.h" />
     <ClInclude Include="src\common\Helper.hpp" />
     <ClInclude Include="src\common\Vector.hpp" />
-    <ClInclude Include="src\Generate.h" />
     <ClInclude Include="src\generation\Generate.hpp" />
     <ClInclude Include="src\generation\Platform.hpp" />
     <ClInclude Include="src\generation\playerGen.hpp" />
