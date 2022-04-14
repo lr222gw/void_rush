@@ -28,5 +28,4 @@ private:
 	Keyboard* keyboard;
 	Camera* cam;
 	GameObject* GOPTR;//GameObjectPlayerPointer
-	float speed;
 };

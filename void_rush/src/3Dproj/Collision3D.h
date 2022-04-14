@@ -18,6 +18,9 @@ struct ColCube {
 		this->highPoint = highPoint;
 		this->lowPoint = highPoint - vec3(width, height, depth);
 	};
+	ColCube() {
+
+	};
 	vec3 highPoint;
 	vec3 lowPoint;
 };
@@ -45,6 +48,7 @@ void collisionWithBlocking(GameObject*& objectA, GameObject*& objectB);
 bool collision3D(ColSphere objectA, ColSphere objectB);
 bool collision3D(ColSphere objectA, ColCube objectB);
 bool collision3D(DirectX::XMFLOAT4 objectA[], DirectX::XMFLOAT4 objectB[]);
+bool collision3D(GameObject*& objectA, GameObject*& objectB, bool fromobjA = false, bool fromobjB = false);
 
 //sphere and a cube
 bool collision3D(ColCube objectA, ColCube objectB);

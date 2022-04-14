@@ -183,6 +183,28 @@ bool collision3D(DirectX::XMFLOAT4 objectA[], DirectX::XMFLOAT4 objectB[])
 	return collision3D(ColCubeA, ColCubeB);
 }
 
+
+bool collision3D(GameObject*& objectA, GameObject*& objectB, bool fromobjA, bool fromobjB)
+{
+	ColCube ColCubeA;
+	ColCube ColCubeB;
+	DirectX::XMFLOAT4 a[2];
+	DirectX::XMFLOAT4 b[2];
+	if (!fromobjA) {
+		objectA->getBoundingBox(a);
+	}
+	else {
+		objectA->getBoundingBoxFromObject(a);
+	}
+	if (!fromobjB) {
+		objectB->getBoundingBox(b);
+	}
+	else {
+		objectB->getBoundingBoxFromObject(b);
+	}
+	return collision3D(a,b);
+}
+
 bool collision3D(ColCube objectA, ColCube objectB)
 {
 	return (
