@@ -74,6 +74,14 @@ void Player::rotateWithMouse(int x, int y)
 	));
 }
 
+void Player::addRot(vec3 rot)
+{
+	
+	if (this->getRot().y + rot.y < -1.5 || this->getRot().y + rot.y > 1.57f)
+		rot.y = 0;
+	object::addRot(rot);
+}
+
 void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 {
 	DirectX::XMStoreFloat3(&translate, DirectX::XMVector3Transform(

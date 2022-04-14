@@ -11,6 +11,7 @@ public:
 	void update(float dt);
 	void handleEvents(float dt);
 	void rotateWithMouse(int x, int y);
+	void addRot(vec3 rot);
 private:
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
 	vec3 velocity;
