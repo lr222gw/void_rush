@@ -176,6 +176,13 @@ bool collision3D(ColSphere objectA, ColCube objectB)
 	return sqDist <= objectA.size * objectA.size;
 }
 
+bool collision3D(DirectX::XMFLOAT4 objectA[], DirectX::XMFLOAT4 objectB[])
+{
+	ColCube ColCubeA(objectA);
+	ColCube ColCubeB(objectB);
+	return collision3D(ColCubeA, ColCubeB);
+}
+
 bool collision3D(ColCube objectA, ColCube objectB)
 {
 	return (
