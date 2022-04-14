@@ -18,10 +18,14 @@ private:
 	const int PUZZLES = 1; //Set to amount of puzzles done.
 	MathPuzzle* math;
 	HiddenPuzzle* hidden;
+	Graphics*& gfxPuzzle;
+	ResourceManager*& rmPuzzle;
 
 public:
-	ProtoPuzzle();
+	ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm);
 	~ProtoPuzzle();
+	void Initiate();
 	int ChoosePuzzle();
-	void Interact(int choice);
+	void Interact(vec3 playerPos);
+	void Update();
 };

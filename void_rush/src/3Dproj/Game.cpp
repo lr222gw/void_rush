@@ -17,6 +17,9 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	//Resource manager
 	rm = new ResourceManager(gfx);
 	
+	testPuzzle = new ProtoPuzzle(gfx, rm);
+	testPuzzle->Initiate();
+
 	setUpLights();
 	
 	//shadow map needs to take more lights
@@ -104,6 +107,7 @@ Game::~Game()
 	}
 	delete Space;
 	delete player;
+	delete testPuzzle;
 }
 
 
@@ -226,24 +230,8 @@ void Game::Update()
 	
 	if (mouse->IsLeftDown() && testTime <= 0.0f)
 	{
-		if ((obj[4]->getPos() - obj[0]->getPos()).length() < 10.0f)
-		{
-			testTime = 1.0f;
-			std::cout << "Is in range A" << std::endl;
-			testPuzzle.Interact(0);
-		}
-		if ((obj[5]->getPos() - obj[0]->getPos()).length() < 10.0f)
-		{
-			testTime = 1.0f;
-			std::cout << "Is in range B" << std::endl;
-			testPuzzle.Interact(1);
-		}
-		if ((obj[6]->getPos() - obj[0]->getPos()).length() < 10.0f)
-		{
-			testTime = 1.0f;
-			std::cout << "Is in range C" << std::endl;
-			testPuzzle.Interact(2);
-		}
+		testTime = 1.0f;
+		testPuzzle->Interact(obj[0]->getPos());
 	}
 
 	/*Collision checking*/
@@ -296,6 +284,7 @@ void Game::DrawToBuffer()
 	for (int i = 0; i < obj.size(); i++) {
 		obj[i]->draw(gfx);
 	}
+	testPuzzle->Update(); //Take this away later
     camera->calcFURVectors();
 	Qtree->draw(gfx, camera);
 	Qtree->clearAlrDraw();
@@ -379,9 +368,9 @@ void Game::setUpObject()
 	obj.push_back(new GameObject(rm->get_Models("quad2.obj", gfx), gfx, vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100)));
 
 	obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
-	obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(-15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
-	obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(0.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
-	obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+	//obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(-15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+	//obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(0.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+	//obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
 
 	
 

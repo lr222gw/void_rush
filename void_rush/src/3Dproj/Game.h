@@ -38,7 +38,7 @@ public:
 	void updateShaders(bool vs = true, bool ps = true);
 private:
 	float testTime = 0.0f;
-	ProtoPuzzle testPuzzle;
+	ProtoPuzzle* testPuzzle;
 	MSG msg = {};
 	Graphics *gfx;
 	ResourceManager* rm;
