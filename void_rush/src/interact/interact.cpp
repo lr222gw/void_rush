@@ -1,6 +1,6 @@
 #include "interact.hpp"
 
-bool CanInteract (Vector3 camPos, Vector3 camDir, Vector3 itemPos,
+bool CanInteract (vec3 camPos, vec3 camDir, vec3 itemPos,
                   float itemRad, float maxDistance)
 {
 
@@ -15,16 +15,17 @@ bool CanInteract (Vector3 camPos, Vector3 camDir, Vector3 itemPos,
     }
     return true;*/
 
-    
-    camDir.normalize();
+    camDir.Normalize();
 
     // l = distance from camPos to itemPos
-    Vector3 l = itemPos - camPos;
+    vec3 l = itemPos - camPos;
 
     // s = distance from rays orig to center of sphere in the direction of the
     // ray
-    double s = dot (l, camDir);
-    double l2 = dot (l, l);
+    //double s = dot(l, camDir);
+    //double l2 = dot(l, l);
+    double s = l * camDir;
+    double l2 = l * l;
 
     // Item is behine camera, and not inside the items radius
     if (s < 0 && l2 > powf (itemRad, 2))
@@ -47,9 +48,9 @@ bool CanInteract (Vector3 camPos, Vector3 camDir, Vector3 itemPos,
 }
 
 void TestIntersection(){
-    Vector3 camPos = Vector3(0.0f, 6.0f, -10.0f);
-    Vector3 camDir = Vector3(0.0f, 0.0f, 1.0f);
-    Vector3 itemPos = Vector3(0.0f, 6.0f, 0.0f);
+    vec3 camPos = vec3(0.0f, 6.0f, -10.0f);
+    vec3 camDir = vec3(0.0f, 0.0f, 1.0f);
+    vec3 itemPos = vec3(0.0f, 6.0f, 0.0f);
     float itemRad = 1.0f;
     float maxDistance = 10.0f;
 

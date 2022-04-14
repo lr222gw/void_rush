@@ -181,6 +181,8 @@ printf("quit");
 
 void Game::Update()
 {
+	
+
 	/*Move things*/
 	camera->updateCamera((float)dt.dt());
 	if (getkey('N')) {
@@ -254,7 +256,13 @@ void Game::Update()
 		lightNr = 3;
 	} 
 #pragma endregion camera_settings
+
+
+	/*Interaction testing*/
+	interactTest();
+	
 }
+
 
 void Game::DrawToBuffer()
 {	
@@ -407,4 +415,44 @@ void Game::setUpParticles()
 
 	//if billboard have animation add it here
 	billboardGroups[0]->setAnimation(6, 1, 0.16f);
+}
+
+/*Interaction Test*/
+void Game::interactTest()
+{
+	DirectX::XMFLOAT4 bb[2];
+	float xSize;
+	float ySize;
+	float zSize;
+	float size;
+	DirectX::XMFLOAT3 objMidPos;
+	for (int i = 4; i < obj.size(); i++) {
+		
+		obj[i]->getBoundingBox(bb);
+		xSize = fabs(bb[1].x - bb[0].x);
+		ySize = fabs(bb[1].y - bb[0].y);
+		zSize = fabs(bb[1].z - bb[0].z);
+		if (xSize > ySize && xSize > zSize) {
+			size = xSize;
+		}
+		else if (ySize > xSize && ySize > zSize) {
+			size = ySize;
+		}
+		else {
+			size = zSize;
+		}
+		objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
+		if (CanInteract(camera->getPos(), camera->getForwardVec(), objMidPos, size/2, 10.0f)) {
+			/*std::cout << "Interact! \nCampos: (" << camera->getPos().x << ", " << camera->getPos().y << ", " << camera->getPos().z << ")" <<
+				"\nCamVec: " << camera->getForwardVec().x << ", " << camera->getForwardVec().y << ", " << camera->getForwardVec().z << ")" <<
+				"\nObjPos: " << obj[3]->getPos().x << ", " << obj[3]->getPos().y << ", " << obj[3]->getPos().z << ")\n";*/
+			
+			if (mouse->IsLeftDown()) {
+				std::cout << "Interact!\n";
+			}
+			else {
+				std::cout << "Can inetarct!\n";
+			}
+		}
+	}
 }

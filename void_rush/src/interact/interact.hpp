@@ -1,11 +1,11 @@
-#include "../common/Vector.hpp"
+//#include "../common/Vector.hpp"
+#include "Vec.h"
 #include "../common/Helper.hpp"
 #include <math.h>
 #include <stdlib.h>
 #include <iostream>
 
-bool CanInteract (Vector3 camPos, Vector3 camDir, Vector3 itemPos,
-                  float itemRad = 10.0f, float maxDistance = 10.0f);
+bool CanInteract (vec3 camPos, vec3 camDir, vec3 itemPos, float itemRad, float maxDistance);
 
 
 void TestIntersection();

@@ -24,6 +24,8 @@
 #include "Collision3D.h"
 #include "Player.h"
 
+#include "interact/interact.hpp"
+
 //git
 class Game {
 public:
@@ -40,6 +42,8 @@ private:
 	ResourceManager* rm;
 	void Update();
 	const float PI = 3.14159265359f;
+
+	void interactTest();
 private:
 	//logic and others
 	DeferredRendering *defRend;
