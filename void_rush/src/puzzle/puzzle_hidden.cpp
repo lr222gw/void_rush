@@ -5,9 +5,10 @@ HiddenPuzzle::HiddenPuzzle(const Vector3& position, int seed, int width, int len
     
 }
 
-void HiddenPuzzle::Interaction()
+void HiddenPuzzle::Interaction(int choice)
 {
     //Check if left click is pressed while player is close enough and looking at the hitbox of the key.
+    std::cout << "Test" << std::endl;
 }
 
 void HiddenPuzzle::InitiatePuzzle()

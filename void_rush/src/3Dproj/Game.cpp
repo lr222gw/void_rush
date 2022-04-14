@@ -6,7 +6,6 @@
 Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow):
 	soundManager(1)
 {
-	
 	gfx = new Graphics(hInstance, hPrevInstance, lpCmdLine, nCmdShow, mouse);
 	mouse = gfx->getWindosClass().getMouse();
 	keyboard = gfx->getWindosClass().getKeyboard();
@@ -30,7 +29,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	gfx->takeIM(&this->UIManager);
 	this->UIManager.set_owner(this);
 	
-	camera = new Camera(gfx, mouse, vec3(0,0,0), vec3(0,0,0));
+	camera = new Camera(gfx, mouse, vec3(0.0f,0.0f,0.0f), vec3(0.0f,0.0f,0.0f));
 	camera->setData();
 	//gfx->getWindosClass().setMouse(mouse);
 	setUpObject();
@@ -185,6 +184,10 @@ printf("quit");
 
 void Game::Update()
 {
+	if (testTime > 0.0f)
+	{
+		testTime -= (float)dt.dt();
+	}
 	/*Move things*/
 	camera->updateCamera((float)dt.dt());
 	if (getkey('N')) {
@@ -215,6 +218,34 @@ void Game::Update()
 		obj[i]->updateMatrix();
 	}
 	player->updateMatrix();
+	/*
+	DirectX::XMFLOAT4 a[2];
+	DirectX::XMFLOAT4 b[2];
+	obj[3]->getBoundingBox(a);
+	obj[2]->getBoundingBox(b);
+	*/
+	
+	if (mouse->IsLeftDown() && testTime <= 0.0f)
+	{
+		if ((obj[4]->getPos() - obj[0]->getPos()).length() < 10.0f)
+		{
+			testTime = 1.0f;
+			std::cout << "Is in range A" << std::endl;
+			testPuzzle.Interact(0);
+		}
+		if ((obj[5]->getPos() - obj[0]->getPos()).length() < 10.0f)
+		{
+			testTime = 1.0f;
+			std::cout << "Is in range B" << std::endl;
+			testPuzzle.Interact(1);
+		}
+		if ((obj[6]->getPos() - obj[0]->getPos()).length() < 10.0f)
+		{
+			testTime = 1.0f;
+			std::cout << "Is in range C" << std::endl;
+			testPuzzle.Interact(2);
+		}
+	}
 
 	/*Collision checking*/
 	collisionWithBlocking(player, obj[2]);
@@ -238,7 +269,7 @@ void Game::Update()
 	for (int i = 0; i < obj.size(); i++) {
 		obj[i]->update();
 	}
-	player->update(dt.dt());
+	player->update((float)dt.dt());
 
 #pragma region camera_settings
 
@@ -377,7 +408,7 @@ void Game::setUpLights()
 
 	//create the lights with 
 	//light[0] = new DirLight(vec3(0, 30, 8), vec3(0.1f, -PI / 2, 1.f), 100, 100);
-	light[0] = new PointLight(vec3(1, 1, 1), 200, vec3(1,1,1));
+	light[0] = new PointLight(vec3(3, 25, 5), 200, vec3(1,1,1));
 	//light[1] = new SpotLight(vec3(18, 46, 45), vec3(-2.4f, -0.5, 1));
 	//light[2] = new SpotLight(vec3(8, 47.f, 0), vec3(0, -1, 1));
 	//light[3] = new SpotLight(vec3(30, 50, 0), vec3(-1, -1, 1));

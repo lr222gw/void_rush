@@ -49,7 +49,7 @@ float Player_jump_checker::jumpHeight ()
 {
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
     return this->pos.z
-           + (powf (vel, 2.0f) * powf (sin (this->launchangle), 2.0f)
+           + (powf (vel, 2.0f) * powf (sinf (this->launchangle), 2.0f)
               / (2 * this->gravity));
 }
 
@@ -79,6 +79,6 @@ bool Player_jump_checker::isJumpPossible (Vector3 position)
 
 float Player_jump_checker::distance (Vector3 &position)
 {
-    return sqrtf (pow (this->pos.x - position.x, 2.0)
-                  + pow (this->pos.y - position.y, 2.0));
+    return sqrtf (powf (this->pos.x - position.x, 2.0)
+                  + powf (this->pos.y - position.y, 2.0));
 }

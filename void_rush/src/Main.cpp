@@ -1,6 +1,5 @@
 #include "generation/proto.hpp"
 #include "physics/proto.hpp"
-#include "pussle/proto.hpp"
 #include <cmath>
 #include <corecrt_math.h>
 #include <fstream>
@@ -29,11 +28,3 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     //generation_proto ();    
     return 0;
 }
-
-//int main ()
-//{
-//	
-//    physics_proto (); 
-//    generation_proto();    
-//	    return 0;
-//}

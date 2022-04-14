@@ -51,8 +51,8 @@ void Position_generator_proto ()
         // abs_X += platforms[i]->getPos().at(0) ;
         // abs_Y += platforms[i]->getPos().at(1) ;
 
-        abs_X = platforms[i]->getPos ().y;
-        abs_Y = platforms[i]->getPos ().x;
+        abs_X = (int)platforms[i]->getPos ().y;
+        abs_Y = (int)platforms[i]->getPos ().x;
 
         out << "Platform_" << i << " [\n";
         out << "label = \"P_" << i << "\n";
