@@ -473,9 +473,6 @@
     <ClInclude Include="src\common\Vector.hpp">
       <Filter>Protoypes\common</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vector.hpp">
-      <Filter>Protoypes\common</Filter>
-    </ClInclude>
     <ClInclude Include="src\physics\proto.hpp">
       <Filter>Protoypes\physics</Filter>
     </ClInclude>
@@ -483,12 +480,6 @@
       <Filter>Protoypes\generation</Filter>
     </ClInclude>
     <ClInclude Include="src\generation\Platform.hpp">
-      <Filter>Protoypes\generation</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform.h">
-      <Filter>Protoypes\generation</Filter>
-    </ClInclude>
-    <ClInclude Include="src\playerGen.h">
       <Filter>Protoypes\generation</Filter>
     </ClInclude>
     <ClInclude Include="src\generation\playerGen.hpp">
@@ -501,9 +492,6 @@
       <Filter>Protoypes\physics</Filter>
     </ClInclude>
     <ClInclude Include="src\generation\Generate.hpp">
-      <Filter>Protoypes\generation</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Generate.h">
       <Filter>Protoypes\generation</Filter>
     </ClInclude>
     <ClInclude Include="src\3Dproj\Player.h">

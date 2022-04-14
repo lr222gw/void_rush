@@ -348,16 +348,12 @@
     <ClInclude Include="src\3Dproj\Player.h" />
     <ClInclude Include="src\common\Helper.hpp" />
     <ClInclude Include="src\common\Vector.hpp" />
-    <ClInclude Include="src\Generate.h" />
     <ClInclude Include="src\generation\Generate.hpp" />
     <ClInclude Include="src\generation\Platform.hpp" />
     <ClInclude Include="src\generation\playerGen.hpp" />
     <ClInclude Include="src\generation\proto.hpp" />
     <ClInclude Include="src\physics\Jump.hpp" />
     <ClInclude Include="src\physics\proto.hpp" />
-    <ClInclude Include="src\Platform.h" />
-    <ClInclude Include="src\playerGen.h" />
-    <ClInclude Include="src\Vector.hpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src/3Dproj/BillBoardUpdate.hlsl">

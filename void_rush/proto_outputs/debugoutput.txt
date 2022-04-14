@@ -1,0 +1,85 @@
+Platform generation test
+ Input seed: 132
+0 platform.
+XPos: 0 YPos: 0 ZPos: 0
+Rotation: 0
+0 Distance to next 18.9863
+1 platform.
+XPos: 15.7583 YPos: 3.16447 ZPos: -10.1064
+Rotation: 15.1039
+1 Distance to next 10.4052
+2 platform.
+XPos: 17.7058 YPos: 13.0496 ZPos: -7.50611
+Rotation: 2.15064
+2 Distance to next 13.8069
+3 platform.
+XPos: 30.4254 YPos: 13.3676 ZPos: -12.8671
+Rotation: 19.1607
+3 Distance to next 11.5595
+4 platform.
+XPos: 40.322 YPos: 18.6516 ZPos: -10.0819
+Rotation: 9.23704
+4 Distance to next 16.3615
+5 platform.
+XPos: 40.3764 YPos: 33.9223 ZPos: -15.9556
+Rotation: 35.1216
+5 Distance to next 11.1319
+6 platform.
+XPos: 50.0463 YPos: 39.0998 ZPos: -14.0568
+Rotation: 78.7881
+6 Distance to next 11.7086
+7 platform.
+XPos: 52.9988 YPos: 50.4297 ZPos: -14.157
+Rotation: 39.6179
+7 Distance to next 15.4812
+8 platform.
+XPos: 66.2127 YPos: 58.0225 ZPos: -16.8789
+Rotation: 19.5425
+8 Distance to next 16.4797
+9 platform.
+XPos: 78.0179 YPos: 65.787 ZPos: -25.3601
+Rotation: 10.7038
+9 Distance to next 13.9117
+10 platform.
+XPos: 85.1307 YPos: 73.2162 ZPos: -34.7276
+Rotation: 53.994
+10 Distance to next 10.6228
+11 platform.
+XPos: 86.8091 YPos: 82.0671 ZPos: -29.0983
+Rotation: 17.9604
+11 Distance to next 20.8343
+12 platform.
+XPos: 94.9383 YPos: 96.6107 ZPos: -41.607
+Rotation: 28.4719
+12 Distance to next 11.9569
+13 platform.
+XPos: 98.6156 YPos: 107.683 ZPos: -44.2236
+Rotation: 53.7413
+13 Distance to next 15.6234
+14 platform.
+XPos: 104.404 YPos: 107.864 ZPos: -29.713
+Rotation: 59.3088
+14 Distance to next 15.3482
+15 platform.
+XPos: 110.427 YPos: 108.812 ZPos: -15.6279
+Rotation: 30.6198
+15 Distance to next 15.2286
+16 platform.
+XPos: 115.651 YPos: 117.839 ZPos: -4.53166
+Rotation: 1.40629
+16 Distance to next 20.3191
+17 platform.
+XPos: 132.71 YPos: 118.733 ZPos: -15.534
+Rotation: 11.7722
+17 Distance to next 16.3479
+18 platform.
+XPos: 137.422 YPos: 119.805 ZPos: 0.0833521
+Rotation: 70.3915
+18 Distance to next 9.94056
+19 platform.
+XPos: 146.806 YPos: 122.921 ZPos: 1.11205
+Rotation: 58.9792
+19 Distance to next 12.034
+20 platform.
+XPos: 154.723 YPos: 127.713 ZPos: 8.80454
+Rotation: 72.8169

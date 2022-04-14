@@ -6,17 +6,27 @@
 
 void generation_proto ()
 {
+    
+    int seed = time(0);
+    std::ifstream seed_file("void_rush/proto_outputs/seed.txt");
+    std::string tempStr;
+    //getline(seed_file, tempStr);
+    seed_file >> tempStr;
+    seed = std::atoi(tempStr.c_str());
+    seed_file.close();
+    std::ofstream output_stream ("void_rush/proto_outputs/debugoutput.txt");
+    
 
-    int seed = time (0);
-    std::cout << "Platform generation test\n Input seed: ";
-    std::cin >> seed;
+    
+    output_stream << "Platform generation test\n Input seed: " << seed << std::endl;
+    
     player *pl = new player ();
     generation levelGen (seed, 20);
     levelGen.assignPlayer (pl);
     levelGen.start (1);
     std::vector<platform *> platforms = levelGen.getPlatforms ();
 
-    std::ofstream out ("proto_outputs/graph.dot");
+    std::ofstream out ("void_rush/proto_outputs/graph.dot");
     out << "digraph {\n";
     int scale = 20;
 
@@ -27,13 +37,13 @@ void generation_proto ()
     {
         auto d = Vector3 (1.f, 2.f, 3.f);
         p.distance (d);
-        std::cout << i << " platform.\nXPos: " << platforms[i]->getPos ().x
+        output_stream << i << " platform.\nXPos: " << platforms[i]->getPos ().x
                   << " YPos: " << platforms[i]->getPos ().y
                   << " ZPos: " << platforms[i]->getPos ().z << "\n"
                   << "Rotation: " << platforms[i]->getRotation () << "\n";
         if (i != platforms.size () - 1)
         {
-            std::cout << i << " Distance to next "
+            output_stream << i << " Distance to next "
                       << platforms[i]->distance (platforms[i]->next->getPos ())
                       << std::endl;
         }
@@ -70,6 +80,7 @@ void generation_proto ()
     out << "}\n";
 
     out.close ();
+    output_stream.close();
 
     delete pl;
 }
