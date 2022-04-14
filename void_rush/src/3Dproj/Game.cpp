@@ -451,6 +451,7 @@ void Game::interactTest(std::vector<GameObject*>& interactables)
 				if (mouse->IsLeftDown()) {
 					std::cout << "Interact!\n";
 					interactables[i]->Use();
+					interactables[i]->addScale(vec3(0.1f,0.1f,0.1f));
 				}
 				else {
 					std::cout << "Can inetarct!\n";
@@ -460,6 +461,7 @@ void Game::interactTest(std::vector<GameObject*>& interactables)
 				if (mouse->isRightDown()) {
 					std::cout << "Un-interact!\n";
 					interactables[i]->Use();
+					interactables[i]->addScale(vec3(-0.1f, -0.1f, -0.1f));
 				}
 				else {
 					std::cout << "Can un-inetarct!\n";
