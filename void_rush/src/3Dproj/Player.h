@@ -12,6 +12,7 @@ public:
 	void handleEvents(float dt);
 	void rotateWithMouse(int x, int y);
 	void addRot(vec3 rot);
+	void setGrounded();
 	GameObject*& getPlayerObjPointer();
 private:
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
@@ -28,5 +29,4 @@ private:
 	Keyboard* keyboard;
 	Camera* cam;
 	GameObject* GOPTR;//GameObjectPlayerPointer
-	float speed;
 };

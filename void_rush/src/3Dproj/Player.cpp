@@ -14,6 +14,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->grounded = true;
 	GOPTR = static_cast<GameObject*>(this);
 	setWeight(20);
+	setBoundingBox(DirectX::XMFLOAT3(getPos().x, getPos().y, getPos().z), DirectX::XMFLOAT3(1.f, 2.f, 1.f));
 }
 
 Player::~Player()
@@ -35,6 +36,7 @@ void Player::update(float dt)
 		velocity = velocity + acceleration * dt;
 	}
 	this->movePos(vec3(0, this->velocity.y * dt, 0));
+	
 	cam->setRotation(this->getRot());
 	cam->setPosition(this->getPos());
 }
@@ -109,6 +111,14 @@ void Player::addRot(vec3 rot)
 	if (this->getRot().y + rot.y < -1.5 || this->getRot().y + rot.y > 1.57f)
 		rot.y = 0;
 	object::addRot(rot);
+}
+
+void Player::setGrounded()
+{
+	if (!grounded)
+	{
+		this->grounded = true;
+	}
 }
 
 GameObject*& Player::getPlayerObjPointer()

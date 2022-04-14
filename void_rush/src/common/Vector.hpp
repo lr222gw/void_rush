@@ -88,9 +88,6 @@ struct Vector3
     float magnitude ()const { return sqrtf (x * x + y * y); }
     static float magnitude(Vector2 vec){return sqrtf(vec.x*vec.x + vec.y*vec.y); }
     float length ()const { return sqrtf (x * x + y * y + z * z); }
-    float magnitude ()const { return sqrtf (x * x + y * y); }
-    static float magnitude(Vector2 vec){return sqrtf(vec.x*vec.x + vec.y*vec.y); }
-    float length ()const { return sqrtf (x * x + y * y + z * z); }
     static float lenght(Vector3 vec){return sqrtf(vec.x*vec.x + vec.y*vec.y +vec.z*vec.z); }
 
 

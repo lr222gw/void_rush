@@ -214,6 +214,8 @@ void Game::Update()
 	/*Collision checking*/
 	collisionWithBlocking(player->getPlayerObjPointer(), obj[2]);
 	collisionWithBlocking(player->getPlayerObjPointer(), obj[0]);
+	if (collision3D(this->player->getDirectXBoundingBoxFromModel(), obj[2]->))
+		player->setGrounded();
 
 	/*update vertex*/
 	updateShaders();
