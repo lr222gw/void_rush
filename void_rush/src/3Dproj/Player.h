@@ -13,9 +13,17 @@ public:
 	void rotateWithMouse(int x, int y);
 private:
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
+	float speed;
+	float jumpSpeed;
 	vec3 velocity;
+	vec3 acceleration;
+	vec3 resForce;
+	vec3 gravity;
+	float mass;
+	bool grounded;
+
 	Mouse* mouse;
 	Keyboard* keyboard;
 	Camera* cam;
-	float speed;
+	
 };

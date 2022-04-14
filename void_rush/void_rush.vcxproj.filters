@@ -303,6 +303,9 @@
     <ClCompile Include="src\3Dproj\Player.cpp">
       <Filter>3D_Renderer\Source Files\Game\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="src\common\Vector.cpp">
+      <Filter>Protoypes\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -471,9 +474,6 @@
       <Filter>3D_Renderer\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\common\Vector.hpp">
-      <Filter>Protoypes\common</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vector.hpp">
       <Filter>Protoypes\common</Filter>
     </ClInclude>
     <ClInclude Include="src\physics\proto.hpp">

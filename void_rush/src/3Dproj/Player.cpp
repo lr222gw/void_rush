@@ -6,7 +6,12 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->mouse = mouse;
 	this->keyboard = keyboard;
 	this->cam = cam;
-	speed = 12;
+	this->gravity = vec3(0.0f, -9.82f, 0.0f);
+	this->speed = 5.f;
+	this->jumpSpeed = 1.f;
+	this->velocity = vec3(0.0f, 0.0f, 0.0f);
+	this->mass = 1.f;
+	this->grounded = true;
 }
 
 Player::~Player()
@@ -16,6 +21,17 @@ Player::~Player()
 void Player::update(float dt)
 {
 	handleEvents(dt);
+	if (!grounded)
+	{
+		// Update forces
+		resForce = gravity * mass;
+
+		// Update acceleration
+		acceleration = resForce / mass;
+		// Update velocity
+		velocity = velocity + acceleration * dt;
+	}
+	this->movePos(vec3(0, this->velocity.y * dt, 0));
 	cam->setRotation(this->getRot());
 	cam->setPosition(this->getPos());
 }
@@ -56,12 +72,22 @@ void Player::handleEvents(float dt)
 		Translate(dt, translation);
 	}
 	if (keyboard->isKeyPressed(VK_SPACE)) {
-		this->movePos(vec3(0, speed * dt, 0));
+		if (grounded) {
+			grounded = false;
+		}
+		if (velocity.y > 0)
+		{
+			velocity.y += jumpSpeed;
+		}
+		else
+		{
+			velocity = vec3(velocity.x, jumpSpeed, velocity.z);
+		}
+		//this->movePos(vec3(0, this->velocity.y * dt, 0));
 	}
 	if (keyboard->isKeyPressed(VK_CONTROL)) {
 		this->movePos(vec3(0, -speed * dt, 0));
 	}
-
 
 }
 

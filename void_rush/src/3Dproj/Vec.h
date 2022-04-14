@@ -63,6 +63,7 @@ struct vec3 {
 	vec3 mul(float other);
 	vec3 mul(vec3 other);
 	vec3 operator/(vec3 other);
+	vec3 operator/(float other);
 	vec3 operator+(vec3 other);
 	vec3 operator-(vec3 other);
 	//0 = x, 1 = y, 2 = z
