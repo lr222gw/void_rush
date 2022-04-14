@@ -15,7 +15,9 @@ private:
 public:
     HiddenPuzzle(const Vector3& position, int seed, int width, int length);
 
-    void Interaction(int choice) override;
+    void Interaction(vec3 playerPos) override;
 
-    void InitiatePuzzle() override;
+    void InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm) override;
+
+    void Update(Graphics*& gfx) override;
 };

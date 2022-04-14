@@ -10,8 +10,25 @@ std::string MathPuzzle::GetComponents() const
     return std::to_string(components[0]) + " " + arithmetic + " " + std::to_string(components[1]) + " = " + std::to_string(components[2]) + "\nThese are your choices: " + std::to_string(choices[0]) + " " + std::to_string(choices[1]) + " " + std::to_string(choices[2]);
 }
 
-void MathPuzzle::Interaction(int choice)
+void MathPuzzle::Interaction(vec3 playerPos)
 {
+    int choice = 99;
+    if ((puzzleObjects[0]->getPos() - playerPos).length() < 10.0f)
+    {
+        choice = 0;
+        std::cout << "Is in range A" << std::endl;
+    }
+    if ((puzzleObjects[1]->getPos() - playerPos).length() < 10.0f)
+    {
+        choice = 1;
+        std::cout << "Is in range B" << std::endl;
+    }
+    if ((puzzleObjects[2]->getPos() - playerPos).length() < 10.0f)
+    {
+        choice = 2;
+        std::cout << "Is in range C" << std::endl;
+    }
+
     if (choices[choice] == components[2])
     {
         //Puzzle::SpawnDoor();
@@ -23,7 +40,7 @@ void MathPuzzle::Interaction(int choice)
     }
 }
 
-void MathPuzzle::InitiatePuzzle()
+void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm)
 {
     int typeOfQuestion = (int)rand() % 4 + 1;
 
@@ -112,5 +129,21 @@ void MathPuzzle::InitiatePuzzle()
             }
             break;
         }
+    }
+
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(-15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(0.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+}
+
+void MathPuzzle::Update(Graphics*& gfx)
+{
+    for (int i = 0; i < puzzleObjects.size(); i++) {
+
+        puzzleObjects[i]->updateMatrix();
+        puzzleObjects[i]->update();
+        puzzleObjects[i]->updateVertexShader(gfx);
+        puzzleObjects[i]->updatePixelShader(gfx);
+        puzzleObjects[i]->draw(gfx);
     }
 }

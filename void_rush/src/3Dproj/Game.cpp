@@ -17,6 +17,9 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	//Resource manager
 	rm = new ResourceManager(gfx);
 	
+	testPuzzle = new ProtoPuzzle(gfx, rm);
+	testPuzzle->Initiate();
+
 	generationManager = new Generation_manager(gfx,rm);
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 
@@ -105,6 +108,7 @@ Game::~Game()
 	}
 	delete Space;
 	delete player;
+	delete testPuzzle;
 	delete generationManager;
 }
 
@@ -227,24 +231,8 @@ void Game::Update()
 	
 	if (mouse->IsLeftDown() && testTime <= 0.0f)
 	{
-		if ((obj[4]->getPos() - obj[0]->getPos()).length() < 10.0f)
-		{
-			testTime = 1.0f;
-			std::cout << "Is in range A" << std::endl;
-			testPuzzle.Interact(0);
-		}
-		if ((obj[5]->getPos() - obj[0]->getPos()).length() < 10.0f)
-		{
-			testTime = 1.0f;
-			std::cout << "Is in range B" << std::endl;
-			testPuzzle.Interact(1);
-		}
-		if ((obj[6]->getPos() - obj[0]->getPos()).length() < 10.0f)
-		{
-			testTime = 1.0f;
-			std::cout << "Is in range C" << std::endl;
-			testPuzzle.Interact(2);
-		}
+		testTime = 1.0f;
+		testPuzzle->Interact(obj[0]->getPos());
 	}
 
 	/*Collision checking*/
@@ -309,6 +297,7 @@ void Game::DrawToBuffer()
 	for (int i = 0; i < obj.size(); i++) {
 		obj[i]->draw(gfx);
 	}
+	testPuzzle->Update(); //Take this away later
 	player->draw(gfx);
 	generationManager->draw(); //Todo: ask Simon where to put this...
 
@@ -394,8 +383,13 @@ void Game::setUpObject()
 	obj.push_back(new GameObject(rm->get_Models("Camera.obj", gfx), gfx, vec3(50.f, 0.f, 0.f), vec3(-1.58f, 0.f, 0.f), vec3(2.f, 2.0f, 2.0f)));//second
 	////
 	//////OBJECTS
-	obj.push_back(new GameObject(rm->get_Models("quad2.obj", gfx), gfx, vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100))); //Marken
-	//obj.push_back(new GameObject(rm->get_Models("nanosuit.obj", gfx), gfx, vec3(-5.f, 0.f, 0.f), vec3(0.f, 0.f, 0.f), vec3(1.f, 1.f, 1.f)));
+	obj.push_back(new GameObject(rm->get_Models("quad2.obj", gfx), gfx, vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100)));
+
+	obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
+	//obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(-15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+	//obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(0.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+	//obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+
 	
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);
 }
