@@ -7,4 +7,5 @@
 bool CanInteract (Vector3 camPos, Vector3 camDir, Vector3 itemPos,
                   float itemRad = 10.0f, float maxDistance = 10.0f);
 
+
 void TestIntersection();

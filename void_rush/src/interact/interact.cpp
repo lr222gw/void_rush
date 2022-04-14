@@ -1,4 +1,5 @@
 #include "interact.hpp"
+
 bool CanInteract (Vector3 camPos, Vector3 camDir, Vector3 itemPos,
                   float itemRad, float maxDistance)
 {
@@ -43,19 +44,14 @@ bool CanInteract (Vector3 camPos, Vector3 camDir, Vector3 itemPos,
     }
 
     return true;
-
-
-
-
-
 }
 
 void TestIntersection(){
-    Vector3 camPos = Vector3(0.0f, 0.0f, 0.0f);
-    Vector3 camDir = Vector3(0.15f, 1.0f, 0.0f);
+    Vector3 camPos = Vector3(0.0f, 6.0f, -10.0f);
+    Vector3 camDir = Vector3(0.0f, 0.0f, 1.0f);
     Vector3 itemPos = Vector3(0.0f, 6.0f, 0.0f);
     float itemRad = 1.0f;
-    float maxDistance = 100.0f;
+    float maxDistance = 10.0f;
 
     if(CanInteract(camPos,  camDir,  itemPos, itemRad, maxDistance)){
         std::cout<<"Intersect!.\n";
