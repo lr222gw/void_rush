@@ -19,4 +19,13 @@ private:
 	Keyboard* keyboard;
 	Camera* cam;
 	float speed;
+
+	/*New*/
+	int health;
+	bool alive;
+public:
+	void TakeDmg(int dmg = 1);
+	void AddHealth(int hlt = 1);
+	int GetHealth();
+	bool IsAlive();
 };

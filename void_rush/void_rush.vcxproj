@@ -281,12 +281,25 @@
     <ClCompile Include="src\3Dproj\Collision3D.cpp" />
     <ClCompile Include="src\3Dproj\Player.cpp" />
     <ClCompile Include="src\common\Helper.cpp" />
-    <ClCompile Include="src\generation\Generate.cpp" />
-    <ClCompile Include="src\generation\Platform.cpp" />
-    <ClCompile Include="src\generation\playerGen.cpp" />
+    <ClCompile Include="src\common\Vector.cpp" />
+    <ClCompile Include="src\generation\Generate.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\generation\Platform.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\generation\playerGen.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\interact\interact.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\physics\jump.cpp" />
-    <ClCompile Include="src\physics\proto.cpp" />
+    <ClCompile Include="src\physics\jump.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\physics\proto.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/AnimationModel.h" />
@@ -348,16 +361,35 @@
     <ClInclude Include="src\3Dproj\Player.h" />
     <ClInclude Include="src\common\Helper.hpp" />
     <ClInclude Include="src\common\Vector.hpp" />
-    <ClInclude Include="src\Generate.h" />
-    <ClInclude Include="src\generation\Generate.hpp" />
-    <ClInclude Include="src\generation\Platform.hpp" />
-    <ClInclude Include="src\generation\playerGen.hpp" />
-    <ClInclude Include="src\generation\proto.hpp" />
-    <ClInclude Include="src\physics\Jump.hpp" />
-    <ClInclude Include="src\physics\proto.hpp" />
-    <ClInclude Include="src\Platform.h" />
-    <ClInclude Include="src\playerGen.h" />
-    <ClInclude Include="src\Vector.hpp" />
+    <ClInclude Include="src\Generate.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="src\generation\Generate.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="src\generation\Platform.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="src\generation\playerGen.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="src\generation\proto.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="src\interact\interact.hpp" />
+    <ClInclude Include="src\physics\Jump.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="src\physics\proto.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="src\Platform.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="src\playerGen.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src/3Dproj/BillBoardUpdate.hlsl">

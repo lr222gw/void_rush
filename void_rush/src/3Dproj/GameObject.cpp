@@ -10,6 +10,9 @@ GameObject::GameObject(ModelObj*file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 s
 	object::setModel(model);
 	drawed = false;
 	this->setHeightWidthDepth();
+
+	/*Interact*/
+	used = false;
 }
 
 GameObject::~GameObject()
