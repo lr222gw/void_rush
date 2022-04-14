@@ -24,7 +24,7 @@ void physics_proto ()
 
     Vector2 startPos;
     Vector2 pos;
-    float h;
+    float h; //Not used?
     std::string content;
 
     std::ofstream csv_file ("../proto_outputs/whatever.csv");
@@ -57,10 +57,10 @@ void physics_proto ()
         // pos = v*t;
 
         // Förslag Kaströrelse:
-        float angle = 3.14 / 6;
-        pos.x = v0.x * cos (deg_to_rad (30.0f)) * t;
+        float angle = 3.14f / 6.0f;
+        pos.x = v0.x * cos (deg_to_rad (30.0f)) * (float)t;
         pos.y
-            = (v0.y * sin (deg_to_rad (30.0f))) * t - (9.82 * pow (t, 2)) / 2;
+            = (v0.y * sinf (deg_to_rad (30.0f))) * (float)t - (9.82f * powf ((float)t, 2.0f)) / 2.0f;
 
         std::cout << "X:" << pos.x << " Y:" << pos.y << "\n";
 

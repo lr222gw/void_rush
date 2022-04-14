@@ -24,6 +24,8 @@
 #include "Collision3D.h"
 #include "Player.h"
 
+#include "puzzle/protoPuzzle.hpp"
+
 //git
 class Game {
 public:
@@ -35,6 +37,8 @@ public:
 	void DrawAllShadowObject();//without any otherShaders
 	void updateShaders(bool vs = true, bool ps = true);
 private:
+	float testTime = 0.0f;
+	ProtoPuzzle testPuzzle;
 	MSG msg = {};
 	Graphics *gfx;
 	ResourceManager* rm;

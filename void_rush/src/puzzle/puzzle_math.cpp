@@ -10,16 +10,17 @@ std::string MathPuzzle::GetComponents() const
     return std::to_string(components[0]) + " " + arithmetic + " " + std::to_string(components[1]) + " = " + std::to_string(components[2]) + "\nThese are your choices: " + std::to_string(choices[0]) + " " + std::to_string(choices[1]) + " " + std::to_string(choices[2]);
 }
 
-void MathPuzzle::Interaction()
+void MathPuzzle::Interaction(int choice)
 {
-    //Check if cooldown is gone for selecting an answer
-
-    //Add interaction logic such as if left click is pressed while the player is close enough and looking at a hitbox of one of the answers.
-
-    //If correct answer then:
-    Puzzle::SpawnDoor(); 
-
-    //Else punish the player by setting the cooldown they need to wait to x amount of seconds.
+    if (choices[choice] == components[2])
+    {
+        //Puzzle::SpawnDoor();
+        std::cout << "Correct choice!" << std::endl;
+    }
+    else
+    {
+        std::cout << "Wrong choice! You suck! >:(" << std::endl;
+    }
 }
 
 void MathPuzzle::InitiatePuzzle()

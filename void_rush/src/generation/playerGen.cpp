@@ -15,7 +15,7 @@ void player::moveto (const Vector3 &pos)
 float player::getJumpDistance ()
 {
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
-    float t = (vel * sin (this->launchangle)
+    float t = (vel * sinf (this->launchangle)
                + sqrtf (powf (vel * sinf (this->launchangle), 2.0f)
                         + 2 * this->gravity * this->pos.z))
               / this->gravity;
@@ -26,7 +26,7 @@ float player::getJumpDistance ()
 float player::getJumpDistance (float height)
 {
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
-    float t = (vel * sin (this->launchangle)
+    float t = (vel * sinf (this->launchangle)
                + sqrtf (powf (vel * sinf (this->launchangle), 2.0f)
                         + 2 * this->gravity * (this->pos.z - height)))
               / this->gravity;
@@ -38,7 +38,7 @@ float player::jumpHeight ()
 {
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
     return this->pos.z
-           + (powf (vel, 2.0f) * powf (sin (this->launchangle), 2.0f)
+           + (powf (vel, 2.0f) * powf (sinf (this->launchangle), 2.0f)
               / (2 * this->gravity));
 }
 
@@ -68,6 +68,6 @@ bool player::isJumpPossible (Vector3 position)
 
 float player::distance (Vector3 &position)
 {
-    return sqrtf (pow (this->pos.x - position.x, 2.0)
-                  + pow (this->pos.y - position.y, 2.0));
+    return sqrtf (powf (this->pos.x - position.x, 2.0)
+                  + powf (this->pos.y - position.y, 2.0));
 }

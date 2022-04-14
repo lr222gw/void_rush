@@ -16,7 +16,7 @@ public:
 
     std::string GetComponents() const;
 
-    void Interaction() override;
+    void Interaction(int choice) override;
 
     void InitiatePuzzle() override;
 };

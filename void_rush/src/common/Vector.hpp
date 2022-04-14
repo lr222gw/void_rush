@@ -85,8 +85,8 @@ struct Vector2
     Vector2 operator* (const double &other)
     {
         Vector2 ret;
-        ret.x = this->x * other;
-        ret.y = this->y * other;
+        ret.x = this->x * (float)other;
+        ret.y = this->y * (float)other;
 
         return ret;
     }

@@ -40,14 +40,14 @@ Vector3 platform::getPos () { return this->pos; }
 
 float platform::distance (Vector3 position)
 {
-    return sqrtf (pow (this->pos.x - position.x, 2)
-                  + pow (this->pos.y - position.y, 2)
-                  + pow (this->pos.z - position.z, 2));
+    return sqrtf (powf (this->pos.x - position.x, 2)
+                  + powf (this->pos.y - position.y, 2)
+                  + powf (this->pos.z - position.z, 2));
 }
 
 float platform::distance (std::vector<float> &position)
 {
-    return sqrtf (pow (this->pos.x - position[0], 2.0)
-                  + pow (this->pos.y - position[1], 2.0)
-                  + pow (this->pos.z - position[2], 2.0));
+    return sqrtf (powf (this->pos.x - position[0], 2.0)
+                  + powf (this->pos.y - position[1], 2.0)
+                  + powf (this->pos.z - position[2], 2.0));
 }

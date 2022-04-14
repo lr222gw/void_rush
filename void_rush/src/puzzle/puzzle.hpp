@@ -4,6 +4,8 @@
 #include "../common/Vector.hpp"
 #include <random>
 #include <string>
+#include <iostream>
+#include "3Dproj/GameObject.h"
 
 class Puzzle
 {
@@ -33,7 +35,7 @@ public:
 
     void SpawnDoor();
 
-    virtual void Interaction() = 0;
+    virtual void Interaction(int choice) = 0;
 
     //Pick the correct type of puzzle and initiate it.
     virtual void InitiatePuzzle() = 0;
