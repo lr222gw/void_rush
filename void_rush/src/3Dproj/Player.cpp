@@ -12,6 +12,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
 	this->mass = 1.f;
 	this->grounded = true;
+	this->groundedTimer = 0.0f;
 	GOPTR = static_cast<GameObject*>(this);
 	setWeight(20);
 	setBoundingBox(DirectX::XMFLOAT3(getPos().x, getPos().y, getPos().z), DirectX::XMFLOAT3(1.f, 2.f, 1.f));
@@ -25,6 +26,7 @@ void Player::update(float dt)
 {
 	handleEvents(dt);
 	cam->setRotation(vec3(this->getRot().y, -this->getRot().x, this->getRot().z));
+	
 	if (!grounded)
 	{
 		// Update forces
@@ -35,8 +37,12 @@ void Player::update(float dt)
 		// Update velocity
 		velocity = velocity + acceleration * dt;
 	}
+	if (this->groundedTimer != 0.0f)
+	{
+		this->groundedTimer += dt;
+	}
 	this->movePos(vec3(0, this->velocity.y * dt, 0));
-	
+	std::cout << this->acceleration.y << std::endl;
 	cam->setRotation(this->getRot());
 	cam->setPosition(this->getPos());
 }
@@ -79,6 +85,7 @@ void Player::handleEvents(float dt)
 	if (keyboard->isKeyPressed(VK_SPACE)) {
 		if (grounded) {
 			grounded = false;
+			groundedTimer = 0.001f;
 		}
 		if (velocity.y > 0)
 		{
@@ -118,7 +125,16 @@ void Player::setGrounded()
 	if (!grounded)
 	{
 		this->grounded = true;
+		this->velocity.y = 0.0f;
+		this->acceleration.y = 0.0f;
+		this->resForce.y = 0.0f;
+		this->groundedTimer = 0.0f;
 	}
+}
+
+float Player::getGroundedTimer()
+{
+	return this->groundedTimer;
 }
 
 GameObject*& Player::getPlayerObjPointer()

@@ -200,7 +200,7 @@ void Game::Update()
 	}
 	for (int i = 0; i < LightVisualizers.size(); i++) {
 		LightVisualizers[i]->setPos(light[i]->getPos());
-		LightVisualizers[i]->setRot(vec3(0 , light[i]->getRotation().x, -light[i]->getRotation().y) + vec3(0,1.57f,0));
+		LightVisualizers[i]->setRot(vec3(0, light[i]->getRotation().x, -light[i]->getRotation().y) + vec3(0, 1.57f, 0));
 	}
 	camera->calcFURVectors();
 	Space->update(camera->getPos());
@@ -215,8 +215,13 @@ void Game::Update()
 	collisionWithBlocking(player->getPlayerObjPointer(), obj[2]);
 	collisionWithBlocking(player->getPlayerObjPointer(), obj[0]);
 	if (collision3D(player->getPlayerObjPointer(), obj[2], true, false))
-		player->setGrounded();
-
+	{
+		if (player->getGroundedTimer() > 1.f)
+		{
+			player->setGrounded();
+		}
+		
+	}
 	/*update vertex*/
 	updateShaders();
 

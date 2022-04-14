@@ -6,6 +6,8 @@
 #include "rect.h"
 
 struct ColCube {
+	vec3 highPoint;
+	vec3 lowPoint;
 	ColCube(vec3 highPoint, vec3 lowPoint) {
 		this->highPoint = highPoint;
 		this->lowPoint = lowPoint;
@@ -21,8 +23,7 @@ struct ColCube {
 	ColCube() {
 
 	};
-	vec3 highPoint;
-	vec3 lowPoint;
+	
 };
 struct ColSphere {
 	ColSphere(vec3 position, float size) {

@@ -13,6 +13,7 @@ public:
 	void rotateWithMouse(int x, int y);
 	void addRot(vec3 rot);
 	void setGrounded();
+	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
 private:
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
@@ -24,6 +25,7 @@ private:
 	vec3 gravity;
 	float mass;
 	bool grounded;
+	float groundedTimer;
 
 	Mouse* mouse;
 	Keyboard* keyboard;
