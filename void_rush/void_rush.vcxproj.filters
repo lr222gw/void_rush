@@ -130,6 +130,9 @@
     <Filter Include="Void_Rush">
       <UniqueIdentifier>{c5764fac-6a41-4066-a666-e2126b7cb852}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Protoypes\puzzle">
+      <UniqueIdentifier>{ef73b50d-8505-4655-b39c-812321fbe6f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src/3Dproj/D311Helper.cpp">
@@ -302,6 +305,18 @@
     </ClCompile>
     <ClCompile Include="src\3Dproj\Player.cpp">
       <Filter>3D_Renderer\Source Files\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pussle\proto.cpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pussle\puzzle.cpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pussle\puzzle_hidden.cpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pussle\puzzle_math.cpp">
+      <Filter>Protoypes\puzzle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -511,6 +526,18 @@
     </ClInclude>
     <ClInclude Include="src\3Dproj\Collision3D.h">
       <Filter>3D_Renderer\Header Files\Fysik</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pussle\puzzle.hpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pussle\puzzle_hidden.hpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pussle\puzzle_math.hpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pussle\proto.hpp">
+      <Filter>Protoypes\puzzle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
