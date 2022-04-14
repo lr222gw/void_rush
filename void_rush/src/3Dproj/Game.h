@@ -43,7 +43,7 @@ private:
 	void Update();
 	const float PI = 3.14159265359f;
 
-	void interactTest();
+	void interactTest(std::vector<GameObject*>& interactables);
 private:
 	//logic and others
 	DeferredRendering *defRend;

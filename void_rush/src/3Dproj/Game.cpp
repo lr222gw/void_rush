@@ -259,7 +259,7 @@ void Game::Update()
 
 
 	/*Interaction testing*/
-	interactTest();
+	interactTest(obj);
 	
 }
 
@@ -418,7 +418,7 @@ void Game::setUpParticles()
 }
 
 /*Interaction Test*/
-void Game::interactTest()
+void Game::interactTest(std::vector<GameObject*>& interactables)
 {
 	DirectX::XMFLOAT4 bb[2];
 	float xSize;
@@ -426,9 +426,9 @@ void Game::interactTest()
 	float zSize;
 	float size;
 	DirectX::XMFLOAT3 objMidPos;
-	for (int i = 4; i < obj.size(); i++) {
-		
-		obj[i]->getBoundingBox(bb);
+	for (int i = 4; i < interactables.size(); i++) {
+
+		interactables[i]->getBoundingBox(bb);
 		xSize = fabs(bb[1].x - bb[0].x);
 		ySize = fabs(bb[1].y - bb[0].y);
 		zSize = fabs(bb[1].z - bb[0].z);
@@ -442,17 +442,31 @@ void Game::interactTest()
 			size = zSize;
 		}
 		objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
-		if (CanInteract(camera->getPos(), camera->getForwardVec(), objMidPos, size/2, 10.0f)) {
+		
+		if (CanInteract(camera->getPos(), camera->getForwardVec(), objMidPos, size / 2, 10.0f)) {
 			/*std::cout << "Interact! \nCampos: (" << camera->getPos().x << ", " << camera->getPos().y << ", " << camera->getPos().z << ")" <<
 				"\nCamVec: " << camera->getForwardVec().x << ", " << camera->getForwardVec().y << ", " << camera->getForwardVec().z << ")" <<
 				"\nObjPos: " << obj[3]->getPos().x << ", " << obj[3]->getPos().y << ", " << obj[3]->getPos().z << ")\n";*/
-			
-			if (mouse->IsLeftDown()) {
-				std::cout << "Interact!\n";
+			if (!interactables[i]->isUsed()) {
+				if (mouse->IsLeftDown()) {
+					std::cout << "Interact!\n";
+					interactables[i]->Use();
+				}
+				else {
+					std::cout << "Can inetarct!\n";
+				}
 			}
 			else {
-				std::cout << "Can inetarct!\n";
+				if (mouse->isRightDown()) {
+					std::cout << "Un-interact!\n";
+					interactables[i]->Use();
+				}
+				else {
+					std::cout << "Can un-inetarct!\n";
+				}
 			}
+			
 		}
+		
 	}
 }

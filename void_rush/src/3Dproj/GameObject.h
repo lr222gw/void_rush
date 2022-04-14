@@ -43,4 +43,11 @@ private:
 	DirectX::XMFLOAT3 BBsizes;
 	void setHeightWidthDepth();
 	vec3 WHD;
+
+	/*Interaction Start*/
+	bool used;
+public:
+	void Use();
+	bool isUsed();
+	/*Interaction End*/
 };

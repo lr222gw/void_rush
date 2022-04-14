@@ -141,9 +141,26 @@ void GameObject::setHeightWidthDepth()
 
 }
 
+
 void GameObject::Updateshaders(Graphics*& gfx, bool vertex)
 {
 	if (vertex) {
 		this->updateVertexShader(gfx);
 	}
+}
+
+/*Interaction*/
+void GameObject::Use()
+{
+	if (!used)
+		used = true;
+	else {
+		used = false;
+	}
+}
+
+
+bool GameObject::isUsed()
+{
+	return used;
 }
