@@ -133,6 +133,9 @@
     <Filter Include="Protoypes\ForSimon\Animation &amp; other">
       <UniqueIdentifier>{b8d70232-b13e-4fcb-a2c2-74dbee6f173a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Protoypes\puzzle">
+      <UniqueIdentifier>{ef73b50d-8505-4655-b39c-812321fbe6f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src/3Dproj/D311Helper.cpp">
@@ -311,6 +314,18 @@
     </ClCompile>
     <ClCompile Include="src\3Dproj\Player.cpp">
       <Filter>Void_Rush\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pussle\proto.cpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pussle\puzzle.cpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pussle\puzzle_hidden.cpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pussle\puzzle_math.cpp">
+      <Filter>Protoypes\puzzle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -511,6 +526,18 @@
     </ClInclude>
     <ClInclude Include="src\3Dproj\Player.h">
       <Filter>Void_Rush\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pussle\puzzle.hpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pussle\puzzle_hidden.hpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pussle\puzzle_math.hpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pussle\proto.hpp">
+      <Filter>Protoypes\puzzle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
