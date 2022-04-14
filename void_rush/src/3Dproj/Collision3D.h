@@ -44,6 +44,7 @@ void collisionWithBlocking(GameObject*& objectA, GameObject*& objectB);
 //two spheres
 bool collision3D(ColSphere objectA, ColSphere objectB);
 bool collision3D(ColSphere objectA, ColCube objectB);
+bool collision3D(DirectX::XMFLOAT4 objectA[], DirectX::XMFLOAT4 objectB[]);
 
 //sphere and a cube
 bool collision3D(ColCube objectA, ColCube objectB);
