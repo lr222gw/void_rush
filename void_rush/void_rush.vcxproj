@@ -281,6 +281,7 @@
     <ClCompile Include="src\3Dproj\Collision3D.cpp" />
     <ClCompile Include="src\3Dproj\Player.cpp" />
     <ClCompile Include="src\common\Helper.cpp" />
+    <ClCompile Include="src\common\Vector.cpp" />
     <ClCompile Include="src\generation\Generate.cpp" />
     <ClCompile Include="src\generation\Platform.cpp" />
     <ClCompile Include="src\generation\playerGen.cpp" />
@@ -357,7 +358,6 @@
     <ClInclude Include="src\physics\proto.hpp" />
     <ClInclude Include="src\Platform.h" />
     <ClInclude Include="src\playerGen.h" />
-    <ClInclude Include="src\Vector.hpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src/3Dproj/BillBoardUpdate.hlsl">

@@ -72,6 +72,11 @@ vec3 vec3::operator/(vec3 other)
 	return vec3(other.x / this->x, other.y / this->y, other.z / this->z);
 }
 
+vec3 vec3::operator/(float other)
+{
+	return vec3(this->x / other, this->y / other, this->z / other);
+}
+
 vec3 vec3::operator+(vec3 other)
 {
 	return vec3(this->x + other.x, this->y + other.y, this->z + other.z);
