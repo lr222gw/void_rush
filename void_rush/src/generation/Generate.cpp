@@ -27,6 +27,7 @@ bool generation::start (int selectedDiff)
     float stepMin = pl->getJumpDistance () / minStepMod * selectedDiff;
     float distance = 0.0f;
     float stepMaxZ = pl->jumpHeight ();
+    float rotation = 0.0f;
     platform *current = startPlat;
     platform *newPlat = nullptr;
     for (int i = 0; i < this->elements; i++)
@@ -48,13 +49,13 @@ bool generation::start (int selectedDiff)
 
         position.x += dVect.x;
         position.y += dVect.y;
-
+        rotation = randF(0, 90);
         // Get random value for Z that is within possible jump
 
         if (this->pl->isJumpPossible (position) && dVect.magnitude () > stepMin
             && dVect.magnitude () < stepMax)
         {
-            newPlat = new platform (position, 0, 1);
+            newPlat = new platform (position, 0, 1, rotation);
             pl->moveto (newPlat->getPos ());
             current->next = newPlat;
             this->anchors.push_back (current);

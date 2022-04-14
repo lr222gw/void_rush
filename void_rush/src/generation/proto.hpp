@@ -29,7 +29,8 @@ void generation_proto ()
         p.distance (d);
         std::cout << i << " platform.\nXPos: " << platforms[i]->getPos ().x
                   << " YPos: " << platforms[i]->getPos ().y
-                  << " ZPos: " << platforms[i]->getPos ().z << "\n";
+                  << " ZPos: " << platforms[i]->getPos ().z << "\n"
+                  << "Rotation: " << platforms[i]->getRotation () << "\n";
         if (i != platforms.size () - 1)
         {
             std::cout << i << " Distance to next "
