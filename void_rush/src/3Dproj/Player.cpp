@@ -7,6 +7,8 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->keyboard = keyboard;
 	this->cam = cam;
 	speed = 12;
+	GOPTR = static_cast<GameObject*>(this);
+	setWeight(20);
 }
 
 Player::~Player()
@@ -16,7 +18,7 @@ Player::~Player()
 void Player::update(float dt)
 {
 	handleEvents(dt);
-	cam->setRotation(this->getRot());
+	cam->setRotation(vec3(this->getRot().y, -this->getRot().x, this->getRot().z));
 	cam->setPosition(this->getPos());
 }
 
@@ -25,16 +27,16 @@ void Player::handleEvents(float dt)
 	//change these to use keyboard
 	if (!mouse->getMouseActive()) {
 		if (GetKeyState(VK_RIGHT) & 0x8000) {
-			this->addRot(vec3(mouse->getSense() * (float)dt, 0, 0));
-		}
-		if (GetKeyState(VK_LEFT) & 0x8000) {
-			this->addRot(vec3(-mouse->getSense() * (float)dt, 0, 0));
-		}
-		if (GetKeyState(VK_UP) & 0x8000) {
 			this->addRot(vec3(0, mouse->getSense() * (float)dt, 0));
 		}
-		if (GetKeyState(VK_DOWN) & 0x8000) {
+		if (GetKeyState(VK_LEFT) & 0x8000) {
 			this->addRot(vec3(0, -mouse->getSense() * (float)dt, 0));
+		}
+		if (GetKeyState(VK_UP) & 0x8000) {
+			this->addRot(vec3(-mouse->getSense() * (float)dt, 0, 0));
+		}
+		if (GetKeyState(VK_DOWN) & 0x8000) {
+			this->addRot(vec3(mouse->getSense() * (float)dt, 0, 0));
 		}
 	}
 	//change values here
@@ -68,8 +70,8 @@ void Player::handleEvents(float dt)
 void Player::rotateWithMouse(int x, int y)
 {
 	this->addRot(vec3(
-		static_cast<float>(x) * mouse->getSense() * 0.001, 
-		static_cast<float>(y) * mouse->getSense() * 0.001, 
+		static_cast<float>(y) * mouse->getSense() * 0.001,
+		static_cast<float>(x)* mouse->getSense() * 0.001,
 		0
 	));
 }
@@ -80,6 +82,11 @@ void Player::addRot(vec3 rot)
 	if (this->getRot().y + rot.y < -1.5 || this->getRot().y + rot.y > 1.57f)
 		rot.y = 0;
 	object::addRot(rot);
+}
+
+GameObject*& Player::getPlayerObjPointer()
+{
+	return GOPTR;
 }
 
 void Player::Translate(float dt, DirectX::XMFLOAT3 translate)

@@ -12,11 +12,13 @@ public:
 	void handleEvents(float dt);
 	void rotateWithMouse(int x, int y);
 	void addRot(vec3 rot);
+	GameObject*& getPlayerObjPointer();
 private:
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
 	vec3 velocity;
 	Mouse* mouse;
 	Keyboard* keyboard;
 	Camera* cam;
+	GameObject* GOPTR;//GameObjectPlayerPointer
 	float speed;
 };

@@ -10,6 +10,7 @@ GameObject::GameObject(ModelObj*file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 s
 	object::setModel(model);
 	drawed = false;
 	this->setHeightWidthDepth();
+	this->weight = 50.f;
 }
 
 GameObject::~GameObject()
@@ -81,6 +82,17 @@ void GameObject::getBoundingBox(DirectX::XMFLOAT4 theReturn[])
 	}
 }
 
+void GameObject::getBoundingBoxFromObject(DirectX::XMFLOAT4 theReturn[])
+{
+	theReturn[0].x = BBpos.x - BBsizes.x + this->getPos().x;
+	theReturn[0].y = BBpos.y - BBsizes.y + this->getPos().y;
+	theReturn[0].z = BBpos.z - BBsizes.z + this->getPos().z;
+
+	theReturn[1].x = BBpos.x + BBsizes.x + this->getPos().x;
+	theReturn[1].y = BBpos.y + BBsizes.y + this->getPos().y;
+	theReturn[1].z = BBpos.z + BBsizes.z + this->getPos().z;
+}
+
 DirectX::BoundingBox GameObject::getDirectXBoundingBoxFromModel()
 {
 	//rotations
@@ -99,14 +111,6 @@ DirectX::BoundingBox GameObject::getDirectXBoundingBoxFromModel()
 	return DirectX::BoundingBox(midpoint, sizes);
 }
 
-DirectX::BoundingBox GameObject::getDirectXBoundingBoxFromObject()
-{
-	DirectX::XMFLOAT3 newpos(this->BBpos.x + getPos().toXMFloat3().x, 
-		this->BBpos.y + getPos().toXMFloat3().y, 
-		this->BBpos.z + getPos().toXMFloat3().z);
-	return DirectX::BoundingBox(newpos, BBsizes);
-}
-
 void GameObject::setBoundingBox(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 sizes)
 {
 	this->BBpos = pos;
@@ -121,6 +125,16 @@ const bool GameObject::isDrawed()
 void GameObject::clearDrawed()
 {
 	this->drawed = false;
+}
+
+void GameObject::setWeight(float newWeight)
+{
+	this->weight = newWeight;
+}
+
+float GameObject::getWeight()
+{
+	return this->weight;
 }
 
 vec3 GameObject::getWidthHeightDepth()

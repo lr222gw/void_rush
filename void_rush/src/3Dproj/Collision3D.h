@@ -36,9 +36,9 @@ bool RayRect(vec3 &rayOrigin, vec3 rayDir, ColCube &cube, vec3 &cp, vec3 &cn, fl
 bool RectRect(GameObject*& objectA, ColCube& in, ColCube& target, vec3& cp, vec3& cn, float& contact_t, float elapsed_t);
 
 //only moves object A!!!
-void moveObject(GameObject*& objectA, GameObject*& objectB, ColCube colCubeA, ColCube colCubeB, float dt);
+void moveObject(GameObject*& objectA, GameObject*& objectB, ColCube colCubeA, ColCube colCubeB);
 //void collisionWithBlocking(GameObject*& objectA, GameObject*& objectB);
-void collisionWithBlocking(GameObject*& objectA, GameObject*& objectB, float dt);
+void collisionWithBlocking(GameObject*& objectA, GameObject*& objectB);
 
 
 //two spheres

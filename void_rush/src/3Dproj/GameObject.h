@@ -20,9 +20,10 @@ public:
 
 	//gives 2 points 0 = the lowest in x,y and z while 1 is the highest in x,y and zdimensions
 	void getBoundingBox(DirectX::XMFLOAT4 theReturn[]);
+	void getBoundingBoxFromObject(DirectX::XMFLOAT4 theReturn[]);
 
 	DirectX::BoundingBox getDirectXBoundingBoxFromModel();
-	DirectX::BoundingBox getDirectXBoundingBoxFromObject();
+	
 	void setBoundingBox(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 sizes);
 
 	//see if this object has beened drawned before(used for quad tree)
@@ -31,6 +32,8 @@ public:
 	//clear that the object has not been drawned before
 	void clearDrawed();
 
+	void setWeight(float newWeight);
+	float getWeight();
 
 	//DEBUG
 	vec3 getWidthHeightDepth();
@@ -43,4 +46,5 @@ private:
 	DirectX::XMFLOAT3 BBsizes;
 	void setHeightWidthDepth();
 	vec3 WHD;
+	float weight;//see what object should move in collision
 };

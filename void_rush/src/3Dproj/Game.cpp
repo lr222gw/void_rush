@@ -38,7 +38,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 		LightVisualizers.push_back(new GameObject(rm->get_Models("Camera.obj"), gfx, light[i]->getPos(), light[i]->getRotation(), vec3(1.f, 1.0f, 1.0f)));
 	}
 	
-	player = new Player(rm->get_Models("quadYoda.obj", gfx), gfx, camera, mouse, keyboard);
+	
 
 	setUpParticles();
 	UIManager.takeObject(obj[2]);
@@ -66,7 +66,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 		"assets/textures/Skybox/sky_stars_01rt.png",//right
 		"assets/textures/Skybox/sky_stars_01up.png",//up
 	};
-	Space = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, obj[0]->getPos(), skyboxTextures);
+	Space = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, player->getPos(), skyboxTextures);
 
 }
 
@@ -124,8 +124,7 @@ while (msg.message != WM_QUIT && gfx->getWindosClass().ProcessMessages())
 	while (!mouse->EventBufferEmpty() && mouse->getMouseActive()) {
 		mouseEvent e = mouse->ReadEvent();
 		if (e.getType() == mouseEvent::EventType::RAW_MOVE) {
-			player->rotateWithMouse(e.getPosX(), -e.getPosY());
-			//camera->rotateCameraMouse(vec3(e.getPosX(), e.getPosY(), 0), dt.dt());
+			player->rotateWithMouse(e.getPosX(), e.getPosY());
 		}
 		static int os = 0;
 		if (e.getType() == mouseEvent::EventType::LPress) {
@@ -194,9 +193,7 @@ void Game::Update()
 		YRotation(viewMatrix, obj[1]->getRot().y);
 		gfx->getVertexconstbuffer()->view.element = viewMatrix;
 	}
-	obj[3]->movePos(vec3(0, -10 * dt.dt(), 0));
-	obj[0]->setPos(camera->getPos());
-	obj[0]->setRot(vec3(0, camera->getRot().x, -camera->getRot().y)); //+ vec3(0, 1.57f, 0));
+	player->movePos(vec3(0, -12 * dt.dt(), 0));
 
 	for (int i = 0; i < billboardGroups.size(); i++) {
 		billboardGroups[i]->update((float)dt.dt(), gfx);
@@ -209,21 +206,14 @@ void Game::Update()
 	Space->update(camera->getPos());
 
 	/*update matrixes*/
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < obj.size(); i++) {
 		obj[i]->updateMatrix();
 	}
-	DirectX::XMFLOAT4 a[2];
-	DirectX::XMFLOAT4 b[2];
-	obj[3]->getBoundingBox(a);
-	obj[2]->getBoundingBox(b);
-	obj[5]->setPos(vec3(a[0]));
-	obj[6]->setPos(vec3(a[1]));
-	obj[7]->setPos(vec3(b[0]));
-	obj[8]->setPos(vec3(b[1]));
-
+	player->updateMatrix();
 
 	/*Collision checking*/
-	collisionWithBlocking(obj[3], obj[2], dt.dt());
+	collisionWithBlocking(player->getPlayerObjPointer(), obj[2]);
+	collisionWithBlocking(player->getPlayerObjPointer(), obj[0]);
 
 	/*update vertex*/
 	updateShaders();
@@ -231,7 +221,7 @@ void Game::Update()
 	/*update things*/
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 	gfx->Update((float)dt.dt(), camera->getPos());
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < obj.size(); i++) {
 		obj[i]->update();
 	}
 	player->update(dt.dt());
@@ -272,6 +262,8 @@ void Game::DrawToBuffer()
 	for (int i = 0; i < obj.size(); i++) {
 		obj[i]->draw(gfx);
 	}
+	player->draw(gfx);
+
     camera->calcFURVectors();
 	Qtree->draw(gfx, camera);
 	Qtree->clearAlrDraw();
@@ -329,6 +321,7 @@ void Game::updateShaders(bool vs, bool ps)
 			LightVisualizers[i]->updateVertexShader(gfx);
 		}
 		Space->updateVertexShader(gfx);
+		player->updateVertexShader(gfx);
 	}
 	if (ps) {
 		for (int i = 0; i < obj.size(); i++) {
@@ -341,6 +334,7 @@ void Game::updateShaders(bool vs, bool ps)
 			stataicObj[i]->updatePixelShader(gfx);
 		}
 		Space->updatePixelShader(gfx);
+		player->updatePixelShader(gfx);
 	}
 }
 
@@ -367,15 +361,7 @@ void Game::setUpObject()
 	//obj.push_back(new GameObject(rm->get_Models("Shield.obj", gfx), gfx, vec3(-1,-1,-1), vec3(0.f, 0.f, 0.f), vec3(0.5f, 0.5f, 0.5f)));
 	obj.push_back(new GameObject(rm->get_Models("quadYoda.obj", gfx), gfx, vec3(10,-1,-1), vec3(0.f, 0.f, 0.f), vec3(0.5f, 0.5f, 0.5f)));
 	
-
-	float gw = 10;
-	float gn = 8;
-	for (int x = 0; x < gn; x++) {
-		for (int y = 0; y < gn; y++) {
-			//stataicObj.push_back(new GameObject(rm->get_Models("quad2.obj", gfx), gfx, vec3(x*(gw*2) - ((gn)*gw), -4, y*(gw * 2) - ((gn)*gw)), vec3(0, 0, 1.57f), vec3(10, 10, 10)));
-			//stataicObj.push_back(new GameObject(rm->get_Models("nanosuit.obj", gfx), gfx, vec3(x*(gw*2) - ((gn)*gw), -4, y*(gw * 2) - ((gn)*gw)), vec3(0, 0, 1.57f), vec3(1, 1, 1)));
-		}
-	}
+	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);
 }
 
 void Game::setUpLights()
