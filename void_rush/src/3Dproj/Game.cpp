@@ -18,6 +18,9 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	//Resource manager
 	rm = new ResourceManager(gfx);
 	
+	generationManager = new Generation_manager(gfx,rm);
+	generationManager->initialize();
+
 	setUpLights();
 	
 	//shadow map needs to take more lights
@@ -102,6 +105,7 @@ Game::~Game()
 	}
 	delete Space;
 	delete player;
+	delete generationManager; //TODO: ask simon, this cause crash
 }
 
 
@@ -270,6 +274,7 @@ void Game::DrawToBuffer()
 		obj[i]->draw(gfx);
 	}
 	player->draw(gfx);
+	generationManager->update(); //Todo: ask Simon where to put this...
 
     camera->calcFURVectors();
 	Qtree->draw(gfx, camera);
@@ -363,6 +368,8 @@ void Game::setUpObject()
 	obj.push_back(new GameObject(rm->get_Models("DCube.obj", gfx), gfx, obj[0]->getPos(), vec3(0.f, 0.f, 0.f), vec3(0.5f, 0.5f, 0.5f)));
 	obj.push_back(new GameObject(rm->get_Models("DCube.obj", gfx), gfx, obj[0]->getPos(), vec3(0.f, 0.f, 0.f), vec3(0.5f, 0.5f, 0.5f)));
 	obj.push_back(new GameObject(rm->get_Models("fbxtest.fbx", gfx), gfx));
+
+	obj.push_back(new GameObject(rm->get_Models("platform.obj", gfx), gfx, vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
 
 	//does not exists
 	//obj.push_back(new GameObject(rm->get_Models("Shield.obj", gfx), gfx, vec3(-1,-1,-1), vec3(0.f, 0.f, 0.f), vec3(0.5f, 0.5f, 0.5f)));

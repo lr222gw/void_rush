@@ -4,7 +4,7 @@
 generation::generation (int seed, int elements)
     : seed (seed), elements (elements), pl (nullptr)
 {
-    this->startPlat = new platform (Vector3 (), 0, 0);
+    this->startPlat = new Platform (Vector3 (), 0, 0);
 }
 
 generation::~generation ()
@@ -28,8 +28,8 @@ bool generation::start (int selectedDiff)
     float distance = 0.0f;
     float stepMaxZ = pl->jumpHeight ();
     float rotation = 0.0f;
-    platform *current = startPlat;
-    platform *newPlat = nullptr;
+    Platform *current = startPlat;
+    Platform *newPlat = nullptr;
     for (int i = 0; i < this->elements; i++)
     {
         dVect.z = randF (-stepMaxZ, stepMaxZ);
@@ -55,7 +55,7 @@ bool generation::start (int selectedDiff)
         if (this->pl->isJumpPossible (position) && dVect.magnitude () > stepMin
             && dVect.magnitude () < stepMax)
         {
-            newPlat = new platform (position, 0, 1, rotation);
+            newPlat = new Platform (position, 0, 1, rotation);
             pl->moveto (newPlat->getPos ());
             current->next = newPlat;
             this->anchors.push_back (current);
@@ -72,7 +72,7 @@ bool generation::start (int selectedDiff)
     return true;
 }
 
-std::vector<platform *> generation::getPlatforms () { return this->anchors; }
+std::vector<Platform *> generation::getPlatforms () { return this->anchors; }
 
 void generation::assignPlayer (player *player) { this->pl = player; }
 

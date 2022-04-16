@@ -283,6 +283,7 @@
     <ClCompile Include="src\common\Helper.cpp" />
     <ClCompile Include="src\common\Vector.cpp" />
     <ClCompile Include="src\generation\Generate.cpp" />
+    <ClCompile Include="src\generation\Generation_manager.cpp" />
     <ClCompile Include="src\generation\Platform.cpp" />
     <ClCompile Include="src\generation\playerGen.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -350,6 +351,7 @@
     <ClInclude Include="src\common\Helper.hpp" />
     <ClInclude Include="src\common\Vector.hpp" />
     <ClInclude Include="src\generation\Generate.hpp" />
+    <ClInclude Include="src\generation\Generation_manager.h" />
     <ClInclude Include="src\generation\Platform.hpp" />
     <ClInclude Include="src\generation\playerGen.hpp" />
     <ClInclude Include="src\generation\proto.hpp" />

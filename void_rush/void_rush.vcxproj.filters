@@ -303,6 +303,9 @@
     <ClCompile Include="src\3Dproj\Player.cpp">
       <Filter>3D_Renderer\Source Files\Game\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="src\generation\Generation_manager.cpp">
+      <Filter>Protoypes\generation</Filter>
+    </ClCompile>
     <ClCompile Include="src\common\Vector.cpp">
       <Filter>Protoypes\common</Filter>
     </ClCompile>
@@ -502,6 +505,9 @@
     </ClInclude>
     <ClInclude Include="src\3Dproj\Collision3D.h">
       <Filter>3D_Renderer\Header Files\Fysik</Filter>
+    </ClInclude>
+    <ClInclude Include="src\generation\Generation_manager.h">
+      <Filter>Protoypes\generation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -24,7 +24,7 @@ void generation_proto ()
     generation levelGen (seed, 20);
     levelGen.assignPlayer (pl);
     levelGen.start (1);
-    std::vector<platform *> platforms = levelGen.getPlatforms ();
+    std::vector<Platform *> platforms = levelGen.getPlatforms ();
 
     std::ofstream out ("void_rush/proto_outputs/graph.dot");
     out << "digraph {\n";
