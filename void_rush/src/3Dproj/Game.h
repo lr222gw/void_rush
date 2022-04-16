@@ -23,7 +23,7 @@
 
 #include "Collision3D.h"
 #include "Player.h"
-
+#include "generation/Generation_manager.h"
 //git
 class Game {
 public:
@@ -53,6 +53,7 @@ private:
 	SoundManager soundManager;
 	SkyBox* Space;
 	Player* player;
+	Generation_manager* generationManager;
 	void setUpObject();
 	void setUpLights();
 	void setUpParticles();
