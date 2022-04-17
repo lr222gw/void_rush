@@ -105,7 +105,7 @@ Game::~Game()
 	}
 	delete Space;
 	delete player;
-	delete generationManager; //TODO: ask simon, this cause crash
+	delete generationManager;
 }
 
 
@@ -356,17 +356,12 @@ void Game::setUpObject()
 {
 	////////OBJECTS///////////
 	//cameras
-	obj.push_back(new GameObject(rm->get_Models("Camera.obj", gfx), gfx, vec3(0.f, 0.f, 10.f), vec3(0.f, 0.f, 0.f), vec3(5.f, 5.0f, 5.0f)));//main
+	obj.push_back(new GameObject(rm->get_Models("Camera.obj", gfx), gfx, vec3(0.f, 0.f, 10.f), vec3(0.f, 0.f, 0.f), vec3(1.f, 1.0f, 1.0f)));//main
 	obj.push_back(new GameObject(rm->get_Models("Camera.obj", gfx), gfx, vec3(50.f, 0.f, 0.f), vec3(-1.58f, 0.f, 0.f), vec3(2.f, 2.0f, 2.0f)));//second
 	////
 	//////OBJECTS
 	obj.push_back(new GameObject(rm->get_Models("quad2.obj", gfx), gfx, vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100))); //Marken
-	obj.push_back(new GameObject(rm->get_Models("nanosuit.obj", gfx), gfx, vec3(-5.f, 0.f, 0.f), vec3(0.f, 0.f, 0.f), vec3(1.f, 1.f, 1.f)));
-
-
-	//does not exists
-	//obj.push_back(new GameObject(rm->get_Models("Shield.obj", gfx), gfx, vec3(-1,-1,-1), vec3(0.f, 0.f, 0.f), vec3(0.5f, 0.5f, 0.5f)));
-	//obj.push_back(new GameObject(rm->get_Models("quadYoda.obj", gfx), gfx, vec3(10,-1,-1), vec3(0.f, 0.f, 0.f), vec3(0.5f, 0.5f, 0.5f)));
+	//obj.push_back(new GameObject(rm->get_Models("nanosuit.obj", gfx), gfx, vec3(-5.f, 0.f, 0.f), vec3(0.f, 0.f, 0.f), vec3(1.f, 1.f, 1.f)));
 	
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);
 }
