@@ -27,7 +27,7 @@ bool Position_generator::start (Difficulity selectedDiff)
 {
     srand (this->seed);
     Vector3 dVect = Vector3 ();
-    Vector3 position = this->startPlat->getPos ();
+    Vector3* position = this->startPlat->getPos ();
     float minStepMod = 2;
     float stepMax = pl->getJumpDistance ();
     float stepMin = pl->getJumpDistance () / minStepMod * (int)selectedDiff;
@@ -41,9 +41,9 @@ bool Position_generator::start (Difficulity selectedDiff)
         dVect.z = randF (-stepMaxZ, stepMaxZ);
         // dVect.z = (rand() % (2 * stepMax)) - stepMax - 1;
         dVect.z = fmin (dVect.z, stepMaxZ);
-        position.z += dVect.z;
+        position->z += dVect.z;
         // Using the height the new platform to determine max distance
-        stepMax = pl->getJumpDistance (position.z);
+        stepMax = pl->getJumpDistance (position->z);
         stepMin = stepMax / minStepMod * (int)selectedDiff;
         // Generating x and y pos
         dVect.x = randF (0, 1);
@@ -53,16 +53,16 @@ bool Position_generator::start (Difficulity selectedDiff)
         dVect.x *= distance;
         dVect.y *= distance;
 
-        position.x += dVect.x;
-        position.y += dVect.y;
+        position->x += dVect.x;
+        position->y += dVect.y;
         rotation = randF(0, 90);
         // Get random value for Z that is within possible jump
 
-        if (this->pl->isJumpPossible (position) && dVect.magnitude () > stepMin
+        if (this->pl->isJumpPossible (*position) && dVect.magnitude () > stepMin
             && dVect.magnitude () < stepMax)
         {
-            newPlat = new Platform (position, 0, 1, rotation);
-            pl->moveto (newPlat->getPos ());
+            newPlat = new Platform (*position, 0, 1, rotation);
+            pl->moveto (*newPlat->getPos ());
             current->next = newPlat;
             this->anchors.push_back (current);
             current = newPlat;
@@ -70,7 +70,7 @@ bool Position_generator::start (Difficulity selectedDiff)
         else
         {
             i -= 1;
-            position -= dVect;
+            *position -= dVect;
             std::cout << "Jump not possible\n";
         }
     }
@@ -79,6 +79,11 @@ bool Position_generator::start (Difficulity selectedDiff)
 }
 
 std::vector<Platform *>* Position_generator::getPlatforms () { return &this->anchors; }
+
+void Position_generator::setNrOfElements(int nrOfElements)
+{
+    this->elements = nrOfElements;
+}
 
 void Position_generator::assignPlayer (Player_jump_checker* player) { this->pl = player; }
 

@@ -4,7 +4,8 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm)
 	: gfx(_gfx), rm(_rm), position_gen(new Position_generator(time(0))), difficulity(Difficulity::easy)
 {        
     Player_jump_checker* pl = new Player_jump_checker();
-    position_gen->assignPlayer(pl);        
+    position_gen->assignPlayer(pl);
+    position_gen->setNrOfElements(29);
 }
 
 Generation_manager::~Generation_manager()
@@ -33,11 +34,13 @@ void Generation_manager::initialize()
     */
     Platform* platform_root = position_gen->getPlatforms()->at(0);    
     Platform* next_platform = platform_root;
+    Vector3* platform_pos;
     while (next_platform) {
+        platform_pos = next_platform->getPos();
         platformObjs.push_back(
             new PlatformObj(rm->get_Models("platform.obj", gfx),
                 gfx,
-                vec3(5.0f, 5.0f, 0.0f),
+                vec3(platform_pos->x, platform_pos->y, platform_pos->z),
                 vec3(0.0f, 0.0f, 0.0f),
                 vec3(2.05f, 3.3f, 4.05f))
         );
@@ -84,9 +87,9 @@ void Generation_manager::generateGraph()
     {
         //auto d = Vector3 (1.f, 2.f, 3.f);
         //p.distance (d);
-        output_stream << i << " platform.\nXPos: " << platforms->at(i)->getPos().x
-            << " YPos: " << platforms->at(i)->getPos().y
-            << " ZPos: " << platforms->at(i)->getPos().z << "\n"
+        output_stream << i << " platform.\nXPos: " << platforms->at(i)->getPos()->x
+            << " YPos: " << platforms->at(i)->getPos()->y
+            << " ZPos: " << platforms->at(i)->getPos()->z << "\n"
             << "Rotation: " << platforms->at(i)->getRotation() << "\n";
         if (i != platforms->size() - 1)
         {
@@ -94,20 +97,20 @@ void Generation_manager::generateGraph()
                 << platforms->at(i)->distance(platforms->at(i)->next->getPos())
                 << std::endl;
         }
-        // abs_X += platforms->at(i)->getPos().at(0) ;
-        // abs_Y += platforms->at(i)->getPos().at(1) ;
+        // abs_X += platforms->at(i)->getPos()->at(0) ;
+        // abs_Y += platforms->at(i)->getPos()->at(1) ;
 
-        abs_X = platforms->at(i)->getPos().y;
-        abs_Y = platforms->at(i)->getPos().x;
+        abs_X = platforms->at(i)->getPos()->y;
+        abs_Y = platforms->at(i)->getPos()->x;
 
         out << "Platform_" << i << " [\n";
         out << "label = \"P_" << i << "\n";
-        out << "X: " << platforms->at(i)->getPos().x << "\n";
-        out << "Y: " << platforms->at(i)->getPos().y << "\n";
-        out << "Z: " << platforms->at(i)->getPos().z << "\"\n";
+        out << "X: " << platforms->at(i)->getPos()->x << "\n";
+        out << "Y: " << platforms->at(i)->getPos()->y << "\n";
+        out << "Z: " << platforms->at(i)->getPos()->z << "\"\n";
 
-        // out << "pos = \""<< platforms->at(i)->getPos().at(0) * scale <<","
-        // << platforms->at(i)->getPos().at(1) * scale <<"!\"\n"; out << "pos =
+        // out << "pos = \""<< platforms->at(i)->getPos()->at(0) * scale <<","
+        // << platforms->at(i)->getPos()->at(1) * scale <<"!\"\n"; out << "pos =
         // \""<< abs_X
         // + scale <<"," << abs_Y + scale <<"!\"\n";
 

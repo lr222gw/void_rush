@@ -24,9 +24,9 @@ class Platform
     void setPosition (float xPos, float yPos, float zPos);
     void setPosition (Vector3 position);
     void move (float xOfset, float yOfset, float zOfset);
-    Vector3 getPos ();
+    Vector3* getPos ();
     double getRotation () const;
-    float distance (Vector3 position) const;
+    float distance (Vector3* position) const;
     float distance (std::vector<float> &position) const;
     Platform* next;
 };

@@ -61,15 +61,15 @@ void Platform::move (float xOfset, float yOfset, float zOfset)
     this->pos.z += zOfset;
 }
 
-Vector3 Platform::getPos () { return this->pos; }
+Vector3* Platform::getPos () { return &this->pos; }
 
 double Platform::getRotation () const { return this->rotation; }
 
-float Platform::distance (Vector3 position) const
+float Platform::distance (Vector3* position) const
 {
-    return sqrtf (pow (this->pos.x - position.x, 2)
-                  + pow (this->pos.y - position.y, 2)
-                  + pow (this->pos.z - position.z, 2));
+    return sqrtf (  pow (this->pos.x - position->x, 2)
+                  + pow (this->pos.y - position->y, 2)
+                  + pow (this->pos.z - position->z, 2));
 }
 
 float Platform::distance (std::vector<float> &position) const
