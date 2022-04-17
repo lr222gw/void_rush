@@ -35,6 +35,7 @@ public:
 	void draw();
 	void updatePlatfoms(Player* player);
 private:
+	friend class ImguiManager;
 	int seed; 
 	Player_jump_checker* player_jump_checker;
 	Difficulity difficulity;

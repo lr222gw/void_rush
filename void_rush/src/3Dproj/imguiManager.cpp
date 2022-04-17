@@ -65,13 +65,11 @@ void ImguiManager::update_lights(int lightNr)
 
 void ImguiManager::render_generation_widgets()
 {
-
-	
-	
+		
 	static std::string name = "Generation";
-	static int f = 3;
 	if (ImGui::Begin(name.c_str())) {
-		ImGui::SliderInt("Xpos", &f, 40.0f, -40.0f);
+		
+		ImGui::InputInt("Seed", &owner->generationManager->seed);
 		if(ImGui::Button("initialize")){
 			owner->generationManager->initialize();
 		}

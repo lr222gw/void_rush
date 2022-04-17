@@ -23,6 +23,7 @@ class Position_generator
     ~Position_generator();
     bool start (Difficulity diff);
     void reset_anchors();
+    void set_seed(int _seed);
     std::vector<Platform*>* getPlatforms ();
     void setNrOfElements(int nrOfElements);
     void assignPlayer (Player_jump_checker* player);

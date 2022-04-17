@@ -88,6 +88,11 @@ void Position_generator::reset_anchors()
     this->pl->reset();
 }
 
+void Position_generator::set_seed(int _seed)
+{
+    this->seed = _seed;
+}
+
 std::vector<Platform *>* Position_generator::getPlatforms () { return &this->anchors; }
 
 void Position_generator::setNrOfElements(int nrOfElements)

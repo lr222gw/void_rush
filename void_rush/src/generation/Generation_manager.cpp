@@ -29,6 +29,7 @@ void Generation_manager::initialize()
     platformObjs.clear();
     position_gen->reset_anchors();
 
+    position_gen->set_seed(this->seed);
     position_gen->start(difficulity);
 
     Platform* platform_root = position_gen->getPlatforms()->at(0);    
