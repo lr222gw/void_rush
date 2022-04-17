@@ -294,7 +294,7 @@
     <ClCompile Include="src\common\Helper.cpp">
       <Filter>Protoypes\common</Filter>
     </ClCompile>
-    <ClCompile Include="src\generation\Generate.cpp">
+    <ClCompile Include="src\generation\Position_generator.cpp">
       <Filter>Protoypes\generation</Filter>
     </ClCompile>
     <ClCompile Include="src\Main.cpp">
@@ -497,7 +497,7 @@
     <ClInclude Include="src\physics\Jump.hpp">
       <Filter>Protoypes\physics</Filter>
     </ClInclude>
-    <ClInclude Include="src\generation\Generate.hpp">
+    <ClInclude Include="src\generation\Position_generator.hpp">
       <Filter>Protoypes\generation</Filter>
     </ClInclude>
     <ClInclude Include="src\3Dproj\Player.h">

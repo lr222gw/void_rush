@@ -282,7 +282,7 @@
     <ClCompile Include="src\3Dproj\Player.cpp" />
     <ClCompile Include="src\common\Helper.cpp" />
     <ClCompile Include="src\common\Vector.cpp" />
-    <ClCompile Include="src\generation\Generate.cpp" />
+    <ClCompile Include="src\generation\Position_generator.cpp" />
     <ClCompile Include="src\generation\Generation_manager.cpp" />
     <ClCompile Include="src\generation\Platform.cpp" />
     <ClCompile Include="src\generation\playerGen.cpp" />
@@ -350,14 +350,13 @@
     <ClInclude Include="src\3Dproj\Player.h" />
     <ClInclude Include="src\common\Helper.hpp" />
     <ClInclude Include="src\common\Vector.hpp" />
-    <ClInclude Include="src\generation\Generate.hpp" />
+    <ClInclude Include="src\generation\Position_generator.hpp" />
     <ClInclude Include="src\generation\Generation_manager.hpp" />
     <ClInclude Include="src\generation\Platform.hpp" />
     <ClInclude Include="src\generation\playerGen.hpp" />
     <ClInclude Include="src\generation\proto.hpp" />
     <ClInclude Include="src\physics\Jump.hpp" />
     <ClInclude Include="src\physics\proto.hpp" />
-
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src/3Dproj/BillBoardUpdate.hlsl">

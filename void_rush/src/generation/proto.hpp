@@ -1,12 +1,13 @@
 #pragma once
 
-#include "Generate.hpp"
+#include "Position_generator.hpp"
 #include <fstream>
 #include <iostream>
 
-void generation_proto ()
+void Position_generator_proto ()
 {
-    
+    //NOTE: moved to  Generation_manager.generateGraph()
+    /*
     int seed = time(0);
     std::ifstream seed_file("void_rush/proto_outputs/seed.txt");
     std::string tempStr;
@@ -18,13 +19,13 @@ void generation_proto ()
     
 
     
-    output_stream << "Platform generation test\n Input seed: " << seed << std::endl;
+    output_stream << "Platform Position_generator test\n Input seed: " << seed << std::endl;
     
     player *pl = new player ();
-    generation levelGen (seed, 20);
+    Position_generator levelGen (seed, 20);
     levelGen.assignPlayer (pl);
     levelGen.start (1);
-    std::vector<Platform *> platforms = levelGen.getPlatforms ();
+    std::vector<Platform *> platforms = *levelGen.getPlatforms ();
 
     std::ofstream out ("void_rush/proto_outputs/graph.dot");
     out << "digraph {\n";
@@ -35,8 +36,8 @@ void generation_proto ()
     player p;
     for (int i = 0; i < platforms.size (); i++)
     {
-        auto d = Vector3 (1.f, 2.f, 3.f);
-        p.distance (d);
+        //auto d = Vector3 (1.f, 2.f, 3.f);
+        //p.distance (d);
         output_stream << i << " platform.\nXPos: " << platforms[i]->getPos ().x
                   << " YPos: " << platforms[i]->getPos ().y
                   << " ZPos: " << platforms[i]->getPos ().z << "\n"
@@ -83,4 +84,6 @@ void generation_proto ()
     output_stream.close();
 
     delete pl;
+    
+    */
 }

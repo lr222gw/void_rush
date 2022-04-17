@@ -1,15 +1,21 @@
-#include "Generate.hpp"
 #include <iostream>
+#include "Position_generator.hpp"
 
-generation::generation (int seed, int elements)
+Position_generator::Position_generator(int _seed)
+    : seed(_seed), elements(0), pl(nullptr)
+{    
+    this->startPlat = new Platform(Vector3(), 0, 0);
+}
+
+Position_generator::Position_generator (int seed, int elements)
     : seed (seed), elements (elements), pl (nullptr)
 {
     this->startPlat = new Platform (Vector3 (), 0, 0);
 }
 
-generation::~generation ()
+Position_generator::~Position_generator ()
 {
-    this->startPlat = nullptr;
+    this->startPlat = nullptr; //TODO: ask nils; do we not need to delete startPlat?
     for (int i = 0; i < anchors.size (); i++)
     {
         delete anchors.at (i);
@@ -17,14 +23,14 @@ generation::~generation ()
     anchors.clear ();
 }
 
-bool generation::start (int selectedDiff)
+bool Position_generator::start (Difficulity selectedDiff)
 {
     srand (this->seed);
     Vector3 dVect = Vector3 ();
     Vector3 position = this->startPlat->getPos ();
     float minStepMod = 2;
     float stepMax = pl->getJumpDistance ();
-    float stepMin = pl->getJumpDistance () / minStepMod * selectedDiff;
+    float stepMin = pl->getJumpDistance () / minStepMod * (int)selectedDiff;
     float distance = 0.0f;
     float stepMaxZ = pl->jumpHeight ();
     float rotation = 0.0f;
@@ -38,7 +44,7 @@ bool generation::start (int selectedDiff)
         position.z += dVect.z;
         // Using the height the new platform to determine max distance
         stepMax = pl->getJumpDistance (position.z);
-        stepMin = stepMax / minStepMod * selectedDiff;
+        stepMin = stepMax / minStepMod * (int)selectedDiff;
         // Generating x and y pos
         dVect.x = randF (0, 1);
         dVect.y = randF (0, 1);
@@ -72,11 +78,11 @@ bool generation::start (int selectedDiff)
     return true;
 }
 
-std::vector<Platform *> generation::getPlatforms () { return this->anchors; }
+std::vector<Platform *>* Position_generator::getPlatforms () { return &this->anchors; }
 
-void generation::assignPlayer (player *player) { this->pl = player; }
+void Position_generator::assignPlayer (Player_jump_checker* player) { this->pl = player; }
 
-float generation::randF (float min, float max)
+float Position_generator::randF (float min, float max)
 {
     float random = min + ((float)rand ()) / ((float)RAND_MAX / (max - min));
     // std::cout << "random float " << random << std::endl;
