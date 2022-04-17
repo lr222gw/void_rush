@@ -306,9 +306,12 @@
     <ClCompile Include="src\generation\Generation_manager.cpp">
       <Filter>Protoypes\generation</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="src\common\Vector.cpp">
       <Filter>Protoypes\common</Filter>
     </ClCompile>
+=======
+>>>>>>> generation_proto_builder_physicsRebase
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">

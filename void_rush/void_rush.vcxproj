@@ -357,8 +357,11 @@
     <ClInclude Include="src\generation\proto.hpp" />
     <ClInclude Include="src\physics\Jump.hpp" />
     <ClInclude Include="src\physics\proto.hpp" />
+<<<<<<< HEAD
     <ClInclude Include="src\Platform.h" />
     <ClInclude Include="src\playerGen.h" />
+=======
+>>>>>>> generation_proto_builder_physicsRebase
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src/3Dproj/BillBoardUpdate.hlsl">
