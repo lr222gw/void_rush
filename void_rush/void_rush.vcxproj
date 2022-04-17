@@ -357,8 +357,7 @@
     <ClInclude Include="src\generation\proto.hpp" />
     <ClInclude Include="src\physics\Jump.hpp" />
     <ClInclude Include="src\physics\proto.hpp" />
-    <ClInclude Include="src\Platform.h" />
-    <ClInclude Include="src\playerGen.h" />
+
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src/3Dproj/BillBoardUpdate.hlsl">

@@ -3,6 +3,8 @@
 #include "3Dproj/Graphics.h"
 #include "3Dproj/GameObject.h"
 #include "3Dproj/ResourceManager.h"
+#include "3Dproj/Player.h"
+#include "3Dproj/Collision3D.h"
 #include "Platform.hpp"
 #include <vector>
 
@@ -26,6 +28,7 @@ public:
 	~Generation_manager();
 	void initialize();
 	void draw();
+	void updatePlatfoms(Player* player);
 private:
 
 	std::vector<PlatformObj*> platforms;

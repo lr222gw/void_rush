@@ -37,6 +37,14 @@ void Generation_manager::draw()
     }
 }
 
+void Generation_manager::updatePlatfoms(Player* player)
+{
+    for (PlatformObj* platform : platforms) {
+
+        collisionWithBlocking(player, platform);
+    }
+}
+
 PlatformObj::PlatformObj(ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale)
     : GameObject(file,gfx, pos,rot,scale)
 {

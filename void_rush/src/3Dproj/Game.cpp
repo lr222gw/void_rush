@@ -216,8 +216,10 @@ void Game::Update()
 	player->updateMatrix();
 
 	/*Collision checking*/
-	collisionWithBlocking(player->getPlayerObjPointer(), obj[2]);
-	collisionWithBlocking(player->getPlayerObjPointer(), obj[0]);
+	collisionWithBlocking(player, obj[2]);
+	collisionWithBlocking(player, obj[0]);
+	generationManager->updatePlatfoms(player);
+
 	if (collision3D(player->getPlayerObjPointer(), obj[2], true, false))
 	{
 		if (player->getGroundedTimer() > 1.f)
