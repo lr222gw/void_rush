@@ -5,7 +5,7 @@
 #include "3Dproj/ResourceManager.h"
 #include "3Dproj/Player.h"
 #include "3Dproj/Collision3D.h"
-#include "Platform.hpp"
+#include "Position_generator.hpp"
 #include <vector>
 
 //struct Platform{
@@ -22,6 +22,8 @@ private:
 	//GameObject* GOPTR;
 };
 
+
+
 class Generation_manager {
 public:
 	Generation_manager(Graphics*& gfx, ResourceManager*& rm);
@@ -29,9 +31,13 @@ public:
 	void initialize();
 	void draw();
 	void updatePlatfoms(Player* player);
-private:
 
-	std::vector<PlatformObj*> platforms;
+	void generateGraph();
+private:
+	int seed; 
+	Difficulity difficulity;
+	Position_generator* position_gen;
+	std::vector<PlatformObj*> platformObjs;
 	Graphics*& gfx;
 	ResourceManager*& rm;
 };

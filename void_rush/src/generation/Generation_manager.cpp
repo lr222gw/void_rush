@@ -1,4 +1,4 @@
-#include "Generation_manager.h"
+#include "Generation_manager.hpp"
 
 Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm)
 	: gfx(_gfx), rm(_rm)

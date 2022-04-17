@@ -23,7 +23,7 @@
 
 #include "Collision3D.h"
 #include "Player.h"
-#include "generation/Generation_manager.h"
+#include "generation/Generation_manager.hpp"
 //git
 class Game {
 public:

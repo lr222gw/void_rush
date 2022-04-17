@@ -506,7 +506,7 @@
     <ClInclude Include="src\3Dproj\Collision3D.h">
       <Filter>3D_Renderer\Header Files\Fysik</Filter>
     </ClInclude>
-    <ClInclude Include="src\generation\Generation_manager.h">
+    <ClInclude Include="src\generation\Generation_manager.hpp">
       <Filter>Protoypes\generation</Filter>
     </ClInclude>
   </ItemGroup>
