@@ -1,37 +1,29 @@
 #include "Generation_manager.hpp"
 
 Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm)
-	: gfx(_gfx), rm(_rm), position_gen(new Position_generator(time(0))), difficulity(Difficulity::easy)
+	: gfx(_gfx), rm(_rm), seed(time(0)), difficulity(Difficulity::easy)
 {        
-    Player_jump_checker* pl = new Player_jump_checker();
-    position_gen->assignPlayer(pl);
+    
+    this->position_gen = new Position_generator(this->seed);
+    this->player_jump_checker = new Player_jump_checker();
+    position_gen->assignPlayer(player_jump_checker);
     position_gen->setNrOfElements(29);
 }
 
 Generation_manager::~Generation_manager()
 {
     for (PlatformObj* po : platformObjs) {
-        delete po; //TODO : causes memory leak?...
+        delete po; 
     }
     delete position_gen;
+    delete player_jump_checker;
 }
 
 void Generation_manager::initialize()
 {
 
     position_gen->start(difficulity);
-    /*
-    for (int i = 0; i < position_gen->getPlatforms()->size(); i++) {
-        platformObjs.push_back(
-            new PlatformObj(rm->get_Models("platform.obj", gfx),
-     
-           gfx,
-                vec3(5.0f, 5.0f, 0.0f),
-                vec3(0.0f, 0.0f, 0.0f),
-                vec3(2.05f, 3.3f, 4.05f))
-        );
-    }
-    */
+
     Platform* platform_root = position_gen->getPlatforms()->at(0);    
     Platform* next_platform = platform_root;
     Vector3* platform_pos;
@@ -42,7 +34,7 @@ void Generation_manager::initialize()
                 gfx,
                 vec3(platform_pos->x, platform_pos->y, platform_pos->z),
                 vec3(0.0f, 0.0f, 0.0f),
-                vec3(2.05f, 3.3f, 4.05f))
+                vec3(1.0f, 1.0f, 1.0f))
         );
         next_platform = next_platform->next;
     }
@@ -85,8 +77,7 @@ void Generation_manager::generateGraph()
     int platforms_size = platforms->size();
     for (int i = 0; i < platforms_size; i++)
     {
-        //auto d = Vector3 (1.f, 2.f, 3.f);
-        //p.distance (d);
+
         output_stream << i << " platform.\nXPos: " << platforms->at(i)->getPos()->x
             << " YPos: " << platforms->at(i)->getPos()->y
             << " ZPos: " << platforms->at(i)->getPos()->z << "\n"
@@ -97,8 +88,6 @@ void Generation_manager::generateGraph()
                 << platforms->at(i)->distance(platforms->at(i)->next->getPos())
                 << std::endl;
         }
-        // abs_X += platforms->at(i)->getPos()->at(0) ;
-        // abs_Y += platforms->at(i)->getPos()->at(1) ;
 
         abs_X = platforms->at(i)->getPos()->y;
         abs_Y = platforms->at(i)->getPos()->x;
@@ -108,11 +97,6 @@ void Generation_manager::generateGraph()
         out << "X: " << platforms->at(i)->getPos()->x << "\n";
         out << "Y: " << platforms->at(i)->getPos()->y << "\n";
         out << "Z: " << platforms->at(i)->getPos()->z << "\"\n";
-
-        // out << "pos = \""<< platforms->at(i)->getPos()->at(0) * scale <<","
-        // << platforms->at(i)->getPos()->at(1) * scale <<"!\"\n"; out << "pos =
-        // \""<< abs_X
-        // + scale <<"," << abs_Y + scale <<"!\"\n";
 
         out << "pos = \"" << abs_X * scale << "," << abs_Y * scale << "!\"\n";
         out << "]\n";
@@ -136,8 +120,6 @@ void Generation_manager::generateGraph()
 PlatformObj::PlatformObj(ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale)
     : GameObject(file,gfx, pos,rot,scale)
 {
-    //TODO: Dont know what this is.. is it needed?
-    //GOPTR = static_cast<GameObject*>(this);
 }
 
 PlatformObj::~PlatformObj()

@@ -29,12 +29,14 @@ public:
 	Generation_manager(Graphics*& gfx, ResourceManager*& rm);
 	~Generation_manager();
 	void initialize();
-	void draw();
-	void updatePlatfoms(Player* player);
 
 	void generateGraph();
+
+	void draw();
+	void updatePlatfoms(Player* player);
 private:
 	int seed; 
+	Player_jump_checker* player_jump_checker;
 	Difficulity difficulity;
 	Position_generator* position_gen;
 	std::vector<PlatformObj*> platformObjs;
