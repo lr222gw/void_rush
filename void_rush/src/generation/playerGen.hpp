@@ -3,7 +3,7 @@
 #include <math.h>
 #include <vector>
 
-class player
+class Player_jump_checker
 {
   private:
     Vector3 pos;
@@ -13,7 +13,7 @@ class player
     float launchangle;
 
   public:
-    player ();
+    Player_jump_checker();
     void moveto (const Vector3 &pos);
     float getJumpDistance ();
     float getJumpDistance (float height);

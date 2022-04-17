@@ -1,18 +1,18 @@
 #include "playerGen.hpp"
 
-player::player ()
+Player_jump_checker::Player_jump_checker()
     : pos ({ 0.0f, 0.0f, 0.0f }), jumpvel (20.0f), speed (5.0f),
       gravity (9.8f), launchangle (45.0f)
 {
 }
 
-void player::moveto (const Vector3 &pos)
+void Player_jump_checker::moveto (const Vector3 &pos)
 {
     this->pos.x = pos.x;
     this->pos.y = pos.y;
     this->pos.z = pos.z;
 }
-float player::getJumpDistance ()
+float Player_jump_checker::getJumpDistance ()
 {
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
     float time = (vel * sin (this->launchangle)
@@ -23,7 +23,7 @@ float player::getJumpDistance ()
     return this->speed * time;
 }
 
-float player::getJumpDistance (float height)
+float Player_jump_checker::getJumpDistance (float height)
 {
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
     float time = (vel * sin (this->launchangle)
@@ -34,7 +34,7 @@ float player::getJumpDistance (float height)
     return this->speed * time;
 }
 
-float player::jumpHeight ()
+float Player_jump_checker::jumpHeight ()
 {
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
     return this->pos.z
@@ -42,7 +42,7 @@ float player::jumpHeight ()
               / (2 * this->gravity));
 }
 
-bool player::isJumpPossible (Vector3 position)
+bool Player_jump_checker::isJumpPossible (Vector3 position)
 {
     float jumpheight = jumpHeight ();
     float heightDif = jumpheight - position.z;
@@ -66,7 +66,7 @@ bool player::isJumpPossible (Vector3 position)
     return true;
 }
 
-float player::distance (Vector3 &position)
+float Player_jump_checker::distance (Vector3 &position)
 {
     return sqrtf (pow (this->pos.x - position.x, 2.0)
                   + pow (this->pos.y - position.y, 2.0));
