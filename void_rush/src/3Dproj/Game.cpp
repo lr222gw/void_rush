@@ -19,7 +19,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	rm = new ResourceManager(gfx);
 	
 	generationManager = new Generation_manager(gfx,rm);
-	generationManager->initialize();
+	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 
 	setUpLights();
 	

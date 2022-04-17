@@ -27,15 +27,17 @@ void ImguiManager::updateRender()
 {
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
 
+	render_generation_widgets();
 	update_lights(owner->lightNr);
-
+	
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 void ImguiManager::update_lights(int lightNr)
 {
-	ImGui::NewFrame();
+	
 	for (int i = 0; i < obj.size(); i++) {
 		std::string name = "obj " + std::to_string(i);
 		if (ImGui::Begin(name.c_str())) {
@@ -58,29 +60,27 @@ void ImguiManager::update_lights(int lightNr)
 		ImGui::SliderFloat("ZRot", &light[lightNr]->getRotation().z, 6.3f, -6.3f);
 	}
 	ImGui::End();
+	
 }
 
 void ImguiManager::render_generation_widgets()
 {
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-	for (int i = 0; i < obj.size(); i++) {
-		std::string name = "obj2 " + std::to_string(i);
-		if (ImGui::Begin(name.c_str())) {
-			ImGui::SliderFloat("Xpos", &obj[i]->getxPos(), 40.0f, -40.0f);
-			ImGui::SliderFloat("Ypos", &obj[i]->getyPos(), 40.0f, -40.0f);
-			ImGui::SliderFloat("Zpos", &obj[i]->getzPos(), 40.0f, -40.0f);
-			ImGui::SliderFloat("XRot", &obj[i]->getxRot(), 20.0f, -20.0f);
-			ImGui::SliderFloat("YRot", &obj[i]->getyRot(), 20.0f, -20.0f);
-			ImGui::SliderFloat("ZRot", &obj[i]->getzRot(), 20.0f, -20.0f);
-		}
-		ImGui::End();
-	}
+
 	
+	
+	static std::string name = "Generation";
+	static int f = 3;
+	if (ImGui::Begin(name.c_str())) {
+		ImGui::SliderInt("Xpos", &f, 40.0f, -40.0f);
+		if(ImGui::Button("initialize")){
+			owner->generationManager->initialize();
+		}
+	}
 	ImGui::End();
-	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	
+	
+	
+
 }
 
 void ImguiManager::set_owner(Game* game)

@@ -21,6 +21,13 @@ Generation_manager::~Generation_manager()
 
 void Generation_manager::initialize()
 {
+    //Removes previous data and platforms if any
+    
+    for (PlatformObj* po : platformObjs) {
+        delete po;
+    }
+    platformObjs.clear();
+    position_gen->reset_anchors();
 
     position_gen->start(difficulity);
 

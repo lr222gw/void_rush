@@ -4,13 +4,13 @@
 Position_generator::Position_generator(int _seed)
     : seed(_seed), elements(0), pl(nullptr)
 {    
-    this->startPlat = new Platform(Vector3(), 0, 0);
+    //this->startPlat = new Platform(Vector3(), 0, 0); //NOTE:  this is now done in the reset function
 }
 
 Position_generator::Position_generator (int seed, int elements)
     : seed (seed), elements (elements), pl (nullptr)
 {
-    this->startPlat = new Platform (Vector3 (), 0, 0);
+    //this->startPlat = new Platform (Vector3 (), 0, 0); //NOTE:  this is now done in the reset function
 }
 
 Position_generator::~Position_generator ()
@@ -76,6 +76,16 @@ bool Position_generator::start (Difficulity selectedDiff)
     }
     this->anchors.push_back (newPlat);
     return true;
+}
+
+void Position_generator::reset_anchors()
+{
+    for (Platform* anchor : this->anchors) {
+        delete anchor;
+    }
+    anchors.clear();
+    this->startPlat = new Platform(Vector3(), 0, 0);
+    this->pl->reset();
 }
 
 std::vector<Platform *>* Position_generator::getPlatforms () { return &this->anchors; }

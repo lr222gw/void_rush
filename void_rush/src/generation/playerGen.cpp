@@ -6,6 +6,17 @@ Player_jump_checker::Player_jump_checker()
 {
 }
 
+void Player_jump_checker::reset()
+{
+    this->pos.x = 0.f;
+    this->pos.y = 0.f;
+    this->pos.z = 0.f;
+    this->jumpvel = 20.0f;
+    this->speed = 5.0f;
+    this->gravity = 9.8f;
+    this->launchangle = 45.0f;
+}
+
 void Player_jump_checker::moveto (const Vector3 &pos)
 {
     this->pos.x = pos.x;

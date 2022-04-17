@@ -14,6 +14,7 @@ class Player_jump_checker
 
   public:
     Player_jump_checker();
+    void reset();
     void moveto (const Vector3 &pos);
     float getJumpDistance ();
     float getJumpDistance (float height);
