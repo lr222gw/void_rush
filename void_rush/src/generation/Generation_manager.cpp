@@ -1,33 +1,55 @@
 #include "Generation_manager.hpp"
 
 Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm)
-	: gfx(_gfx), rm(_rm)
-{
+	: gfx(_gfx), rm(_rm), position_gen(new Position_generator(time(0))), difficulity(Difficulity::easy)
+{        
+    Player_jump_checker* pl = new Player_jump_checker();
+    position_gen->assignPlayer(pl);        
 }
 
 Generation_manager::~Generation_manager()
 {
-    for (PlatformObj* po : platforms) {
+    for (PlatformObj* po : platformObjs) {
         delete po; //TODO : causes memory leak?...
     }
+    delete position_gen;
 }
 
 void Generation_manager::initialize()
 {
-    platforms.push_back(
-        new PlatformObj(rm->get_Models("platform.obj", gfx),
-            gfx,
-            vec3(5.0f, 5.0f, 0.0f),
-            vec3(0.0f, 0.0f, 0.0f),
-            vec3(2.05f, 3.3f, 4.05f))
-    );
+
+    position_gen->start(difficulity);
+    /*
+    for (int i = 0; i < position_gen->getPlatforms()->size(); i++) {
+        platformObjs.push_back(
+            new PlatformObj(rm->get_Models("platform.obj", gfx),
+     
+           gfx,
+                vec3(5.0f, 5.0f, 0.0f),
+                vec3(0.0f, 0.0f, 0.0f),
+                vec3(2.05f, 3.3f, 4.05f))
+        );
+    }
+    */
+    Platform* platform_root = position_gen->getPlatforms()->at(0);    
+    Platform* next_platform = platform_root;
+    while (next_platform) {
+        platformObjs.push_back(
+            new PlatformObj(rm->get_Models("platform.obj", gfx),
+                gfx,
+                vec3(5.0f, 5.0f, 0.0f),
+                vec3(0.0f, 0.0f, 0.0f),
+                vec3(2.05f, 3.3f, 4.05f))
+        );
+        next_platform = next_platform->next;
+    }
 
     
 }
 
 void Generation_manager::draw()
 {
-    for (PlatformObj* platform : platforms) {
+    for (PlatformObj* platform : platformObjs) {
 
         //platform->updateMatrix();        
         //platform->update();
@@ -39,7 +61,7 @@ void Generation_manager::draw()
 
 void Generation_manager::updatePlatfoms(Player* player)
 {
-    for (PlatformObj* platform : platforms) {
+    for (PlatformObj* platform : platformObjs) {
 
         collisionWithBlocking(player, platform);
     }
