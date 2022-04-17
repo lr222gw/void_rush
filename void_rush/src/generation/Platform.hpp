@@ -15,7 +15,7 @@ class Platform
     double rotation;
     Shape platformShape;
     RotationMatrix rotMat;
-
+    friend class ImguiManager;
   public:
     Platform();
     Platform(std::vector<float> pos, int obstacles, int difficluty, double rotation = 0.0);

@@ -68,8 +68,47 @@ void ImguiManager::render_generation_widgets()
 		
 	static std::string name = "Generation";
 	if (ImGui::Begin(name.c_str())) {
-		
+
 		ImGui::InputInt("Seed", &owner->generationManager->seed);
+		if(ImGui::TreeNode("Player_jump_checker")){
+		
+			ImGui::InputFloat("gravity", &owner->generationManager->player_jump_checker->gravity);
+			ImGui::InputFloat("jump velocity", &owner->generationManager->player_jump_checker->jumpvel);
+			ImGui::InputFloat("launch angle", &owner->generationManager->player_jump_checker->launchangle);
+			ImGui::InputFloat3("position", (&owner->generationManager->player_jump_checker->pos.x,
+											&owner->generationManager->player_jump_checker->pos.y,
+											&owner->generationManager->player_jump_checker->pos.z)
+									
+			);
+			ImGui::InputFloat("speed", &owner->generationManager->player_jump_checker->speed);
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("Position_generator")) {
+
+			ImGui::InputInt("Number of platforms", &owner->generationManager->position_gen->elements);						
+			
+			ImGui::TreePop();
+		}		
+
+		if (ImGui::TreeNode("Generation_manager")) {			
+
+			if (ImGui::TreeNode("Platforms")) {
+
+				for (int i = 0; i < owner->generationManager->platformObjs.size(); i++) {
+
+					std::string name = "platform:" + std::to_string(i);
+					
+					float* pos[3] = { &owner->generationManager->platformObjs[i]->pos.x,
+							&owner->generationManager->platformObjs[i]->pos.y,
+							&owner->generationManager->platformObjs[i]->pos.z };
+
+					ImGui::InputFloat3(name.c_str(), *pos);
+				}				
+				ImGui::TreePop();
+			}
+			ImGui::TreePop();
+		}
+
 		if(ImGui::Button("initialize")){
 			owner->generationManager->initialize();
 		}

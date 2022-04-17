@@ -16,7 +16,7 @@ class Position_generator
     Platform*startPlat;
     std::vector<Platform*> anchors;
     Player_jump_checker* pl;
-
+    friend class ImguiManager;
   public:
     Position_generator(int seed);
     Position_generator(int seed, int elements);

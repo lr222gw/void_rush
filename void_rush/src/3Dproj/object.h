@@ -47,6 +47,7 @@ public:
 	void updatePixelShader(Graphics*& gfx);
 	void updateMatrix();
 private:
+	friend class ImguiManager;
 	vec3 pos;
 	vec3 rot;
 	vec3 scale;

@@ -11,7 +11,7 @@ class Player_jump_checker
     float speed;
     float gravity;
     float launchangle;
-
+    friend class ImguiManager;
   public:
     Player_jump_checker();
     void reset();

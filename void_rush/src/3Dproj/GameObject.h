@@ -40,6 +40,7 @@ public:
 protected:
 	ModelObj* model;
 private:
+	friend class ImguiManager;
 	bool tess;
 	bool drawed;
 	DirectX::XMFLOAT3 BBpos;
