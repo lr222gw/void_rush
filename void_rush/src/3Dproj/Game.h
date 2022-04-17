@@ -41,6 +41,7 @@ private:
 	void Update();
 	const float PI = 3.14159265359f;
 private:
+	friend class ImguiManager;
 	//logic and others
 	DeferredRendering *defRend;
 	DeltaTime dt;

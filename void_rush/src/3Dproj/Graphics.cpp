@@ -385,6 +385,6 @@ void Graphics::setRenderTarget()
 
 void Graphics::present(int lightNr)
 {
-	this->imguimanager->updateRender(lightNr);
+	this->imguimanager->updateRender();	
 	swapChain->Present(0, 0);
 }

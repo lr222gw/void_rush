@@ -1,5 +1,6 @@
 #include "imguiManager.h"
 
+#include "Game.h"
 ImguiManager::ImguiManager()
 {
 	IMGUI_CHECKVERSION();
@@ -22,10 +23,18 @@ void ImguiManager::takeLight(Light* light)
 	this->light.push_back(light);
 }
 
-void ImguiManager::updateRender(int lightNr)
+void ImguiManager::updateRender()
 {
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
+
+	update_lights(owner->lightNr);
+
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+}
+void ImguiManager::update_lights(int lightNr)
+{
 	ImGui::NewFrame();
 	for (int i = 0; i < obj.size(); i++) {
 		std::string name = "obj " + std::to_string(i);
@@ -49,7 +58,33 @@ void ImguiManager::updateRender(int lightNr)
 		ImGui::SliderFloat("ZRot", &light[lightNr]->getRotation().z, 6.3f, -6.3f);
 	}
 	ImGui::End();
+}
+
+void ImguiManager::render_generation_widgets()
+{
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+	for (int i = 0; i < obj.size(); i++) {
+		std::string name = "obj2 " + std::to_string(i);
+		if (ImGui::Begin(name.c_str())) {
+			ImGui::SliderFloat("Xpos", &obj[i]->getxPos(), 40.0f, -40.0f);
+			ImGui::SliderFloat("Ypos", &obj[i]->getyPos(), 40.0f, -40.0f);
+			ImGui::SliderFloat("Zpos", &obj[i]->getzPos(), 40.0f, -40.0f);
+			ImGui::SliderFloat("XRot", &obj[i]->getxRot(), 20.0f, -20.0f);
+			ImGui::SliderFloat("YRot", &obj[i]->getyRot(), 20.0f, -20.0f);
+			ImGui::SliderFloat("ZRot", &obj[i]->getzRot(), 20.0f, -20.0f);
+		}
+		ImGui::End();
+	}
+	
+	ImGui::End();
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+}
+
+void ImguiManager::set_owner(Game* game)
+{
+	this->owner = game;
 }
 

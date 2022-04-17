@@ -7,14 +7,19 @@
 #include "Light.h"
 #include <string>
 
+class Game;
 class ImguiManager {
 public:
 	ImguiManager();
 	~ImguiManager();
 	void takeObject(object* obj);
 	void takeLight(Light* light);
-	void updateRender(int lightNr);
+	void updateRender();
+	void update_lights(int lightNr);
+	void render_generation_widgets();
+	void set_owner(Game* game);
 private:
 	std::vector<object*> obj;
 	std::vector<Light*> light;
+	Game* owner;
 };
