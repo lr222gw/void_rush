@@ -25,7 +25,7 @@ public:
 	Generation_manager(Graphics*& gfx, ResourceManager*& rm);
 	~Generation_manager();
 	void initialize();
-	void update();
+	void draw();
 private:
 
 	std::vector<PlatformObj*> platforms;

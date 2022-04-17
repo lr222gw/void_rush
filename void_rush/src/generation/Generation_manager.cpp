@@ -8,32 +8,32 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm)
 Generation_manager::~Generation_manager()
 {
     for (PlatformObj* po : platforms) {
-        //delete po; //TODO : causes memory leak?...
+        delete po; //TODO : causes memory leak?...
     }
 }
 
 void Generation_manager::initialize()
 {
-    /*platforms.push_back(
+    platforms.push_back(
         new PlatformObj(rm->get_Models("platform.obj", gfx),
             gfx,
-            vec3(-15.0f, 20.0f, 10.0f),
+            vec3(5.0f, 5.0f, 0.0f),
             vec3(0.0f, 0.0f, 0.0f),
-            vec3(0.05f, 0.3f, 0.05f))
-    );*/
+            vec3(2.05f, 3.3f, 4.05f))
+    );
 
     
 }
 
-void Generation_manager::update()
+void Generation_manager::draw()
 {
     for (PlatformObj* platform : platforms) {
 
-        //platform.obj.updateMatrix();
-        //platform.obj.update();
-        //platform.obj.updateVertexShader(gfx);
-        //platform.obj.updatePixelShader(gfx);
-        //platform.obj.draw(gfx);
+        //platform->updateMatrix();        
+        //platform->update();
+        platform->updateVertexShader(gfx);
+        platform->updatePixelShader(gfx);
+        platform->draw(gfx);
     }
 }
 
