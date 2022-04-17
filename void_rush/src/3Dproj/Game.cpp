@@ -241,20 +241,22 @@ void Game::Update()
 	player->update(dt.dt());
 
 #pragma region camera_settings
+
+	
 	if (getkey('C')) {
 		camera->setPosition(light[lightNr]->getPos());
 		camera->setRotation(light[lightNr]->getRotation());
 	}
-	if (getkey('1')) {
+	if (getkey('1') && getkey(VK_F1)) {
 		lightNr = 0;
 	}
-	if (getkey('2')) {
+	if (getkey('2') && getkey(VK_F1)) {
 		lightNr = 1;
 	}
-	if (getkey('3')) {
+	if (getkey('3') && getkey(VK_F1)) {
 		lightNr = 2;
 	}
-	if (getkey('4')) {
+	if (getkey('4') && getkey(VK_F1)) {
 		lightNr = 3;
 	} 
 #pragma endregion camera_settings
