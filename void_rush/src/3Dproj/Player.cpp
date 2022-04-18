@@ -42,7 +42,7 @@ void Player::update(float dt)
 		this->groundedTimer += dt;
 	}
 	this->movePos(vec3(0, this->velocity.y * dt, 0));
-	std::cout << this->acceleration.y << std::endl;
+	//std::cout << this->acceleration.y << std::endl;
 	cam->setRotation(this->getRot());
 	cam->setPosition(this->getPos());
 }

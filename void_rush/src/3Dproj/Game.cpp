@@ -6,7 +6,6 @@
 Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow):
 	soundManager(1)
 {
-	
 	gfx = new Graphics(hInstance, hPrevInstance, lpCmdLine, nCmdShow, mouse);
 	mouse = gfx->getWindosClass().getMouse();
 	keyboard = gfx->getWindosClass().getKeyboard();
@@ -18,6 +17,9 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	//Resource manager
 	rm = new ResourceManager(gfx);
 	
+	testPuzzle = new ProtoPuzzle(gfx, rm);
+	testPuzzle->Initiate();
+
 	generationManager = new Generation_manager(gfx,rm);
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 
@@ -30,7 +32,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	gfx->takeIM(&this->UIManager);
 	this->UIManager.set_owner(this);
 	
-	camera = new Camera(gfx, mouse, vec3(0,0,0), vec3(0,0,0));
+	camera = new Camera(gfx, mouse, vec3(0.0f,0.0f,0.0f), vec3(0.0f,0.0f,0.0f));
 	camera->setData();
 	//gfx->getWindosClass().setMouse(mouse);
 	setUpObject();
@@ -106,6 +108,7 @@ Game::~Game()
 	}
 	delete Space;
 	delete player;
+	delete testPuzzle;
 	delete generationManager;
 }
 
@@ -185,6 +188,10 @@ printf("quit");
 
 void Game::Update()
 {
+	if (testTime > 0.0f)
+	{
+		testTime -= (float)dt.dt();
+	}
 	/*Move things*/
 	camera->updateCamera((float)dt.dt());
 	if (getkey('N')) {
@@ -215,6 +222,18 @@ void Game::Update()
 		obj[i]->updateMatrix();
 	}
 	player->updateMatrix();
+	/*
+	DirectX::XMFLOAT4 a[2];
+	DirectX::XMFLOAT4 b[2];
+	obj[3]->getBoundingBox(a);
+	obj[2]->getBoundingBox(b);
+	*/
+	
+	if (mouse->IsLeftDown() && testTime <= 0.0f)
+	{
+		testTime = 1.0f;
+		testPuzzle->Interact(obj[0]->getPos());
+	}
 
 	/*Collision checking*/
 	collisionWithBlocking(player, obj[2]);
@@ -238,7 +257,7 @@ void Game::Update()
 	for (int i = 0; i < obj.size(); i++) {
 		obj[i]->update();
 	}
-	player->update(dt.dt());
+	player->update((float)dt.dt());
 
 #pragma region camera_settings
 
@@ -278,6 +297,7 @@ void Game::DrawToBuffer()
 	for (int i = 0; i < obj.size(); i++) {
 		obj[i]->draw(gfx);
 	}
+	testPuzzle->Update(); //Take this away later
 	player->draw(gfx);
 	generationManager->draw(); //Todo: ask Simon where to put this...
 
@@ -363,8 +383,13 @@ void Game::setUpObject()
 	obj.push_back(new GameObject(rm->get_Models("Camera.obj", gfx), gfx, vec3(50.f, 0.f, 0.f), vec3(-1.58f, 0.f, 0.f), vec3(2.f, 2.0f, 2.0f)));//second
 	////
 	//////OBJECTS
-	obj.push_back(new GameObject(rm->get_Models("quad2.obj", gfx), gfx, vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100))); //Marken
-	//obj.push_back(new GameObject(rm->get_Models("nanosuit.obj", gfx), gfx, vec3(-5.f, 0.f, 0.f), vec3(0.f, 0.f, 0.f), vec3(1.f, 1.f, 1.f)));
+	obj.push_back(new GameObject(rm->get_Models("quad2.obj", gfx), gfx, vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100)));
+
+	obj.push_back(new GameObject(rm->get_Models("platform.obj", gfx), gfx, vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
+	//obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(-15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+	//obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(0.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+	//obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+
 	
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);
 }
@@ -377,7 +402,7 @@ void Game::setUpLights()
 
 	//create the lights with 
 	//light[0] = new DirLight(vec3(0, 30, 8), vec3(0.1f, -PI / 2, 1.f), 100, 100);
-	light[0] = new PointLight(vec3(1, 1, 1), 200, vec3(1,1,1));
+	light[0] = new PointLight(vec3(3, 25, 5), 200, vec3(1,1,1));
 	//light[1] = new SpotLight(vec3(18, 46, 45), vec3(-2.4f, -0.5, 1));
 	//light[2] = new SpotLight(vec3(8, 47.f, 0), vec3(0, -1, 1));
 	//light[3] = new SpotLight(vec3(30, 50, 0), vec3(-1, -1, 1));
