@@ -26,6 +26,7 @@ protected:
 public:
     //Create puzzle
     Puzzle(const Vector3& position, int seed, int width, int length, bool completed = false);
+    virtual ~Puzzle();
 
     bool GetState() const;
 

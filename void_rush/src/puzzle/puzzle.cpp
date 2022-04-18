@@ -7,6 +7,13 @@ Puzzle::Puzzle (const Vector3 &position, int seed, int width, int length, bool c
     //Example: if width is 500, then one of the corners is at half of width + origin coordinates.
 }
 
+Puzzle::~Puzzle()
+{
+    for (size_t i = 0; i < puzzleObjects.size(); i++) {
+        delete puzzleObjects[i];
+    }
+}
+
 bool Puzzle::GetState () const { return completed; }
 
 void Puzzle::ResetState()
