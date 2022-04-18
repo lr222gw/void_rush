@@ -38,15 +38,17 @@ void ImguiManager::updateRender()
 void ImguiManager::update_lights(int lightNr)
 {
 	
-	for (int i = 0; i < obj.size(); i++) {
+	static auto vec = std::vector( 0, 1);
+
+	for (int i = 0; i < vec.size(); i++) {
 		std::string name = "obj " + std::to_string(i);
 		if (ImGui::Begin(name.c_str())) {
-			ImGui::SliderFloat("Xpos", &obj[i]->getxPos(), 40.0f, -40.0f);
-			ImGui::SliderFloat("Ypos", &obj[i]->getyPos(), 40.0f, -40.0f);
-			ImGui::SliderFloat("Zpos", &obj[i]->getzPos(), 40.0f, -40.0f);
-			ImGui::SliderFloat("XRot", &obj[i]->getxRot(), 20.0f, -20.0f);
-			ImGui::SliderFloat("YRot", &obj[i]->getyRot(), 20.0f, -20.0f);
-			ImGui::SliderFloat("ZRot", &obj[i]->getzRot(), 20.0f, -20.0f);
+			ImGui::SliderFloat("Xpos", &owner->obj[vec[i]]->getxPos(), 40.0f, -40.0f);
+			ImGui::SliderFloat("Ypos", &owner->obj[vec[i]]->getyPos(), 40.0f, -40.0f);
+			ImGui::SliderFloat("Zpos", &owner->obj[vec[i]]->getzPos(), 40.0f, -40.0f);
+			ImGui::SliderFloat("XRot", &owner->obj[vec[i]]->getxRot(), 20.0f, -20.0f);
+			ImGui::SliderFloat("YRot", &owner->obj[vec[i]]->getyRot(), 20.0f, -20.0f);
+			ImGui::SliderFloat("ZRot", &owner->obj[vec[i]]->getzRot(), 20.0f, -20.0f);
 		}
 		ImGui::End();
 	}
@@ -68,7 +70,7 @@ void ImguiManager::render_generation_widgets()
 		
 	static std::string name = "Generation";
 	if (ImGui::Begin(name.c_str())) {
-
+		
 		ImGui::InputInt("Seed", &owner->generationManager->seed);
 		if(ImGui::TreeNode("Player_jump_checker")){
 		
@@ -114,9 +116,6 @@ void ImguiManager::render_generation_widgets()
 		}
 	}
 	ImGui::End();
-	
-	
-	
 
 }
 
