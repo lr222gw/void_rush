@@ -22,6 +22,8 @@ bool RenderWindow::Initialize(WindowContainer* pWindowContainer, HINSTANCE hInst
 		this->hInstance, //Handle to the instance of module to be used with this window
 		pWindowContainer); //Param to create window
 
+	//SetWindowLong(this->handle, GWL_STYLE, 0); //remove all window styles, check MSDN for details
+
 	if (this->handle == NULL)
 	{
 		std::cout << "error when creating window" << std::endl;
