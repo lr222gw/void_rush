@@ -1,7 +1,4 @@
 #include "Game.h"
-#include <chrono>
-#include <thread>
-#include "Collision3D.h"
 
 Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow):
 	soundManager(1)
@@ -17,6 +14,8 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	//Resource manager
 	rm = new ResourceManager(gfx);
 	
+	UI = new UIManager(rm, gfx);
+	UI->createUISprite("assets/textures/Fire.png", vec2(0, 0), vec2(0, 0));
 	testPuzzle = new ProtoPuzzle(gfx, rm);
 	testPuzzle->Initiate();
 
@@ -51,7 +50,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	//UIManager.takeObject(obj[3]);
 	/*IMGUI*/
 	for (int i = 0; i < nrOfLight; i++) {
-		UIManager.takeLight(light[i]);
+		IMGUIManager.takeLight(light[i]);
 	}
 	
 	
@@ -110,6 +109,7 @@ Game::~Game()
 	delete player;
 	delete testPuzzle;
 	delete generationManager;
+	delete UI;
 }
 
 
@@ -315,6 +315,9 @@ void Game::DrawToBuffer()
 			LightVisualizers[i]->draw(gfx, false);
 		}
 	}
+	//gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), nullptr);
+	UI->draw();
+	//gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), gfx->getDepthStencil());
 }
 
 void Game::ForwardDraw()

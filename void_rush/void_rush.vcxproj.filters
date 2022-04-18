@@ -139,6 +139,18 @@
     <Filter Include="Protoypes\puzzle">
       <UniqueIdentifier>{ef73b50d-8505-4655-b39c-812321fbe6f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Void_Rush">
+      <UniqueIdentifier>{c5764fac-6a41-4066-a666-e2126b7cb852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D_Renderer\Source Files\UI">
+      <UniqueIdentifier>{9f1c2901-ff6e-4965-b1ce-63f7f2224df0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D_Renderer\Header Files\UI">
+      <UniqueIdentifier>{bfd053df-a583-449b-91f6-3b82136d376a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D_Renderer\Resource Files\Shaders\UI">
+      <UniqueIdentifier>{31a8b2cc-7ea4-4111-b355-7ae35fcbc09e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src/3Dproj/D311Helper.cpp">
@@ -305,6 +317,21 @@
     </ClCompile>
     <ClCompile Include="src\Main.cpp">
       <Filter>Void_Rush</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UIElements.cpp">
+      <Filter>3D_Renderer\Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UIManager.cpp">
+      <Filter>3D_Renderer\Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UISprite.cpp">
+      <Filter>3D_Renderer\Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UIString.cpp">
+      <Filter>3D_Renderer\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UISymbols.cpp">
+      <Filter>3D_Renderer\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\generation\Generation_manager.cpp">
       <Filter>Protoypes\generation</Filter>
@@ -536,6 +563,21 @@
     <ClInclude Include="src\generation\Generation_manager.hpp">
       <Filter>Protoypes\generation</Filter>
     </ClInclude>
+    <ClInclude Include="src\3Dproj\UIManager.h">
+      <Filter>3D_Renderer\Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UISprite.h">
+      <Filter>3D_Renderer\Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UIString.h">
+      <Filter>3D_Renderer\Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UISymbols.h">
+      <Filter>3D_Renderer\Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UIElements.h">
+      <Filter>3D_Renderer\Header Files\UI</Filter>
+    </ClInclude>
     <ClInclude Include="src/3Dproj/Game.h">
       <Filter>Void_Rush</Filter>
     </ClInclude>
@@ -638,6 +680,12 @@
     </FxCompile>
     <FxCompile Include="src/3Dproj/SkyBoxVS.hlsl">
       <Filter>Engine\Resource Files\Shaders\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="src\3Dproj\UIPixelShader.hlsl">
+      <Filter>3D_Renderer\Resource Files\Shaders\UI</Filter>
+    </FxCompile>
+    <FxCompile Include="src\3Dproj\UIVertexShader.hlsl">
+      <Filter>3D_Renderer\Resource Files\Shaders\UI</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

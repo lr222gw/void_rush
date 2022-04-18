@@ -279,6 +279,11 @@
     <ClCompile Include="src/3Dproj/WindowContainer.cpp" />
     <ClCompile Include="src/3Dproj/WindowHelper.cpp" />
     <ClCompile Include="src\3Dproj\Collision3D.cpp" />
+    <ClCompile Include="src\3Dproj\UIElements.cpp" />
+    <ClCompile Include="src\3Dproj\UIManager.cpp" />
+    <ClCompile Include="src\3Dproj\UISprite.cpp" />
+    <ClCompile Include="src\3Dproj\UIString.cpp" />
+    <ClCompile Include="src\3Dproj\UISymbols.cpp" />
     <ClCompile Include="src\3Dproj\Player.cpp" />
     <ClCompile Include="src\common\Helper.cpp" />
     <ClCompile Include="src\common\Vector.cpp" />
@@ -352,6 +357,11 @@
     <ClInclude Include="src/3Dproj/WindowHelper.h" />
     <ClInclude Include="src\3Dproj\Collision3D.h" />
     <ClInclude Include="src\3Dproj\Player.h" />
+    <ClInclude Include="src\3Dproj\UIElements.h" />
+    <ClInclude Include="src\3Dproj\UIManager.h" />
+    <ClInclude Include="src\3Dproj\UISprite.h" />
+    <ClInclude Include="src\3Dproj\UIString.h" />
+    <ClInclude Include="src\3Dproj\UISymbols.h" />
     <ClInclude Include="src\common\Helper.hpp" />
     <ClInclude Include="src\common\Vector.hpp" />
     <ClInclude Include="src\generation\Position_generator.hpp" />
@@ -544,6 +554,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src\3Dproj\UIPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="src\3Dproj\UIVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
