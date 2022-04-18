@@ -28,8 +28,8 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, 1920U, 1080U);
 	//this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, 640u, 360U);
 	
-	gfx->takeIM(&this->UIManager);
-	this->UIManager.set_owner(this);
+	gfx->takeIM(&this->IMGUIManager);
+	this->IMGUIManager.set_owner(this);
 	
 	camera = new Camera(gfx, mouse, vec3(0.0f,0.0f,0.0f), vec3(0.0f,0.0f,0.0f));
 	camera->setData();
