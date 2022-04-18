@@ -107,7 +107,7 @@ void Player::rotateWithMouse(int x, int y)
 {
 	this->addRot(vec3(
 		static_cast<float>(x)* mouse->getSense() * 0.01,
-		static_cast<float>(y)* mouse->getSense() * 0.01,
+		static_cast<float>(y)* -mouse->getSense() * 0.01,
 		0
 	));
 }
