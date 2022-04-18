@@ -25,6 +25,7 @@
 #include "Player.h"
 
 #include "puzzle/protoPuzzle.hpp"
+#include "generation/Generation_manager.hpp"
 
 //git
 class Game {
