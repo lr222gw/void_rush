@@ -8,6 +8,7 @@ bool CreateInsterface(UINT width, UINT height, HWND wnd, ID3D11Device*& device, 
 
     swapChainDesc.BufferDesc.Width = width;
     swapChainDesc.BufferDesc.Height = height - 39;//TODO : when game is done or full screen take away 39
+                                                  //TODO : change depthstencil so its not to big either
     swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
     swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
     swapChainDesc.BufferDesc.Format = DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM;
