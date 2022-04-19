@@ -26,6 +26,6 @@ public:
 	~ProtoPuzzle();
 	void Initiate();
 	int ChoosePuzzle();
-	void Interact(vec3 playerPos);
+	void Interact(vec3 playerPos, vec3 forwardVec);
 	void Update();
 };

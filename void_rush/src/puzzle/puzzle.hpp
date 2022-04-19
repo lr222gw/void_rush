@@ -41,7 +41,7 @@ public:
 
     void SpawnDoor();
 
-    virtual void Interaction(vec3 playerPos) = 0;
+    virtual void Interaction(vec3 playerPos, vec3 forwardVec) = 0;
 
     //Pick the correct type of puzzle and initiate it.
     virtual void InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm) = 0;

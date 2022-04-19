@@ -8,6 +8,7 @@
 #include "3Dproj/ResourceManager.h"
 #include "3Dproj/Graphics.h"
 #include <vector>
+#include "interact/interact.hpp"
 
 class Portal
 {
@@ -20,7 +21,7 @@ public:
 
 	void Spawn();
 
-	void InteractPortal(vec3 playerPos);
+	void InteractPortal(vec3 playerPos, vec3 forwardVec);
 
 	void ResetPortal();
 

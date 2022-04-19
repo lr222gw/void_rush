@@ -5,20 +5,27 @@ HiddenPuzzle::HiddenPuzzle(const Vector3& position, int seed, int width, int len
     
 }
 
-void HiddenPuzzle::Interaction(vec3 playerPos)
+void HiddenPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
 {
     //Check if left click is pressed while player is close enough and looking at the hitbox of the key.
     if (!this->GetState())
     {
+        if (CanInteract(playerPos, forwardVec, puzzleObjects[0]->getPos(), 5.0f, 5.0f))
+        {
+            std::cout << "Key Picked Up!" << std::endl;
+            this->SpawnDoor();
+        }
+        /*
         if ((puzzleObjects[0]->getPos() - playerPos).length() < 10.0f)
         {
             std::cout << "Key Picked Up!" << std::endl;
             this->SpawnDoor();
         }
+        */
     }
     else
     {
-        this->InteractPortal(playerPos);
+        this->InteractPortal(playerPos, forwardVec);
     }
 }
 

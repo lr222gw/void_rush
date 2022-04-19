@@ -16,7 +16,7 @@ public:
 
     std::string GetComponents() const;
 
-    void Interaction(vec3 playerPos) override;
+    void Interaction(vec3 playerPos, vec3 forwardVec) override;
 
     void InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm) override;
 

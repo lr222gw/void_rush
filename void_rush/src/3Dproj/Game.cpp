@@ -212,7 +212,7 @@ void Game::Update()
 	if (mouse->IsLeftDown() && testTime <= 0.0f)
 	{
 		testTime = 1.0f;
-		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos());
+		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
 	}
 
 	/*Collision checking*/

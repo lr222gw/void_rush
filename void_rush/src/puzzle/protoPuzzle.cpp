@@ -24,9 +24,9 @@ ProtoPuzzle::~ProtoPuzzle()
     delete this->hidden;
 }
 
-void ProtoPuzzle::Interact(vec3 playerPos)
+void ProtoPuzzle::Interact(vec3 playerPos, vec3 forwardVec)
 {
-    this->puzzleList[chosenPuzzle]->Interaction(playerPos);
+    this->puzzleList[chosenPuzzle]->Interaction(playerPos, forwardVec);
 }
 
 void ProtoPuzzle::Initiate()

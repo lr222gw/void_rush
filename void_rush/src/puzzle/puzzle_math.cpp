@@ -10,11 +10,29 @@ std::string MathPuzzle::GetComponents() const
     return std::to_string(components[0]) + " " + arithmetic + " " + std::to_string(components[1]) + " = " + std::to_string(components[2]) + "\nThese are your choices: " + std::to_string(choices[0]) + " " + std::to_string(choices[1]) + " " + std::to_string(choices[2]);
 }
 
-void MathPuzzle::Interaction(vec3 playerPos)
+void MathPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
 {
     if (!this->GetState())
     {
         int choice = 3;
+
+        if (CanInteract(playerPos, forwardVec, puzzleObjects[0]->getPos(), 5.0f, 5.0f))
+        {
+            choice = 0;
+            std::cout << "Is in range A" << std::endl;
+        }
+        if (CanInteract(playerPos, forwardVec, puzzleObjects[1]->getPos(), 5.0f, 5.0f))
+        {
+            choice = 1;
+            std::cout << "Is in range B" << std::endl;
+        }
+        if (CanInteract(playerPos, forwardVec, puzzleObjects[2]->getPos(), 5.0f, 5.0f))
+        {
+            choice = 2;
+            std::cout << "Is in range C" << std::endl;
+        }
+
+        /*
         if ((puzzleObjects[0]->getPos() - playerPos).length() < 10.0f)
         {
             choice = 0;
@@ -30,6 +48,7 @@ void MathPuzzle::Interaction(vec3 playerPos)
             choice = 2;
             std::cout << "Is in range C" << std::endl;
         }
+        */
 
         if (choice != 3)
         {
@@ -46,7 +65,7 @@ void MathPuzzle::Interaction(vec3 playerPos)
     }
     else
     {
-        this->InteractPortal(playerPos);
+        this->InteractPortal(playerPos, forwardVec);
     }
 }
 
