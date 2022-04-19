@@ -42,7 +42,7 @@ void Generation_manager::initialize()
         platformObjs.push_back(
             new PlatformObj(rm->get_Models("platform.obj", gfx),
                 gfx,
-                vec3(platform_pos->x, platform_pos->z, platform_pos->y),
+                vec3(platform_pos->y, platform_pos->z, platform_pos->x),
                 vec3(0.0f, 0.0f, 0.0f),
                 vec3(1.0f, 1.0f, 1.0f))
         );

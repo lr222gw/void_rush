@@ -641,6 +641,9 @@
     <ClInclude Include="src\3Dproj\CollisionHandler.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\common\Shape.hpp">
+      <Filter>Protoypes\common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src/3Dproj/Transforms.hlsli">
