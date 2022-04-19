@@ -1,7 +1,7 @@
 #include "puzzle_math.hpp"
 #include <string>
 
-MathPuzzle::MathPuzzle(const Vector3& position, int seed, int width, int length) : Puzzle(position, seed, width, length)
+MathPuzzle::MathPuzzle(const Vector3& position, int seed, int width, int length, Graphics*& gfx, ResourceManager*& rm) : Puzzle(position, seed, width, length, gfx, rm)
 {
 }
 
@@ -12,39 +12,47 @@ std::string MathPuzzle::GetComponents() const
 
 void MathPuzzle::Interaction(vec3 playerPos)
 {
-    int choice = 3;
-    if ((puzzleObjects[0]->getPos() - playerPos).length() < 10.0f)
+    if (!this->GetState())
     {
-        choice = 0;
-        std::cout << "Is in range A" << std::endl;
-    }
-    if ((puzzleObjects[1]->getPos() - playerPos).length() < 10.0f)
-    {
-        choice = 1;
-        std::cout << "Is in range B" << std::endl;
-    }
-    if ((puzzleObjects[2]->getPos() - playerPos).length() < 10.0f)
-    {
-        choice = 2;
-        std::cout << "Is in range C" << std::endl;
-    }
+        int choice = 3;
+        if ((puzzleObjects[0]->getPos() - playerPos).length() < 10.0f)
+        {
+            choice = 0;
+            std::cout << "Is in range A" << std::endl;
+        }
+        if ((puzzleObjects[1]->getPos() - playerPos).length() < 10.0f)
+        {
+            choice = 1;
+            std::cout << "Is in range B" << std::endl;
+        }
+        if ((puzzleObjects[2]->getPos() - playerPos).length() < 10.0f)
+        {
+            choice = 2;
+            std::cout << "Is in range C" << std::endl;
+        }
 
-    if (choice != 3)
+        if (choice != 3)
+        {
+            if (choices[choice] == components[2])
+            {
+                this->SpawnDoor();
+                std::cout << "Correct choice!" << std::endl;
+            }
+            else
+            {
+                std::cout << "Wrong choice! You suck! >:(" << std::endl;
+            }
+        }
+    }
+    else
     {
-        if (choices[choice] == components[2])
-        {
-            //Puzzle::SpawnDoor();
-            std::cout << "Correct choice!" << std::endl;
-        }
-        else
-        {
-            std::cout << "Wrong choice! You suck! >:(" << std::endl;
-        }
+        this->InteractPortal(playerPos);
     }
 }
 
 void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm)
 {
+    this->ResetState();
     int typeOfQuestion = (int)rand() % 4 + 1;
 
     //Question is addition or subtraction
@@ -138,16 +146,25 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm)
     puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(-15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
     puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(0.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
     puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+
+    std::cout << this->GetComponents() << std::endl;
 }
 
 void MathPuzzle::Update(Graphics*& gfx)
 {
-    for (int i = 0; i < puzzleObjects.size(); i++) {
+    if (!this->GetState())
+    {
+        for (int i = 0; i < puzzleObjects.size(); i++) {
 
-        puzzleObjects[i]->updateMatrix();
-        puzzleObjects[i]->update();
-        puzzleObjects[i]->updateVertexShader(gfx);
-        puzzleObjects[i]->updatePixelShader(gfx);
-        puzzleObjects[i]->draw(gfx);
+            puzzleObjects[i]->updateMatrix();
+            puzzleObjects[i]->update();
+            puzzleObjects[i]->updateVertexShader(gfx);
+            puzzleObjects[i]->updatePixelShader(gfx);
+            puzzleObjects[i]->draw(gfx);
+        }
+    }
+    else
+    {
+        this->UpdatePortal(gfx);
     }
 }

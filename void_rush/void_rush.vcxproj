@@ -299,6 +299,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\physics\jump.cpp" />
     <ClCompile Include="src\physics\proto.cpp" />
+    <ClCompile Include="src\puzzle\Portal.cpp" />
     <ClCompile Include="src\puzzle\protoPuzzle.cpp" />
     <ClCompile Include="src\puzzle\puzzle.cpp" />
     <ClCompile Include="src\puzzle\puzzle_hidden.cpp" />
@@ -381,6 +382,7 @@
     <ClInclude Include="src\physics\proto.hpp" />
     <ClInclude Include="src\Platform.h" />
     <ClInclude Include="src\playerGen.h" />
+    <ClInclude Include="src\puzzle\Portal.h" />
     <ClInclude Include="src\puzzle\protoPuzzle.hpp" />
     <ClInclude Include="src\puzzle\puzzle.hpp" />
     <ClInclude Include="src\puzzle\puzzle_hidden.hpp" />

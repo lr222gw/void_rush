@@ -8,9 +8,10 @@
 #include "3Dproj/GameObject.h"
 #include "3Dproj/ResourceManager.h"
 #include "3Dproj/Graphics.h"
+#include "Portal.h"
 #include <vector>
 
-class Puzzle
+class Puzzle : public Portal
 {
 private:
 
@@ -20,12 +21,12 @@ protected:
     std::vector<GameObject*> puzzleObjects;
     int width;
     int length;
-    Vector3 doorPosition;
+    //Vector3 doorPosition;
     bool completed;
 
 public:
     //Create puzzle
-    Puzzle(const Vector3& position, int seed, int width, int length, bool completed = false);
+    Puzzle(const Vector3& position, int seed, int width, int length, Graphics*& gfx, ResourceManager*& rm, bool completed = false);
     virtual ~Puzzle();
 
     bool GetState() const;

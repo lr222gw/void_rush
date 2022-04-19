@@ -266,7 +266,7 @@ void Game::Update()
 	std::vector<GameObject*> temp = this->GameObjManager->getAllGameObjects();
 	std::vector<GameObject*> temp2 = {temp[1],temp[2],temp[3], temp[0]};
 
-	interactTest(temp2);
+	//interactTest(temp2);
 	
 }
 
@@ -360,7 +360,7 @@ void Game::setUpObject()
 
 
 	
-	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);
+	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, vec3(0.0f, 25.0f, -10.0f));
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 }

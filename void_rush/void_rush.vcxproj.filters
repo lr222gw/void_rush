@@ -390,6 +390,9 @@
     <ClCompile Include="src\3Dproj\CollisionHandler.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\puzzle\Portal.cpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -643,6 +646,9 @@
     </ClInclude>
     <ClInclude Include="src\3Dproj\CollisionHandler.h">
       <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\puzzle\Portal.h">
+      <Filter>Protoypes\puzzle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

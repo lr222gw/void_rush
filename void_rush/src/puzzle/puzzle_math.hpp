@@ -12,7 +12,7 @@ private:
     const int maxValueMultiplication = 10;
     const int maxValueDivision[2] = {91, 4};
 public:
-    MathPuzzle(const Vector3& position, int seed, int width, int length);
+    MathPuzzle(const Vector3& position, int seed, int width, int length, Graphics*& gfx, ResourceManager*& rm);
 
     std::string GetComponents() const;
 
