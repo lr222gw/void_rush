@@ -177,6 +177,11 @@ printf("quit");
 
 void Game::Update()
 {
+	/*DEBUG*/
+	if (keyboard->isKeyPressed(VK_RETURN)) {
+		ghost->setActive();
+	}
+	/*******/
 	if (testTime > 0.0f)
 	{
 		testTime -= (float)dt.dt();
@@ -184,7 +189,6 @@ void Game::Update()
 	/*Move things*/
 	camera->updateCamera((float)dt.dt());
 	if (getkey('N')) {
-		ghost->setActive();
 		DirectX::XMMATRIX viewMatrix = DirectX::XMMATRIX(
 			1.0f, 0.0f, 0.0f, 0.0f,
 			0.0f, 1.0f, 0.0f, 0.0f,
