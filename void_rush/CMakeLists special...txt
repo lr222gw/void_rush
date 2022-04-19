@@ -1,0 +1,99 @@
+cmake_minimum_required(VERSION 3.0.0)
+project(vr VERSION 0.1.0)
+
+
+file(GLOB_RECURSE FILES ./src/*.cpp)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin)
+
+set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-fix;-fix-errors")
+
+add_compile_definitions(UNICODE _UNICODE)
+
+INCLUDE_DIRECTORIES(
+        ${PROJECT_SOURCE_DIR}/deps/3Dproj/
+        ${PROJECT_SOURCE_DIR}/deps/include/
+        ${PROJECT_SOURCE_DIR}/src/*/
+        ${PROJECT_SOURCE_DIR}/src/
+        $ENV{DXSDK_DIR}/Include
+)
+link_directories(
+        
+        ${PROJECT_SOURCE_DIR}/deps/lib/
+        ${PROJECT_SOURCE_DIR}/src/*/
+        $ENV{DXSDK_DIR}/Lib/x64
+)
+
+if (MSVC)
+  # compiler options
+  # common
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /sdl /MP /permissive-")
+
+  # release and debug options
+
+  # optimization(release)
+  if (CMAKE_CXX_FLAGS_RELEASE MATCHES "/O[dx12]")
+    string(REGEX REPLACE "/O[dx12]" "/O2" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+  else()
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /O2")
+  endif()
+
+  # optimization(debug)
+  if (CMAKE_CXX_FLAGS_DEBUG MATCHES "/O[dx12]")
+    string(REGEX REPLACE "/O[dx12]" "/Od" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+  else()
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_RELEASE} /Od")
+  endif()
+
+  # warning level
+  if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
+    string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+  else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+  endif()
+
+  # runtime library
+  if(CMAKE_CXX_FLAGS MATCHES "/M[DT]")
+    string(REGEX REPLACE "/M[DT]" "/MT" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+  endif()
+  if(CMAKE_CXX_FLAGS MATCHES "/M[DT]d")
+    string(REGEX REPLACE "/M[DT]d" "/MTd" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+  endif()
+
+  # linker options
+
+  # architecture
+  # this configuration may not be needed. cmake determines architecture from environment
+  if(CMAKE_EXE_LINKER_FLAGS MATCHES "/machine:(X86|x86|X64|x64)")
+    string(REGEX REPLACE "/machine:(X86|x86|X64|x64)" "/machine:x64" CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
+  else()
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /machine:x64")
+  endif()
+
+  set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINER_FLAGS} /OPT:REF /OPT:ICF")
+  set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINER_FLAGS} /OPT:REF /OPT:ICF")
+else()
+  message(FATAL_ERROR "this project supports msvc only")
+endif()
+
+
+#include(CTest)
+#enable_testing()P
+
+
+
+
+FILE(GLOB_RECURSE src_SRCS src/*.cpp)
+#FILE(GLOB_RECURSE src_SRCS_ */*.cpp)
+FILE(GLOB_RECURSE src_HDRS src/*.hpp)
+#FILE(GLOB_RECURSE src_HDRS_ */*.hpp)
+
+File(GLOB_RECURSE renderer_src deps/3Dproj/*.cpp)
+File(GLOB_RECURSE renderer_hdsr deps/3Dproj/*.h)
+#${renderer_hdsr} ${renderer_src}
+
+add_executable(vr WIN32 ${src_SRCS} ${src_SRCS_} ${src_HDRS} ${src_HDRS_}  ${renderer_src} ${renderer_hdsr} )
+#add_executable(vr WIN32 ${FILES}  )
+#${}
+

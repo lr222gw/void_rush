@@ -1,0 +1,80 @@
+#include "otherHelps.h"
+//git
+
+std::string* getDest(std::string destPath, char splitchar)
+{
+	std::string* returnStr;
+	returnStr = new std::string[3];
+	std::string workStr = destPath;
+	int starts[3]; starts[0] = 0; int stp = 1;
+	int end[3]; int endp = 0;
+	for (int i = 0; i < (int)workStr.length(); i++)
+	{
+		if (workStr[i] == splitchar) {
+			end[endp] = (i)-starts[stp - 1];
+			starts[stp] = i + 1;
+			stp++;
+			endp++;
+
+		}
+	}
+	end[endp] = end[2] = (int)workStr.length() - starts[2];
+	for (int i = 0; i < 3; i++) {
+		if (end[i] == 0) {
+			returnStr[i] = "1";
+		}
+		else {
+			returnStr[i] = workStr.substr(starts[i], end[i]);
+		}
+	}
+	return returnStr;
+}
+
+std::string getPathfrom(std::string fullpath, std::string breakword)
+{
+	size_t found = fullpath.find(breakword);
+	std::string theReturn = fullpath;
+	if (found != std::string::npos) {
+		theReturn = "";
+		for (size_t i = found; i < fullpath.size(); i++) {
+			theReturn.push_back(fullpath[i]);
+		}
+	}
+	return theReturn;
+}
+
+void swap(std::vector<vertex>& a)
+{
+	vertex temp = a[a.size() - 1];
+	a[a.size() - 1] = a[a.size() - 2];
+	a[a.size() - 2] = temp;
+}
+
+void swap(float& a, float& b)
+{
+	float temp = a;
+	a = b;
+	b = temp;
+}
+
+//only searches in Textures
+FileInfo seeIfFileExist(std::string fileName)
+{
+	FileInfo theReturn; theReturn.exist = false;
+	std::string extensions[4]{
+		".jpg",
+		".png",
+		".bmp",
+		".jpeg"
+	};
+	for (int i = 0; i < 4 && theReturn.exist == false; i++) {
+		std::string search = "assets/textures/" + fileName + extensions[i];
+		std::ifstream f(search.c_str());
+		if (f.good())
+		{
+			theReturn.ending = extensions[i];
+			theReturn.exist = true;
+		}
+	}
+	return theReturn;
+}

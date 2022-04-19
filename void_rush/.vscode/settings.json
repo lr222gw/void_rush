@@ -13,5 +13,6 @@
         "temp.json": true,
         "src/*.o": true
     },
-    "explorerExclude.backup": null
+    "explorerExclude.backup": null,
+    "cmake.configureOnOpen": true
 }
