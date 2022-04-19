@@ -17,6 +17,7 @@ public:
 	void updateRender();
 	void update_lights(int lightNr);
 	void render_generation_widgets();
+	void render_physics_widgets();
 	void set_owner(Game* game);
 private:
 	std::vector<object*> obj;

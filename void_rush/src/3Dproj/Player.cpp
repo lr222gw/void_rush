@@ -8,7 +8,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->cam = cam;
 	this->gravity = vec3(0.0f, -9.82f, 0.0f);
 	this->speed = 5.f;
-	this->jumpSpeed = 1.f;
+	this->jumpSpeed = 4.f;
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
 	this->mass = 1.f;
 	this->grounded = true;
@@ -42,7 +42,7 @@ void Player::update(float dt)
 		this->groundedTimer += dt;
 	}
 	this->movePos(vec3(0, this->velocity.y * dt, 0));
-	//std::cout << this->acceleration.y << std::endl;
+	std::cout << this->groundedTimer << std::endl;
 	cam->setRotation(this->getRot());
 	cam->setPosition(this->getPos());
 }
@@ -83,11 +83,12 @@ void Player::handleEvents(float dt)
 		Translate(dt, translation);
 	}
 	if (keyboard->isKeyPressed(VK_SPACE)) {
+
 		if (grounded) {
 			grounded = false;
 			groundedTimer = 0.001f;
 		}
-		if (velocity.y > 0)
+		if (velocity.y > 0.0f)
 		{
 			velocity.y += jumpSpeed;
 		}
@@ -95,12 +96,10 @@ void Player::handleEvents(float dt)
 		{
 			velocity = vec3(velocity.x, jumpSpeed, velocity.z);
 		}
-		//this->movePos(vec3(0, this->velocity.y * dt, 0));
 	}
 	if (keyboard->isKeyPressed(VK_CONTROL)) {
 		this->movePos(vec3(0, -speed * dt, 0));
 	}
-
 }
 
 void Player::rotateWithMouse(int x, int y)

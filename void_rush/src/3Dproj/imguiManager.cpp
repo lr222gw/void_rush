@@ -31,6 +31,7 @@ void ImguiManager::updateRender()
 
 	render_generation_widgets();
 	update_lights(owner->lightNr);
+	render_physics_widgets();
 	
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -119,6 +120,23 @@ void ImguiManager::render_generation_widgets()
 	}
 	ImGui::End();
 
+}
+
+void ImguiManager::render_physics_widgets()
+{
+	static std::string name = "Physics";
+	if (ImGui::Begin(name.c_str())) {
+		//owner->player->speed
+		if (ImGui::TreeNode("Player options")) {
+
+			ImGui::InputFloat("Speed", &owner->player->speed);
+			ImGui::InputFloat("Gravity", &owner->player->gravity.y);
+			
+			ImGui::TreePop();
+		}
+
+	}
+	ImGui::End();
 }
 
 void ImguiManager::set_owner(Game* game)

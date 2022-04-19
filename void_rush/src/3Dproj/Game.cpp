@@ -263,7 +263,6 @@ void Game::Update()
 void Game::DrawToBuffer()
 {	
 	
-
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gfx->get_IMctx()->IASetInputLayout(gfx->getInputLayout()[0]);
 	gfx->get_IMctx()->GSSetShader(nullptr, nullptr, 0);
@@ -346,6 +345,7 @@ void Game::setUpObject()
 
 	GameObjManager->CreateGameObject("quad2.obj", "Ground", vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100));
 	GameObjManager->CreateGameObject("nanosuit.obj","Nano", vec3(-5.f, 0.f, 0.f), vec3(0.f, 0.f, 0.f), vec3(1.f, 1.f, 1.f));
+
 
 	
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);

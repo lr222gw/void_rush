@@ -16,6 +16,7 @@ public:
 	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
 private:
+	friend class ImguiManager;
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
 	float speed;
 	float jumpSpeed;
