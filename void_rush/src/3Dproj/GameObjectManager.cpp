@@ -14,10 +14,13 @@ GameObjectManager::~GameObjectManager()
 	}
 }
 
-void GameObjectManager::addGameObject(GameObject* obj, std::string name)
+void GameObjectManager::addGameObject(GameObject* obj, std::string name, bool interactable)
 {
 	gameObjects.insert({ name, obj });
 	VGameObj.push_back(obj);
+
+	if(interactable)
+		VInteractGameObj.push_back(obj);
 }
 
 void GameObjectManager::addInteractGameObject(GameObject* obj)

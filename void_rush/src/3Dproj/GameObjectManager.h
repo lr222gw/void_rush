@@ -8,7 +8,7 @@ class GameObjectManager {
 public:
 	GameObjectManager(Graphics*& gfx, ResourceManager*& rm);
 	virtual ~GameObjectManager();
-	void addGameObject(GameObject* obj, std::string name);
+	void addGameObject(GameObject* obj, std::string name, bool interactable = false);
 	void addInteractGameObject(GameObject* obj);
 	//cannot remove a object that ha
 	void removeGameObject(std::string name, bool del = true);
