@@ -220,6 +220,7 @@ void Game::Update()
 	//collisionWithBlocking(player->getPlayerObjPointer(), obj[2]);
 	generationManager->updatePlatfoms(player);
 
+	
 	collisionHandler.update();
 
 	/*update vertex*/
@@ -344,7 +345,7 @@ void Game::setUpObject()
 	GameObjManager = new GameObjectManager(gfx, rm);
 	////////OBJECTS///////////
 	GameObjManager->CreateGameObject("Camera.obj", "Camera1", vec3(0.f, 0.f, 10.f), vec3(0.f, 0.f, 0.f), vec3(5.f, 5.0f, 5.0f)); //main
-	GameObjManager->CreateGameObject("Camera.obj", "Camera2", vec3(0.f, 100.f, 0.f), vec3(0.f, -1.58f, 0.f), vec3(2.f, 2.0f, 2.0f)); //main
+	GameObjManager->CreateGameObject("Camera.obj", "Camera2", vec3(0.f, 0.f, -50.f), vec3(0.f, 0.f, 0.f), vec3(2.f, 2.0f, 2.0f)); //main
 
 	GameObjManager->CreateGameObject("quad2.obj", "Ground", vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100));
 	GameObjManager->CreateGameObject("BasePlatform.obj", "Base", vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
@@ -355,7 +356,7 @@ void Game::setUpObject()
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
-
+	collisionHandler.addPlatform(GameObjManager->getGameObject("Ground"));
 }
 
 void Game::setUpLights()

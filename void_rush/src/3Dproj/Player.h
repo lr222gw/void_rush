@@ -21,7 +21,7 @@ private:
 	bool noClip;
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
 	float speed;
-	float jumpSpeed;
+	vec3 jumpSpeed;
 	vec3 velocity;
 	vec3 acceleration;
 	vec3 resForce;
