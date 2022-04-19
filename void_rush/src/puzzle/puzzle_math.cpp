@@ -12,7 +12,7 @@ std::string MathPuzzle::GetComponents() const
 
 void MathPuzzle::Interaction(vec3 playerPos)
 {
-    int choice = 99;
+    int choice = 3;
     if ((puzzleObjects[0]->getPos() - playerPos).length() < 10.0f)
     {
         choice = 0;
@@ -29,14 +29,17 @@ void MathPuzzle::Interaction(vec3 playerPos)
         std::cout << "Is in range C" << std::endl;
     }
 
-    if (choices[choice] == components[2])
+    if (choice != 3)
     {
-        //Puzzle::SpawnDoor();
-        std::cout << "Correct choice!" << std::endl;
-    }
-    else
-    {
-        std::cout << "Wrong choice! You suck! >:(" << std::endl;
+        if (choices[choice] == components[2])
+        {
+            //Puzzle::SpawnDoor();
+            std::cout << "Correct choice!" << std::endl;
+        }
+        else
+        {
+            std::cout << "Wrong choice! You suck! >:(" << std::endl;
+        }
     }
 }
 
@@ -131,6 +134,7 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm)
         }
     }
 
+    //Randomize the position of the choices on the platform?
     puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(-15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
     puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(0.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
     puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));

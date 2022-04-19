@@ -10,7 +10,7 @@ void test::Start ()
              << "\n";
 
         mass = 50.0f;
-        grav_a = -9.82;
+        grav_a = -9.82f;
         start_v = 60.0f;
         jmp_spd = 20.0f;
         friction = 1.0f;

@@ -16,7 +16,7 @@ struct test
     bool grounded = false;
 
     float mass = 50.0f;
-    float grav_a = -9.82;
+    float grav_a = -9.82f;
     float start_v = 60.0f;
     float jmp_spd = 20.0f;
     float friction = 1.0f;

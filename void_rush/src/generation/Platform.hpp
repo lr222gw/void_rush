@@ -14,20 +14,20 @@ class Platform
     Vector3 pos;
     int obstacles;
     int difficluty;
-    double rotation;
+    float rotation;
     Shape platformShape;
     RotationMatrix rotMat;
     friend class ImguiManager;
   public:
     Platform();
-    Platform(std::vector<float> pos, int obstacles, int difficluty, double rotation = 0.0);
-    Platform(Vector3 pos, int obstacles, int difficluty, double rotation = 0.0);
+    Platform(std::vector<float> pos, int obstacles, int difficluty, float rotation = 0.0);
+    Platform(Vector3 pos, int obstacles, int difficluty, float rotation = 0.0);
     ~Platform();
     void setPosition (float xPos, float yPos, float zPos);
     void setPosition (Vector3 position);
     void move (float xOfset, float yOfset, float zOfset);
     Vector3* getPos ();
-    double getRotation () const;
+    float getRotation () const;
     float distance (Vector3* position) const;
     float distance (std::vector<float> &position) const;
     Platform* next;

@@ -5,13 +5,7 @@
 class HiddenPuzzle : public Puzzle
 {
 private:
-    struct Key
-    {
-        //Load the key 3D object 
-        Vector3 originPosition;
-
-
-    };
+    bool keyPickedUp = false;
 public:
     HiddenPuzzle(const Vector3& position, int seed, int width, int length);
 

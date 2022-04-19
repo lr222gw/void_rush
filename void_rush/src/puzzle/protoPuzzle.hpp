@@ -15,7 +15,7 @@ private:
 	std::vector<Puzzle*> puzzleList;
 	int chosenPuzzle;
 	int seed;
-	const int PUZZLES = 1; //Set to amount of puzzles done.
+	const int PUZZLES = 2; //Set to amount of puzzles done.
 	MathPuzzle* math;
 	HiddenPuzzle* hidden;
 	Graphics*& gfxPuzzle;

@@ -31,7 +31,7 @@ void ProtoPuzzle::Interact(vec3 playerPos)
 
 void ProtoPuzzle::Initiate()
 {
-    int chosenPuzzle = ChoosePuzzle();
+    chosenPuzzle = ChoosePuzzle();
     this->puzzleList[chosenPuzzle]->InitiatePuzzle(this->gfxPuzzle, this->rmPuzzle);
     if (chosenPuzzle == 0)
     {
