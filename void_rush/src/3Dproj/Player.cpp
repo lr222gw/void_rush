@@ -52,16 +52,16 @@ void Player::handleEvents(float dt)
 	//change these to use keyboard
 	if (!mouse->getMouseActive()) {
 		if (GetKeyState(VK_RIGHT) & 0x8000) {
-			this->addRot(vec3(0, mouse->getSense() * (float)dt, 0));
+			this->addRot(vec3(mouse->getSense() * (float)dt, 0, 0));
 		}
 		if (GetKeyState(VK_LEFT) & 0x8000) {
-			this->addRot(vec3(0, -mouse->getSense() * (float)dt, 0));
-		}
-		if (GetKeyState(VK_UP) & 0x8000) {
 			this->addRot(vec3(-mouse->getSense() * (float)dt, 0, 0));
 		}
+		if (GetKeyState(VK_UP) & 0x8000) {
+			this->addRot(vec3(0, mouse->getSense() * (float)dt, 0));
+		}
 		if (GetKeyState(VK_DOWN) & 0x8000) {
-			this->addRot(vec3(mouse->getSense() * (float)dt, 0, 0));
+			this->addRot(vec3(0, -mouse->getSense() * (float)dt, 0));
 		}
 	}
 	//change values here
