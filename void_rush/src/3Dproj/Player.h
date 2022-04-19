@@ -33,5 +33,5 @@ private:
 	Mouse* mouse;
 	Keyboard* keyboard;
 	Camera* cam;
-	GameObject* GOPTR;//GameObjectPlayerPointer
+	GameObject* GOPTR; //GameObjectPlayerPointer
 };

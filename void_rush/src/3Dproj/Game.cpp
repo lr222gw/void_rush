@@ -217,7 +217,7 @@ void Game::Update()
 
 	/*Collision checking*/
 	collisionWithBlocking(player->getPlayerObjPointer(), GameObjManager->getGameObject("Ground"));
-
+	//collisionWithBlocking(player->getPlayerObjPointer(), obj[2]);
 	generationManager->updatePlatfoms(player);
 
 	if (collision3D(player->getPlayerObjPointer(), GameObjManager->getGameObject(2), true, false))

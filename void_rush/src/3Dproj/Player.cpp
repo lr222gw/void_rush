@@ -86,7 +86,7 @@ void Player::handleEvents(float dt)
 		Translate(dt, translation);
 	}
 	
-	if (keyboard->isKeyPressed(VK_SPACE)) {
+	if (keyboard->isKeyPressed(VK_SPACE)&& grounded) {
 		if(!noClip){
 			if (grounded) {
 				grounded = false;
