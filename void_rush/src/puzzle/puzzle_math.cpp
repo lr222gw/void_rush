@@ -141,7 +141,7 @@ void MathPuzzle::Update(Graphics*& gfx)
     for (int i = 0; i < puzzleObjects.size(); i++) {
 
         puzzleObjects[i]->updateMatrix();
-        puzzleObjects[i]->update();
+        //puzzleObjects[i]->update(0);
         puzzleObjects[i]->updateVertexShader(gfx);
         puzzleObjects[i]->updatePixelShader(gfx);
         puzzleObjects[i]->draw(gfx);

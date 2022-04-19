@@ -203,7 +203,7 @@ bool collision3D(DirectX::XMFLOAT4 objectA[], DirectX::XMFLOAT4 objectB[])
 }
 
 
-bool collision3D(GameObject*& objectA, GameObject*& objectB, bool fromobjA, bool fromobjB)
+bool collision3D(GameObject* objectA, GameObject* objectB, bool fromobjA, bool fromobjB)
 {
 	ColCube ColCubeA;
 	ColCube ColCubeB;

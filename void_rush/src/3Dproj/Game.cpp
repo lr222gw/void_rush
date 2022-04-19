@@ -177,6 +177,11 @@ printf("quit");
 
 void Game::Update()
 {
+	/*DEBUG*/
+	if (keyboard->isKeyPressed(VK_RETURN)) {
+		ghost->setActive();
+	}
+	/*******/
 	if (testTime > 0.0f)
 	{
 		testTime -= (float)dt.dt();
@@ -229,7 +234,7 @@ void Game::Update()
 	/*update things*/
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 	gfx->Update((float)dt.dt(), camera->getPos());
-	GameObjManager->update();
+	GameObjManager->update(dt.dt());
 	player->update((float)dt.dt());
 
 #pragma region camera_settings
@@ -357,6 +362,10 @@ void Game::setUpObject()
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	collisionHandler.addPlatform(GameObjManager->getGameObject("Ground"));
+
+	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj",gfx), gfx, player->getPos() - vec3(0, 0, -5),vec3(0,0,0), vec3(0.2,0.2,0.2));
+	GameObjManager->addGameObject(ghost, "Ghost");
+	collisionHandler.addEnemies(ghost);
 }
 
 void Game::setUpLights()
