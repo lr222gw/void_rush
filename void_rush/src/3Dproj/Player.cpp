@@ -16,13 +16,12 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	GOPTR = static_cast<GameObject*>(this);
 	setWeight(20);
 	setBoundingBox(DirectX::XMFLOAT3(getPos().x, getPos().y, getPos().z), DirectX::XMFLOAT3(1.f, 2.f, 1.f));
-	health = 3;
-	alive = true;
+	this->health = 3;
+	this->alive = true;
 }
 
 Player::~Player()
 {
-	//Test
 }
 
 void Player::update(float dt)
@@ -50,6 +49,7 @@ void Player::update(float dt)
 	//std::cout << this->acceleration.y << std::endl;
 	cam->setRotation(this->getRot());
 	cam->setPosition(this->getPos());
+
 }
 
 void Player::handleEvents(float dt)
@@ -151,6 +151,19 @@ GameObject*& Player::getPlayerObjPointer()
 {
 	return GOPTR;
 }
+
+void Player::Reset()
+{
+	this->setPos(vec3(0.0f, 5.0f, 0.0f));
+
+	//this->grounded = true;
+	this->velocity.y = 0.0f;
+	this->acceleration.y = 0.0f;
+	this->resForce.y = 0.0f;
+	this->groundedTimer = 0.0f;
+	
+}
+
 
 void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 {

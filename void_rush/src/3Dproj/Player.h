@@ -15,6 +15,7 @@ public:
 	void setGrounded();
 	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
+	void Reset();
 	
 private:
 	friend class ImguiManager;
