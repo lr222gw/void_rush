@@ -46,11 +46,13 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	
 
 	setUpParticles();
-	//UIManager.takeObject(obj[2]);
-	//UIManager.takeObject(obj[3]);
-	/*IMGUI*/
-	for (int i = 0; i < nrOfLight; i++) {
-		IMGUIManager.takeLight(light[i]);
+	if (IMGUI) {
+		//UIManager.takeObject(obj[2]);
+		//UIManager.takeObject(obj[3]);
+		/*IMGUI*/
+		for (int i = 0; i < nrOfLight; i++) {
+			UIManager.takeLight(light[i]);
+		}
 	}
 	
 	
@@ -91,8 +93,10 @@ Game::~Game()
 
 	//objects
 	for (int i = 0; i < LightVisualizers.size(); i++) {
-		delete light[i];
 		delete LightVisualizers[i];
+	}
+	for (int i = 0; i < nrOfLight; i++) {
+		delete light[i];
 	}
 	delete[] light;
 	for (int i = 0; i < obj.size(); i++) {
@@ -414,6 +418,9 @@ void Game::setUpLights()
 	light[0]->getColor() = vec3(1, 1, 1);
 	//light[1]->getColor() = vec3(1, 0, 1);
 
+	for (int i = 0; i < nrOfLight; i++) {
+		LightVisualizers.push_back(new GameObject(rm->get_Models("Camera.obj"),gfx, light[i]->getPos(), light[i]->getRotation()));
+	}
 	//say to graphics/shaders how many lights we have
 	gfx->getLightconstbufferforCS()->nrOfLights.element = nrOfLight;
 	gfx->takeLight(light, nrOfLight);

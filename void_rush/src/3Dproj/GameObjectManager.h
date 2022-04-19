@@ -9,6 +9,8 @@ public:
 	GameObjectManager(Graphics*& gfx, ResourceManager*& rm);
 	virtual ~GameObjectManager();
 	void addGameObject(GameObject* obj, std::string name);
+	//cannot remove a object that ha
+	void removeGameObject(std::string name, bool del = true);
 	void CreateGameObject(std::string modelFile, std::string name = "", vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
 	void update();
 	void updateVertex();
