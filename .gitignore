@@ -384,5 +384,6 @@ void_rush/proto_outputs/.~lock.nordström.ods#
 
 void_rush/build/
 
+shaders/*.cso
 
 imgui.ini
