@@ -54,7 +54,7 @@ bool Player_jump_checker::isJumpPossible (Vector3 position)
 {
     float jumpheight = jumpHeight ();
     float heightDif = jumpheight - position.z;
-    float jumpDist = getJumpDistance (position.z);
+    float jumpDist = getJumpDistance (position.z)*  (3 + 1);//TODO: no hardcode, use from Position_generator...
     float distanceDif = jumpDist - this->distance (position);
     /*if (heightDif <= 0) {
         plat->move(0, 0, heightDif);

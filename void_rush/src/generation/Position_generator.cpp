@@ -20,16 +20,24 @@ Position_generator::~Position_generator ()
     {
         delete anchors.at (i);
     }
+    for (int i = 0; i < this->jumpPoints.size (); i++)
+    {
+        delete this->jumpPoints.at (i);
+    }
     anchors.clear ();
+    jumpPoints.clear();
 }
 
 bool Position_generator::start (Difficulity selectedDiff)
 {
+
+    static int platforms_between_anchors = (3 + 1);
+
     srand (this->seed);
     Vector3 dVect = Vector3 ();
     Vector3 position = *this->startPlat->getPos ();
     float minStepMod = 2;
-    float stepMax = pl->getJumpDistance ();
+    float stepMax = pl->getJumpDistance ()* platforms_between_anchors;
     float stepMin = pl->getJumpDistance () / minStepMod * (int)selectedDiff;
     float distance = 0.0f;
     float stepMaxZ = pl->jumpHeight ();
@@ -43,7 +51,7 @@ bool Position_generator::start (Difficulity selectedDiff)
         dVect.z = fmin (dVect.z, stepMaxZ);
         position.z += dVect.z;
         // Using the height the new platform to determine max distance
-        stepMax = pl->getJumpDistance (position.z);
+        stepMax = pl->getJumpDistance (position.z) * platforms_between_anchors;        
         stepMin = stepMax / minStepMod * (int)selectedDiff;
         // Generating x and y pos
         dVect.x = randF (0, 1);
@@ -74,7 +82,50 @@ bool Position_generator::start (Difficulity selectedDiff)
             std::cout << "Jump not possible\n";
         }
     }
+
     this->anchors.push_back (newPlat);
+
+#pragma region
+    Platform* currentJumpPoint;
+    current = startPlat;
+
+    Vector3* startanchorPos = current->getPos();
+    Vector3* endanchorPos = current->next->getPos();
+
+    Vector3 dir_between_anchor = *endanchorPos - *startanchorPos;
+
+    Vector3 pos_to_place_jump_point = *startanchorPos + 
+        (dir_between_anchor / (platforms_between_anchors - 1));
+
+
+    currentJumpPoint = new Platform (pos_to_place_jump_point, 0, 1, 0);
+        
+    this->jumpPoints.push_back (currentJumpPoint);        
+    
+#pragma endregion    
+
+    while (current->next != nullptr) {
+        startanchorPos = current->getPos();
+        endanchorPos = current->next->getPos();
+        
+        dir_between_anchor = *endanchorPos - *startanchorPos;
+
+        for (int i = 1; i < platforms_between_anchors; i++) {
+            if (this->jumpPoints[0]->next == nullptr) { //TODO: Optimera bort denna senare
+                i += 1;
+            }
+            pos_to_place_jump_point = *startanchorPos + 
+                (dir_between_anchor / (platforms_between_anchors - 1) *  i );
+
+            newPlat = new Platform (pos_to_place_jump_point, 0, 1, 0);
+            currentJumpPoint->next = newPlat;
+            this->jumpPoints.push_back (newPlat);
+            currentJumpPoint = newPlat;
+        }
+
+        current = current->next;
+    }
+
     return true;
 }
 
@@ -84,6 +135,12 @@ void Position_generator::reset_anchors()
         delete anchor;
     }
     anchors.clear();
+    for (int i = 0; i < this->jumpPoints.size (); i++)
+    {
+        delete this->jumpPoints.at (i);
+    }
+    this->jumpPoints.clear();
+
     this->startPlat = new Platform(Vector3(), 0, 0);
     this->pl->reset();
 }
