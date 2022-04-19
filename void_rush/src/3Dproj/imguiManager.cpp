@@ -133,7 +133,7 @@ void ImguiManager::render_physics_widgets()
 		ImGui::SliderFloat("Speed", &owner->player->speed ,init_player_speed, init_player_speed + 300.f);
 		ImGui::InputFloat("Gravity", &owner->player->gravity.y);
 			
-		ImGui::TreePop();		
+			
 
 	}
 	ImGui::End();
