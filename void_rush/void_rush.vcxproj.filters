@@ -45,6 +45,7 @@
       <UniqueIdentifier>{1de9154b-81a4-43ad-bf25-f12375190e04}</UniqueIdentifier>
     </Filter>
     <Filter Include="3D_Renderer\Resource Files">
+    </Filter>
     <Filter Include="Engine\Source Files\Sounds">
       <UniqueIdentifier>{780dd629-f461-482b-a70f-e287133558a6}</UniqueIdentifier>
     </Filter>
@@ -616,12 +617,6 @@
       <Filter>Protoypes\puzzle</Filter>
     </ClInclude>
     <ClInclude Include="src\puzzle\puzzle_math.hpp">
-      <Filter>Protoypes\puzzle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\puzzle\protoPuzzle.hpp">
-      <Filter>Protoypes\puzzle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\puzzle\puzzle.hpp">
       <Filter>Protoypes\puzzle</Filter>
     </ClInclude>
     <ClInclude Include="src\puzzle\puzzle_hidden.hpp">

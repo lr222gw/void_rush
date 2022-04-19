@@ -16,6 +16,7 @@ SkyBox::~SkyBox()
 
 void SkyBox::draw(Graphics*& gfx)
 {
+	gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), nullptr);
 	//set pixelshader and vertexshader
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[2], nullptr ,0);
 	gfx->get_IMctx()->PSSetShader(gfx->getPS()[3], nullptr ,0);
@@ -25,6 +26,7 @@ void SkyBox::draw(Graphics*& gfx)
 	for (int i = 0; i < model->getMehses().size(); i++) {
 		model->getMehses()[i].draw(gfx->get_IMctx());
 	}
+	gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), gfx->getDepthStencil());
 }
 
 void SkyBox::update(vec3 position)

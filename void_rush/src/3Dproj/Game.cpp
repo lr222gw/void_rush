@@ -43,7 +43,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 		//UIManager.takeObject(obj[3]);
 		/*IMGUI*/
 		for (int i = 0; i < nrOfLight; i++) {
-			UIManager.takeLight(light[i]);
+			IMGUIManager.takeLight(light[i]);
 		}
 	}
 	
@@ -91,14 +91,10 @@ Game::~Game()
 		delete light[i];
 	}
 	delete[] light;
-	for (int i = 0; i < obj.size(); i++) {
-		delete obj[i];
-	}
 	for (int i = 0; i < billboardGroups.size(); i++) {
 		delete billboardGroups[i];
 	}
 	delete Space;
-	delete player;
 	delete testPuzzle;
 	delete generationManager;
 	delete UI;
@@ -130,7 +126,7 @@ while (msg.message != WM_QUIT && gfx->getWindosClass().ProcessMessages())
 		static int os = 0;
 		if (e.getType() == mouseEvent::EventType::LPress) {
 
-			soundManager.playSound("ah1", obj[0]->getPos());
+			soundManager.playSound("ah1", GameObjManager->getGameObject(0)->getPos());
 		}
 	}
 
@@ -192,10 +188,10 @@ void Game::Update()
 			1.0f, 0.0f, 0.0f, 0.0f,
 			0.0f, 1.0f, 0.0f, 0.0f,
 			0.0f, 0.0f, 1.0f, 0.0f,
-			-obj[1]->getPos().x, -obj[1]->getPos().y, -obj[1]->getPos().z, 1.0f
+			-GameObjManager->getGameObject(1)->getPos().x, -GameObjManager->getGameObject(1)->getPos().y, -GameObjManager->getGameObject(1)->getPos().z, 1.0f
 		);
-		XRotation(viewMatrix, obj[1]->getRot().x);
-		YRotation(viewMatrix, obj[1]->getRot().y);
+		XRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().x);
+		YRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().y);
 		gfx->getVertexconstbuffer()->view.element = viewMatrix;
 	}
 	player->movePos(vec3(0, -12 * dt.dt(), 0));
@@ -211,29 +207,21 @@ void Game::Update()
 	Space->update(camera->getPos());
 
 	/*update matrixes*/
-	for (int i = 0; i < obj.size(); i++) {
-		obj[i]->updateMatrix();
-	}
+	GameObjManager->updateMatrix();
 	player->updateMatrix();
-	/*
-	DirectX::XMFLOAT4 a[2];
-	DirectX::XMFLOAT4 b[2];
-	obj[3]->getBoundingBox(a);
-	obj[2]->getBoundingBox(b);
-	*/
 	
 	if (mouse->IsLeftDown() && testTime <= 0.0f)
 	{
 		testTime = 1.0f;
-		testPuzzle->Interact(obj[0]->getPos());
+		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos());
 	}
 
 	/*Collision checking*/
 	collisionWithBlocking(player->getPlayerObjPointer(), GameObjManager->getGameObject("Ground"));
-	//collisionWithBlocking(player->getPlayerObjPointer(), obj[0]);
+
 	generationManager->updatePlatfoms(player);
 
-	if (collision3D(player->getPlayerObjPointer(), obj[2], true, false))
+	if (collision3D(player->getPlayerObjPointer(), GameObjManager->getGameObject(2), true, false))
 	{
 		if (player->getGroundedTimer() > 1.f)
 		{
@@ -247,9 +235,7 @@ void Game::Update()
 	/*update things*/
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 	gfx->Update((float)dt.dt(), camera->getPos());
-	for (int i = 0; i < obj.size(); i++) {
-		obj[i]->update();
-	}
+	GameObjManager->update();
 	player->update((float)dt.dt());
 
 #pragma region camera_settings
@@ -281,15 +267,10 @@ void Game::DrawToBuffer()
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gfx->get_IMctx()->IASetInputLayout(gfx->getInputLayout()[0]);
 	gfx->get_IMctx()->GSSetShader(nullptr, nullptr, 0);
-
-	gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), nullptr);
+	
 	Space->draw(gfx);
-	gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), gfx->getDepthStencil());
-
+	
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
-	for (int i = 0; i < obj.size(); i++) {
-		obj[i]->draw(gfx);
-	}
 	testPuzzle->Update(); //Take this away later
 	player->draw(gfx);
 	generationManager->draw(); //Todo: ask Simon where to put this...
@@ -328,10 +309,6 @@ void Game::DrawAllShadowObject()
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gfx->get_IMctx()->GSSetShader(nullptr, nullptr, 0);
 	gfx->get_IMctx()->PSSetShader(nullptr, nullptr, 0);
-	for (int i = 0; i < obj.size(); i++) {
-	
-		obj[i]->draw(gfx, true);
-	}
 	GameObjManager->drawShadow();
 }
 
@@ -344,9 +321,6 @@ void Game::updateShaders(bool vs, bool ps)
 	if (vs)
 	{
 		GameObjManager->updateVertex();
-		for (int i = 0; i < obj.size(); i++) {
-			obj[i]->updateVertexShader(gfx);
-		}
 		for (int i = 0; i < LightVisualizers.size(); i++) {
 			LightVisualizers[i]->updateVertexShader(gfx);
 		}
@@ -355,9 +329,6 @@ void Game::updateShaders(bool vs, bool ps)
 	}
 	if (ps) {
 		GameObjManager->updatePixel();
-		for (int i = 0; i < obj.size(); i++) {
-			obj[i]->updatePixelShader(gfx);
-		}
 		for (int i = 0; i < LightVisualizers.size(); i++) {
 			LightVisualizers[i]->updatePixelShader(gfx);
 		}
@@ -370,12 +341,6 @@ void Game::setUpObject()
 {
 	GameObjManager = new GameObjectManager(gfx, rm);
 	////////OBJECTS///////////
-	//cameras
-	obj.push_back(new GameObject(rm->get_Models("Camera.obj", gfx), gfx, vec3(0.f, 0.f, 10.f), vec3(0.f, 0.f, 0.f), vec3(1.f, 1.0f, 1.0f)));//main
-	obj.push_back(new GameObject(rm->get_Models("Camera.obj", gfx), gfx, vec3(50.f, 0.f, 0.f), vec3(-1.58f, 0.f, 0.f), vec3(2.f, 2.0f, 2.0f)));//second
-	////
-	//////OBJECTS
-	obj.push_back(new GameObject(rm->get_Models("quad2.obj", gfx), gfx, vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100)));
 	GameObjManager->CreateGameObject("Camera.obj", "Camera1", vec3(0.f, 0.f, 10.f), vec3(0.f, 0.f, 0.f), vec3(5.f, 5.0f, 5.0f)); //main
 	GameObjManager->CreateGameObject("Camera.obj", "Camera2", vec3(0.f, 100.f, 0.f), vec3(0.f, -1.58f, 0.f), vec3(2.f, 2.0f, 2.0f)); //main
 
@@ -384,6 +349,7 @@ void Game::setUpObject()
 
 	
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);
+	GameObjManager->addGameObject(player, "Player");
 }
 
 void Game::setUpLights()

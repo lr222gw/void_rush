@@ -15,6 +15,7 @@ public:
 	void update();
 	void updateVertex();
 	void updatePixel();
+	void updateMatrix();
 	void draw();
 	void drawShadow();
 	GameObject*& getGameObject(std::string key);

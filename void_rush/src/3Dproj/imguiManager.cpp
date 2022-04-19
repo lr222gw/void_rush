@@ -64,7 +64,6 @@ void ImguiManager::update_lights(int lightNr)
 		}
 		ImGui::End();
 	}
-	ImGui::End();
 	
 }
 

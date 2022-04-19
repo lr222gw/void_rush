@@ -68,6 +68,13 @@ void GameObjectManager::updatePixel()
 	}
 }
 
+void GameObjectManager::updateMatrix()
+{
+	for (auto const& [key, val] : gameObjects) {
+		val->updateMatrix();
+	}
+}
+
 void GameObjectManager::draw()
 {
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
