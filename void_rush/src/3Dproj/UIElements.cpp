@@ -1,11 +1,58 @@
 #include "UIElements.h"
+#include "CreateBuffer.h"
 
-UIElements::UIElements(vec2 _pos, vec2 _size)
-	: size(_size), position(_pos)
+UIElements::UIElements(vec2 _pos, vec2 _size, Graphics*& gfx)
 {
+    constBufferData.size.element[0] = _size.x;
+    //constBufferData.size.element[0] = 1;
+    constBufferData.size.element[1] = _size.y;
+    //constBufferData.size.element[1] = 1;
+    constBufferData.position.element[0] = _pos.x;
+    //constBufferData.position.element[0] = 0;
+    constBufferData.position.element[1] = _pos.y;
+    //constBufferData.position.element[1] = 0;
+    constBufferData.UVSizeWXY.element[0] = 1;
+    constBufferData.UVSizeWXY.element[1] = 1;
+    constBufferData.UVSizeWXY.element[2] = 1;
+    constBufferData.UVSizeWXY.element[3] = 1;
+    CreateConstBuffer(gfx, constBuffer, sizeof(UIVCB), &constBufferData);
+}
 
+void UIElements::updateConstBuffer(Graphics*& gfx)
+{
+    D3D11_MAPPED_SUBRESOURCE resource;
+
+    gfx->get_IMctx()->Map(this->constBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
+    memcpy(resource.pData, &constBufferData, sizeof(UIVCB));
+    gfx->get_IMctx()->Unmap(constBuffer, 0);
+    ZeroMemory(&resource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+}
+
+void UIElements::setSize(float x, float y)
+{
+    constBufferData.size.element[0] = x;
+    constBufferData.size.element[1] = y;
+}
+
+void UIElements::setPosition(float x, float y)
+{
+    constBufferData.position.element[0] = x;
+    constBufferData.position.element[1] = y;
+}
+
+void UIElements::setUVSize(float x, float y)
+{
+    constBufferData.UVSizeWXY.element[0] = x;
+    constBufferData.UVSizeWXY.element[1] = y;
+}
+
+void UIElements::setUVPosition(int x, int y)
+{
+    constBufferData.UVSizeWXY.element[2] = x;
+    constBufferData.UVSizeWXY.element[3] = y;
 }
 
 UIElements::~UIElements()
 {
+    constBuffer->Release();
 }

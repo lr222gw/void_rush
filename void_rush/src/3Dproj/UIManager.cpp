@@ -27,11 +27,17 @@ void UIManager::createUIString(std::string str, vec2 pos, vec2 size)
 
 void UIManager::createUISprite(std::string rmsprite, vec2 pos, vec2 size)
 {
-	elements.push_back(new UISprite(rm->getSprite(rmsprite, gfx), pos, size));
+	elements.push_back(new UISprite(rm->getSprite(rmsprite, gfx), pos, size, gfx));
+}
+
+UIElements* UIManager::getElements(int index)
+{
+	return elements[index];
 }
 
 void UIManager::draw()
 {
+
 	UINT offset = 0;
 	static UINT strid = sizeof(UIVertex);
 	gfx->get_IMctx()->IASetVertexBuffers(0, 1, &this->vertexBuffer, &strid, &offset);
@@ -41,6 +47,7 @@ void UIManager::draw()
 	gfx->get_IMctx()->PSSetShader(pShader, nullptr, 0);
 
 	for (int i = 0; i < elements.size(); i++) {
+		elements[i]->updateConstBuffer(gfx);
 		elements[i]->draw(gfx);
 	}
 	for (int i = 0; i < strings.size(); i++) {

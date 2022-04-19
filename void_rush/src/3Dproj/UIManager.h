@@ -13,6 +13,7 @@ public:
 	virtual ~UIManager();
 	void createUIString(std::string str, vec2 pos, vec2 size);
 	void createUISprite(std::string rmsprite, vec2 pos, vec2 size);
+	UIElements* getElements(int index);
 	void draw();
 private:
 	std::vector<UIElements*> elements;
@@ -26,5 +27,4 @@ private://d3dshit
 	ID3D11PixelShader* pShader;
 
 	ID3D11Buffer* vertexBuffer;
-	ID3D11Buffer* constBuffer;
 };

@@ -1,7 +1,7 @@
 #include "UISymbols.h"
 
-UISymbols::UISymbols():
-	UIElements(vec2(0,0), vec2(0,0))
+UISymbols::UISymbols(Graphics*& gfx):
+	UIElements(vec2(0,0), vec2(0,0), gfx)
 {
 }
 
