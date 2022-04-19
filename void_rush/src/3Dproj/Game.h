@@ -26,6 +26,9 @@
 #include "puzzle/protoPuzzle.hpp"
 #include "generation/Generation_manager.hpp"
 
+#include "interact/interact.hpp"
+#include "CollisionHandler.h"
+
 //git
 class Game {
 public:
@@ -44,6 +47,8 @@ private:
 	ResourceManager* rm;
 	void Update();
 	const float PI = 3.14159265359f;
+
+	void interactTest(std::vector<GameObject*>& interactables);
 private:
 	friend class ImguiManager;
 	//logic and others
@@ -60,6 +65,7 @@ private:
 	Player* player;
 	GameObjectManager* GameObjManager;
 	Generation_manager* generationManager;
+	CollisionHandler collisionHandler;
 	void setUpObject();
 	void setUpLights();
 	void setUpParticles();

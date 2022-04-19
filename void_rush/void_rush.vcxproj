@@ -184,6 +184,7 @@
     </PostBuildEvent>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
+      <ObjectFileOutput>$(SolutionDir)shaders\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -211,6 +212,7 @@
     </PostBuildEvent>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
+      <ObjectFileOutput>$(SolutionDir)shaders\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='scirptrun|x64'">
@@ -279,6 +281,7 @@
     <ClCompile Include="src/3Dproj/WindowContainer.cpp" />
     <ClCompile Include="src/3Dproj/WindowHelper.cpp" />
     <ClCompile Include="src\3Dproj\Collision3D.cpp" />
+    <ClCompile Include="src\3Dproj\CollisionHandler.cpp" />
     <ClCompile Include="src\3Dproj\GameObjectManager.cpp" />
     <ClCompile Include="src\3Dproj\UIElements.cpp" />
     <ClCompile Include="src\3Dproj\UIManager.cpp" />
@@ -292,6 +295,7 @@
     <ClCompile Include="src\generation\Generation_manager.cpp" />
     <ClCompile Include="src\generation\Platform.cpp" />
     <ClCompile Include="src\generation\playerGen.cpp" />
+    <ClCompile Include="src\interact\interact.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\physics\jump.cpp" />
     <ClCompile Include="src\physics\proto.cpp" />
@@ -357,6 +361,7 @@
     <ClInclude Include="src/3Dproj/WindowContainer.h" />
     <ClInclude Include="src/3Dproj/WindowHelper.h" />
     <ClInclude Include="src\3Dproj\Collision3D.h" />
+    <ClInclude Include="src\3Dproj\CollisionHandler.h" />
     <ClInclude Include="src\3Dproj\GameObjectManager.h" />
     <ClInclude Include="src\3Dproj\Player.h" />
     <ClInclude Include="src\3Dproj\UIElements.h" />
@@ -381,6 +386,7 @@
     <ClInclude Include="src\puzzle\puzzle_hidden.hpp" />
     <ClInclude Include="src\puzzle\puzzle_math.hpp" />
     <ClInclude Include="src\Vector.hpp" />
+    <ClInclude Include="src\interact\interact.hpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src/3Dproj/BillBoardUpdate.hlsl">

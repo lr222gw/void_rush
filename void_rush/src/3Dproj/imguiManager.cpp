@@ -128,13 +128,12 @@ void ImguiManager::render_physics_widgets()
 	static std::string name = "Physics";
 	if (ImGui::Begin(name.c_str())) {
 		//owner->player->speed
-		if (ImGui::TreeNode("Player options")) {
-
-			ImGui::InputFloat("Speed", &owner->player->speed);
-			ImGui::InputFloat("Gravity", &owner->player->gravity.y);
+					
+		static float init_player_speed = owner->player->speed;
+		ImGui::SliderFloat("Speed", &owner->player->speed ,init_player_speed, init_player_speed + 300.f);
+		ImGui::InputFloat("Gravity", &owner->player->gravity.y);
 			
-			ImGui::TreePop();
-		}
+			
 
 	}
 	ImGui::End();
@@ -143,6 +142,7 @@ void ImguiManager::render_physics_widgets()
 void ImguiManager::render_player_widgets()
 {
 	std::string name = "Player";
+
 	if (ImGui::Begin(name.c_str())) {
 		ImGui::Checkbox("noClip", &owner->player->noClip);
 		

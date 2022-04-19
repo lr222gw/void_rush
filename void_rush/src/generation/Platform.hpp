@@ -2,6 +2,8 @@
 #include "../common/Matrix.hpp"
 #include "../common/Shape.hpp"
 #include "../common/Vector.hpp"
+#include "../common/Shape.hpp"
+#include "../common/Matrix.hpp"
 #include <math.h>
 #include <memory>
 #include <vector>
