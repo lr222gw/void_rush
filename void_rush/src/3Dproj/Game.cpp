@@ -194,7 +194,6 @@ void Game::Update()
 		YRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().y);
 		gfx->getVertexconstbuffer()->view.element = viewMatrix;
 	}
-	player->movePos(vec3(0, -12 * dt.dt(), 0));
 
 	for (int i = 0; i < billboardGroups.size(); i++) {
 		billboardGroups[i]->update((float)dt.dt(), gfx);
