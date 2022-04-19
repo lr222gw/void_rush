@@ -19,7 +19,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	testPuzzle = new ProtoPuzzle(gfx, rm);
 	testPuzzle->Initiate();
 
-	generationManager = new Generation_manager(gfx,rm);
+	generationManager = new Generation_manager(gfx,rm, collisionHandler);
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 
 	setUpLights();
@@ -228,6 +228,8 @@ void Game::Update()
 		}
 		
 	}
+	collisionHandler.update();
+
 	/*update vertex*/
 	updateShaders();
 
@@ -356,6 +358,7 @@ void Game::setUpObject()
 	
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);
 	GameObjManager->addGameObject(player, "Player");
+	collisionHandler.addPlayer(player);
 }
 
 void Game::setUpLights()

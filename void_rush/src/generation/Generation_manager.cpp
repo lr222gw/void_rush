@@ -1,6 +1,6 @@
 #include "Generation_manager.hpp"
 
-Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm)
+Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, CollisionHandler& collisionHandler)
 	: gfx(_gfx), rm(_rm), seed(time(0)), difficulity(Difficulity::easy)
 {        
     
@@ -8,6 +8,7 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm)
     this->player_jump_checker = new Player_jump_checker();
     position_gen->assignPlayer(player_jump_checker);
     position_gen->setNrOfElements(29);
+    this->collisionHandler = &collisionHandler;
 }
 
 Generation_manager::~Generation_manager()
@@ -24,6 +25,7 @@ void Generation_manager::initialize()
     //Removes previous data and platforms if any
     
     for (PlatformObj* po : platformObjs) {
+        collisionHandler->deletePlatform(po);
         delete po;
     }
     platformObjs.clear();
@@ -44,6 +46,7 @@ void Generation_manager::initialize()
                 vec3(0.0f, 0.0f, 0.0f),
                 vec3(1.0f, 1.0f, 1.0f))
         );
+        collisionHandler->addPlatform(platformObjs[platformObjs.size() - 1]);
         next_platform = next_platform->next;
     }
 
@@ -64,10 +67,10 @@ void Generation_manager::draw()
 
 void Generation_manager::updatePlatfoms(Player* player)
 {
-    for (PlatformObj* platform : platformObjs) {
-
-        collisionWithBlocking(player, platform);
-    }
+    //for (PlatformObj* platform : platformObjs) {
+    //
+    //    collisionWithBlocking(player, platform);
+    //}
 }
 
 void Generation_manager::generateGraph()

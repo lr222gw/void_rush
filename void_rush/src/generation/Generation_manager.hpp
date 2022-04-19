@@ -7,6 +7,7 @@
 #include "3Dproj/Collision3D.h"
 #include "Position_generator.hpp"
 #include <vector>
+#include "3Dproj/CollisionHandler.h"
 
 //struct Platform{
 //	GameObject obj;
@@ -27,7 +28,7 @@ private:
 
 class Generation_manager {
 public:
-	Generation_manager(Graphics*& gfx, ResourceManager*& rm);
+	Generation_manager(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& collisionHandler);
 	~Generation_manager();
 	void initialize();
 
@@ -44,4 +45,5 @@ private:
 	std::vector<PlatformObj*> platformObjs;
 	Graphics*& gfx;
 	ResourceManager*& rm;
+	CollisionHandler* collisionHandler;
 };
