@@ -262,7 +262,11 @@ void Game::Update()
 
 
 	/*Interaction testing*/
-	interactTest(this->GameObjManager->getAllGameObjects());
+	//interactTest(this->GameObjManager->getAllGameObjects());
+	std::vector<GameObject*> temp = this->GameObjManager->getAllGameObjects();
+	std::vector<GameObject*> temp2 = {temp[1],temp[2],temp[3], temp[0]};
+
+	interactTest(temp2);
 	
 }
 
@@ -407,7 +411,7 @@ void Game::interactTest(std::vector<GameObject*>& interactables)
 	int toInteractIndex = -1;
 	vec3 toInteractVec = vec3{ 0.0, 0.0f, 0.0f };
 	bool interact = false;
-	for (int i = 4; i < interactables.size(); i++) {
+	for (int i = 0; i < interactables.size(); i++) {
 		interactables[i]->getBoundingBox(bb);
 		xSize = fabs(bb[1].x - bb[0].x);
 		ySize = fabs(bb[1].y - bb[0].y);
