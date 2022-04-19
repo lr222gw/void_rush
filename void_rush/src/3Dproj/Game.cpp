@@ -426,6 +426,9 @@ void Game::interactTest(std::vector<GameObject*>& interactables)
 	float zSize;
 	float size;
 	DirectX::XMFLOAT3 objMidPos;
+	int toInteractIndex = -1;
+	vec3 toInteractVec = vec3{ 0.0, 0.0f, 0.0f };
+	bool interact = false;
 	for (int i = 4; i < interactables.size(); i++) {
 
 		interactables[i]->getBoundingBox(bb);
@@ -444,31 +447,46 @@ void Game::interactTest(std::vector<GameObject*>& interactables)
 		objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
 		
 		if (CanInteract(camera->getPos(), camera->getForwardVec(), objMidPos, size / 2, 10.0f)) {
-			/*std::cout << "Interact! \nCampos: (" << camera->getPos().x << ", " << camera->getPos().y << ", " << camera->getPos().z << ")" <<
-				"\nCamVec: " << camera->getForwardVec().x << ", " << camera->getForwardVec().y << ", " << camera->getForwardVec().z << ")" <<
-				"\nObjPos: " << obj[3]->getPos().x << ", " << obj[3]->getPos().y << ", " << obj[3]->getPos().z << ")\n";*/
-			if (!interactables[i]->isUsed()) {
-				if (mouse->IsLeftDown()) {
-					std::cout << "Interact!\n";
-					interactables[i]->Use();
-					interactables[i]->addScale(vec3(0.1f,0.1f,0.1f));
-				}
-				else {
-					std::cout << "Can inetarct!\n";
-				}
+			if (toInteractIndex == -1) {
+				toInteractIndex = i;
+				toInteractVec = objMidPos;
 			}
 			else {
-				if (mouse->isRightDown()) {
-					std::cout << "Un-interact!\n";
-					interactables[i]->Use();
-					interactables[i]->addScale(vec3(-0.1f, -0.1f, -0.1f));
+				float l1 = (camera->getPos() - objMidPos).length();
+				float l2 = (camera->getPos() - toInteractVec).length();
+
+				if (l1 < l2) {
+					toInteractIndex = i;
+					toInteractVec = objMidPos;
 				}
-				else {
-					std::cout << "Can un-inetarct!\n";
-				}
+				
 			}
+			if(!interact)
+				interact = true;
 			
 		}
-		
 	}
+	if (interact) {
+		if (!interactables[toInteractIndex]->isUsed()) {
+			if (mouse->IsLeftDown()) {
+				std::cout << "Interact!\n";
+				interactables[toInteractIndex]->Use();
+				interactables[toInteractIndex]->addScale(vec3(0.1f, 0.1f, 0.1f));
+			}
+			/*else {
+				std::cout << "Can inetarct!\n";
+			}*/
+		}
+		else {
+			if (mouse->isRightDown()) {
+				std::cout << "Un-interact!\n";
+				interactables[toInteractIndex]->Use();
+				interactables[toInteractIndex]->addScale(vec3(-0.1f, -0.1f, -0.1f));
+			}
+			/*else {
+				std::cout << "Can un-inetarct!\n";
+			}*/
+		}
+	}
+	
 }
