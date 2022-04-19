@@ -194,7 +194,6 @@ void Game::Update()
 		YRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().y);
 		gfx->getVertexconstbuffer()->view.element = viewMatrix;
 	}
-	player->movePos(vec3(0, -12 * dt.dt(), 0));
 
 	for (int i = 0; i < billboardGroups.size(); i++) {
 		billboardGroups[i]->update((float)dt.dt(), gfx);
@@ -344,7 +343,8 @@ void Game::setUpObject()
 	GameObjManager->CreateGameObject("Camera.obj", "Camera2", vec3(0.f, 100.f, 0.f), vec3(0.f, -1.58f, 0.f), vec3(2.f, 2.0f, 2.0f)); //main
 
 	GameObjManager->CreateGameObject("quad2.obj", "Ground", vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100));
-	GameObjManager->CreateGameObject("nanosuit.obj","Nano", vec3(-5.f, 0.f, 0.f), vec3(0.f, 0.f, 0.f), vec3(1.f, 1.f, 1.f));
+	GameObjManager->CreateGameObject("BasePlatform.obj", "Base", vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
+	//GameObjManager->CreateGameObject("nanosuit.obj","Nano", vec3(-5.f, 0.f, 0.f), vec3(0.f, 0.f, 0.f), vec3(1.f, 1.f, 1.f));
 
 
 	

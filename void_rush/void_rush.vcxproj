@@ -365,6 +365,7 @@
     <ClInclude Include="src\3Dproj\UIString.h" />
     <ClInclude Include="src\3Dproj\UISymbols.h" />
     <ClInclude Include="src\common\Helper.hpp" />
+    <ClInclude Include="src\common\Matrix.hpp" />
     <ClInclude Include="src\common\Vector.hpp" />
     <ClInclude Include="src\generation\Position_generator.hpp" />
     <ClInclude Include="src\generation\Generation_manager.hpp" />

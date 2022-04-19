@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale):
-	GameObject(file, gfx, pos, rot, scale)
+	GameObject(file, gfx, pos, rot, scale), noClip(true)
 {
 	this->mouse = mouse;
 	this->keyboard = keyboard;
@@ -26,29 +26,32 @@ void Player::update(float dt)
 {
 	handleEvents(dt);
 	cam->setRotation(vec3(this->getRot().y, -this->getRot().x, this->getRot().z));
-	
-	if (!grounded)
-	{
-		// Update forces
-		resForce = gravity * mass;
+	if (!noClip) {
+		std::cout << "hello" << std::endl;
+		if (!grounded)
+		{
+			// Update forces
+			resForce = gravity * mass;
 
-		// Update acceleration
-		acceleration = resForce / mass;
-		// Update velocity
-		velocity = velocity + acceleration * dt;
+			// Update acceleration
+			acceleration = resForce / mass;
+			// Update velocity
+			velocity = velocity + acceleration * dt;
+		}
+		if (this->groundedTimer != 0.0f)
+		{
+			this->groundedTimer += dt;
+		}
+		this->movePos(vec3(0, this->velocity.y * dt, 0));
 	}
-	if (this->groundedTimer != 0.0f)
-	{
-		this->groundedTimer += dt;
-	}
-	this->movePos(vec3(0, this->velocity.y * dt, 0));
-	std::cout << this->groundedTimer << std::endl;
+	//std::cout << this->acceleration.y << std::endl;
 	cam->setRotation(this->getRot());
 	cam->setPosition(this->getPos());
 }
 
 void Player::handleEvents(float dt)
 {
+	
 	//change these to use keyboard
 	if (!mouse->getMouseActive()) {
 		if (GetKeyState(VK_RIGHT) & 0x8000) {
@@ -82,19 +85,24 @@ void Player::handleEvents(float dt)
 		translation = DirectX::XMFLOAT3(1, 0, 0);
 		Translate(dt, translation);
 	}
+	
 	if (keyboard->isKeyPressed(VK_SPACE)) {
-
-		if (grounded) {
-			grounded = false;
-			groundedTimer = 0.001f;
+		if(!noClip){
+			if (grounded) {
+				grounded = false;
+				groundedTimer = 0.001f;
+			}
+			if (velocity.y > 0)
+			{
+				velocity.y += jumpSpeed;
+			}
+			else
+			{
+				velocity = vec3(velocity.x, jumpSpeed, velocity.z);
+			}
 		}
-		if (velocity.y > 0.0f)
-		{
-			velocity.y += jumpSpeed;
-		}
-		else
-		{
-			velocity = vec3(velocity.x, jumpSpeed, velocity.z);
+		else {
+			this->movePos(vec3(0, speed * dt, 0));
 		}
 	}
 	if (keyboard->isKeyPressed(VK_CONTROL)) {

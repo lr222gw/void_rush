@@ -29,6 +29,7 @@ void ImguiManager::updateRender()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
+	render_player_widgets();
 	render_generation_widgets();
 	update_lights(owner->lightNr);
 	render_physics_widgets();
@@ -135,6 +136,17 @@ void ImguiManager::render_physics_widgets()
 			ImGui::TreePop();
 		}
 
+	}
+	ImGui::End();
+}
+
+void ImguiManager::render_player_widgets()
+{
+	std::string name = "Player";
+	if (ImGui::Begin(name.c_str())) {
+		ImGui::Checkbox("noClip", &owner->player->noClip);
+		
+		
 	}
 	ImGui::End();
 }
