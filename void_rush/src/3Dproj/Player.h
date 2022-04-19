@@ -34,7 +34,6 @@ private:
 	Keyboard* keyboard;
 	Camera* cam;
 
-	/*New*/
 	int health;
 	bool alive;
 public:

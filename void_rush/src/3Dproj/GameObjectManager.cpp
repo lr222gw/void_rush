@@ -14,10 +14,18 @@ GameObjectManager::~GameObjectManager()
 	}
 }
 
-void GameObjectManager::addGameObject(GameObject* obj, std::string name)
+void GameObjectManager::addGameObject(GameObject* obj, std::string name, bool interactable)
 {
 	gameObjects.insert({ name, obj });
 	VGameObj.push_back(obj);
+
+	if(interactable)
+		VInteractGameObj.push_back(obj);
+}
+
+void GameObjectManager::addInteractGameObject(GameObject* obj)
+{
+	VInteractGameObj.push_back(obj);
 }
 
 void GameObjectManager::removeGameObject(std::string name, bool del)
@@ -34,8 +42,10 @@ void GameObjectManager::removeGameObject(std::string name, bool del)
 	}
 	gameObjects.erase(it);
 	
+	CleanUpInteractables();
 
 }
+
 
 void GameObjectManager::CreateGameObject(std::string modelFile, std::string name, vec3 pos, vec3 rot, vec3 scale)
 {
@@ -47,9 +57,15 @@ void GameObjectManager::CreateGameObject(std::string modelFile, std::string name
 	VGameObj.push_back(objPtr);
 }
 
+
 std::vector<GameObject*>& GameObjectManager::getAllGameObjects()
 {
 	return VGameObj;
+}
+
+std::vector<GameObject*>& GameObjectManager::getAllInteractGameObjects()
+{
+	return VInteractGameObj;
 }
 
 void GameObjectManager::update()
@@ -109,4 +125,15 @@ GameObject*& GameObjectManager::getGameObject(std::string key)
 GameObject*& GameObjectManager::getGameObject(int index)
 {
 	return VGameObj[index];
+}
+
+void GameObjectManager::CleanUpInteractables()
+{
+	std::vector<GameObject*>temp;
+	for (int i = 0; i < VInteractGameObj.size(); i++) {
+		if (VInteractGameObj[i] != nullptr) {
+			temp.push_back(VInteractGameObj[i]);
+		}
+	}
+	VInteractGameObj = temp;
 }
