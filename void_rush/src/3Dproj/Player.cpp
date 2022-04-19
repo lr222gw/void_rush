@@ -1,4 +1,6 @@
 #include "Player.h"
+#include <algorithm>
+#undef max
 
 Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale):
 	GameObject(file, gfx, pos, rot, scale), noClip(true)
@@ -27,7 +29,6 @@ Player::~Player()
 void Player::update(float dt)
 {
 	handleEvents(dt);
-	cam->setRotation(vec3(this->getRot().y, -this->getRot().x, this->getRot().z));
 	if (!noClip) {
 		if (!grounded)
 		{
@@ -46,7 +47,7 @@ void Player::update(float dt)
 		this->movePos(vec3(0, this->velocity.y * dt, 0));
 	}
 	//std::cout << this->acceleration.y << std::endl;
-	cam->setRotation(this->getRot());
+	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
 	GameObject::update(dt);
 }
@@ -57,16 +58,16 @@ void Player::handleEvents(float dt)
 	//change these to use keyboard
 	if (!mouse->getMouseActive()) {
 		if (GetKeyState(VK_RIGHT) & 0x8000) {
-			this->addRot(vec3(mouse->getSense() * (float)dt, 0, 0));
+			cam->addRotation(vec3(mouse->getSense() * (float)dt, 0, 0));
 		}
 		if (GetKeyState(VK_LEFT) & 0x8000) {
-			this->addRot(vec3(-mouse->getSense() * (float)dt, 0, 0));
+			cam->addRotation(vec3(-mouse->getSense() * (float)dt, 0, 0));
 		}
 		if (GetKeyState(VK_UP) & 0x8000) {
-			this->addRot(vec3(0, mouse->getSense() * (float)dt, 0));
+			cam->addRotation(vec3(0, mouse->getSense() * (float)dt, 0));
 		}
 		if (GetKeyState(VK_DOWN) & 0x8000) {
-			this->addRot(vec3(0, -mouse->getSense() * (float)dt, 0));
+			cam->addRotation(vec3(0, -mouse->getSense() * (float)dt, 0));
 		}
 	}
 	//change values here
@@ -114,9 +115,12 @@ void Player::handleEvents(float dt)
 
 void Player::rotateWithMouse(int x, int y)
 {
-	this->addRot(vec3(
-		static_cast<float>(x)* mouse->getSense() * 0.01,
-		static_cast<float>(y)* -mouse->getSense() * 0.01,
+	float ycr = cam->getRot().y + static_cast<float>(y) * -mouse->getSense() * 0.01;
+	ycr = std::clamp(ycr, -1.5f, 1.57f);
+
+	cam->setRotation(vec3(
+		cam->getRot().x + static_cast<float>(x) * mouse->getSense() * 0.01,
+		ycr,
 		0
 	));
 }
@@ -155,7 +159,7 @@ void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 {
 	DirectX::XMStoreFloat3(&translate, DirectX::XMVector3Transform(
 		DirectX::XMLoadFloat3(&translate),
-		DirectX::XMMatrixRotationRollPitchYaw(this->getxRot(), this->getyRot(), 0) *
+		DirectX::XMMatrixRotationRollPitchYaw(cam->getRot().y, cam->getRot().x, 0) *
 		DirectX::XMMatrixScaling(1, 1, 1)//this line is not neccessary but I am afraid to break things
 	));
 	vec2 trans(translate.x, translate.z);
