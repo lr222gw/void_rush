@@ -47,7 +47,7 @@ bool Position_generator::start (Difficulity selectedDiff)
         stepMin = stepMax / minStepMod * (int)selectedDiff;
         // Generating x and y pos
         dVect.x = randF (0, 1);
-        dVect.y = randF (0, 1);
+        dVect.y = randF (-1, 1);
         dVect.normalizeXY ();
         distance = randF (stepMin, stepMax - 3);
         dVect.x *= distance;
