@@ -22,6 +22,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 
 Player::~Player()
 {
+	//Test
 }
 
 void Player::update(float dt)
