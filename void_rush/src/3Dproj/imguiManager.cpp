@@ -132,6 +132,7 @@ void ImguiManager::render_physics_widgets()
 					
 		static float init_player_speed = owner->player->speed;
 		ImGui::SliderFloat("Speed", &owner->player->speed ,init_player_speed, init_player_speed + 300.f);
+		ImGui::InputFloat("jumpSpeed", &owner->player->jumpSpeed);
 		ImGui::InputFloat("Gravity", &owner->player->gravity.y);
 			
 			
@@ -145,7 +146,10 @@ void ImguiManager::render_player_widgets()
 	std::string name = "Player";
 
 	if (ImGui::Begin(name.c_str())) {
-		ImGui::Checkbox("noClip", &owner->player->noClip);
+		if (ImGui::Checkbox("noClip", &owner->player->noClip)) {
+			owner->player->grounded = true;
+		}
+		
 		
 		
 	}
