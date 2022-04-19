@@ -38,7 +38,7 @@ void ImguiManager::updateRender()
 void ImguiManager::update_lights(int lightNr)
 {
 	
-	static auto vec = std::vector( 0, 1);
+	static auto vec = std::vector<int>(0);
 
 	for (int i = 0; i < vec.size(); i++) {
 		std::string name = "obj " + std::to_string(i);
