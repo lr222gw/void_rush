@@ -27,6 +27,7 @@
 #include "generation/Generation_manager.hpp"
 
 #include "interact/interact.hpp"
+#include "CollisionHandler.h"
 
 //git
 class Game {
@@ -64,6 +65,7 @@ private:
 	Player* player;
 	GameObjectManager* GameObjManager;
 	Generation_manager* generationManager;
+	CollisionHandler collisionHandler;
 	void setUpObject();
 	void setUpLights();
 	void setUpParticles();

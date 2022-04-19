@@ -384,6 +384,9 @@
     <ClCompile Include="src\common\Vector.cpp">
       <Filter>Protoypes\common</Filter>
     </ClCompile>
+    <ClCompile Include="src\3Dproj\CollisionHandler.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -634,6 +637,9 @@
     </ClInclude>
     <ClInclude Include="src\interact\interact.hpp">
       <Filter>Protoypes\interact</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\CollisionHandler.h">
+      <Filter>Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
