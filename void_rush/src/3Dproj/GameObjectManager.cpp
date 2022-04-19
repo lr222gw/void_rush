@@ -52,10 +52,10 @@ std::vector<GameObject*>& GameObjectManager::getAllGameObjects()
 	return VGameObj;
 }
 
-void GameObjectManager::update()
+void GameObjectManager::update(float dt)
 {
 	for (auto const& [key, val] : gameObjects) {
-		val->update();
+		val->update(dt);
 	}
 }
 

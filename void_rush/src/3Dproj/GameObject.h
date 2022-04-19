@@ -34,6 +34,7 @@ public:
 
 	void setWeight(float newWeight);
 	float getWeight();
+	virtual void update(float dt);
 
 	//DEBUG
 	vec3 getWidthHeightDepth();

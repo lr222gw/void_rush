@@ -14,7 +14,7 @@ void CollisionHandler::addPlayer(Player* player)
 	this->player = player;
 }
 
-void CollisionHandler::addEnemies(GameObject* enemies)
+void CollisionHandler::addEnemies(Enemy* enemies)
 {
 	this->Enemies.push_back(enemies);
 }
@@ -33,7 +33,7 @@ void CollisionHandler::deletePlatform(GameObject* ptr)
 	}
 }
 
-void CollisionHandler::deleteEnemies(GameObject* ptr)
+void CollisionHandler::deleteEnemies(Enemy* ptr)
 {
 	for (size_t i = 0; i < Enemies.size(); i++) {
 		if (Enemies[i] == ptr) {
@@ -71,7 +71,9 @@ void CollisionHandler::update()
 
 	//check player with enemies // different things happens based on what enemy it is
 	for (size_t i = 0; i < Enemies.size(); i++) {
-	
+		if (collision3D(player->getPlayerObjPointer(), Enemies[i])) {
+			Enemies[i]->collidedWithPlayer();
+		}
 	}
 	
 	//check player with Obstacle // different things happens based on what Obstacle it is

@@ -184,6 +184,7 @@ void Game::Update()
 	/*Move things*/
 	camera->updateCamera((float)dt.dt());
 	if (getkey('N')) {
+		ghost->setActive();
 		DirectX::XMMATRIX viewMatrix = DirectX::XMMATRIX(
 			1.0f, 0.0f, 0.0f, 0.0f,
 			0.0f, 1.0f, 0.0f, 0.0f,
@@ -236,7 +237,7 @@ void Game::Update()
 	/*update things*/
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 	gfx->Update((float)dt.dt(), camera->getPos());
-	GameObjManager->update();
+	GameObjManager->update(dt.dt());
 	player->update((float)dt.dt());
 
 #pragma region camera_settings
@@ -363,6 +364,10 @@ void Game::setUpObject()
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
+
+	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj",gfx), gfx, player->getPos() - vec3(0, 0, -5),vec3(0,0,0), vec3(0.2,0.2,0.2));
+	GameObjManager->addGameObject(ghost, "Ghost");
+	collisionHandler.addEnemies(ghost);
 }
 
 void Game::setUpLights()

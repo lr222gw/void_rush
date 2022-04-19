@@ -13,7 +13,7 @@ public:
 	void removeGameObject(std::string name, bool del = true);
 	void CreateGameObject(std::string modelFile, std::string name = "", vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
 	std::vector<GameObject*>& getAllGameObjects();
-	void update();
+	void update(float dt);
 	void updateVertex();
 	void updatePixel();
 	void updateMatrix();

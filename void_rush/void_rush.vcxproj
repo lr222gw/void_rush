@@ -282,7 +282,9 @@
     <ClCompile Include="src/3Dproj/WindowHelper.cpp" />
     <ClCompile Include="src\3Dproj\Collision3D.cpp" />
     <ClCompile Include="src\3Dproj\CollisionHandler.cpp" />
+    <ClCompile Include="src\3Dproj\Enemy.cpp" />
     <ClCompile Include="src\3Dproj\GameObjectManager.cpp" />
+    <ClCompile Include="src\3Dproj\Ghost.cpp" />
     <ClCompile Include="src\3Dproj\UIElements.cpp" />
     <ClCompile Include="src\3Dproj\UIManager.cpp" />
     <ClCompile Include="src\3Dproj\UISprite.cpp" />
@@ -362,7 +364,9 @@
     <ClInclude Include="src/3Dproj/WindowHelper.h" />
     <ClInclude Include="src\3Dproj\Collision3D.h" />
     <ClInclude Include="src\3Dproj\CollisionHandler.h" />
+    <ClInclude Include="src\3Dproj\Enemy.h" />
     <ClInclude Include="src\3Dproj\GameObjectManager.h" />
+    <ClInclude Include="src\3Dproj\Ghost.h" />
     <ClInclude Include="src\3Dproj\Player.h" />
     <ClInclude Include="src\3Dproj\UIElements.h" />
     <ClInclude Include="src\3Dproj\UIManager.h" />

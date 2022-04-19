@@ -29,7 +29,6 @@ void Player::update(float dt)
 	handleEvents(dt);
 	cam->setRotation(vec3(this->getRot().y, -this->getRot().x, this->getRot().z));
 	if (!noClip) {
-		std::cout << "hello" << std::endl;
 		if (!grounded)
 		{
 			// Update forces
@@ -49,6 +48,7 @@ void Player::update(float dt)
 	//std::cout << this->acceleration.y << std::endl;
 	cam->setRotation(this->getRot());
 	cam->setPosition(this->getPos());
+	GameObject::update(dt);
 }
 
 void Player::handleEvents(float dt)
