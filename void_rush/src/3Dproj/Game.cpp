@@ -260,7 +260,7 @@ void Game::Update()
 
 
 	/*Interaction testing*/
-	interactTest(obj);
+	interactTest(this->GameObjManager->getAllGameObjects());
 	
 }
 

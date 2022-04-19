@@ -47,6 +47,11 @@ void GameObjectManager::CreateGameObject(std::string modelFile, std::string name
 	VGameObj.push_back(objPtr);
 }
 
+std::vector<GameObject*>& GameObjectManager::getAllGameObjects()
+{
+	return VGameObj;
+}
+
 void GameObjectManager::update()
 {
 	for (auto const& [key, val] : gameObjects) {
