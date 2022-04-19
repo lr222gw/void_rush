@@ -33,15 +33,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	
 	camera = new Camera(gfx, mouse, vec3(0.0f,0.0f,0.0f), vec3(0.0f,0.0f,0.0f));
 	camera->setData();
-	//gfx->getWindosClass().setMouse(mouse);
 	setUpObject();
-	
-	Qtree = new QuadTree(stataicObj, vec2(0, 0), 4, 100);
-	//(pi,3.14) = 180 degrees
-	Qtree->setUpCamProp(2000);	
-	for (int i = 0; i < nrOfLight; i++) {
-		LightVisualizers.push_back(new GameObject(rm->get_Models("Camera.obj"), gfx, light[i]->getPos(), light[i]->getRotation(), vec3(1.f, 1.0f, 1.0f)));
-	}
 	
 	
 
@@ -102,10 +94,6 @@ Game::~Game()
 	for (int i = 0; i < obj.size(); i++) {
 		delete obj[i];
 	}
-	for (int i = 0; i < stataicObj.size(); i++) {
-		delete stataicObj[i];
-	}
-	delete Qtree;
 	for (int i = 0; i < billboardGroups.size(); i++) {
 		delete billboardGroups[i];
 	}
@@ -114,6 +102,7 @@ Game::~Game()
 	delete testPuzzle;
 	delete generationManager;
 	delete UI;
+	delete GameObjManager;
 }
 
 
@@ -240,8 +229,8 @@ void Game::Update()
 	}
 
 	/*Collision checking*/
-	collisionWithBlocking(player, obj[2]);
-	collisionWithBlocking(player, obj[0]);
+	collisionWithBlocking(player->getPlayerObjPointer(), GameObjManager->getGameObject("Ground"));
+	//collisionWithBlocking(player->getPlayerObjPointer(), obj[0]);
 	generationManager->updatePlatfoms(player);
 
 	if (collision3D(player->getPlayerObjPointer(), obj[2], true, false))
@@ -304,10 +293,8 @@ void Game::DrawToBuffer()
 	testPuzzle->Update(); //Take this away later
 	player->draw(gfx);
 	generationManager->draw(); //Todo: ask Simon where to put this...
-
+	GameObjManager->draw();
     camera->calcFURVectors();
-	Qtree->draw(gfx, camera);
-	Qtree->clearAlrDraw();
 	
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
@@ -345,9 +332,7 @@ void Game::DrawAllShadowObject()
 	
 		obj[i]->draw(gfx, true);
 	}
-	camera->calcFURVectors();
-	Qtree->draw(gfx, camera, true);
-	Qtree->clearAlrDraw();
+	GameObjManager->drawShadow();
 }
 
 void Game::updateShaders(bool vs, bool ps)
@@ -358,6 +343,7 @@ void Game::updateShaders(bool vs, bool ps)
 	
 	if (vs)
 	{
+		GameObjManager->updateVertex();
 		for (int i = 0; i < obj.size(); i++) {
 			obj[i]->updateVertexShader(gfx);
 		}
@@ -368,14 +354,12 @@ void Game::updateShaders(bool vs, bool ps)
 		player->updateVertexShader(gfx);
 	}
 	if (ps) {
+		GameObjManager->updatePixel();
 		for (int i = 0; i < obj.size(); i++) {
 			obj[i]->updatePixelShader(gfx);
 		}
 		for (int i = 0; i < LightVisualizers.size(); i++) {
 			LightVisualizers[i]->updatePixelShader(gfx);
-		}
-		for (int i = 0; i < stataicObj.size(); i++) {
-			stataicObj[i]->updatePixelShader(gfx);
 		}
 		Space->updatePixelShader(gfx);
 		player->updatePixelShader(gfx);
@@ -384,6 +368,7 @@ void Game::updateShaders(bool vs, bool ps)
 
 void Game::setUpObject()
 {
+	GameObjManager = new GameObjectManager(gfx, rm);
 	////////OBJECTS///////////
 	//cameras
 	obj.push_back(new GameObject(rm->get_Models("Camera.obj", gfx), gfx, vec3(0.f, 0.f, 10.f), vec3(0.f, 0.f, 0.f), vec3(1.f, 1.0f, 1.0f)));//main
@@ -391,11 +376,11 @@ void Game::setUpObject()
 	////
 	//////OBJECTS
 	obj.push_back(new GameObject(rm->get_Models("quad2.obj", gfx), gfx, vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100)));
+	GameObjManager->CreateGameObject("Camera.obj", "Camera1", vec3(0.f, 0.f, 10.f), vec3(0.f, 0.f, 0.f), vec3(5.f, 5.0f, 5.0f)); //main
+	GameObjManager->CreateGameObject("Camera.obj", "Camera2", vec3(0.f, 100.f, 0.f), vec3(0.f, -1.58f, 0.f), vec3(2.f, 2.0f, 2.0f)); //main
 
-	obj.push_back(new GameObject(rm->get_Models("platform.obj", gfx), gfx, vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
-	//obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(-15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
-	//obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(0.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
-	//obj.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+	GameObjManager->CreateGameObject("quad2.obj", "Ground", vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100));
+	GameObjManager->CreateGameObject("nanosuit.obj","Nano", vec3(-5.f, 0.f, 0.f), vec3(0.f, 0.f, 0.f), vec3(1.f, 1.f, 1.f));
 
 	
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);

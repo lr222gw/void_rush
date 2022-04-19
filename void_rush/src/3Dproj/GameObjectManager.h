@@ -16,12 +16,14 @@ public:
 	void updateVertex();
 	void updatePixel();
 	void draw();
-	void drawShadow(Light* lights, int nrOfLighrs);
-	GameObject* getGameObject(std::string key);
+	void drawShadow();
+	GameObject*& getGameObject(std::string key);
+	GameObject*& getGameObject(int index);
 private:
 	Graphics* gfx;
 	ResourceManager* rm;
-	int modelID;
+	int GameObjID;
+	std::vector<GameObject*> VGameObj;
 	std::map<std::string, GameObject*> gameObjects;
 
 };

@@ -12,18 +12,16 @@
 #include "DeferredRendering.h"
 #include "ShadowMap.h"
 #include "Graphics.h"
-#include "DynamicCubeEnviroment.h"
-#include "QuadTree.h"
 #include "TrashCollector.h"
 #include "SoundManager.h"
 
-#include "DebugCamera.h"
 #include "flags.h"
 #include "skybox.h"
 #include "UIManager.h"
 
 #include "Collision3D.h"
 #include "Player.h"
+#include "GameObjectManager.h"
 
 #include "puzzle/protoPuzzle.hpp"
 #include "generation/Generation_manager.hpp"
@@ -56,11 +54,11 @@ private:
 	Keyboard* keyboard;
 	Camera* camera;
 	ShadowMap* shadowMap;
-	QuadTree* Qtree;
 	SoundManager soundManager;
 	UIManager* UI;
 	SkyBox* Space;
 	Player* player;
+	GameObjectManager* GameObjManager;
 	Generation_manager* generationManager;
 	void setUpObject();
 	void setUpLights();
@@ -70,7 +68,6 @@ private:
 	Light **light;
 	std::vector<GameObject*> LightVisualizers;
 	std::vector<GameObject*> obj;
-	std::vector<GameObject*> stataicObj;
 	std::vector<BillBoardGroup*> billboardGroups;
 
 	//var

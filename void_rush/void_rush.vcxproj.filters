@@ -44,6 +44,7 @@
     <Filter Include="Engine\Source Files\WindowWithMouse">
       <UniqueIdentifier>{1de9154b-81a4-43ad-bf25-f12375190e04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3D_Renderer\Resource Files">
     <Filter Include="Engine\Source Files\Sounds">
       <UniqueIdentifier>{780dd629-f461-482b-a70f-e287133558a6}</UniqueIdentifier>
     </Filter>
@@ -141,6 +142,12 @@
     </Filter>
     <Filter Include="Void_Rush">
       <UniqueIdentifier>{c5764fac-6a41-4066-a666-e2126b7cb852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D_Renderer\Source Files\Managers">
+      <UniqueIdentifier>{642eb729-b09a-4937-b273-369cf3c011fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D_Renderer\Header Files\Managers">
+      <UniqueIdentifier>{961e647c-276e-4386-8dac-add70910af50}</UniqueIdentifier>
     </Filter>
     <Filter Include="3D_Renderer\Source Files\UI">
       <UniqueIdentifier>{9f1c2901-ff6e-4965-b1ce-63f7f2224df0}</UniqueIdentifier>
@@ -344,6 +351,21 @@
     </ClCompile>
     <ClCompile Include="src\3Dproj\Player.cpp">
       <Filter>Void_Rush\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\GameObjectManager.cpp">
+      <Filter>3D_Renderer\Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/ResourceManager.cpp">
+      <Filter>3D_Renderer\Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/imguiManager.cpp">
+      <Filter>3D_Renderer\Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/SoundManager.cpp">
+      <Filter>3D_Renderer\Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/BillBoardManager.cpp">
+      <Filter>3D_Renderer\Source Files\Managers</Filter>
     </ClCompile>
     <ClCompile Include="src\puzzle\protoPuzzle.cpp">
       <Filter>Protoypes\puzzle</Filter>
