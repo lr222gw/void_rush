@@ -33,7 +33,7 @@ bool CanInteract (vec3 camPos, vec3 camDir, vec3 itemPos,
         return false;
     }
     // Item is too far away
-    else if (s > maxDistance)
+    else if (s > maxDistance+itemRad)
     {
         return false;
     }
