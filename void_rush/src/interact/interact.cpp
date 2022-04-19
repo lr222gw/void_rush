@@ -3,18 +3,6 @@
 bool CanInteract (vec3 camPos, vec3 camDir, vec3 itemPos,
                   float itemRad, float maxDistance)
 {
-
-   /* if(get_distance(camPos, itemPos) > maxDistance){
-        return false;
-    }
-    Vector3 dir = camPos - itemPos;
-    dir.normalize();
-
-    if(dot(dir, camDir) > itemRad){
-        return false;
-    }
-    return true;*/
-
     camDir.Normalize();
 
     // l = distance from camPos to itemPos
@@ -45,16 +33,4 @@ bool CanInteract (vec3 camPos, vec3 camDir, vec3 itemPos,
     }
 
     return true;
-}
-
-void TestIntersection(){
-    vec3 camPos = vec3(0.0f, 6.0f, -10.0f);
-    vec3 camDir = vec3(0.0f, 0.0f, 1.0f);
-    vec3 itemPos = vec3(0.0f, 6.0f, 0.0f);
-    float itemRad = 1.0f;
-    float maxDistance = 10.0f;
-
-    if(CanInteract(camPos,  camDir,  itemPos, itemRad, maxDistance)){
-        std::cout<<"Intersect!.\n";
-    }
 }

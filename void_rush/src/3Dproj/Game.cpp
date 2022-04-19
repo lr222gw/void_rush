@@ -263,10 +263,10 @@ void Game::Update()
 
 	/*Interaction testing*/
 	//interactTest(this->GameObjManager->getAllGameObjects());
-	std::vector<GameObject*> temp = this->GameObjManager->getAllGameObjects();
-	std::vector<GameObject*> temp2 = {temp[1],temp[2],temp[3], temp[0]};
+	//std::vector<GameObject*> temp = this->GameObjManager->getAllGameObjects();
+	//std::vector<GameObject*> temp2 = {temp[1],temp[2],temp[3], temp[0]};
 
-	interactTest(temp2);
+	Interact(this->GameObjManager->getAllInteractGameObjects());
 	
 }
 
@@ -363,6 +363,7 @@ void Game::setUpObject()
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
+
 }
 
 void Game::setUpLights()
@@ -400,7 +401,7 @@ void Game::setUpParticles()
 }
 
 /*Interaction Test*/
-void Game::interactTest(std::vector<GameObject*>& interactables)
+void Game::Interact(std::vector<GameObject*>& interactables)
 {
 	DirectX::XMFLOAT4 bb[2];
 	float xSize;
@@ -448,21 +449,14 @@ void Game::interactTest(std::vector<GameObject*>& interactables)
 				std::cout << "Interact!\n";
 				interactables[toInteractIndex]->Use();
 				interactables[toInteractIndex]->addScale(vec3(0.1f, 0.1f, 0.1f));
-			}
-			//else
-			//	std::cout << "Can inetarct!\n";
-			
+			}	
 		}
 		else {
 			if (mouse->isRightDown()) {
 				std::cout << "Un-interact!\n";
 				interactables[toInteractIndex]->Use();
 				interactables[toInteractIndex]->addScale(vec3(-0.1f, -0.1f, -0.1f));
-			}
-			//else 
-			//	std::cout << "Can un-inetarct!\n";
-			
+			}	
 		}
 	}
-	
 }
