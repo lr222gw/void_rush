@@ -15,7 +15,10 @@ public:
 	void setGrounded();
 	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
+	
 private:
+	friend class ImguiManager;
+	bool noClip;
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
 	float speed;
 	float jumpSpeed;
