@@ -117,6 +117,7 @@ void ImguiManager::render_generation_widgets()
 
 		if(ImGui::Button("initialize")){
 			owner->generationManager->initialize();
+			owner->generationManager->generateGraph();
 		}
 	}
 	ImGui::End();
