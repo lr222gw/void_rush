@@ -220,14 +220,7 @@ void Game::Update()
 	//collisionWithBlocking(player->getPlayerObjPointer(), obj[2]);
 	generationManager->updatePlatfoms(player);
 
-	if (collision3D(player->getPlayerObjPointer(), GameObjManager->getGameObject(2), true, false))
-	{
-		if (player->getGroundedTimer() > 1.f)
-		{
-			player->setGrounded();
-		}
-		
-	}
+	
 	collisionHandler.update();
 
 	/*update vertex*/
