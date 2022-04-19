@@ -266,7 +266,7 @@ void Game::Update()
 	//std::vector<GameObject*> temp = this->GameObjManager->getAllGameObjects();
 	//std::vector<GameObject*> temp2 = {temp[1],temp[2],temp[3], temp[0]};
 
-	interactTest(this->GameObjManager->getAllInteractGameObjects());
+	Interact(this->GameObjManager->getAllInteractGameObjects());
 	
 }
 
@@ -401,7 +401,7 @@ void Game::setUpParticles()
 }
 
 /*Interaction Test*/
-void Game::interactTest(std::vector<GameObject*>& interactables)
+void Game::Interact(std::vector<GameObject*>& interactables)
 {
 	DirectX::XMFLOAT4 bb[2];
 	float xSize;

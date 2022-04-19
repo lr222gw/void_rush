@@ -48,11 +48,13 @@ private:
 	void setHeightWidthDepth();
 	vec3 WHD;
 
-	/*Interaction Start*/
+	//Interaction Start
+private:
 	bool used;
 public:
 	void Use();
 	bool isUsed();
-	/*Interaction End*/
+	//Interaction End
+
 	float weight;//see what object should move in collision
 };
