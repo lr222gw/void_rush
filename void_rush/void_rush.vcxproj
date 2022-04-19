@@ -292,6 +292,7 @@
     <ClCompile Include="src\generation\Generation_manager.cpp" />
     <ClCompile Include="src\generation\Platform.cpp" />
     <ClCompile Include="src\generation\playerGen.cpp" />
+    <ClCompile Include="src\interact\interact.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\physics\jump.cpp" />
     <ClCompile Include="src\physics\proto.cpp" />
@@ -381,6 +382,7 @@
     <ClInclude Include="src\puzzle\puzzle_hidden.hpp" />
     <ClInclude Include="src\puzzle\puzzle_math.hpp" />
     <ClInclude Include="src\Vector.hpp" />
+    <ClInclude Include="src\interact\interact.hpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src/3Dproj/BillBoardUpdate.hlsl">

@@ -142,6 +142,9 @@
     <Filter Include="Void_Rush">
       <UniqueIdentifier>{c5764fac-6a41-4066-a666-e2126b7cb852}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Protoypes\interact">
+      <UniqueIdentifier>{1ca5de3f-cb8c-4e4a-8b6a-3cff64affd35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src/3Dproj/D311Helper.cpp">
@@ -374,6 +377,12 @@
     </ClCompile>
     <ClCompile Include="src\3Dproj\UISymbols.cpp">
       <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\interact\interact.cpp">
+      <Filter>Protoypes\interact</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\Vector.cpp">
+      <Filter>Protoypes\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -622,6 +631,9 @@
     </ClInclude>
     <ClInclude Include="src\common\Matrix.hpp">
       <Filter>Protoypes\common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interact\interact.hpp">
+      <Filter>Protoypes\interact</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

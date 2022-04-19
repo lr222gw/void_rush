@@ -26,6 +26,8 @@ struct Vector2
 
     float length ()const { return sqrtf (x * x + y * y); }
 
+    
+
     Vector2 operator/ (const Vector2 &other) const;
     Vector2 operator/ (const float &other) const;
     Vector2 operator+ (const Vector2 &other) const;
@@ -73,6 +75,11 @@ struct Vector3
         x = x / magnitude ();
         y = y / magnitude ();
     }
+    void normalize(){
+        x = x / length();
+        y = y / length();
+        z = z / length();
+    }
     static Vector3 normalize(Vector3 vec){
         Vector3 ret = Vector3(0.0f, 0.0f, 0.0f);
         float len = vec.length();
@@ -83,7 +90,7 @@ struct Vector3
         }
         return ret;
     }
-
+    
 
     float magnitude ()const { return sqrtf (x * x + y * y); }
     static float magnitude(Vector2 vec){return sqrtf(vec.x*vec.x + vec.y*vec.y); }

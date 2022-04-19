@@ -16,6 +16,8 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	GOPTR = static_cast<GameObject*>(this);
 	setWeight(20);
 	setBoundingBox(DirectX::XMFLOAT3(getPos().x, getPos().y, getPos().z), DirectX::XMFLOAT3(1.f, 2.f, 1.f));
+	health = 3;
+	alive = true;
 }
 
 Player::~Player()
@@ -163,4 +165,30 @@ void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 		this->getPos().y,
 		this->getPos().z - trans.y * speed * dt
 	));
+}
+
+
+/*New*/
+void Player::TakeDmg(int dmg)
+{
+	health-=dmg;
+
+	if(health <= 0) {
+		alive = false;
+	}
+}
+
+void Player::AddHealth(int hlt)
+{
+	health += hlt;
+}
+
+int Player::GetHealth()
+{
+	return health;
+}
+
+bool Player::IsAlive()
+{
+	return alive;
 }

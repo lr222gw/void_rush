@@ -257,7 +257,13 @@ void Game::Update()
 		lightNr = 3;
 	} 
 #pragma endregion camera_settings
+
+
+	/*Interaction testing*/
+	interactTest(obj);
+	
 }
+
 
 void Game::DrawToBuffer()
 {	
@@ -384,4 +390,72 @@ void Game::setUpParticles()
 
 	//if billboard have animation add it here
 	billboardGroups[0]->setAnimation(6, 1, 0.16f);
+}
+
+/*Interaction Test*/
+void Game::interactTest(std::vector<GameObject*>& interactables)
+{
+	DirectX::XMFLOAT4 bb[2];
+	float xSize;
+	float ySize;
+	float zSize;
+	float size;
+	DirectX::XMFLOAT3 objMidPos;
+	int toInteractIndex = -1;
+	vec3 toInteractVec = vec3{ 0.0, 0.0f, 0.0f };
+	bool interact = false;
+	for (int i = 4; i < interactables.size(); i++) {
+		interactables[i]->getBoundingBox(bb);
+		xSize = fabs(bb[1].x - bb[0].x);
+		ySize = fabs(bb[1].y - bb[0].y);
+		zSize = fabs(bb[1].z - bb[0].z);
+		if (xSize > ySize && xSize > zSize) 
+			size = xSize;
+		else if (ySize > xSize && ySize > zSize) 
+			size = ySize;
+		else 
+			size = zSize;
+		
+		objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
+		
+		if (CanInteract(camera->getPos(), camera->getForwardVec(), objMidPos, size / 2, 10.0f)) {
+			if (toInteractIndex == -1) {
+				toInteractIndex = i;
+				toInteractVec = objMidPos;
+			}
+			else {
+				float l1 = (camera->getPos() - objMidPos).length();
+				float l2 = (camera->getPos() - toInteractVec).length();
+				if (l1 < l2) {
+					toInteractIndex = i;
+					toInteractVec = objMidPos;
+				}
+			}
+			if(!interact)
+				interact = true;
+		}
+	}
+	if (interact) {
+		if (!interactables[toInteractIndex]->isUsed()) {
+			if (mouse->IsLeftDown()) {
+				std::cout << "Interact!\n";
+				interactables[toInteractIndex]->Use();
+				interactables[toInteractIndex]->addScale(vec3(0.1f, 0.1f, 0.1f));
+			}
+			//else
+			//	std::cout << "Can inetarct!\n";
+			
+		}
+		else {
+			if (mouse->isRightDown()) {
+				std::cout << "Un-interact!\n";
+				interactables[toInteractIndex]->Use();
+				interactables[toInteractIndex]->addScale(vec3(-0.1f, -0.1f, -0.1f));
+			}
+			//else 
+			//	std::cout << "Can un-inetarct!\n";
+			
+		}
+	}
+	
 }
