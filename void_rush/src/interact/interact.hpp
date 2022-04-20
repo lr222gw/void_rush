@@ -1,6 +1,6 @@
 //#include "../common/Vector.hpp"
 //#include "../common/Helper.hpp"
-#include "Vec.h"
+#include "3Dproj/Vec.h"
 #include <math.h>
 #include <stdlib.h>
 #include <iostream>
