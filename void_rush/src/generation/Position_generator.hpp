@@ -1,6 +1,7 @@
 #pragma once
 #include "Platform.hpp"
 #include "playerGen.hpp"
+#include "3Dproj/Vec.h"
 #include <random>
 
 
@@ -23,9 +24,12 @@ class Position_generator
     Position_generator(int seed, int elements);
     ~Position_generator();
     bool start (Difficulity diff);
-    void reset_anchors();
+    void generate_anchor_positions(int platforms_between_anchors, Difficulity selectedDiff);
+    void generate_jumpPoints_positions(int platforms_between_anchors);
+    void reset_anchors(vec3 player_position);
     void set_seed(int _seed);
-    std::vector<Platform*>* getPlatforms ();
+    std::vector<Platform*>* getAnchors ();
+    std::vector<Platform*>* getJumpPoints ();
     void setNrOfElements(int nrOfElements);
     void assignPlayer (Player_jump_checker* player);
     float randF (float min, float max);

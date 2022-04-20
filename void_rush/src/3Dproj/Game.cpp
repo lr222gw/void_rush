@@ -218,7 +218,7 @@ void Game::Update()
 	/*Collision checking*/
 	//collisionWithBlocking(player->getPlayerObjPointer(), GameObjManager->getGameObject("Ground"));
 	//collisionWithBlocking(player->getPlayerObjPointer(), obj[2]);
-	generationManager->updatePlatfoms(player);
+	//generationManager->updatePlatfoms();
 
 	
 	collisionHandler.update();
@@ -358,6 +358,7 @@ void Game::setUpObject()
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
+	generationManager->set_player(player);
 }
 
 void Game::setUpLights()

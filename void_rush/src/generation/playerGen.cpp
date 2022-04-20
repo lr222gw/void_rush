@@ -14,7 +14,7 @@ void Player_jump_checker::reset()
     
 }
 
-void Player_jump_checker::moveto (const Vector3 &pos)
+void Player_jump_checker::moveto (const vec3&pos)
 {
     this->pos.x = pos.x;
     this->pos.y = pos.y;
@@ -50,7 +50,7 @@ float Player_jump_checker::jumpHeight ()
               / (2 * this->gravity));
 }
 
-bool Player_jump_checker::isJumpPossible (Vector3 position)
+bool Player_jump_checker::isJumpPossible (vec3 position)
 {
     float jumpheight = jumpHeight ();
     float heightDif = jumpheight - position.z;
@@ -74,7 +74,7 @@ bool Player_jump_checker::isJumpPossible (Vector3 position)
     return true;
 }
 
-float Player_jump_checker::distance (Vector3 &position)
+float Player_jump_checker::distance (vec3 &position)
 {
     return sqrtf (powf (this->pos.x - position.x, 2.0)
                   + powf (this->pos.y - position.y, 2.0));

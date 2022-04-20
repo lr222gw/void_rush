@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector.hpp"
+#include "3Dproj/Vec.h"
 #include <math.h>
 
 
@@ -40,7 +41,7 @@ struct RotationMatrix
         matrix[0][1] = sin (angle);
         matrix[1][1] = cos (angle);
     }
-    void MultiplyVector (Vector3 &vector)
+    void MultiplyVector (vec3 &vector)
     {
         vector.x = vector.x * matrix[0][0] + vector.x * matrix[0][1]
                    + vector.x * matrix[0][2];
