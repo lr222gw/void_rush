@@ -98,17 +98,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(SolutionDir)void_rush\deps\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)void_rush\src\3Dproj;$(IncludePath)</IncludePath>
-    <SourcePath>
-    </SourcePath>
+    <LibraryPath>$(SolutionDir)deps\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <SourcePath>$(SolutionDir)void_rush\src</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>$(SolutionDir)void_rush\deps\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)void_rush\src\3Dproj;$(IncludePath)</IncludePath>
-    <SourcePath>
-    </SourcePath>
+    <LibraryPath>$(SolutionDir)deps\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <SourcePath>$(SolutionDir)void_rush\src</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='scirptrun|Win32'">
     <LibraryPath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\lib;$(LibraryPath)</LibraryPath>
