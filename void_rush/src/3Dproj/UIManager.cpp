@@ -90,7 +90,7 @@ void UIManager::init(Graphics*& gfx)
 	};
 	ID3D11Texture2D* tex;
 	//if (!CreateTexture("assets/textures/Fonts/ExportedFont.bmp", gfx->getDevice(), tex, font)) {
-	if (!CreateTexture("assets/textures/Fonts/GameTestFont.png", gfx->getDevice(), tex, font)) {
+	if (!CreateTexture("assets/textures/Fonts/TheFont.png", gfx->getDevice(), tex, font)) {
 		std::cout << "error cannot load font" << std::endl;
 	}
 
