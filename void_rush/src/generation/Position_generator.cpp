@@ -20,71 +20,153 @@ Position_generator::~Position_generator ()
     {
         delete anchors.at (i);
     }
+    for (int i = 0; i < this->jumpPoints.size (); i++)
+    {
+        delete this->jumpPoints.at (i);
+    }
     anchors.clear ();
+    jumpPoints.clear();
 }
 
 bool Position_generator::start (Difficulity selectedDiff)
 {
-    srand (this->seed);
-    Vector3 dVect = Vector3 ();
-    Vector3* position = this->startPlat->getPos ();
+
+    static int platforms_between_anchors = (3 + 1);
+
+    srand (this->seed);   
+    
+    generate_anchor_positions(platforms_between_anchors, selectedDiff);
+
+    generate_jumpPoints_positions(platforms_between_anchors);
+
+    return true;
+}
+
+void Position_generator::generate_anchor_positions(int platforms_between_anchors, Difficulity selectedDiff)
+{
     float minStepMod = 2;
-    float stepMax = pl->getJumpDistance ();
-    float stepMin = pl->getJumpDistance () / minStepMod * (int)selectedDiff;
+    float stepMax = pl->getJumpDistance() * platforms_between_anchors;
+    float stepMin = pl->getJumpDistance() / minStepMod * (int)selectedDiff;
     float distance = 0.0f;
-    float stepMaxZ = pl->jumpHeight ();
+    float stepMaxZ = pl->jumpHeight();
     float rotation = 0.0f;
-    Platform *current = startPlat;
-    Platform *newPlat = nullptr;
+    vec3 dVect = vec3();
+    vec3 position = *this->startPlat->getPos();
+    Platform* current = startPlat;
+    Platform* newPlat = nullptr;
+    pl->moveto(position);
     for (int i = 0; i < this->elements; i++)
     {
-        dVect.z = randF (-stepMaxZ, stepMaxZ);
-        // dVect.z = (rand() % (2 * stepMax)) - stepMax - 1;
-        dVect.z = fmin (dVect.z, stepMaxZ);
-        position->z += dVect.z;
+        dVect.y = randF(-stepMaxZ, stepMaxZ);
+        // dVect.y = (rand() % (2 * stepMax)) - stepMax - 1;
+        dVect.y = fmin(dVect.y, stepMaxZ);
+        position.y += dVect.y;
         // Using the height the new platform to determine max distance
-        stepMax = pl->getJumpDistance (position->z);
+        stepMax = pl->getJumpDistance(position.y) * platforms_between_anchors;
         stepMin = stepMax / minStepMod * (int)selectedDiff;
         // Generating x and y pos
-        dVect.x = randF (0, 1);
-        dVect.y = randF (-1, 1);
-        dVect.normalizeXY ();
-        distance = randF (stepMin, stepMax - 3);
-        dVect.x *= distance;
-        dVect.y *= distance;
+        dVect.x = randF(0, 1);
+        dVect.z = randF(-1, 1);
 
-        position->x += dVect.x;
-        position->y += dVect.y;
+        // vector3.magnitude  then  vector3.normalizeXY 
+        //dVect.normalizeXY();
+        float dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);        
+        dVect.x = dVect.x / dvect_magnitude;
+        dVect.z = dVect.z / dvect_magnitude;
+        dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);        
+        // ^^^^^^^^^^^^ vector3.magnitude  then  vector3.normalizeXY 
+
+        
+        distance = randF(stepMin, stepMax - 3);
+        dVect.x = dVect.x * distance;
+        dVect.z = dVect.z* distance;
+
+        position.x += dVect.x;
+        position.z += dVect.z;
         rotation = randF(0, 90);
         // Get random value for Z that is within possible jump
 
-        if (this->pl->isJumpPossible (*position) && dVect.magnitude () > stepMin
-            && dVect.magnitude () < stepMax)
+
+        dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);
+        if (this->pl->isJumpPossible(position) && dvect_magnitude > stepMin
+            && dvect_magnitude < stepMax)
         {
-            newPlat = new Platform (*position, 0, 1, rotation);
-            pl->moveto (*newPlat->getPos ());
+            newPlat = new Platform(position, 0, 1, rotation);
+            pl->moveto(*newPlat->getPos());
             current->next = newPlat;
-            this->anchors.push_back (current);
+            this->anchors.push_back(current);
             current = newPlat;
         }
         else
         {
             i -= 1;
-            *position -= dVect;
+            position = position - dVect;
             std::cout << "Jump not possible\n";
         }
     }
-    this->anchors.push_back (newPlat);
-    return true;
+    this->anchors.push_back(newPlat);
 }
 
-void Position_generator::reset_anchors()
+void Position_generator::generate_jumpPoints_positions(int platforms_between_anchors)
+{
+#pragma region
+    Platform* currentJumpPoint;
+    Platform* current = startPlat;
+
+    vec3* startanchorPos = current->getPos();
+    vec3* endanchorPos = current->next->getPos();
+
+    vec3 dir_between_anchor = *endanchorPos - *startanchorPos;
+
+    vec3 pos_to_place_jump_point = *startanchorPos +
+        (dir_between_anchor / (platforms_between_anchors - 1));
+
+
+    currentJumpPoint = new Platform(pos_to_place_jump_point, 0, 1, 0);
+
+    this->jumpPoints.push_back(currentJumpPoint);
+
+#pragma endregion    
+
+    Platform* newPlat;
+
+    while (current->next != nullptr) {
+        startanchorPos = current->getPos();
+        endanchorPos = current->next->getPos();
+
+        dir_between_anchor = *endanchorPos - *startanchorPos;
+
+        for (int i = 1; i < platforms_between_anchors; i++) {
+            if (this->jumpPoints[0]->next == nullptr) { //TODO: Optimera bort denna senare
+                i += 1;
+            }
+            pos_to_place_jump_point = *startanchorPos +
+                (dir_between_anchor / (platforms_between_anchors - 1) * i);
+
+            newPlat = new Platform(pos_to_place_jump_point, 0, 1, 0);
+            currentJumpPoint->next = newPlat;
+            this->jumpPoints.push_back(newPlat);
+            currentJumpPoint = newPlat;
+        }
+
+        current = current->next;
+    }
+}
+
+void Position_generator::reset_anchors(vec3 player_position)
 {
     for (Platform* anchor : this->anchors) {
         delete anchor;
     }
     anchors.clear();
-    this->startPlat = new Platform(Vector3(), 0, 0);
+    for (int i = 0; i < this->jumpPoints.size (); i++)
+    {
+        delete this->jumpPoints.at (i);
+    }
+    this->jumpPoints.clear();
+    player_position.y = player_position.y - 20; //TODO 
+    this->startPlat = new Platform(player_position, 0, 0);
+    
     this->pl->reset();
 }
 
@@ -93,7 +175,12 @@ void Position_generator::set_seed(int _seed)
     this->seed = _seed;
 }
 
-std::vector<Platform *>* Position_generator::getPlatforms () { return &this->anchors; }
+std::vector<Platform *>* Position_generator::getAnchors () { return &this->anchors; }
+
+std::vector<Platform*>* Position_generator::getJumpPoints()
+{
+    return &this->jumpPoints;
+}
 
 void Position_generator::setNrOfElements(int nrOfElements)
 {

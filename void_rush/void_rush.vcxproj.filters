@@ -145,9 +145,6 @@
     <Filter Include="Protoypes\interact">
       <UniqueIdentifier>{1ca5de3f-cb8c-4e4a-8b6a-3cff64affd35}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Resource Files\Shaders\UI">
-      <UniqueIdentifier>{5438e4bf-9a04-4569-a7a4-63aff9660df0}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src/3Dproj/D311Helper.cpp">
@@ -650,6 +647,9 @@
     <ClInclude Include="src\3Dproj\CollisionHandler.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\common\Shape.hpp">
+      <Filter>Protoypes\common</Filter>
+    </ClInclude>
     <ClInclude Include="src\3Dproj\Ghost.h">
       <Filter>Void_Rush\Objects</Filter>
     </ClInclude>
@@ -729,11 +729,10 @@
     <FxCompile Include="src/3Dproj/SkyBoxVS.hlsl">
       <Filter>Engine\Resource Files\Shaders\Vertex</Filter>
     </FxCompile>
-    <FxCompile Include="src\3Dproj\UIPixelShader.hlsl">
-      <Filter>Engine\Resource Files\Shaders\UI</Filter>
-    </FxCompile>
-    <FxCompile Include="src\3Dproj\UIVertexShader.hlsl">
-      <Filter>Engine\Resource Files\Shaders\UI</Filter>
+    <FxCompile Include="src\3Dproj\UIPixelShader.hlsl" />
+    <FxCompile Include="src\3Dproj\UIVertexShader.hlsl" />
+    <FxCompile Include="NoShadowPS.hlsl">
+      <Filter>Engine\Resource Files\Shaders\Pixel</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

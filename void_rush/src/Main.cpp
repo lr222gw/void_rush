@@ -23,6 +23,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	Game game(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 	game.run();
 	//physics_proto();
+
+	
 	
     //physics_proto ();
     //generation_proto ();    

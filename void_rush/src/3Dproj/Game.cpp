@@ -16,8 +16,8 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	
 	UI = new UIManager(rm, gfx);
 	//UI->createUISprite("assets/textures/Fire.png", vec2(0, 0), vec2(0, 0));
-	testPuzzle = new ProtoPuzzle(gfx, rm);
-	testPuzzle->Initiate();
+	//testPuzzle = new ProtoPuzzle(gfx, rm);
+	//testPuzzle->Initiate();
 
 	generationManager = new Generation_manager(gfx,rm, collisionHandler);
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
@@ -97,7 +97,7 @@ Game::~Game()
 		delete billboardGroups[i];
 	}
 	delete Space;
-	delete testPuzzle;
+	//delete testPuzzle;
 	delete generationManager;
 	delete UI;
 	delete GameObjManager;
@@ -219,13 +219,13 @@ void Game::Update()
 	if (mouse->IsLeftDown() && testTime <= 0.0f)
 	{
 		testTime = 1.0f;
-		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos());
+		//testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos());
 	}
 
 	/*Collision checking*/
-	collisionWithBlocking(player->getPlayerObjPointer(), GameObjManager->getGameObject("Ground"));
+	//collisionWithBlocking(player->getPlayerObjPointer(), GameObjManager->getGameObject("Ground"));
 	//collisionWithBlocking(player->getPlayerObjPointer(), obj[2]);
-	generationManager->updatePlatfoms(player);
+	//generationManager->updatePlatfoms();
 
 	
 	collisionHandler.update();
@@ -282,7 +282,7 @@ void Game::DrawToBuffer()
 	Space->draw(gfx);
 	
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
-	testPuzzle->Update(); //Take this away later
+	//testPuzzle->Update(); //Take this away later
 	player->draw(gfx);
 	generationManager->draw(); //Todo: ask Simon where to put this...
 	GameObjManager->draw();
@@ -356,8 +356,9 @@ void Game::setUpObject()
 	GameObjManager->CreateGameObject("Camera.obj", "Camera1", vec3(0.f, 0.f, 10.f), vec3(0.f, 0.f, 0.f), vec3(5.f, 5.0f, 5.0f)); //main
 	GameObjManager->CreateGameObject("Camera.obj", "Camera2", vec3(0.f, 0.f, -50.f), vec3(0.f, 0.f, 0.f), vec3(2.f, 2.0f, 2.0f)); //main
 
-	GameObjManager->CreateGameObject("quad2.obj", "Ground", vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100));
-	GameObjManager->CreateGameObject("BasePlatform.obj", "Base", vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
+	//GameObjManager->CreateGameObject("quad2.obj", "Ground", vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100));
+	
+	//GameObjManager->CreateGameObject("BasePlatform.obj", "Base", vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
 	//GameObjManager->CreateGameObject("nanosuit.obj","Nano", vec3(-5.f, 0.f, 0.f), vec3(0.f, 0.f, 0.f), vec3(1.f, 1.f, 1.f));
 
 
@@ -365,6 +366,7 @@ void Game::setUpObject()
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
+	generationManager->set_player(player);
 	collisionHandler.addPlatform(GameObjManager->getGameObject("Ground"));
 
 	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj",gfx), gfx, player->getPos() - vec3(0, 0, -5),vec3(0,0,0), vec3(0.2,0.2,0.2));

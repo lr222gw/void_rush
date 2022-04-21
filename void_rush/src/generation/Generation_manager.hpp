@@ -30,13 +30,17 @@ class Generation_manager {
 public:
 	Generation_manager(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& collisionHandler);
 	~Generation_manager();
+	void set_player(Player* player);
 	void initialize();
+	void place_anchorPoints();
+	void place_jumpPoints();
 
 	void generateGraph();
 
 	void draw();
-	void updatePlatfoms(Player* player);
+	void updatePlatfoms();
 private:
+	Player* player;
 	friend class ImguiManager;
 	int seed; 
 	Player_jump_checker* player_jump_checker;
