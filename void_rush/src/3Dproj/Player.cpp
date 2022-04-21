@@ -155,11 +155,9 @@ GameObject*& Player::getPlayerObjPointer()
 void Player::Reset()
 {
 	this->setPos(vec3(0.0f, 5.0f, 0.0f));
-
-	//this->grounded = true;
-	this->velocity.y = 0.0f;
-	this->acceleration.y = 0.0f;
-	this->resForce.y = 0.0f;
+	this->velocity = vec3(0.0f, 0.0f, 0.0f);
+	this->acceleration = vec3(0.0f, 0.0f, 0.0f);
+	this->resForce = vec3(0.0f, 0.0f, 0.0f);
 	this->groundedTimer = 0.0f;
 	
 }
@@ -182,7 +180,6 @@ void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 }
 
 
-/*New*/
 void Player::TakeDmg(int dmg)
 {
 	health-=dmg;
