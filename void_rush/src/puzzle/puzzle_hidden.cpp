@@ -10,7 +10,8 @@ void HiddenPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
     //Check if left click is pressed while player is close enough and looking at the hitbox of the key.
     if (!this->GetState())
     {
-        if (CanInteract(playerPos, forwardVec, puzzleObjects[0]->getPos(), 5.0f, 5.0f))
+        float test;
+        if (CanInteract(playerPos, forwardVec, puzzleObjects[0]->getPos(), 5.0f, 5.0f, test))
         {
             std::cout << "Key Picked Up!" << std::endl;
             this->SpawnDoor();
@@ -58,7 +59,7 @@ void HiddenPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 pos
 void HiddenPuzzle::Update(Graphics*& gfx)
 {
     puzzlePlatform->updateMatrix();
-    puzzlePlatform->update();
+    puzzlePlatform->update(0);
     puzzlePlatform->updateVertexShader(gfx);
     puzzlePlatform->updatePixelShader(gfx);
     puzzlePlatform->draw(gfx);
@@ -68,7 +69,7 @@ void HiddenPuzzle::Update(Graphics*& gfx)
         for (int i = 0; i < puzzleObjects.size(); i++) {
 
             puzzleObjects[i]->updateMatrix();
-            puzzleObjects[i]->update();
+            puzzleObjects[i]->update(0);
             puzzleObjects[i]->updateVertexShader(gfx);
             puzzleObjects[i]->updatePixelShader(gfx);
             puzzleObjects[i]->draw(gfx);
