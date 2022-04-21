@@ -17,29 +17,29 @@ struct RotationMatrix
             }
         }
     }
-    void rotateAroundX (double angle)
+    void rotateAroundX (float angle)
     {
         matrix[0][0] = 1;
-        matrix[1][1] = cos (angle);
-        matrix[1][2] = -sin (angle);
-        matrix[2][1] = sin (angle);
-        matrix[2][2] = cos (angle);
+        matrix[1][1] = cosf (angle);
+        matrix[1][2] = -sinf (angle);
+        matrix[2][1] = sinf (angle);
+        matrix[2][2] = cosf (angle);
     }
-    void rotateAroundY (double angle)
+    void rotateAroundY (float angle)
     {
         matrix[1][1] = 1;
-        matrix[0][0] = cos (angle);
-        matrix[0][2] = -sin (angle);
-        matrix[2][0] = sin (angle);
-        matrix[2][2] = cos (angle);
+        matrix[0][0] = cosf (angle);
+        matrix[0][2] = -sinf (angle);
+        matrix[2][0] = sinf (angle);
+        matrix[2][2] = cosf (angle);
     }
-    void rotateAroundZ (double angle)
+    void rotateAroundZ (float angle)
     {
         matrix[2][2] = 1;
-        matrix[0][0] = cos (angle);
-        matrix[1][0] = -sin (angle);
-        matrix[0][1] = sin (angle);
-        matrix[1][1] = cos (angle);
+        matrix[0][0] = cosf (angle);
+        matrix[1][0] = -sinf (angle);
+        matrix[0][1] = sinf (angle);
+        matrix[1][1] = cosf (angle);
     }
     void MultiplyVector (vec3 &vector)
     {

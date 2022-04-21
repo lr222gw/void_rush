@@ -1,7 +1,7 @@
 #include "Generation_manager.hpp"
 
 Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, CollisionHandler& collisionHandler)
-	: gfx(_gfx), rm(_rm), seed(time(0)), difficulity(Difficulity::easy)
+	: gfx(_gfx), rm(_rm), seed((int)time(0)), difficulity(Difficulity::easy)
 {        
     
     this->position_gen = new Position_generator(this->seed);
@@ -111,8 +111,8 @@ void Generation_manager::generateGraph()
     out << "digraph {\n";
     int scale = 20;
 
-    int abs_X = 0;
-    int abs_Y = 0;
+    float abs_X = 0;
+    float abs_Y = 0;
     Player_jump_checker p;
     std::vector<Platform*>* platforms = this->position_gen->getAnchors();
     int platforms_size = platforms->size();

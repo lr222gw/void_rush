@@ -15,7 +15,7 @@ class Platform
     vec3 pos;
     int obstacles;
     int difficluty;
-    double rotation;
+    float rotation;
     Shape platformShape;
     RotationMatrix rotMat;
     friend class ImguiManager;
@@ -28,7 +28,7 @@ class Platform
     void setPosition (vec3 position);
     void move (float xOfset, float yOfset, float zOfset);
     vec3* getPos ();
-    double getRotation () const;
+    float getRotation () const;
     float distance (vec3* position) const;
     float distance (std::vector<float> &position) const;
     Platform* next;

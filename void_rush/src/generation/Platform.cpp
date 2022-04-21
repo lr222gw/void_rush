@@ -14,7 +14,7 @@ Platform::Platform()
 }
 
 Platform::Platform(std::vector<float> pos, int obstacles, int difficluty,
-                    double rotation)
+                    float rotation)
     : obstacles (obstacles), difficluty (difficluty), rotation (rotation),
       next (nullptr)
 {
@@ -30,8 +30,8 @@ Platform::Platform(std::vector<float> pos, int obstacles, int difficluty,
     }
 }
 
-Platform::Platform(vec3 pos, int obstacles, int difficluty,
-                    double rotation)
+Platform::Platform(Vector3 pos, int obstacles, int difficluty,
+                    float rotation)
     : pos (pos), obstacles (obstacles), difficluty (difficluty),
       rotation (rotation), next (nullptr)
 {
@@ -63,18 +63,18 @@ void Platform::move (float xOfset, float yOfset, float zOfset)
 
 vec3* Platform::getPos () { return &this->pos; }
 
-double Platform::getRotation () const { return this->rotation; }
+float Platform::getRotation () const { return this->rotation; }
 
 float Platform::distance (vec3* position) const
 {
-    return sqrtf (  pow (this->pos.x - position->x, 2)
-                  + pow (this->pos.y - position->y, 2)
-                  + pow (this->pos.z - position->z, 2));
+    return sqrtf (  powf (this->pos.x - position->x, 2)
+                  + powf (this->pos.y - position->y, 2)
+                  + powf (this->pos.z - position->z, 2));
 }
 
 float Platform::distance (std::vector<float> &position) const
 {
-    return sqrtf (pow (this->pos.x - position[0], 2)
-                  + pow (this->pos.y - position[1], 2)
-                  + pow (this->pos.z - position[2], 2));
+    return sqrtf (powf (this->pos.x - position[0], 2)
+                  + powf (this->pos.y - position[1], 2)
+                  + powf (this->pos.z - position[2], 2));
 }
