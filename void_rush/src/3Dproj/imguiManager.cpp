@@ -129,9 +129,17 @@ void ImguiManager::render_physics_widgets()
 	static std::string name = "Physics";
 	if (ImGui::Begin(name.c_str())) {
 		//owner->player->speed
-					
-		static float init_player_speed = owner->player->speed;
-		ImGui::SliderFloat("Speed", &owner->player->speed ,init_player_speed, init_player_speed + 300.f);
+							
+		float* init_speed[3] = {&owner->player->speed.x, &owner->player->speed.y, &owner->player->speed.z};
+		float min_speed = 4; 
+		float max_speed = 304;
+		static float speedSlider = owner->player->speed.x;
+		//ImGui::SliderFloat3("Speed", *init_speed, min_speed, max_speed);
+		if (ImGui::SliderFloat("Speed", &speedSlider, min_speed, max_speed)){
+			*init_speed[0] = speedSlider;
+			*init_speed[1] = speedSlider;
+			*init_speed[2] = speedSlider;
+		}
 		ImGui::InputFloat("jumpSpeed", &owner->player->jumpSpeed.y);
 		ImGui::InputFloat("Gravity", &owner->player->gravity.y);
 			

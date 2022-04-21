@@ -54,13 +54,13 @@ void CollisionHandler::deleteObstacle(GameObject* ptr)
 void CollisionHandler::update()
 {
 	//check player with platforms
-	bool done = true;
+	bool done = false;
 	for (size_t i = 0; i < Platforms.size(); i++) {
-		if (done && collision3D(player->getPlayerObjPointer(), Platforms[i], true, false))
+		if (!done && collision3D(player->getPlayerObjPointer(), Platforms[i], true, false))
 		{
 			done = true;
-			//change this?
-			if (player->getGroundedTimer() > 1.f)
+
+			if (player->getGroundedTimer() > 0.5f)
 			{
 				player->setGrounded();
 			}
