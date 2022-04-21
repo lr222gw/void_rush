@@ -21,8 +21,8 @@ class Platform
     friend class ImguiManager;
   public:
     Platform();
-    Platform(std::vector<float> pos, int obstacles, int difficluty, double rotation = 0.0);
-    Platform(vec3 pos, int obstacles, int difficluty, double rotation = 0.0);
+    Platform(std::vector<float> pos, int obstacles, int difficluty, float rotation = 0.0f);
+    Platform(vec3 pos, int obstacles, int difficluty, float rotation = 0.0f);
     ~Platform();
     void setPosition (float xPos, float yPos, float zPos);
     void setPosition (vec3 position);

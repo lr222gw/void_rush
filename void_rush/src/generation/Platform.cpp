@@ -30,7 +30,7 @@ Platform::Platform(std::vector<float> pos, int obstacles, int difficluty,
     }
 }
 
-Platform::Platform(Vector3 pos, int obstacles, int difficluty,
+Platform::Platform(vec3 pos, int obstacles, int difficluty,
                     float rotation)
     : pos (pos), obstacles (obstacles), difficluty (difficluty),
       rotation (rotation), next (nullptr)
