@@ -1,10 +1,7 @@
 #include "Portal.h"
 
-Portal::Portal(Graphics*& gfx, ResourceManager*& rm)
+Portal::Portal(Graphics*& gfx, ResourceManager*& rm) : gfx(gfx), rm(rm)
 {
-	portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(-15.0f, 30.0f, 15.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
-    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(0.0f, 30.0f, 15.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
-    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(15.0f, 30.0f, 15.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
 }
 
 Portal::~Portal()
@@ -12,11 +9,20 @@ Portal::~Portal()
     for (size_t i = 0; i < portals.size(); i++) {
         delete portals[i];
     }
+    portals.clear();
 }
 
-void Portal::Spawn()
+void Portal::Spawn(vec3 pos)
 {
+    for (size_t i = 0; i < portals.size(); i++) {
+        delete portals[i];
+    }
+    portals.clear();
 	this->spawned = true;
+
+    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(pos.x -15.0f, pos.y + 29.0f, pos.z + 15.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
+    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(pos.x, pos.y + 29.0f, pos.z + 15.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
+    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(pos.x + 15.0f, pos.y + 29.0f, pos.z + 15.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
 
 }
 
@@ -35,21 +41,6 @@ void Portal::InteractPortal(vec3 playerPos, vec3 forwardVec)
     {
         std::cout << "Spawn next puzzle on hard mode" << std::endl;
     }
-
-    /*
-    if ((portals[0]->getPos() - playerPos).length() < 10.0f)
-    {
-        std::cout << "Spawn next puzzle on easy mode" << std::endl;
-    }
-    if ((portals[1]->getPos() - playerPos).length() < 10.0f)
-    {
-        std::cout << "Spawn next puzzle on medium mode" << std::endl;
-    }
-    if ((portals[2]->getPos() - playerPos).length() < 10.0f)
-    {
-        std::cout << "Spawn next puzzle on hard mode" << std::endl;
-    }
-    */
 }
 
 void Portal::ResetPortal()

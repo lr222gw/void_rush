@@ -15,11 +15,13 @@ class Portal
 private:
 	std::vector<GameObject*> portals;
 	bool spawned = false;
+	Graphics* gfx;
+	ResourceManager* rm;
 public:
 	Portal(Graphics*& gfx, ResourceManager*& rm);
 	virtual ~Portal();
 
-	void Spawn();
+	void Spawn(vec3 pos);
 
 	void InteractPortal(vec3 playerPos, vec3 forwardVec);
 

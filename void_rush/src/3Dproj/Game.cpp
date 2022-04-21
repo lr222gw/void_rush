@@ -17,7 +17,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	UI = new UIManager(rm, gfx);
 	//UI->createUISprite("assets/textures/Fire.png", vec2(0, 0), vec2(0, 0));
 	testPuzzle = new ProtoPuzzle(gfx, rm);
-	testPuzzle->Initiate(vec3(0.0f, 0.0f, 0.0f));
+	testPuzzle->Initiate(vec3(0.0f, -22.0f, 0.0f));
 
 	generationManager = new Generation_manager(gfx,rm, collisionHandler);
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
@@ -363,7 +363,7 @@ void Game::setUpObject()
 
 
 	
-	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, vec3(0.0f, 25.0f, -10.0f));
+	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, vec3(0.0f, .0f, 0.0f));
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
