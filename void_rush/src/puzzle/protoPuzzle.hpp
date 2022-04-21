@@ -13,7 +13,7 @@ class ProtoPuzzle
 {
 private:
 	std::vector<Puzzle*> puzzleList;
-	int chosenPuzzle = 0;
+	int chosenPuzzle = -1;
 	int seed;
 	const int PUZZLES = 2; //Set to amount of puzzles done.
 	MathPuzzle* math;
