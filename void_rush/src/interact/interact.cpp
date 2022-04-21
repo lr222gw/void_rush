@@ -12,8 +12,8 @@ bool CanInteract (vec3 camPos, vec3 camDir, vec3 itemPos,
     // ray
     //double s = dot(l, camDir);
     //double l2 = dot(l, l);
-    double s = l * camDir;
-    double l2 = l * l;
+    float s = l * camDir;
+    float l2 = l * l;
 
     // Item is behine camera, and not inside the items radius
     if (s < 0 && l2 > powf (itemRad, 2))
