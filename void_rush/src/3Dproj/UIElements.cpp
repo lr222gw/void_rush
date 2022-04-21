@@ -13,8 +13,8 @@ UIElements::UIElements(vec2 _pos, vec2 _size, Graphics*& gfx)
     //constBufferData.position.element[1] = 0;
     constBufferData.UVSizeWXY.element[0] = 1;
     constBufferData.UVSizeWXY.element[1] = 1;
-    constBufferData.UVSizeWXY.element[2] = 1;
-    constBufferData.UVSizeWXY.element[3] = 1;
+    constBufferData.UVSizeWXY.element[2] = 0;
+    constBufferData.UVSizeWXY.element[3] = 0;
     CreateConstBuffer(gfx, constBuffer, sizeof(UIVCB), &constBufferData);
 }
 
@@ -46,10 +46,64 @@ void UIElements::setUVSize(float x, float y)
     constBufferData.UVSizeWXY.element[1] = y;
 }
 
-void UIElements::setUVPosition(int x, int y)
+void UIElements::setUVPosition(float x, float y)
 {
     constBufferData.UVSizeWXY.element[2] = x;
     constBufferData.UVSizeWXY.element[3] = y;
+}
+
+void UIElements::moveSize(float x, float y)
+{
+    constBufferData.size.element[0] += x;
+    constBufferData.size.element[1] += y;
+}
+
+void UIElements::movePosition(float x, float y)
+{
+    constBufferData.position.element[0] += x;
+    constBufferData.position.element[1] += y;
+}
+
+void UIElements::moveUVSize(float x, float y)
+{
+    constBufferData.UVSizeWXY.element[0] += x;
+    constBufferData.UVSizeWXY.element[1] += y;
+}
+
+void UIElements::moveUVPosition(float x, float y)
+{
+    constBufferData.UVSizeWXY.element[2] += x;
+    constBufferData.UVSizeWXY.element[3] += y;
+}
+
+vec2 UIElements::getSize()
+{
+    return vec2(constBufferData.size.element[0],
+                constBufferData.size.element[1]
+                );
+}
+
+vec2 UIElements::getPosition()
+{
+    return vec2(
+        constBufferData.position.element[0],
+        constBufferData.position.element[1]
+    );
+}
+
+vec2 UIElements::getUVSize()
+{
+    return vec2(constBufferData.UVSizeWXY.element[0],
+                constBufferData.UVSizeWXY.element[1]
+    );
+}
+
+vec2 UIElements::getUVPosition()
+{
+    return vec2(
+                constBufferData.UVSizeWXY.element[2],
+                constBufferData.UVSizeWXY.element[3]
+    );
 }
 
 UIElements::~UIElements()

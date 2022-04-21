@@ -21,7 +21,18 @@ public:
 	void setSize(float x, float y);
 	void setPosition(float x, float y);
 	void setUVSize(float x, float y);
-	void setUVPosition(int x, int y);
+	void setUVPosition(float x, float y);
+
+	void moveSize(float x, float y);
+	void movePosition(float x, float y);
+	void moveUVSize(float x, float y);
+	void moveUVPosition(float x, float y);
+
+	vec2 getSize();
+	vec2 getPosition();
+	vec2 getUVSize();
+	vec2 getUVPosition();
+
 	virtual ~UIElements();
 	virtual void draw(Graphics*& gfx) = 0;
 protected:
