@@ -364,7 +364,7 @@ void Game::setUpObject()
 
 
 	
-	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, vec3(0.0f, .0f, 0.0f));
+	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, vec3(0.0f, 22.0f, 0.0f));
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
