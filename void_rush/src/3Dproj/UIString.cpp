@@ -15,6 +15,25 @@ UIString::~UIString()
 	}
 }
 
+void UIString::move(vec2 m)
+{
+	for (int i = 0; i < this->symbols.size(); i++) {
+		symbols[i]->movePosition(m.x, m.y);
+	}
+}
+
+void UIString::setPosition(vec2 m)
+{
+	for (int i = 0; i < this->symbols.size(); i++) {
+		symbols[i]->setPosition(m.x + symbols[i]->getSize().x * i, m.y);
+	}
+}
+
+void UIString::hide(bool h)
+{
+	this->hiding = h;
+}
+
 void UIString::draw(Graphics*& gfx)
 {
 	for (size_t i = 0; i < symbols.size(); i++) {

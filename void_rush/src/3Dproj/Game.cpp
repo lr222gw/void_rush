@@ -16,7 +16,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	
 	UI = new UIManager(rm, gfx);
 	//UI->createUISprite("assets/textures/Fire.png", vec2(-1, 0), vec2(0.5, 0.5));
-	UI->createUIString("PeNiS", vec2(-1, 0), vec2(0.2, 0.5), "penis");
+	//UI->createUIString("PeNiS", vec2(0, 0), vec2(0.2, 0.5), "penis");
 	//UI->getElements(0)->setUVSize((float)(1.f/6.f), 1);
 	//UI->getElements(0)->setUVPosition(0, 0);
 	testPuzzle = new ProtoPuzzle(gfx, rm);
@@ -201,7 +201,6 @@ void Game::Update()
 		YRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().y);
 		gfx->getVertexconstbuffer()->view.element = viewMatrix;
 	}
-
 	for (int i = 0; i < billboardGroups.size(); i++) {
 		billboardGroups[i]->update((float)dt.dt(), gfx);
 	}

@@ -20,7 +20,8 @@ cbuffer CBuf
 VertexShaderOutput main(VertexShaderInput input)
 {
     VertexShaderOutput output;
-
+    //input.position.x = (input.position.x - 1) + input.position.x;
+    //input.position.y = (input.position.y- 1) + input.position.y;
     output.position = float4(input.position.x * size.x + position.x, input.position.y * size.y + position.y, 0, 1);
     //output.position = float4(input.position.x * size.x, input.position.y * 1, 0, 1);
     //output.position = float4(0, 0, 0, 0);
