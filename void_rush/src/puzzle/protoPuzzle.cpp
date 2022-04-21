@@ -31,6 +31,10 @@ void ProtoPuzzle::Interact(vec3 playerPos, vec3 forwardVec)
 
 void ProtoPuzzle::Initiate(vec3 platformPosition)
 {
+    if (chosenPuzzle != -1)
+    {
+        this->puzzleList[chosenPuzzle]->ResetState();
+    }
     chosenPuzzle = ChoosePuzzle();
     this->puzzleList[chosenPuzzle]->InitiatePuzzle(this->gfxPuzzle, this->rmPuzzle, platformPosition);
 }
