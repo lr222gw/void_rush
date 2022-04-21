@@ -17,7 +17,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	UI = new UIManager(rm, gfx);
 	//UI->createUISprite("assets/textures/Fire.png", vec2(0, 0), vec2(0, 0));
 	testPuzzle = new ProtoPuzzle(gfx, rm);
-	testPuzzle->Initiate();
+	testPuzzle->Initiate(vec3(0.0f, 0.0f, 0.0f));
 
 	generationManager = new Generation_manager(gfx,rm, collisionHandler);
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
@@ -67,6 +67,8 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	};
 	Space = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, player->getPos(), skyboxTextures);
 
+	maxDepth = -40.0f;
+
 }
 
 Game::~Game() 
@@ -95,7 +97,7 @@ Game::~Game()
 		delete billboardGroups[i];
 	}
 	delete Space;
-	delete testPuzzle;
+	//delete testPuzzle;
 	delete generationManager;
 	delete UI;
 	delete GameObjManager;
@@ -177,6 +179,11 @@ printf("quit");
 
 void Game::Update()
 {
+	/*DEBUG*/
+	if (keyboard->isKeyPressed(VK_RETURN)) {
+		ghost->setActive();
+	}
+	/*******/
 	if (testTime > 0.0f)
 	{
 		testTime -= (float)dt.dt();
@@ -212,13 +219,13 @@ void Game::Update()
 	if (mouse->IsLeftDown() && testTime <= 0.0f)
 	{
 		testTime = 1.0f;
-		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos());
+		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
 	}
 
 	/*Collision checking*/
-	collisionWithBlocking(player->getPlayerObjPointer(), GameObjManager->getGameObject("Ground"));
+	//collisionWithBlocking(player->getPlayerObjPointer(), GameObjManager->getGameObject("Ground"));
 	//collisionWithBlocking(player->getPlayerObjPointer(), obj[2]);
-	generationManager->updatePlatfoms(player);
+	//generationManager->updatePlatfoms();
 
 	
 	collisionHandler.update();
@@ -229,7 +236,7 @@ void Game::Update()
 	/*update things*/
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 	gfx->Update((float)dt.dt(), camera->getPos());
-	GameObjManager->update();
+	GameObjManager->update(dt.dt());
 	player->update((float)dt.dt());
 
 #pragma region camera_settings
@@ -260,6 +267,7 @@ void Game::Update()
 	//std::vector<GameObject*> temp2 = {temp[1],temp[2],temp[3], temp[0]};
 
 	Interact(this->GameObjManager->getAllInteractGameObjects());
+	HandlePlayer();
 	
 }
 
@@ -274,7 +282,7 @@ void Game::DrawToBuffer()
 	Space->draw(gfx);
 	
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
-	testPuzzle->Update(); //Take this away later
+	//testPuzzle->Update(); //Take this away later
 	player->draw(gfx);
 	generationManager->draw(); //Todo: ask Simon where to put this...
 	GameObjManager->draw();
@@ -340,6 +348,7 @@ void Game::updateShaders(bool vs, bool ps)
 	}
 }
 
+
 void Game::setUpObject()
 {
 	GameObjManager = new GameObjectManager(gfx, rm);
@@ -347,16 +356,31 @@ void Game::setUpObject()
 	GameObjManager->CreateGameObject("Camera.obj", "Camera1", vec3(0.f, 0.f, 10.f), vec3(0.f, 0.f, 0.f), vec3(5.f, 5.0f, 5.0f)); //main
 	GameObjManager->CreateGameObject("Camera.obj", "Camera2", vec3(0.f, 100.f, 0.f), vec3(0.f, -1.58f, 0.f), vec3(2.f, 2.0f, 2.0f)); //main
 
-	GameObjManager->CreateGameObject("quad2.obj", "Ground", vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100));
-	GameObjManager->CreateGameObject("BasePlatform.obj", "Base", vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
+	//GameObjManager->CreateGameObject("quad2.obj", "Ground", vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100));
+	
+	//GameObjManager->CreateGameObject("BasePlatform.obj", "Base", vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
 	//GameObjManager->CreateGameObject("nanosuit.obj","Nano", vec3(-5.f, 0.f, 0.f), vec3(0.f, 0.f, 0.f), vec3(1.f, 1.f, 1.f));
 
 
 	
-	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);
+	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, vec3(0.0f, 25.0f, -10.0f));
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
+	generationManager->set_player(player);
 	collisionHandler.addPlatform(GameObjManager->getGameObject("Ground"));
+
+	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj",gfx), gfx, player->getPos() - vec3(0, 0, -5),vec3(0,0,0), vec3(0.2,0.2,0.2));
+	GameObjManager->addGameObject(ghost, "Ghost");
+	collisionHandler.addEnemies(ghost);
+
+	/*INteraction test objects*/
+	GameObjManager->CreateGameObject("indoor_plant_02.obj", "IntOne", vec3(0, 5, 0));
+	GameObjManager->CreateGameObject("indoor_plant_02.obj", "IntTwo", vec3(5, 5, 0));
+	GameObjManager->CreateGameObject("indoor_plant_02.obj", "IntThree", vec3(10, 5, 0));
+	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntOne"));
+	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntTwo"));
+	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntThree"));
+	
 }
 
 void Game::setUpLights()
@@ -396,6 +420,9 @@ void Game::setUpParticles()
 /*Interaction Test*/
 void Game::Interact(std::vector<GameObject*>& interactables)
 {
+	float rayDist;
+	float rayDistTemp;
+	float maxDist = 10.0f;
 	DirectX::XMFLOAT4 bb[2];
 	float xSize;
 	float ySize;
@@ -410,26 +437,29 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 		xSize = fabs(bb[1].x - bb[0].x);
 		ySize = fabs(bb[1].y - bb[0].y);
 		zSize = fabs(bb[1].z - bb[0].z);
-		if (xSize > ySize && xSize > zSize) 
+		if (xSize >= ySize && xSize >= zSize) 
 			size = xSize;
-		else if (ySize > xSize && ySize > zSize) 
+		else if (ySize >= xSize && ySize >= zSize) 
 			size = ySize;
 		else 
 			size = zSize;
 		
 		objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
 		
-		if (CanInteract(camera->getPos(), camera->getForwardVec(), objMidPos, size / 2, 10.0f)) {
+		//RayDist is the shortest path from the center of the object to the nearest point on the ray
+		if (CanInteract(camera->getPos(), camera->getForwardVec(), objMidPos, size / 2, maxDist, rayDistTemp)) {
 			if (toInteractIndex == -1) {
 				toInteractIndex = i;
 				toInteractVec = objMidPos;
+				rayDist = rayDistTemp;
 			}
 			else {
 				float l1 = (camera->getPos() - objMidPos).length();
 				float l2 = (camera->getPos() - toInteractVec).length();
-				if (l1 < l2) {
+				if ((l1 + rayDistTemp*(l1/(maxDist/3))) < (l2 + rayDist* (l1 / (maxDist / 3)))) {
 					toInteractIndex = i;
 					toInteractVec = objMidPos;
+					rayDist = rayDistTemp;
 				}
 			}
 			if(!interact)
@@ -439,17 +469,28 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 	if (interact) {
 		if (!interactables[toInteractIndex]->isUsed()) {
 			if (mouse->IsLeftDown()) {
-				std::cout << "Interact!\n";
+				//std::cout << "Interact!\n";
 				interactables[toInteractIndex]->Use();
 				interactables[toInteractIndex]->addScale(vec3(0.1f, 0.1f, 0.1f));
 			}	
 		}
 		else {
 			if (mouse->isRightDown()) {
-				std::cout << "Un-interact!\n";
+				//std::cout << "Un-interact!\n";
 				interactables[toInteractIndex]->Use();
 				interactables[toInteractIndex]->addScale(vec3(-0.1f, -0.1f, -0.1f));
 			}	
 		}
+	}
+}
+
+void Game::HandlePlayer()
+{
+	if (player->getPos().y < maxDepth) {
+		player->TakeDmg();
+		player->Reset();
+	}
+	if (!player->IsAlive()) {
+		//assert(false, "GAME OVER");
 	}
 }

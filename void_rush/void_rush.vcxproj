@@ -98,17 +98,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(SolutionDir)void_rush\deps\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)void_rush\src\3Dproj;$(IncludePath)</IncludePath>
-    <SourcePath>
-    </SourcePath>
+    <LibraryPath>$(SolutionDir)deps\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <SourcePath>$(SolutionDir)void_rush\src</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>$(SolutionDir)void_rush\deps\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)void_rush\src\3Dproj;$(IncludePath)</IncludePath>
-    <SourcePath>
-    </SourcePath>
+    <LibraryPath>$(SolutionDir)deps\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <SourcePath>$(SolutionDir)void_rush\src</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='scirptrun|Win32'">
     <LibraryPath>C:\Users\lowe\source\repos\lr222gw\void_rush\void_rush\deps\lib;$(LibraryPath)</LibraryPath>
@@ -282,7 +280,9 @@
     <ClCompile Include="src/3Dproj/WindowHelper.cpp" />
     <ClCompile Include="src\3Dproj\Collision3D.cpp" />
     <ClCompile Include="src\3Dproj\CollisionHandler.cpp" />
+    <ClCompile Include="src\3Dproj\Enemy.cpp" />
     <ClCompile Include="src\3Dproj\GameObjectManager.cpp" />
+    <ClCompile Include="src\3Dproj\Ghost.cpp" />
     <ClCompile Include="src\3Dproj\UIElements.cpp" />
     <ClCompile Include="src\3Dproj\UIManager.cpp" />
     <ClCompile Include="src\3Dproj\UISprite.cpp" />
@@ -299,6 +299,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\physics\jump.cpp" />
     <ClCompile Include="src\physics\proto.cpp" />
+    <ClCompile Include="src\puzzle\Portal.cpp" />
     <ClCompile Include="src\puzzle\protoPuzzle.cpp" />
     <ClCompile Include="src\puzzle\puzzle.cpp" />
     <ClCompile Include="src\puzzle\puzzle_hidden.cpp" />
@@ -362,7 +363,9 @@
     <ClInclude Include="src/3Dproj/WindowHelper.h" />
     <ClInclude Include="src\3Dproj\Collision3D.h" />
     <ClInclude Include="src\3Dproj\CollisionHandler.h" />
+    <ClInclude Include="src\3Dproj\Enemy.h" />
     <ClInclude Include="src\3Dproj\GameObjectManager.h" />
+    <ClInclude Include="src\3Dproj\Ghost.h" />
     <ClInclude Include="src\3Dproj\Player.h" />
     <ClInclude Include="src\3Dproj\UIElements.h" />
     <ClInclude Include="src\3Dproj\UIManager.h" />
@@ -371,6 +374,7 @@
     <ClInclude Include="src\3Dproj\UISymbols.h" />
     <ClInclude Include="src\common\Helper.hpp" />
     <ClInclude Include="src\common\Matrix.hpp" />
+    <ClInclude Include="src\common\Shape.hpp" />
     <ClInclude Include="src\common\Vector.hpp" />
     <ClInclude Include="src\generation\Position_generator.hpp" />
     <ClInclude Include="src\generation\Generation_manager.hpp" />
@@ -381,6 +385,7 @@
     <ClInclude Include="src\physics\proto.hpp" />
     <ClInclude Include="src\Platform.h" />
     <ClInclude Include="src\playerGen.h" />
+    <ClInclude Include="src\puzzle\Portal.h" />
     <ClInclude Include="src\puzzle\protoPuzzle.hpp" />
     <ClInclude Include="src\puzzle\puzzle.hpp" />
     <ClInclude Include="src\puzzle\puzzle_hidden.hpp" />
@@ -389,6 +394,14 @@
     <ClInclude Include="src\interact\interact.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="NoShadowPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='scirptrun|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='scirptrun|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
     <FxCompile Include="src/3Dproj/BillBoardUpdate.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>

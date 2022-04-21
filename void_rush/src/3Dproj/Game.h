@@ -20,7 +20,7 @@
 #include "UIManager.h"
 
 #include "Collision3D.h"
-#include "Player.h"
+#include "Ghost.h"
 #include "GameObjectManager.h"
 
 #include "puzzle/protoPuzzle.hpp"
@@ -49,6 +49,7 @@ private:
 	const float PI = 3.14159265359f;
 
 	void Interact(std::vector<GameObject*>& interactables);
+	void HandlePlayer();
 private:
 	friend class ImguiManager;
 	//logic and others
@@ -63,6 +64,7 @@ private:
 	UIManager* UI;
 	SkyBox* Space;
 	Player* player;
+	Ghost* ghost;
 	GameObjectManager* GameObjManager;
 	Generation_manager* generationManager;
 	CollisionHandler collisionHandler;
@@ -75,6 +77,8 @@ private:
 	std::vector<GameObject*> LightVisualizers;
 	std::vector<GameObject*> obj;
 	std::vector<BillBoardGroup*> billboardGroups;
+
+	float maxDepth;
 
 	//var
 	int nrOfLight;//must still exist

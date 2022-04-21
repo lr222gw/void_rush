@@ -117,6 +117,7 @@ void ImguiManager::render_generation_widgets()
 
 		if(ImGui::Button("initialize")){
 			owner->generationManager->initialize();
+			owner->generationManager->generateGraph();
 		}
 	}
 	ImGui::End();
@@ -144,7 +145,15 @@ void ImguiManager::render_player_widgets()
 	std::string name = "Player";
 
 	if (ImGui::Begin(name.c_str())) {
-		ImGui::Checkbox("noClip", &owner->player->noClip);
+		
+		if (ImGui::Checkbox("noClip", &owner->player->noClip)) {
+			owner->player->grounded = true;
+		}
+		float* pos[3] = { &owner->player->pos.x,
+			&owner->player->pos.y,
+			&owner->player->pos.z };
+		ImGui::InputFloat3("PlayerPos", *pos);
+		
 		
 		
 	}

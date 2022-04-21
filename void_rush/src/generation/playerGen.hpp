@@ -1,5 +1,6 @@
 #pragma once
 #include "../common/Vector.hpp"
+#include "3Dproj/Vec.h"
 #include <math.h>
 #include <vector>
 
@@ -15,10 +16,10 @@ class Player_jump_checker
   public:
     Player_jump_checker();
     void reset();
-    void moveto (const Vector3 &pos);
+    void moveto (const vec3& pos);
     float getJumpDistance ();
     float getJumpDistance (float height);
     float jumpHeight ();
-    bool isJumpPossible (Vector3 position);
-    float distance (Vector3 &position);
+    bool isJumpPossible (vec3 position);
+    float distance (vec3 &position);
 };

@@ -33,6 +33,7 @@ public:
 	//void lookAt(vec3 lookat);	  //don't know how to make these yet
 	void setData(float FOVRadians = 90, float viewRatio = 16/9, float nearDist = 0.001, float farDist = 2000);
 private:
+	friend class ImguiManager;
 	Mouse *mouse;
 	Vcb *Vcbd;
 	LCBGS* Lcbd;

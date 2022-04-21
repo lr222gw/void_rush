@@ -7,9 +7,9 @@
 #include <iostream>
 #include <time.h>
 
-#include "Game.h"
-#include "debug.h"
-#include "Random.h"
+#include "3Dproj/Game.h"
+#include "3Dproj/debug.h"
+#include "3Dproj/Random.h"
 
 
 
@@ -23,6 +23,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	Game game(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 	game.run();
 	//physics_proto();
+
+	
 	
     //physics_proto ();
     //generation_proto ();    
