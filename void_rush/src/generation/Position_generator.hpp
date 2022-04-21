@@ -6,7 +6,7 @@
 
 
 enum class Difficulity {
-    easy = 1
+    easy = 1, medium = 2, hard = 3
 };
 
 class Position_generator

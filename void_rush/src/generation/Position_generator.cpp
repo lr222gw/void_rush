@@ -2,13 +2,13 @@
 #include "Position_generator.hpp"
 
 Position_generator::Position_generator(int _seed)
-    : seed(_seed), elements(0), pl(nullptr)
+    : seed(_seed), elements(0), pl(nullptr), startPlat(nullptr)
 {    
     //this->startPlat = new Platform(Vector3(), 0, 0); //NOTE:  this is now done in the reset function
 }
 
 Position_generator::Position_generator (int seed, int elements)
-    : seed (seed), elements (elements), pl (nullptr)
+    : seed (seed), elements (elements), pl (nullptr), startPlat(nullptr)
 {
     //this->startPlat = new Platform (Vector3 (), 0, 0); //NOTE:  this is now done in the reset function
 }
@@ -60,6 +60,7 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
         dVect.y = randF(-stepMaxZ, stepMaxZ);
         // dVect.y = (rand() % (2 * stepMax)) - stepMax - 1;
         dVect.y = fmin(dVect.y, stepMaxZ);
+        dVect.y = fmax(dVect.y, -100.0f);
         position.y += dVect.y;
         // Using the height the new platform to determine max distance
         stepMax = pl->getJumpDistance(position.y) * platforms_between_anchors;
