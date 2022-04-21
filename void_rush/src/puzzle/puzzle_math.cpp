@@ -1,7 +1,8 @@
 #include "puzzle_math.hpp"
 #include <string>
 
-MathPuzzle::MathPuzzle(int seed, Graphics*& gfx, ResourceManager*& rm) : Puzzle(seed, gfx, rm)
+MathPuzzle::MathPuzzle(int seed, Graphics*& gfx, ResourceManager*& rm, Generation_manager*& generationManager, CollisionHandler* collHandl)
+    : Puzzle(seed, gfx, rm, generationManager, collHandl), collHandl(collHandl)
 {
 }
 
@@ -162,6 +163,7 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 posit
     }
 
     puzzlePlatform = new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, position, vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
+    collHandl->addPlatform(puzzlePlatform);
 
     float x, y, z, x2, z2, x3, z3;
     y = puzzlePlatform->getWidthHeightDepth().y;

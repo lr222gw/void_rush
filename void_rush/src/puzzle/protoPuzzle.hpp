@@ -9,6 +9,11 @@
 #include "puzzle_hidden.hpp"
 #include <vector>
 
+
+#include "generation/Generation_manager.hpp"
+#include "3Dproj/CollisionHandler.h"
+
+
 class ProtoPuzzle
 {
 private:
@@ -21,8 +26,12 @@ private:
 	Graphics*& gfxPuzzle;
 	ResourceManager*& rmPuzzle;
 
+	Generation_manager*& generationManager;
+	CollisionHandler* collHandl;
+
+
 public:
-	ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm);
+	ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm,Generation_manager*& generationManager, CollisionHandler* collHandl);
 	~ProtoPuzzle();
 	void Initiate(vec3 platformPosition);
 	int ChoosePuzzle();

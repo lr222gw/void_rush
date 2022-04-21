@@ -1,6 +1,7 @@
 #include "Portal.h"
 
-Portal::Portal(Graphics*& gfx, ResourceManager*& rm) : gfx(gfx), rm(rm)
+Portal::Portal(Graphics*& gfx, ResourceManager*& rm, Generation_manager*& generationManager, CollisionHandler* collHandl)
+    : gfx(gfx), rm(rm), generationManager(generationManager), collHandl(collHandl)
 {
 }
 
@@ -28,18 +29,25 @@ void Portal::Spawn()
 
 void Portal::InteractPortal(vec3 playerPos, vec3 forwardVec)
 {
+
     float test;
     if (CanInteract(playerPos, forwardVec, portals[0]->getPos(), 5.0f, 5.0f, test))
     {
         std::cout << "Spawn next puzzle on easy mode" << std::endl;
+        generationManager->initialize();
+        ResetPortal();
     }
     if (CanInteract(playerPos, forwardVec, portals[1]->getPos(), 5.0f, 5.0f, test))
     {
         std::cout << "Spawn next puzzle on medium mode" << std::endl;
+        generationManager->initialize();
+        ResetPortal();
     }
     if (CanInteract(playerPos, forwardVec, portals[2]->getPos(), 5.0f, 5.0f, test))
     {
         std::cout << "Spawn next puzzle on hard mode" << std::endl;
+        generationManager->initialize();
+        ResetPortal();
     }
 
     /*

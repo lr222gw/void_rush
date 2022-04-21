@@ -2,6 +2,9 @@
 
 #include "puzzle.hpp"
 
+#include "generation/Generation_manager.hpp"
+#include "3Dproj/CollisionHandler.h"
+
 class MathPuzzle : public Puzzle
 {
 private:
@@ -11,8 +14,10 @@ private:
     const int maxValuePlusMinus = 100;
     const int maxValueMultiplication = 10;
     const int maxValueDivision[2] = {91, 4};
+
+    CollisionHandler* collHandl;
 public:
-    MathPuzzle(int seed,Graphics*& gfx, ResourceManager*& rm);
+    MathPuzzle(int seed,Graphics*& gfx, ResourceManager*& rm, Generation_manager*& generationManager, CollisionHandler* collHandl);
 
     std::string GetComponents() const;
 

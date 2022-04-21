@@ -1,6 +1,7 @@
 #include "puzzle_hidden.hpp"
 
-HiddenPuzzle::HiddenPuzzle(int seed,Graphics*& gfx, ResourceManager*& rm) : Puzzle(seed, gfx, rm)
+HiddenPuzzle::HiddenPuzzle(int seed,Graphics*& gfx, ResourceManager*& rm, Generation_manager*& generationManager, CollisionHandler* collHandl)
+    : Puzzle(seed, gfx, rm, generationManager, collHandl), collHandl(collHandl)
 {
     
 }
@@ -35,6 +36,7 @@ void HiddenPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 pos
     std::cout << "Hidden puzzle chosen" << std::endl;
     //Based on the size of the platform, place out the key in a valid position where the key can be reached by the player.
     puzzlePlatform = new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, position, vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
+    collHandl->addPlatform(puzzlePlatform);
     float x, y, z;
     x = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 3);
     y = puzzlePlatform->getWidthHeightDepth().y + 0.2f;

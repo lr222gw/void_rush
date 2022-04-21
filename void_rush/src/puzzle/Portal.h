@@ -10,6 +10,9 @@
 #include <vector>
 #include "interact/interact.hpp"
 
+#include "3Dproj/CollisionHandler.h"
+#include "generation/Generation_manager.hpp"
+
 class Portal
 {
 private:
@@ -17,8 +20,12 @@ private:
 	bool spawned = false;
 	Graphics* gfx;
 	ResourceManager* rm;
+
+	Generation_manager*& generationManager;
+	CollisionHandler* collHandl;
+
 public:
-	Portal(Graphics*& gfx, ResourceManager*& rm);
+	Portal(Graphics*& gfx, ResourceManager*& rm, Generation_manager*& generationManager, CollisionHandler* collHandl);
 	virtual ~Portal();
 
 	void Spawn();

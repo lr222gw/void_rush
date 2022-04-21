@@ -11,6 +11,10 @@
 #include "Portal.h"
 #include <vector>
 
+#include "../3Dproj/GameObjectManager.h"
+#include "../3Dproj/CollisionHandler.h"
+#include "../generation/Generation_manager.hpp"
+
 class Puzzle : public Portal
 {
 private:
@@ -20,9 +24,10 @@ protected:
     std::vector<GameObject*> puzzleObjects;
     GameObject* puzzlePlatform = nullptr;
 
+
 public:
     //Create puzzle
-    Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm);
+    Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm, Generation_manager*& generationManager, CollisionHandler* collHandl);
     virtual ~Puzzle();
 
     bool GetState() const;

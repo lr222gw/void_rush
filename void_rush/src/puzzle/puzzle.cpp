@@ -1,7 +1,7 @@
 #include "puzzle.hpp"
 
-Puzzle::Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm)
-    : seed(seed), Portal(gfx, rm)
+Puzzle::Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm, Generation_manager*& generationManager, CollisionHandler* collHandl)
+    : seed(seed), Portal(gfx, rm, generationManager, collHandl)
 {
 }
 
