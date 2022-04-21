@@ -416,6 +416,7 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 {
 	float rayDist;
 	float rayDistTemp;
+	float maxDist = 10.0f;
 	DirectX::XMFLOAT4 bb[2];
 	float xSize;
 	float ySize;
@@ -430,9 +431,9 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 		xSize = fabs(bb[1].x - bb[0].x);
 		ySize = fabs(bb[1].y - bb[0].y);
 		zSize = fabs(bb[1].z - bb[0].z);
-		if (xSize > ySize && xSize > zSize) 
+		if (xSize >= ySize && xSize >= zSize) 
 			size = xSize;
-		else if (ySize > xSize && ySize > zSize) 
+		else if (ySize >= xSize && ySize >= zSize) 
 			size = ySize;
 		else 
 			size = zSize;
@@ -440,7 +441,7 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 		objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
 		
 		//RayDist is the shortest path from the center of the object to the nearest point on the ray
-		if (CanInteract(camera->getPos(), camera->getForwardVec(), objMidPos, size / 2, 10.0f, rayDistTemp)) {
+		if (CanInteract(camera->getPos(), camera->getForwardVec(), objMidPos, size / 2, maxDist, rayDistTemp)) {
 			if (toInteractIndex == -1) {
 				toInteractIndex = i;
 				toInteractVec = objMidPos;
@@ -449,7 +450,7 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			else {
 				float l1 = (camera->getPos() - objMidPos).length();
 				float l2 = (camera->getPos() - toInteractVec).length();
-				if ((l1 + rayDistTemp*2) < (l2 + rayDist*2)) {
+				if ((l1 + rayDistTemp*(l1/(maxDist/3))) < (l2 + rayDist* (l1 / (maxDist / 3)))) {
 					toInteractIndex = i;
 					toInteractVec = objMidPos;
 					rayDist = rayDistTemp;
@@ -462,14 +463,14 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 	if (interact) {
 		if (!interactables[toInteractIndex]->isUsed()) {
 			if (mouse->IsLeftDown()) {
-				std::cout << "Interact!\n";
+				//std::cout << "Interact!\n";
 				interactables[toInteractIndex]->Use();
 				interactables[toInteractIndex]->addScale(vec3(0.1f, 0.1f, 0.1f));
 			}	
 		}
 		else {
 			if (mouse->isRightDown()) {
-				std::cout << "Un-interact!\n";
+				//std::cout << "Un-interact!\n";
 				interactables[toInteractIndex]->Use();
 				interactables[toInteractIndex]->addScale(vec3(-0.1f, -0.1f, -0.1f));
 			}	
