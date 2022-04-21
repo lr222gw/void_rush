@@ -15,18 +15,18 @@ void MathPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
     if (!this->GetState())
     {
         int choice = 3;
-
-        if (CanInteract(playerPos, forwardVec, puzzleObjects[0]->getPos(), 5.0f, 5.0f))
+        float test;
+        if (CanInteract(playerPos, forwardVec, puzzleObjects[0]->getPos(), 5.0f, 5.0f, test))
         {
             choice = 0;
             std::cout << "Is in range A" << std::endl;
         }
-        if (CanInteract(playerPos, forwardVec, puzzleObjects[1]->getPos(), 5.0f, 5.0f))
+        if (CanInteract(playerPos, forwardVec, puzzleObjects[1]->getPos(), 5.0f, 5.0f, test))
         {
             choice = 1;
             std::cout << "Is in range B" << std::endl;
         }
-        if (CanInteract(playerPos, forwardVec, puzzleObjects[2]->getPos(), 5.0f, 5.0f))
+        if (CanInteract(playerPos, forwardVec, puzzleObjects[2]->getPos(), 5.0f, 5.0f, test))
         {
             choice = 2;
             std::cout << "Is in range C" << std::endl;
@@ -234,7 +234,7 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 posit
 void MathPuzzle::Update(Graphics*& gfx)
 {
     puzzlePlatform->updateMatrix();
-    puzzlePlatform->update();
+    puzzlePlatform->update(0);
     puzzlePlatform->updateVertexShader(gfx);
     puzzlePlatform->updatePixelShader(gfx);
     puzzlePlatform->draw(gfx);
@@ -244,7 +244,7 @@ void MathPuzzle::Update(Graphics*& gfx)
         for (int i = 0; i < puzzleObjects.size(); i++) {
 
             puzzleObjects[i]->updateMatrix();
-            puzzleObjects[i]->update();
+            puzzleObjects[i]->update(0);
             puzzleObjects[i]->updateVertexShader(gfx);
             puzzleObjects[i]->updatePixelShader(gfx);
             puzzleObjects[i]->draw(gfx);
