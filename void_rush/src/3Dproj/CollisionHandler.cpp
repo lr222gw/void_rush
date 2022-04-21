@@ -2,6 +2,7 @@
 
 CollisionHandler::CollisionHandler()
 {
+	
 }
 
 void CollisionHandler::addPlatform(GameObject* platform)
@@ -60,14 +61,17 @@ void CollisionHandler::update()
 		{
 			done = true;
 
-			if (player->getGroundedTimer() > 0.5f)
+			if (player->getGroundedTimer() > 0.1f)
 			{
 				player->setGrounded();
 			}
 		}
 		collisionWithBlocking(Platforms[i], player);
 	}
-
+	if (!done)
+	{
+		player->setUngrounded();
+	}
 
 	//check player with enemies // different things happens based on what enemy it is
 	for (size_t i = 0; i < Enemies.size(); i++) {

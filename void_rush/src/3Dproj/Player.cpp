@@ -45,7 +45,6 @@ void Player::update(float dt)
 		{
 			this->groundedTimer += dt;
 		}
-		
 	}
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
@@ -74,7 +73,7 @@ void Player::handleEvents(float dt)
 	DirectX::XMFLOAT3 translation = DirectX::XMFLOAT3(0, 0, 0);
 	if (keyboard->isKeyPressed('W')) {
 		jumpSpeed.z = speed.z;
-		if (grounded)
+		if (grounded || noClip)
 		{
 			translation = DirectX::XMFLOAT3(0, 0, -1);
 			Translate(dt, translation);
@@ -82,7 +81,7 @@ void Player::handleEvents(float dt)
 	}
 	if (keyboard->isKeyPressed('D')) {
 		jumpSpeed.x = speed.x;
-		if (grounded)
+		if (grounded || noClip)
 		{
 			translation = DirectX::XMFLOAT3(-1, 0, 0);
 			Translate(dt, translation);
@@ -90,7 +89,7 @@ void Player::handleEvents(float dt)
 	}
 	if (keyboard->isKeyPressed('S')) {
 		jumpSpeed.z = -speed.z;
-		if (grounded)
+		if (grounded || noClip)
 		{
 			translation = DirectX::XMFLOAT3(0, 0, 1);
 			Translate(dt, translation);
@@ -98,7 +97,7 @@ void Player::handleEvents(float dt)
 	}
 	if (keyboard->isKeyPressed('A')) {
 		jumpSpeed.x = -speed.x;
-		if (grounded)
+		if (grounded || noClip)
 		{
 			translation = DirectX::XMFLOAT3(1, 0, 0);
 			Translate(dt, translation);
@@ -190,9 +189,10 @@ void Player::setGrounded()
 
 void Player::setUngrounded()
 {
-	if (grounded)
+	if (grounded && !noClip)
 	{
 		this->grounded = false;
+		groundedTimer = 0.001f;
 	}
 }
 
@@ -209,12 +209,11 @@ GameObject*& Player::getPlayerObjPointer()
 void Player::Reset()
 {
 	this->grounded = true;
-	this->setPos(vec3(0.0f, 5.0f, 0.0f));
+	this->setPos(vec3(0.0f, 0.0f, 0.0f));
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
 	this->acceleration = vec3(0.0f, 0.0f, 0.0f);
 	this->resForce = vec3(0.0f, 0.0f, 0.0f);
 	this->groundedTimer = 0.0f;
-	
 }
 
 
