@@ -177,6 +177,11 @@ printf("quit");
 
 void Game::Update()
 {
+	/*DEBUG*/
+	if (keyboard->isKeyPressed(VK_RETURN)) {
+		ghost->setActive();
+	}
+	/*******/
 	if (testTime > 0.0f)
 	{
 		testTime -= (float)dt.dt();
@@ -220,14 +225,7 @@ void Game::Update()
 	//collisionWithBlocking(player->getPlayerObjPointer(), obj[2]);
 	generationManager->updatePlatfoms(player);
 
-	if (collision3D(player->getPlayerObjPointer(), GameObjManager->getGameObject(2), true, false))
-	{
-		if (player->getGroundedTimer() > 1.f)
-		{
-			player->setGrounded();
-		}
-		
-	}
+	
 	collisionHandler.update();
 
 	/*update vertex*/
@@ -236,7 +234,7 @@ void Game::Update()
 	/*update things*/
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 	gfx->Update((float)dt.dt(), camera->getPos());
-	GameObjManager->update();
+	GameObjManager->update(dt.dt());
 	player->update((float)dt.dt());
 
 #pragma region camera_settings
@@ -352,7 +350,7 @@ void Game::setUpObject()
 	GameObjManager = new GameObjectManager(gfx, rm);
 	////////OBJECTS///////////
 	GameObjManager->CreateGameObject("Camera.obj", "Camera1", vec3(0.f, 0.f, 10.f), vec3(0.f, 0.f, 0.f), vec3(5.f, 5.0f, 5.0f)); //main
-	GameObjManager->CreateGameObject("Camera.obj", "Camera2", vec3(0.f, 100.f, 0.f), vec3(0.f, -1.58f, 0.f), vec3(2.f, 2.0f, 2.0f)); //main
+	GameObjManager->CreateGameObject("Camera.obj", "Camera2", vec3(0.f, 0.f, -50.f), vec3(0.f, 0.f, 0.f), vec3(2.f, 2.0f, 2.0f)); //main
 
 	GameObjManager->CreateGameObject("quad2.obj", "Ground", vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100));
 	GameObjManager->CreateGameObject("BasePlatform.obj", "Base", vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
@@ -363,7 +361,11 @@ void Game::setUpObject()
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
+	collisionHandler.addPlatform(GameObjManager->getGameObject("Ground"));
 
+	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj",gfx), gfx, player->getPos() - vec3(0, 0, -5),vec3(0,0,0), vec3(0.2,0.2,0.2));
+	GameObjManager->addGameObject(ghost, "Ghost");
+	collisionHandler.addEnemies(ghost);
 }
 
 void Game::setUpLights()

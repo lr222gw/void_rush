@@ -7,9 +7,9 @@
 #include <iostream>
 #include <time.h>
 
-#include "Game.h"
-#include "debug.h"
-#include "Random.h"
+#include "3Dproj/Game.h"
+#include "3Dproj/debug.h"
+#include "3Dproj/Random.h"
 
 
 
