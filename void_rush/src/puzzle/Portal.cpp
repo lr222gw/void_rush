@@ -22,15 +22,16 @@ void Portal::Spawn()
 
 void Portal::InteractPortal(vec3 playerPos, vec3 forwardVec)
 {
-    if (CanInteract(playerPos, forwardVec, portals[0]->getPos(), 5.0f, 5.0f))
+    float test;
+    if (CanInteract(playerPos, forwardVec, portals[0]->getPos(), 5.0f, 5.0f, test))
     {
         std::cout << "Spawn next puzzle on easy mode" << std::endl;
     }
-    if (CanInteract(playerPos, forwardVec, portals[1]->getPos(), 5.0f, 5.0f))
+    if (CanInteract(playerPos, forwardVec, portals[1]->getPos(), 5.0f, 5.0f, test))
     {
         std::cout << "Spawn next puzzle on medium mode" << std::endl;
     }
-    if (CanInteract(playerPos, forwardVec, portals[2]->getPos(), 5.0f, 5.0f))
+    if (CanInteract(playerPos, forwardVec, portals[2]->getPos(), 5.0f, 5.0f, test))
     {
         std::cout << "Spawn next puzzle on hard mode" << std::endl;
     }
@@ -66,7 +67,7 @@ void Portal::UpdatePortal(Graphics*& gfx)
     for (int i = 0; i < portals.size(); i++) {
 
         portals[i]->updateMatrix();
-        portals[i]->update();
+        portals[i]->update(0);
         portals[i]->updateVertexShader(gfx);
         portals[i]->updatePixelShader(gfx);
         portals[i]->draw(gfx);
