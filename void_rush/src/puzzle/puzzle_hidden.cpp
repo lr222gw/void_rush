@@ -1,6 +1,6 @@
 #include "puzzle_hidden.hpp"
 
-HiddenPuzzle::HiddenPuzzle(const Vector3& position, int seed, int width, int length, Graphics*& gfx, ResourceManager*& rm) : Puzzle(position, seed, width, length, gfx, rm)
+HiddenPuzzle::HiddenPuzzle(int seed,Graphics*& gfx, ResourceManager*& rm) : Puzzle(seed, gfx, rm)
 {
     
 }
@@ -29,16 +29,40 @@ void HiddenPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
     }
 }
 
-void HiddenPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm)
+void HiddenPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position)
 {
     this->ResetState();
     std::cout << "Hidden puzzle chosen" << std::endl;
     //Based on the size of the platform, place out the key in a valid position where the key can be reached by the player.
-    puzzleObjects.push_back(new GameObject(rm->get_Models("Key.obj", gfx), gfx, vec3(0.0f, 25.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
+    puzzlePlatform = new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, position, vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
+    float x, y, z;
+    x = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 1);
+    y = puzzlePlatform->getWidthHeightDepth().y;
+    z = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 1);
+
+    if (x > (puzzlePlatform->getWidthHeightDepth().x / 2.0f))
+    {
+        x = x - (puzzlePlatform->getWidthHeightDepth().x - 1.0f);
+    }
+
+    if (z > (puzzlePlatform->getWidthHeightDepth().z / 2.0f))
+    {
+        z = z - (puzzlePlatform->getWidthHeightDepth().z - 1.0f);
+    }
+
+    std::cout << puzzlePlatform->getWidthHeightDepth().x << " " << puzzlePlatform->getWidthHeightDepth().y << " " << puzzlePlatform->getWidthHeightDepth().z << std::endl;
+
+    puzzleObjects.push_back(new GameObject(rm->get_Models("Key.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + y, puzzlePlatform->getzPos() + z), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
 }
 
 void HiddenPuzzle::Update(Graphics*& gfx)
 {
+    puzzlePlatform->updateMatrix();
+    puzzlePlatform->update();
+    puzzlePlatform->updateVertexShader(gfx);
+    puzzlePlatform->updatePixelShader(gfx);
+    puzzlePlatform->draw(gfx);
+
     if (!this->GetState())
     {
         for (int i = 0; i < puzzleObjects.size(); i++) {

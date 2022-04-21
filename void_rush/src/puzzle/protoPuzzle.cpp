@@ -6,8 +6,8 @@ ProtoPuzzle::ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm) : gfxPuzzle(gfx),
     seed = (int)time(0);
     srand(seed);
 
-    this->math = new MathPuzzle(Vector3(1, 1, 1), seed, 1, 1, gfx, rm);
-    this->hidden = new HiddenPuzzle(Vector3(1, 1, 1), seed, 1, 1, gfx, rm);
+    this->math = new MathPuzzle(seed, gfx, rm);
+    this->hidden = new HiddenPuzzle(seed, gfx, rm);
 
     this->puzzleList.push_back(math);
     this->puzzleList.push_back(hidden);
@@ -29,10 +29,10 @@ void ProtoPuzzle::Interact(vec3 playerPos, vec3 forwardVec)
     this->puzzleList[chosenPuzzle]->Interaction(playerPos, forwardVec);
 }
 
-void ProtoPuzzle::Initiate()
+void ProtoPuzzle::Initiate(vec3 platformPosition)
 {
     chosenPuzzle = ChoosePuzzle();
-    this->puzzleList[chosenPuzzle]->InitiatePuzzle(this->gfxPuzzle, this->rmPuzzle);
+    this->puzzleList[chosenPuzzle]->InitiatePuzzle(this->gfxPuzzle, this->rmPuzzle, platformPosition);
 }
 
 void ProtoPuzzle::Update()

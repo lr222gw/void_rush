@@ -24,7 +24,7 @@ private:
 public:
 	ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm);
 	~ProtoPuzzle();
-	void Initiate();
+	void Initiate(vec3 platformPosition);
 	int ChoosePuzzle();
 	void Interact(vec3 playerPos, vec3 forwardVec);
 	void Update();

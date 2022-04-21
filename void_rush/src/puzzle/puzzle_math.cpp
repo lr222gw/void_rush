@@ -1,7 +1,7 @@
 #include "puzzle_math.hpp"
 #include <string>
 
-MathPuzzle::MathPuzzle(const Vector3& position, int seed, int width, int length, Graphics*& gfx, ResourceManager*& rm) : Puzzle(position, seed, width, length, gfx, rm)
+MathPuzzle::MathPuzzle(int seed, Graphics*& gfx, ResourceManager*& rm) : Puzzle(seed, gfx, rm)
 {
 }
 
@@ -69,7 +69,7 @@ void MathPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
     }
 }
 
-void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm)
+void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position)
 {
     this->ResetState();
     int typeOfQuestion = (int)rand() % 4 + 1;
@@ -161,16 +161,84 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm)
         }
     }
 
-    //Randomize the position of the choices on the platform?
-    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(-15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
-    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(0.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
-    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(15.0f, 20.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+    puzzlePlatform = new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, position, vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
+    
+    float x, y, z, x2, z2, x3, z3;
+    y = puzzlePlatform->getWidthHeightDepth().y;
+
+    for (int i = 0; i < 3; i++)
+    {
+        if (i == 0)
+        {
+            x = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 1);
+            z = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 1);
+        }
+        else if (i == 1)
+        {
+            x2 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 1);
+            z2 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 1);
+
+            if (abs(x2 - x) < 5.0f || abs(z2 - z) < 5.0f)
+            {
+                i--;
+            }
+        }
+        else
+        {
+            x3 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 1);
+            z3 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 1);
+
+            if (abs(x3 - x) < 5.0f || abs(z3 - z) < 5.0f || abs(x3 - x2) < 5.0f || abs(z3 - z2) < 5.0f)
+            {
+                i--;
+            }
+        }
+    }
+
+    if (x > (puzzlePlatform->getWidthHeightDepth().x / 2.0f))
+    {
+        x = x - (puzzlePlatform->getWidthHeightDepth().x - 1.0f);
+    }
+    if (x2 > (puzzlePlatform->getWidthHeightDepth().x / 2.0f))
+    {
+        x2 = x2 - (puzzlePlatform->getWidthHeightDepth().x - 1.0f);
+    }
+    if (x3 > (puzzlePlatform->getWidthHeightDepth().x / 2.0f))
+    {
+        x3 = x3 - (puzzlePlatform->getWidthHeightDepth().x - 1.0f);
+    }
+
+    if (z > (puzzlePlatform->getWidthHeightDepth().z / 2.0f))
+    {
+        z = z - (puzzlePlatform->getWidthHeightDepth().z - 1.0f);
+    }
+    if (z2 > (puzzlePlatform->getWidthHeightDepth().z / 2.0f))
+    {
+        z2 = z2 - (puzzlePlatform->getWidthHeightDepth().z - 1.0f);
+    }
+    if (z3 > (puzzlePlatform->getWidthHeightDepth().z / 2.0f))
+    {
+        z3 = z3 - (puzzlePlatform->getWidthHeightDepth().z - 1.0f);
+    }
+
+    std::cout << puzzlePlatform->getWidthHeightDepth().x << " " << puzzlePlatform->getWidthHeightDepth().y << " " << puzzlePlatform->getWidthHeightDepth().z << std::endl;
+
+
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + y, puzzlePlatform->getzPos() + z), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x2, puzzlePlatform->getyPos() + y, puzzlePlatform->getzPos() + z2), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x3, puzzlePlatform->getyPos() + y, puzzlePlatform->getzPos() + z3), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
 
     std::cout << this->GetComponents() << std::endl;
 }
 
 void MathPuzzle::Update(Graphics*& gfx)
 {
+    puzzlePlatform->updateMatrix();
+    puzzlePlatform->update();
+    puzzlePlatform->updateVertexShader(gfx);
+    puzzlePlatform->updatePixelShader(gfx);
+    puzzlePlatform->draw(gfx);
+
     if (!this->GetState())
     {
         for (int i = 0; i < puzzleObjects.size(); i++) {

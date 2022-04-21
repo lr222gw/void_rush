@@ -17,25 +17,17 @@ private:
 
 protected:
     int seed;
-    Vector3 position;
     std::vector<GameObject*> puzzleObjects;
-    int width;
-    int length;
-    //Vector3 doorPosition;
-    bool completed;
+    GameObject* puzzlePlatform = nullptr;
 
 public:
     //Create puzzle
-    Puzzle(const Vector3& position, int seed, int width, int length, Graphics*& gfx, ResourceManager*& rm, bool completed = false);
+    Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm);
     virtual ~Puzzle();
 
     bool GetState() const;
 
     void ResetState();
-
-    int GetWidth() const;
-    
-    int GetLength() const;
 
     int GetSeed() const;
 
@@ -44,7 +36,7 @@ public:
     virtual void Interaction(vec3 playerPos, vec3 forwardVec) = 0;
 
     //Pick the correct type of puzzle and initiate it.
-    virtual void InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm) = 0;
+    virtual void InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position) = 0;
 
     virtual void Update(Graphics*& gfx) = 0;
 };
