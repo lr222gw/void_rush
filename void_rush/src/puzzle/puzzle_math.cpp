@@ -170,13 +170,13 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 posit
     {
         if (i == 0)
         {
-            x = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 1);
-            z = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 1);
+            x = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 2);
+            z = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 2);
         }
         else if (i == 1)
         {
-            x2 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 1);
-            z2 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 1);
+            x2 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 2);
+            z2 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 2);
 
             if (abs(x2 - x) < 5.0f || abs(z2 - z) < 5.0f)
             {
@@ -185,8 +185,8 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 posit
         }
         else
         {
-            x3 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 1);
-            z3 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 1);
+            x3 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 2);
+            z3 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 2);
 
             if (abs(x3 - x) < 5.0f || abs(z3 - z) < 5.0f || abs(x3 - x2) < 5.0f || abs(z3 - z2) < 5.0f)
             {
@@ -197,28 +197,28 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 posit
 
     if (x > (puzzlePlatform->getWidthHeightDepth().x / 2.0f))
     {
-        x = x - (puzzlePlatform->getWidthHeightDepth().x - 1.0f);
+        x = x - (puzzlePlatform->getWidthHeightDepth().x - 2.0f);
     }
     if (x2 > (puzzlePlatform->getWidthHeightDepth().x / 2.0f))
     {
-        x2 = x2 - (puzzlePlatform->getWidthHeightDepth().x - 1.0f);
+        x2 = x2 - (puzzlePlatform->getWidthHeightDepth().x - 2.0f);
     }
     if (x3 > (puzzlePlatform->getWidthHeightDepth().x / 2.0f))
     {
-        x3 = x3 - (puzzlePlatform->getWidthHeightDepth().x - 1.0f);
+        x3 = x3 - (puzzlePlatform->getWidthHeightDepth().x - 2.0f);
     }
 
     if (z > (puzzlePlatform->getWidthHeightDepth().z / 2.0f))
     {
-        z = z - (puzzlePlatform->getWidthHeightDepth().z - 1.0f);
+        z = z - (puzzlePlatform->getWidthHeightDepth().z - 2.0f);
     }
     if (z2 > (puzzlePlatform->getWidthHeightDepth().z / 2.0f))
     {
-        z2 = z2 - (puzzlePlatform->getWidthHeightDepth().z - 1.0f);
+        z2 = z2 - (puzzlePlatform->getWidthHeightDepth().z - 2.0f);
     }
     if (z3 > (puzzlePlatform->getWidthHeightDepth().z / 2.0f))
     {
-        z3 = z3 - (puzzlePlatform->getWidthHeightDepth().z - 1.0f);
+        z3 = z3 - (puzzlePlatform->getWidthHeightDepth().z - 2.0f);
     }
 
     std::cout << puzzlePlatform->getWidthHeightDepth().x << " " << puzzlePlatform->getWidthHeightDepth().y << " " << puzzlePlatform->getWidthHeightDepth().z << std::endl;
