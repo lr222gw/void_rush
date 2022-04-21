@@ -9,7 +9,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->keyboard = keyboard;
 	this->cam = cam;
 	this->gravity = vec3(0.0f, -9.82f, 0.0f);
-	this->speed = 5.f;
+	this->speed = vec3(5.f, 5.0f, 5.0f);
 	this->jumpSpeed = vec3(0.0f, 5.0f, 0.0f);
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
 	this->mass = 1.f;
@@ -35,7 +35,6 @@ void Player::update(float dt)
 		{
 			// Update forces
 			resForce = gravity * mass;
-
 			// Update acceleration
 			acceleration = resForce / mass;
 			// Update velocity
@@ -74,7 +73,7 @@ void Player::handleEvents(float dt)
 	//change values here
 	DirectX::XMFLOAT3 translation = DirectX::XMFLOAT3(0, 0, 0);
 	if (keyboard->isKeyPressed('W')) {
-		jumpSpeed.z = speed;
+		jumpSpeed.z = speed.z;
 		if (grounded)
 		{
 			translation = DirectX::XMFLOAT3(0, 0, -1);
@@ -82,7 +81,7 @@ void Player::handleEvents(float dt)
 		}
 	}
 	if (keyboard->isKeyPressed('D')) {
-		jumpSpeed.x = speed;
+		jumpSpeed.x = speed.x;
 		if (grounded)
 		{
 			translation = DirectX::XMFLOAT3(-1, 0, 0);
@@ -90,7 +89,7 @@ void Player::handleEvents(float dt)
 		}
 	}
 	if (keyboard->isKeyPressed('S')) {
-		jumpSpeed.z = -speed;
+		jumpSpeed.z = -speed.z;
 		if (grounded)
 		{
 			translation = DirectX::XMFLOAT3(0, 0, 1);
@@ -98,7 +97,7 @@ void Player::handleEvents(float dt)
 		}
 	}
 	if (keyboard->isKeyPressed('A')) {
-		jumpSpeed.x = -speed;
+		jumpSpeed.x = -speed.x;
 		if (grounded)
 		{
 			translation = DirectX::XMFLOAT3(1, 0, 0);
@@ -149,11 +148,11 @@ void Player::handleEvents(float dt)
 			}
 		}
 		else {
-			this->movePos(vec3(0, speed * dt, 0));
+			this->movePos(vec3(0.0f, speed.y * dt, 0.0f));
 		}
 	}
 	if (keyboard->isKeyPressed(VK_CONTROL)) {
-		this->movePos(vec3(0, -speed * dt, 0));
+		this->movePos(vec3(0, -speed.y * dt, 0));
 	}
 }
 
@@ -189,6 +188,14 @@ void Player::setGrounded()
 	}
 }
 
+void Player::setUngrounded()
+{
+	if (grounded)
+	{
+		this->grounded = false;
+	}
+}
+
 float Player::getGroundedTimer()
 {
 	return this->groundedTimer;
@@ -220,9 +227,9 @@ void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 	vec2 trans(translate.x, translate.z);
 	trans.Normalize();
 	this->setPos(vec3(
-		this->getPos().x - trans.x * speed * dt,
+		this->getPos().x - trans.x * speed.x * dt,
 		this->getPos().y,
-		this->getPos().z - trans.y * speed * dt
+		this->getPos().z - trans.y * speed.z * dt
 	));
 }
 
