@@ -55,7 +55,7 @@ void MathPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
         {
             if (choices[choice] == components[2])
             {
-                this->SpawnDoor();
+                this->SpawnDoor(this->GetPosition());
                 std::cout << "Correct choice!" << std::endl;
             }
             else
@@ -72,6 +72,7 @@ void MathPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
 
 void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position)
 {
+    this->SetPosition(position);
     int typeOfQuestion = (int)rand() % 4 + 1;
 
     //Question is addition or subtraction
