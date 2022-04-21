@@ -366,6 +366,15 @@ void Game::setUpObject()
 	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj",gfx), gfx, player->getPos() - vec3(0, 0, -5),vec3(0,0,0), vec3(0.2,0.2,0.2));
 	GameObjManager->addGameObject(ghost, "Ghost");
 	collisionHandler.addEnemies(ghost);
+
+	/*INteraction test objects*/
+	GameObjManager->CreateGameObject("indoor_plant_02.obj", "IntOne", vec3(0, 5, 0));
+	GameObjManager->CreateGameObject("indoor_plant_02.obj", "IntTwo", vec3(5, 5, 0));
+	GameObjManager->CreateGameObject("indoor_plant_02.obj", "IntThree", vec3(10, 5, 0));
+	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntOne"));
+	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntTwo"));
+	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntThree"));
+	
 }
 
 void Game::setUpLights()
@@ -405,6 +414,8 @@ void Game::setUpParticles()
 /*Interaction Test*/
 void Game::Interact(std::vector<GameObject*>& interactables)
 {
+	float rayDist;
+	float rayDistTemp;
 	DirectX::XMFLOAT4 bb[2];
 	float xSize;
 	float ySize;
@@ -428,17 +439,20 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 		
 		objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
 		
-		if (CanInteract(camera->getPos(), camera->getForwardVec(), objMidPos, size / 2, 10.0f)) {
+		//RayDist is the shortest path from the center of the object to the nearest point on the ray
+		if (CanInteract(camera->getPos(), camera->getForwardVec(), objMidPos, size / 2, 10.0f, rayDistTemp)) {
 			if (toInteractIndex == -1) {
 				toInteractIndex = i;
 				toInteractVec = objMidPos;
+				rayDist = rayDistTemp;
 			}
 			else {
 				float l1 = (camera->getPos() - objMidPos).length();
 				float l2 = (camera->getPos() - toInteractVec).length();
-				if (l1 < l2) {
+				if ((l1 + rayDistTemp*2) < (l2 + rayDist*2)) {
 					toInteractIndex = i;
 					toInteractVec = objMidPos;
+					rayDist = rayDistTemp;
 				}
 			}
 			if(!interact)
