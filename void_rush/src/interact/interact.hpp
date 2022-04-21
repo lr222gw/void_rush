@@ -5,4 +5,4 @@
 #include <stdlib.h>
 #include <iostream>
 
-bool CanInteract (vec3 camPos, vec3 camDir, vec3 itemPos, float itemRad, float maxDistance);
+bool CanInteract (vec3 camPos, vec3 camDir, vec3 itemPos, float itemRad, float maxDistance, float& rayDist);
