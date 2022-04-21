@@ -13,9 +13,9 @@ class ProtoPuzzle
 {
 private:
 	std::vector<Puzzle*> puzzleList;
-	int chosenPuzzle;
+	int chosenPuzzle = 0;
 	int seed;
-	const int PUZZLES = 1; //Set to amount of puzzles done.
+	const int PUZZLES = 2; //Set to amount of puzzles done.
 	MathPuzzle* math;
 	HiddenPuzzle* hidden;
 	Graphics*& gfxPuzzle;
@@ -24,8 +24,8 @@ private:
 public:
 	ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm);
 	~ProtoPuzzle();
-	void Initiate();
+	void Initiate(vec3 platformPosition);
 	int ChoosePuzzle();
-	void Interact(vec3 playerPos);
+	void Interact(vec3 playerPos, vec3 forwardVec);
 	void Update();
 };

@@ -16,6 +16,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->grounded = true;
 	this->groundedTimer = 0.0f;
 	GOPTR = static_cast<GameObject*>(this);
+	this->setScale(vec3(0.2f,0.2f,0.2f));
 	setWeight(20);
 	setBoundingBox(DirectX::XMFLOAT3(getPos().x, getPos().y, getPos().z), DirectX::XMFLOAT3(1.f, 2.f, 1.f));
 	this->health = 3;
