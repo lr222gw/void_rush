@@ -129,8 +129,8 @@ void ImguiManager::render_physics_widgets()
 	if (ImGui::Begin(name.c_str())) {
 		//owner->player->speed
 					
-		static float init_player_speed = owner->player->speed;
-		ImGui::SliderFloat("Speed", &owner->player->speed ,init_player_speed, init_player_speed + 300.f);
+		static float init_player_speed = owner->player->speed.x;
+		ImGui::SliderFloat("Speed", &owner->player->speed.x ,init_player_speed, init_player_speed + 300.f);
 		ImGui::InputFloat("Gravity", &owner->player->gravity.y);
 			
 			

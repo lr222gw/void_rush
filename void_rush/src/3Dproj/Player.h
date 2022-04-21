@@ -6,13 +6,14 @@
 
 class Player : public GameObject {
 public:
-	Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
+	Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, vec3 pos = vec3(0, 10, -50), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
 	virtual ~Player();
 	void update(float dt);
 	void handleEvents(float dt);
 	void rotateWithMouse(int x, int y);
 	void addRot(vec3 rot);
 	void setGrounded();
+	void setUngrounded();
 	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
 	
@@ -20,7 +21,7 @@ private:
 	friend class ImguiManager;
 	bool noClip;
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
-	float speed;
+	vec3 speed;
 	vec3 jumpSpeed;
 	vec3 velocity;
 	vec3 acceleration;
