@@ -25,6 +25,11 @@ void Generation_manager::set_player(Player* player)
     this->player = player;
 }
 
+void Generation_manager::set_PuzzleManager(ProtoPuzzle* puzzleManager)
+{
+    this->puzzleManager = puzzleManager;
+}
+
 void Generation_manager::initialize()
 {
     //Removes previous data and platforms if any
@@ -41,6 +46,8 @@ void Generation_manager::initialize()
 
     place_anchorPoints();    
     place_jumpPoints();
+
+    puzzleManager->Initiate(this->getPuzzelPos());
     
 }
 
@@ -90,7 +97,7 @@ void Generation_manager::setDifficulty(Difficulity diff)
 
 vec3 Generation_manager::getPuzzelPos()
 {
-    return *this->position_gen->getAnchors()->at(position_gen->getAnchors()->size())->getPos();
+    return *this->position_gen->getAnchors()->at(position_gen->getAnchors()->size()-1)->getPos();
 }
 
 void Generation_manager::draw()

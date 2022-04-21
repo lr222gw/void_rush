@@ -17,10 +17,10 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	UI = new UIManager(rm, gfx);
 	//UI->createUISprite("assets/textures/Fire.png", vec2(0, 0), vec2(0, 0));
 	testPuzzle = new ProtoPuzzle(gfx, rm);
-	testPuzzle->Initiate(vec3(0.0f, -22.0f, 0.0f));
 
 	generationManager = new Generation_manager(gfx,rm, collisionHandler);
-	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
+	generationManager->set_PuzzleManager(testPuzzle);
+	
 
 	setUpLights();
 	
@@ -67,7 +67,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	};
 	Space = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, player->getPos(), skyboxTextures);
 
-	maxDepth = -40.0f;
+	maxDepth = -140.0f;
 
 }
 
@@ -356,7 +356,7 @@ void Game::setUpObject()
 	GameObjManager->CreateGameObject("Camera.obj", "Camera1", vec3(0.f, 0.f, 10.f), vec3(0.f, 0.f, 0.f), vec3(5.f, 5.0f, 5.0f)); //main
 	GameObjManager->CreateGameObject("Camera.obj", "Camera2", vec3(0.f, 100.f, 0.f), vec3(0.f, -1.58f, 0.f), vec3(2.f, 2.0f, 2.0f)); //main
 
-	GameObjManager->CreateGameObject("quad2.obj", "Ground", vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100));
+	//GameObjManager->CreateGameObject("quad2.obj", "Ground", vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100));
 	
 	//GameObjManager->CreateGameObject("BasePlatform.obj", "Base", vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
 	//GameObjManager->CreateGameObject("nanosuit.obj","Nano", vec3(-5.f, 0.f, 0.f), vec3(0.f, 0.f, 0.f), vec3(1.f, 1.f, 1.f));
@@ -367,7 +367,7 @@ void Game::setUpObject()
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
-	collisionHandler.addPlatform(GameObjManager->getGameObject("Ground"));
+	//collisionHandler.addPlatform(GameObjManager->getGameObject("Ground"));
 
 	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj",gfx), gfx, player->getPos() - vec3(0, 0, -5),vec3(0,0,0), vec3(0.2,0.2,0.2));
 	GameObjManager->addGameObject(ghost, "Ghost");
@@ -380,6 +380,10 @@ void Game::setUpObject()
 	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntOne"));
 	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntTwo"));
 	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntThree"));
+
+	generationManager->initialize();
+	testPuzzle->Initiate(generationManager->getPuzzelPos());
+	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 	
 }
 
