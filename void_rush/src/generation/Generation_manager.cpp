@@ -83,6 +83,16 @@ void Generation_manager::place_jumpPoints()
     }
 }
 
+void Generation_manager::setDifficulty(Difficulity diff)
+{
+    this->difficulity = diff;
+}
+
+vec3 Generation_manager::getPuzzelPos()
+{
+    return *this->position_gen->getAnchors()->at(position_gen->getAnchors()->size())->getPos();
+}
+
 void Generation_manager::draw()
 {
     for (PlatformObj* platform : platformObjs) {
