@@ -41,21 +41,6 @@ void Portal::InteractPortal(vec3 playerPos, vec3 forwardVec)
     {
         std::cout << "Spawn next puzzle on hard mode" << std::endl;
     }
-
-    /*
-    if ((portals[0]->getPos() - playerPos).length() < 10.0f)
-    {
-        std::cout << "Spawn next puzzle on easy mode" << std::endl;
-    }
-    if ((portals[1]->getPos() - playerPos).length() < 10.0f)
-    {
-        std::cout << "Spawn next puzzle on medium mode" << std::endl;
-    }
-    if ((portals[2]->getPos() - playerPos).length() < 10.0f)
-    {
-        std::cout << "Spawn next puzzle on hard mode" << std::endl;
-    }
-    */
 }
 
 void Portal::ResetPortal()

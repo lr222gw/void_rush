@@ -16,13 +16,6 @@ void HiddenPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
             std::cout << "Key Picked Up!" << std::endl;
             this->SpawnDoor(this->GetPosition());
         }
-        /*
-        if ((puzzleObjects[0]->getPos() - playerPos).length() < 10.0f)
-        {
-            std::cout << "Key Picked Up!" << std::endl;
-            this->SpawnDoor();
-        }
-        */
     }
     else
     {

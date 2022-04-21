@@ -33,24 +33,6 @@ void MathPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
             std::cout << "Is in range C" << std::endl;
         }
 
-        /*
-        if ((puzzleObjects[0]->getPos() - playerPos).length() < 10.0f)
-        {
-            choice = 0;
-            std::cout << "Is in range A" << std::endl;
-        }
-        if ((puzzleObjects[1]->getPos() - playerPos).length() < 10.0f)
-        {
-            choice = 1;
-            std::cout << "Is in range B" << std::endl;
-        }
-        if ((puzzleObjects[2]->getPos() - playerPos).length() < 10.0f)
-        {
-            choice = 2;
-            std::cout << "Is in range C" << std::endl;
-        }
-        */
-
         if (choice != 3)
         {
             if (choices[choice] == components[2])
