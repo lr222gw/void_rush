@@ -1,4 +1,6 @@
 #include "Player.h"
+#include <algorithm>
+#undef max
 
 Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale):
 	GameObject(file, gfx, pos, rot, scale), noClip(true)
@@ -8,7 +10,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->cam = cam;
 	this->gravity = vec3(0.0f, -9.82f, 0.0f);
 	this->speed = 5.f;
-	this->jumpSpeed = 4.f;
+	this->jumpSpeed = vec3(0.0f, 5.0f, 0.0f);
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
 	this->mass = 1.f;
 	this->grounded = true;
@@ -27,9 +29,7 @@ Player::~Player()
 void Player::update(float dt)
 {
 	handleEvents(dt);
-	cam->setRotation(vec3(this->getRot().y, -this->getRot().x, this->getRot().z));
 	if (!noClip) {
-		std::cout << "hello" << std::endl;
 		if (!grounded)
 		{
 			// Update forces
@@ -39,17 +39,17 @@ void Player::update(float dt)
 			acceleration = resForce / mass;
 			// Update velocity
 			velocity = velocity + acceleration * dt;
+			this->movePos(vec3(jumpSpeed.x * dt, this->velocity.y * dt, jumpSpeed.z * dt));
 		}
 		if (this->groundedTimer != 0.0f)
 		{
 			this->groundedTimer += dt;
 		}
-		this->movePos(vec3(0, this->velocity.y * dt, 0));
+		
 	}
-	//std::cout << this->acceleration.y << std::endl;
-	cam->setRotation(this->getRot());
+	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
-
+	GameObject::update(dt);
 }
 
 void Player::handleEvents(float dt)
@@ -58,50 +58,93 @@ void Player::handleEvents(float dt)
 	//change these to use keyboard
 	if (!mouse->getMouseActive()) {
 		if (GetKeyState(VK_RIGHT) & 0x8000) {
-			this->addRot(vec3(mouse->getSense() * (float)dt, 0, 0));
+			cam->addRotation(vec3(mouse->getSense() * (float)dt, 0, 0));
 		}
 		if (GetKeyState(VK_LEFT) & 0x8000) {
-			this->addRot(vec3(-mouse->getSense() * (float)dt, 0, 0));
+			cam->addRotation(vec3(-mouse->getSense() * (float)dt, 0, 0));
 		}
 		if (GetKeyState(VK_UP) & 0x8000) {
-			this->addRot(vec3(0, mouse->getSense() * (float)dt, 0));
+			cam->addRotation(vec3(0, mouse->getSense() * (float)dt, 0));
 		}
 		if (GetKeyState(VK_DOWN) & 0x8000) {
-			this->addRot(vec3(0, -mouse->getSense() * (float)dt, 0));
+			cam->addRotation(vec3(0, -mouse->getSense() * (float)dt, 0));
 		}
 	}
 	//change values here
 	DirectX::XMFLOAT3 translation = DirectX::XMFLOAT3(0, 0, 0);
 	if (keyboard->isKeyPressed('W')) {
-		translation = DirectX::XMFLOAT3(0, 0, -1);
-		Translate(dt, translation);
+		jumpSpeed.z = speed;
+		if (grounded)
+		{
+			translation = DirectX::XMFLOAT3(0, 0, -1);
+			Translate(dt, translation);
+		}
 	}
 	if (keyboard->isKeyPressed('D')) {
-		translation = DirectX::XMFLOAT3(-1, 0, 0);
-		Translate(dt, translation);
+		jumpSpeed.x = speed;
+		if (grounded)
+		{
+			translation = DirectX::XMFLOAT3(-1, 0, 0);
+			Translate(dt, translation);
+		}
 	}
 	if (keyboard->isKeyPressed('S')) {
-		translation = DirectX::XMFLOAT3(0, 0, 1);
-		Translate(dt, translation);
+		jumpSpeed.z = -speed;
+		if (grounded)
+		{
+			translation = DirectX::XMFLOAT3(0, 0, 1);
+			Translate(dt, translation);
+		}
 	}
 	if (keyboard->isKeyPressed('A')) {
-		translation = DirectX::XMFLOAT3(1, 0, 0);
-		Translate(dt, translation);
+		jumpSpeed.x = -speed;
+		if (grounded)
+		{
+			translation = DirectX::XMFLOAT3(1, 0, 0);
+			Translate(dt, translation);
+		}
 	}
-	
-	if (keyboard->isKeyPressed(VK_SPACE)&& grounded) {
+	if (!keyboard->isKeyPressed('W'))
+	{
+		if (grounded)
+		{
+			jumpSpeed.z = 0.0f;
+		}
+	}
+	if (!keyboard->isKeyPressed('S'))
+	{
+		if (grounded)
+		{
+			jumpSpeed.z = 0.0f;
+		}
+	}
+	if (!keyboard->isKeyPressed('D'))
+	{
+		if (grounded)
+		{
+			jumpSpeed.x = 0.0f;
+		}
+	}
+	if (!keyboard->isKeyPressed('A'))
+	{
+		if (grounded)
+		{
+			jumpSpeed.x = 0.0f;
+		}
+	}
+	if (keyboard->isKeyPressed(VK_SPACE) && grounded) {
 		if(!noClip){
 			if (grounded) {
 				grounded = false;
 				groundedTimer = 0.001f;
 			}
-			if (velocity.y > 0)
+			if (velocity.y > 0.0f)
 			{
-				velocity.y += jumpSpeed;
+				velocity.y += jumpSpeed.y;
 			}
 			else
 			{
-				velocity = vec3(velocity.x, jumpSpeed, velocity.z);
+				velocity = vec3(0.0f, jumpSpeed.y, 0.0f);
 			}
 		}
 		else {
@@ -115,9 +158,12 @@ void Player::handleEvents(float dt)
 
 void Player::rotateWithMouse(int x, int y)
 {
-	this->addRot(vec3(
-		static_cast<float>(x)* mouse->getSense() * 0.01,
-		static_cast<float>(y)* -mouse->getSense() * 0.01,
+	float ycr = cam->getRot().y + static_cast<float>(y) * -mouse->getSense() * 0.01;
+	ycr = std::clamp(ycr, -1.5f, 1.57f);
+
+	cam->setRotation(vec3(
+		cam->getRot().x + static_cast<float>(x) * mouse->getSense() * 0.01,
+		ycr,
 		0
 	));
 }
@@ -135,7 +181,7 @@ void Player::setGrounded()
 	if (!grounded)
 	{
 		this->grounded = true;
-		this->velocity.y = 0.0f;
+		this->velocity = vec3(0.0f, 0.0f, 0.0f);
 		this->acceleration.y = 0.0f;
 		this->resForce.y = 0.0f;
 		this->groundedTimer = 0.0f;
@@ -167,7 +213,7 @@ void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 {
 	DirectX::XMStoreFloat3(&translate, DirectX::XMVector3Transform(
 		DirectX::XMLoadFloat3(&translate),
-		DirectX::XMMatrixRotationRollPitchYaw(this->getxRot(), this->getyRot(), 0) *
+		DirectX::XMMatrixRotationRollPitchYaw(cam->getRot().y, cam->getRot().x, 0) *
 		DirectX::XMMatrixScaling(1, 1, 1)//this line is not neccessary but I am afraid to break things
 	));
 	vec2 trans(translate.x, translate.z);

@@ -1,7 +1,7 @@
 #include "interact.hpp"
 
 bool CanInteract (vec3 camPos, vec3 camDir, vec3 itemPos,
-                  float itemRad, float maxDistance)
+                  float itemRad, float maxDistance, float& rayDist)
 {
     camDir.Normalize();
 
@@ -31,6 +31,8 @@ bool CanInteract (vec3 camPos, vec3 camDir, vec3 itemPos,
     if (m2> powf (itemRad, 2)){
         return false;
     }
+
+    rayDist = sqrt(m2);
 
     return true;
 }

@@ -8,7 +8,7 @@ class Player : public GameObject {
 public:
 	Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
 	virtual ~Player();
-	void update(float dt);
+	void update(float dt) override;
 	void handleEvents(float dt);
 	void rotateWithMouse(int x, int y);
 	void addRot(vec3 rot);
@@ -22,7 +22,7 @@ private:
 	bool noClip;
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
 	float speed;
-	float jumpSpeed;
+	vec3 jumpSpeed;
 	vec3 velocity;
 	vec3 acceleration;
 	vec3 resForce;

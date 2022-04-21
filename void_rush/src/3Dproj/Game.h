@@ -20,7 +20,7 @@
 #include "UIManager.h"
 
 #include "Collision3D.h"
-#include "Player.h"
+#include "Ghost.h"
 #include "GameObjectManager.h"
 
 #include "puzzle/protoPuzzle.hpp"
@@ -64,6 +64,7 @@ private:
 	UIManager* UI;
 	SkyBox* Space;
 	Player* player;
+	Ghost* ghost;
 	GameObjectManager* GameObjManager;
 	Generation_manager* generationManager;
 	CollisionHandler collisionHandler;

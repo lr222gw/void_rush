@@ -140,6 +140,11 @@ float GameObject::getWeight()
 	return this->weight;
 }
 
+void GameObject::update(float dt)
+{
+	object::update(dt);
+}
+
 vec3 GameObject::getWidthHeightDepth()
 {
 	return this->WHD;

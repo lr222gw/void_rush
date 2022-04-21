@@ -179,6 +179,11 @@ printf("quit");
 
 void Game::Update()
 {
+	/*DEBUG*/
+	if (keyboard->isKeyPressed(VK_RETURN)) {
+		ghost->setActive();
+	}
+	/*******/
 	if (testTime > 0.0f)
 	{
 		testTime -= (float)dt.dt();
@@ -222,6 +227,7 @@ void Game::Update()
 	//collisionWithBlocking(player->getPlayerObjPointer(), obj[2]);
 	generationManager->updatePlatfoms(player);
 
+	
 	collisionHandler.update();
 
 	/*update vertex*/
@@ -230,7 +236,7 @@ void Game::Update()
 	/*update things*/
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 	gfx->Update((float)dt.dt(), camera->getPos());
-	GameObjManager->update();
+	GameObjManager->update(dt.dt());
 	player->update((float)dt.dt());
 
 #pragma region camera_settings
@@ -348,7 +354,7 @@ void Game::setUpObject()
 	GameObjManager = new GameObjectManager(gfx, rm);
 	////////OBJECTS///////////
 	GameObjManager->CreateGameObject("Camera.obj", "Camera1", vec3(0.f, 0.f, 10.f), vec3(0.f, 0.f, 0.f), vec3(5.f, 5.0f, 5.0f)); //main
-	GameObjManager->CreateGameObject("Camera.obj", "Camera2", vec3(0.f, 100.f, 0.f), vec3(0.f, -1.58f, 0.f), vec3(2.f, 2.0f, 2.0f)); //main
+	GameObjManager->CreateGameObject("Camera.obj", "Camera2", vec3(0.f, 0.f, -50.f), vec3(0.f, 0.f, 0.f), vec3(2.f, 2.0f, 2.0f)); //main
 
 	GameObjManager->CreateGameObject("quad2.obj", "Ground", vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100));
 	GameObjManager->CreateGameObject("BasePlatform.obj", "Base", vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
@@ -359,8 +365,20 @@ void Game::setUpObject()
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard);
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
+	collisionHandler.addPlatform(GameObjManager->getGameObject("Ground"));
 
+	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj",gfx), gfx, player->getPos() - vec3(0, 0, -5),vec3(0,0,0), vec3(0.2,0.2,0.2));
+	GameObjManager->addGameObject(ghost, "Ghost");
+	collisionHandler.addEnemies(ghost);
 
+	/*INteraction test objects*/
+	GameObjManager->CreateGameObject("indoor_plant_02.obj", "IntOne", vec3(0, 5, 0));
+	GameObjManager->CreateGameObject("indoor_plant_02.obj", "IntTwo", vec3(5, 5, 0));
+	GameObjManager->CreateGameObject("indoor_plant_02.obj", "IntThree", vec3(10, 5, 0));
+	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntOne"));
+	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntTwo"));
+	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntThree"));
+	
 }
 
 void Game::setUpLights()
@@ -400,6 +418,9 @@ void Game::setUpParticles()
 /*Interaction Test*/
 void Game::Interact(std::vector<GameObject*>& interactables)
 {
+	float rayDist;
+	float rayDistTemp;
+	float maxDist = 10.0f;
 	DirectX::XMFLOAT4 bb[2];
 	float xSize;
 	float ySize;
@@ -414,26 +435,29 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 		xSize = fabs(bb[1].x - bb[0].x);
 		ySize = fabs(bb[1].y - bb[0].y);
 		zSize = fabs(bb[1].z - bb[0].z);
-		if (xSize > ySize && xSize > zSize) 
+		if (xSize >= ySize && xSize >= zSize) 
 			size = xSize;
-		else if (ySize > xSize && ySize > zSize) 
+		else if (ySize >= xSize && ySize >= zSize) 
 			size = ySize;
 		else 
 			size = zSize;
 		
 		objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
 		
-		if (CanInteract(camera->getPos(), camera->getForwardVec(), objMidPos, size / 2, 10.0f)) {
+		//RayDist is the shortest path from the center of the object to the nearest point on the ray
+		if (CanInteract(camera->getPos(), camera->getForwardVec(), objMidPos, size / 2, maxDist, rayDistTemp)) {
 			if (toInteractIndex == -1) {
 				toInteractIndex = i;
 				toInteractVec = objMidPos;
+				rayDist = rayDistTemp;
 			}
 			else {
 				float l1 = (camera->getPos() - objMidPos).length();
 				float l2 = (camera->getPos() - toInteractVec).length();
-				if (l1 < l2) {
+				if ((l1 + rayDistTemp*(l1/(maxDist/3))) < (l2 + rayDist* (l1 / (maxDist / 3)))) {
 					toInteractIndex = i;
 					toInteractVec = objMidPos;
+					rayDist = rayDistTemp;
 				}
 			}
 			if(!interact)
@@ -443,14 +467,14 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 	if (interact) {
 		if (!interactables[toInteractIndex]->isUsed()) {
 			if (mouse->IsLeftDown()) {
-				std::cout << "Interact!\n";
+				//std::cout << "Interact!\n";
 				interactables[toInteractIndex]->Use();
 				interactables[toInteractIndex]->addScale(vec3(0.1f, 0.1f, 0.1f));
 			}	
 		}
 		else {
 			if (mouse->isRightDown()) {
-				std::cout << "Un-interact!\n";
+				//std::cout << "Un-interact!\n";
 				interactables[toInteractIndex]->Use();
 				interactables[toInteractIndex]->addScale(vec3(-0.1f, -0.1f, -0.1f));
 			}	
