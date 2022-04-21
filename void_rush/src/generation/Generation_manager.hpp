@@ -35,6 +35,9 @@ public:
 	void place_anchorPoints();
 	void place_jumpPoints();
 
+	void setDifficulty(Difficulity diff);
+	vec3 getPuzzelPos();
+
 	void generateGraph();
 
 	void draw();
