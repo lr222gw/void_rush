@@ -28,7 +28,7 @@ public:
 	Portal(Graphics*& gfx, ResourceManager*& rm, Generation_manager*& generationManager, CollisionHandler* collHandl);
 	virtual ~Portal();
 
-	void Spawn();
+	void Spawn(vec3 pos);
 
 	void InteractPortal(vec3 playerPos, vec3 forwardVec);
 

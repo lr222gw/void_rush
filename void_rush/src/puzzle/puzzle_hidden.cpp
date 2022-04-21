@@ -15,15 +15,8 @@ void HiddenPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
         if (CanInteract(playerPos, forwardVec, puzzleObjects[0]->getPos(), 5.0f, 5.0f, test))
         {
             std::cout << "Key Picked Up!" << std::endl;
-            this->SpawnDoor();
+            this->SpawnDoor(this->GetPosition());
         }
-        /*
-        if ((puzzleObjects[0]->getPos() - playerPos).length() < 10.0f)
-        {
-            std::cout << "Key Picked Up!" << std::endl;
-            this->SpawnDoor();
-        }
-        */
     }
     else
     {
@@ -33,6 +26,7 @@ void HiddenPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
 
 void HiddenPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position)
 {
+    this->SetPosition(position);
     std::cout << "Hidden puzzle chosen" << std::endl;
     //Based on the size of the platform, place out the key in a valid position where the key can be reached by the player.
     puzzlePlatform = new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, position, vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));

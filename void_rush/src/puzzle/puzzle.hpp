@@ -23,6 +23,7 @@ protected:
     int seed;
     std::vector<GameObject*> puzzleObjects;
     GameObject* puzzlePlatform = nullptr;
+    vec3 position = vec3(0.0f, 0.0f, 0.0f);
 
 
 public:
@@ -30,13 +31,17 @@ public:
     Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm, Generation_manager*& generationManager, CollisionHandler* collHandl);
     virtual ~Puzzle();
 
+    void SetPosition(vec3 pos);
+
+    vec3 GetPosition() const;
+
     bool GetState() const;
 
     void ResetState();
 
     int GetSeed() const;
 
-    void SpawnDoor();
+    void SpawnDoor(vec3 pos);
 
     virtual void Interaction(vec3 playerPos, vec3 forwardVec) = 0;
 

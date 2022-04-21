@@ -48,7 +48,7 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
     float stepMax = pl->getJumpDistance() * platforms_between_anchors;
     float stepMin = pl->getJumpDistance() / minStepMod * (int)selectedDiff;
     float distance = 0.0f;
-    float stepMaxZ = pl->jumpHeight();
+    float stepMaxZ = pl->jumpHeight() ;// reason for platforms not generating
     float rotation = 0.0f;
     vec3 dVect = vec3();
     vec3 position = *this->startPlat->getPos();
@@ -63,7 +63,7 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
         dVect.y = fmax(dVect.y, -100.0f);
         position.y += dVect.y;
         // Using the height the new platform to determine max distance
-        stepMax = pl->getJumpDistance(position.y) * platforms_between_anchors;
+        stepMax = pl->getJumpDistance(position.y) * platforms_between_anchors; //the problem is tied to this
         stepMin = stepMax / minStepMod * (int)selectedDiff;
         // Generating x and y pos
         dVect.x = randF(0, 1);
@@ -74,7 +74,7 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
         float dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);        
         dVect.x = dVect.x / dvect_magnitude;
         dVect.z = dVect.z / dvect_magnitude;
-        dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);        
+        //dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);  //Remove?      
         // ^^^^^^^^^^^^ vector3.magnitude  then  vector3.normalizeXY 
 
         
@@ -88,7 +88,7 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
         // Get random value for Z that is within possible jump
 
 
-        dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);
+        dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z); //Remove?
         if (this->pl->isJumpPossible(position) && dvect_magnitude > stepMin
             && dvect_magnitude < stepMax)
         {
