@@ -33,6 +33,7 @@ void Puzzle::ResetState()
     if (puzzlePlatform != nullptr)
     {
         delete puzzlePlatform;
+        puzzlePlatform = nullptr;
     }
     this->ResetPortal();
 }
