@@ -81,11 +81,12 @@ void ImguiManager::render_generation_widgets()
 			ImGui::InputFloat("gravity", &owner->generationManager->player_jump_checker->gravity);
 			ImGui::InputFloat("jump velocity", &owner->generationManager->player_jump_checker->jumpvel);
 			ImGui::InputFloat("launch angle", &owner->generationManager->player_jump_checker->launchangle);
-			ImGui::InputFloat3("position", (&owner->generationManager->player_jump_checker->pos.x,
-											&owner->generationManager->player_jump_checker->pos.y,
-											&owner->generationManager->player_jump_checker->pos.z)
-									
-			);
+			
+			float* pos[3] = { &owner->generationManager->player_jump_checker->pos.x,
+				&owner->generationManager->player_jump_checker->pos.y,
+				&owner->generationManager->player_jump_checker->pos.z };
+			ImGui::InputFloat3("position", *pos);
+
 			ImGui::InputFloat("speed", &owner->generationManager->player_jump_checker->speed);
 			ImGui::TreePop();
 		}
