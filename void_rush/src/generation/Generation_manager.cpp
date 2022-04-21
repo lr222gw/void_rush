@@ -54,7 +54,7 @@ void Generation_manager::place_anchorPoints()
         platformObjs.push_back(
             new PlatformObj(rm->get_Models("platform.obj", gfx),
                 gfx,
-                vec3(anchor_pos->y, anchor_pos->z, anchor_pos->x),
+                vec3(anchor_pos->x, anchor_pos->y, anchor_pos->z),
                 vec3(0.0f, 0.0f, 0.0f),
                 vec3(1.0f, 1.0f, 1.0f))
         );
@@ -73,7 +73,7 @@ void Generation_manager::place_jumpPoints()
         platformObjs.push_back(
             new PlatformObj(rm->get_Models("platform.obj", gfx),
                 gfx,
-                vec3(jumpPoint_pos->y, jumpPoint_pos->z, jumpPoint_pos->x),
+                vec3(jumpPoint_pos->x, jumpPoint_pos->y, jumpPoint_pos->z),
                 vec3(0.0f, 0.0f, 0.0f),
                 vec3(0.5f, 0.5f, 0.5f))
         );

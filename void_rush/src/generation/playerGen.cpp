@@ -25,7 +25,7 @@ float Player_jump_checker::getJumpDistance ()
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
     float time = (vel * sin (this->launchangle)
                + sqrtf (powf (vel * sinf (this->launchangle), 2.0f)
-                        + 2 * this->gravity * this->pos.z))
+                        + 2 * this->gravity * this->pos.y))
               / this->gravity;
 
     return this->speed * time;
@@ -36,7 +36,7 @@ float Player_jump_checker::getJumpDistance (float height)
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
     float time = (vel * sin (this->launchangle)
                + sqrtf (powf (vel * sinf (this->launchangle), 2.0f)
-                        + 2 * this->gravity * (this->pos.z - height)))
+                        + 2 * this->gravity * (this->pos.y - height)))
               / this->gravity;
 
     return this->speed * time;
@@ -45,7 +45,7 @@ float Player_jump_checker::getJumpDistance (float height)
 float Player_jump_checker::jumpHeight ()
 {
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
-    return this->pos.z
+    return this->pos.y
            + (powf (vel, 2.0f) * powf (sinf (this->launchangle), 2.0f)
               / (2 * this->gravity));
 }
@@ -53,8 +53,8 @@ float Player_jump_checker::jumpHeight ()
 bool Player_jump_checker::isJumpPossible (vec3 position)
 {
     float jumpheight = jumpHeight ();
-    float heightDif = jumpheight - position.z;
-    float jumpDist = getJumpDistance (position.z)*  (3 + 1);//TODO: no hardcode, use from Position_generator...
+    float heightDif = jumpheight - position.y;
+    float jumpDist = getJumpDistance (position.y)*  (3 + 1);//TODO: no hardcode, use from Position_generator...
     float distanceDif = jumpDist - this->distance (position);
     /*if (heightDif <= 0) {
         plat->move(0, 0, heightDif);
@@ -77,5 +77,5 @@ bool Player_jump_checker::isJumpPossible (vec3 position)
 float Player_jump_checker::distance (vec3 &position)
 {
     return sqrtf (powf (this->pos.x - position.x, 2.0)
-                  + powf (this->pos.y - position.y, 2.0));
+                  + powf (this->pos.z - position.z, 2.0));
 }

@@ -54,39 +54,40 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
     vec3 position = *this->startPlat->getPos();
     Platform* current = startPlat;
     Platform* newPlat = nullptr;
+    pl->moveto(position);
     for (int i = 0; i < this->elements; i++)
     {
-        dVect.z = randF(-stepMaxZ, stepMaxZ);
-        // dVect.z = (rand() % (2 * stepMax)) - stepMax - 1;
-        dVect.z = fmin(dVect.z, stepMaxZ);
-        position.z += dVect.z;
+        dVect.y = randF(-stepMaxZ, stepMaxZ);
+        // dVect.y = (rand() % (2 * stepMax)) - stepMax - 1;
+        dVect.y = fmin(dVect.y, stepMaxZ);
+        position.y += dVect.y;
         // Using the height the new platform to determine max distance
-        stepMax = pl->getJumpDistance(position.z) * platforms_between_anchors;
+        stepMax = pl->getJumpDistance(position.y) * platforms_between_anchors;
         stepMin = stepMax / minStepMod * (int)selectedDiff;
         // Generating x and y pos
         dVect.x = randF(0, 1);
-        dVect.y = randF(-1, 1);
+        dVect.z = randF(-1, 1);
 
         // vector3.magnitude  then  vector3.normalizeXY 
         //dVect.normalizeXY();
-        float dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.y * dVect.y);        
+        float dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);        
         dVect.x = dVect.x / dvect_magnitude;
-        dVect.y = dVect.y / dvect_magnitude;
-        dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.y * dVect.y);        
+        dVect.z = dVect.z / dvect_magnitude;
+        dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);        
         // ^^^^^^^^^^^^ vector3.magnitude  then  vector3.normalizeXY 
 
         
         distance = randF(stepMin, stepMax - 3);
         dVect.x = dVect.x * distance;
-        dVect.y = dVect.y* distance;
+        dVect.z = dVect.z* distance;
 
         position.x += dVect.x;
-        position.y += dVect.y;
+        position.z += dVect.z;
         rotation = randF(0, 90);
         // Get random value for Z that is within possible jump
 
 
-        dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.y * dVect.y);
+        dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);
         if (this->pl->isJumpPossible(position) && dvect_magnitude > stepMin
             && dvect_magnitude < stepMax)
         {
@@ -163,7 +164,7 @@ void Position_generator::reset_anchors(vec3 player_position)
         delete this->jumpPoints.at (i);
     }
     this->jumpPoints.clear();
-
+    player_position.y = player_position.y - 20; //TODO 
     this->startPlat = new Platform(player_position, 0, 0);
     
     this->pl->reset();
