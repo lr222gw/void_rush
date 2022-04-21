@@ -32,7 +32,6 @@ void HiddenPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
 
 void HiddenPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position)
 {
-    this->ResetState();
     std::cout << "Hidden puzzle chosen" << std::endl;
     //Based on the size of the platform, place out the key in a valid position where the key can be reached by the player.
     puzzlePlatform = new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, position, vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));

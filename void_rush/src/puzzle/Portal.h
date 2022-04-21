@@ -15,6 +15,8 @@ class Portal
 private:
 	std::vector<GameObject*> portals;
 	bool spawned = false;
+	Graphics* gfx;
+	ResourceManager* rm;
 public:
 	Portal(Graphics*& gfx, ResourceManager*& rm);
 	virtual ~Portal();

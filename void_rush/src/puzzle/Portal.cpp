@@ -1,10 +1,7 @@
 #include "Portal.h"
 
-Portal::Portal(Graphics*& gfx, ResourceManager*& rm)
+Portal::Portal(Graphics*& gfx, ResourceManager*& rm) : gfx(gfx), rm(rm)
 {
-	portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(-15.0f, 30.0f, 15.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
-    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(0.0f, 30.0f, 15.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
-    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(15.0f, 30.0f, 15.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
 }
 
 Portal::~Portal()
@@ -12,11 +9,20 @@ Portal::~Portal()
     for (size_t i = 0; i < portals.size(); i++) {
         delete portals[i];
     }
+    portals.clear();
 }
 
 void Portal::Spawn()
 {
+    for (size_t i = 0; i < portals.size(); i++) {
+        delete portals[i];
+    }
+    portals.clear();
 	this->spawned = true;
+
+    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(-15.0f, 30.0f, 15.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
+    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(0.0f, 30.0f, 15.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
+    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(15.0f, 30.0f, 15.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
 
 }
 

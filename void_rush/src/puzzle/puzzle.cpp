@@ -10,13 +10,25 @@ Puzzle::~Puzzle()
     for (size_t i = 0; i < puzzleObjects.size(); i++) {
         delete puzzleObjects[i];
     }
-    delete puzzlePlatform;
+    puzzleObjects.clear();
+    if (puzzlePlatform != nullptr)
+    {
+        delete puzzlePlatform;
+    }
 }
 
 bool Puzzle::GetState () const { return this->GetStatePortal(); }
 
 void Puzzle::ResetState()
 {
+    for (size_t i = 0; i < puzzleObjects.size(); i++) {
+        delete puzzleObjects[i];
+    }
+    puzzleObjects.clear();
+    if (puzzlePlatform != nullptr)
+    {
+        delete puzzlePlatform;
+    }
     this->ResetPortal();
 }
 
