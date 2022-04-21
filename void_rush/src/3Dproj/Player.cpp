@@ -18,7 +18,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	GOPTR = static_cast<GameObject*>(this);
 	this->setScale(vec3(0.2f,0.2f,0.2f));
 	setWeight(20);
-	setBoundingBox(DirectX::XMFLOAT3(getPos().x, getPos().y, getPos().z), DirectX::XMFLOAT3(1.f, 2.f, 1.f));
+	setBoundingBox(DirectX::XMFLOAT3(0, 0, 0), DirectX::XMFLOAT3(1.f, 2.f, 1.f));
 	this->health = 3;
 	this->alive = true;
 }
