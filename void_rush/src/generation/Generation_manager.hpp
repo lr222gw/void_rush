@@ -33,6 +33,7 @@ public:
 	void set_player(Player* player);
 	void set_PuzzleManager(ProtoPuzzle* puzzleManager);
 	void initialize();
+	void generate();
 	void place_anchorPoints();
 	void place_jumpPoints();
 

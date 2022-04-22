@@ -482,7 +482,7 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 		if (testPuzzle->isCompleted())
 		{
 			player->setPos(vec3(0.0f, 0.0f, 0.0f));
-			generationManager->initialize();
+			generationManager->generate();
 		}
 	}
 }

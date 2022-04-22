@@ -31,9 +31,7 @@ Position_generator::~Position_generator ()
 bool Position_generator::start (Difficulity selectedDiff)
 {
 
-    static int platforms_between_anchors = (3 + 1);
-
-    srand (this->seed);   
+    static int platforms_between_anchors = (3 + 1);  
     
     generate_anchor_positions(platforms_between_anchors, selectedDiff);
 
@@ -174,6 +172,7 @@ void Position_generator::reset_anchors(vec3 player_position)
 void Position_generator::set_seed(int _seed)
 {
     this->seed = _seed;
+    srand(this->seed);
 }
 
 std::vector<Platform *>* Position_generator::getAnchors () { return &this->anchors; }

@@ -51,6 +51,25 @@ void Generation_manager::initialize()
     
 }
 
+void Generation_manager::generate()
+{
+    //Removes previous data and platforms if any
+
+    for (PlatformObj* po : platformObjs) {
+        collisionHandler->deletePlatform(po);
+        delete po;
+    }
+    platformObjs.clear();
+    position_gen->reset_anchors(this->player->getPos());
+
+    position_gen->start(difficulity);
+
+    place_anchorPoints();
+    place_jumpPoints();
+
+    puzzleManager->Initiate(this->getPuzzelPos());
+}
+
 
 void Generation_manager::place_anchorPoints()
 {
