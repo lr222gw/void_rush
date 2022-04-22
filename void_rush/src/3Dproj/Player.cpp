@@ -38,13 +38,14 @@ void Player::update(float dt)
 			acceleration = resForce / mass;
 			// Update velocity
 			velocity = velocity + acceleration * dt;
-			this->movePos(vec3(jumpSpeed.x * dt, this->velocity.y * dt, jumpSpeed.z * dt));
+			this->movePos(vec3(velocity.x * dt, this->velocity.y * dt, velocity.z * dt));
 		}
 		if (this->groundedTimer != 0.0f)
 		{
 			this->groundedTimer += dt;
 		}
 	}
+	std::cout << "speed.y: " << speed.y << " Velocity.y: " << velocity.y << std::endl;
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
 	GameObject::update(dt);
@@ -106,9 +107,10 @@ void Player::handleEvents(float dt)
 			Translate(dt, translation);
 		}
 	}
-	//jumpSpeed = jumpDir.Normalize().mul(vec3(speed.x, speed.y speed.z));
 	jumpDir.Normalize();
-	jumpSpeed = vec3(speed.x * jumpDir.x, speed.y, speed.z * jumpDir.y);
+	//jumpSpeed = vec3(speed.x * jumpDir.x, speed.y, speed.z * jumpDir.y);
+	velocity.x = speed.x * jumpDir.x;
+	velocity.z = speed.z * jumpDir.y;
 	if (!keyboard->isKeyPressed('W'))
 	{
 		if (grounded)
@@ -145,11 +147,11 @@ void Player::handleEvents(float dt)
 			}
 			if (velocity.y > 0.0f)
 			{
-				velocity.y += jumpSpeed.y;
+				velocity.y += speed.y;
 			}
 			else
 			{
-				velocity = vec3(0.0f, jumpSpeed.y, 0.0f);
+				velocity = vec3(0.0f, speed.y, 0.0f);
 			}
 		}
 		else {
