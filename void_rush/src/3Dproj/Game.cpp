@@ -171,7 +171,6 @@ GameStatesEnum Game::update(float dt)
 #pragma endregion camera_settings
 
 	Interact(this->GameObjManager->getAllInteractGameObjects());
-	HandlePlayer();
 	if (!player->IsAlive()) {
 		theReturn = GameStatesEnum::TO_MENU;
 	}
@@ -417,12 +416,3 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 	}
 }
 
-void Game::HandlePlayer()
-{
-	//in player?
-	if (player->getPos().y < maxDepth) {
-		player->TakeDmg();
-		player->Reset();
-		ghost->Reset();
-	}
-}

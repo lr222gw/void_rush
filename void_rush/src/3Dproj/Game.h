@@ -48,7 +48,6 @@ private:
 	std::vector<GameObject*> LightVisualizers;
 	std::vector<BillBoardGroup*> billboardGroups;
 
-	float maxDepth;
 
 	//var
 	int nrOfLight;//must still exist

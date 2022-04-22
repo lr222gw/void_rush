@@ -33,12 +33,14 @@ private:
 	bool grounded;
 	float groundedTimer;
 
+
 	Mouse* mouse;
 	Keyboard* keyboard;
 	Camera* cam;
 
 	int health;
 	bool alive;
+	float maxDepth;
 public:
 	void TakeDmg(int dmg = 1);
 	void AddHealth(int hlt = 1);
