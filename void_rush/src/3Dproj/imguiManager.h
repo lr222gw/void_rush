@@ -19,7 +19,7 @@ public:
 	void render_generation_widgets();
 	void render_player_widgets();
 	void render_physics_widgets();
-	void set_owner(App* game);
+	void set_owner(Game* game);
 private:
 	std::vector<object*> obj;
 	std::vector<Light*> light;

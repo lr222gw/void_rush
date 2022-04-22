@@ -6,6 +6,8 @@ GameState::GameState(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguiman
 	this->rm = rm;
 	this->IMGUI = imguimanager;
 	this->camera = cam;
+	this->keyboard = keyboard;
+	this->mouse = mouse;
 }
 
 void GameState::handleEvents()

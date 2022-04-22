@@ -13,12 +13,13 @@ App::App(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR
 	camera = new Camera(gfx, mouse, vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f));
 	camera->setData();
 	gfx->takeIM(&this->IMGUIManager);
-	this->IMGUIManager.set_owner(this);
+	
 	//Create a buffer for the light const buffer(hlsli)
 	CreateConstBuffer(gfx, gfx->getConstBuffers(0), sizeof(*gfx->getLightconstbufferforCS()), gfx->getLightconstbufferforCS());
 	CreateConstBuffer(gfx, gfx->getConstBuffers(1), sizeof(*gfx->getCamPosconstbuffer()), gfx->getCamPosconstbuffer());
 
 	gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
+	
 }
 
 App::~App()

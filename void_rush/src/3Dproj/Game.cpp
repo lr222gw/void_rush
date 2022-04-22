@@ -17,15 +17,16 @@ Game::Game(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mous
 	testPuzzle = new ProtoPuzzle(gfx, rm, collisionHandler);
 	generationManager = new Generation_manager(gfx, rm, collisionHandler);
 	generationManager->set_PuzzleManager(testPuzzle);
-	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, gfx->getClientWH().x, gfx->getClientWH().y);
 	maxDepth = -140.0f;
 
 	/*set ups*/
 	this->setUpObject();
 	this->setUpLights();
+	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, gfx->getClientWH().x, gfx->getClientWH().y);
 	this->setUpParticles();
 	this->setUpSound();
 	this->setUpUI();
+	this->IMGUI->set_owner(this);
 }
 
 Game::~Game()

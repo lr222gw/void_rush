@@ -57,4 +57,6 @@ private:
 
 	//debug var
 	int lightNr;
+	//Debug
+	friend class ImguiManager;
 };

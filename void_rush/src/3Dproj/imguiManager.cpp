@@ -41,19 +41,18 @@ void ImguiManager::update_lights(int lightNr)
 {
 	
 	static auto vec = std::vector<int>(0);
-
-	for (int i = 0; i < vec.size(); i++) {
-		std::string name = "obj " + std::to_string(i);
-		if (ImGui::Begin(name.c_str())) {
-			ImGui::SliderFloat("Xpos", &owner->obj[vec[i]]->getxPos(), 40.0f, -40.0f);
-			ImGui::SliderFloat("Ypos", &owner->obj[vec[i]]->getyPos(), 40.0f, -40.0f);
-			ImGui::SliderFloat("Zpos", &owner->obj[vec[i]]->getzPos(), 40.0f, -40.0f);
-			ImGui::SliderFloat("XRot", &owner->obj[vec[i]]->getxRot(), 20.0f, -20.0f);
-			ImGui::SliderFloat("YRot", &owner->obj[vec[i]]->getyRot(), 20.0f, -20.0f);
-			ImGui::SliderFloat("ZRot", &owner->obj[vec[i]]->getzRot(), 20.0f, -20.0f);
-		}
-		ImGui::End();
-	}
+	//for (int i = 0; i < vec.size(); i++) {
+	//	std::string name = "obj " + std::to_string(i);
+	//	if (ImGui::Begin(name.c_str())) {
+	//		ImGui::SliderFloat("Xpos", &owner->obj[vec[i]]->getxPos(), 40.0f, -40.0f);
+	//		ImGui::SliderFloat("Ypos", &owner->obj[vec[i]]->getyPos(), 40.0f, -40.0f);
+	//		ImGui::SliderFloat("Zpos", &owner->obj[vec[i]]->getzPos(), 40.0f, -40.0f);
+	//		ImGui::SliderFloat("XRot", &owner->obj[vec[i]]->getxRot(), 20.0f, -20.0f);
+	//		ImGui::SliderFloat("YRot", &owner->obj[vec[i]]->getyRot(), 20.0f, -20.0f);
+	//		ImGui::SliderFloat("ZRot", &owner->obj[vec[i]]->getzRot(), 20.0f, -20.0f);
+	//	}
+	//	ImGui::End();
+	//}
 	if (light.size() > 0) {
 		std::string name = "light" + std::to_string(lightNr);
 		if (ImGui::Begin(name.c_str())) {
@@ -170,7 +169,7 @@ void ImguiManager::render_player_widgets()
 	ImGui::End();
 }
 
-void ImguiManager::set_owner(App* game)
+void ImguiManager::set_owner(Game* game)
 {
 	this->owner = game;
 }

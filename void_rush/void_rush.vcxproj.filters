@@ -355,8 +355,6 @@
       <Filter>Void_Rush\Objects</Filter>
     </ClCompile>
     <ClCompile Include="src\3Dproj\UIButton.cpp">
-    </ClCompile>
-    <ClCompile Include="src\3Dproj\UIButton.cpp">
       <Filter>Engine\Header Files</Filter>
     </ClCompile>
     <ClCompile Include="src\puzzle\Portal.cpp">
@@ -409,6 +407,9 @@
     </ClCompile>
     <ClCompile Include="src\3Dproj\App.cpp">
       <Filter>Engine\Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UIButton.cpp">
+      <Filter>Engine\Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
