@@ -1,5 +1,7 @@
 #include "interact.hpp"
 
+//Test
+
 bool CanInteract (vec3 camPos, vec3 camDir, vec3 itemPos,
                   float itemRad, float maxDistance, float& rayDist)
 {
