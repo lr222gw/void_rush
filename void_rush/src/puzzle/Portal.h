@@ -16,6 +16,7 @@ class Portal
 private:
 	std::vector<GameObject*> portals;
 	bool spawned = false;
+	bool completed = false;
 	Graphics* gfx;
 	ResourceManager* rm;
 
@@ -30,6 +31,8 @@ public:
 	void InteractPortal(vec3 playerPos, vec3 forwardVec);
 
 	void ResetPortal();
+
+	bool GetCompleted() const;
 
 	bool GetStatePortal() const;
 

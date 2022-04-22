@@ -38,6 +38,8 @@ public:
 
     int GetSeed() const;
 
+    bool GetPortalCompleted() const;
+
     void SpawnDoor(vec3 pos);
 
     virtual void Interaction(vec3 playerPos, vec3 forwardVec) = 0;
