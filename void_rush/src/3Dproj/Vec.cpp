@@ -32,7 +32,10 @@ vec3 vec3::Normalize()
 		(double)x * (double)x +
 		(double)y * (double)y +
 		(double)z * (double)z);
-
+	if (i == 0)
+	{
+		return vec3(0, 0, 0);
+	}
 	this->x = (float)(x / i);
 	this->y = (float)(y / i);
 	this->z = (float)(z / i);
