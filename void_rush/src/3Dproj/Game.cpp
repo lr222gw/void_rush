@@ -347,12 +347,6 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 	float rayDist;
 	float rayDistTemp;
 	float maxDist = 10.0f;
-	DirectX::XMFLOAT4 bb[2];
-	//float xSize;
-	//float ySize;
-	//float zSize;
-	//float size;
-	//DirectX::XMFLOAT3 objMidPos;
 	vec3 objMidPos;
 	int toInteractIndex = -1;
 	vec3 toInteractVec = vec3{ 0.0, 0.0f, 0.0f };
