@@ -47,12 +47,12 @@ void Generation_manager::initialize()
 {
     //Removes previous data and platforms if any
     for (int i = 0; i < nrOfAnchors; i++) {
-        gameObjManager->removeGameObject("Anchor " + std::to_string(i));
+        gameObjManager->removeGameObject("Anchor_" + std::to_string(i));
         collisionHandler->deletePlatform(platformObjs[i]);
     }
     for (int i = 0; i < nrOfJumpPoints; i++) {
-        gameObjManager->removeGameObject("JumpPoint " + std::to_string(i));
-        collisionHandler->deletePlatform(platformObjs[i+nrOfAnchors]);
+        gameObjManager->removeGameObject("JumpPoint_" + std::to_string(i));
+        collisionHandler->deletePlatform(platformObjs[i+nrOfAnchors-1]);
     }
     /*for (PlatformObj* po : platformObjs) {
         collisionHandler->deletePlatform(po);
@@ -92,7 +92,7 @@ void Generation_manager::place_anchorPoints()
         next_anchor = next_anchor->next;
         this->nrOfAnchors++;
     }
-    this->nrOfAnchors++;
+    this->nrOfAnchors--;
 }
 
 void Generation_manager::place_jumpPoints()
@@ -100,7 +100,7 @@ void Generation_manager::place_jumpPoints()
     Platform* jumpPoint_root = position_gen->getJumpPoints()->at(0);
     Platform* next_jumpPoint = jumpPoint_root;
     vec3* jumpPoint_pos;
-    std::string identifier = "JumpPoint ";
+    std::string identifier = "JumpPoint_";
     this->nrOfJumpPoints = 0;
     while (next_jumpPoint) {
         jumpPoint_pos = next_jumpPoint->getPos();
@@ -118,7 +118,7 @@ void Generation_manager::place_jumpPoints()
         next_jumpPoint = next_jumpPoint->next;
         this->nrOfJumpPoints++;
     }
-    this->nrOfJumpPoints++;
+    
 }
 
 void Generation_manager::setDifficulty(Difficulity diff)
