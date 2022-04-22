@@ -24,7 +24,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	setUpLights();
 	
 	//shadow map needs to take more lights
-	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, gfx->getClientWH().x, gfx->getClientWH().y);
+	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, 1920U, 1080U);
 	//this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, 640u, 360U);
 	
 	gfx->takeIM(&this->IMGUIManager);
@@ -371,7 +371,15 @@ void Game::setUpObject()
 	generationManager->initialize();
 	testPuzzle->Initiate(generationManager->getPuzzelPos());
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
-	
+
+
+	//INteraction
+	GameObjManager->CreateGameObject("indoor_plant_02.obj", "Test1", vec3(0, 5, 30), vec3(0, 0, 0), vec3(1, 1, 1));
+	GameObjManager->CreateGameObject("indoor_plant_02.obj", "Test2", vec3(10, 5, 30), vec3(0, 0, 0), vec3(1, 1, 1));
+	GameObjManager->CreateGameObject("indoor_plant_02.obj", "Test3", vec3(20, 5, 30), vec3(0, 0, 0), vec3(1, 1, 1));
+	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("Test1"));
+	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("Test2"));
+	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("Test3"));
 }
 
 void Game::setUpLights()
@@ -422,16 +430,18 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 	float rayDistTemp;
 	float maxDist = 10.0f;
 	DirectX::XMFLOAT4 bb[2];
-	float xSize;
-	float ySize;
-	float zSize;
-	float size;
-	DirectX::XMFLOAT3 objMidPos;
+	//float xSize;
+	//float ySize;
+	//float zSize;
+	//float size;
+	//DirectX::XMFLOAT3 objMidPos;
+	vec3 objMidPos;
 	int toInteractIndex = -1;
 	vec3 toInteractVec = vec3{ 0.0, 0.0f, 0.0f };
 	bool interact = false;
+	float size = 0.0f;
 	for (int i = 0; i < interactables.size(); i++) {
-		interactables[i]->getBoundingBox(bb);
+		/*interactables[i]->getBoundingBox(bb);
 		xSize = fabs(bb[1].x - bb[0].x);
 		ySize = fabs(bb[1].y - bb[0].y);
 		zSize = fabs(bb[1].z - bb[0].z);
@@ -440,9 +450,10 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 		else if (ySize >= xSize && ySize >= zSize) 
 			size = ySize;
 		else 
-			size = zSize;
+			size = zSize;*/
 		
-		objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
+		//objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
+		objMidPos = GetMidPos(interactables[i], size);
 		
 		//RayDist is the shortest path from the center of the object to the nearest point on the ray
 		if (CanInteract(camera->getPos(), camera->getForwardVec(), objMidPos, size / 2, maxDist, rayDistTemp)) {
@@ -469,14 +480,14 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			if (mouse->IsLeftDown()) {
 				//std::cout << "Interact!\n";
 				interactables[toInteractIndex]->Use();
-				//interactables[toInteractIndex]->addScale(vec3(0.1f, 0.1f, 0.1f));
+				interactables[toInteractIndex]->addScale(vec3(0.1f, 0.1f, 0.1f));
 			}	
 		}
 		else {
 			if (mouse->isRightDown()) {
 				//std::cout << "Un-interact!\n";
 				interactables[toInteractIndex]->Use();
-				//interactables[toInteractIndex]->addScale(vec3(-0.1f, -0.1f, -0.1f));
+				interactables[toInteractIndex]->addScale(vec3(-0.1f, -0.1f, -0.1f));
 			}	
 		}
 	}
