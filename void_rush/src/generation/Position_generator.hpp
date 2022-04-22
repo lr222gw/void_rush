@@ -25,8 +25,8 @@ class Position_generator
     ~Position_generator();
     bool start (Difficulity diff);
     void generate_anchor_positions(int platforms_between_anchors, Difficulity selectedDiff);
-    void generate_jumpPoints_positions(int platforms_between_anchors);
-    void reset_anchors(vec3 player_position);
+    void generate_jumpPoints_positions(Difficulity selectedDiff);
+    void reset_generation(vec3 player_position);
     void set_seed(int _seed);
     std::vector<Platform*>* getAnchors ();
     std::vector<Platform*>* getJumpPoints ();

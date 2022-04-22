@@ -7,7 +7,7 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, C
     this->position_gen = new Position_generator(this->seed);
     this->player_jump_checker = new Player_jump_checker();
     position_gen->assignPlayer(player_jump_checker);
-    position_gen->setNrOfElements(5);
+    position_gen->setNrOfElements(10);
     this->collisionHandler = &collisionHandler;
 }
 
@@ -58,7 +58,7 @@ void Generation_manager::initialize()
         collisionHandler->deletePlatform(po);
     }*/
     platformObjs.clear();
-    position_gen->reset_anchors(this->player->getPos());
+    position_gen->reset_generation(this->player->getPos());
 
     position_gen->set_seed(this->seed);
     position_gen->start(difficulity);

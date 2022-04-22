@@ -37,7 +37,7 @@ bool Position_generator::start (Difficulity selectedDiff)
     
     generate_anchor_positions(platforms_between_anchors, selectedDiff);
 
-    generate_jumpPoints_positions(platforms_between_anchors);
+    generate_jumpPoints_positions(selectedDiff);
 
     return true;
 }
@@ -47,7 +47,7 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
     float minStepMod = 2;
     //float stepMax = pl->getJumpDistance() * platforms_between_anchors;
     float stepMax = 200;
-    float stepMin = pl->getJumpDistance() / minStepMod * (int)selectedDiff;
+    float stepMin = stepMax / minStepMod * (int)selectedDiff;
     float distance = 0.0f;
     float stepMaxZ = pl->jumpHeight() ;// reason for platforms not generating
     vec3 dVect = vec3();
@@ -66,8 +66,8 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
         //stepMax = pl->getJumpDistance(position.y) * platforms_between_anchors; //the problem is tied to this
         //stepMin = stepMax / minStepMod * (int)selectedDiff;
         // Generating x and y pos
-        dVect.x = randF(0, 1);
-        dVect.z = randF(-1, 1);
+        dVect.z = randF(0, 1);
+        dVect.x = randF(-1, 1);
 
         // vector3.magnitude  then  vector3.normalizeXY 
         //dVect.normalizeXY();
@@ -83,18 +83,14 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
         dVect.z = dVect.z* distance;
 
         position.x += dVect.x;
-        position.z += dVect.z;  
+        position.z += dVect.z;
         // Get random value for Z that is within possible jump
 
 
         dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z); //Remove?
-        /*
-        if (this->pl->isJumpPossible(position) && dvect_magnitude > stepMin
-            && dvect_magnitude < stepMax)
-        */
         if (dvect_magnitude > stepMin && dvect_magnitude < stepMax)
         {
-            newPlat = new Platform(position, 0, 1);
+            newPlat = new Platform(position, 0, 1, 0);
             pl->moveto(*newPlat->getPos());
             current->next = newPlat;
             this->anchors.push_back(current);
@@ -110,10 +106,20 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
     this->anchors.push_back(newPlat);
 }
 
-void Position_generator::generate_jumpPoints_positions(int platforms_between_anchors)
+void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
 {
+    float minStepMod = 2;
+    float stepMax = pl->getJumpDistance();
+    float stepMin = stepMax / minStepMod * (int)selectedDiff;
+    float distance = 0.0f;
+    float stepMaxZ = pl->jumpHeight();// reason for platforms not generating
+    vec3 dVect = vec3();
+    pl->reset();
+    vec3 position = *this->startPlat->getPos();
+    pl->moveto(position);
+
 #pragma region
-    Platform* currentJumpPoint;
+    Platform* currentJumpPoint = nullptr;
     Platform* current = startPlat;
 
     vec3* startanchorPos = current->getPos();
@@ -121,13 +127,7 @@ void Position_generator::generate_jumpPoints_positions(int platforms_between_anc
 
     vec3 dir_between_anchor = *endanchorPos - *startanchorPos;
 
-    vec3 pos_to_place_jump_point = *startanchorPos +
-        (dir_between_anchor / (platforms_between_anchors - 1));
-
-
-    currentJumpPoint = new Platform(pos_to_place_jump_point, 0, 1, 0);
-
-    this->jumpPoints.push_back(currentJumpPoint);
+    //this->jumpPoints.push_back(currentJumpPoint);
 
 #pragma endregion    
 
@@ -137,26 +137,70 @@ void Position_generator::generate_jumpPoints_positions(int platforms_between_anc
         startanchorPos = current->getPos();
         endanchorPos = current->next->getPos();
 
+        pl->moveto(*startanchorPos);
+        position = *startanchorPos;
+
         dir_between_anchor = *endanchorPos - *startanchorPos;
+        vec3 normalized_dir = dir_between_anchor.Normalize();
 
-        for (int i = 1; i < platforms_between_anchors; i++) {
-            if (this->jumpPoints[0]->next == nullptr) { //TODO: Optimera bort denna senare
-                i += 1;
+        while (!this->pl->isJumpPossible(*endanchorPos)) {
+            //current = current->next;dVect.y = randF(-stepMaxZ, stepMaxZ);
+            // dVect.y = (rand() % (2 * stepMax)) - stepMax - 1;
+            //dVect.y = fmin(dVect.y, stepMaxZ);
+            //dVect.y = fmax(dVect.y, -100.0f);
+            dVect.y = 0;
+            position.y += dVect.y;
+            // Using the height the new platform to determine max distance
+            stepMax = pl->getJumpDistance(position.y); //the problem is tied to this
+            stepMin = stepMax / minStepMod * (int)selectedDiff;
+            // Generating x and y pos
+            //dVect.z = randF(0, 1);
+            //dVect.x = randF(-1, 1);
+
+            // vector3.magnitude  then  vector3.normalizeXY 
+            //dVect.normalizeXZ();
+            /*float dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);
+            dVect.x = dVect.x / dvect_magnitude;
+            dVect.z = dVect.z / dvect_magnitude;
+            *///dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);  //Remove?      
+            // ^^^^^^^^^^^^ vector3.magnitude  then  vector3.normalizeXZ 
+            dVect.x = normalized_dir.x;
+            dVect.z = normalized_dir.z;
+
+            distance = randF(stepMin, stepMax - 3);
+            dVect.x = dVect.x * distance;
+            dVect.z = dVect.z * distance;
+
+            position.x += dVect.x;
+            position.z += dVect.z;
+            // Get random value for Z that is within possible jump
+
+
+            float dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);//Remove?
+            if (currentJumpPoint == nullptr) {
+                currentJumpPoint = new Platform(position, 0, 1, 0);
+                pl->moveto(*currentJumpPoint->getPos());
             }
-            pos_to_place_jump_point = *startanchorPos +
-                (dir_between_anchor / (platforms_between_anchors - 1) * i);
-
-            newPlat = new Platform(pos_to_place_jump_point, 0, 1, 0);
-            currentJumpPoint->next = newPlat;
-            this->jumpPoints.push_back(newPlat);
-            currentJumpPoint = newPlat;
+            else if (pl->isJumpPossible(position) && dvect_magnitude > stepMin && dvect_magnitude < stepMax)
+            {
+                newPlat = new Platform(position, 0, 1, 0);
+                pl->moveto(*newPlat->getPos());
+                currentJumpPoint->next = newPlat;
+                this->jumpPoints.push_back(currentJumpPoint);
+                currentJumpPoint = newPlat;
+            }
+            else
+            {
+                position = position - dVect;
+                std::cout << "Jump not possible\n";
+            }
         }
-
         current = current->next;
     }
+    this->jumpPoints.push_back(newPlat);
 }
 
-void Position_generator::reset_anchors(vec3 player_position)
+void Position_generator::reset_generation(vec3 player_position)
 {
     for (Platform* anchor : this->anchors) {
         delete anchor;
