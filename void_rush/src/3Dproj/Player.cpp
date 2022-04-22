@@ -198,7 +198,7 @@ void Player::setGrounded()
 		this->acceleration.y = 0.0f;
 		this->resForce.y = 0.0f;
 		this->groundedTimer = 0.0f;
-		this->speed = vec3(5.0f, 5.0f, 5.0f);
+		//this->speed = vec3(5.0f, 5.0f, 5.0f);
 	}
 }
 
