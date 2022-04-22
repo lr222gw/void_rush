@@ -7,18 +7,18 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, C
     this->position_gen = new Position_generator(this->seed);
     this->player_jump_checker = new Player_jump_checker();
     position_gen->assignPlayer(player_jump_checker);
-    position_gen->setNrOfElements(29);
+    position_gen->setNrOfElements(5);
     this->collisionHandler = &collisionHandler;
 }
 
 Generation_manager::~Generation_manager()
 {
     for (int i = 0; i < nrOfAnchors; i++) {
-        gameObjManager->removeGameObject("Anchor " + std::to_string(i));
+        gameObjManager->removeGameObject("Anchor_" + std::to_string(i));
         collisionHandler->deletePlatform(platformObjs[i]);
     }
     for (int i = 0; i < nrOfJumpPoints; i++) {
-        gameObjManager->removeGameObject("JumpPoint " + std::to_string(i));
+        gameObjManager->removeGameObject("JumpPoint_" + std::to_string(i));
         collisionHandler->deletePlatform(platformObjs[i + nrOfAnchors]);
     }
     //for (PlatformObj* po : platformObjs) {
@@ -46,13 +46,13 @@ void Generation_manager::set_GameObjManager(GameObjectManager* goMan)
 void Generation_manager::initialize()
 {
     //Removes previous data and platforms if any
-    for (int i = 0; i < nrOfAnchors; i++) {
+    for (int i = 0; i < this->nrOfAnchors; i++) {
         gameObjManager->removeGameObject("Anchor_" + std::to_string(i));
         collisionHandler->deletePlatform(platformObjs[i]);
     }
-    for (int i = 0; i < nrOfJumpPoints; i++) {
+    for (int i = 0; i < this->nrOfJumpPoints; i++) {
         gameObjManager->removeGameObject("JumpPoint_" + std::to_string(i));
-        collisionHandler->deletePlatform(platformObjs[i+nrOfAnchors-1]);
+        collisionHandler->deletePlatform(platformObjs[i + this->nrOfAnchors]);
     }
     /*for (PlatformObj* po : platformObjs) {
         collisionHandler->deletePlatform(po);
@@ -66,7 +66,7 @@ void Generation_manager::initialize()
     place_anchorPoints();    
     place_jumpPoints();
 
-    puzzleManager->Initiate(this->getPuzzelPos());
+    //puzzleManager->Initiate(this->getPuzzelPos());
     
 }
 
@@ -87,12 +87,12 @@ void Generation_manager::place_anchorPoints()
                 vec3(1.0f, 1.0f, 1.0f))
         );
         std::string temp = identifier + std::to_string(this->nrOfAnchors);
-        gameObjManager->addGameObject(platformObjs[platformObjs.size() - 1], temp);
-        collisionHandler->addPlatform(platformObjs[platformObjs.size() - 1]);
+        gameObjManager->addGameObject(platformObjs[nrOfAnchors], temp);
+        collisionHandler->addPlatform(platformObjs[nrOfAnchors]);
         next_anchor = next_anchor->next;
         this->nrOfAnchors++;
     }
-    this->nrOfAnchors--;
+    //this->nrOfAnchors--;
 }
 
 void Generation_manager::place_jumpPoints()
@@ -111,14 +111,13 @@ void Generation_manager::place_jumpPoints()
                 vec3(0.0f, 0.0f, 0.0f),
                 vec3(0.5f, 0.5f, 0.5f))
         );
-
-        gameObjManager->addGameObject(platformObjs[platformObjs.size() - 1], identifier +
-            std::to_string(this->nrOfJumpPoints));
-        collisionHandler->addPlatform(platformObjs[platformObjs.size() - 1]);
+        std::string temp = identifier + std::to_string(this->nrOfJumpPoints);
+        gameObjManager->addGameObject(platformObjs[nrOfAnchors+nrOfJumpPoints],temp);
+        collisionHandler->addPlatform(platformObjs[nrOfAnchors + nrOfJumpPoints]);
         next_jumpPoint = next_jumpPoint->next;
         this->nrOfJumpPoints++;
     }
-    
+    //this->nrOfJumpPoints--;
 }
 
 void Generation_manager::setDifficulty(Difficulity diff)

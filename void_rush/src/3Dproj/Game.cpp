@@ -386,7 +386,7 @@ void Game::setUpObject()
 	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntOne"));
 	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntTwo"));
 	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntThree"));
-
+	
 	generationManager->initialize();
 	testPuzzle->Initiate(generationManager->getPuzzelPos());
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
