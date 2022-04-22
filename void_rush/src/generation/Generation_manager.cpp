@@ -1,7 +1,7 @@
 #include "Generation_manager.hpp"
 
 Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, CollisionHandler& collisionHandler)
-	: gfx(_gfx), rm(_rm), seed((int)time(0)), difficulity(Difficulity::easy), player(nullptr), puzzleManager(nullptr)
+	: gfx(_gfx), rm(_rm), seed((int)time(0)), difficulity(Difficulity::easy), player(nullptr), puzzleManager(nullptr), gameObjManager(nullptr)
 {        
     
     this->position_gen = new Position_generator(this->seed);
