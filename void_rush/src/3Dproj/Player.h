@@ -28,6 +28,7 @@ private:
 	vec3 acceleration;
 	vec3 resForce;
 	vec3 gravity;
+	vec2 jumpDir;
 	float mass;
 	bool grounded;
 	float groundedTimer;

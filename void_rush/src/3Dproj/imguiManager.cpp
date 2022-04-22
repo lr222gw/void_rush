@@ -132,7 +132,7 @@ void ImguiManager::render_physics_widgets()
 		//owner->player->speed
 							
 		float* init_speed[3] = {&owner->player->speed.x, &owner->player->speed.y, &owner->player->speed.z};
-		float min_speed = 4; 
+		float min_speed = 0; 
 		float max_speed = 304;
 		static float speedSlider = owner->player->speed.x;
 		//ImGui::SliderFloat3("Speed", *init_speed, min_speed, max_speed);
