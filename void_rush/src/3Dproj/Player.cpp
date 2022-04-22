@@ -55,7 +55,7 @@ void Player::update(float dt)
 			Reset();
 		}
 	}
-	std::cout << "speed.y: " << speed.y << " Velocity.y: " << velocity.y << std::endl;
+	//std::cout << "speed.y: " << speed.y << " Velocity.y: " << velocity.y << std::endl;
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
 	GameObject::update(dt);
@@ -200,7 +200,7 @@ void Player::setGrounded()
 		this->acceleration.y = 0.0f;
 		this->resForce.y = 0.0f;
 		this->groundedTimer = 0.0f;
-		this->speed = vec3(5.0f, 5.0f, 5.0f);
+		//this->speed = vec3(5.0f, 5.0f, 5.0f);
 	}
 }
 
