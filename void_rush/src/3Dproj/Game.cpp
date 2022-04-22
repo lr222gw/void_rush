@@ -66,7 +66,6 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	};
 	Space = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, player->getPos(), skyboxTextures);
 
-	maxDepth = -140.0f;
 
 }
 
@@ -262,8 +261,6 @@ void Game::Update()
 	//std::vector<GameObject*> temp2 = {temp[1],temp[2],temp[3], temp[0]};
 
 	Interact(this->GameObjManager->getAllInteractGameObjects());
-	HandlePlayer();
-	
 }
 
 
@@ -487,11 +484,3 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 	}
 }
 
-void Game::HandlePlayer()
-{
-	if (player->getPos().y < maxDepth) {
-		player->TakeDmg();
-		player->Reset();
-		ghost->Reset();
-	}
-}

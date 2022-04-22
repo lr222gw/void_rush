@@ -49,7 +49,6 @@ private:
 	const float PI = 3.14159265359f;
 
 	void Interact(std::vector<GameObject*>& interactables);
-	void HandlePlayer();
 private:
 	friend class ImguiManager;
 	//logic and others
@@ -79,7 +78,6 @@ private:
 	std::vector<GameObject*> obj;
 	std::vector<BillBoardGroup*> billboardGroups;
 
-	float maxDepth;
 
 	//var
 	int nrOfLight;//must still exist
