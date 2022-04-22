@@ -55,7 +55,7 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
     Platform* current = startPlat;
     Platform* newPlat = nullptr;
     pl->moveto(position);
-    for (int i = 0; i < this->elements; i++)
+    for (int i = 1; i < this->elements; i++)
     {
         dVect.y = randF(-stepMaxZ, stepMaxZ);
         // dVect.y = (rand() % (2 * stepMax)) - stepMax - 1;
