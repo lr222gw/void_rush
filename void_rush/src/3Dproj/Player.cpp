@@ -46,9 +46,6 @@ void Player::update(float dt)
 			this->groundedTimer += dt;
 		}
 	}
-	//cam->calcFURVectors();
-	//cam->getForwardVec().z;
-	std::cout << "Rot x: " << cam->getForwardVec().x << "Rot z: " << cam->getForwardVec().z << std::endl;
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
 	GameObject::update(dt);
@@ -73,9 +70,10 @@ void Player::handleEvents(float dt)
 	}
 	//change values here
 	DirectX::XMFLOAT3 translation = DirectX::XMFLOAT3(0, 0, 0);
+	vec2 jumpDir = vec2(0, 0);
 	if (keyboard->isKeyPressed('W')) {
 		cam->calcFURVectors();
-		jumpSpeed = vec3(speed.x *cam->getForwardVec().x, jumpSpeed.y, speed.z * cam->getForwardVec().z);
+		jumpDir = jumpDir + vec2(cam->getForwardVec().x,  cam->getForwardVec().z);
 		if (grounded || noClip)
 		{
 			translation = DirectX::XMFLOAT3(0, 0, -1);
@@ -84,7 +82,7 @@ void Player::handleEvents(float dt)
 	}
 	if (keyboard->isKeyPressed('D')) {
 		cam->calcFURVectors();
-		jumpSpeed = vec3(speed.x * cam->getRightVector().x, jumpSpeed.y, speed.z * cam->getRightVector().z);
+		jumpDir = jumpDir + vec2(cam->getRightVector().x, cam->getRightVector().z);
 		if (grounded || noClip)
 		{
 			translation = DirectX::XMFLOAT3(-1, 0, 0);
@@ -93,7 +91,7 @@ void Player::handleEvents(float dt)
 	}
 	if (keyboard->isKeyPressed('S')) {
 		cam->calcFURVectors();
-		jumpSpeed = vec3(speed.x * -cam->getForwardVec().x, jumpSpeed.y, speed.z * -cam->getForwardVec().z);
+		jumpDir = jumpDir + vec2(-cam->getForwardVec().x,  -cam->getForwardVec().z);
 		if (grounded || noClip)
 		{
 			translation = DirectX::XMFLOAT3(0, 0, 1);
@@ -102,13 +100,16 @@ void Player::handleEvents(float dt)
 	}
 	if (keyboard->isKeyPressed('A')) {
 		cam->calcFURVectors();
-		jumpSpeed = vec3(speed.x * -cam->getRightVector().x, jumpSpeed.y, speed.z * -cam->getRightVector().z);
+		jumpDir = jumpDir + vec2(-cam->getRightVector().x, -cam->getRightVector().z);
 		if (grounded || noClip)
 		{
 			translation = DirectX::XMFLOAT3(1, 0, 0);
 			Translate(dt, translation);
 		}
 	}
+	//jumpSpeed = jumpDir.Normalize().mul(vec3(speed.x, speed.y speed.z));
+	jumpDir.Normalize();
+	jumpSpeed = vec3(speed.x * jumpDir.x, speed.y, speed.z * jumpDir.y);
 	if (!keyboard->isKeyPressed('W'))
 	{
 		if (grounded)
