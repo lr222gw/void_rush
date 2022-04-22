@@ -146,8 +146,7 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 posit
 
     puzzlePlatform = new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, position, vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
 
-    float x, y, z, x2, z2, x3, z3;
-    y = puzzlePlatform->getWidthHeightDepth().y;
+    float x, z, x2, z2, x3, z3;
 
     for (int i = 0; i < 3; i++)
     {
@@ -207,9 +206,9 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 posit
     std::cout << puzzlePlatform->getWidthHeightDepth().x << " " << puzzlePlatform->getWidthHeightDepth().y << " " << puzzlePlatform->getWidthHeightDepth().z << std::endl;
 
 
-    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + y, puzzlePlatform->getzPos() + z), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
-    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x2, puzzlePlatform->getyPos() + y, puzzlePlatform->getzPos() + z2), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
-    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x3, puzzlePlatform->getyPos() + y, puzzlePlatform->getzPos() + z3), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x2, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z2), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x3, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z3), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
 
     std::cout << this->GetComponents() << std::endl;
 }

@@ -5,11 +5,9 @@
 
 class UISymbols : public UIElements {
 public: 
-	UISymbols();
+	UISymbols(Graphics*& gfx, vec2 position, vec2 size);
 	void symbol_to_uv(char symbol);
 
 	void draw(Graphics*& gfx) override;
 private:
-	vec2 UV_coords;
-	ID3D11ShaderResourceView* spriteSheet;
 };

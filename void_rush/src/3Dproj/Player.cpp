@@ -1,6 +1,5 @@
 #include "Player.h"
 #include <algorithm>
-#undef max
 
 Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale):
 	GameObject(file, gfx, pos, rot, scale), noClip(true)
