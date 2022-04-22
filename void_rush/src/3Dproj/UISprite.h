@@ -4,7 +4,7 @@
 
 class UISprite : public UIElements {
 public:
-	UISprite(ID3D11ShaderResourceView*& _sprite, vec2 pos, vec2 size);
+	UISprite(ID3D11ShaderResourceView*& _sprite, vec2 pos, vec2 size, Graphics*& gfx);
 	//SpritePtr from ResoruceManager
 	ID3D11ShaderResourceView* sprite;	
 
