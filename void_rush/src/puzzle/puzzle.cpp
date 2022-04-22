@@ -1,18 +1,20 @@
 #include "puzzle.hpp"
 
-Puzzle::Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm)
-    : seed(seed), Portal(gfx, rm)
+Puzzle::Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler)
+    : seed(seed), Portal(gfx, rm, colHandler)
 {
 }
 
 Puzzle::~Puzzle()
 {
     for (size_t i = 0; i < puzzleObjects.size(); i++) {
+        this->GetColHandler()->deletePlatform(puzzleObjects[i]);
         delete puzzleObjects[i];
     }
     puzzleObjects.clear();
     if (puzzlePlatform != nullptr)
     {
+        this->GetColHandlerBase()->deletePlatform(puzzlePlatform);
         delete puzzlePlatform;
     }
 }
@@ -27,11 +29,13 @@ void Puzzle::SetPosition(vec3 pos)
 void Puzzle::ResetState()
 {
     for (size_t i = 0; i < puzzleObjects.size(); i++) {
+        this->GetColHandler()->deletePlatform(puzzleObjects[i]);
         delete puzzleObjects[i];
     }
     puzzleObjects.clear();
     if (puzzlePlatform != nullptr)
     {
+        this->GetColHandlerBase()->deletePlatform(puzzlePlatform);
         delete puzzlePlatform;
         puzzlePlatform = nullptr;
     }
@@ -46,6 +50,11 @@ vec3 Puzzle::GetPosition() const
 int Puzzle::GetSeed() const
 {
     return seed;
+}
+
+CollisionHandler* Puzzle::GetColHandler()
+{
+    return this->GetColHandlerBase();
 }
 
 void Puzzle::SpawnDoor (vec3 pos)

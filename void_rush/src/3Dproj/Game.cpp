@@ -16,7 +16,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	
 	UI = new UIManager(rm, gfx);
 	//UI->createUISprite("assets/textures/Fire.png", vec2(0, 0), vec2(0, 0));
-	testPuzzle = new ProtoPuzzle(gfx, rm);
+	testPuzzle = new ProtoPuzzle(gfx, rm, collisionHandler);
 
 	generationManager = new Generation_manager(gfx,rm, collisionHandler);
 	generationManager->set_PuzzleManager(testPuzzle);
