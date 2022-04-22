@@ -239,7 +239,6 @@
     <ClCompile Include="src/3Dproj/CreateBuffer.cpp" />
     <ClCompile Include="src/3Dproj/D311Helper.cpp" />
     <ClCompile Include="src/3Dproj/debug.cpp" />
-    <ClCompile Include="src/3Dproj/DebugCamera.cpp" />
     <ClCompile Include="src/3Dproj/DeferredRendering.cpp" />
     <ClCompile Include="src/3Dproj/deltaTime.cpp" />
     <ClCompile Include="src/3Dproj/DynamicCubeEnviroment.cpp" />
@@ -317,7 +316,6 @@
     <ClInclude Include="src/3Dproj/CreateBuffer.h" />
     <ClInclude Include="src/3Dproj/D311Helper.h" />
     <ClInclude Include="src/3Dproj/debug.h" />
-    <ClInclude Include="src/3Dproj/DebugCamera.h" />
     <ClInclude Include="src/3Dproj/DeferredRendering.h" />
     <ClInclude Include="src/3Dproj/deltaTime.h" />
     <ClInclude Include="src/3Dproj/DynamicCubeEnviroment.h" />

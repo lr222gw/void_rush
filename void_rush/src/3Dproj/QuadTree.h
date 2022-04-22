@@ -3,6 +3,8 @@
 #include "Collision.h"
 #include "Camera.h"
 
+//probably not going to need this in litetspel project
+
 struct QTCamData {
 	vec3 CamPos;
 	vec3 forwardVector;
