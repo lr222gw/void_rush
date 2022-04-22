@@ -20,6 +20,10 @@ struct vec2 {
 	}
 	vec2 Normalize() {
 		float le = this->legth();
+		if (le == 0)
+		{
+			return vec2(0, 0);
+		}
 		this->x /= le;
 		this->y /= le;
 		return vec2(x,y);
