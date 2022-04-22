@@ -394,6 +394,8 @@
       <Filter>Void_Rush\Objects</Filter>
     </ClCompile>
     <ClCompile Include="src\3Dproj\UIButton.cpp">
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UIButton.cpp">
       <Filter>Engine\Header Files</Filter>
     </ClCompile>
     <ClCompile Include="src\puzzle\Portal.cpp">
