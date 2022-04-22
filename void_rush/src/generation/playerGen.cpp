@@ -1,7 +1,7 @@
 #include "playerGen.hpp"
 
 Player_jump_checker::Player_jump_checker()
-    : pos ({ 0.0f, 0.0f, 0.0f }), jumpvel (20.0f), speed (5.0f),
+    : pos ({ 0.0f, 0.0f, 0.0f }), jumpvel (5.0f), speed (5.0f),
       gravity (9.8f), launchangle (45.0f)
 {
 }
