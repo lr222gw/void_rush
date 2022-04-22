@@ -1,6 +1,7 @@
 #include "puzzle_hidden.hpp"
 
-HiddenPuzzle::HiddenPuzzle(int seed,Graphics*& gfx, ResourceManager*& rm) : Puzzle(seed, gfx, rm)
+HiddenPuzzle::HiddenPuzzle(int seed,Graphics*& gfx, ResourceManager*& rm, Generation_manager*& generationManager, CollisionHandler* collHandl)
+    : Puzzle(seed, gfx, rm, generationManager, collHandl), collHandl(collHandl)
 {
     
 }

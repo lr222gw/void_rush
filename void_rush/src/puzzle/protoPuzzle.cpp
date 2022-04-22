@@ -1,13 +1,14 @@
 #include "protoPuzzle.hpp"
 #include <malloc.h>
 
-ProtoPuzzle::ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm) : gfxPuzzle(gfx), rmPuzzle(rm)
+ProtoPuzzle::ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm,Generation_manager*& generationManager, CollisionHandler* collHandl)
+    : gfxPuzzle(gfx), rmPuzzle(rm), generationManager(generationManager), collHandl(collHandl)
 {
     seed = (int)time(0);
     srand(seed);
 
-    this->math = new MathPuzzle(seed, gfx, rm);
-    this->hidden = new HiddenPuzzle(seed, gfx, rm);
+    this->math = new MathPuzzle(seed, gfx, rm, generationManager, collHandl);
+    this->hidden = new HiddenPuzzle(seed, gfx, rm, generationManager, collHandl);
 
     this->puzzleList.push_back(math);
     this->puzzleList.push_back(hidden);

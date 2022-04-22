@@ -208,7 +208,7 @@ GameObject*& Player::getPlayerObjPointer()
 void Player::Reset()
 {
 	this->grounded = true;
-	this->setPos(vec3(0.0f, 0.0f, 0.0f));
+	this->setPos(vec3(0.0f, 22.0f, 0.0f));
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
 	this->acceleration = vec3(0.0f, 0.0f, 0.0f);
 	this->resForce = vec3(0.0f, 0.0f, 0.0f);

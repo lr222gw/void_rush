@@ -11,6 +11,10 @@
 #include "Portal.h"
 #include <vector>
 
+#include "../3Dproj/GameObjectManager.h"
+#include "../3Dproj/CollisionHandler.h"
+#include "../generation/Generation_manager.hpp"
+
 class Puzzle : public Portal
 {
 private:
@@ -21,9 +25,10 @@ protected:
     GameObject* puzzlePlatform = nullptr;
     vec3 position = vec3(0.0f, 0.0f, 0.0f);
 
+
 public:
     //Create puzzle
-    Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm);
+    Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm, Generation_manager*& generationManager, CollisionHandler* collHandl);
     virtual ~Puzzle();
 
     void SetPosition(vec3 pos);

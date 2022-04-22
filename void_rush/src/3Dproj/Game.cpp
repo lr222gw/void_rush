@@ -25,6 +25,9 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	generationManager->set_PuzzleManager(testPuzzle);
 	
 
+	//Puzzle init
+	testPuzzle = new ProtoPuzzle(gfx, rm, generationManager, &collisionHandler);
+	testPuzzle->Initiate(vec3(0.0f, 0.0f, 0.0f));
 	setUpLights();
 	
 	//shadow map needs to take more lights
@@ -366,7 +369,7 @@ void Game::setUpObject()
 
 
 	
-	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, vec3(0.0f, 0.0f, 0.0f));
+	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, vec3(0.0f, 22.0f, 0.0f));
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
