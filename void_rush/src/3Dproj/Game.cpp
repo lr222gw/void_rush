@@ -212,12 +212,7 @@ void Game::Update()
 	}
 	camera->calcFURVectors();
 	Space->update(camera->getPos());
-	UI->getButton(0)->update();
-	if (UI->getButton(0)->clicked()) {
-		std::cout << "this girl is on fire" << std::endl;
-	}
-	//std::cout << gfx->getClientWH().x << "," << gfx->getClientWH().y << std::endl;
-	//std::cout << mouse->getPosX() << "," << mouse->getPosY() << std::endl;
+
 	/*update matrixes*/
 	GameObjManager->updateMatrix();
 	player->updateMatrix();
