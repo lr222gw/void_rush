@@ -1,6 +1,6 @@
 #include "puzzle_hidden.hpp"
 
-HiddenPuzzle::HiddenPuzzle(int seed,Graphics*& gfx, ResourceManager*& rm) : Puzzle(seed, gfx, rm)
+HiddenPuzzle::HiddenPuzzle(int seed,Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler) : Puzzle(seed, gfx, rm, colHandler)
 {
     
 }
@@ -46,6 +46,9 @@ void HiddenPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 pos
     std::cout << puzzlePlatform->getWidthHeightDepth().x << " " << puzzlePlatform->getWidthHeightDepth().y << " " << puzzlePlatform->getWidthHeightDepth().z << std::endl;
 
     puzzleObjects.push_back(new GameObject(rm->get_Models("Key.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 0.2f, puzzlePlatform->getzPos() + z), vec3(x, x / 2, z), vec3(1.0f, 1.0f, 1.0f)));
+
+    this->GetColHandler()->addPlatform(puzzlePlatform);
+    this->GetColHandler()->addPlatform(puzzleObjects[0]);
 }
 
 void HiddenPuzzle::Update(Graphics*& gfx)
@@ -69,6 +72,6 @@ void HiddenPuzzle::Update(Graphics*& gfx)
     }
     else
     {
-        this->UpdatePortal(gfx);
+        this->UpdatePortal();
     }
 }

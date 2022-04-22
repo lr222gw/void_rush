@@ -9,6 +9,7 @@
 #include "3Dproj/Graphics.h"
 #include <vector>
 #include "interact/interact.hpp"
+#include "3Dproj/CollisionHandler.h"
 
 class Portal
 {
@@ -17,8 +18,11 @@ private:
 	bool spawned = false;
 	Graphics* gfx;
 	ResourceManager* rm;
+
+	CollisionHandler* colHandler;
+
 public:
-	Portal(Graphics*& gfx, ResourceManager*& rm);
+	Portal(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler);
 	virtual ~Portal();
 
 	void Spawn(vec3 pos);
@@ -29,6 +33,8 @@ public:
 
 	bool GetStatePortal() const;
 
-	void UpdatePortal(Graphics*& gfx);
+	CollisionHandler* GetColHandlerBase();
+
+	void UpdatePortal();
 };
 

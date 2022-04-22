@@ -23,7 +23,7 @@ protected:
 
 public:
     //Create puzzle
-    Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm);
+    Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler);
     virtual ~Puzzle();
 
     void SetPosition(vec3 pos);
@@ -31,6 +31,8 @@ public:
     vec3 GetPosition() const;
 
     bool GetState() const;
+
+    CollisionHandler* GetColHandler();
 
     void ResetState();
 

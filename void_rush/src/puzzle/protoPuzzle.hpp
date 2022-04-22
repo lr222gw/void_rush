@@ -22,7 +22,7 @@ private:
 	ResourceManager*& rmPuzzle;
 
 public:
-	ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm);
+	ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler);
 	~ProtoPuzzle();
 	void Initiate(vec3 platformPosition);
 	int ChoosePuzzle();

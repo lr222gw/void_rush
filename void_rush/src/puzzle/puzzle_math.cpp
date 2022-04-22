@@ -1,7 +1,7 @@
 #include "puzzle_math.hpp"
 #include <string>
 
-MathPuzzle::MathPuzzle(int seed, Graphics*& gfx, ResourceManager*& rm) : Puzzle(seed, gfx, rm)
+MathPuzzle::MathPuzzle(int seed, Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler) : Puzzle(seed, gfx, rm, colHandler)
 {
 }
 
@@ -210,6 +210,12 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 posit
     puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x2, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z2), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
     puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x3, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z3), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
 
+    this->GetColHandler()->addPlatform(puzzlePlatform);
+    for (size_t i = 0; i < puzzleObjects.size(); i++)
+    {
+        this->GetColHandler()->addPlatform(puzzleObjects[i]);
+    }
+
     std::cout << this->GetComponents() << std::endl;
 }
 
@@ -234,6 +240,6 @@ void MathPuzzle::Update(Graphics*& gfx)
     }
     else
     {
-        this->UpdatePortal(gfx);
+        this->UpdatePortal();
     }
 }
