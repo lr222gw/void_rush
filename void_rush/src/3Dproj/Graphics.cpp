@@ -339,6 +339,19 @@ vec2 Graphics::getWH()
 	return vec2((float)WIDTH, (float)HEIGHT);
 }
 
+vec2 Graphics::getClientWH()
+{
+	RECT rect;
+	int width = 0;
+	int height = 0;
+	if (GetClientRect(windowClass.getRenderWindow().getHandle(), &rect))
+	{
+		width = rect.right - rect.left;
+		height = rect.bottom - rect.top;
+	}
+	return vec2(width, height);
+}
+
 void Graphics::setTransparant(bool transparance)
 {
 	if (transparance) {

@@ -71,6 +71,7 @@ private:
 	void setUpObject();
 	void setUpLights();
 	void setUpParticles();
+	void setUpUI();
 
 	//game objects
 	Light **light;

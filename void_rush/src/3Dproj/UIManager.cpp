@@ -15,6 +15,9 @@ UIManager::~UIManager()
 	for (size_t i = 0; i < strings.size(); i++) {
 		delete strings[i];
 	}
+	for (size_t i = 0; i < buttons.size(); i++) {
+		delete buttons[i];
+	}
 	vertexBuffer->Release();
 	pShader->Release();
 	vShader->Release();
@@ -39,6 +42,14 @@ void UIManager::createUISprite(std::string rmsprite, vec2 pos, vec2 size, std::s
 	}
 }
 
+void UIManager::createUIButton(std::string rmsprite, Mouse* mouse, vec2 pos, vec2 size, std::string name)
+{
+	buttons.push_back(new UIButton(rm->getSprite(rmsprite, gfx), gfx, mouse, pos, size));
+	if (name != "") {
+		mapOfButtons.insert(std::make_pair(name, buttons[buttons.size() - 1]));
+	}
+}
+
 UIElements* UIManager::getElements(int index)
 {
 	return elements[index];
@@ -59,6 +70,103 @@ UIString* UIManager::getStringElement(std::string key)
 	return mapOfString.find(key)->second;
 }
 
+UIButton* UIManager::getButton(std::string key)
+{
+	return mapOfButtons.find(key)->second;
+}
+
+UIButton* UIManager::getButton(int index)
+{
+	return buttons[index];
+}
+
+void UIManager::deleteElement(int index)
+{
+	std::map<std::string, UIElements*>::iterator it;
+	bool done = false;
+	for (it = mapOfSprites.begin(); it != mapOfSprites.end() && !done; it++)
+	{
+		if (elements[index] == it->second) {
+			done = true;
+			//delete both
+			delete elements[index];
+			elements.erase(std::next(elements.begin(), index));
+			mapOfSprites.erase(it);
+		}
+	}
+}
+
+void UIManager::deleteString(int index)
+{
+	std::map<std::string, UIString*>::iterator it;
+	bool done = false;
+	for (it = mapOfString.begin(); it != mapOfString.end() && !done; it++)
+	{
+		if (strings[index] == it->second) {
+			done = true;
+			//delete both
+			delete strings[index];
+			strings.erase(std::next(strings.begin(), index));
+			mapOfString.erase(it);
+		}
+	}
+}
+
+void UIManager::deleteButton(int index)
+{
+	std::map<std::string, UIButton*>::iterator it;
+	bool done = false;
+	for (it = mapOfButtons.begin(); it != mapOfButtons.end() && !done; it++)
+	{
+		if (buttons[index] == it->second) {
+			done = true;
+			//delete both
+			delete buttons[index];
+			buttons.erase(std::next(buttons.begin(), index));
+			mapOfButtons.erase(it);
+		}
+	}
+}
+
+void UIManager::deleteElement(std::string name)
+{
+	std::map<std::string, UIElements*>::iterator it;
+	it = mapOfSprites.find(name);
+	for (int i = 0; i < elements.size(); i++) {
+		if (elements[i] == it->second) {
+			elements.erase(std::next(elements.begin(), i));
+		}
+	}
+	delete it->second;
+	mapOfSprites.erase(it);
+}
+
+void UIManager::deleteString(std::string name)
+{
+	std::map<std::string, UIString*>::iterator it;
+	it = mapOfString.find(name);
+	for (int i = 0; i < strings.size(); i++) {
+		if (strings[i] == it->second) {
+			strings.erase(std::next(strings.begin(), i));
+		}
+	}
+	delete it->second;
+	mapOfString.erase(it);
+}
+
+void UIManager::deleteButton(std::string name)
+{
+	std::map<std::string, UIButton*>::iterator it;
+	it = mapOfButtons.find(name);
+	for (int i = 0; i < strings.size(); i++) {
+		if (buttons[i] == it->second) {
+			buttons.erase(std::next(buttons.begin(), i));
+		}
+	}
+	delete it->second;
+	mapOfButtons.erase(it);
+}
+
 void UIManager::draw()
 {
 
@@ -73,6 +181,10 @@ void UIManager::draw()
 	for (int i = 0; i < elements.size(); i++) {
 		elements[i]->updateConstBuffer(gfx);
 		elements[i]->draw(gfx);
+	}
+	for (int i = 0; i < buttons.size(); i++) {
+		buttons[i]->updateConstBuffer(gfx);
+		buttons[i]->draw(gfx);
 	}
 	gfx->get_IMctx()->PSSetShaderResources(0, 1, &font);
 	for (int i = 0; i < strings.size(); i++) {

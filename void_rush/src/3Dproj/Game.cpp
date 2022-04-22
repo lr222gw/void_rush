@@ -14,12 +14,8 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	//Resource manager
 	rm = new ResourceManager(gfx);
 	
-	UI = new UIManager(rm, gfx);
+	setUpUI();
 	testPuzzle = new ProtoPuzzle(gfx, rm, collisionHandler);
-	//UI->getElements(0)->setUVPosition(0, 0);
-	//UI->getElements(0)->setUVSize((float)(1.f/6.f), 1);
-	//UI->createUIString("PeNiS", vec2(0, 0), vec2(0.2, 0.5), "penis");
-	//UI->createUISprite("assets/textures/Fire.png", vec2(-1, 0), vec2(0.5, 0.5));
 
 	generationManager = new Generation_manager(gfx,rm, collisionHandler);
 	generationManager->set_PuzzleManager(testPuzzle);
@@ -410,6 +406,13 @@ void Game::setUpParticles()
 
 	//if billboard have animation add it here
 	billboardGroups[0]->setAnimation(6, 1, 0.16f);
+}
+
+void Game::setUpUI()
+{
+	UI = new UIManager(rm, gfx);
+	//UI->createUISprite("assets/textures/Fire.png", vec2(-1, 0), vec2(0.5, 0.5));
+	//UI->createUIString("string", vec2(0, 0), vec2(0.2, 0.5), "penis");
 }
 
 /*Interaction Test*/

@@ -393,6 +393,11 @@
     <ClCompile Include="src\3Dproj\Enemy.cpp">
       <Filter>Void_Rush\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="src\3Dproj\UIButton.cpp">
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UIButton.cpp">
+      <Filter>Engine\Header Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\puzzle\Portal.cpp">
       <Filter>Protoypes\puzzle</Filter>
     </ClCompile>
@@ -661,6 +666,9 @@
     </ClInclude>
     <ClInclude Include="src\3Dproj\Enemy.h">
       <Filter>Void_Rush\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UIButton.h">
+      <Filter>Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
