@@ -21,8 +21,12 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	//UI->createUIString("PeNiS", vec2(0, 0), vec2(0.2, 0.5), "penis");
 	//UI->createUISprite("assets/textures/Fire.png", vec2(-1, 0), vec2(0.5, 0.5));
 
+	GameObjManager = new GameObjectManager(gfx, rm);
+
 	generationManager = new Generation_manager(gfx,rm, collisionHandler);
 	generationManager->set_PuzzleManager(testPuzzle);
+	generationManager->set_GameObjManager(GameObjManager);
+
 	
 
 	setUpLights();
@@ -354,7 +358,6 @@ void Game::updateShaders(bool vs, bool ps)
 
 void Game::setUpObject()
 {
-	GameObjManager = new GameObjectManager(gfx, rm);
 	////////OBJECTS///////////
 	GameObjManager->CreateGameObject("Camera.obj", "Camera1", vec3(0.f, 0.f, 10.f), vec3(0.f, 0.f, 0.f), vec3(5.f, 5.0f, 5.0f)); //main
 	GameObjManager->CreateGameObject("Camera.obj", "Camera2", vec3(0.f, 100.f, 0.f), vec3(0.f, -1.58f, 0.f), vec3(2.f, 2.0f, 2.0f)); //main
