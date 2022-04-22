@@ -19,6 +19,8 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	//UI->createUIString("PeNiS", vec2(0, 0), vec2(0.2, 0.5), "penis");
 	//UI->getElements(0)->setUVSize((float)(1.f/6.f), 1);
 	//UI->getElements(0)->setUVPosition(0, 0);
+	//UI->createUIButton("assets/textures/Fire.png", mouse, vec2(-1, -1), vec2(0.5, 0.5), "Fire");
+	
 	testPuzzle = new ProtoPuzzle(gfx, rm);
 	testPuzzle->Initiate();
 
@@ -210,7 +212,12 @@ void Game::Update()
 	}
 	camera->calcFURVectors();
 	Space->update(camera->getPos());
-
+	UI->getButton(0)->update();
+	if (UI->getButton(0)->clicked()) {
+		std::cout << "this girl is on fire" << std::endl;
+	}
+	//std::cout << gfx->getClientWH().x << "," << gfx->getClientWH().y << std::endl;
+	//std::cout << mouse->getPosX() << "," << mouse->getPosY() << std::endl;
 	/*update matrixes*/
 	GameObjManager->updateMatrix();
 	player->updateMatrix();

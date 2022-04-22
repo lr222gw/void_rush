@@ -396,6 +396,9 @@
     <ClCompile Include="src\3Dproj\Enemy.cpp">
       <Filter>Void_Rush\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="src\3Dproj\UIButton.cpp">
+      <Filter>Engine\Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -655,6 +658,9 @@
     </ClInclude>
     <ClInclude Include="src\3Dproj\Enemy.h">
       <Filter>Void_Rush\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UIButton.h">
+      <Filter>Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
