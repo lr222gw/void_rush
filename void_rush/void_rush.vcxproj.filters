@@ -315,15 +315,6 @@
     <ClCompile Include="src\3Dproj\Player.cpp">
       <Filter>Void_Rush\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="src/3Dproj/ResourceManager.cpp">
-      <Filter>3D_Renderer\Source Files\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="src/3Dproj/imguiManager.cpp">
-      <Filter>3D_Renderer\Source Files\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="src/3Dproj/SoundManager.cpp">
-      <Filter>3D_Renderer\Source Files\Managers</Filter>
-    </ClCompile>
     <ClCompile Include="src/3Dproj/BillBoardManager.cpp">
       <Filter>3D_Renderer\Source Files\Managers</Filter>
     </ClCompile>
@@ -404,8 +395,20 @@
     <ClCompile Include="src/3Dproj/SoundManager.cpp">
       <Filter>Engine\Source Files\Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="src\3Dproj\Scene.cpp">
+    <ClCompile Include="src\3Dproj\GameState.cpp">
       <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/imguiManager.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/ResourceManager.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/SoundManager.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\App.cpp">
+      <Filter>Engine\Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -673,8 +676,11 @@
     <ClInclude Include="src/3Dproj/ResourceManager.h">
       <Filter>Engine\Header Files\Handlers</Filter>
     </ClInclude>
-    <ClInclude Include="src\3Dproj\Scene.h">
+    <ClInclude Include="src\3Dproj\GameState.h">
       <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\App.h">
+      <Filter>Engine\Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

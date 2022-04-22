@@ -1,6 +1,6 @@
 #include "imguiManager.h"
-
 #include "Game.h"
+
 ImguiManager::ImguiManager()
 {
 	IMGUI_CHECKVERSION();

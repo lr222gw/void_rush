@@ -7,7 +7,7 @@
 #include <iostream>
 #include <time.h>
 
-#include "3Dproj/Game.h"
+#include "3Dproj/App.h"
 #include "3Dproj/debug.h"
 #include "3Dproj/Random.h"
 

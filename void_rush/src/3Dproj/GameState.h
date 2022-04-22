@@ -13,14 +13,14 @@ enum class GameStatesEnum { NO_CHANGE, QUIT, TO_MENU, TO_GAME };
 
 class GameState {
 public:
-	GameState(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard);
+	GameState(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam);
 	//very important that they are done in order
-	void handleEvents();//this first
-	void renderShadow();//then this
-	GameStatesEnum update();//then this
-	void render();		//then this 
-	
-private:
+	virtual void handleEvents();//this first
+	virtual void renderShadow();//then this
+	virtual GameStatesEnum update(float dt);//then this
+	virtual void render();		//then this 
+protected:
+	Camera* camera;
 	Graphics* gfx;
 	ResourceManager* rm;
 	ImguiManager* IMGUI;
