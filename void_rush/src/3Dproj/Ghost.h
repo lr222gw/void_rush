@@ -8,6 +8,7 @@ public:
 	void collidedWithPlayer();
 	void update(float dt) override;
 	void setActive(bool activate = true);
+	void Reset();
 private:
 	void followPlayer(float dt);
 	bool checkIfInRangeOfPoint();

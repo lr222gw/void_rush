@@ -374,12 +374,12 @@ void Game::setUpObject()
 
 
 	//INteraction
-	GameObjManager->CreateGameObject("indoor_plant_02.obj", "Test1", vec3(0, 5, 30), vec3(0, 0, 0), vec3(1, 1, 1));
+	/*GameObjManager->CreateGameObject("indoor_plant_02.obj", "Test1", vec3(0, 5, 30), vec3(0, 0, 0), vec3(1, 1, 1));
 	GameObjManager->CreateGameObject("indoor_plant_02.obj", "Test2", vec3(10, 5, 30), vec3(0, 0, 0), vec3(1, 1, 1));
 	GameObjManager->CreateGameObject("indoor_plant_02.obj", "Test3", vec3(20, 5, 30), vec3(0, 0, 0), vec3(1, 1, 1));
 	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("Test1"));
 	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("Test2"));
-	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("Test3"));
+	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("Test3"));*/
 }
 
 void Game::setUpLights()
@@ -492,5 +492,6 @@ void Game::HandlePlayer()
 	if (player->getPos().y < maxDepth) {
 		player->TakeDmg();
 		player->Reset();
+		ghost->Reset();
 	}
 }
