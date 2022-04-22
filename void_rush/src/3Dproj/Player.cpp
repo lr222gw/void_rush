@@ -20,6 +20,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	setBoundingBox(DirectX::XMFLOAT3(0, 0, 0), DirectX::XMFLOAT3(1.f, 2.f, 1.f));
 	this->health = 3;
 	this->alive = true;
+	this->maxDepth = -140.0f;
 }
 
 Player::~Player()
@@ -43,6 +44,10 @@ void Player::update(float dt)
 		if (this->groundedTimer != 0.0f)
 		{
 			this->groundedTimer += dt;
+		}
+		if (getPos().y < maxDepth) {
+			TakeDmg();
+			Reset();
 		}
 	}
 	this->setRot(vec3(0, cam->getRot().x, 0));
