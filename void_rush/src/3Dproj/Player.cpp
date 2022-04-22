@@ -9,7 +9,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->cam = cam;
 	this->gravity = vec3(0.0f, -9.82f, 0.0f);
 	this->speed = vec3(5.f, 5.0f, 5.0f);
-	this->jumpSpeed = vec3(0.0f, 5.0f, 0.0f);
+	this->jumpSpeed = vec3(0.0f, 0.0f, 0.0f);
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
 	this->mass = 1.f;
 	this->grounded = true;
@@ -20,6 +20,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	setBoundingBox(DirectX::XMFLOAT3(0, -0.9f, 0), DirectX::XMFLOAT3(0.3f, 0.5f, 0.3f));
 	this->health = 3;
 	this->alive = true;
+	vec2 jumpDir = vec2(0, 0);
 }
 
 Player::~Player()
@@ -38,7 +39,7 @@ void Player::update(float dt)
 			acceleration = resForce / mass;
 			// Update velocity
 			velocity = velocity + acceleration * dt;
-			this->movePos(vec3(velocity.x * dt, velocity.y * dt, velocity.z * dt));
+			this->movePos(vec3(velocity.x * dt, velocity.y * dt, (velocity.z) * dt));
 		}
 		if (grounded)
 		{
@@ -74,7 +75,6 @@ void Player::handleEvents(float dt)
 	}
 	//change values here
 	DirectX::XMFLOAT3 translation = DirectX::XMFLOAT3(0, 0, 0);
-	vec2 jumpDir = vec2(0, 0);
 	if (keyboard->isKeyPressed('W')) {
 		cam->calcFURVectors();
 		jumpDir = jumpDir + vec2(cam->getForwardVec().x,  cam->getForwardVec().z);
@@ -83,6 +83,10 @@ void Player::handleEvents(float dt)
 		{
 			translation = DirectX::XMFLOAT3(0, 0, -1);
 			Translate(dt, translation);
+		}
+		if (!grounded)
+		{
+
 		}
 	}
 	if (keyboard->isKeyPressed('D')) {
@@ -94,6 +98,10 @@ void Player::handleEvents(float dt)
 			translation = DirectX::XMFLOAT3(-1, 0, 0);
 			Translate(dt, translation);
 		}
+		if (!grounded)
+		{
+
+		}
 	}
 	if (keyboard->isKeyPressed('S')) {
 		cam->calcFURVectors();
@@ -103,6 +111,10 @@ void Player::handleEvents(float dt)
 		{
 			translation = DirectX::XMFLOAT3(0, 0, 1);
 			Translate(dt, translation);
+		}
+		if (!grounded)
+		{
+			
 		}
 	}
 	if (keyboard->isKeyPressed('A')) {
@@ -114,33 +126,16 @@ void Player::handleEvents(float dt)
 			translation = DirectX::XMFLOAT3(1, 0, 0);
 			Translate(dt, translation);
 		}
-	}
-	if (!keyboard->isKeyPressed('W'))
-	{
-		if (grounded)
+		if (!grounded)
 		{
-			velocity.z = 0.0f;
+			
 		}
 	}
-	if (!keyboard->isKeyPressed('S'))
+	if (!keyboard->isKeyPressed('W') && !keyboard->isKeyPressed('A') && !keyboard->isKeyPressed('S') && !keyboard->isKeyPressed('D'))
 	{
 		if (grounded)
 		{
-			velocity.z = 0.0f;
-		}
-	}
-	if (!keyboard->isKeyPressed('D'))
-	{
-		if (grounded)
-		{
-			velocity.x = 0.0f;
-		}
-	}
-	if (!keyboard->isKeyPressed('A'))
-	{
-		if (grounded)
-		{
-			velocity.x = 0.0f;
+			jumpDir = vec2(0.0f, 0.0f);
 		}
 	}
 	if (keyboard->isKeyPressed(VK_SPACE) && grounded) {
@@ -200,6 +195,7 @@ void Player::setGrounded()
 		this->acceleration.y = 0.0f;
 		this->resForce.y = 0.0f;
 		this->groundedTimer = 0.0f;
+		this->speed = vec3(5.0f, 5.0f, 5.0f);
 	}
 }
 
