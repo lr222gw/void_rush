@@ -243,7 +243,6 @@ void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 void Player::TakeDmg(int dmg)
 {
 	health-=dmg;
-
 	if(health <= 0) {
 		alive = false;
 	}
