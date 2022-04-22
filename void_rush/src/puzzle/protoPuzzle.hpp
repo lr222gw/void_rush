@@ -28,4 +28,5 @@ public:
 	int ChoosePuzzle();
 	void Interact(vec3 playerPos, vec3 forwardVec);
 	void Update();
+	bool isCompleted();
 };

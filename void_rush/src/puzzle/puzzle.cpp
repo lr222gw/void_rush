@@ -52,6 +52,11 @@ int Puzzle::GetSeed() const
     return seed;
 }
 
+bool Puzzle::GetPortalCompleted() const
+{
+    return this->GetCompleted();
+}
+
 CollisionHandler* Puzzle::GetColHandler()
 {
     return this->GetColHandlerBase();

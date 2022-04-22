@@ -216,14 +216,6 @@ void Game::Update()
 	/*update matrixes*/
 	GameObjManager->updateMatrix();
 	player->updateMatrix();
-	
-	if (mouse->IsLeftDown() && testTime <= 0.0f)
-	{
-		testTime = 1.0f;
-		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
-	}
-
-
 
 	/*Collision checking*/
 	//collisionWithBlocking(player->getPlayerObjPointer(), GameObjManager->getGameObject("Ground"));
@@ -487,6 +479,18 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 				interactables[toInteractIndex]->Use();
 				interactables[toInteractIndex]->addScale(vec3(-0.1f, -0.1f, -0.1f));
 			}	
+		}
+	}
+
+
+	if (mouse->IsLeftDown() && testTime <= 0.0f)
+	{
+		testTime = 1.0f;
+		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
+		if (testPuzzle->isCompleted())
+		{
+			player->setPos(vec3(0.0f, 0.0f, 0.0f));
+			generationManager->initialize();
 		}
 	}
 }
