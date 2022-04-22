@@ -9,16 +9,21 @@
 #include "3Dproj/Graphics.h"
 #include <vector>
 #include "interact/interact.hpp"
+#include "3Dproj/CollisionHandler.h"
 
 class Portal
 {
 private:
 	std::vector<GameObject*> portals;
 	bool spawned = false;
+	bool completed = false;
 	Graphics* gfx;
 	ResourceManager* rm;
+
+	CollisionHandler* colHandler;
+
 public:
-	Portal(Graphics*& gfx, ResourceManager*& rm);
+	Portal(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler);
 	virtual ~Portal();
 
 	void Spawn(vec3 pos);
@@ -27,8 +32,12 @@ public:
 
 	void ResetPortal();
 
+	bool GetCompleted() const;
+
 	bool GetStatePortal() const;
 
-	void UpdatePortal(Graphics*& gfx);
+	CollisionHandler* GetColHandlerBase();
+
+	void UpdatePortal();
 };
 

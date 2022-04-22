@@ -1,13 +1,13 @@
 #include "protoPuzzle.hpp"
 #include <malloc.h>
 
-ProtoPuzzle::ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm) : gfxPuzzle(gfx), rmPuzzle(rm)
+ProtoPuzzle::ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler) : gfxPuzzle(gfx), rmPuzzle(rm)
 {
     seed = (int)time(0);
     srand(seed);
 
-    this->math = new MathPuzzle(seed, gfx, rm);
-    this->hidden = new HiddenPuzzle(seed, gfx, rm);
+    this->math = new MathPuzzle(seed, gfx, rm, colHandler);
+    this->hidden = new HiddenPuzzle(seed, gfx, rm, colHandler);
 
     this->puzzleList.push_back(math);
     this->puzzleList.push_back(hidden);
@@ -42,4 +42,9 @@ void ProtoPuzzle::Initiate(vec3 platformPosition)
 void ProtoPuzzle::Update()
 {
     this->puzzleList[chosenPuzzle]->Update(gfxPuzzle);
+}
+
+bool ProtoPuzzle::isCompleted()
+{
+    return this->puzzleList[chosenPuzzle]->GetPortalCompleted();
 }

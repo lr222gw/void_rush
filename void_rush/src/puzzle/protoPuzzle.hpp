@@ -22,10 +22,11 @@ private:
 	ResourceManager*& rmPuzzle;
 
 public:
-	ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm);
+	ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler);
 	~ProtoPuzzle();
 	void Initiate(vec3 platformPosition);
 	int ChoosePuzzle();
 	void Interact(vec3 playerPos, vec3 forwardVec);
 	void Update();
+	bool isCompleted();
 };

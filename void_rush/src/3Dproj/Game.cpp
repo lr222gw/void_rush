@@ -14,8 +14,9 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	//Resource manager
 	rm = new ResourceManager(gfx);
 	
+	UI = new UIManager(rm, gfx);
 	setUpUI();
-	testPuzzle = new ProtoPuzzle(gfx, rm);
+	testPuzzle = new ProtoPuzzle(gfx, rm, collisionHandler);
 
 	generationManager = new Generation_manager(gfx,rm, collisionHandler);
 	generationManager->set_PuzzleManager(testPuzzle);
@@ -212,14 +213,6 @@ void Game::Update()
 	/*update matrixes*/
 	GameObjManager->updateMatrix();
 	player->updateMatrix();
-	
-	if (mouse->IsLeftDown() && testTime <= 0.0f)
-	{
-		testTime = 1.0f;
-		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
-	}
-
-
 
 	/*Collision checking*/
 	//collisionWithBlocking(player->getPlayerObjPointer(), GameObjManager->getGameObject("Ground"));
@@ -490,6 +483,18 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 				interactables[toInteractIndex]->Use();
 				interactables[toInteractIndex]->addScale(vec3(-0.1f, -0.1f, -0.1f));
 			}	
+		}
+	}
+
+
+	if (mouse->IsLeftDown() && testTime <= 0.0f)
+	{
+		testTime = 1.0f;
+		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
+		if (testPuzzle->isCompleted())
+		{
+			player->setPos(vec3(0.0f, 0.0f, 0.0f));
+			generationManager->initialize();
 		}
 	}
 }
