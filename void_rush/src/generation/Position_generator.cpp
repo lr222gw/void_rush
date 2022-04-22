@@ -45,11 +45,11 @@ bool Position_generator::start (Difficulity selectedDiff)
 void Position_generator::generate_anchor_positions(int platforms_between_anchors, Difficulity selectedDiff)
 {
     float minStepMod = 2;
-    float stepMax = pl->getJumpDistance() * platforms_between_anchors;
+    //float stepMax = pl->getJumpDistance() * platforms_between_anchors;
+    float stepMax = 200;
     float stepMin = pl->getJumpDistance() / minStepMod * (int)selectedDiff;
     float distance = 0.0f;
     float stepMaxZ = pl->jumpHeight() ;// reason for platforms not generating
-    float rotation = 0.0f;
     vec3 dVect = vec3();
     vec3 position = *this->startPlat->getPos();
     Platform* current = startPlat;
@@ -63,8 +63,8 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
         dVect.y = fmax(dVect.y, -100.0f);
         position.y += dVect.y;
         // Using the height the new platform to determine max distance
-        stepMax = pl->getJumpDistance(position.y) * platforms_between_anchors; //the problem is tied to this
-        stepMin = stepMax / minStepMod * (int)selectedDiff;
+        //stepMax = pl->getJumpDistance(position.y) * platforms_between_anchors; //the problem is tied to this
+        //stepMin = stepMax / minStepMod * (int)selectedDiff;
         // Generating x and y pos
         dVect.x = randF(0, 1);
         dVect.z = randF(-1, 1);
@@ -83,16 +83,18 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
         dVect.z = dVect.z* distance;
 
         position.x += dVect.x;
-        position.z += dVect.z;
-        rotation = randF(0, 90);
+        position.z += dVect.z;  
         // Get random value for Z that is within possible jump
 
 
         dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z); //Remove?
+        /*
         if (this->pl->isJumpPossible(position) && dvect_magnitude > stepMin
             && dvect_magnitude < stepMax)
+        */
+        if (dvect_magnitude > stepMin && dvect_magnitude < stepMax)
         {
-            newPlat = new Platform(position, 0, 1, rotation);
+            newPlat = new Platform(position, 0, 1);
             pl->moveto(*newPlat->getPos());
             current->next = newPlat;
             this->anchors.push_back(current);
