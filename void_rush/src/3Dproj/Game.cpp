@@ -429,30 +429,12 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 	float rayDist;
 	float rayDistTemp;
 	float maxDist = 10.0f;
-	DirectX::XMFLOAT4 bb[2];
-	//float xSize;
-	//float ySize;
-	//float zSize;
-	//float size;
-	//DirectX::XMFLOAT3 objMidPos;
 	vec3 objMidPos;
 	int toInteractIndex = -1;
 	vec3 toInteractVec = vec3{ 0.0, 0.0f, 0.0f };
 	bool interact = false;
 	float size = 0.0f;
 	for (int i = 0; i < interactables.size(); i++) {
-		/*interactables[i]->getBoundingBox(bb);
-		xSize = fabs(bb[1].x - bb[0].x);
-		ySize = fabs(bb[1].y - bb[0].y);
-		zSize = fabs(bb[1].z - bb[0].z);
-		if (xSize >= ySize && xSize >= zSize) 
-			size = xSize;
-		else if (ySize >= xSize && ySize >= zSize) 
-			size = ySize;
-		else 
-			size = zSize;*/
-		
-		//objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
 		objMidPos = GetMidPos(interactables[i], size);
 		
 		//RayDist is the shortest path from the center of the object to the nearest point on the ray
