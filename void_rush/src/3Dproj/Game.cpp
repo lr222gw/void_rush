@@ -172,6 +172,10 @@ while (msg.message != WM_QUIT && gfx->getWindosClass().ProcessMessages())
 
 	//once = false;
 	dt.restartClock();
+
+	if (!player->IsAlive()) {
+		break;
+	}
 }
 printf("quit");
 }
@@ -345,8 +349,8 @@ void Game::setUpObject()
 {
 	GameObjManager = new GameObjectManager(gfx, rm);
 	////////OBJECTS///////////
-	GameObjManager->CreateGameObject("Camera.obj", "Camera1", vec3(0.f, 0.f, 10.f), vec3(0.f, 0.f, 0.f), vec3(5.f, 5.0f, 5.0f)); //main
-	GameObjManager->CreateGameObject("Camera.obj", "Camera2", vec3(0.f, 100.f, 0.f), vec3(0.f, -1.58f, 0.f), vec3(2.f, 2.0f, 2.0f)); //main
+	//GameObjManager->CreateGameObject("Camera.obj", "Camera1", vec3(0.f, 0.f, 10.f), vec3(0.f, 0.f, 0.f), vec3(5.f, 5.0f, 5.0f)); //main
+	//GameObjManager->CreateGameObject("Camera.obj", "Camera2", vec3(0.f, 100.f, 0.f), vec3(0.f, -1.58f, 0.f), vec3(2.f, 2.0f, 2.0f)); //main
 
 	//GameObjManager->CreateGameObject("quad2.obj", "Ground", vec3(0, -5, 0), vec3(0, 0, 1.57f), vec3(100, 100, 100));
 	
@@ -364,14 +368,6 @@ void Game::setUpObject()
 	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj",gfx), gfx, player->getPos() - vec3(0, 0, -5),vec3(0,0,0), vec3(0.2,0.2,0.2));
 	GameObjManager->addGameObject(ghost, "Ghost");
 	collisionHandler.addEnemies(ghost);
-
-	/*INteraction test objects*/
-	GameObjManager->CreateGameObject("indoor_plant_02.obj", "IntOne", vec3(0, 5, 0));
-	GameObjManager->CreateGameObject("indoor_plant_02.obj", "IntTwo", vec3(5, 5, 0));
-	GameObjManager->CreateGameObject("indoor_plant_02.obj", "IntThree", vec3(10, 5, 0));
-	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntOne"));
-	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntTwo"));
-	GameObjManager->addInteractGameObject(GameObjManager->getGameObject("IntThree"));
 
 	generationManager->initialize();
 	testPuzzle->Initiate(generationManager->getPuzzelPos());
@@ -474,14 +470,14 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			if (mouse->IsLeftDown()) {
 				//std::cout << "Interact!\n";
 				interactables[toInteractIndex]->Use();
-				interactables[toInteractIndex]->addScale(vec3(0.1f, 0.1f, 0.1f));
+				//interactables[toInteractIndex]->addScale(vec3(0.1f, 0.1f, 0.1f));
 			}	
 		}
 		else {
 			if (mouse->isRightDown()) {
 				//std::cout << "Un-interact!\n";
 				interactables[toInteractIndex]->Use();
-				interactables[toInteractIndex]->addScale(vec3(-0.1f, -0.1f, -0.1f));
+				//interactables[toInteractIndex]->addScale(vec3(-0.1f, -0.1f, -0.1f));
 			}	
 		}
 	}
@@ -504,8 +500,5 @@ void Game::HandlePlayer()
 	if (player->getPos().y < maxDepth) {
 		player->TakeDmg();
 		player->Reset();
-	}
-	if (!player->IsAlive()) {
-		//assert(false, "GAME OVER");
 	}
 }
