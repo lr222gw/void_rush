@@ -423,5 +423,6 @@ void Game::HandlePlayer()
 	if (player->getPos().y < maxDepth) {
 		player->TakeDmg();
 		player->Reset();
+		ghost->Reset();
 	}
 }

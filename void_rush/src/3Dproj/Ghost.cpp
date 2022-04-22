@@ -3,13 +3,15 @@
 Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale):
 	Enemy(file, gfx, pos, rot, scale)
 {
-	this->player = player;
+	/*this->player = player;
 	attackCD = 0.0f;
 	readyToAttack = true;
 	speed = 4;
 	getPlayerPosCD = 0;
 	rangeToPlayerBeforeNearestWay = 10;
-	rangeToPointBeforeNewPoint = 3;
+	rangeToPointBeforeNewPoint = 3;*/
+	this->player = player;
+	Reset();
 	this->active = false;
 }
 
@@ -40,6 +42,16 @@ void Ghost::update(float dt)
 void Ghost::setActive(bool activate)
 {
 	this->active = activate;
+}
+
+void Ghost::Reset()
+{
+	setPos(vec3(player->getxPos(), player->getyPos() + 10.0f, player->getzPos()));
+	readyToAttack = true;
+	speed = 4;
+	getPlayerPosCD = 0;
+	rangeToPlayerBeforeNearestWay = 10;
+	rangeToPointBeforeNewPoint = 3;
 }
 
 void Ghost::followPlayer(float dt)
