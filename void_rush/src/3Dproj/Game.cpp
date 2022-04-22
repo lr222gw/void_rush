@@ -14,7 +14,6 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	//Resource manager
 	rm = new ResourceManager(gfx);
 	
-	UI = new UIManager(rm, gfx);
 	setUpUI();
 	testPuzzle = new ProtoPuzzle(gfx, rm, collisionHandler);
 
