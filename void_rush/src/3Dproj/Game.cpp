@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow):
+App::App(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow):
 	soundManager(1)
 {
 	gfx = new Graphics(hInstance, hPrevInstance, lpCmdLine, nCmdShow, mouse);
@@ -70,7 +70,7 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 
 }
 
-Game::~Game() 
+App::~App() 
 {
 	//part of game
  	TC::GetInst().empty();
@@ -103,7 +103,7 @@ Game::~Game()
 }
 
 
-void Game::run()
+void App::run()
 {
 static bool once = false;
 
@@ -130,6 +130,7 @@ while (msg.message != WM_QUIT && gfx->getWindosClass().ProcessMessages())
 			soundManager.playSound("ah1", GameObjManager->getGameObject(0)->getPos());
 		}
 	}
+
 	gfx->clearScreen();
 	gfx->setTransparant(false);
 	//for shadow
@@ -152,6 +153,7 @@ while (msg.message != WM_QUIT && gfx->getWindosClass().ProcessMessages())
 	gfx->RsetViewPort();
 
 	Update();
+
 	if (def_rend) {
 		//deferred rendering
 		defRend->BindFirstPass();
@@ -179,7 +181,7 @@ while (msg.message != WM_QUIT && gfx->getWindosClass().ProcessMessages())
 printf("quit");
 }
 
-void Game::Update()
+void App::Update()
 {
 	/*DEBUG*/
 	if (keyboard->isKeyPressed(VK_RETURN)) {
@@ -217,10 +219,6 @@ void Game::Update()
 	GameObjManager->updateMatrix();
 	player->updateMatrix();
 
-	/*Collision checking*/
-	//collisionWithBlocking(player->getPlayerObjPointer(), GameObjManager->getGameObject("Ground"));
-	//collisionWithBlocking(player->getPlayerObjPointer(), obj[2]);
-	//generationManager->updatePlatfoms();
 
 	
 	collisionHandler.update();
@@ -267,7 +265,7 @@ void Game::Update()
 }
 
 
-void Game::DrawToBuffer()
+void App::DrawToBuffer()
 {	
 	
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -298,7 +296,7 @@ void Game::DrawToBuffer()
 	//gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), gfx->getDepthStencil());
 }
 
-void Game::ForwardDraw()
+void App::ForwardDraw()
 {
 	gfx->get_IMctx()->IASetInputLayout(gfx->getInputLayout()[1]);
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
@@ -310,7 +308,7 @@ void Game::ForwardDraw()
 	}
 }
 
-void Game::DrawAllShadowObject()
+void App::DrawAllShadowObject()
 {
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gfx->get_IMctx()->GSSetShader(nullptr, nullptr, 0);
@@ -318,7 +316,7 @@ void Game::DrawAllShadowObject()
 	GameObjManager->drawShadow();
 }
 
-void Game::updateShaders(bool vs, bool ps)
+void App::updateShaders(bool vs, bool ps)
 {
 	for (int i = 0; i < billboardGroups.size(); i++) {
 		billboardGroups[0]->updateShader(gfx, camera->getPos());
@@ -344,7 +342,7 @@ void Game::updateShaders(bool vs, bool ps)
 }
 
 
-void Game::setUpObject()
+void App::setUpObject()
 {
 	GameObjManager = new GameObjectManager(gfx, rm);
 	////////OBJECTS///////////
@@ -374,7 +372,7 @@ void Game::setUpObject()
 	
 }
 
-void Game::setUpLights()
+void App::setUpLights()
 {
 	//current max number is set in graphics.cpp and transforms.hlsli
 	nrOfLight = 1;
@@ -399,7 +397,7 @@ void Game::setUpLights()
 	gfx->takeLight(light, nrOfLight);
 }
 
-void Game::setUpParticles()
+void App::setUpParticles()
 {
 	//add the billboards here
 	billboardGroups.push_back(new BillBoardGroup(gfx, rm->getFire(), 1, vec3(0, 0, 0), vec3(5, 5, 5)));
@@ -408,7 +406,7 @@ void Game::setUpParticles()
 	billboardGroups[0]->setAnimation(6, 1, 0.16f);
 }
 
-void Game::setUpUI()
+void App::setUpUI()
 {
 	UI = new UIManager(rm, gfx);
 	//UI->createUISprite("assets/textures/Fire.png", vec2(-1, 0), vec2(0.5, 0.5));
@@ -416,7 +414,7 @@ void Game::setUpUI()
 }
 
 /*Interaction Test*/
-void Game::Interact(std::vector<GameObject*>& interactables)
+void App::Interact(std::vector<GameObject*>& interactables)
 {
 	float rayDist;
 	float rayDistTemp;
@@ -494,7 +492,7 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 	}
 }
 
-void Game::HandlePlayer()
+void App::HandlePlayer()
 {
 	if (player->getPos().y < maxDepth) {
 		player->TakeDmg();

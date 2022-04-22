@@ -20,7 +20,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 #ifdef _DEBUG
 	RedirectIOToConsole();
 #endif
-	Game game(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+	App game(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 	game.run();
 	//physics_proto();
 

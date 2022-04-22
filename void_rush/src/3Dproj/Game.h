@@ -30,10 +30,10 @@
 #include "CollisionHandler.h"
 
 //git
-class Game {
+class App {
 public:
-	Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow);
-	virtual ~Game();
+	App(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow);
+	virtual ~App();
 	void run();
 	void DrawToBuffer();
 	void ForwardDraw();

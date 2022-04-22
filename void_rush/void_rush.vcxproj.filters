@@ -404,6 +404,9 @@
     <ClCompile Include="src/3Dproj/SoundManager.cpp">
       <Filter>Engine\Source Files\Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="src\3Dproj\Scene.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -669,6 +672,9 @@
     </ClInclude>
     <ClInclude Include="src/3Dproj/ResourceManager.h">
       <Filter>Engine\Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\Scene.h">
+      <Filter>Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

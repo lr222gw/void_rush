@@ -170,7 +170,7 @@ void ImguiManager::render_player_widgets()
 	ImGui::End();
 }
 
-void ImguiManager::set_owner(Game* game)
+void ImguiManager::set_owner(App* game)
 {
 	this->owner = game;
 }

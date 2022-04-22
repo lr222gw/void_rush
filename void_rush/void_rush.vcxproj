@@ -282,6 +282,7 @@
     <ClCompile Include="src\3Dproj\Enemy.cpp" />
     <ClCompile Include="src\3Dproj\GameObjectManager.cpp" />
     <ClCompile Include="src\3Dproj\Ghost.cpp" />
+    <ClCompile Include="src\3Dproj\Scene.cpp" />
     <ClCompile Include="src\3Dproj\UIButton.cpp" />
     <ClCompile Include="src\3Dproj\UIElements.cpp" />
     <ClCompile Include="src\3Dproj\UIManager.cpp" />
@@ -366,6 +367,7 @@
     <ClInclude Include="src\3Dproj\GameObjectManager.h" />
     <ClInclude Include="src\3Dproj\Ghost.h" />
     <ClInclude Include="src\3Dproj\Player.h" />
+    <ClInclude Include="src\3Dproj\Scene.h" />
     <ClInclude Include="src\3Dproj\UIButton.h" />
     <ClInclude Include="src\3Dproj\UIElements.h" />
     <ClInclude Include="src\3Dproj\UIManager.h" />

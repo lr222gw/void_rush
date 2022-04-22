@@ -7,7 +7,7 @@
 #include "Light.h"
 #include <string>
 
-class Game;
+class App;
 class ImguiManager {
 public:
 	ImguiManager();
@@ -19,9 +19,9 @@ public:
 	void render_generation_widgets();
 	void render_player_widgets();
 	void render_physics_widgets();
-	void set_owner(Game* game);
+	void set_owner(App* game);
 private:
 	std::vector<object*> obj;
 	std::vector<Light*> light;
-	Game* owner;
+	App* owner;
 };
