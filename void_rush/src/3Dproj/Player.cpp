@@ -46,6 +46,9 @@ void Player::update(float dt)
 			this->groundedTimer += dt;
 		}
 	}
+	//cam->calcFURVectors();
+	//cam->getForwardVec().z;
+	std::cout << "Rot x: " << cam->getForwardVec().x << "Rot z: " << cam->getForwardVec().z << std::endl;
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
 	GameObject::update(dt);
@@ -53,7 +56,6 @@ void Player::update(float dt)
 
 void Player::handleEvents(float dt)
 {
-	
 	//change these to use keyboard
 	if (!mouse->getMouseActive()) {
 		if (GetKeyState(VK_RIGHT) & 0x8000) {
@@ -72,7 +74,8 @@ void Player::handleEvents(float dt)
 	//change values here
 	DirectX::XMFLOAT3 translation = DirectX::XMFLOAT3(0, 0, 0);
 	if (keyboard->isKeyPressed('W')) {
-		jumpSpeed.z = speed.z;
+		cam->calcFURVectors();
+		jumpSpeed = vec3(speed.x *cam->getForwardVec().x, jumpSpeed.y, speed.z * cam->getForwardVec().z);
 		if (grounded || noClip)
 		{
 			translation = DirectX::XMFLOAT3(0, 0, -1);
@@ -80,7 +83,8 @@ void Player::handleEvents(float dt)
 		}
 	}
 	if (keyboard->isKeyPressed('D')) {
-		jumpSpeed.x = speed.x;
+		cam->calcFURVectors();
+		jumpSpeed = vec3(speed.x * cam->getRightVector().x, jumpSpeed.y, speed.z * cam->getRightVector().z);
 		if (grounded || noClip)
 		{
 			translation = DirectX::XMFLOAT3(-1, 0, 0);
@@ -88,7 +92,8 @@ void Player::handleEvents(float dt)
 		}
 	}
 	if (keyboard->isKeyPressed('S')) {
-		jumpSpeed.z = -speed.z;
+		cam->calcFURVectors();
+		jumpSpeed = vec3(speed.x * -cam->getForwardVec().x, jumpSpeed.y, speed.z * -cam->getForwardVec().z);
 		if (grounded || noClip)
 		{
 			translation = DirectX::XMFLOAT3(0, 0, 1);
@@ -96,7 +101,8 @@ void Player::handleEvents(float dt)
 		}
 	}
 	if (keyboard->isKeyPressed('A')) {
-		jumpSpeed.x = -speed.x;
+		cam->calcFURVectors();
+		jumpSpeed = vec3(speed.x * -cam->getRightVector().x, jumpSpeed.y, speed.z * -cam->getRightVector().z);
 		if (grounded || noClip)
 		{
 			translation = DirectX::XMFLOAT3(1, 0, 0);

@@ -61,7 +61,7 @@ void CollisionHandler::update()
 		{
 			done = true;
 
-			if (player->getGroundedTimer() > 0.1f)
+			if (player->getGroundedTimer() > 0.5f)
 			{
 				player->setGrounded();
 			}
