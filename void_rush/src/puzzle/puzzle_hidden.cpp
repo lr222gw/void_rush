@@ -10,10 +10,8 @@ void HiddenPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
     //Check if left click is pressed while player is close enough and looking at the hitbox of the key.
     if (!this->GetState())
     {
-        float size, test;
-        vec3 midPos;
-        midPos = GetMidPos(puzzleObjects[0], size);
-        if (CanInteract(playerPos, forwardVec, midPos, size / 2.0f, 5.0f, test))
+        float test;
+        if (CanInteract(playerPos, forwardVec, puzzleObjects[0]->getPos(), 5.0f, 5.0f, test))
         {
             std::cout << "Key Picked Up!" << std::endl;
             this->SpawnDoor(this->GetPosition());
