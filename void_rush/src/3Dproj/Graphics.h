@@ -178,6 +178,7 @@ public:
 	void setTransparant(bool transparance);
 	Light** getLight();
 	vec2 getWH();
+	vec2 getClientWH();
 	
 	/*make so gfx have lights*/
 	void takeLight(Light **light, int nrOfLights);

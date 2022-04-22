@@ -100,7 +100,7 @@ Graphics::Graphics(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	windowClass.Initialize(hInstance, "a", "a", WIDTH, HEIGHT);
 	
 	ImGui_ImplWin32_Init(windowClass.getRenderWindow().getHandle());
-	if (!SetupD3D11(WIDTH, HEIGHT, windowClass.getRenderWindow().getHandle(), device, immediateContext, swapChain, renderTarget, dsTexture, dsView, viewPort, pRS))
+	if (!SetupD3D11(this->getClientWH().x, this->getClientWH().y, windowClass.getRenderWindow().getHandle(), device, immediateContext, swapChain, renderTarget, dsTexture, dsView, viewPort, pRS))
 	{
 		//std::cerr << "cant set up" << std::endl;
 		delete this;
@@ -337,6 +337,19 @@ Light **Graphics::getLight()
 vec2 Graphics::getWH()
 {
 	return vec2((float)WIDTH, (float)HEIGHT);
+}
+
+vec2 Graphics::getClientWH()
+{
+	RECT rect;
+	int width = 0;
+	int height = 0;
+	if (GetClientRect(windowClass.getRenderWindow().getHandle(), &rect))
+	{
+		width = rect.right - rect.left;
+		height = rect.bottom - rect.top;
+	}
+	return vec2(width, height);
 }
 
 void Graphics::setTransparant(bool transparance)
