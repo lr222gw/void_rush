@@ -1,9 +1,10 @@
 #include "Game.h"
 
-Game::Game(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam):
+Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam):
 	GameState(gfx,rm,imguimanager,mouse,keyboard,cam),
 	soundManager(1)//be able to change this later based on settings
 {
+	rm->name = "penistest";
 	/*sets in setup___*/
 	GameObjManager = nullptr;
 	UI = nullptr;
@@ -70,7 +71,11 @@ void Game::handleEvents()
 		static int os = 0;
 		if (e.getType() == mouseEvent::EventType::LPress) {
 
-			soundManager.playSound("ah1", GameObjManager->getGameObject(0)->getPos());
+			soundManager.playSound("ah1", player->getPos());
+		}
+		if (e.getType() == mouseEvent::EventType::RPress) {
+
+			soundManager.playSound("Goat", player->getPos());
 		}
 	}
 }
@@ -242,7 +247,7 @@ void Game::DrawToBuffer()
 
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
 	testPuzzle->Update();
-	player->draw(gfx);
+	//player->draw(gfx);
 	generationManager->draw(); //Todo: ask Simon where to put this...
 	GameObjManager->draw();
 	camera->calcFURVectors();
@@ -280,12 +285,12 @@ void Game::setUpObject()
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 
 	std::string skyboxTextures[6] = {
-	"assets/textures/Skybox/sky_stars_01bk.png",//back
-	"assets/textures/Skybox/sky_stars_01dn.png",//down
-	"assets/textures/Skybox/sky_stars_01ft.png",//front
-	"assets/textures/Skybox/sky_stars_01lf.png",//left
-	"assets/textures/Skybox/sky_stars_01rt.png",//right
-	"assets/textures/Skybox/sky_stars_01up.png",//up
+		"assets/textures/Skybox/north.png",//x+
+		"assets/textures/Skybox/south.png",//x-
+		"assets/textures/Skybox/above.png",//y+
+		"assets/textures/Skybox/below.png",//y-
+		"assets/textures/Skybox/east.png",//z-
+		"assets/textures/Skybox/west.png",//z+
 	};
 	skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, player->getPos(), skyboxTextures);
 }
@@ -334,6 +339,7 @@ void Game::setUpUI()
 void Game::setUpSound()
 {
 	soundManager.loadSound("assets/audio/ah.wav", 5, "ah1");
+	soundManager.loadSound("assets/audio/Goat.wav", 5, "Goat");
 }
 
 void Game::Interact(std::vector<GameObject*>& interactables)

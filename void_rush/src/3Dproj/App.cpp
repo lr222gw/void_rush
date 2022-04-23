@@ -18,7 +18,8 @@ App::App(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR
 	CreateConstBuffer(gfx, gfx->getConstBuffers(0), sizeof(*gfx->getLightconstbufferforCS()), gfx->getLightconstbufferforCS());
 	CreateConstBuffer(gfx, gfx->getConstBuffers(1), sizeof(*gfx->getCamPosconstbuffer()), gfx->getCamPosconstbuffer());
 
-	gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
+	//gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
+	gamestate = new Menu(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
 	
 }
 
@@ -38,6 +39,7 @@ App::~App()
 
 void App::run()
 {
+	GameStatesEnum theHandle = GameStatesEnum::NO_CHANGE;
 	while (msg.message != WM_QUIT && gfx->getWindosClass().ProcessMessages() && !quit)
 	{
 		if (dt.dt() > 0.2f) {
@@ -61,9 +63,11 @@ void App::run()
 		gfx->RsetViewPort();
 		
 
-		gamestate->update(dt.dt());
+		theHandle = gamestate->update(dt.dt());
 
 		gamestate->render();
+
+		handleGamestateChanges(theHandle);
 
 		dt.restartClock();
 	}
@@ -78,7 +82,9 @@ void App::handleGamestateChanges(GameStatesEnum handle)
 		break;
 	case GameStatesEnum::TO_GAME:
 		//delete current gamestate
+		delete gamestate;
 		//set gamestate to Game
+		gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
 		break;
 	case GameStatesEnum::TO_MENU:
 		//delete current gamestate

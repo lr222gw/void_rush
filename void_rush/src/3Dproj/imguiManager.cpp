@@ -28,12 +28,12 @@ void ImguiManager::updateRender()
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-
-	render_player_widgets();
-	render_generation_widgets();
-	update_lights(owner->lightNr);
-	render_physics_widgets();
-	
+	if (owner != nullptr) {
+		render_player_widgets();
+		render_generation_widgets();
+		update_lights(owner->lightNr);
+		render_physics_widgets();
+	}
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }

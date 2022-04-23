@@ -6,12 +6,10 @@
 #include "generation/Generation_manager.hpp"
 #include "interact/interact.hpp"
 #include "BillBoardManager.h"
-#include "flags.h"
-#include "TrashCollector.h"
 
 class Game : public GameState {
 public:
-	Game(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam);
+	Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam);
 	virtual ~Game();
 	//very important that they are done in order
 	virtual void handleEvents();//this first

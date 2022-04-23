@@ -8,6 +8,7 @@
 #include "TrashCollector.h"
 #include "flags.h"
 #include "Game.h"
+#include "Menu.h"
 
 //git
 class App {

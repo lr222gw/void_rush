@@ -26,6 +26,7 @@ public:
 	void deleteElement(std::string name);
 	void deleteString(std::string name);
 	void deleteButton(std::string name);
+	void update();
 	void draw();
 private:
 	std::vector<UIElements*> elements;
