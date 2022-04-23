@@ -10,6 +10,10 @@ GameState::GameState(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguiman
 	this->mouse = mouse;
 }
 
+GameState::~GameState()
+{
+}
+
 void GameState::handleEvents()
 {
 }

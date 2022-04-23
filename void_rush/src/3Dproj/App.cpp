@@ -31,6 +31,7 @@ App::~App()
 
 	//logic and other
 	//delete defRend;
+	delete gamestate;
 	delete camera;
 }
 

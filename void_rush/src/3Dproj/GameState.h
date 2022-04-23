@@ -14,6 +14,7 @@ enum class GameStatesEnum { NO_CHANGE, QUIT, TO_MENU, TO_GAME };
 class GameState {
 public:
 	GameState(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam);
+	virtual ~GameState();
 	//very important that they are done in order
 	virtual void handleEvents();//this first
 	virtual void renderShadow();//then this

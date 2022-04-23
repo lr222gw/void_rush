@@ -11,14 +11,14 @@ Game::Game(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mous
 	nrOfLight = 0; 
 	player = nullptr;
 	skybox = nullptr;
-
-
+	
+	
 	lightNr = 0;
 	testPuzzle = new ProtoPuzzle(gfx, rm, collisionHandler);
 	generationManager = new Generation_manager(gfx, rm, collisionHandler);
 	generationManager->set_PuzzleManager(testPuzzle);
 	maxDepth = -140.0f;
-
+	
 	/*set ups*/
 	this->setUpObject();
 	this->setUpLights();
