@@ -30,6 +30,8 @@ GameStatesEnum Menu::update(float dt)
 {
 	GameStatesEnum theReturn = GameStatesEnum::NO_CHANGE;
 
+	camera->updateCamera();
+	camera->addRotation(vec3(0.1 * dt, 0.3 * dt, 0));
 	UI->update();
 
 	if (UI->getButton("Quit")->clicked()) {
@@ -51,6 +53,9 @@ void Menu::render()
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gfx->get_IMctx()->IASetInputLayout(gfx->getInputLayout()[0]);
 	gfx->get_IMctx()->GSSetShader(nullptr, nullptr, 0);
+	skybox->setPos(camera->getPos());
+	skybox->updateVertexShader(gfx);
+	skybox->updatePixelShader(gfx);
 	skybox->draw(gfx);
 
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
