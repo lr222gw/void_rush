@@ -61,6 +61,7 @@ struct vec3 {
 	}
 
 	vec3 Normalize();
+	static vec3 Normalize(const vec3& ref);
 	vec3 X(const vec3& other);
 	float operator*(vec3& other);//dot
 	vec3 operator*(float other);

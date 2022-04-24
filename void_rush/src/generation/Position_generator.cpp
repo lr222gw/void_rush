@@ -46,7 +46,7 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
 {
     float minStepMod = 2;
     //float stepMax = pl->getJumpDistance() * platforms_between_anchors;
-    float stepMax = 200;
+    float stepMax = 50;
     float stepMin = stepMax / minStepMod * (int)selectedDiff;
     float distance = 0.0f;
     float stepMaxZ = pl->jumpHeight() ;// reason for platforms not generating
@@ -221,37 +221,62 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
 
         current = current->next;
     }
-    endJumpPoint->next = nullptr;
+    endJumpPoint->next = nullptr; //TODO: should not be needed...
     //this->jumpPoints.push_back(endJumpPoint);
     //this->jumpPoints.push_back(newPlat);
 }
 
 void Position_generator::jumpPoint_generation_helper(Platform* start, Platform* end)
-{
-    vec3 start_end_dist = (*start->getPos() + *end->getPos());
-    vec3 middle = (*start->getPos() + *end->getPos()) / 2;
-    Platform* midd_platform = new Platform() ;
-    midd_platform->setPosition(middle);
-
+{    
+    vec3 start_end_dist = (*start->getPos() + *end->getPos()); //TODO: remove
+    vec3 middle = (*end->getPos() - *start->getPos()) / 2;
+    Platform* midd_platform = new Platform() ;    
+    midd_platform->setPosition(*start->getPos() + middle);
+    
     this->jumpPoints.push_back(midd_platform);
 
-    pl->moveto(middle);
+    //Create jumppoint between new middle and end if jump not possible
+    
+    //pl->moveto(middle);
+    pl->moveto(*midd_platform->getPos());
     if(!this->pl->isJumpPossible(*end->getPos())){
-        
+        jumpPoint_create_offset(midd_platform, *midd_platform->getPos(), *start->getPos(), *end->getPos());
         jumpPoint_generation_helper(midd_platform, end);                
     }else{
-        midd_platform->next = end;
+        midd_platform->next = end; //Set middle.next if end platform is close enogh
+        
     }
 
+    //Create jumppoint between start and new middle if jump not possible
     pl->moveto(*start->getPos());
     if(!this->pl->isJumpPossible(*midd_platform->getPos())){
         
         jumpPoint_generation_helper(start, midd_platform);
     }else{
-        start->next = midd_platform;
+        start->next = midd_platform;//Set start.next if new middle platform is close enogh        
     }
 
-    //return t;
+}
+
+vec3 Position_generator::jumpPoint_create_offset(Platform* plat,vec3& currentMiddle, vec3 start, vec3 end)
+{
+    vec3 temp = vec3(randF(-1.f, 1.f), randF(-1.f, 1.f), randF(-1.f, 1.f)).Normalize();
+    vec3 start_End = (end - start);
+    vec3 start_End_dir = vec3::Normalize(start_End);
+
+    while(start_End_dir * temp > 0.1 || start_End_dir * temp < -0.1){
+       temp = vec3(randF(-1.f, 1.f), randF(-1.f, 1.f), randF(-1.f, 1.f)).Normalize();
+    }
+
+        
+    vec3 randomDir = start_End_dir.X(temp).Normalize();
+
+    float randomDist = randF(0.f, start_End.length()) / 2.f;
+    vec3 offset = randomDir * randomDist; //1650807068
+
+    plat->setPosition(currentMiddle + offset);
+
+    return offset;
 }
 
 void Position_generator::reset_generation(vec3 player_position)

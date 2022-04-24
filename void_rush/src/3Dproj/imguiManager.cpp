@@ -85,7 +85,7 @@ void ImguiManager::render_generation_widgets()
 			float* pos[3] = { &owner->generationManager->player_jump_checker->pos.x,
 				&owner->generationManager->player_jump_checker->pos.y,
 				&owner->generationManager->player_jump_checker->pos.z };
-			ImGui::InputFloat3("position", *pos);
+			ImGui::InputFloat3("position", *pos);			
 
 			ImGui::InputFloat("speed", &owner->generationManager->player_jump_checker->speed);
 			ImGui::TreePop();
@@ -109,7 +109,8 @@ void ImguiManager::render_generation_widgets()
 							&owner->generationManager->platformObjs[i]->pos.y,
 							&owner->generationManager->platformObjs[i]->pos.z };
 
-					ImGui::InputFloat3(name.c_str(), *pos);
+					//ImGui::InputFloat3(name.c_str(), *pos);
+					ImGui::DragFloat3(name.c_str(), *pos);
 				}				
 				ImGui::TreePop();
 			}
