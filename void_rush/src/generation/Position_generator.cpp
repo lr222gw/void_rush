@@ -264,14 +264,18 @@ vec3 Position_generator::jumpPoint_create_offset(Platform* plat,vec3& currentMid
     vec3 start_End = (end - start);
     vec3 start_End_dir = vec3::Normalize(start_End);
 
-    while(start_End_dir * temp > 0.1 || start_End_dir * temp < -0.1){
-       temp = vec3(randF(-1.f, 1.f), randF(-1.f, 1.f), randF(-1.f, 1.f)).Normalize();
-    }
-
+    while(  start_End_dir * temp > JP_conf.rand_dir_max_angle_percent || 
+            start_End_dir * temp < JP_conf.rand_dir_min_angle_percent)
+    {
+        //to get all possible directions, use -1 and 1...
+        temp = vec3(randF(-1.f, 1.f), randF(-1.f, 1.f), randF(-1.f, 1.f)).Normalize();
+    }    
         
     vec3 randomDir = start_End_dir.X(temp).Normalize();
+    randomDir.y = std::clamp(randomDir.y, JP_conf.y_min_clamp, JP_conf.y_max_clamp);
 
-    float randomDist = randF(0.f, start_End.length()) / 2.f;
+
+    float randomDist = randF(0.f, start_End.length()) / JP_conf.random_dist_dividier;
     vec3 offset = randomDir * randomDist; //1650807068
 
     plat->setPosition(currentMiddle + offset);
@@ -291,7 +295,12 @@ void Position_generator::reset_generation(vec3 player_position)
     }
     this->jumpPoints.clear();
     player_position.y = player_position.y - 20; //TODO 
-    this->startPlat = new Platform(player_position, 0, 0);
+
+    if(imgui_conf.useOrigo){
+        this->startPlat = new Platform(vec3(0,-10,0), 0, 0);
+    }else{
+        this->startPlat = new Platform(player_position, 0, 0);
+    }
     
     this->pl->reset();
 }
