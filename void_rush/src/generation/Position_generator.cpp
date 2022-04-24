@@ -276,7 +276,7 @@ vec3 Position_generator::jumpPoint_create_offset(Platform* plat,vec3& currentMid
 
 
     float randomDist = randF(0.f, start_End.length()) / JP_conf.random_dist_dividier;
-    vec3 offset = randomDir * randomDist; //1650807068
+    vec3 offset = randomDir * randomDist; 
 
     plat->setPosition(currentMiddle + offset);
 

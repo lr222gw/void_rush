@@ -40,7 +40,7 @@ private: // Magic Numbers
     struct Jump_point_settings{        
         float random_dist_dividier = 2.f; //2 is half, recommended...
         float y_min_clamp = -0.2f;    //between -1 and 1
-        float y_max_clamp = 0.4f;     //between -1 and 1
+        float y_max_clamp = 0.1f;     //between -1 and 1
         float rand_dir_min_angle_percent = -1.f;    
         float rand_dir_max_angle_percent = 1.f;
 

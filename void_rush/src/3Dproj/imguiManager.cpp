@@ -76,7 +76,7 @@ void ImguiManager::render_generation_widgets()
 	if (ImGui::Begin(name.c_str())) {
 		
 		ImGui::InputInt("Seed", &owner->generationManager->seed);
-		if(ImGui::TreeNode("test_seeds")){//1650807068
+		if(ImGui::TreeNode("test_seeds")){
 			static int seed_from_this_run = owner->generationManager->seed;
 			if (ImGui::SmallButton("Use_this_run_seed")) {
 				owner->generationManager->seed = seed_from_this_run;
