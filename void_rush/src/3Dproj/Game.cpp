@@ -65,12 +65,12 @@ Game::Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWS
 	
 
 	std::string skyboxTextures[6] = {
-		"assets/textures/Skybox/sky_stars_01bk.png",//back
-		"assets/textures/Skybox/sky_stars_01dn.png",//down
-		"assets/textures/Skybox/sky_stars_01ft.png",//front
-		"assets/textures/Skybox/sky_stars_01lf.png",//left
-		"assets/textures/Skybox/sky_stars_01rt.png",//right
-		"assets/textures/Skybox/sky_stars_01up.png",//up
+		"assets/textures/Skybox/posx.png",//x+
+		"assets/textures/Skybox/negx.png",//x-
+		"assets/textures/Skybox/posy.png",//y+
+		"assets/textures/Skybox/negy.png",//y-
+		"assets/textures/Skybox/posz.png",//z+
+		"assets/textures/Skybox/negz.png"//z-
 	};
 	Space = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, player->getPos(), skyboxTextures);
 
