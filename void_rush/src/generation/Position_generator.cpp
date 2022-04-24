@@ -133,16 +133,37 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
 
     Platform* newPlat;
 
+
+    Platform* startJumpPoint = nullptr;; //TODO: memory leak    
+    Platform* endJumpPoint = nullptr; //TODO: memory leak    
+    
+
     while (current->next != nullptr) {
         startanchorPos = current->getPos();
-        endanchorPos = current->next->getPos();
+        endanchorPos   = current->next->getPos();
 
         pl->moveto(*startanchorPos);
         position = *startanchorPos;
 
         dir_between_anchor = *endanchorPos - *startanchorPos;
         vec3 normalized_dir = dir_between_anchor.Normalize();
+        
+        startJumpPoint = new Platform();
+        if (endJumpPoint) { endJumpPoint->next = startJumpPoint; } //endJumpPoint is nullptr, first iteration...
+        startJumpPoint->setPosition(*startanchorPos);
+        this->jumpPoints.push_back(startJumpPoint);        
 
+        endJumpPoint = new Platform();
+        endJumpPoint->setPosition(*endanchorPos);        
+        this->jumpPoints.push_back(endJumpPoint);
+        
+
+        jumpPoint_generation_helper(startJumpPoint, endJumpPoint);
+        
+        int BREAKPOINT = 3;
+
+
+        /*
         while (!this->pl->isJumpPossible(*endanchorPos)) {
             //current = current->next;dVect.y = randF(-stepMaxZ, stepMaxZ);
             // dVect.y = (rand() % (2 * stepMax)) - stepMax - 1;
@@ -159,10 +180,10 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
 
             // vector3.magnitude  then  vector3.normalizeXY 
             //dVect.normalizeXZ();
-            /*float dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);
+            //float dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);
             dVect.x = dVect.x / dvect_magnitude;
             dVect.z = dVect.z / dvect_magnitude;
-            *///dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);  //Remove?      
+            ///dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);  //Remove?      
             // ^^^^^^^^^^^^ vector3.magnitude  then  vector3.normalizeXZ 
             dVect.x = normalized_dir.x;
             dVect.z = normalized_dir.z;
@@ -195,9 +216,42 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
                 std::cout << "Jump not possible\n";
             }
         }
+
+        */
+
         current = current->next;
     }
-    this->jumpPoints.push_back(newPlat);
+    endJumpPoint->next = nullptr;
+    //this->jumpPoints.push_back(endJumpPoint);
+    //this->jumpPoints.push_back(newPlat);
+}
+
+void Position_generator::jumpPoint_generation_helper(Platform* start, Platform* end)
+{
+    vec3 start_end_dist = (*start->getPos() + *end->getPos());
+    vec3 middle = (*start->getPos() + *end->getPos()) / 2;
+    Platform* midd_platform = new Platform() ;
+    midd_platform->setPosition(middle);
+
+    this->jumpPoints.push_back(midd_platform);
+
+    pl->moveto(middle);
+    if(!this->pl->isJumpPossible(*end->getPos())){
+        
+        jumpPoint_generation_helper(midd_platform, end);                
+    }else{
+        midd_platform->next = end;
+    }
+
+    pl->moveto(*start->getPos());
+    if(!this->pl->isJumpPossible(*midd_platform->getPos())){
+        
+        jumpPoint_generation_helper(start, midd_platform);
+    }else{
+        start->next = midd_platform;
+    }
+
+    //return t;
 }
 
 void Position_generator::reset_generation(vec3 player_position)
