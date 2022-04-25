@@ -6,7 +6,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 {
 	rm->name = "penistest";
 	/*sets in setup___*/
-	GameObjManager = nullptr;
+	GameObjManager = new GameObjectManager(gfx, rm);
 	UI = nullptr;
 	ghost = nullptr;
 	nrOfLight = 0; 
@@ -16,8 +16,11 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	
 	lightNr = 0;
 	testPuzzle = new ProtoPuzzle(gfx, rm, collisionHandler);
+	
 	generationManager = new Generation_manager(gfx, rm, collisionHandler);
 	generationManager->set_PuzzleManager(testPuzzle);
+	generationManager->set_GameObjManager(GameObjManager);
+	
 	//maxDepth = -140.0f;
 	
 	/*set ups*/
@@ -267,7 +270,6 @@ void Game::DrawToBuffer()
 
 void Game::setUpObject()
 {
-	GameObjManager = new GameObjectManager(gfx, rm);
 	////////OBJECTS///////////
 
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, vec3(0.0f, 0.0f, 0.0f));
