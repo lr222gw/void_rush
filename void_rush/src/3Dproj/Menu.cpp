@@ -76,12 +76,12 @@ void Menu::setUpObject()
 {
 	GameObjManager = new GameObjectManager(gfx, rm);
 	std::string skyboxTextures[6] = {
-	"assets/textures/Skybox/north.png",//x+
-	"assets/textures/Skybox/south.png",//x-
-	"assets/textures/Skybox/above.png",//y+
-	"assets/textures/Skybox/below.png",//y-
-	"assets/textures/Skybox/east.png",//z-
-	"assets/textures/Skybox/west.png",//z+
+		"assets/textures/Skybox/posx.png",//x+
+		"assets/textures/Skybox/negx.png",//x-
+		"assets/textures/Skybox/posy.png",//y+
+		"assets/textures/Skybox/negy.png",//y-
+		"assets/textures/Skybox/posz.png",//z+
+		"assets/textures/Skybox/negz.png"//z-
 	};
 	skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, vec3(0,0,0), skyboxTextures);
 }

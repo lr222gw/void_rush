@@ -180,15 +180,13 @@ void ImguiManager::render_debuginfo_widgets()
 		static auto time_offset = ImGui::GetTime();
 		static auto prev_time = ImGui::GetTime() - time_offset;
 		static auto past_time = 0;
-		static auto frame_count = (float)ImGui::GetFrameCount();
+		static auto frame_count = 0;
 		static float fps;
 		static float average_fps = 0;
 		static float allowed_diviation_from_avg = 5;
 		static float update_interval = 1;
 
 		cur_time = ImGui::GetTime() ;
-		auto t = ImGui::GetFrameCount();
-
 		if ((prev_time + update_interval) < (cur_time)) {
 			fps = -(frame_count - (float)ImGui::GetFrameCount()) / update_interval;
 			frame_count = (float)ImGui::GetFrameCount() ;
@@ -203,7 +201,7 @@ void ImguiManager::render_debuginfo_widgets()
 			ImGui::SliderFloat("update_interval", &update_interval, 0.1f, 10.f);
 			ImGui::SliderFloat("allowed_diviation", &allowed_diviation_from_avg, 0.1f, 20.f);
 			if(fps + allowed_diviation_from_avg < average_fps ){
-				int f = 3;
+				
 			}
 			ImGui::TreePop();
 		}

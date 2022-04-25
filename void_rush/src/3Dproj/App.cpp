@@ -18,8 +18,6 @@ App::App(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR
 	CreateConstBuffer(gfx, gfx->getConstBuffers(0), sizeof(*gfx->getLightconstbufferforCS()), gfx->getLightconstbufferforCS());
 	CreateConstBuffer(gfx, gfx->getConstBuffers(1), sizeof(*gfx->getCamPosconstbuffer()), gfx->getCamPosconstbuffer());
 
-	//gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
-	gamestate = new Menu(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
 	
 }
 
@@ -72,6 +70,16 @@ void App::run()
 		dt.restartClock();
 	}
 	printf("quit");
+}
+
+void App::set_initial_gamestate(GameStatesEnum gameStateType)
+{
+	
+	if(gameStateType == GameStatesEnum::TO_GAME){
+		gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
+	}else if(gameStateType == GameStatesEnum::TO_MENU){
+		gamestate = new Menu(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
+	}
 }
 
 void App::handleGamestateChanges(GameStatesEnum handle)

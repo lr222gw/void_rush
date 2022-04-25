@@ -16,6 +16,8 @@ public:
 	App(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow);
 	virtual ~App();
 	void run();
+	void set_initial_gamestate(GameStatesEnum gameStateType);
+
 private:
 	MSG msg = {};
 	Graphics* gfx;
@@ -23,6 +25,7 @@ private:
 	const float PI = 3.14159265359f;
 private:
 	friend class ImguiManager;
+	std::string launchOption;
 	//logic and others
 	//DeferredRendering* defRend;
 	DeltaTime dt;
