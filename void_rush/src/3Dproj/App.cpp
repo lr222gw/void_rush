@@ -88,7 +88,10 @@ void App::handleGamestateChanges(GameStatesEnum handle)
 		break;
 	case GameStatesEnum::TO_MENU:
 		//delete current gamestate
+		delete gamestate;
 		//set gamestate to Menu
+		this->IMGUIManager.set_owner(nullptr);
+		gamestate = new Menu(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
 		break;
 	}
 }
