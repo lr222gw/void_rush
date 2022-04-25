@@ -76,6 +76,19 @@ void ImguiManager::render_generation_widgets()
 	if (ImGui::Begin(name.c_str())) {
 		
 		ImGui::InputInt("Seed", &owner->generationManager->seed);
+		if(ImGui::TreeNode("test_seeds")){
+			static int seed_from_this_run = owner->generationManager->seed;
+			if (ImGui::SmallButton("Use_this_run_seed")) {
+				owner->generationManager->seed = seed_from_this_run;
+			}
+			if(ImGui::SmallButton("Use_1650807068")){
+				owner->generationManager->seed = 1650807068;
+			}
+			if (ImGui::SmallButton("Use_123")) {
+				owner->generationManager->seed = 123;
+			}
+			ImGui::TreePop();
+		}
 		if(ImGui::TreeNode("Player_jump_checker")){
 		
 			ImGui::InputFloat("gravity", &owner->generationManager->player_jump_checker->gravity);
@@ -85,7 +98,7 @@ void ImguiManager::render_generation_widgets()
 			float* pos[3] = { &owner->generationManager->player_jump_checker->pos.x,
 				&owner->generationManager->player_jump_checker->pos.y,
 				&owner->generationManager->player_jump_checker->pos.z };
-			ImGui::InputFloat3("position", *pos);
+			ImGui::InputFloat3("position", *pos);			
 
 			ImGui::InputFloat("speed", &owner->generationManager->player_jump_checker->speed);
 			ImGui::TreePop();
@@ -93,6 +106,11 @@ void ImguiManager::render_generation_widgets()
 		if (ImGui::TreeNode("Position_generator")) {
 
 			ImGui::InputInt("Number of platforms", &owner->generationManager->position_gen->elements);						
+			ImGui::InputFloat("random_dist_dividier", &owner->generationManager->position_gen->JP_conf.random_dist_dividier);
+			ImGui::InputFloat("y_min_clamp", &owner->generationManager->position_gen->JP_conf.y_min_clamp);
+			ImGui::InputFloat("y_max_clamp", &owner->generationManager->position_gen->JP_conf.y_max_clamp);
+			ImGui::InputFloat("rand_dir_min_angle_percent", &owner->generationManager->position_gen->JP_conf.rand_dir_min_angle_percent);
+			ImGui::InputFloat("rand_dir_max_angle_percent", &owner->generationManager->position_gen->JP_conf.rand_dir_max_angle_percent);
 			
 			ImGui::TreePop();
 		}		
@@ -109,12 +127,16 @@ void ImguiManager::render_generation_widgets()
 							&owner->generationManager->platformObjs[i]->pos.y,
 							&owner->generationManager->platformObjs[i]->pos.z };
 
-					ImGui::InputFloat3(name.c_str(), *pos);
+					//ImGui::InputFloat3(name.c_str(), *pos);
+					ImGui::DragFloat3(name.c_str(), *pos);
 				}				
 				ImGui::TreePop();
 			}
 			ImGui::TreePop();
 		}
+
+		ImGui::Checkbox("init from Origo", &owner->generationManager->position_gen->imgui_conf.useOrigo);
+		
 
 		if(ImGui::Button("initialize")){
 			owner->generationManager->initialize();

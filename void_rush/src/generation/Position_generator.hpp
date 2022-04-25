@@ -11,7 +11,7 @@ enum class Difficulity {
 
 class Position_generator
 {
-  private:
+private:
     int seed;
     int elements;
     Platform*startPlat;
@@ -19,13 +19,15 @@ class Position_generator
     std::vector<Platform*> jumpPoints;
     Player_jump_checker* pl;
     friend class ImguiManager;
-  public:
+public:
     Position_generator(int seed);
     Position_generator(int seed, int elements);
     ~Position_generator();
     bool start (Difficulity diff);
     void generate_anchor_positions(int platforms_between_anchors, Difficulity selectedDiff);
     void generate_jumpPoints_positions(Difficulity selectedDiff);
+    void jumpPoint_generation_helper(Platform* start, Platform* end);
+    vec3 jumpPoint_create_offset(Platform* plat, vec3& currentMiddle, vec3 start, vec3 end);
     void reset_generation(vec3 player_position);
     void set_seed(int _seed);
     std::vector<Platform*>* getAnchors ();
@@ -33,4 +35,22 @@ class Position_generator
     void setNrOfElements(int nrOfElements);
     void assignPlayer (Player_jump_checker* player);
     float randF (float min, float max);
+
+private: // Magic Numbers
+    struct Jump_point_settings{        
+        float random_dist_dividier = 2.f; //2 is half, recommended...
+        float y_min_clamp = -0.2f;    //between -1 and 1
+        float y_max_clamp = 0.1f;     //between -1 and 1
+        float rand_dir_min_angle_percent = -1.f;    
+        float rand_dir_max_angle_percent = 1.f;
+
+    };
+    Jump_point_settings JP_conf;
+
+private:  //Imgui stuff
+    struct Imgui_data {
+        bool useOrigo = true;
+    };
+    Imgui_data imgui_conf;
+
 };

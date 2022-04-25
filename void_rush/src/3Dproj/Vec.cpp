@@ -26,7 +26,7 @@ void arrayToVec(std::array<float, 2> arr[3], vec2 vec[3])
 	}
 }
 //git
-vec3 vec3::Normalize()
+vec3 vec3::Normalize() //TODO: should not set and return... confusing
 {
 	double i = sqrt(
 		(double)x * (double)x +
@@ -40,6 +40,24 @@ vec3 vec3::Normalize()
 	this->y = (float)(y / i);
 	this->z = (float)(z / i);
 	return vec3(x, y, z);
+}
+vec3 vec3::Normalize(const vec3& ref)
+{
+	vec3 ret;
+	double i = sqrt(
+		(double)ref.x * (double)ref.x +
+		(double)ref.y * (double)ref.y +
+		(double)ref.z * (double)ref.z);
+	if (i == 0)
+	{
+		ret.x = 0.f;
+		ret.y = 0.f;
+		ret.z = 0.f;
+	}
+	ret.x = (float)(ref.x / i);
+	ret.y = (float)(ref.y / i);
+	ret.z = (float)(ref.z / i);
+	return ret;
 }
 
 vec3 vec3::X(const vec3& other)
