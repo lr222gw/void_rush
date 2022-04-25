@@ -33,6 +33,7 @@ void ImguiManager::updateRender()
 		render_generation_widgets();
 		update_lights(owner->lightNr);
 		render_physics_widgets();
+		render_debuginfo_widgets();
 	}
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -153,8 +154,8 @@ void ImguiManager::render_physics_widgets()
 		//owner->player->speed
 							
 		float* init_speed[3] = {&owner->player->speed.x, &owner->player->speed.y, &owner->player->speed.z};
-		float min_speed = 0; 
-		float max_speed = 304;
+		static float min_speed = 0; 
+		static float max_speed = 304;
 		static float speedSlider = owner->player->speed.x;
 		//ImGui::SliderFloat3("Speed", *init_speed, min_speed, max_speed);
 		if (ImGui::SliderFloat("Speed", &speedSlider, min_speed, max_speed)){
@@ -171,10 +172,49 @@ void ImguiManager::render_physics_widgets()
 	ImGui::End();
 }
 
+void ImguiManager::render_debuginfo_widgets()
+{
+	if (ImGui::Begin("Debuginfo")) {
+
+		static auto cur_time = ImGui::GetTime();
+		static auto time_offset = ImGui::GetTime();
+		static auto prev_time = ImGui::GetTime() - time_offset;
+		static auto past_time = 0;
+		static auto frame_count = (float)ImGui::GetFrameCount();
+		static float fps;
+		static float average_fps = 0;
+		static float allowed_diviation_from_avg = 5;
+		static float update_interval = 1;
+
+		cur_time = ImGui::GetTime() ;
+		auto t = ImGui::GetFrameCount();
+
+		if ((prev_time + update_interval) < (cur_time)) {
+			fps = -(frame_count - (float)ImGui::GetFrameCount()) / update_interval;
+			frame_count = (float)ImGui::GetFrameCount() ;
+			past_time = cur_time - time_offset;
+			average_fps = frame_count /(past_time == 0 ? 1 : past_time);
+			prev_time = cur_time;
+		}
+
+		ImGui::InputFloat("FPS", &fps);
+		ImGui::InputFloat("avg. FPS", &average_fps);
+		if(ImGui::TreeNode("settings")){
+			ImGui::SliderFloat("update_interval", &update_interval, 0.1f, 10.f);
+			ImGui::SliderFloat("allowed_diviation", &allowed_diviation_from_avg, 0.1f, 20.f);
+			if(fps + allowed_diviation_from_avg < average_fps ){
+				int f = 3;
+			}
+			ImGui::TreePop();
+		}
+		ImGui::End();
+	}
+}
+
 void ImguiManager::render_player_widgets()
 {
+	
 	std::string name = "Player";
-
 	if (ImGui::Begin(name.c_str())) {
 		
 		if (ImGui::Checkbox("noClip", &owner->player->noClip)) {
@@ -183,9 +223,7 @@ void ImguiManager::render_player_widgets()
 		float* pos[3] = { &owner->player->pos.x,
 			&owner->player->pos.y,
 			&owner->player->pos.z };
-		ImGui::InputFloat3("PlayerPos", *pos);
-		
-		
+		ImGui::InputFloat3("PlayerPos", *pos);				
 		
 	}
 	ImGui::End();
