@@ -248,10 +248,14 @@ void Graphics::Update(float dt, vec3 camPos)
 	immediateContext->PSSetConstantBuffers(5, 1, &camConstBuffer);
 
 	//fps
+	static int a = 0; 
+	
 	nextFpsUpdate += (float)dt;
+	a++;
 	if (nextFpsUpdate >= 0.5f) {
 		nextFpsUpdate = 0;
-		float fps = 1.f / (float)dt;
+		float fps = a * 2;
+		a = 0;
 		SetWindowTextA(windowClass.getRenderWindow().getHandle(), std::to_string(fps).c_str());
 	}
 }

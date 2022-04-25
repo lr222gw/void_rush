@@ -9,6 +9,7 @@
 #include <vector>
 #include "3Dproj/CollisionHandler.h"
 #include "puzzle/protoPuzzle.hpp"
+#include "3Dproj/GameObjectManager.h"
 //struct Platform{
 //	GameObject obj;
 //	Platform info;	
@@ -32,6 +33,7 @@ public:
 	~Generation_manager();
 	void set_player(Player* player);
 	void set_PuzzleManager(ProtoPuzzle* puzzleManager);
+	void set_GameObjManager(GameObjectManager* goMan);
 	void initialize();
 	void place_anchorPoints();
 	void place_jumpPoints();
@@ -46,8 +48,11 @@ public:
 private:
 	Player* player;
 	ProtoPuzzle* puzzleManager;
+	GameObjectManager* gameObjManager;
 	friend class ImguiManager;
 	int seed; 
+	int nrOfAnchors;
+	int nrOfJumpPoints;
 	Player_jump_checker* player_jump_checker;
 	Difficulity difficulity;
 	Position_generator* position_gen;

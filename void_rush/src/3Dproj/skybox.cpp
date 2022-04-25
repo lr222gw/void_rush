@@ -36,7 +36,7 @@ void SkyBox::update(vec3 position)
 
 bool SkyBox::InitSkyBox(Graphics*& gfx, std::string textureFile[])
 {
-	if(!CreateTextureCube(textureFile, gfx->getDevice(), cubeTexture, RSV, 1024)) {
+	if(!CreateTextureCube(textureFile, gfx->getDevice(), cubeTexture, RSV, 2048)) {
 		std::cout << "stop" << std::endl;
 	}
 	

@@ -13,6 +13,15 @@ SoundManager::SoundManager(float volume)
 	musicLoop = false;
 }
 
+SoundManager::~SoundManager()
+{
+	for (auto const& [key, val] : sounds)
+	{
+		delete val.sound;
+		delete val.soundBuffer;
+	}
+}
+
 void SoundManager::update(vec3 playerPos, vec3 playerDir, vec3 upVec)
 {
 	sf::Listener::setPosition(playerPos.x, playerPos.y, playerPos.z);
@@ -22,13 +31,15 @@ void SoundManager::update(vec3 playerPos, vec3 playerDir, vec3 upVec)
 
 void SoundManager::loadSound(std::string filePath, float volume, std::string name)
 {
-	if (!buffer.loadFromFile(filePath)) {
+	soundPair sPair;
+	sf::SoundBuffer* buffer = new sf::SoundBuffer();
+	if (!buffer->loadFromFile(filePath)) {
 		std::cout << "cannot load file:" << filePath << std::endl;
 		return;
 	}
-	sf::Sound newSound;
-	newSound.setBuffer(buffer);
-	newSound.setVolume(this->volume * volume);
+	sf::Sound* newSound = new sf::Sound(*buffer);
+	//newSound.setBuffer(*buffer);
+	newSound->setVolume(this->volume * volume);
 	
 	std::string Soundname;
 	if (name == "") {
@@ -37,8 +48,10 @@ void SoundManager::loadSound(std::string filePath, float volume, std::string nam
 	else {
 		Soundname = name;
 	}
-	sounds.insert(std::pair<std::string, sf::Sound>(Soundname, newSound));
+	sPair.sound = newSound;
+	sPair.soundBuffer = buffer;
 
+	sounds.insert(std::make_pair(Soundname, sPair));
 }
 
 void SoundManager::playSound(std::string soundName)
@@ -47,7 +60,7 @@ void SoundManager::playSound(std::string soundName)
 		std::cout << "couldn't find sound: " << soundName << std::endl;
 		return;
 	}
-	sounds.find(soundName)->second.play();
+	sounds.find(soundName)->second.sound->play();
 }
 
 void SoundManager::playSound(std::string soundName, vec3 soundposition)
@@ -56,8 +69,8 @@ void SoundManager::playSound(std::string soundName, vec3 soundposition)
 		std::cout << "couldn't find sound: " << soundName << std::endl;
 		return;
 	}
-	sounds.find(soundName)->second.setPosition(soundposition.x, soundposition.y, soundposition.z);
-	sounds.find(soundName)->second.play();
+	sounds.find(soundName)->second.sound->setPosition(soundposition.x, soundposition.y, soundposition.z);
+	sounds.find(soundName)->second.sound->play();
 }
 
 void SoundManager::playMusic(std::string filePath, float volume)

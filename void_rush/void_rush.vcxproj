@@ -239,7 +239,6 @@
     <ClCompile Include="src/3Dproj/CreateBuffer.cpp" />
     <ClCompile Include="src/3Dproj/D311Helper.cpp" />
     <ClCompile Include="src/3Dproj/debug.cpp" />
-    <ClCompile Include="src/3Dproj/DebugCamera.cpp" />
     <ClCompile Include="src/3Dproj/DeferredRendering.cpp" />
     <ClCompile Include="src/3Dproj/deltaTime.cpp" />
     <ClCompile Include="src/3Dproj/DynamicCubeEnviroment.cpp" />
@@ -278,11 +277,14 @@
     <ClCompile Include="src/3Dproj/WindowClass.cpp" />
     <ClCompile Include="src/3Dproj/WindowContainer.cpp" />
     <ClCompile Include="src/3Dproj/WindowHelper.cpp" />
+    <ClCompile Include="src\3Dproj\App.cpp" />
     <ClCompile Include="src\3Dproj\Collision3D.cpp" />
     <ClCompile Include="src\3Dproj\CollisionHandler.cpp" />
     <ClCompile Include="src\3Dproj\Enemy.cpp" />
     <ClCompile Include="src\3Dproj\GameObjectManager.cpp" />
     <ClCompile Include="src\3Dproj\Ghost.cpp" />
+    <ClCompile Include="src\3Dproj\GameState.cpp" />
+    <ClCompile Include="src\3Dproj\Menu.cpp" />
     <ClCompile Include="src\3Dproj\UIButton.cpp" />
     <ClCompile Include="src\3Dproj\UIElements.cpp" />
     <ClCompile Include="src\3Dproj\UIManager.cpp" />
@@ -317,7 +319,6 @@
     <ClInclude Include="src/3Dproj/CreateBuffer.h" />
     <ClInclude Include="src/3Dproj/D311Helper.h" />
     <ClInclude Include="src/3Dproj/debug.h" />
-    <ClInclude Include="src/3Dproj/DebugCamera.h" />
     <ClInclude Include="src/3Dproj/DeferredRendering.h" />
     <ClInclude Include="src/3Dproj/deltaTime.h" />
     <ClInclude Include="src/3Dproj/DynamicCubeEnviroment.h" />
@@ -362,12 +363,15 @@
     <ClInclude Include="src/3Dproj/WindowClass.h" />
     <ClInclude Include="src/3Dproj/WindowContainer.h" />
     <ClInclude Include="src/3Dproj/WindowHelper.h" />
+    <ClInclude Include="src\3Dproj\App.h" />
     <ClInclude Include="src\3Dproj\Collision3D.h" />
     <ClInclude Include="src\3Dproj\CollisionHandler.h" />
     <ClInclude Include="src\3Dproj\Enemy.h" />
     <ClInclude Include="src\3Dproj\GameObjectManager.h" />
     <ClInclude Include="src\3Dproj\Ghost.h" />
+    <ClInclude Include="src\3Dproj\Menu.h" />
     <ClInclude Include="src\3Dproj\Player.h" />
+    <ClInclude Include="src\3Dproj\GameState.h" />
     <ClInclude Include="src\3Dproj\UIButton.h" />
     <ClInclude Include="src\3Dproj\UIElements.h" />
     <ClInclude Include="src\3Dproj\UIManager.h" />

@@ -29,7 +29,7 @@ void CollisionHandler::deletePlatform(GameObject* ptr)
 {
 	for (size_t i = 0; i < Platforms.size(); i++) {
 		if (Platforms[i] == ptr) {
-			Platforms.erase(std::next(Platforms.begin(), i));
+			Platforms.erase(Platforms.begin() + i);
 		}
 	}
 }
