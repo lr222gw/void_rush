@@ -177,6 +177,9 @@ void ImguiManager::render_physics_widgets()
 		ImGui::InputFloat("JumpSpeed", &owner->player->jumpSpeed.y);
 		ImGui::InputFloat("Gravity", &owner->player->gravity.y);
 		ImGui::InputFloat("Jumpforce", &owner->player->jumpForce);
+		static float min_MidAdj = 1;
+		static float max_MidAdj = 10;
+		ImGui::SliderFloat("Air adjustment", &owner->player->midAirAdj, min_MidAdj, max_MidAdj);
 			
 	}
 	ImGui::End();
