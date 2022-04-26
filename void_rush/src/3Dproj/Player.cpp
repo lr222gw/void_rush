@@ -12,6 +12,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->jumpSpeed = vec3(0.0f, 0.0f, 0.0f);
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
 	this->jumpForce = 5.0f;
+	this->midAirAdj = 2.0f;
 	this->mass = 1.f;
 	this->grounded = true;
 	this->groundedTimer = 0.0f;
@@ -472,7 +473,7 @@ void Player::handleEvents(float dt)
 	{
 		if (!jumpDir.legth() == 0.0f)
 		{
-			jumpDir = jumpDir / vec2(2.0f, 2.0f);
+			jumpDir = jumpDir / vec2(midAirAdj, midAirAdj);
 		}
 		jumpDir = jumpDir + startingJumpDir;
 

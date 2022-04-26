@@ -35,6 +35,7 @@ private:
 	vec3 speed;
 	vec3 jumpSpeed;
 	float jumpForce;
+	float midAirAdj;
 	vec3 velocity;
 	vec3 acceleration;
 	vec3 resForce;
