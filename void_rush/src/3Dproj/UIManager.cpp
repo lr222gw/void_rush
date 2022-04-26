@@ -167,6 +167,13 @@ void UIManager::deleteButton(std::string name)
 	mapOfButtons.erase(it);
 }
 
+void UIManager::update()
+{
+	for (size_t i = 0; i < buttons.size(); i++) {
+		buttons[i]->update();
+	}
+}
+
 void UIManager::draw()
 {
 

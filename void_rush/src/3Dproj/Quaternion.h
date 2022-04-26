@@ -1,6 +1,6 @@
 #pragma once
 #include <cmath>
-//not used in this project
+//not used in litet spel project // if not animation going to come
 struct Quaternion {
 	Quaternion(float a, float b, float c, float d) 
 	{

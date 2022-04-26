@@ -21,7 +21,6 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->health = 3;
 	this->alive = true;
 	this->maxDepth = -140.0f;
-	vec2 jumpDir = vec2(0, 0);
 }
 
 Player::~Player()
