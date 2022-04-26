@@ -7,10 +7,7 @@ Platform::Platform()
     platformShape.setShapeCube (this->pos);
     rotMat.rotateAroundZ (this->rotation);
     rotMat.rotateAroundZ (this->rotation);
-    for (int i = 0; i < this->platformShape.Vertexes.size (); i++)
-    {
-        rotMat.MultiplyVector (platformShape.Vertexes.at (i));
-    }
+ 
 }
 
 Platform::Platform(std::vector<float> pos, int obstacles, int difficluty,
@@ -24,10 +21,7 @@ Platform::Platform(std::vector<float> pos, int obstacles, int difficluty,
     platformShape.setShapeCube (this->pos);
     rotMat.rotateAroundZ (this->rotation);
     rotMat.rotateAroundZ (this->rotation);
-    for (int i = 0; i < this->platformShape.Vertexes.size (); i++)
-    {
-        rotMat.MultiplyVector (platformShape.Vertexes.at (i));
-    }
+
 }
 
 Platform::Platform(vec3 pos, int obstacles, int difficluty,
@@ -37,10 +31,7 @@ Platform::Platform(vec3 pos, int obstacles, int difficluty,
 {
     this->platformShape.setShapeCube (this->pos);
     rotMat.rotateAroundZ (this->rotation);
-    for (int i = 0; i < this->platformShape.Vertexes.size (); i++)
-    {
-        rotMat.MultiplyVector (platformShape.Vertexes.at (i));
-    }
+
 }
 
 Platform::~Platform () {}
