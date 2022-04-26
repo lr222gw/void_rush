@@ -436,15 +436,14 @@ void Player::handleEvents(float dt)
 	}
 	if (keyboard->isKeyPressed(VK_SPACE) && grounded) {
 		if(!noClip){
-			if (grounded) {
-				grounded = false;
-				groundedTimer = 0.001f;
-				startingJumpDir = jumpDir;
-				if (startingJumpDir.legth() != 0.0f)
-				{
-					startingJumpDir.Normalize();
-				}
+			grounded = false;
+			groundedTimer = 0.001f;
+			startingJumpDir = jumpDir;
+			if (startingJumpDir.legth() != 0.0f)
+			{
+				startingJumpDir.Normalize();
 			}
+			
 			if (velocity.y > 0.0f)
 			{
 				velocity.y += jumpForce;
