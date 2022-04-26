@@ -232,6 +232,11 @@ vec2 vec2::operator/(vec2 other)
 	return vec2(this->x / other.x, this->y / other.y);
 }
 
+vec2 vec2::operator/(float other)
+{
+	return vec2(this->x / other, this->y / other);
+}
+
 float vec2::dot(vec2 a)
 {
 	return a.x*this->x + a.y*this->y;

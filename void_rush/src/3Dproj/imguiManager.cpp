@@ -33,6 +33,7 @@ void ImguiManager::updateRender()
 		render_generation_widgets();
 		update_lights(owner->lightNr);
 		render_physics_widgets();
+		render_ghost_widgets();
 		render_debuginfo_widgets();
 	}
 	ImGui::Render();
@@ -147,6 +148,19 @@ void ImguiManager::render_generation_widgets()
 
 }
 
+void ImguiManager::render_ghost_widgets()
+{
+	std::string name = "Ghost";
+	if (ImGui::Begin(name.c_str())) {
+
+		ImGui::Checkbox("Activate Ghost", &owner->ghost->active);
+		static float min_speed = 0;
+		static float max_speed = 10;
+		ImGui::SliderFloat("Speed", &owner->ghost->speed, min_speed, max_speed);
+	}
+	ImGui::End();
+}
+
 void ImguiManager::render_physics_widgets()
 {
 	static std::string name = "Physics";
@@ -163,11 +177,12 @@ void ImguiManager::render_physics_widgets()
 			*init_speed[1] = speedSlider;
 			*init_speed[2] = speedSlider;
 		}
-		ImGui::InputFloat("jumpSpeed", &owner->player->jumpSpeed.y);
 		ImGui::InputFloat("Gravity", &owner->player->gravity.y);
+		ImGui::InputFloat("Jumpforce", &owner->player->jumpForce);
+		static float min_MidAdj = 1;
+		static float max_MidAdj = 10;
+		ImGui::SliderFloat("Air adjustment", &owner->player->midAirAdj, min_MidAdj, max_MidAdj);
 			
-			
-
 	}
 	ImGui::End();
 }
