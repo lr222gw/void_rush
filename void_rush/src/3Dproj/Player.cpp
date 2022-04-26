@@ -87,7 +87,7 @@ void Player::handleEvents(float dt)
 		cam->calcFURVectors();
 		jumpDir = jumpDir + vec2(cam->getForwardVec().x,  cam->getForwardVec().z);
 		
-		if (/*grounded ||*/ noClip)
+		if (noClip)
 		{
 			translation = DirectX::XMFLOAT3(0, 0, -1);
 			Translate(dt, translation);
@@ -173,7 +173,7 @@ void Player::handleEvents(float dt)
 		cam->calcFURVectors();
 		jumpDir = jumpDir + vec2(cam->getRightVector().x, cam->getRightVector().z);
 		
-		if (/*grounded ||*/ noClip)
+		if (noClip)
 		{
 			translation = DirectX::XMFLOAT3(-1, 0, 0);
 			Translate(dt, translation);
@@ -259,7 +259,7 @@ void Player::handleEvents(float dt)
 		cam->calcFURVectors();
 		jumpDir = jumpDir + vec2(-cam->getForwardVec().x,  -cam->getForwardVec().z);
 		
-		if (/*grounded ||*/ noClip)
+		if (noClip)
 		{
 			translation = DirectX::XMFLOAT3(0, 0, 1);
 			Translate(dt, translation);
@@ -345,7 +345,7 @@ void Player::handleEvents(float dt)
 		cam->calcFURVectors();
 		jumpDir = jumpDir + vec2(-cam->getRightVector().x, -cam->getRightVector().z);
 		
-		if (/*grounded ||*/ noClip)
+		if (noClip)
 		{
 			translation = DirectX::XMFLOAT3(1, 0, 0);
 			Translate(dt, translation);
@@ -462,7 +462,6 @@ void Player::handleEvents(float dt)
 	}
 
 	jumpDir.Normalize();
-	//jumpSpeed = vec3(speed.x * jumpDir.x, speed.y, speed.z * jumpDir.y);
 	if (grounded)
 	{
 		velocity.x = speed.x * jumpDir.x;
@@ -511,7 +510,6 @@ void Player::setGrounded()
 		this->acceleration.y = 0.0f;
 		this->resForce.y = 0.0f;
 		this->groundedTimer = 0.0f;
-		//this->speed = vec3(5.0f, 5.0f, 5.0f);
 		this->startingJumpDir = vec2(0.0f, 0.0f);
 		this->startingJumpKey = 'N';
 	}
