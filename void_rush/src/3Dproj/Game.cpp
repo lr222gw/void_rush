@@ -174,6 +174,7 @@ GameStatesEnum Game::update(float dt)
 
 	Interact(this->GameObjManager->getAllInteractGameObjects());
 	if (!player->IsAlive()) {
+		player->writeScore("Player");
 		theReturn = GameStatesEnum::TO_MENU;
 	}
 

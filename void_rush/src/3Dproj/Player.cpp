@@ -299,8 +299,11 @@ void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 }
 
 
-void Player::writeScore(float score, std::string name, std::string file)
+void Player::writeScore(std::string name, float score, std::string file)
 {
+	if (score == -1) {
+		score == this->score;
+	}
 	std::ifstream scoreFile;
 	std::ofstream scoreFileWrite;
 	std::string numScoresS;
@@ -392,7 +395,7 @@ void Player::TakeDmg(int dmg)
 	health-=dmg;
 	if(health <= 0) {
 		alive = false;
-		writeScore(score, "Player");
+		//writeScore(score, "Player");
 	}
 	else {
 		score += deathPoints;
