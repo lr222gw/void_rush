@@ -33,6 +33,7 @@ struct vec2 {
 	vec2 operator+(vec2 other);
 	vec2 operator-(vec2 other);
 	vec2 operator/(vec2 other);
+	vec2 operator/(float other);
 	float dot(vec2 a);
 };
 struct vec3 {

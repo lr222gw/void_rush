@@ -4,7 +4,6 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	GameState(gfx,rm,imguimanager,mouse,keyboard,cam),
 	soundManager(1)//be able to change this later based on settings
 {
-	rm->name = "penistest";
 	/*sets in setup___*/
 	GameObjManager = new GameObjectManager(gfx, rm);
 	UI = nullptr;
@@ -21,7 +20,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	generationManager->set_PuzzleManager(testPuzzle);
 	generationManager->set_GameObjManager(GameObjManager);
 	
-	//maxDepth = -140.0f;
+	camera->setRotation(vec3(0, 0, 0));
 	
 	/*set ups*/
 	this->setUpObject();
