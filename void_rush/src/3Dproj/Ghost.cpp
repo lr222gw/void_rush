@@ -36,6 +36,9 @@ void Ghost::update(float dt)
 			}
 		}
 		followPlayer(dt);
+		if (player->ResetGhost()) {
+			this->Reset();
+		}
 	}
 }
 

@@ -23,6 +23,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->alive = true;
 	this->maxDepth = -140.0f;
 	this->levelTime = 0.0f;
+	this->resetGhost = false;
 
 }
 
@@ -536,6 +537,8 @@ GameObject*& Player::getPlayerObjPointer()
 
 void Player::Reset(bool lvlClr)
 {
+	resetGhost = true;
+
 	this->grounded = true;
 	this->resForce = vec3(0.0f, 0.0f, 0.0f);
 	this->jumpDir = vec2(0.0f, 0.0f);
@@ -568,6 +571,15 @@ void Player::Reset(bool lvlClr)
 	}
 }
 
+bool Player::ResetGhost()
+{
+	if (resetGhost) {
+		resetGhost = false;
+		return true;
+	}
+	return false;
+}
+
 void Player::SetPuzzlePos(vec3 puzzlePosition)
 {
 	puzzlePos = puzzlePosition;
@@ -577,6 +589,7 @@ void Player::SetDifficulity(Difficulity diff)
 {
 	levelDifficulty = diff;
 }
+
 
 
 void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
