@@ -59,7 +59,6 @@ void Player::update(float dt)
 			Reset();
 		}
 	}
-	//std::cout << "speed.y: " << speed.y << " Velocity.y: " << velocity.y << std::endl;
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
 	GameObject::update(dt);
