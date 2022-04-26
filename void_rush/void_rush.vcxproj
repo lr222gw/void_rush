@@ -319,6 +319,7 @@
     <ClCompile Include="src/3Dproj/WindowClass.cpp" />
     <ClCompile Include="src/3Dproj/WindowContainer.cpp" />
     <ClCompile Include="src/3Dproj/WindowHelper.cpp" />
+    <ClCompile Include="src\3Dproj\3DLetters.cpp" />
     <ClCompile Include="src\3Dproj\App.cpp" />
     <ClCompile Include="src\3Dproj\Collision3D.cpp" />
     <ClCompile Include="src\3Dproj\CollisionHandler.cpp" />
@@ -405,6 +406,7 @@
     <ClInclude Include="src/3Dproj/WindowClass.h" />
     <ClInclude Include="src/3Dproj/WindowContainer.h" />
     <ClInclude Include="src/3Dproj/WindowHelper.h" />
+    <ClInclude Include="src\3Dproj\3DLetters.h" />
     <ClInclude Include="src\3Dproj\App.h" />
     <ClInclude Include="src\3Dproj\Collision3D.h" />
     <ClInclude Include="src\3Dproj\CollisionHandler.h" />

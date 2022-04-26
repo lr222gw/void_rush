@@ -59,8 +59,9 @@ void Menu::render()
 	skybox->draw(gfx);
 
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
-
+	gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), nullptr);
 	UI->draw();
+	gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), gfx->getDepthStencil());
 
 	gfx->present(0);
 }
@@ -68,8 +69,8 @@ void Menu::render()
 void Menu::setUpUI()
 {
 	UI = new UIManager(rm, gfx);
-	UI->createUIButton("assets/textures/backbebap.png", mouse, vec2(-0.75, 0), vec2(0.5, 0.5), "Quit");
-	UI->createUIButton("assets/textures/outline.png", mouse, vec2(0.25, 0), vec2(0.5, 0.5), "Start");
+	UI->createUIButton("assets/textures/backbebap.png","END", mouse, vec2(-0.75, 0), vec2(0.5, 0.5), "Quit");
+	UI->createUIButton("assets/textures/outline.png","Start", mouse, vec2(0.25, 0), vec2(0.5, 0.5), "Start", vec2(0.02,0.2), vec2(-0.01,0));
 }
 
 void Menu::setUpObject()

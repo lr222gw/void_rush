@@ -4,7 +4,6 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	GameState(gfx,rm,imguimanager,mouse,keyboard,cam),
 	soundManager(1)//be able to change this later based on settings
 {
-	rm->name = "penistest";
 	/*sets in setup___*/
 	GameObjManager = new GameObjectManager(gfx, rm);
 	UI = nullptr;
@@ -21,7 +20,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	generationManager->set_PuzzleManager(testPuzzle);
 	generationManager->set_GameObjManager(GameObjManager);
 	
-	//maxDepth = -140.0f;
+	camera->setRotation(vec3(0, 0, 0));
 	
 	/*set ups*/
 	this->setUpObject();
@@ -175,6 +174,7 @@ GameStatesEnum Game::update(float dt)
 
 	Interact(this->GameObjManager->getAllInteractGameObjects());
 	if (!player->IsAlive()) {
+		player->writeScore("Player");
 		theReturn = GameStatesEnum::TO_MENU;
 	}
 
@@ -412,7 +412,8 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
 		if (testPuzzle->isCompleted())
 		{
-			player->setPos(vec3(0.0f, 0.0f, 0.0f));
+			//player->setPos(vec3(0.0f, 0.0f, 0.0f));
+			player->Reset(true);
 			generationManager->initialize();
 		}
 	}

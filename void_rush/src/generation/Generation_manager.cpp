@@ -67,6 +67,9 @@ void Generation_manager::initialize()
     place_jumpPoints();
 
     puzzleManager->Initiate(this->getPuzzelPos());
+
+    this->player->SetDifficulity(this->difficulity);
+    this->player->SetPuzzlePos(this->getPuzzelPos());
     
 }
 
@@ -124,6 +127,11 @@ void Generation_manager::place_jumpPoints()
 void Generation_manager::setDifficulty(Difficulity diff)
 {
     this->difficulity = diff;
+}
+
+Difficulity Generation_manager::getDifficulty() const
+{
+    return this->difficulity;
 }
 
 vec3 Generation_manager::getPuzzelPos()
