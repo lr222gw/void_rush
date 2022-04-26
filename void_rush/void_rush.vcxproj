@@ -272,7 +272,6 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\common\Shape.cpp" />
     <ClCompile Include="src/3Dproj/AnimationModel.cpp" />
     <ClCompile Include="src/3Dproj/BillBoard.cpp" />
     <ClCompile Include="src/3Dproj/BillBoardManager.cpp" />
