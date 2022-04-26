@@ -37,7 +37,8 @@ private:
 	bool noClip;
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
 	vec3 speed;
-	vec3 jumpSpeed;
+	float jumpForce;
+	float midAirAdj;
 	vec3 velocity;
 	vec3 acceleration;
 	vec3 resForce;
@@ -47,6 +48,9 @@ private:
 	bool grounded;
 	float groundedTimer;
 
+	vec2 startingJumpDir = vec2(0.0f, 0.0f);
+	char startingJumpKey = 'N';
+	bool isKeyPressed = false;
 	bool resetGhost;
 
 	Mouse* mouse;
@@ -77,5 +81,5 @@ public:
 	int GetHealth();
 	float GetScore();
 	bool IsAlive();
-	GameObject* GOPTR;//GameObjectPlayerPointer
+	GameObject* GOPTR; //GameObjectPlayerPointer
 };
