@@ -253,7 +253,6 @@ void Player::handleEvents(float dt)
 		}
 	}
 	if (keyboard->isKeyPressed('S') && !this->isKeyPressed) {
-		this->isKeyPressed = true;
 		cam->calcFURVectors();
 		jumpDir = jumpDir + vec2(-cam->getForwardVec().x,  -cam->getForwardVec().z);
 		
@@ -340,7 +339,6 @@ void Player::handleEvents(float dt)
 		}
 	}
 	if (keyboard->isKeyPressed('A') && !this->isKeyPressed) {
-		this->isKeyPressed = true;
 		cam->calcFURVectors();
 		jumpDir = jumpDir + vec2(-cam->getRightVector().x, -cam->getRightVector().z);
 		
