@@ -154,6 +154,9 @@ void ImguiManager::render_ghost_widgets()
 	if (ImGui::Begin(name.c_str())) {
 
 		ImGui::Checkbox("Activate Ghost", &owner->ghost->active);
+		static float min_speed = 0;
+		static float max_speed = 10;
+		ImGui::SliderFloat("Speed", &owner->ghost->speed, min_speed, max_speed);
 	}
 	ImGui::End();
 }
