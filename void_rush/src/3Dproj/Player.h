@@ -23,6 +23,7 @@ public:
 	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
 	void Reset(bool lvlClr = false);
+	bool ResetGhost();
 
 	void SetPuzzlePos(vec3 puzzlePosition);
 	void SetDifficulity(Difficulity diff);
@@ -42,6 +43,7 @@ private:
 	bool grounded;
 	float groundedTimer;
 
+	bool resetGhost;
 
 	Mouse* mouse;
 	Keyboard* keyboard;
