@@ -121,14 +121,20 @@ void ImguiManager::render_generation_widgets()
 
 				for (int i = 0; i < owner->generationManager->platformObjs.size(); i++) {
 
-					std::string name = "platform:" + std::to_string(i);
+					std::string name_pos = "platform_pos:" + std::to_string(i);
+					std::string name_rot = "platform_rot:" + std::to_string(i);
 					
 					float* pos[3] = { &owner->generationManager->platformObjs[i]->pos.x,
 							&owner->generationManager->platformObjs[i]->pos.y,
 							&owner->generationManager->platformObjs[i]->pos.z };
 
+					float* rot[3] = { &owner->generationManager->platformObjs[i]->rot.x,
+							&owner->generationManager->platformObjs[i]->rot.y,
+							&owner->generationManager->platformObjs[i]->rot.z };
+
 					//ImGui::InputFloat3(name.c_str(), *pos);
-					ImGui::DragFloat3(name.c_str(), *pos);
+					ImGui::DragFloat3(name_pos.c_str(), *pos);
+					ImGui::DragFloat3(name_rot.c_str(), *rot);
 				}				
 				ImGui::TreePop();
 			}
