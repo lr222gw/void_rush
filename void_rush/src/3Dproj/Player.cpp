@@ -387,6 +387,7 @@ void Player::TakeDmg(int dmg)
 	health-=dmg;
 	if(health <= 0) {
 		alive = false;
+		writeScore(score, "Player");
 	}
 	else {
 		score += deathPoints;
