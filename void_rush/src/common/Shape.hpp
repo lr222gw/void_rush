@@ -18,33 +18,33 @@ struct line
 };
 
 struct Plane
-{
+{    
     vec3 point1;
     vec3 point2;
     vec3 point3;
     vec3 point4;
+    vec3 normal;
 
     void swap_windingorder();
-
+    const vec3 get_normal() { return normal; };
     void move(const vec3& ofset);
+protected:
+    void update_normal() { normal = vec3((point2 - point1 ).X(point4 - point1)); };
 };
 
 
 struct XZ_plane : Plane
 {
-    XZ_plane();
-
+    XZ_plane(vec3 scale);    
 };
 
 struct XY_plane : Plane
 {
-    XY_plane();
-
+    XY_plane(vec3 scale);
 };
 struct YZ_plane : Plane
 { 
-    YZ_plane();
-
+    YZ_plane(vec3 scale);
 };
 
 struct Normals{
