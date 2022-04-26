@@ -23,6 +23,10 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	
 	camera->setRotation(vec3(0, 0, 0));
 	
+
+		
+	
+
 	/*set ups*/
 	this->setUpObject();
 	this->setUpLights();
@@ -140,9 +144,11 @@ GameStatesEnum Game::update(float dt)
 	GameObjManager->updateMatrix();
 	player->updateMatrix();
 
-
+	rotationTest();
 
 	collisionHandler.update();
+
+	GameObjManager->getGameObject("rotation_test")->addRot(vec3(0,2*dt,0));
 
 	/*update vertex*/
 	updateShaders();
@@ -207,7 +213,6 @@ void Game::updateShaders(bool vs, bool ps)
 	for (int i = 0; i < billboardGroups.size(); i++) {
 		billboardGroups[i]->updateShader(gfx, camera->getPos());
 	}
-
 	if (vs)
 	{
 		GameObjManager->updateVertex();
@@ -284,6 +289,15 @@ void Game::setUpObject()
 	generationManager->initialize();
 	testPuzzle->Initiate(generationManager->getPuzzelPos());
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
+
+	GameObjManager->CreateGameObject("DCube.obj", "rotation_test", vec3(10, 10, 0));
+	GameObjManager->getGameObject("rotation_test")->setPoint(vec3(1, 0, 0));
+
+	for (int i = 0; i < 5; i++) {
+		GameObjManager->CreateGameObject("quad2.obj", "rotation_test" + std::to_string(i), vec3(0, 10, 0));
+		GameObjManager->getGameObject("rotation_test" + std::to_string(i))->setRot(vec3(0, 1.57, 0));
+		GameObjManager->getGameObject("rotation_test" + std::to_string(i))->setPoint(vec3(0, 0, i * 2.f - (5.f/2.f)));
+	}
 
 	std::string skyboxTextures[6] = {
 		"assets/textures/Skybox/posx.png",//x+
@@ -415,6 +429,13 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			player->setPos(vec3(0.0f, 0.0f, 0.0f));
 			generationManager->initialize();
 		}
+	}
+}
+
+void Game::rotationTest()
+{
+	for (int i = 0; i < 5; i++) {
+		GameObjManager->getGameObject("rotation_test" + std::to_string(i))->addRot(vec3(0,0.01,0));
 	}
 }
 

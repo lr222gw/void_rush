@@ -773,5 +773,8 @@
     <FxCompile Include="NoShadowPS.hlsl">
       <Filter>Engine\Resource Files\Shaders\Pixel</Filter>
     </FxCompile>
+    <FxCompile Include="BillBoardGeometryShader.hlsl">
+      <Filter>Engine\Resource Files\Shaders\Billboarding</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -1,9 +1,10 @@
 #pragma once
-#include "BillBoard.h"
+#include "GameObject.h"
+#include <string>
 
 class Letters3D {
 public:
-	Letters3D();
+	Letters3D(std::string str, );
 private:
-
+	std::vector<GameObject*> 
 };
