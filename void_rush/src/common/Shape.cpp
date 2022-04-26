@@ -1,6 +1,8 @@
 #include "Shape.hpp"
 
-Shape::Shape() {}
+Shape::Shape():
+    scale(vec3(1, 0.5f, 1))
+{}
 
 Shape::~Shape() {
     for (int i = 0; i < planes.size(); i++) {
@@ -15,8 +17,9 @@ void Shape::addPlane(vec3 a, vec3 b, vec3 c, vec3 d)
 }
 
 void Shape::setShapeCube(vec3& center)
-{    
-    vec3 scale(1,1,1);
+{   
+
+    
     vec3 vert = center;
 
     std::vector<Plane*> temp_planes;
@@ -29,13 +32,13 @@ void Shape::setShapeCube(vec3& center)
         temp_planes.push_back(planes.back());
 
         Plane* otherside = new Plane(*plane);
-        otherside->swap_windingorder();        
+        otherside->swap_windingorder();            
         planes.push_back(otherside);
         temp_planes.push_back(planes.back());
     }
     for (int i = 0; i < temp_planes.size(); i++) {
-        vec3 offset = vec3::Normalize(temp_planes[i]->get_normal()).mul(scale);
-        temp_planes[i]->move(center + offset);
+        temp_planes[i]->offset = vec3::Normalize(temp_planes[i]->get_normal()).mul(scale);
+        temp_planes[i]->move(center + temp_planes[i]->offset); //TODO: remove?
     }
     //inCorner.pos = Vertexes[0];
     //outCorner.pos = Vertexes[Vertexes.size() / 2];
@@ -46,6 +49,30 @@ void Plane::swap_windingorder() {
     vec3 temp = this->point2;
     this->point2 = this->point4;
     this->point4 = temp;
+    update_normal();
+}
+
+const vec3 Plane::get_rot() { 
+
+    vec3 ret = this->get_normal(); 
+    if(ret.x != 0){
+        ret.x = ret.x == 1 ? deg_to_rad(90) : deg_to_rad(180 + 90);
+        
+    }
+    if(ret.y != 0){
+        if(ret.y == -1 ){
+            ret.x = deg_to_rad(180);
+        }
+        ret.y = 0;
+    }
+    
+    if(ret.z != 0){
+        ret.z = ret.z == 1 ? deg_to_rad(90) : deg_to_rad(180 + 90);
+        
+    }
+
+    return ret;
+
 }
 
 void Plane::move(const vec3& ofset) {
@@ -56,6 +83,7 @@ void Plane::move(const vec3& ofset) {
 }
 
 XZ_plane::XZ_plane(vec3 scale) {//Clockwise windingorder        
+    
     point1 = vec3(-1, 0, 1 ).mul(scale) ;  // top left
     point2 = vec3( 1, 0,  1).mul(scale);   // top right
     point3 = vec3( 1, 0, -1).mul(scale);  // bottom right
@@ -64,6 +92,7 @@ XZ_plane::XZ_plane(vec3 scale) {//Clockwise windingorder
 }
 
 XY_plane::XY_plane(vec3 scale) {//Clockwise windingorder
+    
     point1 = vec3(-1,  1, 0).mul(scale); // top left
     point2 = vec3( 1,  1, 0).mul(scale);   // top right
     point3 = vec3( 1, -1, 0).mul(scale);  // bottom right

@@ -10,6 +10,8 @@
 #include "3Dproj/CollisionHandler.h"
 #include "puzzle/protoPuzzle.hpp"
 #include "3Dproj/GameObjectManager.h"
+
+#include "common/Helper.hpp"
 //struct Platform{
 //	GameObject obj;
 //	Platform info;	
