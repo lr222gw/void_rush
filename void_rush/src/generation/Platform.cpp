@@ -38,9 +38,14 @@ void Platform::setPosition (float xPos, float yPos, float zPos)
     this->pos.x = xPos;
     this->pos.y = yPos;
     this->pos.z = zPos;
+
+    platformShape.setPosition(vec3(xPos, yPos, zPos));
 }
 
-void Platform::setPosition (vec3 position) { this->pos = position; }
+void Platform::setPosition (vec3 position) { 
+    this->pos = position; 
+    platformShape.setPosition(position);
+}
 
 void Platform::move (float xOfset, float yOfset, float zOfset)
 {

@@ -37,3 +37,21 @@ float vec_len (Vector3 vec)
 {
     return sqrtf (vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
 }
+
+vec3 normal_to_rot(vec3& from, const vec3& to)
+{
+    vec3 temp = to;
+    vec3 normal = to;
+    vec3 axis = from.X(to);
+    float dot = from * temp;
+    float magnitude = from.length() * temp.length();
+    float angle = acosf(dot/magnitude);
+
+    if (dot == -1) {
+        axis = vec3(1, 0, 0);
+    }
+
+    axis.Normalize();
+    axis = axis * angle;
+    return axis;
+}

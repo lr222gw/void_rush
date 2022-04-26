@@ -230,7 +230,8 @@ void Position_generator::jumpPoint_generation_helper(Platform* start, Platform* 
 {    
     vec3 start_end_dist = (*start->getPos() + *end->getPos()); //TODO: remove
     vec3 middle = (*end->getPos() - *start->getPos()) / 2;
-    Platform* midd_platform = new Platform() ;    
+    Platform* midd_platform = new Platform() ;
+
     midd_platform->setPosition(*start->getPos() + middle);
     
     this->jumpPoints.push_back(midd_platform);

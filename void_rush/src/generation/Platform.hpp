@@ -11,7 +11,8 @@
 
 class Platform 
 {
-  private:
+  //private:
+public:
     vec3 pos;
     int obstacles;
     int difficluty;
