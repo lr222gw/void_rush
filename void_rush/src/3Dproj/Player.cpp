@@ -23,15 +23,6 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->maxDepth = -140.0f;
 	this->levelTime = 0.0f;
 
-	//Testing score file system
-	/*writeScore(100.0f, "Test");
-	writeScore(80.0f, "Test2");
-	writeScore(105.0f, "Test3");
-	writeScore(100.0f, "Test4");
-	writeScore(106.0f, "Test5");
-	writeScore(103.0f, "Test6");
-	writeScore(101.0f, "Test7");
-	writeScore(99.0f, "Test8");*/
 }
 
 Player::~Player()
@@ -238,10 +229,11 @@ GameObject*& Player::getPlayerObjPointer()
 void Player::Reset(bool lvlClr)
 {
 	this->grounded = true;
-	this->setPos(vec3(0.0f, 0.0f, 0.0f));
-	this->velocity = vec3(0.0f, 0.0f, 0.0f);
-	this->acceleration = vec3(0.0f, 0.0f, 0.0f);
 	this->resForce = vec3(0.0f, 0.0f, 0.0f);
+	this->jumpDir = vec2(0.0f, 0.0f);
+	this->acceleration = vec3(0.0f, 0.0f, 0.0f);
+	this->velocity = vec3(0.0f, 0.0f, 0.0f);
+	this->setPos(vec3(0.0f, 0.0f, 0.0f));
 	this->groundedTimer = 0.0f;
 
 	if (lvlClr) {
