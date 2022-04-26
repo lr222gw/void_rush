@@ -27,6 +27,10 @@ public:
 
 	void SetPuzzlePos(vec3 puzzlePosition);
 	void SetDifficulity(Difficulity diff);
+
+	//score -1: using players score
+	void writeScore(std::string name, float score = -1, std::string file = "assets/files/highScores.txt");
+
 	
 private:
 	friend class ImguiManager;
@@ -70,8 +74,7 @@ private:
 	//const std::string scoreFile = "asstes/files/highScores.txt";
 
 	const int maxScores = 10;
-	void writeScore(float score, std::string name, std::string file = "assets/files/highScores.txt");
-
+	
 public:
 	void TakeDmg(int dmg = 1);
 	void AddHealth(int hlt = 1);
