@@ -163,8 +163,9 @@ void ImguiManager::render_physics_widgets()
 			*init_speed[1] = speedSlider;
 			*init_speed[2] = speedSlider;
 		}
-		ImGui::InputFloat("jumpSpeed", &owner->player->jumpSpeed.y);
+		ImGui::InputFloat("JumpSpeed", &owner->player->jumpSpeed.y);
 		ImGui::InputFloat("Gravity", &owner->player->gravity.y);
+		ImGui::InputFloat("Jumpforce", &owner->player->jumpForce);
 			
 			
 

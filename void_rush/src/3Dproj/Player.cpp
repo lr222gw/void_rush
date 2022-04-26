@@ -11,6 +11,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->speed = vec3(5.f, 5.0f, 5.0f);
 	this->jumpSpeed = vec3(0.0f, 0.0f, 0.0f);
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
+	this->jumpForce = 5.0f;
 	this->mass = 1.f;
 	this->grounded = true;
 	this->groundedTimer = 0.0f;
@@ -150,11 +151,11 @@ void Player::handleEvents(float dt)
 			}
 			if (velocity.y > 0.0f)
 			{
-				velocity.y += speed.y;
+				velocity.y += jumpForce;
 			}
 			else
 			{
-				velocity = vec3(0.0f, speed.y, 0.0f);
+				velocity = vec3(0.0f, jumpForce, 0.0f);
 			}
 		}
 		else {

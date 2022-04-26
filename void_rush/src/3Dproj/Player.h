@@ -24,6 +24,7 @@ private:
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
 	vec3 speed;
 	vec3 jumpSpeed;
+	float jumpForce;
 	vec3 velocity;
 	vec3 acceleration;
 	vec3 resForce;
@@ -46,5 +47,5 @@ public:
 	void AddHealth(int hlt = 1);
 	int GetHealth();
 	bool IsAlive();
-	GameObject* GOPTR;//GameObjectPlayerPointer
+	GameObject* GOPTR; //GameObjectPlayerPointer
 };
