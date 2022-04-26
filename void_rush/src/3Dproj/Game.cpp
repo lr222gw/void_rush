@@ -21,7 +21,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	generationManager->set_PuzzleManager(testPuzzle);
 	generationManager->set_GameObjManager(GameObjManager);
 	
-	//maxDepth = -140.0f;
+	camera->setRotation(vec3(0, 0, 0));
 	
 	/*set ups*/
 	this->setUpObject();

@@ -50,6 +50,18 @@ void UIManager::createUIButton(std::string rmsprite, Mouse* mouse, vec2 pos, vec
 	}
 }
 
+void UIManager::createUIButton(std::string rmsprite, std::string str, Mouse* mouse, vec2 pos, vec2 size, std::string name, vec2 pos_offset, vec2 size_offset)
+{
+	buttons.push_back(new UIButton(rm->getSprite(rmsprite, gfx), gfx, mouse, pos, size));
+	if (name != "") {
+		mapOfButtons.insert(std::make_pair(name, buttons[buttons.size() - 1]));
+	}
+	this->strings.push_back(new UIString(gfx, str, pos + pos_offset, (size / str.size()) + size_offset));
+	if (name != "") {
+		mapOfString.insert(std::make_pair(name, strings[strings.size() - 1]));
+	}
+}
+
 UIElements* UIManager::getElements(int index)
 {
 	return elements[index];
