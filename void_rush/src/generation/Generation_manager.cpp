@@ -95,6 +95,20 @@ void Generation_manager::place_anchorPoints()
         }
         
         
+        /*
+        for (auto plane : next_anchor->platformShape.planes) {
+            platformObjs.push_back(
+                new PlatformObj(rm->get_Models("plane.obj", gfx),
+                    gfx,
+                    plane->get_center(),
+                    //vec3(anchor_pos->x, anchor_pos->y, anchor_pos->z),
+                    normal_to_rot(normals.up, plane->get_normal()),
+                    vec3(1.0f, 1.0f, 1.0f))
+            );
+        }
+        
+        */
+
         std::string temp = identifier + std::to_string(this->nrOfAnchors);
         gameObjManager->addGameObject(platformObjs[nrOfAnchors], temp);
         collisionHandler->addPlatform(platformObjs[nrOfAnchors]);
@@ -127,6 +141,19 @@ void Generation_manager::place_jumpPoints()
                     vec3(1.0f, 1.0f, 1.0f))
             );
         }
+
+        /*
+        for (auto plane : next_jumpPoint->platformShape.planes) {
+            platformObjs.push_back(
+                new PlatformObj(rm->get_Models("plane.obj", gfx),
+                    gfx,
+                    plane->get_center(),
+                    // vec3(jumpPoint_pos->x, jumpPoint_pos->y, jumpPoint_pos->z),
+                    normal_to_rot(normals.up, plane->get_normal()),
+                    vec3(1.0f, 1.0f, 1.0f))
+            );
+        }
+        */
 
         std::string temp = identifier + std::to_string(this->nrOfJumpPoints);
         gameObjManager->addGameObject(platformObjs[this->nrOfAnchors + this->nrOfJumpPoints],temp);

@@ -1,8 +1,6 @@
 #include "Shape.hpp"
 
-Shape::Shape():
-    scale(vec3(1, 0.5f, 1))
-{}
+Shape::Shape():scale(1,1,1) {}
 
 Shape::~Shape() {
     for (int i = 0; i < planes.size(); i++) {
@@ -16,10 +14,21 @@ void Shape::addPlane(vec3 a, vec3 b, vec3 c, vec3 d)
     planes.push_back(new Plane({ a,b,c,d }));
 }
 
-void Shape::setShapeCube(vec3& center)
-{   
+void Shape::setPosition(vec3 pos)
+{
+    for (int i = 0; i < planes.size(); i++) {
+        vec3 offset = vec3::Normalize(planes[i]->get_normal()).mul(vec3(1, 1, 1));
+        planes[i]->move(pos + offset);
+    }
+}
 
-    
+void Shape::setScale(vec3 scale)
+{
+    this->scale = scale;
+}
+
+void Shape::setShapeCube(vec3& center)
+{    
     vec3 vert = center;
 
     std::vector<Plane*> temp_planes;
@@ -52,6 +61,8 @@ void Plane::swap_windingorder() {
     update_normal();
 }
 
+const vec3 Plane::get_normal() { return normal; }
+
 const vec3 Plane::get_rot() { 
 
     vec3 ret = this->get_normal(); 
@@ -80,6 +91,15 @@ void Plane::move(const vec3& ofset) {
     this->point2 = this->point2 + ofset;
     this->point3 = this->point3 + ofset;
     this->point4 = this->point4 + ofset;
+}
+
+vec3 Plane::get_center()
+{
+    return (point1+point2+point3+point4)/4;
+}
+
+void Plane::update_normal() { 
+    normal = vec3(point4 - point1).X((point2 - point1)).Normalize();
 }
 
 XZ_plane::XZ_plane(vec3 scale) {//Clockwise windingorder        

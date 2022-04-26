@@ -28,11 +28,12 @@ struct Plane
     vec3 offset;
     
     void swap_windingorder();
-    const vec3 get_normal() { return normal; };
+    const vec3 get_normal();;
     const vec3 get_rot();;
     void move(const vec3& ofset);
+    vec3 get_center();
 protected:
-    void update_normal() { normal = (vec3((point4 - point1).X(point2 - point1))).Normalize(); };
+    void update_normal();;
 };
 
 
@@ -58,7 +59,7 @@ struct Normals{
      vec3 front = vec3(1, 0, 0);
      vec3 back = vec3(-1, 0, 0);
 };
-
+static Normals normals;
 
 struct Shape
 {
@@ -67,12 +68,12 @@ struct Shape
     outCorner outCorner;
     static Normals normals;
     vec3 scale;
-
     Shape();
 
     ~Shape();
 
     void addPlane(vec3 a, vec3 b, vec3 c, vec3 d);
-
+    void setPosition(vec3 pos);
+    void setScale(vec3 scale);
     void setShapeCube(vec3& center);
 };
