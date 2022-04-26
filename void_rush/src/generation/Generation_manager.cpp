@@ -70,6 +70,7 @@ void Generation_manager::initialize()
     
 }
 
+
 void Generation_manager::place_anchorPoints()
 {
     Platform* anchor_root = position_gen->getAnchors()->at(0);

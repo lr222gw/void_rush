@@ -134,6 +134,8 @@ void Mouse::onWheelDown(int x, int y)
 void Mouse::onMouseMove(int x, int y)
 {
 	mouseEvent m(mouseEvent::EventType::Move, x, y);
+	this->x = x;
+	this->y = y;
 	mouseBuffer.push(m);
 }
 

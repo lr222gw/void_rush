@@ -28,9 +28,11 @@ private:
 	vec3 acceleration;
 	vec3 resForce;
 	vec3 gravity;
+	vec2 jumpDir;
 	float mass;
 	bool grounded;
 	float groundedTimer;
+
 
 	Mouse* mouse;
 	Keyboard* keyboard;
@@ -38,6 +40,7 @@ private:
 
 	int health;
 	bool alive;
+	float maxDepth;
 public:
 	void TakeDmg(int dmg = 1);
 	void AddHealth(int hlt = 1);

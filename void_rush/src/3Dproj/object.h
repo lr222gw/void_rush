@@ -16,7 +16,6 @@ public:
 	vec3 getScale();
 	const vec3 getPoint();
 
-	//TODO : change names on these
 	void setPos(vec3 pos);
 	void setRot(vec3 pos);
 	void setScale(vec3 pos);

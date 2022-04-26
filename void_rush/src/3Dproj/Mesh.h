@@ -47,23 +47,3 @@ private:
 	std::vector<MeshObj> SubMeshes;
 };
 
-/*class Mesh {
-public:
-	Mesh(Graphics *& gfx, std::vector<vertex> vertecies, std::vector<DWORD>& indices);
-	Mesh(Graphics *& gfx, std::vector<BoneVertex> vertecies, std::vector<DWORD>& indices);
-	Mesh(const Mesh& mesh);
-	virtual ~Mesh();
-	void Draw(ID3D11DeviceContext*& immediateContext);
-	const int getNrOfVertexes();
-	//const int getNrOfIndecies(); will fix
-	int nrOfIndecies;
-private:
-	int nrOfTextures;
-	int nrOfVertexes;
-	
-	bool defTexture[3] = { false, false, false };
-	ID3D11ShaderResourceView** texSRV;
-	ID3D11Buffer* vertexBuffer;
-	ID3D11Buffer* indicesBuffer;
-	ID3D11DeviceContext* ctx;
-};*/

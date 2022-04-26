@@ -15,22 +15,29 @@ void MathPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
     if (!this->GetState())
     {
         int choice = 3;
-        float test;
-
-        if (CanInteract(playerPos, forwardVec, puzzleObjects[0]->getPos(), 5.0f, 5.0f, test))
+        float size, test;
+        vec3 midPos;
+        for (int i = 0; i < 3; i++)
         {
-            choice = 0;
-            std::cout << "Is in range A" << std::endl;
-        }
-        if (CanInteract(playerPos, forwardVec, puzzleObjects[1]->getPos(), 5.0f, 5.0f, test))
-        {
-            choice = 1;
-            std::cout << "Is in range B" << std::endl;
-        }
-        if (CanInteract(playerPos, forwardVec, puzzleObjects[2]->getPos(), 5.0f, 5.0f, test))
-        {
-            choice = 2;
-            std::cout << "Is in range C" << std::endl;
+            midPos = GetMidPos(puzzleObjects[i], size);
+            if (CanInteract(playerPos, forwardVec, midPos, size / 2.0f, 5.0f, test))
+            {
+                if (i == 0)
+                {
+                    choice = 0;
+                    std::cout << "Is in range A" << std::endl;
+                }
+                else if (i == 1)
+                {
+                    choice = 1;
+                    std::cout << "Is in range B" << std::endl;
+                }
+                else
+                {
+                    choice = 2;
+                    std::cout << "Is in range C" << std::endl;
+                }
+            }
         }
 
         if (choice != 3)
