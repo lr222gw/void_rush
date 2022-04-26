@@ -25,6 +25,8 @@ struct Plane
     vec3 point4;
 
     void swap_windingorder();
+
+    void move(const vec3& ofset);
 };
 
 
@@ -64,7 +66,7 @@ struct Shape
 
     Shape (){};
 
-    Shape(std::vector<vec3> Vertexes);
+    ~Shape();
 
     void addPlane(vec3 a, vec3 b, vec3 c, vec3 d);
 
