@@ -23,6 +23,7 @@ public:
 	void getKdKaKsNs(float (&kd)[4], float (&ka)[4], float(&ks)[4]);
 	void draw(ID3D11DeviceContext*& immediateContext);
 	void draw2(ID3D11DeviceContext*& immediateContext);
+	void drawRaw(ID3D11DeviceContext*& immediateContext);
 	/*Set Shaders on this object*/
 	void SetShaders(ID3D11VertexShader* VS);
 	/*Set Shaders on this object*/

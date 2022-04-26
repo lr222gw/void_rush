@@ -6,6 +6,7 @@
 #include "generation/Generation_manager.hpp"
 #include "interact/interact.hpp"
 #include "BillBoardManager.h"
+#include "3DLetters.h"
 
 class Game : public GameState {
 public:
@@ -17,6 +18,8 @@ public:
 	virtual GameStatesEnum update(float dt);//then this
 	virtual void render();		//then this 
 private:
+	Letters3D* text;
+
 	void updateShaders(bool vs = true, bool ps = true);
 	float testTime = 0.0f;
 	ProtoPuzzle* testPuzzle;
@@ -41,7 +44,6 @@ private:
 	void setUpUI();
 	void setUpSound();
 	void Interact(std::vector<GameObject*>& interactables);
-	void rotationTest();
 
 	//game objects
 	Light** light;

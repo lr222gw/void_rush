@@ -349,8 +349,7 @@ bool SetupPipeline(ID3D11Device* device, ID3D11VertexShader**& vShader,
 		loadVShader("VertexBillBoard.cso", device, vShader[1], vShaderByteCode[1]) &&
 		loadVShader("SkyBoxVS.cso",device, vShader[2], vShaderByteCode[2])&&
 		loadVShader("VertexShadow.cso",device, vShader[3], vShaderByteCode[2])&&
-		//loadGShader("GeometryShader.cso", device, gShader[0]) &&
-		loadGShader("BillBoardGeometryShader.cso", device, gShader[0]) &&
+		loadGShader("GeometryShader.cso", device, gShader[0]) &&
 		loadGShader("Debugging_test.cso", device, gShader[1]) &&
 		loadPShader("PixelBillShader.cso", device, pShader[1]) &&
 		loadPShader("SkyBoxPS.cso", device, pShader[3]) 
