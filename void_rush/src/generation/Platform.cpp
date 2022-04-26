@@ -7,7 +7,6 @@ Platform::Platform()
     platformShape.setShapeCube (this->pos);
     rotMat.rotateAroundZ (this->rotation);
     rotMat.rotateAroundZ (this->rotation);
- 
 }
 
 Platform::Platform(std::vector<float> pos, int obstacles, int difficluty,
@@ -21,7 +20,6 @@ Platform::Platform(std::vector<float> pos, int obstacles, int difficluty,
     platformShape.setShapeCube (this->pos);
     rotMat.rotateAroundZ (this->rotation);
     rotMat.rotateAroundZ (this->rotation);
-
 }
 
 Platform::Platform(vec3 pos, int obstacles, int difficluty,
@@ -31,7 +29,6 @@ Platform::Platform(vec3 pos, int obstacles, int difficluty,
 {
     this->platformShape.setShapeCube (this->pos);
     rotMat.rotateAroundZ (this->rotation);
-
 }
 
 Platform::~Platform () {}

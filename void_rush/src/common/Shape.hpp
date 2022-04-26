@@ -64,7 +64,7 @@ struct Shape
     outCorner outCorner;
     static Normals normals;
 
-    Shape (){};
+    Shape();
 
     ~Shape();
 
