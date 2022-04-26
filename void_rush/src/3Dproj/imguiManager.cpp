@@ -33,6 +33,7 @@ void ImguiManager::updateRender()
 		render_generation_widgets();
 		update_lights(owner->lightNr);
 		render_physics_widgets();
+		render_ghost_widgets();
 		render_debuginfo_widgets();
 	}
 	ImGui::Render();
@@ -147,6 +148,18 @@ void ImguiManager::render_generation_widgets()
 
 }
 
+void ImguiManager::render_ghost_widgets()
+{
+	std::string name = "Ghost";
+	if (ImGui::Begin(name.c_str())) {
+
+		if (ImGui::Checkbox("Activate Ghost", &owner->ghost->active)) {
+		
+		}
+	}
+	ImGui::End();
+}
+
 void ImguiManager::render_physics_widgets()
 {
 	static std::string name = "Physics";
@@ -167,8 +180,6 @@ void ImguiManager::render_physics_widgets()
 		ImGui::InputFloat("Gravity", &owner->player->gravity.y);
 		ImGui::InputFloat("Jumpforce", &owner->player->jumpForce);
 			
-			
-
 	}
 	ImGui::End();
 }
