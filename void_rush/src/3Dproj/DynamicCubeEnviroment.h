@@ -5,6 +5,7 @@
 #include "DeferredRendering.h"
 
 //basicly a mirrror
+//Can Delete this not in litet spel project
 class DynamicCube : public GameObject {
 public:
 	//basicly a mirrror

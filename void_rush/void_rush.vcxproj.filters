@@ -44,17 +44,11 @@
     <Filter Include="Engine\Source Files\WindowWithMouse">
       <UniqueIdentifier>{1de9154b-81a4-43ad-bf25-f12375190e04}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Source Files\Sounds">
-      <UniqueIdentifier>{780dd629-f461-482b-a70f-e287133558a6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Source Files\Game">
       <UniqueIdentifier>{eb5370c0-cfd7-4089-8654-ed60679c717f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Source Files\Game\Objects">
       <UniqueIdentifier>{529d5916-32fd-4b06-a5d3-86ac2157f2f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Source Files\Game\Objects\Paricle">
-      <UniqueIdentifier>{76b250a2-9755-4e96-951d-af0fb06089f7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
@@ -121,9 +115,6 @@
     <Filter Include="Engine\Header Files\IMGUI">
       <UniqueIdentifier>{65f2766b-5edb-4629-b4e9-ac211c83f786}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Header Files\Sounds">
-      <UniqueIdentifier>{e5167efb-ea4e-4dbb-a749-13fa9a6792d2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Header Files\Fysik">
       <UniqueIdentifier>{287b5de3-3faa-4165-b689-8a588ea2b955}</UniqueIdentifier>
     </Filter>
@@ -144,6 +135,21 @@
     </Filter>
     <Filter Include="Protoypes\interact">
       <UniqueIdentifier>{1ca5de3f-cb8c-4e4a-8b6a-3cff64affd35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Header Files\Handlers">
+      <UniqueIdentifier>{0b1d220c-7afa-4f84-98c5-f245f9fcc110}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Header Files\UI">
+      <UniqueIdentifier>{3906e83f-c9ba-4014-ae58-961c9227075f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Source Files\Handlers">
+      <UniqueIdentifier>{dde21a25-ed32-4ca1-a64b-0b6456e9d0bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Source Files\UI">
+      <UniqueIdentifier>{e4a04f09-498e-4018-855a-0de9da701469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Source Files\Graphic\Paricle">
+      <UniqueIdentifier>{76b250a2-9755-4e96-951d-af0fb06089f7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -201,14 +207,8 @@
     <ClCompile Include="src/3Dproj/imgui_impl_win32.cpp">
       <Filter>Engine\Header Files\IMGUI</Filter>
     </ClCompile>
-    <ClCompile Include="src/3Dproj/imguiManager.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src/3Dproj/BillBoard.cpp">
-      <Filter>Engine\Source Files\Game\Objects\Paricle</Filter>
-    </ClCompile>
-    <ClCompile Include="src/3Dproj/ResourceManager.cpp">
-      <Filter>Engine\Source Files</Filter>
+      <Filter>Engine\Source Files\Graphic\Paricle</Filter>
     </ClCompile>
     <ClCompile Include="src/3Dproj/ReadObjFile.cpp">
       <Filter>Engine\Source Files\Graphic\mesh loading</Filter>
@@ -232,7 +232,7 @@
       <Filter>Engine\Source Files\Other</Filter>
     </ClCompile>
     <ClCompile Include="src/3Dproj/BillBoardManager.cpp">
-      <Filter>Engine\Source Files\Game\Objects\Paricle</Filter>
+      <Filter>Engine\Source Files\Graphic\Paricle</Filter>
     </ClCompile>
     <ClCompile Include="src/3Dproj/QuadTree.cpp">
       <Filter>Engine\Source Files</Filter>
@@ -273,9 +273,6 @@
     <ClCompile Include="src/3Dproj/Random.cpp">
       <Filter>Engine\Source Files\Other</Filter>
     </ClCompile>
-    <ClCompile Include="src/3Dproj/SoundManager.cpp">
-      <Filter>Engine\Source Files\Sounds</Filter>
-    </ClCompile>
     <ClCompile Include="src/3Dproj/Material.cpp">
       <Filter>Engine\Source Files\Graphic</Filter>
     </ClCompile>
@@ -283,12 +280,6 @@
       <Filter>Engine\Source Files\Other</Filter>
     </ClCompile>
     <ClCompile Include="src/3Dproj/skybox.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src/3Dproj/DebugCamera.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\3Dproj\Collision3D.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\physics\proto.cpp">
@@ -324,15 +315,6 @@
     <ClCompile Include="src\3Dproj\Player.cpp">
       <Filter>Void_Rush\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="src/3Dproj/ResourceManager.cpp">
-      <Filter>3D_Renderer\Source Files\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="src/3Dproj/imguiManager.cpp">
-      <Filter>3D_Renderer\Source Files\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="src/3Dproj/SoundManager.cpp">
-      <Filter>3D_Renderer\Source Files\Managers</Filter>
-    </ClCompile>
     <ClCompile Include="src/3Dproj/BillBoardManager.cpp">
       <Filter>3D_Renderer\Source Files\Managers</Filter>
     </ClCompile>
@@ -360,32 +342,11 @@
     <ClCompile Include="src\puzzle\puzzle_math.cpp">
       <Filter>Protoypes\puzzle</Filter>
     </ClCompile>
-    <ClCompile Include="src\3Dproj\GameObjectManager.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\3Dproj\UIElements.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\3Dproj\UIManager.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\3Dproj\UISprite.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\3Dproj\UIString.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\3Dproj\UISymbols.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\interact\interact.cpp">
       <Filter>Protoypes\interact</Filter>
     </ClCompile>
     <ClCompile Include="src\common\Vector.cpp">
       <Filter>Protoypes\common</Filter>
-    </ClCompile>
-    <ClCompile Include="src\3Dproj\CollisionHandler.cpp">
-      <Filter>Engine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\3Dproj\Ghost.cpp">
       <Filter>Void_Rush\Objects</Filter>
@@ -393,8 +354,65 @@
     <ClCompile Include="src\3Dproj\Enemy.cpp">
       <Filter>Void_Rush\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="src\3Dproj\UIButton.cpp">
+      <Filter>Engine\Header Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\puzzle\Portal.cpp">
       <Filter>Protoypes\puzzle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\Collision3D.cpp">
+      <Filter>Engine\Source Files\Fysik</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\GameObjectManager.cpp">
+      <Filter>Engine\Source Files\Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/imguiManager.cpp">
+      <Filter>Engine\Source Files\Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/ResourceManager.cpp">
+      <Filter>Engine\Source Files\Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UIElements.cpp">
+      <Filter>Engine\Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UISymbols.cpp">
+      <Filter>Engine\Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UIString.cpp">
+      <Filter>Engine\Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UISprite.cpp">
+      <Filter>Engine\Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\CollisionHandler.cpp">
+      <Filter>Engine\Source Files\Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UIManager.cpp">
+      <Filter>Engine\Source Files\Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/SoundManager.cpp">
+      <Filter>Engine\Source Files\Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\GameState.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/imguiManager.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/ResourceManager.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/SoundManager.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\App.cpp">
+      <Filter>Engine\Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\UIButton.cpp">
+      <Filter>Engine\Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\Menu.cpp">
+      <Filter>Void_Rush</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -485,9 +503,6 @@
     <ClInclude Include="src/3Dproj/GameObject.h">
       <Filter>Engine\Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="src/3Dproj/ResourceManager.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src/3Dproj/ReadObjFile.h">
       <Filter>Engine\Source Files\Graphic\mesh loading</Filter>
     </ClInclude>
@@ -548,17 +563,11 @@
     <ClInclude Include="src/3Dproj/WindowContainer.h">
       <Filter>Engine\Source Files\WindowWithMouse</Filter>
     </ClInclude>
-    <ClInclude Include="src/3Dproj/SoundManager.h">
-      <Filter>Engine\Header Files\Sounds</Filter>
-    </ClInclude>
     <ClInclude Include="src/3Dproj/Convertions.h">
       <Filter>Engine\Header Files\Other</Filter>
     </ClInclude>
     <ClInclude Include="src/3Dproj/skybox.h">
       <Filter>Engine\Header Files\Graphic</Filter>
-    </ClInclude>
-    <ClInclude Include="src/3Dproj/DebugCamera.h">
-      <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\common\Vector.hpp">
       <Filter>Protoypes\common</Filter>
@@ -614,24 +623,6 @@
     <ClInclude Include="src\puzzle\puzzle_math.hpp">
       <Filter>Protoypes\puzzle</Filter>
     </ClInclude>
-    <ClInclude Include="src\3Dproj\GameObjectManager.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\3Dproj\UIElements.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\3Dproj\UIManager.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\3Dproj\UISprite.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\3Dproj\UIString.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\3Dproj\UISymbols.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Platform.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
@@ -647,9 +638,6 @@
     <ClInclude Include="src\interact\interact.hpp">
       <Filter>Protoypes\interact</Filter>
     </ClInclude>
-    <ClInclude Include="src\3Dproj\CollisionHandler.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\puzzle\Portal.h">
       <Filter>Protoypes\puzzle</Filter>
     </ClInclude>
@@ -661,6 +649,45 @@
     </ClInclude>
     <ClInclude Include="src\3Dproj\Enemy.h">
       <Filter>Void_Rush\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UIButton.h">
+      <Filter>Engine\Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UIElements.h">
+      <Filter>Engine\Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UISprite.h">
+      <Filter>Engine\Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UIString.h">
+      <Filter>Engine\Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UISymbols.h">
+      <Filter>Engine\Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\CollisionHandler.h">
+      <Filter>Engine\Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\GameObjectManager.h">
+      <Filter>Engine\Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\UIManager.h">
+      <Filter>Engine\Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/SoundManager.h">
+      <Filter>Engine\Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/ResourceManager.h">
+      <Filter>Engine\Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\GameState.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\App.h">
+      <Filter>Engine\Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\Menu.h">
+      <Filter>Void_Rush</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

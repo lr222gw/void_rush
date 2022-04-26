@@ -1,88 +1,59 @@
 #pragma once
-#include "Graphics.h"
-#include "deltaTime.h"
-#include "Camera.h"
-#include "imguiManager.h"
-#include "ResourceManager.h"
-
-#include "GameObject.h"
-#include "BillBoardManager.h"
-#include "Light.h"
-
-#include "DeferredRendering.h"
+#include "GameState.h"
 #include "ShadowMap.h"
-#include "Graphics.h"
-#include "TrashCollector.h"
 #include "SoundManager.h"
-
-#include "flags.h"
-#include "skybox.h"
-#include "UIManager.h"
-
-#include "Collision3D.h"
-#include "Ghost.h"
-#include "GameObjectManager.h"
-
 #include "puzzle/protoPuzzle.hpp"
 #include "generation/Generation_manager.hpp"
-
 #include "interact/interact.hpp"
-#include "CollisionHandler.h"
+#include "BillBoardManager.h"
 
-//git
-class Game {
+class Game : public GameState {
 public:
-	Game(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow);
+	Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam);
 	virtual ~Game();
-	void run();
-	void DrawToBuffer();
-	void ForwardDraw();
-	void DrawAllShadowObject();//without any otherShaders
-	void updateShaders(bool vs = true, bool ps = true);
+	//very important that they are done in order
+	virtual void handleEvents();//this first
+	virtual void renderShadow();//then this
+	virtual GameStatesEnum update(float dt);//then this
+	virtual void render();		//then this 
 private:
+	void updateShaders(bool vs = true, bool ps = true);
 	float testTime = 0.0f;
 	ProtoPuzzle* testPuzzle;
-	MSG msg = {};
-	Graphics *gfx;
-	ResourceManager* rm;
-	void Update();
-	const float PI = 3.14159265359f;
-
-	void Interact(std::vector<GameObject*>& interactables);
-	void HandlePlayer();
-private:
-	friend class ImguiManager;
-	//logic and others
-	DeferredRendering *defRend;
-	DeltaTime dt;
-	ImguiManager IMGUIManager;
-	Mouse* mouse;
-	Keyboard* keyboard;
-	Camera* camera;
 	ShadowMap* shadowMap;
+	SkyBox* skybox;
 	SoundManager soundManager;
 	UIManager* UI;
-	SkyBox* Space;
 	Player* player;
 	Ghost* ghost;
 	GameObjectManager* GameObjManager;
 	Generation_manager* generationManager;
 	CollisionHandler collisionHandler;
+
+	/*draw to buffer*/
+	void ForwardDraw();
+	void DrawToBuffer();
+
+	/*set up things*/
 	void setUpObject();
 	void setUpLights();
 	void setUpParticles();
+	void setUpUI();
+	void setUpSound();
+	void Interact(std::vector<GameObject*>& interactables);
+	void HandlePlayer();
 
 	//game objects
-	Light **light;
+	Light** light;
 	std::vector<GameObject*> LightVisualizers;
-	std::vector<GameObject*> obj;
 	std::vector<BillBoardGroup*> billboardGroups;
 
-	float maxDepth;
 
 	//var
 	int nrOfLight;//must still exist
 
 	//debug var
 	int lightNr;
+	//Debug
+	friend class ImguiManager;
 };

@@ -43,3 +43,8 @@ void ProtoPuzzle::Update()
 {
     this->puzzleList[chosenPuzzle]->Update(gfxPuzzle);
 }
+
+bool ProtoPuzzle::isCompleted()
+{
+    return this->puzzleList[chosenPuzzle]->GetPortalCompleted();
+}

@@ -1,7 +1,7 @@
 #include "playerGen.hpp"
 
 Player_jump_checker::Player_jump_checker()
-    : pos ({ 0.0f, 0.0f, 0.0f }), jumpvel (20.0f), speed (5.0f),
+    : pos ({ 0.0f, 0.0f, 0.0f }), jumpvel (5.0f), speed (5.0f),
       gravity (9.8f), launchangle (45.0f)
 {
 }
@@ -54,7 +54,7 @@ bool Player_jump_checker::isJumpPossible (vec3 position)
 {
     float jumpheight = jumpHeight ();
     float heightDif = jumpheight - position.y;
-    float jumpDist = getJumpDistance (position.y)*  (3 + 1);//TODO: no hardcode, use from Position_generator...
+    float jumpDist = getJumpDistance (position.y);//TODO: no hardcode, use from Position_generator...
     float distanceDif = jumpDist - this->distance (position);
     /*if (heightDif <= 0) {
         plat->move(0, 0, heightDif);

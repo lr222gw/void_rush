@@ -20,7 +20,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	setBoundingBox(DirectX::XMFLOAT3(0, -0.9f, 0), DirectX::XMFLOAT3(0.3f, 0.5f, 0.3f));
 	this->health = 3;
 	this->alive = true;
-	vec2 jumpDir = vec2(0, 0);
+	this->maxDepth = -140.0f;
 }
 
 Player::~Player()
@@ -49,8 +49,12 @@ void Player::update(float dt)
 		{
 			this->groundedTimer += dt;
 		}
+		if (getPos().y < maxDepth) {
+			TakeDmg();
+			Reset();
+		}
 	}
-	std::cout << "speed.y: " << speed.y << " Velocity.y: " << velocity.y << std::endl;
+	//std::cout << "speed.y: " << speed.y << " Velocity.y: " << velocity.y << std::endl;
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
 	GameObject::update(dt);
@@ -195,7 +199,7 @@ void Player::setGrounded()
 		this->acceleration.y = 0.0f;
 		this->resForce.y = 0.0f;
 		this->groundedTimer = 0.0f;
-		this->speed = vec3(5.0f, 5.0f, 5.0f);
+		//this->speed = vec3(5.0f, 5.0f, 5.0f);
 	}
 }
 
@@ -249,7 +253,6 @@ void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 void Player::TakeDmg(int dmg)
 {
 	health-=dmg;
-
 	if(health <= 0) {
 		alive = false;
 	}
