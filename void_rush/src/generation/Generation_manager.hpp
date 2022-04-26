@@ -39,6 +39,7 @@ public:
 	void place_jumpPoints();
 
 	void setDifficulty(Difficulity diff);
+	Difficulity getDifficulty()const;
 	vec3 getPuzzelPos();
 
 	void generateGraph();

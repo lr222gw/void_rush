@@ -411,7 +411,8 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
 		if (testPuzzle->isCompleted())
 		{
-			player->setPos(vec3(0.0f, 0.0f, 0.0f));
+			//player->setPos(vec3(0.0f, 0.0f, 0.0f));
+			player->Reset(true);
 			generationManager->initialize();
 		}
 	}
