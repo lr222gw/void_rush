@@ -630,7 +630,7 @@ void Player::writeScore(float score, std::string name, std::string file)
 		}
 		if (nameExists ) {
 			if (reWrite) {
-				newFile += std::to_string(numScoresI + 1) + "\n";
+				newFile += std::to_string(numScoresI) + "\n";
 				for (int i = 0; i < scores.size(); i++) {
 					newFile += scores[i] + " " + names[i] + "\n";
 				}

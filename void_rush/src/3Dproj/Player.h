@@ -3,6 +3,7 @@
 #include "Mouse.h"
 #include "Keyboard.h"
 #include "Camera.h"
+#include "common/Vector.hpp"
 
 #include "generation/Position_generator.hpp"//To use difficulty
 
