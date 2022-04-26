@@ -19,7 +19,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	GOPTR = static_cast<GameObject*>(this);
 	this->setScale(vec3(0.2f,0.2f,0.2f));
 	setWeight(20);
-	setBoundingBox(DirectX::XMFLOAT3(0, -0.9f, 0), DirectX::XMFLOAT3(0.3f, 0.5f, 0.3f));
+	setBoundingBox(DirectX::XMFLOAT3(0, -0.9, 0), DirectX::XMFLOAT3(0.7f, 0.4f, 0.7f));
 	this->health = 3;
 	this->alive = true;
 	this->maxDepth = -140.0f;
