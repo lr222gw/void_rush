@@ -153,9 +153,7 @@ void ImguiManager::render_ghost_widgets()
 	std::string name = "Ghost";
 	if (ImGui::Begin(name.c_str())) {
 
-		if (ImGui::Checkbox("Activate Ghost", &owner->ghost->active)) {
-		
-		}
+		ImGui::Checkbox("Activate Ghost", &owner->ghost->active);
 	}
 	ImGui::End();
 }
