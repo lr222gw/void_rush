@@ -7,7 +7,7 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, C
     this->position_gen = new Position_generator(this->seed);
     this->player_jump_checker = new Player_jump_checker();
     position_gen->assignPlayer(player_jump_checker);
-    position_gen->setNrOfElements(10);
+    position_gen->setNrOfElements(150);
     this->collisionHandler = &collisionHandler;
 }
 
@@ -66,7 +66,7 @@ void Generation_manager::initialize()
     ///^vvvvvvvvvvvvvvvvvvvvvvv Testing
     
     
-    shape_export.set_nrOf(10,10); //TODO: do not hardcode!
+    shape_export.set_nrOf(150, 150); //TODO: do not hardcode!
     shape_export.init();
 
     Platform* anchor = position_gen->getAnchors()->at(0);
@@ -75,6 +75,19 @@ void Generation_manager::initialize()
         shape_export.build_shape_model(&anchor->platformShape, "test");
         anchor = anchor->next;
     }
+
+    shape_export.export_final_model("test");
+    platformObjs.push_back(
+        new PlatformObj(rm->get_Models("test.obj", gfx),
+            gfx,
+            //vec3(anchor_pos->x + plane->offset.x, anchor_pos->y + plane->offset.y, anchor_pos->z + plane->offset.z),
+            vec3(0.f,0.f,0.f),
+            //plane->point1,
+            vec3(0.f,0.f,0.f),
+            
+            vec3(1.0f, 1.0f, 1.0f))
+    );
+    this->nrOfAnchors++;
 
     ///^^^^^^^^^^^^^^^^^^^^^^^^^^ Testing
 

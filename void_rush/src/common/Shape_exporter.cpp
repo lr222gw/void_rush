@@ -21,6 +21,9 @@ void Shape_exporter::init()
     this->scene.mMaterials = new aiMaterial * [this->nrOfMaterials]{ nullptr };
     this->scene.mRootNode->mMeshes = new unsigned int[this->nrOfMeshes];
     this->scene.mRootNode->mNumMeshes = this->nrOfMeshes;
+    //this->scene.mNumTextures = this->nrOfMeshes;
+    //this->scene.mTextures = new aiTexture * [this->nrOfMeshes]{nullptr};
+    
 }
 
 //Shape_exporter* Shape_exporter::get()
@@ -44,8 +47,11 @@ void Shape_exporter::build_shape_model(Shape* shape, std::string name)
     
     scene.mRootNode->mMeshes[mesh_index] = mesh_index;
     
+    
 
     auto pMesh = scene.mMeshes[mesh_index];
+
+    
 
     size_t nrOfVertices = shape->planes.size() * 4; //planes have 4 verts each    
     pMesh->mVertices = new aiVector3D[nrOfVertices];
@@ -54,6 +60,14 @@ void Shape_exporter::build_shape_model(Shape* shape, std::string name)
 
     pMesh->mNumFaces = shape->planes.size();
     pMesh->mFaces = new aiFace[pMesh->mNumFaces];
+
+    /// TEST_
+    pMesh->mTextureCoords[0] = new aiVector3D[nrOfVertices];
+    pMesh->mNumUVComponents[0] = 2;
+    
+    //pMesh->mTangents = new aiVector3D[pMesh->mNumVertices];
+    //pMesh->mBitangents = new aiVector3D[pMesh->mNumVertices];
+    /// TEST^
 
     unsigned int vert_counter = 0;
     unsigned int face_counter = 0;
@@ -71,13 +85,23 @@ void Shape_exporter::build_shape_model(Shape* shape, std::string name)
 
             pMesh->mVertices[vert_counter] = aiVector3D(point->x, point->y, point->z);
             pMesh->mNormals[vert_counter] = aiVector3D(plane_normal.x, plane_normal.y, plane_normal.z);
+
+            /// TESTvvvvvvvvvvvvvv
+            pMesh->mTextureCoords[0][vert_counter] = aiVector3D(0, 0, 0); //TODO: FIX ME
+            //pMesh->mBitangents[vert_counter] = aiVector3D(0, 0, 0); //TODO: FIX ME
+            //pMesh->mTangents[vert_counter] = aiVector3D(0, 0, 0); //TODO: FIX ME
+            /// TEST^^^^^^^^^^
+            
+
             face.mIndices[vert_per_face_count] = vert_counter;
             ++vert_counter;
             ++vert_per_face_count;
         }
         pMesh->mFaces[face_counter++] = face;
-
+        
     }
+    aiString texture_test = aiString("assets/textures/stripestest.png");
+    scene.mMaterials[material_index]->AddProperty(&texture_test, AI_MATKEY_TEXTURE_NORMALS(0));
 
     mesh_index++;
     material_index++;
@@ -94,7 +118,7 @@ void Shape_exporter::export_final_model(std::string name)
         aiProcess_GenNormals;
 
     //if (exporter.Export(&scene, "obj", "test.obj", flags, properties) != aiReturn_SUCCESS) {
-    if (exporter.Export(&scene, "obj", name + ".obj", flags) != aiReturn_SUCCESS) {
+    if (exporter.Export(&scene, "obj", "assets/obj/"+name + ".obj") != aiReturn_SUCCESS) {
         //if (exporter.Export(&scene, "obj", "test.obj") != aiReturn_SUCCESS) {
         std::cout << "Could not save model file" << std::endl;
         std::cout << exporter.GetErrorString() << std::endl;
