@@ -10,26 +10,22 @@ void Shape_exporter::export_shape(Shape* shape, std::string name) {
 
     scene.mRootNode = new aiNode();
 
-    scene.mMeshes = new aiMesh * [1]{ nullptr };
-    //scene.mMeshes[0] = nullptr;
     scene.mNumMeshes = 1;
-
-    scene.mMaterials = new aiMaterial * [1]{ nullptr };
-    //scene.mMaterials[0] = nullptr;
-    scene.mNumMaterials = 1;
-    scene.mMaterials[0] = new aiMaterial();
-
+    scene.mMeshes = new aiMesh * [scene.mNumMeshes]{ nullptr };
     scene.mMeshes[0] = new aiMesh();
     scene.mMeshes[0]->mMaterialIndex = 0;
 
-    scene.mRootNode->mMeshes = new unsigned int[1];
+    scene.mNumMaterials = 1;
+    scene.mMaterials = new aiMaterial * [scene.mNumMaterials]{ nullptr };
+    scene.mMaterials[0] = new aiMaterial();    
+
+    scene.mRootNode->mMeshes = new unsigned int[scene.mNumMeshes];
     scene.mRootNode->mMeshes[0] = 0;
-    scene.mRootNode->mNumMeshes = 1;
+    scene.mRootNode->mNumMeshes = scene.mNumMeshes;
 
     auto pMesh = scene.mMeshes[0];
 
-    size_t nrOfVertices = shape->planes.size() * 4; //planes have 4 verts each
-    //size_t numValidPoints = nrOfVertices;
+    size_t nrOfVertices = shape->planes.size() * 4; //planes have 4 verts each    
     pMesh->mVertices = new aiVector3D[nrOfVertices];
     pMesh->mNumVertices = static_cast<unsigned  int>(nrOfVertices);
     pMesh->mNormals = new aiVector3D[nrOfVertices];
@@ -57,21 +53,19 @@ void Shape_exporter::export_shape(Shape* shape, std::string name) {
             ++vert_counter;
             ++vert_per_face_count;
         }
-
         pMesh->mFaces[face_counter++] = face;
 
     }
 
     Assimp::Exporter exporter;
-    //Assimp::ExportProperties* properties = new Assimp::ExportProperties;
-    //properties->SetPropertyBool(AI_CONFIG_EXPORT_POINT_CLOUDS, true);
+
     unsigned int flags =  //NOTE: uncertain
         aiProcess_JoinIdenticalVertices |
         aiProcess_GenUVCoords |
         aiProcess_GenNormals;
 
     //if (exporter.Export(&scene, "obj", "test.obj", flags, properties) != aiReturn_SUCCESS) {
-    if (exporter.Export(&scene, "obj", name + ".obj", aiProcess_FlipUVs) != aiReturn_SUCCESS) {
+    if (exporter.Export(&scene, "obj", name + ".obj", flags) != aiReturn_SUCCESS) {
         //if (exporter.Export(&scene, "obj", "test.obj") != aiReturn_SUCCESS) {
         std::cout << "Could not save model file" << std::endl;
         std::cout << exporter.GetErrorString() << std::endl;
