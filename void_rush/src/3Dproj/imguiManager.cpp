@@ -150,7 +150,7 @@ void ImguiManager::render_generation_widgets()
 		}
 
 		if (ImGui::Button("ExportFirstShape")) {
-			owner->generationManager->position_gen->anchors[0]->platformShape.export_as_obj();
+			owner->generationManager->shape_export.export_final_model("test");
 			
 		}
 	}

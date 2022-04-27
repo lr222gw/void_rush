@@ -5,25 +5,48 @@ Shape_exporter::~Shape_exporter()
 {
 }
 
-void Shape_exporter::export_shape(Shape* shape, std::string name) {
-    aiScene scene;
+void Shape_exporter::set_nrOf(int nrOfMeshes, int nrOfMaterials)
+{
+    this->nrOfMeshes = nrOfMeshes;
+    this->nrOfMaterials = nrOfMaterials;
+}
 
-    scene.mRootNode = new aiNode();
+void Shape_exporter::init()
+{
+    
+    this->scene.mRootNode = new aiNode();
+    this->scene.mNumMeshes = this->nrOfMeshes;
+    this->scene.mMeshes = new aiMesh * [this->nrOfMeshes]{ nullptr };
+    this->scene.mRootNode = new aiNode();
+    this->scene.mNumMaterials = this->nrOfMaterials;
+    this->scene.mMaterials = new aiMaterial * [this->nrOfMaterials]{ nullptr };
+    this->scene.mRootNode->mMeshes = new unsigned int[this->nrOfMeshes];
+    this->scene.mRootNode->mNumMeshes = this->nrOfMeshes;
+}
 
-    scene.mNumMeshes = 1;
-    scene.mMeshes = new aiMesh * [scene.mNumMeshes]{ nullptr };
-    scene.mMeshes[0] = new aiMesh();
-    scene.mMeshes[0]->mMaterialIndex = 0;
+//Shape_exporter* Shape_exporter::get()
+//{
+//    static Shape_exporter* me = new Shape_exporter();
+//    return me;
+//}
 
-    scene.mNumMaterials = 1;
-    scene.mMaterials = new aiMaterial * [scene.mNumMaterials]{ nullptr };
-    scene.mMaterials[0] = new aiMaterial();    
+void Shape_exporter::build_shape_model(Shape* shape, std::string name)
+{    
+    static int mesh_index = 0; //
+    static int material_index = 0; //
+    
+    
+    scene.mMeshes[mesh_index] = new aiMesh();
+    scene.mMeshes[mesh_index]->mMaterialIndex = material_index;
 
-    scene.mRootNode->mMeshes = new unsigned int[scene.mNumMeshes];
-    scene.mRootNode->mMeshes[0] = 0;
-    scene.mRootNode->mNumMeshes = scene.mNumMeshes;
+    
+    scene.mMaterials[material_index] = new aiMaterial();
 
-    auto pMesh = scene.mMeshes[0];
+    
+    scene.mRootNode->mMeshes[mesh_index] = mesh_index;
+    
+
+    auto pMesh = scene.mMeshes[mesh_index];
 
     size_t nrOfVertices = shape->planes.size() * 4; //planes have 4 verts each    
     pMesh->mVertices = new aiVector3D[nrOfVertices];
@@ -57,8 +80,15 @@ void Shape_exporter::export_shape(Shape* shape, std::string name) {
 
     }
 
-    Assimp::Exporter exporter;
+    mesh_index++;
+    material_index++;
 
+    
+}
+
+void Shape_exporter::export_final_model(std::string name)
+{
+    Assimp::Exporter exporter;
     unsigned int flags =  //NOTE: uncertain
         aiProcess_JoinIdenticalVertices |
         aiProcess_GenUVCoords |

@@ -25,7 +25,7 @@ Generation_manager::~Generation_manager()
      //   delete po; 
     //}
     delete position_gen;
-    delete player_jump_checker;
+    delete player_jump_checker;    
 }
 
 void Generation_manager::set_player(Player* player)
@@ -62,6 +62,21 @@ void Generation_manager::initialize()
 
     position_gen->set_seed(this->seed);
     position_gen->start(difficulity);
+
+    ///^vvvvvvvvvvvvvvvvvvvvvvv Testing
+    
+    
+    shape_export.set_nrOf(10,10); //TODO: do not hardcode!
+    shape_export.init();
+
+    Platform* anchor = position_gen->getAnchors()->at(0);
+    while(anchor){
+        
+        shape_export.build_shape_model(&anchor->platformShape, "test");
+        anchor = anchor->next;
+    }
+
+    ///^^^^^^^^^^^^^^^^^^^^^^^^^^ Testing
 
     //TODO: REMOVE THE COMMENTS!
     //place_anchorPoints();    

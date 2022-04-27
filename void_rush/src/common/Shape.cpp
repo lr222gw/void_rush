@@ -56,7 +56,8 @@ void Shape::setShapeCube(vec3& center)
 
 void Shape::export_as_obj()
 {
-    Shape_exporter::export_shape(this, "test");
+    //TODO: this could probably be removed if we wanted...
+    //Shape_exporter::export_all(this, "test");
 
 }
 

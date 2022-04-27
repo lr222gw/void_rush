@@ -12,6 +12,9 @@
 #include "3Dproj/GameObjectManager.h"
 
 #include "common/Helper.hpp"
+
+#include "common/Shape_exporter.hpp"
+
 //struct Platform{
 //	GameObject obj;
 //	Platform info;	
@@ -51,6 +54,7 @@ private:
 	Player* player;
 	ProtoPuzzle* puzzleManager;
 	GameObjectManager* gameObjManager;
+	Shape_exporter shape_export; //TODO; temp
 	friend class ImguiManager;
 	int seed; 
 	int nrOfAnchors;

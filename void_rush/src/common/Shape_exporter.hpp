@@ -13,7 +13,15 @@ class Shape_exporter{
 
 public:
     ~Shape_exporter();
-    static void export_shape(Shape* shape, std::string name);
-private:    
-
+    void set_nrOf(int nrOfMeshes, int nrOfMaterials);
+    void init();
+    void build_shape_model(Shape* shape, std::string name);
+    void export_final_model(std::string name);
+private:
+    //static Shape_exporter* get();
+    //friend class Shape_exporter;
+    aiScene scene;
+    
+    int nrOfMeshes;
+    int nrOfMaterials;
 };
