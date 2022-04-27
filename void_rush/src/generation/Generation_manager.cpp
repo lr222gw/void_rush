@@ -63,8 +63,9 @@ void Generation_manager::initialize()
     position_gen->set_seed(this->seed);
     position_gen->start(difficulity);
 
-    place_anchorPoints();    
-    place_jumpPoints();
+    //TODO: REMOVE THE COMMENTS!
+    //place_anchorPoints();    
+    //place_jumpPoints();
 
     puzzleManager->Initiate(this->getPuzzelPos());
     
@@ -182,7 +183,7 @@ void Generation_manager::draw()
         //platform->update();
         platform->updateVertexShader(gfx);
         platform->updatePixelShader(gfx);
-        platform->draw(gfx);
+        platform->draw(gfx);            
     }
 }
 

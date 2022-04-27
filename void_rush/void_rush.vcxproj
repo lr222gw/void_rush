@@ -336,6 +336,7 @@
     <ClCompile Include="src\3Dproj\Player.cpp" />
     <ClCompile Include="src\common\Helper.cpp" />
     <ClCompile Include="src\common\Shape.cpp" />
+    <ClCompile Include="src\common\Shape_exporter.cpp" />
     <ClCompile Include="src\common\Vector.cpp" />
     <ClCompile Include="src\generation\Position_generator.cpp" />
     <ClCompile Include="src\generation\Generation_manager.cpp" />
@@ -352,6 +353,7 @@
     <ClCompile Include="src\puzzle\puzzle_math.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\common\Shape_exporter.hpp" />
     <ClInclude Include="src/3Dproj/AnimationModel.h" />
     <ClInclude Include="src/3Dproj/BillBoard.h" />
     <ClInclude Include="src/3Dproj/BillBoardManager.h" />

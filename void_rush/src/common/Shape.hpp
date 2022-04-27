@@ -4,6 +4,7 @@
 #include "Helper.hpp"
 #include <vector>
 
+class Shape_exporter;
 struct inCorner {
     vec3 pos;
 };
@@ -32,6 +33,7 @@ struct Plane
     const vec3 get_rot();;
     void move(const vec3& ofset);
     vec3 get_center();
+    std::vector<vec3*> get_all_points();
 protected:
     void update_normal();;
 };
@@ -76,4 +78,7 @@ struct Shape
     void setPosition(vec3 pos);
     void setScale(vec3 scale);
     void setShapeCube(vec3& center);
+
+    void export_as_obj();
+
 };

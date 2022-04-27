@@ -1,4 +1,5 @@
 #include "Shape.hpp"
+#include "Shape_exporter.hpp"
 
 Shape::Shape():scale(1,1,1) {}
 
@@ -53,6 +54,12 @@ void Shape::setShapeCube(vec3& center)
     //outCorner.pos = Vertexes[Vertexes.size() / 2];
 }
 
+void Shape::export_as_obj()
+{
+    Shape_exporter::export_shape(this, "test");
+
+}
+
 //definition if plane functions
 void Plane::swap_windingorder() {
     vec3 temp = this->point2;
@@ -98,8 +105,13 @@ vec3 Plane::get_center()
     return (point1+point2+point3+point4)/4;
 }
 
+std::vector<vec3*> Plane::get_all_points()
+{
+    return std::vector<vec3*>{ &point1, & point2, & point3, & point4 };
+}
+
 void Plane::update_normal() { 
-    normal = vec3(point4 - point1).X((point2 - point1)).Normalize();
+    normal = vec3((point2 - point1)).X(point4 - point1).Normalize();
 }
 
 XZ_plane::XZ_plane(vec3 scale) {//Clockwise windingorder        

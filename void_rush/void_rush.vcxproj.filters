@@ -417,6 +417,9 @@
     <ClCompile Include="src\common\Shape.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\common\Shape_exporter.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -691,6 +694,9 @@
     </ClInclude>
     <ClInclude Include="src\3Dproj\Menu.h">
       <Filter>Void_Rush</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\Shape_exporter.hpp">
+      <Filter>Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

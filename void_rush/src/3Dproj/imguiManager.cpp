@@ -148,6 +148,11 @@ void ImguiManager::render_generation_widgets()
 			owner->generationManager->initialize();
 			owner->generationManager->generateGraph();
 		}
+
+		if (ImGui::Button("ExportFirstShape")) {
+			owner->generationManager->position_gen->anchors[0]->platformShape.export_as_obj();
+			
+		}
 	}
 	ImGui::End();
 
