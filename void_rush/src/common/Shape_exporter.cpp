@@ -16,8 +16,7 @@ void Shape_exporter::init()
     
     this->scene.mRootNode = new aiNode();
     this->scene.mNumMeshes = this->nrOfMeshes;
-    this->scene.mMeshes = new aiMesh * [this->nrOfMeshes]{ nullptr };
-    this->scene.mRootNode = new aiNode();
+    this->scene.mMeshes = new aiMesh * [this->nrOfMeshes]{ nullptr };    
     this->scene.mNumMaterials = this->nrOfMaterials;
     this->scene.mMaterials = new aiMaterial * [this->nrOfMaterials]{ nullptr };
     this->scene.mRootNode->mMeshes = new unsigned int[this->nrOfMeshes];
