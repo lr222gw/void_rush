@@ -23,6 +23,7 @@ public:
 	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
 	void Reset(bool lvlClr = false);
+	//Used when player falls of platform to rest ghost
 	bool ResetGhost();
 
 	void SetPuzzlePos(vec3 puzzlePosition);

@@ -50,12 +50,17 @@ void Ghost::setActive(bool activate)
 
 void Ghost::Reset()
 {
-	setPos(vec3(0.0f, 0.0f,  -10.f));
+	setPos(vec3(0.0f, 0.0f, -10.f));
 	readyToAttack = true;
-	speed = 2;
+	speed = 1;
 	getPlayerPosCD = 0;
 	rangeToPlayerBeforeNearestWay = 10;
 	rangeToPointBeforeNewPoint = 3;
+	if (!PlayerPositions.empty())
+	{
+		std::queue<vec3> empty;
+		PlayerPositions.swap(empty);
+	}
 	this->active = false;
 }
 
@@ -64,8 +69,8 @@ void Ghost::followPlayer(float dt)
 	if (!checkIfRangeOfPlayer()) {
 		setRot(vec3(1.57f, 0, 0));
 		getPlayerPosCD -= dt;
-		if (getPlayerPosCD < 0) {
-			getPlayerPosCD = 3;
+		if (getPlayerPosCD <= 0) {
+			getPlayerPosCD = 2;
 			PlayerPositions.push(player->getPos());
 			std::cout << "shot" << std::endl;
 		}
