@@ -8,8 +8,9 @@ Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot,
 	readyToAttack = true;
 	speed = 4;
 	getPlayerPosCD = 0;
+	*/
 	rangeToPlayerBeforeNearestWay = 10;
-	rangeToPointBeforeNewPoint = 3;*/
+	rangeToPointBeforeNewPoint = 3;
 	this->player = player;
 	Reset();
 	this->active = false;
@@ -54,8 +55,6 @@ void Ghost::Reset()
 	readyToAttack = true;
 	speed = 1;
 	getPlayerPosCD = 0;
-	rangeToPlayerBeforeNearestWay = 10;
-	rangeToPointBeforeNewPoint = 3;
 	if (!PlayerPositions.empty())
 	{
 		std::queue<vec3> empty;
