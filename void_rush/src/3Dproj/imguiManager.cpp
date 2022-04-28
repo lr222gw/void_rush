@@ -157,6 +157,7 @@ void ImguiManager::render_ghost_widgets()
 		static float min_speed = 0;
 		static float max_speed = 10;
 		ImGui::SliderFloat("Speed", &owner->ghost->speed, min_speed, max_speed);
+		ImGui::InputFloat("Point Limit", &owner->ghost->rangeToPointBeforeNewPoint);
 		if (ImGui::Button("Reset", ImVec2(100, 25)))
 		{
 			owner->ghost->Reset();
