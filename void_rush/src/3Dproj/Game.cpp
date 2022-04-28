@@ -140,10 +140,6 @@ GameStatesEnum Game::update(float dt)
 		}
 		camera->calcFURVectors();
 		skybox->update(camera->getPos());
-	/*update matrixes*/
-	GameObjManager->updateMatrix();
-	player->updateMatrix();
-	letter3DHandler->update(camera->getPos());
 
 		/*update matrixes*/
 		GameObjManager->updateMatrix();
