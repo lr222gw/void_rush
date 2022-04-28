@@ -22,8 +22,10 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->health = 3;
 	this->alive = true;
 	this->maxDepth = -140.0f;
-	this->levelTime = 0.0f;
 	this->resetGhost = false;
+
+	//this->levelTime = 0.0f;
+	this->scoreManager.SetPlayerSpeed(speed.length());
 
 }
 
@@ -35,8 +37,7 @@ void Player::update(float dt)
 {
 	handleEvents(dt);
 	if (!noClip) {
-		levelTime += dt;
-		score += constPoints;
+		scoreManager.Update(dt);
 		if (!grounded)
 		{
 			// Update forces
@@ -550,24 +551,8 @@ void Player::Reset(bool lvlClr)
 	this->startingJumpDir = vec2(0.0f, 0.0f);
 
 	if (lvlClr) {
-
 		//Add points
-		float timeMultiplyer = 5.0f;
-		switch (levelDifficulty)
-		{
-		case Difficulity::medium:
-			timeMultiplyer = 4.0f;
-			break;
-		case Difficulity::hard:
-			timeMultiplyer = 3.0f;
-			break;
-		}
-		float levelLength = puzzlePos.length();
-		float optimalTime = (levelLength / speed.length())*timeMultiplyer;//Time it would take to go in a straight line (* some multiplyer)
-		float scoreToGive = levelPoints * (optimalTime/levelTime);
-		score += scoreToGive + puzzlePoints;
-		//Reset timer
-		levelTime = 0.0f;
+		scoreManager.ClearLevel();
 	}
 }
 
@@ -580,17 +565,15 @@ bool Player::ResetGhost()
 	return false;
 }
 
-void Player::SetPuzzlePos(vec3 puzzlePosition)
-{
-	puzzlePos = puzzlePosition;
-}
-
 void Player::SetDifficulity(Difficulity diff)
 {
-	levelDifficulty = diff;
+	scoreManager.SetDifficulty(diff);
 }
 
-
+void Player::SetStartPlatform(Platform*& start)
+{
+	scoreManager.SetStartPlatform(start);
+}
 
 void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 {
@@ -608,96 +591,9 @@ void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 	));
 }
 
-
-void Player::writeScore(std::string name, float score, std::string file)
+void Player::writeScore(std::string name, std::string file)
 {
-	if (score == -1) {
-		score == this->score;
-	}
-	std::ifstream scoreFile;
-	std::ofstream scoreFileWrite;
-	std::string numScoresS;
-	std::string tempScore;
-	std::string tempName;
-	std::string newFile;
-	int numScoresI;
-	bool scoreInserted = false;
-	bool nameExists = false;
-	bool reWrite = false;
-
-	std::vector<std::string>scores;
-	std::vector<std::string>names;
-	scoreFile.open(file, std::ifstream::in);
-	scoreFile >> numScoresS;
-	if (numScoresS != "" && numScoresS != "0") {
-		numScoresI = std::stoi(numScoresS);
-		for (int i = 0; i < numScoresI; i++) {
-			scoreFile >> tempScore;
-			scoreFile >> tempName;
-			if (tempName == name) {
-				nameExists = true;
-				if (std::stoi(tempScore) < (int)score) {
-					reWrite = true;
-					tempScore = std::to_string((int)score);
-				}
-			}
-			scores.push_back(tempScore);
-			names.push_back(tempName);
-		}
-		if (nameExists ) {
-			if (reWrite) {
-				newFile += std::to_string(numScoresI) + "\n";
-				for (int i = 0; i < scores.size(); i++) {
-					newFile += scores[i] + " " + names[i] + "\n";
-				}
-			}
-		}
-		else if (numScoresI < maxScores) {
-			reWrite = true;
-			newFile += std::to_string(numScoresI + 1)+"\n";
-			std::string toInsert;
-			for (int i = 0; i < scores.size(); i++) {
-				if (std::stoi(scores[i]) < score && !scoreInserted) {
-					toInsert = std::to_string((int)score) + " " + name+"\n";
-					toInsert += scores[i] + " " + names[i] + "\n";
-					scoreInserted = true;
-				}
-				else {
-					toInsert = scores[i] + " " + names[i]+"\n";
-				}
-				newFile += toInsert;
-			}
-			if (!scoreInserted) {
-				newFile += std::to_string((int)score) + " " + name + "\n";
-			}
-		}
-		else {
-			reWrite = true;
-			newFile += numScoresS + "\n";
-			for (int i = 0; i < scores.size(); i++) {
-				if (std::stoi(scores[i]) < score && !scoreInserted) {
-					for (int j = scores.size()-1; j > i; j--) {
-						scores[j] = scores[j-1];
-						names[j] = names[j - 1];
-					}
-					scores[i] = std::to_string((int)score);
-					names[i] = name;
-					scoreInserted = true;
-				}
-				newFile += scores[i] + " " + names[i] + "\n";
-			}
-		}
-	}
-	else {
-		reWrite = true;
-		newFile = "1\n" + std::to_string((int)score) + " " + name + "\n";
-	}
-	scoreFile.close();
-	if (reWrite) {
-		scoreFileWrite.open(file, std::ofstream::out);
-		scoreFileWrite << newFile;
-		scoreFileWrite.close();
-	}
+	scoreManager.WriteScore(name, file);
 }
 
 void Player::TakeDmg(int dmg)
@@ -705,10 +601,9 @@ void Player::TakeDmg(int dmg)
 	health-=dmg;
 	if(health <= 0) {
 		alive = false;
-		//writeScore(score, "Player");
 	}
 	else {
-		score += deathPoints;
+		scoreManager.setDamageScore();
 	}
 }
 
@@ -719,7 +614,7 @@ void Player::AddHealth(int hlt)
 
 void Player::AddScore(float scr)
 {
-	this->score += scr;
+	this->scoreManager.AddScore(scr);
 }
 
 int Player::GetHealth()
@@ -729,7 +624,7 @@ int Player::GetHealth()
 
 float Player::GetScore()
 {
-	return score;
+	return scoreManager.GetScore();
 }
 
 bool Player::IsAlive()
