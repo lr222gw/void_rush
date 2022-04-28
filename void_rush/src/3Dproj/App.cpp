@@ -43,7 +43,7 @@ void App::run()
 			dt.setDeltaTime(0.2f);
 		}
 		/*DEBUG MOSUE*/
-		if (getkey(VK_TAB)) {
+		if (getkey('P')) {
 			mouse->activateMouse(true);
 			gfx->getWindosClass().HideCoursor();
 		}

@@ -62,12 +62,6 @@ Game::~Game()
 
 void Game::handleEvents()
 {
-	if (keyboard->isKeyPressed('P')) {
-		
-	}
-	else if (keyboard->isKeyPressed('O')) {
-		gfx->getWindosClass().ShowCoursor();
-	}
 	/*Read Mouse*/
 	while (!mouse->EventBufferEmpty() && mouse->getMouseActive()) {
 		mouseEvent e = mouse->ReadEvent();
