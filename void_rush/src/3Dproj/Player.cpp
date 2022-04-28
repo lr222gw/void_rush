@@ -24,7 +24,11 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->maxDepth = -140.0f;
 	this->resetGhost = false;
 
-	//this->levelTime = 0.0f;
+	this->maxLetters = 10;
+	this->currentLetter = 0;
+	for (int i = 0; i < maxLetters; i++) {
+		this->name += "_";
+	}
 	this->scoreManager.SetPlayerSpeed(speed.length());
 
 }
@@ -591,9 +595,38 @@ void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 	));
 }
 
-void Player::writeScore(std::string name, std::string file)
+void Player::writeScore(std::string file)
 {
 	scoreManager.WriteScore(name, file);
+}
+
+void Player::AddToName(unsigned char letter)
+{
+	if (currentLetter < maxLetters) {
+		name.at(currentLetter++) = letter;
+	}
+}
+
+std::string Player::GetName() const
+{
+	return name;
+}
+
+int Player::GetMaxLetters()
+{
+	return maxLetters;
+}
+
+int Player::GetCurrentLetter()
+{
+	return currentLetter;
+}
+
+void Player::ResetName()
+{
+	for (int i = 0; i < maxLetters; i++) {
+		this->name.at(i) = '_';
+	}
 }
 
 void Player::TakeDmg(int dmg)

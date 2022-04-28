@@ -41,6 +41,7 @@ private:
 	void setUpUI();
 	void setUpSound();
 	void Interact(std::vector<GameObject*>& interactables);
+	void SetName();
 	//void HandlePlayer();
 
 	//game objects

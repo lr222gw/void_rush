@@ -102,82 +102,90 @@ void Game::renderShadow()
 GameStatesEnum Game::update(float dt)
 {
 	GameStatesEnum theReturn = GameStatesEnum::NO_CHANGE;
-
-	/*DEBUG*/
-	if (keyboard->isKeyPressed(VK_RETURN)) {
-		ghost->setActive();
-	}
-	/*******/
-	if (testTime > 0.0f)
-	{
-		testTime -= dt;
-	}
-	/*Move things*/
-	camera->updateCamera(dt);
-	if (getkey('N')) {
-		DirectX::XMMATRIX viewMatrix = DirectX::XMMATRIX(
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			-GameObjManager->getGameObject(1)->getPos().x, -GameObjManager->getGameObject(1)->getPos().y, -GameObjManager->getGameObject(1)->getPos().z, 1.0f
-		);
-		XRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().x);
-		YRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().y);
-		gfx->getVertexconstbuffer()->view.element = viewMatrix;
-	}
-	for (int i = 0; i < billboardGroups.size(); i++) {
-		billboardGroups[i]->update(dt, gfx);
-	}
-	for (int i = 0; i < LightVisualizers.size(); i++) {
-		LightVisualizers[i]->setPos(light[i]->getPos());
-		LightVisualizers[i]->setRot(vec3(0, light[i]->getRotation().x, -light[i]->getRotation().y) + vec3(0, 1.57f, 0));
-	}
-	camera->calcFURVectors();
-	skybox->update(camera->getPos());
-
-	/*update matrixes*/
-	GameObjManager->updateMatrix();
-	player->updateMatrix();
+	if (player->IsAlive()) {
 
 
+		/*DEBUG*/
+		if (keyboard->isKeyPressed(VK_RETURN)) {
+			ghost->setActive();
+		}
+		/*******/
+		if (testTime > 0.0f)
+		{
+			testTime -= dt;
+		}
+		/*Move things*/
+		camera->updateCamera(dt);
+		if (getkey('N')) {
+			DirectX::XMMATRIX viewMatrix = DirectX::XMMATRIX(
+				1.0f, 0.0f, 0.0f, 0.0f,
+				0.0f, 1.0f, 0.0f, 0.0f,
+				0.0f, 0.0f, 1.0f, 0.0f,
+				-GameObjManager->getGameObject(1)->getPos().x, -GameObjManager->getGameObject(1)->getPos().y, -GameObjManager->getGameObject(1)->getPos().z, 1.0f
+			);
+			XRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().x);
+			YRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().y);
+			gfx->getVertexconstbuffer()->view.element = viewMatrix;
+		}
+		for (int i = 0; i < billboardGroups.size(); i++) {
+			billboardGroups[i]->update(dt, gfx);
+		}
+		for (int i = 0; i < LightVisualizers.size(); i++) {
+			LightVisualizers[i]->setPos(light[i]->getPos());
+			LightVisualizers[i]->setRot(vec3(0, light[i]->getRotation().x, -light[i]->getRotation().y) + vec3(0, 1.57f, 0));
+		}
+		camera->calcFURVectors();
+		skybox->update(camera->getPos());
 
-	collisionHandler.update();
+		/*update matrixes*/
+		GameObjManager->updateMatrix();
+		player->updateMatrix();
 
-	/*update vertex*/
-	updateShaders();
 
-	/*update things*/
-	soundManager.update(camera->getPos(), camera->getForwardVec());
-	gfx->Update(dt, camera->getPos());
-	GameObjManager->update(dt);
-	player->update(dt);
+
+		collisionHandler.update();
+
+		/*update vertex*/
+		updateShaders();
+
+		/*update things*/
+		soundManager.update(camera->getPos(), camera->getForwardVec());
+		gfx->Update(dt, camera->getPos());
+		GameObjManager->update(dt);
+		player->update(dt);
 
 #pragma region camera_settings
 
-	if (getkey('C')) {
-		camera->setPosition(light[lightNr]->getPos());
-		camera->setRotation(light[lightNr]->getRotation());
-	}
-	if (getkey('1') && getkey(VK_F1)) {
-		lightNr = 0;
-	}
-	if (getkey('2') && getkey(VK_F1)) {
-		lightNr = 1;
-	}
-	if (getkey('3') && getkey(VK_F1)) {
-		lightNr = 2;
-	}
-	if (getkey('4') && getkey(VK_F1)) {
-		lightNr = 3;
-	}
+		if (getkey('C')) {
+			camera->setPosition(light[lightNr]->getPos());
+			camera->setRotation(light[lightNr]->getRotation());
+		}
+		if (getkey('1') && getkey(VK_F1)) {
+			lightNr = 0;
+		}
+		if (getkey('2') && getkey(VK_F1)) {
+			lightNr = 1;
+		}
+		if (getkey('3') && getkey(VK_F1)) {
+			lightNr = 2;
+		}
+		if (getkey('4') && getkey(VK_F1)) {
+			lightNr = 3;
+		}
 #pragma endregion camera_settings
 
-	Interact(this->GameObjManager->getAllInteractGameObjects());
-	if (!player->IsAlive()) {
-		
-		player->writeScore("Player");
-		theReturn = GameStatesEnum::TO_MENU;
-		
+		Interact(this->GameObjManager->getAllInteractGameObjects());
+	}
+	else {
+		if (keyboard->isKeyPressed(VK_F1)) {
+			player->writeScore();
+			player->ResetName();
+			keyboard->onKeyReleased(VK_F1);
+			theReturn = GameStatesEnum::TO_MENU;
+		}
+		else{
+			SetName();
+		}
 	}
 
 
@@ -417,6 +425,16 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			//player->setPos(vec3(0.0f, 0.0f, 0.0f));
 			player->Reset(true);
 			generationManager->initialize();
+		}
+	}
+}
+
+void Game::SetName()
+{
+	for (int i = 65; i < 90; i++) {
+		if (keyboard->isKeyPressed(i)) {
+			player->AddToName(i);
+			keyboard->onKeyReleased(i);
 		}
 	}
 }
