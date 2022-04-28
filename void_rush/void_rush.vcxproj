@@ -435,6 +435,7 @@
     <ClInclude Include="src\generation\Platform.hpp" />
     <ClInclude Include="src\generation\playerGen.hpp" />
     <ClInclude Include="src\generation\proto.hpp" />
+    <ClInclude Include="src\HighScoreGameState.h" />
     <ClInclude Include="src\hud\Hud.h" />
     <ClInclude Include="src\physics\Jump.hpp" />
     <ClInclude Include="src\physics\proto.hpp" />
