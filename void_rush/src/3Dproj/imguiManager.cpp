@@ -152,7 +152,7 @@ void ImguiManager::render_ghost_widgets()
 {
 	std::string name = "Ghost";
 	if (ImGui::Begin(name.c_str())) {
-
+		
 		ImGui::Checkbox("Activate Ghost", &owner->ghost->active);
 		static float min_speed = 0;
 		static float max_speed = 10;

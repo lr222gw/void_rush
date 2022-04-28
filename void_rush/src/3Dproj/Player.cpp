@@ -703,6 +703,7 @@ void Player::writeScore(std::string name, float score, std::string file)
 void Player::TakeDmg(int dmg)
 {
 	health-=dmg;
+	this->Reset();
 	if(health <= 0) {
 		alive = false;
 		//writeScore(score, "Player");
@@ -710,6 +711,7 @@ void Player::TakeDmg(int dmg)
 	else {
 		score += deathPoints;
 	}
+	
 }
 
 void Player::AddHealth(int hlt)

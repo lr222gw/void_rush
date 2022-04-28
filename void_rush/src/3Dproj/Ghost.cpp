@@ -22,6 +22,7 @@ void Ghost::collidedWithPlayer()
 		readyToAttack = false;
 		attackCD = 5.0f;
 		player->TakeDmg();
+		this->Reset();
 	}
 	
 }
@@ -55,6 +56,7 @@ void Ghost::Reset()
 	getPlayerPosCD = 0;
 	rangeToPlayerBeforeNearestWay = 10;
 	rangeToPointBeforeNewPoint = 3;
+	this->active = false;
 }
 
 void Ghost::followPlayer(float dt)
