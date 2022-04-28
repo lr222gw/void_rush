@@ -1,8 +1,8 @@
 #include "Player.h"
 #include <algorithm>
 
-Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale):
-	GameObject(file, gfx, pos, rot, scale), noClip(true)
+Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, Hud* HUD, vec3 pos, vec3 rot, vec3 scale):
+	GameObject(file, gfx, pos, rot, scale), noClip(true), HUD(HUD)
 {
 	this->mouse = mouse;
 	this->keyboard = keyboard;
@@ -710,6 +710,7 @@ void Player::TakeDmg(int dmg)
 	else {
 		score += deathPoints;
 	}
+	this->HUD->LowerHealth();
 }
 
 void Player::AddHealth(int hlt)

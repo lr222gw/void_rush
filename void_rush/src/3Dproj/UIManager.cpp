@@ -18,6 +18,9 @@ UIManager::~UIManager()
 	for (size_t i = 0; i < buttons.size(); i++) {
 		delete buttons[i];
 	}
+	elements.clear();
+	strings.clear();
+	buttons.clear();
 	vertexBuffer->Release();
 	pShader->Release();
 	vShader->Release();
