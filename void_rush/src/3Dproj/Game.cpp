@@ -436,16 +436,26 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 
 void Game::SetName()
 {
-	for (int i = 65; i < 90; i++) {
+	//A-Z
+	for (int i = 65; i < 91; i++) {
 		if (keyboard->isKeyPressed(i)) {
 			player->AddToName(i);
-			keyboard->onKeyReleased(i);	
+			keyboard->onKeyReleased(i);
 		}
 	}
+	//0-9
+	for (int i = 48; i < 58; i++) {
+		if (keyboard->isKeyPressed(i)) {
+			player->AddToName(i);
+			keyboard->onKeyReleased(i);
+		}
+	}
+	//Backspace
 	if (keyboard->isKeyPressed(VK_BACK)) {
 		player->RemoveLetter();
 		keyboard->onKeyReleased(VK_BACK);
 	}
+	//Space
 	if (keyboard->isKeyPressed(VK_SPACE)) {
 		player->AddToName('_');
 		keyboard->onKeyReleased(VK_SPACE);
