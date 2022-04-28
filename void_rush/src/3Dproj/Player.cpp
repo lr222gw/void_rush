@@ -23,6 +23,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->alive = true;
 	this->maxDepth = -140.0f;
 	this->resetGhost = false;
+	this->submitName = false;
 
 	this->maxLetters = 10;
 	this->currentLetter = 0;
@@ -607,6 +608,16 @@ void Player::AddToName(unsigned char letter)
 	}
 }
 
+void Player::RemoveLetter()
+{
+	if (currentLetter > 0) {
+		name.at(--currentLetter) = '_';
+	}
+	else {
+		name.at(0) = '_';
+	}
+}
+
 std::string Player::GetName() const
 {
 	return name;
@@ -627,6 +638,16 @@ void Player::ResetName()
 	for (int i = 0; i < maxLetters; i++) {
 		this->name.at(i) = '_';
 	}
+}
+
+bool Player::GetSubmitName()
+{
+	return submitName;
+}
+
+void Player::SetSubmitName(bool val)
+{
+	submitName = val;
 }
 
 void Player::TakeDmg(int dmg)

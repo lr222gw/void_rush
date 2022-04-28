@@ -32,10 +32,13 @@ public:
 	void writeScore(std::string file = "assets/files/highScores.txt");
 
 	void AddToName(unsigned char letter);
+	void RemoveLetter();
 	std::string GetName()const;
 	int GetMaxLetters();
 	int GetCurrentLetter();
 	void ResetName();
+	bool GetSubmitName();
+	void SetSubmitName(bool val);
 
 	
 private:
@@ -67,7 +70,8 @@ private:
 	std::string name;
 	int maxLetters;
 	int currentLetter;
-	float levelTime;
+	bool submitName;
+	//float levelTime;
 	vec3 puzzlePos;
 	Difficulity levelDifficulty;
 	Hud* HUD;
