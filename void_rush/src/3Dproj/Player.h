@@ -20,6 +20,7 @@ public:
 	void addRot(vec3 rot);
 	void setGrounded();
 	void setUngrounded();
+	float getSpeed();
 	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
 	void Reset(bool lvlClr = false);

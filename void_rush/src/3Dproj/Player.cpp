@@ -525,6 +525,11 @@ void Player::setUngrounded()
 	}
 }
 
+float Player::getSpeed()
+{
+	return this->speed.x;
+}
+
 float Player::getGroundedTimer()
 {
 	return this->groundedTimer;

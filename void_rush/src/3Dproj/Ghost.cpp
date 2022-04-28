@@ -70,8 +70,8 @@ void Ghost::followPlayer(float dt)
 	if (!checkIfRangeOfPlayer()) {
 		setRot(vec3(1.57f, 0, 0));
 		getPlayerPosCD -= dt;
-		if (getPlayerPosCD <= 0) {
-			getPlayerPosCD = 2;
+		if (getPlayerPosCD < 0) {
+			getPlayerPosCD = 3;
 			PlayerPositions.push(player->getPos());
 		}
 		while (PlayerPositions.size() > 30) {
@@ -116,13 +116,16 @@ bool Ghost::checkIfRangeOfPlayer()
 
 void Ghost::GainSpeed(float dt)
 {
-	if (this->Ghosts_Time >= 30.0f)
+	if (this->speed < player->getSpeed())
 	{
-		this->speed += 0.5f;
-		this->Ghosts_Time = 0.0f;
-	}
-	else
-	{
-		this->Ghosts_Time += dt;
+		if (this->Ghosts_Time >= 20.0f)
+		{
+			this->speed += 0.1f;
+			this->Ghosts_Time = 0.0f;
+		}
+		else
+		{
+			this->Ghosts_Time += dt;
+		}
 	}
 }
