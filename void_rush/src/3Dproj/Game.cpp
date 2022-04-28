@@ -178,10 +178,15 @@ GameStatesEnum Game::update(float dt)
 		Interact(this->GameObjManager->getAllInteractGameObjects());
 	}
 	else {
-		if (keyboard->isKeyPressed(VK_F1)) {
+		if (!player->GetSubmitName()) {
+			//UI->createUIString("Write your name and press F1 to submit.", vec2(-0.5f, 0.2f), vec2(0.5f, 0.5f), "NameDesc");
+			//UI->createUIString(player->GetName(), vec2(-0.5f, 0.0f), vec2(0.5f, 0.5f), "Name");
+			player->SetSubmitName(true);
+		}
+		if (keyboard->isKeyPressed(VK_RETURN)) {
 			player->writeScore();
 			player->ResetName();
-			keyboard->onKeyReleased(VK_F1);
+			keyboard->onKeyReleased(VK_RETURN);
 			theReturn = GameStatesEnum::TO_MENU;
 		}
 		else{
@@ -276,8 +281,14 @@ void Game::DrawToBuffer()
 		}
 	}
 
-	HUD->Update();
-	//UI->draw();
+	if (player->IsAlive())
+	{
+		HUD->Update();
+	}
+	else
+	{
+		UI->draw();
+	}
 }
 
 void Game::setUpObject()
@@ -347,6 +358,9 @@ void Game::setUpUI()
 	UI = new UIManager(rm, gfx);
 	//UI->createUISprite("assets/textures/Fire.png", vec2(-1, 0), vec2(0.5, 0.5));
 	//UI->createUIString("string", vec2(0, 0), vec2(0.2, 0.5), "penis");
+	UI->createUIString("Write your name and", vec2(-0.9f, 0.3f), vec2(0.1f, 0.1f), "NameDesc");
+	UI->createUIString("press Enter to submit!", vec2(-0.9f, 0.15f), vec2(0.1f, 0.1f), "NameDesc2");
+	UI->createUIString(player->GetName(), vec2(-0.5f, -0.2f), vec2(0.1f, 0.1f), "Name");
 }
 
 void Game::setUpSound()
@@ -366,18 +380,7 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 	bool interact = false;
 	float size = 0.0f;
 	for (int i = 0; i < interactables.size(); i++) {
-		/*interactables[i]->getBoundingBox(bb);
-		xSize = fabs(bb[1].x - bb[0].x);
-		ySize = fabs(bb[1].y - bb[0].y);
-		zSize = fabs(bb[1].z - bb[0].z);
-		if (xSize >= ySize && xSize >= zSize)
-			size = xSize;
-		else if (ySize >= xSize && ySize >= zSize)
-			size = ySize;
-		else 
-			size = zSize;*/
 		
-		//objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
 		objMidPos = GetMidPos(interactables[i], size);
 		
 		//RayDist is the shortest path from the center of the object to the nearest point on the ray
@@ -436,8 +439,17 @@ void Game::SetName()
 	for (int i = 65; i < 90; i++) {
 		if (keyboard->isKeyPressed(i)) {
 			player->AddToName(i);
-			keyboard->onKeyReleased(i);
+			keyboard->onKeyReleased(i);	
 		}
 	}
+	if (keyboard->isKeyPressed(VK_BACK)) {
+		player->RemoveLetter();
+		keyboard->onKeyReleased(VK_BACK);
+	}
+	if (keyboard->isKeyPressed(VK_SPACE)) {
+		player->AddToName('_');
+		keyboard->onKeyReleased(VK_SPACE);
+	}
+	UI->getStringElement("Name")->setText(player->GetName());
 }
 
