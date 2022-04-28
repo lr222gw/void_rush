@@ -8,6 +8,9 @@ Menu::Menu(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mous
 	setUpObject();
 	setUpUI();
 	//this->IMGUI->set_owner(this);
+
+	soundManager.playMusic("assets/audio/MenuMusic.wav", 7.0f);
+	soundManager.setMusicLoop(true);
 }
 
 Menu::~Menu()
@@ -33,6 +36,7 @@ GameStatesEnum Menu::update(float dt)
 	camera->updateCamera();
 	camera->addRotation(vec3(0.1 * dt, 0.3 * dt, 0));
 	UI->update();
+	soundManager.update(camera->getPos(), camera->getForwardVec());
 
 	if (UI->getButton("Quit")->clicked()) {
 		theReturn = GameStatesEnum::QUIT;
