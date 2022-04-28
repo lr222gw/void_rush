@@ -117,20 +117,36 @@ void Plane::update_normal() {
 
 XZ_plane::XZ_plane(vec3 scale) {//Clockwise windingorder        
     
-    point1 = vec3(-1, 0, 1 ).mul(scale) ;  // top left
-    point2 = vec3( 1, 0,  1).mul(scale);   // top right
-    point3 = vec3( 1, 0, -1).mul(scale);  // bottom right
-    point4 = vec3(-1, 0, -1).mul(scale); // bottom left
+    point1 = vec3(-1, 0, 1 ).mul(scale) ;   // top left    
+    point2 = vec3( 1, 0,  1).mul(scale);    // top right
+    point3 = vec3( 1, 0, -1).mul(scale);    // bottom right
+    point4 = vec3(-1, 0, -1).mul(scale);    // bottom left
     update_normal();
+    uv[0].x = 0;
+    uv[0].y = 0;
+    uv[1].x = 1;
+    uv[1].y = 0;
+    uv[2].x = 1;
+    uv[2].y = 1;
+    uv[3].x = 0;
+    uv[3].y = 1;
 }
 
 XY_plane::XY_plane(vec3 scale) {//Clockwise windingorder
     
-    point1 = vec3(-1,  1, 0).mul(scale); // top left
-    point2 = vec3( 1,  1, 0).mul(scale);   // top right
-    point3 = vec3( 1, -1, 0).mul(scale);  // bottom right
-    point4 = vec3(-1, -1, 0).mul(scale); // bottom left
+    point1 = vec3(-1,  1, 0).mul(scale);    // top left
+    point2 = vec3( 1,  1, 0).mul(scale);    // top right
+    point3 = vec3( 1, -1, 0).mul(scale);    // bottom right
+    point4 = vec3(-1, -1, 0).mul(scale);    // bottom left
     update_normal();
+    uv[0].x = 0;
+    uv[0].y = 0;
+    uv[1].x = 1;
+    uv[1].y = 0;
+    uv[2].x = 1;
+    uv[2].y = 1;
+    uv[3].x = 0;
+    uv[3].y = 1;
 }
 
 YZ_plane::YZ_plane(vec3 scale) { //Clockwise windingorder
@@ -139,4 +155,29 @@ YZ_plane::YZ_plane(vec3 scale) { //Clockwise windingorder
     point3 = vec3(0, -1,  1).mul(scale) ;  // bottom right
     point4 = vec3(0, -1, -1).mul(scale) ;  // bottom left
     update_normal();
+    uv[0].x = 0;
+    uv[0].y = 0;
+    uv[1].x = 1;
+    uv[1].y = 0;
+    uv[2].x = 1;
+    uv[2].y = 1;
+    uv[3].x = 0;
+    uv[3].y = 1;
+    /*uv[0].x = 0;
+    uv[0].y = 0;
+    uv[1].x = 0;
+    uv[1].y = 1;
+    uv[2].x = 1;
+    uv[2].y = 0;
+    uv[3].x = 1;
+    uv[3].y = 1;*/
+    /*uv[0].x = 0;
+    uv[0].y = 0;
+    uv[1].x = 1;
+    uv[1].y = 0;
+    uv[2].x = 0;
+    uv[2].y = 1;
+    uv[3].x = 1;
+    uv[3].y = 1;
+    */
 }

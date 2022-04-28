@@ -86,8 +86,13 @@ void Shape_exporter::build_shape_model(Shape* shape, std::string name)
             pMesh->mVertices[vert_counter] = aiVector3D(point->x, point->y, point->z);
             pMesh->mNormals[vert_counter] = aiVector3D(plane_normal.x, plane_normal.y, plane_normal.z);
 
-            /// TESTvvvvvvvvvvvvvv
-            pMesh->mTextureCoords[0][vert_counter] = aiVector3D(0, 0, 0); //TODO: FIX ME
+            /// TESTvvvvvvvvvvvvvv            
+
+            pMesh->mTextureCoords[0][vert_counter] 
+                = aiVector3D(
+                    plane->uv[vert_per_face_count].x, 
+                    plane->uv[vert_per_face_count].y, 0); //TODO: FIX ME
+
             //pMesh->mBitangents[vert_counter] = aiVector3D(0, 0, 0); //TODO: FIX ME
             //pMesh->mTangents[vert_counter] = aiVector3D(0, 0, 0); //TODO: FIX ME
             /// TEST^^^^^^^^^^
@@ -100,8 +105,8 @@ void Shape_exporter::build_shape_model(Shape* shape, std::string name)
         pMesh->mFaces[face_counter++] = face;
         
     }
-    aiString texture_test = aiString("assets/textures/stripestest.png");
-    scene.mMaterials[material_index]->AddProperty(&texture_test, AI_MATKEY_TEXTURE_NORMALS(0));
+    aiString texture_test = aiString("textures/outline.png");
+    scene.mMaterials[material_index]->AddProperty(&texture_test, AI_MATKEY_TEXTURE_DIFFUSE(0));
 
     mesh_index++;
     material_index++;
@@ -118,7 +123,7 @@ void Shape_exporter::export_final_model(std::string name)
         aiProcess_GenNormals;
 
     //if (exporter.Export(&scene, "obj", "test.obj", flags, properties) != aiReturn_SUCCESS) {
-    if (exporter.Export(&scene, "obj", "assets/obj/"+name + ".obj") != aiReturn_SUCCESS) {
+    if (exporter.Export(&scene, "obj", "assets/obj/"+name + ".obj", aiProcess_FlipUVs) != aiReturn_SUCCESS) {
         //if (exporter.Export(&scene, "obj", "test.obj") != aiReturn_SUCCESS) {
         std::cout << "Could not save model file" << std::endl;
         std::cout << exporter.GetErrorString() << std::endl;

@@ -27,6 +27,7 @@ struct Plane
     vec3 point4;
     vec3 normal;
     vec3 offset;
+    vec2 uv[4];
     
     void swap_windingorder();
     const vec3 get_normal();;
