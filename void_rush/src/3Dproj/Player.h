@@ -29,7 +29,13 @@ public:
 
 	void SetDifficulity(Difficulity diff);
 	void SetStartPlatform(Platform*& start);
-	void writeScore(std::string name, std::string file = "assets/files/highScores.txt");
+	void writeScore(std::string file = "assets/files/highScores.txt");
+
+	void AddToName(unsigned char letter);
+	std::string GetName()const;
+	int GetMaxLetters();
+	int GetCurrentLetter();
+	void ResetName();
 
 	
 private:
@@ -58,6 +64,9 @@ private:
 	Camera* cam;
 
 	ScoreManager scoreManager;
+	std::string name;
+	int maxLetters;
+	int currentLetter;
 	float levelTime;
 	vec3 puzzlePos;
 	Difficulity levelDifficulty;
