@@ -12,7 +12,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	player = nullptr;
 	skybox = nullptr;
 	
-	
+	HUD = new Hud(gfx, rm);
 	lightNr = 0;
 	testPuzzle = new ProtoPuzzle(gfx, rm, collisionHandler);
 	
@@ -54,6 +54,7 @@ Game::~Game()
 	delete skybox;
 	delete testPuzzle;
 	delete generationManager;
+	delete HUD;
 	delete UI;
 	delete GameObjManager;
 	delete letter3DHandler;
@@ -269,16 +270,16 @@ void Game::DrawToBuffer()
 		}
 	}
 
+	HUD->Update();
 	letter3DHandler->draw();
-
-	UI->draw();
+	//UI->draw();
 }
 
 void Game::setUpObject()
 {
 	////////OBJECTS///////////
 
-	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, vec3(0.0f, 0.0f, 0.0f));
+	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f));
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);

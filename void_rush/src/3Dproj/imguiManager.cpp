@@ -215,13 +215,10 @@ void ImguiManager::render_debuginfo_widgets()
 		if(ImGui::TreeNode("settings")){
 			ImGui::SliderFloat("update_interval", &update_interval, 0.1f, 10.f);
 			ImGui::SliderFloat("allowed_diviation", &allowed_diviation_from_avg, 0.1f, 20.f);
-			if(fps + allowed_diviation_from_avg < average_fps ){
-				
-			}
 			ImGui::TreePop();
 		}
-		ImGui::End();
 	}
+	ImGui::End();
 }
 
 void ImguiManager::render_player_widgets()
