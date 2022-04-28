@@ -51,7 +51,7 @@ void Ghost::Reset()
 {
 	setPos(vec3(player->getxPos(), player->getyPos() + 10.0f, player->getzPos()));
 	readyToAttack = true;
-	speed = 4;
+	speed = 2;
 	getPlayerPosCD = 0;
 	rangeToPlayerBeforeNearestWay = 10;
 	rangeToPointBeforeNewPoint = 3;
