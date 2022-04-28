@@ -105,6 +105,7 @@ bool Ghost::checkIfInRangeOfPoint()
 	return ghostToPoint.length() < rangeToPointBeforeNewPoint;
 }
 
+//check if distans to player is less then closest new point
 bool Ghost::checkIfRangeOfPlayer()
 {
 	vec3 ghostToPlayer = (player->getPos() - getPos());
