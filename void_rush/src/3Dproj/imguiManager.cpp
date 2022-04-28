@@ -182,7 +182,7 @@ void ImguiManager::render_physics_widgets()
 		static float min_MidAdj = 1;
 		static float max_MidAdj = 10;
 		ImGui::SliderFloat("Air adjustment", &owner->player->midAirAdj, min_MidAdj, max_MidAdj);
-			
+		ImGui::InputFloat("Lives", &owner->player->health);
 	}
 	ImGui::End();
 }
