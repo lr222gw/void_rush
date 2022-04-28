@@ -28,8 +28,6 @@ public:
 
 	void SetDifficulity(Difficulity diff);
 	void SetStartPlatform(Platform*& start);
-
-
 	void writeScore(std::string name, std::string file = "assets/files/highScores.txt");
 
 	

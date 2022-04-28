@@ -2,11 +2,7 @@
 
 ScoreManager::ScoreManager()
 {
-	this->levelDifficulty = Difficulity::easy;
-	this->levelLength = 0.0f;
-	this->levelTime = 0.0f;
-	this->score = 0.0f;
-	this->playerSpeed = 0.0f;
+	Reset();
 }
 
 ScoreManager::~ScoreManager()
@@ -60,7 +56,7 @@ void ScoreManager::AddScore(float points)
 	score += points;
 }
 
-void ScoreManager::ClearLevel()
+void ScoreManager::LevelDone()
 {
 	//Add points
 	float scoreMultiplyer = 1.0f;
@@ -83,6 +79,15 @@ void ScoreManager::ClearLevel()
 	levelTime = 0.0f;
 
 	//return score;
+}
+
+void ScoreManager::Reset()
+{
+	this->levelDifficulty = Difficulity::easy;
+	this->levelLength = 0.0f;
+	this->levelTime = 0.0f;
+	this->score = 0.0f;
+	this->playerSpeed = 0.0f;
 }
 
 void ScoreManager::WriteScore(std::string name, std::string file)
@@ -171,4 +176,5 @@ void ScoreManager::WriteScore(std::string name, std::string file)
 		scoreFileWrite << newFile;
 		scoreFileWrite.close();
 	}
+	Reset();
 }
