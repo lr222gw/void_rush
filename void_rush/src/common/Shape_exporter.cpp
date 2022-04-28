@@ -109,7 +109,7 @@ void Shape_exporter::build_shape_model(Shape* shape, std::string name)
     scene.mMaterials[material_index]->AddProperty(&texture_test, AI_MATKEY_TEXTURE_DIFFUSE(0));
 
     mesh_index++;
-    material_index++;
+    //material_index++;
 
     
 }

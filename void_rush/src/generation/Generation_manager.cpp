@@ -66,7 +66,7 @@ void Generation_manager::initialize()
     ///^vvvvvvvvvvvvvvvvvvvvvvv Testing
     
     
-    shape_export.set_nrOf(10, 10); //TODO: do not hardcode!
+    shape_export.set_nrOf(position_gen->getAnchors()->size() + position_gen->getJumpPoints()->size(), 1); //TODO: do not hardcode!
     shape_export.init();
 
     Platform* anchor = position_gen->getAnchors()->at(0);
@@ -75,6 +75,13 @@ void Generation_manager::initialize()
         shape_export.build_shape_model(&anchor->platformShape, "test");
         collisionHandler->addPlatform(&anchor->platformShape);
         anchor = anchor->next;
+    }
+    Platform* jumppoint = position_gen->getJumpPoints()->at(0);
+    while(jumppoint){
+
+        shape_export.build_shape_model(&jumppoint->platformShape, "test");
+        collisionHandler->addPlatform(&jumppoint->platformShape);
+        jumppoint = jumppoint->next;
     }
 
     shape_export.export_final_model("test");
