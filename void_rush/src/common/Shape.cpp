@@ -48,7 +48,7 @@ void Shape::setShapeCube(vec3& center)
     }
     for (int i = 0; i < temp_planes.size(); i++) {
         temp_planes[i]->offset = vec3::Normalize(temp_planes[i]->get_normal()).mul(scale);
-        temp_planes[i]->move(center - temp_planes[i]->offset); //TODO: remove?
+        temp_planes[i]->move(center + temp_planes[i]->offset); //TODO: remove?
     }
 
     auto p1 = temp_planes[0]->point1;
@@ -174,6 +174,7 @@ XY_plane::XY_plane(vec3 scale) :
 YZ_plane::YZ_plane(vec3 scale) : 
     Plane()
 { //Clockwise windingorder
+    
     point1 = vec3(0,  1, -1).mul(scale) ;  // top left
     point2 = vec3(0,  1,  1).mul(scale) ;  // top right
     point3 = vec3(0, -1,  1).mul(scale) ;  // bottom right

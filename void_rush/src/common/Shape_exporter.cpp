@@ -123,7 +123,8 @@ void Shape_exporter::export_final_model(std::string name)
         aiProcess_GenNormals;
 
     //if (exporter.Export(&scene, "obj", "test.obj", flags, properties) != aiReturn_SUCCESS) {
-    if (exporter.Export(&scene, "obj", "assets/obj/"+name + ".obj", aiProcess_FlipUVs) != aiReturn_SUCCESS) {
+    //if (exporter.Export(&scene, "obj", "assets/obj/"+name + ".obj", aiProcess_FlipUVs) != aiReturn_SUCCESS) {
+    if (exporter.Export(&scene, "obj", "assets/obj/"+name + ".obj", aiProcess_ConvertToLeftHanded) != aiReturn_SUCCESS) {
         //if (exporter.Export(&scene, "obj", "test.obj") != aiReturn_SUCCESS) {
         std::cout << "Could not save model file" << std::endl;
         std::cout << exporter.GetErrorString() << std::endl;
