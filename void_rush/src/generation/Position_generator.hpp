@@ -36,6 +36,8 @@ public:
     void assignPlayer (Player_jump_checker* player);
     float randF (float min, float max);
 
+    Platform*& GetStartPlatform();
+
 private: // Magic Numbers
     struct Jump_point_settings{        
         float random_dist_dividier = 2.f; //2 is half, recommended...

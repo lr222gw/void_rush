@@ -417,6 +417,9 @@
     <ClCompile Include="src\3Dproj\3DLetters.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\score\ScoreManager.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\3Dproj\3DLettersHandler.cpp">
       <Filter>Engine\Source Files\Handlers</Filter>
     </ClCompile>
@@ -696,6 +699,9 @@
       <Filter>Void_Rush</Filter>
     </ClInclude>
     <ClInclude Include="src\3Dproj\3DLetters.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\score\ScoreManager.hpp">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\3Dproj\3DLettersHandler.h">

@@ -6,6 +6,7 @@
 #include "common/Vector.hpp"
 
 #include "generation/Position_generator.hpp"//To use difficulty
+#include "score/ScoreManager.hpp"
 
 #include <string>
 #include <fstream>
@@ -25,11 +26,11 @@ public:
 	void Reset(bool lvlClr = false);
 	bool ResetGhost();
 
-	void SetPuzzlePos(vec3 puzzlePosition);
 	void SetDifficulity(Difficulity diff);
+	void SetStartPlatform(Platform*& start);
 
-	//score -1: using players score
-	void writeScore(std::string name, float score = -1, std::string file = "assets/files/highScores.txt");
+
+	void writeScore(std::string name, std::string file = "assets/files/highScores.txt");
 
 	
 private:
@@ -57,22 +58,12 @@ private:
 	Keyboard* keyboard;
 	Camera* cam;
 
-	float levelTime;
-	vec3 puzzlePos;
-	Difficulity levelDifficulty;
+	ScoreManager scoreManager;
 
-	float score;
 	int health;
 	bool alive;
 	float maxDepth;
 
-	const float constPoints = 0.1f;//Points given each update;
-	const float puzzlePoints = 100.0f;//Points given when puzzle is done
-	const float levelPoints = 1000.0f;//Points given when level is done
-	const float deathPoints = -5.0f;//Points given when player looses a life
-	//const std::string scoreFile = "asstes/files/highScores.txt";
-
-	const int maxScores = 10;
 	
 public:
 	void TakeDmg(int dmg = 1);
