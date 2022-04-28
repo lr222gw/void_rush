@@ -8,7 +8,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->keyboard = keyboard;
 	this->cam = cam;
 	this->gravity = vec3(0.0f, -9.82f, 0.0f);
-	this->speed = vec3(5.f, 0.0f, 5.0f);
+	this->speed = vec3(2.7f, 0.0f, 2.7f);
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
 	this->jumpForce = 5.0f;
 	this->midAirAdj = 2.0f;
