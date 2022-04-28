@@ -62,7 +62,7 @@ private:
 	Difficulity levelDifficulty;
 
 	float score;
-	int health;
+	float health;
 	bool alive;
 	float maxDepth;
 
