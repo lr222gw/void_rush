@@ -11,6 +11,7 @@ Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot,
 	*/
 	rangeToPlayerBeforeNearestWay = 5;
 	rangeToPointBeforeNewPoint = 0.5;
+	this->Ghosts_Time = 0.0f;
 	this->player = player;
 	Reset();
 	this->active = false;
@@ -37,6 +38,7 @@ void Ghost::update(float dt)
 				readyToAttack = true;
 			}
 		}
+		GainSpeed(dt);
 		followPlayer(dt);
 		if (player->ResetGhost()) {
 			this->Reset();
@@ -110,4 +112,17 @@ bool Ghost::checkIfRangeOfPlayer()
 {
 	vec3 ghostToPlayer = (player->getPos() - getPos());
 	return ghostToPlayer.length() < rangeToPlayerBeforeNearestWay;
+}
+
+void Ghost::GainSpeed(float dt)
+{
+	if (this->Ghosts_Time >= 30.0f)
+	{
+		this->speed += 0.5f;
+		this->Ghosts_Time = 0.0f;
+	}
+	else
+	{
+		this->Ghosts_Time += dt;
+	}
 }
