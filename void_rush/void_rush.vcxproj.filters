@@ -418,7 +418,7 @@
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\3Dproj\3DLettersHandler.cpp">
-      <Filter>Engine\Source Files</Filter>
+      <Filter>Engine\Source Files\Handlers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

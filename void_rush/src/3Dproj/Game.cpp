@@ -24,8 +24,6 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	camera->setRotation(vec3(0, 0, 0));
 	
 	letter3DHandler = new Letters3DHandler(rm, gfx);
-	letter3DHandler->createText("pe", vec3(0, 5, 0), vec2(1, 1), "penis");
-	GameObjManager->CreateGameObject("DCube.obj", "a", vec3(0, 5, 0), vec3(0, 0, 0), vec3(0.1, 0.1, 0.1));
 
 	/*set ups*/
 	this->setUpObject();

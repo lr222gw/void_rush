@@ -9,7 +9,7 @@ Letters3D::Letters3D(std::string str, vec3 pos, ResourceManager* rm, Graphics*& 
 		letters[i]->setPoint(vec3(0, 0,
 			//i * 2.f * size.x - (str.size() / 2.f)
 
-			 i
+			 (i*2) + 1 - (float)str.size()
 		 ));
 		symbol_to_uv(str[i]);
 	}
@@ -55,8 +55,8 @@ void Letters3D::update(Graphics*& gfx, vec3 camPos)
 	for (size_t i = 0; i < letters.size(); i++) {
 		letters[i]->Updateshaders(gfx);
 		if (rotateToPlayer) {
-			letters[i]->addRot(vec3(0, 0.01,0));
-			//letters[i]->setRot(vec3(0, -rot,0)+ vec3(0,-1.57,0));
+			//letters[i]->addRot(vec3(0, 0.01,0));
+			letters[i]->setRot(vec3(0, -rot,0)+ vec3(0,-1.57,0));
 		}
 	}
 }
