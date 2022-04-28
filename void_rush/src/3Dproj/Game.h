@@ -6,6 +6,7 @@
 #include "generation/Generation_manager.hpp"
 #include "interact/interact.hpp"
 #include "BillBoardManager.h"
+#include "hud/Hud.h"
 
 class Game : public GameState {
 public:
@@ -29,6 +30,7 @@ private:
 	GameObjectManager* GameObjManager;
 	Generation_manager* generationManager;
 	CollisionHandler collisionHandler;
+	Hud* HUD;
 
 	/*draw to buffer*/
 	void ForwardDraw();
