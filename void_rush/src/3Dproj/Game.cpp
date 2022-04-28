@@ -152,6 +152,7 @@ GameStatesEnum Game::update(float dt)
 	gfx->Update(dt, camera->getPos());
 	GameObjManager->update(dt);
 	player->update(dt);
+	HUD->UpdateGhostBar(player->getPos(), generationManager->getPuzzelPos(), distanceFromStartPosToPuzzle);
 
 #pragma region camera_settings
 
@@ -284,7 +285,7 @@ void Game::setUpObject()
 	collisionHandler.addEnemies(ghost);
 
 	generationManager->initialize();
-	testPuzzle->Initiate(generationManager->getPuzzelPos());
+	distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 
 	std::string skyboxTextures[6] = {
@@ -417,6 +418,7 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			//player->setPos(vec3(0.0f, 0.0f, 0.0f));
 			player->Reset(true);
 			generationManager->initialize();
+			distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
 		}
 	}
 }

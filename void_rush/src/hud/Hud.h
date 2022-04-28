@@ -9,10 +9,12 @@ private:
 	Graphics* gfx;
 
 	int currentHealth = 3;
+	float fullBar = 0.467f;
+	float noBar = 0.01f;
 
 	const int HEALTH = 0;
-	const int GHOSTFRAME = 1;
-	const int GHOSTBAR = 2;
+	const int GHOSTBAR = 1;
+	const int GHOSTFRAME = 2;
 	const int SCORE = 3;
 	const int POWERUP = 4;
 	const int PASSIVE1 = 5;
@@ -28,6 +30,7 @@ public:
 	void ResetHUD();
 	void LowerHealth();
 	void IncreaseHealth();
+	void UpdateGhostBar(vec3 playerPos, vec3 puzzlePos, float totalDistance);
 
 	void Update();
 };
