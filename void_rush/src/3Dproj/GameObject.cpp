@@ -28,6 +28,13 @@ void GameObject::draw(Graphics *&gfx, bool sm)
 	model->draw(gfx, sm);
 }
 
+void GameObject::drawRaw(Graphics*& gfx)
+{
+	drawed = true;
+	gfx->get_IMctx()->VSSetConstantBuffers(0, 1, &this->getVertexConstBuffer());
+	model->drawRaw(gfx);
+}
+
 vec3 GameObject::getlastPosition()
 {
 	return this->_lastPosition;
@@ -169,6 +176,13 @@ void GameObject::Updateshaders(Graphics*& gfx, bool vertex)
 	if (vertex) {
 		this->updateVertexShader(gfx);
 	}
+
+	D3D11_MAPPED_SUBRESOURCE resource;
+
+	gfx->get_IMctx()->Map(this->getVertexConstBuffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
+	memcpy(resource.pData, gfx->getVertexconstbuffer(), sizeof(Vcb));
+	gfx->get_IMctx()->Unmap(this->getVertexConstBuffer(), 0);
+	ZeroMemory(&resource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 }
 
 /*Interaction*/

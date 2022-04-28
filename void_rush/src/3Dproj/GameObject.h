@@ -12,6 +12,7 @@ public:
 	virtual ~GameObject();
 	
 	void draw(Graphics*& gfx, bool sm = false);
+	void drawRaw(Graphics*& gfx);
 
 	vec3 getlastPosition();
 
