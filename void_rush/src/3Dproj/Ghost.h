@@ -10,6 +10,7 @@ public:
 	void setActive(bool activate = true);
 	void Reset();
 private:
+	friend class ImguiManager;
 	void followPlayer(float dt);
 	bool checkIfInRangeOfPoint();
 	bool checkIfRangeOfPlayer();
