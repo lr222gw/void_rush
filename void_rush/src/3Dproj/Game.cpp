@@ -183,9 +183,11 @@ GameStatesEnum Game::update(float dt)
 	else {
 		soundManager.update(camera->getPos(), camera->getForwardVec());
 		if (!player->GetSubmitName()) {
-			//UI->createUIString("Write your name and press F1 to submit.", vec2(-0.5f, 0.2f), vec2(0.5f, 0.5f), "NameDesc");
-			//UI->createUIString(player->GetName(), vec2(-0.5f, 0.0f), vec2(0.5f, 0.5f), "Name");
+			UI->getStringElement("NameDesc")->setPosition(vec2(-0.9f, 0.3f));
+			UI->getStringElement("NameDesc2")->setPosition(vec2(-0.9f, 0.15f));
+			UI->getStringElement("Name")->setPosition(vec2(-0.5f, -0.2f));
 			player->SetSubmitName(true);
+
 		}
 		if (keyboard->isKeyPressed(VK_RETURN)) {
 			player->writeScore();
@@ -364,9 +366,9 @@ void Game::setUpUI()
 	UI = new UIManager(rm, gfx);
 	//UI->createUISprite("assets/textures/Fire.png", vec2(-1, 0), vec2(0.5, 0.5));
 	//UI->createUIString("string", vec2(0, 0), vec2(0.2, 0.5), "penis");
-	UI->createUIString("Write your name and", vec2(-0.9f, 0.3f), vec2(0.1f, 0.1f), "NameDesc");
-	UI->createUIString("press Enter to submit!", vec2(-0.9f, 0.15f), vec2(0.1f, 0.1f), "NameDesc2");
-	UI->createUIString(player->GetName(), vec2(-0.5f, -0.2f), vec2(0.1f, 0.1f), "Name");
+	UI->createUIString("Write your name and", vec2(-10.0f, 0.3f), vec2(0.08f, 0.08f), "NameDesc");
+	UI->createUIString("press Enter to submit!", vec2(-10.0f, 0.15f), vec2(0.08f, 0.08f), "NameDesc2");
+	UI->createUIString(player->GetName(), vec2(-10.0f, -0.2f), vec2(0.1f, 0.1f), "Name");
 }
 
 void Game::setUpSound()
