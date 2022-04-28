@@ -96,6 +96,7 @@ void Ghost::followPlayer(float dt)
 	}
 }
 
+//check if ghost are within range of player
 bool Ghost::checkIfInRangeOfPoint()
 {
 	if (PlayerPositions.empty()) {
