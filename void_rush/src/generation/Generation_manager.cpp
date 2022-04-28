@@ -7,7 +7,7 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, C
     this->position_gen = new Position_generator(this->seed);
     this->player_jump_checker = new Player_jump_checker();
     position_gen->assignPlayer(player_jump_checker);
-    position_gen->setNrOfElements(100);
+    position_gen->setNrOfElements(10);
     this->collisionHandler = &collisionHandler;
 }
 
@@ -66,7 +66,7 @@ void Generation_manager::initialize()
     ///^vvvvvvvvvvvvvvvvvvvvvvv Testing
     
     
-    shape_export.set_nrOf(100, 100); //TODO: do not hardcode!
+    shape_export.set_nrOf(10, 10); //TODO: do not hardcode!
     shape_export.init();
 
     Platform* anchor = position_gen->getAnchors()->at(0);

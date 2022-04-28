@@ -20,7 +20,9 @@ struct line
 };
 
 struct Plane
-{    
+{   
+    Plane();
+    Plane(vec3 a, vec3 b, vec3 c, vec3 d);
     vec3 point1;
     vec3 point2;
     vec3 point3;
@@ -40,16 +42,16 @@ protected:
 };
 
 
-struct XZ_plane : Plane
+struct XZ_plane : public Plane
 {
     XZ_plane(vec3 scale);    
 };
 
-struct XY_plane : Plane
+struct XY_plane : public Plane
 {
     XY_plane(vec3 scale);
 };
-struct YZ_plane : Plane
+struct YZ_plane : public Plane
 { 
     YZ_plane(vec3 scale);
 };

@@ -48,44 +48,18 @@ void Shape::setShapeCube(vec3& center)
     }
     for (int i = 0; i < temp_planes.size(); i++) {
         temp_planes[i]->offset = vec3::Normalize(temp_planes[i]->get_normal()).mul(scale);
-        temp_planes[i]->move(center + temp_planes[i]->offset); //TODO: remove?
+        temp_planes[i]->move(center - temp_planes[i]->offset); //TODO: remove?
     }
-
-
-    //DirectX::XMStoreFloat4(&min_max_bounds[0])
-    //DirectX::XMStoreFloat4(&min_max_bounds[1])
 
     auto p1 = temp_planes[0]->point1;
     auto high = temp_planes[0]->point2;
     auto p3 = temp_planes[0]->point3;
     auto low = temp_planes[0]->point4;
-    low.y  -= 5;
-    //high.y  += 5;
-
-
-   /* DirectX::XMVECTOR bbPoints[8] = {
-        {high.x,high.y,high.z,1},
-        {high.x,high.y,low.z,1},
-        {high.x,low.y,high.z,1},
-        {high.x,low.y,low.z,1},
-        {low.x,high.y,high.z,1},
-        {low.x,high.y,low.z,1},
-        {low.x,low.y,high.z,1},
-        {low.x,low.y,low.z,1}
-    };*/
-
-
-    //DirectX::XMFLOAT4 min_max_bounds[2];
-    //DirectX::XMStoreFloat4(&min_max_bounds[0], bbPoints[0]);
-    //DirectX::XMStoreFloat4(&min_max_bounds[1], bbPoints[7]);
 
     vec3_pair min_max{low,high};
     
     bounding_boxes.push_back(min_max);
 
-    int f = 3;
-    //inCorner.pos = Vertexes[0];
-    //outCorner.pos = Vertexes[Vertexes.size() / 2];
 }
 
 void Shape::export_as_obj()
@@ -93,6 +67,31 @@ void Shape::export_as_obj()
     //TODO: this could probably be removed if we wanted...
     //Shape_exporter::export_all(this, "test");
 
+}
+
+Plane::Plane()
+{
+    uv[0].x = 0;
+    uv[0].y = 0;
+    uv[1].x = 1;
+    uv[1].y = 0;
+    uv[2].x = 1;
+    uv[2].y = 1;
+    uv[3].x = 0;
+    uv[3].y = 1;
+}
+
+Plane::Plane(vec3 a, vec3 b, vec3 c, vec3 d):
+    point1(a), point2(b), point3(c), point4(d)
+{
+    uv[0].x = 0;
+    uv[0].y = 0;
+    uv[1].x = 1;
+    uv[1].y = 0;
+    uv[2].x = 1;
+    uv[2].y = 1;
+    uv[3].x = 0;
+    uv[3].y = 1;
 }
 
 //definition if plane functions
@@ -149,69 +148,35 @@ void Plane::update_normal() {
     normal = vec3((point2 - point1)).X(point4 - point1).Normalize();
 }
 
-XZ_plane::XZ_plane(vec3 scale) {//Clockwise windingorder        
+XZ_plane::XZ_plane(vec3 scale) : 
+    Plane()
+{//Clockwise windingorder        
     
     point1 = vec3(-1, 0, 1 ).mul(scale) ;   // top left    
     point2 = vec3( 1, 0,  1).mul(scale);    // top right
     point3 = vec3( 1, 0, -1).mul(scale);    // bottom right
     point4 = vec3(-1, 0, -1).mul(scale);    // bottom left
     update_normal();
-    uv[0].x = 0;
-    uv[0].y = 0;
-    uv[1].x = 1;
-    uv[1].y = 0;
-    uv[2].x = 1;
-    uv[2].y = 1;
-    uv[3].x = 0;
-    uv[3].y = 1;
+    
 }
 
-XY_plane::XY_plane(vec3 scale) {//Clockwise windingorder
+XY_plane::XY_plane(vec3 scale) : 
+    Plane()
+{//Clockwise windingorder
     
     point1 = vec3(-1,  1, 0).mul(scale);    // top left
     point2 = vec3( 1,  1, 0).mul(scale);    // top right
     point3 = vec3( 1, -1, 0).mul(scale);    // bottom right
     point4 = vec3(-1, -1, 0).mul(scale);    // bottom left
     update_normal();
-    uv[0].x = 0;
-    uv[0].y = 0;
-    uv[1].x = 1;
-    uv[1].y = 0;
-    uv[2].x = 1;
-    uv[2].y = 1;
-    uv[3].x = 0;
-    uv[3].y = 1;
 }
 
-YZ_plane::YZ_plane(vec3 scale) { //Clockwise windingorder
+YZ_plane::YZ_plane(vec3 scale) : 
+    Plane()
+{ //Clockwise windingorder
     point1 = vec3(0,  1, -1).mul(scale) ;  // top left
     point2 = vec3(0,  1,  1).mul(scale) ;  // top right
     point3 = vec3(0, -1,  1).mul(scale) ;  // bottom right
     point4 = vec3(0, -1, -1).mul(scale) ;  // bottom left
     update_normal();
-    uv[0].x = 0;
-    uv[0].y = 0;
-    uv[1].x = 1;
-    uv[1].y = 0;
-    uv[2].x = 1;
-    uv[2].y = 1;
-    uv[3].x = 0;
-    uv[3].y = 1;
-    /*uv[0].x = 0;
-    uv[0].y = 0;
-    uv[1].x = 0;
-    uv[1].y = 1;
-    uv[2].x = 1;
-    uv[2].y = 0;
-    uv[3].x = 1;
-    uv[3].y = 1;*/
-    /*uv[0].x = 0;
-    uv[0].y = 0;
-    uv[1].x = 1;
-    uv[1].y = 0;
-    uv[2].x = 0;
-    uv[2].y = 1;
-    uv[3].x = 1;
-    uv[3].y = 1;
-    */
 }

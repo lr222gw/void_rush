@@ -61,6 +61,7 @@ void CollisionHandler::update()
 {
 	//check player with Custom platforms (Pussels and other(?) handmade)
 	bool done = false;
+	
 	for (size_t i = 0; i < Custom_platforms.size(); i++) {
 		if (!done && collision3D(player->getPlayerObjPointer(), Custom_platforms[i], true, false))
 		{
@@ -74,14 +75,11 @@ void CollisionHandler::update()
 		collisionWithBlocking(Custom_platforms[i], player);
 	}
 
-
-	//Check player with generated platforms
-	
-	DirectX::XMFLOAT4 player_bounding_box[2];
-	player->getPlayerObjPointer()->getBoundingBox(player_bounding_box);
-	for (size_t i = 0; i < Generated_Platforms.size() && !done; i++) {
+	//Check player with generated platforms	
+	DirectX::XMFLOAT4 player_bounding_box[2];	
+	player->getPlayerObjPointer()->getBoundingBoxFromObject(player_bounding_box);
+	for (size_t i = 0; i < Generated_Platforms.size()&& !done ; i++) {
 		
-		//std::vector<DirectX::XMFLOAT4[2]>* shape_bb = &Generated_Platforms[i]->bounding_boxes;
 		for (size_t j = 0; j < Generated_Platforms[i]->bounding_boxes.size()&& !done; j++ ) {
 
 			DirectX::XMVECTOR min_max_vec[2] = {
@@ -100,18 +98,18 @@ void CollisionHandler::update()
 			DirectX::XMStoreFloat4(&min_max_bounds[0], min_max_vec[0]);
 			DirectX::XMStoreFloat4(&min_max_bounds[1], min_max_vec[1]);
 
-			//if (!done && collision3D(player_bounding_box, shape_bb[j]))
+			
 			if (!done && collision3D(player_bounding_box, min_max_bounds))
 			{
 				done = true;
 
-				if (player->getGroundedTimer() < 0.5f )
+				if (player->getGroundedTimer() > 0.5f )
 				{
 					player->setGrounded();
 				}
 			}
 
-			//collisionWithBlocking(player, min_max_bounds);
+			collisionWithBlocking(min_max_bounds, player);
 		}
 	}
 	if (!done)

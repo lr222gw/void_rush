@@ -45,7 +45,8 @@ void moveObject(GameObject*& player, ColCube colCubeA, ColCube colCubeB);
 //void collisionWithBlocking(GameObject*& objectA, GameObject*& objectB);
 //void collisionWithBlocking(GameObject*& objectA, GameObject*& objectB);
 void collisionWithBlocking(GameObject* objectA, GameObject* objectB);
-void collisionWithBlocking(GameObject* player, DirectX::XMFLOAT4 platform_min_max_bounds[]);
+//void collisionWithBlocking(GameObject* player, DirectX::XMFLOAT4 platform_min_max_bounds[]);
+void collisionWithBlocking(DirectX::XMFLOAT4 platform_min_max_bounds[], GameObject* player);
 
 
 //two spheres

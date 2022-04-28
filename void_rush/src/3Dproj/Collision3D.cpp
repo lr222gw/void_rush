@@ -136,25 +136,6 @@ void moveObject(GameObject*& objectA, GameObject*& objectB, ColCube colCubeA, Co
 	}
 }
 
-//void collisionWithBlocking(GameObject*& objectA, GameObject*& objectB)
-//{
-//	DirectX::XMFLOAT4 a[2];
-//	DirectX::XMFLOAT4 b[2];
-//	objectA->getBoundingBox(a);
-//	objectB->getBoundingBox(b);
-//	ColCube colCubeA(a);
-//	ColCube colCubeB(b);
-//	if (collision3D(colCubeA, colCubeB))
-//	{
-//		//check later if object can move
-//		if (objectA->getWeight() < objectB->getWeight()) {
-//			moveObject(objectA, objectB, colCubeA, colCubeB);
-//		}
-//		else {
-//			moveObject(objectB, objectB, colCubeB, colCubeA);
-//		}
-//	}
-//}
 void collisionWithBlocking(GameObject* objectA, GameObject* objectB)
 {
 	DirectX::XMFLOAT4 a[2];
@@ -299,16 +280,15 @@ void moveObject(GameObject*& player, ColCube colCubeA, ColCube colCubeB)
 	}
 }
 
-void collisionWithBlocking(GameObject* player, DirectX::XMFLOAT4 platform_min_max_bounds[])
-{
-	DirectX::XMFLOAT4 playerBox[2];
-	player->getBoundingBox(playerBox);
 
-	ColCube colCubeA(playerBox);
-	ColCube colCubeB(platform_min_max_bounds);
+void collisionWithBlocking(DirectX::XMFLOAT4 platform_min_max_bounds[], GameObject* player)
+{
+	DirectX::XMFLOAT4 b[2];
+	player->getBoundingBox(b);
+	ColCube colCubeA(platform_min_max_bounds);
+	ColCube colCubeB(b);
 	if (collision3D(colCubeA, colCubeB))
 	{
-		moveObject(player, colCubeA, colCubeB);
-				
+		moveObject(player, colCubeB, colCubeA);
 	}
 }
