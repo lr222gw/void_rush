@@ -178,6 +178,7 @@ GameStatesEnum Game::update(float dt)
 		Interact(this->GameObjManager->getAllInteractGameObjects());
 	}
 	else {
+		soundManager.update(camera->getPos(), camera->getForwardVec());
 		if (!player->GetSubmitName()) {
 			//UI->createUIString("Write your name and press F1 to submit.", vec2(-0.5f, 0.2f), vec2(0.5f, 0.5f), "NameDesc");
 			//UI->createUIString(player->GetName(), vec2(-0.5f, 0.0f), vec2(0.5f, 0.5f), "Name");
@@ -367,6 +368,8 @@ void Game::setUpSound()
 {
 	soundManager.loadSound("assets/audio/ah.wav", 5, "ah1");
 	soundManager.loadSound("assets/audio/Goat.wav", 5, "Goat");
+	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
+	soundManager.setMusicLoop(true);
 }
 
 void Game::Interact(std::vector<GameObject*>& interactables)
