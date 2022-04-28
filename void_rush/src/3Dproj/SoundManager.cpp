@@ -88,6 +88,7 @@ void SoundManager::playMusic(std::string filePath, float volume)
 void SoundManager::setMusicLoop(const bool loop)
 {
 	this->musicLoop = loop;
+	music.setLoop(loop);
 }
 
 float SoundManager::getVolume() const
