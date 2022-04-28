@@ -50,7 +50,7 @@ void Ghost::setActive(bool activate)
 
 void Ghost::Reset()
 {
-	setPos(vec3(player->getxPos(), player->getyPos() + 10.0f, player->getzPos()));
+	setPos(vec3(0.0f, 0.0f,  -10.f));
 	readyToAttack = true;
 	speed = 2;
 	getPlayerPosCD = 0;
