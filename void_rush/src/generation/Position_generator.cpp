@@ -330,3 +330,8 @@ float Position_generator::randF (float min, float max)
     // std::cout << "random float " << random << std::endl;
     return random;
 }
+
+Platform*& Position_generator::GetStartPlatform()
+{
+    return startPlat;
+}

@@ -68,9 +68,9 @@ void Generation_manager::initialize()
 
     puzzleManager->Initiate(this->getPuzzelPos());
 
+
     this->player->SetDifficulity(this->difficulity);
-    this->player->SetPuzzlePos(this->getPuzzelPos());
-    
+    this->player->SetStartPlatform(this->GetStartPlatform());
 }
 
 
@@ -137,6 +137,11 @@ Difficulity Generation_manager::getDifficulty() const
 vec3 Generation_manager::getPuzzelPos()
 {
     return *this->position_gen->getAnchors()->at(position_gen->getAnchors()->size()-1)->getPos();
+}
+
+Platform*& Generation_manager::GetStartPlatform()
+{
+    return position_gen->GetStartPlatform();
 }
 
 void Generation_manager::draw()
