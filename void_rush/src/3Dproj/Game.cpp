@@ -12,7 +12,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	player = nullptr;
 	skybox = nullptr;
 	
-	
+	HUD = new Hud(gfx, rm);
 	lightNr = 0;
 	testPuzzle = new ProtoPuzzle(gfx, rm, collisionHandler);
 	
@@ -52,6 +52,7 @@ Game::~Game()
 	delete skybox;
 	delete testPuzzle;
 	delete generationManager;
+	delete HUD;
 	delete UI;
 	delete GameObjManager;
 }
@@ -102,80 +103,95 @@ void Game::renderShadow()
 GameStatesEnum Game::update(float dt)
 {
 	GameStatesEnum theReturn = GameStatesEnum::NO_CHANGE;
-
-	/*DEBUG*/
-	if (keyboard->isKeyPressed(VK_RETURN)) {
-		ghost->setActive();
-	}
-	/*******/
-	if (testTime > 0.0f)
-	{
-		testTime -= dt;
-	}
-	/*Move things*/
-	camera->updateCamera(dt);
-	if (getkey('N')) {
-		DirectX::XMMATRIX viewMatrix = DirectX::XMMATRIX(
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			-GameObjManager->getGameObject(1)->getPos().x, -GameObjManager->getGameObject(1)->getPos().y, -GameObjManager->getGameObject(1)->getPos().z, 1.0f
-		);
-		XRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().x);
-		YRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().y);
-		gfx->getVertexconstbuffer()->view.element = viewMatrix;
-	}
-	for (int i = 0; i < billboardGroups.size(); i++) {
-		billboardGroups[i]->update(dt, gfx);
-	}
-	for (int i = 0; i < LightVisualizers.size(); i++) {
-		LightVisualizers[i]->setPos(light[i]->getPos());
-		LightVisualizers[i]->setRot(vec3(0, light[i]->getRotation().x, -light[i]->getRotation().y) + vec3(0, 1.57f, 0));
-	}
-	camera->calcFURVectors();
-	skybox->update(camera->getPos());
-
-	/*update matrixes*/
-	GameObjManager->updateMatrix();
-	player->updateMatrix();
+	if (player->IsAlive()) {
 
 
+		/*DEBUG*/
+		if (keyboard->isKeyPressed(VK_RETURN)) {
+			ghost->setActive();
+		}
+		/*******/
+		if (testTime > 0.0f)
+		{
+			testTime -= dt;
+		}
+		/*Move things*/
+		camera->updateCamera(dt);
+		if (getkey('N')) {
+			DirectX::XMMATRIX viewMatrix = DirectX::XMMATRIX(
+				1.0f, 0.0f, 0.0f, 0.0f,
+				0.0f, 1.0f, 0.0f, 0.0f,
+				0.0f, 0.0f, 1.0f, 0.0f,
+				-GameObjManager->getGameObject(1)->getPos().x, -GameObjManager->getGameObject(1)->getPos().y, -GameObjManager->getGameObject(1)->getPos().z, 1.0f
+			);
+			XRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().x);
+			YRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().y);
+			gfx->getVertexconstbuffer()->view.element = viewMatrix;
+		}
+		for (int i = 0; i < billboardGroups.size(); i++) {
+			billboardGroups[i]->update(dt, gfx);
+		}
+		for (int i = 0; i < LightVisualizers.size(); i++) {
+			LightVisualizers[i]->setPos(light[i]->getPos());
+			LightVisualizers[i]->setRot(vec3(0, light[i]->getRotation().x, -light[i]->getRotation().y) + vec3(0, 1.57f, 0));
+		}
+		camera->calcFURVectors();
+		skybox->update(camera->getPos());
 
-	collisionHandler.update();
+		/*update matrixes*/
+		GameObjManager->updateMatrix();
+		player->updateMatrix();
 
-	/*update vertex*/
-	updateShaders();
 
-	/*update things*/
-	soundManager.update(camera->getPos(), camera->getForwardVec());
-	gfx->Update(dt, camera->getPos());
-	GameObjManager->update(dt);
-	player->update(dt);
+
+		collisionHandler.update();
+
+		/*update vertex*/
+		updateShaders();
+
+		/*update things*/
+		soundManager.update(camera->getPos(), camera->getForwardVec());
+		gfx->Update(dt, camera->getPos());
+		GameObjManager->update(dt);
+		player->update(dt);
 
 #pragma region camera_settings
 
-	if (getkey('C')) {
-		camera->setPosition(light[lightNr]->getPos());
-		camera->setRotation(light[lightNr]->getRotation());
-	}
-	if (getkey('1') && getkey(VK_F1)) {
-		lightNr = 0;
-	}
-	if (getkey('2') && getkey(VK_F1)) {
-		lightNr = 1;
-	}
-	if (getkey('3') && getkey(VK_F1)) {
-		lightNr = 2;
-	}
-	if (getkey('4') && getkey(VK_F1)) {
-		lightNr = 3;
-	}
+		if (getkey('C')) {
+			camera->setPosition(light[lightNr]->getPos());
+			camera->setRotation(light[lightNr]->getRotation());
+		}
+		if (getkey('1') && getkey(VK_F1)) {
+			lightNr = 0;
+		}
+		if (getkey('2') && getkey(VK_F1)) {
+			lightNr = 1;
+		}
+		if (getkey('3') && getkey(VK_F1)) {
+			lightNr = 2;
+		}
+		if (getkey('4') && getkey(VK_F1)) {
+			lightNr = 3;
+		}
 #pragma endregion camera_settings
 
-	Interact(this->GameObjManager->getAllInteractGameObjects());
-	if (!player->IsAlive()) {
-		player->writeScore("Player");
-		theReturn = GameStatesEnum::TO_MENU;
+		Interact(this->GameObjManager->getAllInteractGameObjects());
+	}
+	else {
+		if (!player->GetSubmitName()) {
+			//UI->createUIString("Write your name and press F1 to submit.", vec2(-0.5f, 0.2f), vec2(0.5f, 0.5f), "NameDesc");
+			//UI->createUIString(player->GetName(), vec2(-0.5f, 0.0f), vec2(0.5f, 0.5f), "Name");
+			player->SetSubmitName(true);
+		}
+		if (keyboard->isKeyPressed(VK_RETURN)) {
+			player->writeScore();
+			player->ResetName();
+			keyboard->onKeyReleased(VK_RETURN);
+			theReturn = GameStatesEnum::TO_MENU;
+		}
+		else{
+			SetName();
+		}
 	}
 
 
@@ -265,14 +281,21 @@ void Game::DrawToBuffer()
 		}
 	}
 
-	UI->draw();
+	if (player->IsAlive())
+	{
+		HUD->Update();
+	}
+	else
+	{
+		UI->draw();
+	}
 }
 
 void Game::setUpObject()
 {
 	////////OBJECTS///////////
 
-	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, vec3(0.0f, 0.0f, 0.0f));
+	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f));
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
@@ -335,6 +358,9 @@ void Game::setUpUI()
 	UI = new UIManager(rm, gfx);
 	//UI->createUISprite("assets/textures/Fire.png", vec2(-1, 0), vec2(0.5, 0.5));
 	//UI->createUIString("string", vec2(0, 0), vec2(0.2, 0.5), "penis");
+	UI->createUIString("Write your name and", vec2(-0.9f, 0.3f), vec2(0.1f, 0.1f), "NameDesc");
+	UI->createUIString("press Enter to submit!", vec2(-0.9f, 0.15f), vec2(0.1f, 0.1f), "NameDesc2");
+	UI->createUIString(player->GetName(), vec2(-0.5f, -0.2f), vec2(0.1f, 0.1f), "Name");
 }
 
 void Game::setUpSound()
@@ -354,18 +380,7 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 	bool interact = false;
 	float size = 0.0f;
 	for (int i = 0; i < interactables.size(); i++) {
-		/*interactables[i]->getBoundingBox(bb);
-		xSize = fabs(bb[1].x - bb[0].x);
-		ySize = fabs(bb[1].y - bb[0].y);
-		zSize = fabs(bb[1].z - bb[0].z);
-		if (xSize >= ySize && xSize >= zSize)
-			size = xSize;
-		else if (ySize >= xSize && ySize >= zSize)
-			size = ySize;
-		else 
-			size = zSize;*/
 		
-		//objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
 		objMidPos = GetMidPos(interactables[i], size);
 		
 		//RayDist is the shortest path from the center of the object to the nearest point on the ray
@@ -417,5 +432,24 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			generationManager->initialize();
 		}
 	}
+}
+
+void Game::SetName()
+{
+	for (int i = 65; i < 90; i++) {
+		if (keyboard->isKeyPressed(i)) {
+			player->AddToName(i);
+			keyboard->onKeyReleased(i);	
+		}
+	}
+	if (keyboard->isKeyPressed(VK_BACK)) {
+		player->RemoveLetter();
+		keyboard->onKeyReleased(VK_BACK);
+	}
+	if (keyboard->isKeyPressed(VK_SPACE)) {
+		player->AddToName('_');
+		keyboard->onKeyReleased(VK_SPACE);
+	}
+	UI->getStringElement("Name")->setText(player->GetName());
 }
 

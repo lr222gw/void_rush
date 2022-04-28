@@ -4,6 +4,7 @@
 #include "Keyboard.h"
 #include "Camera.h"
 #include "common/Vector.hpp"
+#include "hud/Hud.h"
 
 #include "generation/Position_generator.hpp"//To use difficulty
 #include "score/ScoreManager.hpp"
@@ -13,7 +14,7 @@
 
 class Player : public GameObject {
 public:
-	Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
+	Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, Hud* HUD, vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
 	virtual ~Player();
 	void update(float dt) override;
 	void handleEvents(float dt);
@@ -28,9 +29,16 @@ public:
 
 	void SetDifficulity(Difficulity diff);
 	void SetStartPlatform(Platform*& start);
+	void writeScore(std::string file = "assets/files/highScores.txt");
 
-
-	void writeScore(std::string name, std::string file = "assets/files/highScores.txt");
+	void AddToName(unsigned char letter);
+	void RemoveLetter();
+	std::string GetName()const;
+	int GetMaxLetters();
+	int GetCurrentLetter();
+	void ResetName();
+	bool GetSubmitName();
+	void SetSubmitName(bool val);
 
 	
 private:
@@ -59,6 +67,14 @@ private:
 	Camera* cam;
 
 	ScoreManager scoreManager;
+	std::string name;
+	int maxLetters;
+	int currentLetter;
+	bool submitName;
+	//float levelTime;
+	vec3 puzzlePos;
+	Difficulity levelDifficulty;
+	Hud* HUD;
 
 	int health;
 	bool alive;

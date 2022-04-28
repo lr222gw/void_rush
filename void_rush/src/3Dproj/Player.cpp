@@ -1,8 +1,8 @@
 #include "Player.h"
 #include <algorithm>
 
-Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale):
-	GameObject(file, gfx, pos, rot, scale), noClip(true)
+Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, Hud* HUD, vec3 pos, vec3 rot, vec3 scale):
+	GameObject(file, gfx, pos, rot, scale), noClip(true), HUD(HUD)
 {
 	this->mouse = mouse;
 	this->keyboard = keyboard;
@@ -23,8 +23,13 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->alive = true;
 	this->maxDepth = -140.0f;
 	this->resetGhost = false;
+	this->submitName = false;
 
-	//this->levelTime = 0.0f;
+	this->maxLetters = 10;
+	this->currentLetter = 0;
+	for (int i = 0; i < maxLetters; i++) {
+		this->name += "_";
+	}
 	this->scoreManager.SetPlayerSpeed(speed.length());
 
 }
@@ -552,7 +557,7 @@ void Player::Reset(bool lvlClr)
 
 	if (lvlClr) {
 		//Add points
-		scoreManager.ClearLevel();
+		scoreManager.LevelDone();
 	}
 }
 
@@ -591,9 +596,58 @@ void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 	));
 }
 
-void Player::writeScore(std::string name, std::string file)
+void Player::writeScore(std::string file)
 {
 	scoreManager.WriteScore(name, file);
+}
+
+void Player::AddToName(unsigned char letter)
+{
+	if (currentLetter < maxLetters) {
+		name.at(currentLetter++) = letter;
+	}
+}
+
+void Player::RemoveLetter()
+{
+	if (currentLetter > 0) {
+		name.at(--currentLetter) = '_';
+	}
+	else {
+		name.at(0) = '_';
+	}
+}
+
+std::string Player::GetName() const
+{
+	return name;
+}
+
+int Player::GetMaxLetters()
+{
+	return maxLetters;
+}
+
+int Player::GetCurrentLetter()
+{
+	return currentLetter;
+}
+
+void Player::ResetName()
+{
+	for (int i = 0; i < maxLetters; i++) {
+		this->name.at(i) = '_';
+	}
+}
+
+bool Player::GetSubmitName()
+{
+	return submitName;
+}
+
+void Player::SetSubmitName(bool val)
+{
+	submitName = val;
 }
 
 void Player::TakeDmg(int dmg)
@@ -605,6 +659,7 @@ void Player::TakeDmg(int dmg)
 	else {
 		scoreManager.setDamageScore();
 	}
+	this->HUD->LowerHealth();
 }
 
 void Player::AddHealth(int hlt)
