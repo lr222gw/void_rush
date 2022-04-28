@@ -72,7 +72,6 @@ void Ghost::followPlayer(float dt)
 		if (getPlayerPosCD <= 0) {
 			getPlayerPosCD = 2;
 			PlayerPositions.push(player->getPos());
-			std::cout << "shot" << std::endl;
 		}
 		while (PlayerPositions.size() > 30) {
 			PlayerPositions.pop();
