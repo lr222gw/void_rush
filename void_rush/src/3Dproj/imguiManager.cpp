@@ -159,7 +159,7 @@ void ImguiManager::render_ghost_widgets()
 		ImGui::SliderFloat("Speed", &owner->ghost->speed, min_speed, max_speed);
 		if (ImGui::Button("Reset", ImVec2(100, 25)))
 		{
-			std::cout << "Funkar" << std::endl;
+			owner->ghost->Reset();
 		}
 	}
 	ImGui::End();
