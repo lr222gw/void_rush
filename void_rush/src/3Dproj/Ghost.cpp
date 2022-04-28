@@ -9,8 +9,8 @@ Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot,
 	speed = 4;
 	getPlayerPosCD = 0;
 	*/
-	rangeToPlayerBeforeNearestWay = 10;
-	rangeToPointBeforeNewPoint = 3;
+	rangeToPlayerBeforeNearestWay = 5;
+	rangeToPointBeforeNewPoint = 0.5;
 	this->player = player;
 	Reset();
 	this->active = false;
@@ -51,7 +51,7 @@ void Ghost::setActive(bool activate)
 
 void Ghost::Reset()
 {
-	setPos(vec3(0.0f, 0.0f, -10.f));
+	setPos(vec3(player->getPos().x, player->getPos().y, player->getPos().z - 10.f));
 	readyToAttack = true;
 	speed = 1;
 	getPlayerPosCD = 0;
