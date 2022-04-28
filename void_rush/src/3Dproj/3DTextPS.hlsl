@@ -19,5 +19,14 @@ SamplerState testSampler;
 
 float4 main(PixelShaderInput input) : SV_TARGET
 {
-    return diffuseTex.Sample(testSampler, input.uv);
+    float4 a = diffuseTex.Sample(testSampler, input.uv);
+    if (a.w == 0)
+    {
+        return float4(1, 1, 1, 1);
+    }
+    else
+    {
+        return diffuseTex.Sample(testSampler, input.uv);
+    }
+    
 }

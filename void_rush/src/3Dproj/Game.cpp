@@ -23,9 +23,9 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	
 	camera->setRotation(vec3(0, 0, 0));
 	
-
-	text = new Letters3D("Testar", vec3(0, 10, 0), rm, gfx, vec2(1, 1));
-	
+	letter3DHandler = new Letters3DHandler(rm, gfx);
+	letter3DHandler->createText("pe", vec3(0, 5, 0), vec2(1, 1), "penis");
+	GameObjManager->CreateGameObject("DCube.obj", "a", vec3(0, 5, 0), vec3(0, 0, 0), vec3(0.1, 0.1, 0.1));
 
 	/*set ups*/
 	this->setUpObject();
@@ -59,7 +59,7 @@ Game::~Game()
 	delete generationManager;
 	delete UI;
 	delete GameObjManager;
-	delete text;
+	delete letter3DHandler;
 }
 
 void Game::handleEvents()
@@ -144,7 +144,7 @@ GameStatesEnum Game::update(float dt)
 	/*update matrixes*/
 	GameObjManager->updateMatrix();
 	player->updateMatrix();
-
+	letter3DHandler->update(camera->getPos());
 
 	collisionHandler.update();
 
@@ -209,7 +209,6 @@ void Game::render()
 
 void Game::updateShaders(bool vs, bool ps)
 {
-	text->update(gfx, camera->getPos());
 
 	for (int i = 0; i < billboardGroups.size(); i++) {
 		billboardGroups[i]->updateShader(gfx, camera->getPos());
@@ -263,13 +262,14 @@ void Game::DrawToBuffer()
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
 	gfx->get_IMctx()->PSSetShader(gfx->getPS()[0], nullptr, 0);
-	text->draw(gfx);
 
 	if (getkey('F')) {
 		for (int i = 0; i < LightVisualizers.size(); i++) {
 			LightVisualizers[i]->draw(gfx, false);
 		}
 	}
+
+	letter3DHandler->draw();
 
 	UI->draw();
 }

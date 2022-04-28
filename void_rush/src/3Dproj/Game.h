@@ -6,7 +6,7 @@
 #include "generation/Generation_manager.hpp"
 #include "interact/interact.hpp"
 #include "BillBoardManager.h"
-#include "3DLetters.h"
+#include "3DLettersHandler.h"
 
 class Game : public GameState {
 public:
@@ -32,6 +32,7 @@ private:
 	GameObjectManager* GameObjManager;
 	Generation_manager* generationManager;
 	CollisionHandler collisionHandler;
+	Letters3DHandler* letter3DHandler;
 
 	/*draw to buffer*/
 	void ForwardDraw();

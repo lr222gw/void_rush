@@ -417,6 +417,9 @@
     <ClCompile Include="src\3Dproj\3DLetters.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\3Dproj\3DLettersHandler.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -695,6 +698,9 @@
     <ClInclude Include="src\3Dproj\3DLetters.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\3Dproj\3DLettersHandler.h">
+      <Filter>Engine\Header Files\Handlers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src/3Dproj/Transforms.hlsli">
@@ -773,11 +779,11 @@
     <FxCompile Include="NoShadowPS.hlsl">
       <Filter>Engine\Resource Files\Shaders\Pixel</Filter>
     </FxCompile>
-    <FxCompile Include="3DTextPS.hlsl">
-      <Filter>Engine\Resource Files\Shaders\Pixel</Filter>
-    </FxCompile>
-    <FxCompile Include="3DTextVS.hlsl">
+    <FxCompile Include="src\3Dproj\3DTextVS.hlsl">
       <Filter>Engine\Resource Files\Shaders\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="src\3Dproj\3DTextPS.hlsl">
+      <Filter>Engine\Resource Files\Shaders\Pixel</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

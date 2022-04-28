@@ -3,6 +3,12 @@
 #include <string>
 #include "ResourceManager.h"
 
+struct LetCB : public CB {
+	struct {
+		float element[4];
+	}UV;
+};
+
 class Letters3D {
 public:
 	Letters3D(std::string str, vec3 pos, ResourceManager* rm, Graphics*& gfx, vec2 size);
@@ -11,19 +17,13 @@ public:
 	void update(Graphics*& gfx, vec3 camPos);
 	void move(vec3 pos);
 	void setPos(vec3 pos);
+	void setRotateWithPlayer(bool rotate);
 private:
-	struct LetCB : public CB {
-		struct {
-			float element[4];
-		}UV;
-	};
-	ID3D11ShaderResourceView* font;
+	bool rotateToPlayer;
 	std::vector<float> u;
 	std::vector<float> v;
 	void symbol_to_uv(char symbol);
 	std::vector<GameObject*> letters;
-	ID3D11VertexShader* vShader;
-	ID3D11PixelShader* pShader;
 	LetCB bufferData;
 	ID3D11Buffer* uvBuffer;
 	vec3 pos;
