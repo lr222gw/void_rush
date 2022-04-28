@@ -34,7 +34,7 @@ struct Plane
     const vec3 get_rot();;
     void move(const vec3& ofset);
     vec3 get_center();
-    std::vector<vec3*> get_all_points();
+    std::vector<vec3*> get_all_points();    
 protected:
     void update_normal();;
 };
@@ -64,22 +64,33 @@ struct Normals{
 };
 static Normals normals;
 
-struct Shape
+struct vec3_pair {
+    vec3 first;
+    vec3 second;
+};
+
+class Shape
 {
-    std::vector<Plane*> planes;
-    inCorner inCorner;
-    outCorner outCorner;
-    static Normals normals;
-    vec3 scale;
+public:
     Shape();
-
     ~Shape();
-
     void addPlane(vec3 a, vec3 b, vec3 c, vec3 d);
     void setPosition(vec3 pos);
     void setScale(vec3 scale);
     void setShapeCube(vec3& center);
 
     void export_as_obj();
+
+    std::vector<Plane*> planes;
+    inCorner inCorner;
+    outCorner outCorner;
+    static Normals normals;
+    vec3 scale;
+
+    //std::vector<DirectX::XMFLOAT4*> bounding_boxes; //TODO: Handle memory here!
+    //std::vector<vec3[2]> bounding_boxes; //TODO: Handle memory here!
+    std::vector<vec3_pair> bounding_boxes; //TODO: Handle memory here!
+
+    
 
 };

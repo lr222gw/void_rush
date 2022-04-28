@@ -252,3 +252,63 @@ bool collision3D(DirectX::BoundingBox objectA, DirectX::BoundingBox objectB)
 {
 	return objectA.Intersects(objectB);
 }
+
+
+
+void moveObject(GameObject*& player, ColCube colCubeA, ColCube colCubeB)
+{
+	vec3 lowdir(colCubeA.highPoint - colCubeB.lowPoint);
+	vec3 highdir(colCubeB.highPoint - colCubeA.lowPoint);
+	float dirs[6]{ lowdir.x,lowdir.y ,lowdir.z ,highdir.x ,highdir.y ,highdir.z };
+	float lowest = dirs[0];
+	int index = 0;
+	for (int i = 1; i < 6; i++) {
+		if (lowest > dirs[i]) {
+			index = i;
+			lowest = dirs[i];
+		}
+	}
+	float newxyzPos;
+	vec3 dir;
+	switch (index)
+	{
+	case 0:
+		newxyzPos = (player->getPos().x - colCubeA.highPoint.x) + colCubeB.lowPoint.x;
+		player->setPos(vec3(newxyzPos, player->getPos().y, player->getPos().z));
+		break;
+	case 1:
+		newxyzPos = (player->getPos().y - colCubeA.highPoint.y) + colCubeB.lowPoint.y;
+		player->setPos(vec3(player->getPos().x, newxyzPos, player->getPos().z));
+		break;
+	case 2:
+		newxyzPos = (player->getPos().z - colCubeA.highPoint.z) + colCubeB.lowPoint.z;
+		player->setPos(vec3(player->getPos().x, player->getPos().y, newxyzPos));
+		break;
+	case 3:
+		newxyzPos = (player->getPos().x - colCubeA.lowPoint.x) + colCubeB.highPoint.x;
+		player->setPos(vec3(newxyzPos, player->getPos().y, player->getPos().z));
+		break;
+	case 4:
+		newxyzPos = (player->getPos().y - colCubeA.lowPoint.y) + colCubeB.highPoint.y;
+		player->setPos(vec3(player->getPos().x, newxyzPos, player->getPos().z));
+		break;
+	case 5:
+		newxyzPos = (player->getPos().z - colCubeA.lowPoint.z) + colCubeB.highPoint.z;
+		player->setPos(vec3(player->getPos().x, player->getPos().y, newxyzPos));
+		break;
+	}
+}
+
+void collisionWithBlocking(GameObject* player, DirectX::XMFLOAT4 platform_min_max_bounds[])
+{
+	DirectX::XMFLOAT4 playerBox[2];
+	player->getBoundingBox(playerBox);
+
+	ColCube colCubeA(playerBox);
+	ColCube colCubeB(platform_min_max_bounds);
+	if (collision3D(colCubeA, colCubeB))
+	{
+		moveObject(player, colCubeA, colCubeB);
+				
+	}
+}

@@ -73,6 +73,7 @@ void Generation_manager::initialize()
     while(anchor){
         
         shape_export.build_shape_model(&anchor->platformShape, "test");
+        collisionHandler->addPlatform(&anchor->platformShape);
         anchor = anchor->next;
     }
 

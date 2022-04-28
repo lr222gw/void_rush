@@ -254,7 +254,7 @@ void Player::TakeDmg(int dmg)
 {
 	health-=dmg;
 	if(health <= 0) {
-		alive = false;
+		//alive = false; //TODO: ÄNDRA TILLBAKA! 
 	}
 }
 

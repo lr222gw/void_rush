@@ -50,6 +50,40 @@ void Shape::setShapeCube(vec3& center)
         temp_planes[i]->offset = vec3::Normalize(temp_planes[i]->get_normal()).mul(scale);
         temp_planes[i]->move(center + temp_planes[i]->offset); //TODO: remove?
     }
+
+
+    //DirectX::XMStoreFloat4(&min_max_bounds[0])
+    //DirectX::XMStoreFloat4(&min_max_bounds[1])
+
+    auto p1 = temp_planes[0]->point1;
+    auto high = temp_planes[0]->point2;
+    auto p3 = temp_planes[0]->point3;
+    auto low = temp_planes[0]->point4;
+    low.y  -= 5;
+    //high.y  += 5;
+
+
+   /* DirectX::XMVECTOR bbPoints[8] = {
+        {high.x,high.y,high.z,1},
+        {high.x,high.y,low.z,1},
+        {high.x,low.y,high.z,1},
+        {high.x,low.y,low.z,1},
+        {low.x,high.y,high.z,1},
+        {low.x,high.y,low.z,1},
+        {low.x,low.y,high.z,1},
+        {low.x,low.y,low.z,1}
+    };*/
+
+
+    //DirectX::XMFLOAT4 min_max_bounds[2];
+    //DirectX::XMStoreFloat4(&min_max_bounds[0], bbPoints[0]);
+    //DirectX::XMStoreFloat4(&min_max_bounds[1], bbPoints[7]);
+
+    vec3_pair min_max{low,high};
+    
+    bounding_boxes.push_back(min_max);
+
+    int f = 3;
     //inCorner.pos = Vertexes[0];
     //outCorner.pos = Vertexes[Vertexes.size() / 2];
 }
