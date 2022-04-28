@@ -63,7 +63,7 @@ Game::~Game()
 void Game::handleEvents()
 {
 	if (keyboard->isKeyPressed('P')) {
-		gfx->getWindosClass().HideCoursor();
+		
 	}
 	else if (keyboard->isKeyPressed('O')) {
 		gfx->getWindosClass().ShowCoursor();
