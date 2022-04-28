@@ -23,6 +23,8 @@ private:
 	float speed;
 	float getPlayerPosCD;
 	float Ghosts_Time;
+	float ghost_Time_interval; 
+	float speed_increase;
 	bool readyToAttack;
 	bool fastestWayToPlayer;
 

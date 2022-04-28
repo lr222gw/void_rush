@@ -12,6 +12,8 @@ Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot,
 	rangeToPlayerBeforeNearestWay = 5;
 	rangeToPointBeforeNewPoint = 0.5;
 	this->Ghosts_Time = 0.0f;
+	this->ghost_Time_interval = 20.f;
+	this->speed_increase = 0.1f;
 	this->player = player;
 	Reset();
 	this->active = false;
@@ -118,9 +120,9 @@ void Ghost::GainSpeed(float dt)
 {
 	if (this->speed < player->getSpeed())
 	{
-		if (this->Ghosts_Time >= 20.0f)
+		if (this->Ghosts_Time >= this->ghost_Time_interval)
 		{
-			this->speed += 0.1f;
+			this->speed += this->speed_increase;
 			this->Ghosts_Time = 0.0f;
 		}
 		else
