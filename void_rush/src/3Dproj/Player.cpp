@@ -552,7 +552,7 @@ void Player::Reset(bool lvlClr)
 
 	if (lvlClr) {
 		//Add points
-		scoreManager.ClearLevel();
+		scoreManager.LevelDone();
 	}
 }
 
