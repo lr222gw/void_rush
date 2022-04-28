@@ -423,6 +423,9 @@
     <ClCompile Include="src\score\ScoreManager.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\3Dproj\3DLettersHandler.cpp">
+      <Filter>Engine\Source Files\Handlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -707,6 +710,9 @@
     <ClInclude Include="src\score\ScoreManager.hpp">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\3Dproj\3DLettersHandler.h">
+      <Filter>Engine\Header Files\Handlers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src/3Dproj/Transforms.hlsli">
@@ -783,6 +789,12 @@
     <FxCompile Include="src\3Dproj\UIPixelShader.hlsl" />
     <FxCompile Include="src\3Dproj\UIVertexShader.hlsl" />
     <FxCompile Include="NoShadowPS.hlsl">
+      <Filter>Engine\Resource Files\Shaders\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="src\3Dproj\3DTextVS.hlsl">
+      <Filter>Engine\Resource Files\Shaders\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="src\3Dproj\3DTextPS.hlsl">
       <Filter>Engine\Resource Files\Shaders\Pixel</Filter>
     </FxCompile>
   </ItemGroup>

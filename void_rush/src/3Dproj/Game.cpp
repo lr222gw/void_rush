@@ -22,6 +22,8 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	
 	camera->setRotation(vec3(0, 0, 0));
 	
+	letter3DHandler = new Letters3DHandler(rm, gfx);
+
 	/*set ups*/
 	this->setUpObject();
 	this->setUpLights();
@@ -55,12 +57,13 @@ Game::~Game()
 	delete HUD;
 	delete UI;
 	delete GameObjManager;
+	delete letter3DHandler;
 }
 
 void Game::handleEvents()
 {
 	if (keyboard->isKeyPressed('P')) {
-		gfx->getWindosClass().HideCoursor();
+		
 	}
 	else if (keyboard->isKeyPressed('O')) {
 		gfx->getWindosClass().ShowCoursor();
@@ -210,6 +213,7 @@ void Game::render()
 		//if deferred rendfering 
 		gfx->get_IMctx()->PSSetShaderResources(1, 1, &shadowMap->GetshadowResV());//add ShadowMapping
 		this->DrawToBuffer();
+
 	}
 	this->ForwardDraw();
 	
@@ -218,10 +222,10 @@ void Game::render()
 
 void Game::updateShaders(bool vs, bool ps)
 {
+
 	for (int i = 0; i < billboardGroups.size(); i++) {
 		billboardGroups[i]->updateShader(gfx, camera->getPos());
 	}
-
 	if (vs)
 	{
 		GameObjManager->updateVertex();
@@ -272,19 +276,21 @@ void Game::DrawToBuffer()
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
 	gfx->get_IMctx()->PSSetShader(gfx->getPS()[0], nullptr, 0);
 
-
 	if (getkey('F')) {
 		for (int i = 0; i < LightVisualizers.size(); i++) {
 			LightVisualizers[i]->draw(gfx, false);
 		}
 	}
-	if (player->IsAlive()) {
+
+	letter3DHandler->draw();
+	if (player->IsAlive())
+	{
 		HUD->Update();
 	}
-	else {
+	else
+	{
 		UI->draw();
 	}
-	
 }
 
 void Game::setUpObject()
@@ -303,6 +309,7 @@ void Game::setUpObject()
 	generationManager->initialize();
 	testPuzzle->Initiate(generationManager->getPuzzelPos());
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
+
 
 	std::string skyboxTextures[6] = {
 		"assets/textures/Skybox/posx.png",//x+

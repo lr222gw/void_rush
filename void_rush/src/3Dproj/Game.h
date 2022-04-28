@@ -7,6 +7,7 @@
 #include "interact/interact.hpp"
 #include "BillBoardManager.h"
 #include "hud/Hud.h"
+#include "3DLettersHandler.h"
 
 class Game : public GameState {
 public:
@@ -18,6 +19,8 @@ public:
 	virtual GameStatesEnum update(float dt);//then this
 	virtual void render();		//then this 
 private:
+	Letters3D* text;
+
 	void updateShaders(bool vs = true, bool ps = true);
 	float testTime = 0.0f;
 	ProtoPuzzle* testPuzzle;
@@ -31,6 +34,7 @@ private:
 	Generation_manager* generationManager;
 	CollisionHandler collisionHandler;
 	Hud* HUD;
+	Letters3DHandler* letter3DHandler;
 
 	/*draw to buffer*/
 	void ForwardDraw();
