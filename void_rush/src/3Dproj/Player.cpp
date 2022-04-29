@@ -603,6 +603,7 @@ void Player::shovePlayer(vec3 force, vec2 direction)
 	this->shoved = true;
 	this->jumpDir = direction;
 	this->velocity = force;
+	ResetGhost();
 }
 
 void Player::SetPuzzlePos(vec3 puzzlePosition)

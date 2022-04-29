@@ -23,7 +23,7 @@ void Ghost::collidedWithPlayer()
 		//player->TakeDmg();
 		vec3 ghostToPlayer = (player->getPos() - getPos()).Normalize();
 		player->shovePlayer(vec3(this->force.x, this->force.y,this->force.z), vec2(ghostToPlayer.x, ghostToPlayer.z));
-		this->Reset();
+		//this->Reset();
 	}
 }
 
