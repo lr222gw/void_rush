@@ -8,6 +8,7 @@ Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot,
 	this->Ghosts_Time = 0.0f;
 	this->ghost_Time_interval = 20.f;
 	this->speed_increase = 0.1f;
+	this->force = vec3(10.0f, 3.0f, 10.f);
 	this->player = player;
 	Reset();
 	this->active = false;
@@ -21,7 +22,7 @@ void Ghost::collidedWithPlayer()
 		attackCD = 5.0f;
 		//player->TakeDmg();
 		vec3 ghostToPlayer = (player->getPos() - getPos()).Normalize();
-		player->shovePlayer(vec3(50.f, 3.f, 50.f), vec2(ghostToPlayer.x, ghostToPlayer.z));
+		player->shovePlayer(vec3(this->force.x, this->force.y,this->force.z), vec2(ghostToPlayer.x, ghostToPlayer.z));
 		this->Reset();
 	}
 	
@@ -85,7 +86,6 @@ void Ghost::followPlayer(float dt)
 		while (PlayerPositions.size() > 120) {
 			PlayerPositions.pop();
 		}
-		
 	} 
 	if (!checkIfRangeOfPlayer() && !PlayerPositions.empty()) {
 		vec3 ghostToPoint = (PlayerPositions.front() - getPos()).Normalize();
@@ -137,5 +137,3 @@ void Ghost::GainSpeed(float dt)
 		}
 	}
 }
-
-

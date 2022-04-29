@@ -161,6 +161,15 @@ void ImguiManager::render_ghost_widgets()
 		ImGui::InputFloat("Player range Limit", &owner->ghost->rangeToPlayerBeforeNearestWay);
 		ImGui::InputFloat("Speed Increase", &owner->ghost->speed_increase);
 		ImGui::InputFloat("time_s interval", &owner->ghost->ghost_Time_interval);
+		float* init_force[3] = { &owner->ghost->force.x, &owner->ghost->force.y, &owner->ghost->force.z };
+		static float min_force = 0;
+		static float max_force = 304;
+		static float forceSlider = owner->ghost->force.x;
+		if (ImGui::SliderFloat("Force", &forceSlider, min_force, max_force)) {
+			*init_force[0] = forceSlider;
+			//*init_force[1] = forceSlider;
+			*init_force[2] = forceSlider;
+		}
 		if (ImGui::Button("Reset", ImVec2(100, 25)))
 		{
 			owner->ghost->Reset();
