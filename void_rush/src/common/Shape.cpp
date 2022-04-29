@@ -18,7 +18,7 @@ void Shape::addPlane(vec3 a, vec3 b, vec3 c, vec3 d)
 void Shape::setPosition(vec3 pos)
 {
     for (int i = 0; i < planes.size(); i++) {
-        vec3 offset = vec3::Normalize(planes[i]->get_normal()).mul(vec3(1, 1, 1));
+        vec3 offset = vec3::Normalize(planes[i]->get_normal()).mul(scale);
         planes[i]->move(pos + offset);
     }
 }
@@ -28,7 +28,7 @@ void Shape::setScale(vec3 scale)
     this->scale = scale;
 }
 
-void Shape::setShapeCube(vec3& center)
+void Shape::setShapeCube(vec3 center)
 {    
     vec3 vert = center;
 
@@ -51,9 +51,8 @@ void Shape::setShapeCube(vec3& center)
         temp_planes[i]->move(center + temp_planes[i]->offset); //TODO: remove?
     }
 
-    auto p1 = temp_planes[0]->point1;
-    auto high = temp_planes[0]->point2;
-    auto p3 = temp_planes[0]->point3;
+    
+    auto high = temp_planes[0]->point2;    
     auto low = temp_planes[0]->point4;
 
     vec3_pair min_max{low,high};

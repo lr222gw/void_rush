@@ -79,7 +79,7 @@ public:
     void addPlane(vec3 a, vec3 b, vec3 c, vec3 d);
     void setPosition(vec3 pos);
     void setScale(vec3 scale);
-    void setShapeCube(vec3& center);
+    void setShapeCube(vec3 center);
 
     void export_as_obj();
 
