@@ -16,9 +16,8 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->grounded = true;
 	this->groundedTimer = 0.0f;
 	GOPTR = static_cast<GameObject*>(this);
-	this->setScale(vec3(0.2f,0.2f,0.2f));
 	setWeight(20);
-	setBoundingBox(DirectX::XMFLOAT3(0, -0.9, 0), DirectX::XMFLOAT3(0.5f, 0.4f, 0.5f));
+	setBoundingBox(DirectX::XMFLOAT3(0, -0.19, 0), DirectX::XMFLOAT3(0.19f, 0.10f, 0.19f));
 	this->health = 3;
 	this->alive = true;
 	this->maxDepth = -140.0f;

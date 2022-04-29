@@ -136,12 +136,9 @@ GameStatesEnum Game::update(float dt)
 		skybox->update(camera->getPos());
 
 		/*update matrixes*/
-		GameObjManager->updateMatrix();
-		player->updateMatrix();
-
-
-
 		collisionHandler.update();
+
+		GameObjManager->updateMatrix();
 
 		/*update vertex*/
 		updateShaders();
@@ -150,7 +147,6 @@ GameStatesEnum Game::update(float dt)
 		soundManager.update(camera->getPos(), camera->getForwardVec());
 		gfx->Update(dt, camera->getPos());
 		GameObjManager->update(dt);
-		player->update(dt);
 
 #pragma region camera_settings
 
@@ -295,12 +291,13 @@ void Game::setUpObject()
 {
 	////////OBJECTS///////////
 
-	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f));
+	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f),vec3(0,0,0), vec3(0.2,0.2,0.2));
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
 
-	GameObjManager->CreateGameObject("DCube.obj", "cam", vec3(0, 30, 0), vec3(0, -1.57, 0));
+	GameObjManager->CreateGameObject("DCube.obj", "cam", vec3(5, -10, 0), vec3(0, 0, 0));
+	GameObjManager->CreateGameObject("DCube.obj", "cubetest", vec3(0, 0, 50), vec3(0, 0, 0));
 
 	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2));
 	GameObjManager->addGameObject(ghost, "Ghost");
