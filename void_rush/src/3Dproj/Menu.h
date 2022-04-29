@@ -22,4 +22,5 @@ private:
 
 	vec2 buttonSize;
 	std::vector<std::string>buttonNames;
+	std::vector<vec2>buttonPos;
 };
