@@ -26,7 +26,7 @@ public:
 	void Reset(bool lvlClr = false);
 	//Used when player falls of platform to rest ghost
 	bool ResetGhost();
-	void shovePlayer(vec3 force, vec2 direction);
+	void shovePlayer(vec2 shove, float forceY);
 
 	void SetPuzzlePos(vec3 puzzlePosition);
 	void SetDifficulity(Difficulity diff);
@@ -53,6 +53,7 @@ private:
 
 	//For being shoved
 	bool shoved;
+	vec2 shove;
 
 	vec2 startingJumpDir = vec2(0.0f, 0.0f);
 	char startingJumpKey = 'N';

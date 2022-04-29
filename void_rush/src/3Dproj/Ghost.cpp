@@ -22,8 +22,8 @@ void Ghost::collidedWithPlayer()
 		attackCD = 5.0f;
 		//player->TakeDmg();
 		vec3 ghostToPlayer = (player->getPos() - getPos()).Normalize();
-		player->shovePlayer(vec3(this->force.x, this->force.y,this->force.z), vec2(ghostToPlayer.x, ghostToPlayer.z));
-		//this->Reset();
+		vec2 shove = vec2(this->force.x * ghostToPlayer.x, this->force.z * ghostToPlayer.z);
+		player->shovePlayer(shove, this->force.y);
 	}
 }
 

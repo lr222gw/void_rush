@@ -481,11 +481,13 @@ void Player::handleEvents(float dt)
 
 			velocity.x = speed.x * jumpDir.x;
 			velocity.z = speed.z * jumpDir.y;
+
 		}
 		else
 		{
-			velocity.x *= jumpDir.x;
-			velocity.z *= jumpDir.y;
+			velocity.x = shove.x;
+			velocity.z = shove.y;
+			
 		}
 	}
 	this->isKeyPressed = false;
@@ -597,12 +599,13 @@ bool Player::ResetGhost()
 }
 
 //Used by enemies to move player on collision
-void Player::shovePlayer(vec3 force, vec2 direction)
+void Player::shovePlayer(vec2 shove, float forceY)
 {
+	this->groundedTimer = 0.001f;
 	this->grounded = false;
 	this->shoved = true;
-	this->jumpDir = direction;
-	this->velocity = force;
+	this->shove = shove;
+	this->velocity.y = forceY;
 	ResetGhost();
 }
 
