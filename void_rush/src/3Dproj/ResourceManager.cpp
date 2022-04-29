@@ -117,6 +117,11 @@ ModelObj* ResourceManager::load_map_scene(aiScene* scene,std::string key, Graphi
 	//model->init("assets/obj/" + key, gfx, def);
 	
 	model->init(scene, gfx, def);
+
+	auto iterator = Models.find(key);
+	if ( iterator != Models.end() ) {
+		Models.erase(iterator);
+	}
 	Models.insert(std::make_pair(key, model));
 
 
