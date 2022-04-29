@@ -390,9 +390,8 @@ void Game::setUpUI()
 
 	//Pause Menu
 	UI->createUIString("Paused", vec2(-10.0f, 10.0f), vec2(0.08f, 0.08f), "PauseText");
-	UI->createUIButton("assets/textures/outline.png", "", mouse, vec2(-0.3, 0.1), vec2(0.5, 0.15), "Resume", vec2(0.0, 0.0), vec2(0, 0.1));
-	UI->createUIButton("assets/textures/outline.png", "", mouse, vec2(-0.3, -0.2), vec2(0.5, 0.15), "Menu", vec2(0.0, 0.0), vec2(0, 0.1));
-	UnPause();
+	UI->createUIButton("assets/textures/outline.png", "Resume", mouse, vec2(-10.0, -10.0), vec2(0.5, 0.15), "Resume", vec2(0.0, 0.0), vec2(0, 0.1));
+	UI->createUIButton("assets/textures/outline.png", "Menu", mouse, vec2(-10.0, -10.0), vec2(0.5, 0.15), "Menu", vec2(0.0, 0.0), vec2(0, 0.1));
 }
 
 void Game::setUpSound()
