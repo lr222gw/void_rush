@@ -516,6 +516,7 @@ void Player::setGrounded()
 	if (!grounded)
 	{
 		this->grounded = true;
+		this->shoved = false;
 		this->velocity = vec3(0.0f, 0.0f, 0.0f);
 		this->acceleration.y = 0.0f;
 		this->resForce.y = 0.0f;
