@@ -39,6 +39,15 @@ void CollisionHandler::deletePlatform(GameObject* ptr)
 	}
 }
 
+void CollisionHandler::deletePlatform(Shape* ptr)
+{
+	for (size_t i = 0; i < Generated_Platforms.size(); i++) {
+		if (Generated_Platforms[i] == ptr) {
+			Generated_Platforms.erase(Generated_Platforms.begin() + i);
+		}
+	}
+}
+
 void CollisionHandler::deleteEnemies(Enemy* ptr)
 {
 	for (size_t i = 0; i < Enemies.size(); i++) {

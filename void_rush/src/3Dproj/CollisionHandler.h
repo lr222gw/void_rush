@@ -14,6 +14,7 @@ public:
 	void addEnemies(Enemy* enemies);
 	void addObstacle(GameObject* Obstacle);
 	void deletePlatform(GameObject* ptr);
+	void deletePlatform(Shape* ptr);
 	void deleteEnemies(Enemy* ptr);
 	void deleteObstacle(GameObject* ptr);
 	void update();
