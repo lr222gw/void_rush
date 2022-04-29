@@ -20,7 +20,7 @@ public:
 private:
     //static Shape_exporter* get();
     //friend class Shape_exporter;
-    aiScene scene;
+    aiScene* scene;
     
     int nrOfMeshes;
     int nrOfMaterials;
