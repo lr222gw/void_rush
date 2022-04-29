@@ -13,14 +13,28 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, C
 
 Generation_manager::~Generation_manager()
 {
-    for (int i = 0; i < this->nrOfAnchors; i++) {
+
+    
+    Platform* anchor = position_gen->getAnchors()->at(0);
+    while(anchor){
+        collisionHandler->deletePlatform(&anchor->platformShape);
+        anchor = anchor->next;
+    }
+    Platform* jumppoint = position_gen->getJumpPoints()->at(0);
+    while(jumppoint){
+        collisionHandler->deletePlatform(&jumppoint->platformShape);
+        jumppoint = jumppoint->next;
+    }    
+    gameObjManager->removeGameObject("map");
+    
+    /*for (int i = 0; i < this->nrOfAnchors; i++) {
         gameObjManager->removeGameObject("Anchor_" + std::to_string(i));
         collisionHandler->deletePlatform(platformObjs[i]);
     }
     for (int i = 0; i < this->nrOfJumpPoints; i++) {
         gameObjManager->removeGameObject("JumpPoint_" + std::to_string(i));
         collisionHandler->deletePlatform(platformObjs[i + this->nrOfAnchors]);
-    }
+    }*/
     //for (PlatformObj* po : platformObjs) {
      //   delete po; 
     //}
@@ -46,14 +60,22 @@ void Generation_manager::set_GameObjManager(GameObjectManager* goMan)
 void Generation_manager::initialize()
 {
     //Removes previous data and platforms if any
-    for (int i = 0; i < this->nrOfAnchors; i++) {
-        gameObjManager->removeGameObject("Anchor_" + std::to_string(i));
-        collisionHandler->deletePlatform(platformObjs[i]);
+    if (position_gen->getAnchors()->size() > 0) {
+        Platform* anchor_rm = position_gen->getAnchors()->at(0);
+        while(anchor_rm){
+            collisionHandler->deletePlatform(&anchor_rm->platformShape);
+            anchor_rm = anchor_rm->next;
+        }
+        Platform* jumppoint_rm = position_gen->getJumpPoints()->at(0);
+        while(jumppoint_rm){
+            collisionHandler->deletePlatform(&jumppoint_rm->platformShape);
+            jumppoint_rm = jumppoint_rm->next;
+        }    
+
+        gameObjManager->removeGameObject("map");
     }
-    for (int i = 0; i < this->nrOfJumpPoints; i++) {
-        gameObjManager->removeGameObject("JumpPoint_" + std::to_string(i));
-        collisionHandler->deletePlatform(platformObjs[i + this->nrOfAnchors]);
-    }
+    
+    
     /*for (PlatformObj* po : platformObjs) {
         collisionHandler->deletePlatform(po);
     }*/
@@ -71,14 +93,14 @@ void Generation_manager::initialize()
 
     Platform* anchor = position_gen->getAnchors()->at(0);
     while(anchor){
-        
+        anchor->platformShape.setShapeCube(*anchor->getPos());
         shape_export.build_shape_model(&anchor->platformShape, "test");
         collisionHandler->addPlatform(&anchor->platformShape);
         anchor = anchor->next;
     }
     Platform* jumppoint = position_gen->getJumpPoints()->at(0);
     while(jumppoint){
-
+        jumppoint->platformShape.setShapeCube(*jumppoint->getPos());
         shape_export.build_shape_model(&jumppoint->platformShape, "test");
         collisionHandler->addPlatform(&jumppoint->platformShape);
         jumppoint = jumppoint->next;
@@ -96,6 +118,7 @@ void Generation_manager::initialize()
             vec3(1.0f, 1.0f, 1.0f))
     );
     this->nrOfAnchors++;
+    gameObjManager->addGameObject(platformObjs[0], "map");
 
     ///^^^^^^^^^^^^^^^^^^^^^^^^^^ Testing
 
