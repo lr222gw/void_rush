@@ -18,7 +18,12 @@ void Hud::setUpUI()
 	UI->createUISprite("assets/textures/Ghost Bar.png", vec2(-0.233f, 0.85f), vec2(this->noBar, 0.1f));
 	UI->createUISprite("assets/textures/Ghost Frame.png", vec2(-0.25f, 0.8f), vec2(0.5f, 0.2f));
 	UI->createUISprite("assets/textures/Ghost Pointer.png", vec2(-0.26f, 0.71f), vec2(0.05f, 0.1f));
-	UI->createUIString("1000m", vec2(-0.35f, 0.6f), vec2(0.05f, 0.05f), "GhostDistance");
+	UI->createUIString("00m", vec2(-0.27f, 0.65f), vec2(0.03f, 0.03f), "GhostDistance");
+	UI->createUISprite("assets/textures/PowerUpFrame.png", vec2(0.7f, -0.95f), vec2(0.3f, 0.3f));
+	UI->createUISprite("assets/textures/Empty.png", vec2(0.75f, -0.63f), vec2(0.05f, 0.05f));
+	UI->createUISprite("assets/textures/Empty.png", vec2(0.8f, -0.63f), vec2(0.05f, 0.05f));
+	UI->createUISprite("assets/textures/Empty.png", vec2(0.85f, -0.63f), vec2(0.05f, 0.05f));
+	UI->createUISprite("assets/textures/Empty.png", vec2(0.9f, -0.63f), vec2(0.05f, 0.05f));
 }
 
 void Hud::ResetHUD()
@@ -52,7 +57,8 @@ void Hud::UpdateGhostBar(vec3 playerPos, vec3 puzzlePos, vec3 ghostPos, float to
 
 	if (sizeOfBar > 0.4f)
 	{
-		UI->getElements(GHOSTBAR)->setSize(this->fullBar, 0.1f);
+		sizeOfBar = this->fullBar;
+		UI->getElements(GHOSTBAR)->setSize(sizeOfBar, 0.1f);
 	}
 	else
 	{
@@ -63,27 +69,19 @@ void Hud::UpdateGhostBar(vec3 playerPos, vec3 puzzlePos, vec3 ghostPos, float to
 	std::string meterText;
 	if (currentGhostDistance < 10.0f)
 	{
-		meterText = "000" + std::to_string((int)currentGhostDistance) + "m";
-	}
-	else if (currentGhostDistance < 100.0f)
-	{
-		meterText = "00" + std::to_string((int)currentGhostDistance) + "m";
-	}
-	else if (currentGhostDistance < 1000.0f)
-	{
 		meterText = "0" + std::to_string((int)currentGhostDistance) + "m";
 	}
-	else if (currentGhostDistance < 10000.0f)
+	else if (currentGhostDistance < 100.0f)
 	{
 		meterText = std::to_string((int)currentGhostDistance) + "m";
 	}
 	else
 	{
-		meterText = "9999m";
+		meterText = "99m";
 	}
 	UI->getStringElement("GhostDistance")->setText(meterText);
 	
-	currentGhostDistance = currentGhostDistance / 50.0f;
+	currentGhostDistance = currentGhostDistance / 100.0f;
 	if (currentGhostDistance > 1.0f)
 	{
 		currentGhostDistance = 1.0f;
@@ -96,7 +94,7 @@ void Hud::UpdateGhostBar(vec3 playerPos, vec3 puzzlePos, vec3 ghostPos, float to
 	sizeOfBar = (1.0f - currentGhostDistance) * sizeOfBar;// * 0.467f;
 
 	UI->getElements(GHOSTICON)->setPosition((-0.26f + sizeOfBar), 0.71f);
-	UI->getStringElement("GhostDistance")->setPosition(vec2(-0.35f + sizeOfBar, 0.6f));
+	UI->getStringElement("GhostDistance")->setPosition(vec2(-0.27f + sizeOfBar, 0.65f));
 }
 
 void Hud::Update()

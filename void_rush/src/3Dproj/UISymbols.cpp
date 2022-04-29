@@ -21,6 +21,11 @@ void UISymbols::symbol_to_uv(char symbol)
 	this->setUVSize(1.f / 8.f, 1.f / 16.f);
 }
 
+void UISymbols::replaceSprite(ID3D11ShaderResourceView* _sprite)
+{
+	//Do nothing
+}
+
 void UISymbols::draw(Graphics*& gfx)
 {
 	this->updateConstBuffer(gfx);
