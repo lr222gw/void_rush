@@ -10,7 +10,7 @@
 #include "imguiManager.h"
 #include "flags.h"
 
-enum class GameStatesEnum { NO_CHANGE, QUIT, TO_MENU, TO_GAME };
+enum class GameStatesEnum { NO_CHANGE, QUIT, TO_MENU, TO_GAME, TO_HIGHSCORE };
 
 class GameState {
 public:
