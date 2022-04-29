@@ -21,6 +21,7 @@ public:
 	ID3D11ShaderResourceView** getDef();
 	ID3D11ShaderResourceView* getFire();
 	ID3D11ShaderResourceView*& getSprite(std::string textureFile, Graphics*& gfx);
+	ID3D11ShaderResourceView*& getSpriteCube(std::string textureFiles[], Graphics*& gfx);
 #pragma endregion
 	Material* getdefMatrial;
 	ModelObj* get_Models(std::string key);
@@ -35,6 +36,7 @@ private:
 
 	std::map<std::string, ModelObj*> Models;
 	std::map<std::string, ID3D11ShaderResourceView*> Sprites;
+	std::map<std::string, ID3D11ShaderResourceView*> CubeSprites;
 	Material* defMatrial;
 
 	void addMaterialToTrashCollector(ModelObj* model);

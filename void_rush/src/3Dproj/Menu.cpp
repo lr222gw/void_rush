@@ -6,9 +6,8 @@ Menu::Menu(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mous
 {
 	cam->setPosition(vec3(0, 0, 0));
 	setUpObject();
-	setUpUI();
-	//this->IMGUI->set_owner(this);
-
+	//setUpUI();
+	
 	soundManager.playMusic("assets/audio/MenuMusic.wav", 7.0f);
 	soundManager.setMusicLoop(true);
 }
@@ -45,6 +44,9 @@ GameStatesEnum Menu::update(float dt)
 		UI->createUIString("Loading...", vec2(-1, -0.5), vec2(0.2, 0.2), "loading");
 		theReturn = GameStatesEnum::TO_GAME;
 	}
+	else if (UI->getButton("HighScores")->clicked()) {
+		theReturn = GameStatesEnum::TO_HIGHSCORE;
+	}
 
 	return theReturn;
 }
@@ -75,6 +77,7 @@ void Menu::setUpUI()
 	UI = new UIManager(rm, gfx);
 	UI->createUIButton("assets/textures/backbebap.png","END", mouse, vec2(-0.75, 0), vec2(0.5, 0.5), "Quit");
 	UI->createUIButton("assets/textures/outline.png","Start", mouse, vec2(0.25, 0), vec2(0.5, 0.5), "Start", vec2(0.02,0.2), vec2(-0.01,0));
+	UI->createUIButton("assets/textures/outline.png", "HighScores", mouse, vec2(0.5, 0.5), vec2(0.5, 0.5), "HighScores", vec2(0.02, 0.2), vec2(-0.01, 0));
 }
 
 void Menu::setUpObject()
@@ -88,5 +91,6 @@ void Menu::setUpObject()
 		"assets/textures/Skybox/posz.png",//z+
 		"assets/textures/Skybox/negz.png"//z-
 	};
-	skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, vec3(0,0,0), skyboxTextures);
+	rm->getSpriteCube(skyboxTextures, gfx);
+	//skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, vec3(0,0,0), rm->getSpriteCube(skyboxTextures,gfx));
 }

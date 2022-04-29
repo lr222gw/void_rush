@@ -27,6 +27,10 @@ ResourceManager::~ResourceManager()
 	for (sit = Sprites.begin(); sit != Sprites.end(); sit++) {
 		sit->second->Release();
 	}
+	std::map<std::string, ID3D11ShaderResourceView*>::iterator csit;
+	for (csit = CubeSprites.begin(); csit != CubeSprites.end(); csit++) {
+		csit->second->Release();
+	}
 	delete defMatrial;
 }
 
@@ -61,15 +65,6 @@ void ResourceManager::loadThings(Graphics*& gfx)
 	//mesh
 
 	std::string names[] = {
-	//	"GroundLowPloy.obj",
-	//	"DoubleMesh.obj",
-	//	"quad2.obj",
-	//	"roundsol.obj",
-	//	"stormtrooper.obj",
-	//	"DCube.obj",
-	//	"stol.obj",
-	//	"Sting-Sword-lowpoly.obj",
-	//	"indoor_plant_02.obj",
 		"Camera.obj"
 	};
 	for (int i = 0; i < _countof(names); i++) {
@@ -133,6 +128,21 @@ ID3D11ShaderResourceView*& ResourceManager::getSprite(std::string textureFile, G
 	}
 	//else we return it
 	return Sprites.find(textureFile)->second;
+}
+
+ID3D11ShaderResourceView*& ResourceManager::getSpriteCube(std::string textureFiles[], Graphics*& gfx)
+{
+	ID3D11Texture2D* tex;
+	if (CubeSprites.find(textureFiles[0]) == CubeSprites.end()) {
+		//its not found try to add it to the library
+		ID3D11ShaderResourceView* SRVptr;
+		if (!CreateTextureCube(textureFiles, gfx->getDevice(), tex, SRVptr)) {
+			std::cout << "stop" << std::endl;
+		}
+		CubeSprites.insert(std::make_pair(textureFiles[0], SRVptr));
+	}
+	//else we return it
+	return CubeSprites.find(textureFiles[0])->second;
 }
 
 void ResourceManager::addMaterialToTrashCollector(ModelObj* model)

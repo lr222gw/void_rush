@@ -342,6 +342,7 @@
     <ClCompile Include="src\generation\Generation_manager.cpp" />
     <ClCompile Include="src\generation\Platform.cpp" />
     <ClCompile Include="src\generation\playerGen.cpp" />
+    <ClCompile Include="src\HighScoreGameState.cpp" />
     <ClCompile Include="src\hud\Hud.cpp" />
     <ClCompile Include="src\interact\interact.cpp" />
     <ClCompile Include="src\Main.cpp" />

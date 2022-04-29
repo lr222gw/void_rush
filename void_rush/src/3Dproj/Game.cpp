@@ -316,7 +316,7 @@ void Game::setUpObject()
 		"assets/textures/Skybox/posz.png",//z+
 		"assets/textures/Skybox/negz.png"//z-
 	};
-	skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, player->getPos(), skyboxTextures);
+	skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, player->getPos(), rm->getSpriteCube(skyboxTextures,gfx));
 }
 
 void Game::setUpLights()

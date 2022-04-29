@@ -426,6 +426,9 @@
     <ClCompile Include="src\3Dproj\3DLettersHandler.cpp">
       <Filter>Engine\Source Files\Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="src\HighScoreGameState.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
