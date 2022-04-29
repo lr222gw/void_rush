@@ -131,7 +131,7 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
 
 #pragma endregion    
 
-    Platform* newPlat;
+    Platform* newPlat = nullptr;
 
 
     Platform* startJumpPoint = nullptr;; //TODO: memory leak    
@@ -148,13 +148,13 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
         dir_between_anchor = *endanchorPos - *startanchorPos;
         vec3 normalized_dir = dir_between_anchor.Normalize();
         
-        startJumpPoint = new Platform();
+        startJumpPoint = new Platform();        
         if (endJumpPoint) { endJumpPoint->next = startJumpPoint; } //endJumpPoint is nullptr, first iteration...
         startJumpPoint->setPosition(*startanchorPos);
         this->jumpPoints.push_back(startJumpPoint);        
 
         endJumpPoint = new Platform();
-        endJumpPoint->setPosition(*endanchorPos);        
+        endJumpPoint->setPosition(*endanchorPos);           
         this->jumpPoints.push_back(endJumpPoint);
         
 
@@ -259,6 +259,7 @@ void Position_generator::jumpPoint_generation_helper(Platform* start, Platform* 
 
 }
 
+//TODO: remove return value...
 vec3 Position_generator::jumpPoint_create_offset(Platform* plat,vec3& currentMiddle, vec3 start, vec3 end)
 {
     vec3 temp = vec3(randF(-1.f, 1.f), randF(-1.f, 1.f), randF(-1.f, 1.f)).Normalize();
@@ -279,8 +280,7 @@ vec3 Position_generator::jumpPoint_create_offset(Platform* plat,vec3& currentMid
     float randomDist = randF(0.f, start_End.length()) / JP_conf.random_dist_dividier;
     vec3 offset = randomDir * randomDist; 
 
-    plat->setPosition(currentMiddle + offset);
-
+    plat->setPosition(currentMiddle + offset);        
     return offset;
 }
 
