@@ -3,13 +3,12 @@
 Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale):
 	Enemy(file, gfx, pos, rot, scale)
 {
-	/*this->player = player;
-	attackCD = 0.0f;
-	readyToAttack = true;
-	speed = 4;
-	getPlayerPosCD = 0;
-	rangeToPlayerBeforeNearestWay = 10;
-	rangeToPointBeforeNewPoint = 3;*/
+	rangeToPlayerBeforeNearestWay = 5;
+	rangeToPointBeforeNewPoint = 0.5;
+	this->Ghosts_Time = 0.0f;
+	this->ghost_Time_interval = 20.f;
+	this->speed_increase = 0.1f;
+	this->force = vec3(10.0f, 3.0f, 10.f);
 	this->player = player;
 	Reset();
 	this->active = false;
@@ -21,9 +20,11 @@ void Ghost::collidedWithPlayer()
 		std::cout << "Player loses a life" << std::endl;
 		readyToAttack = false;
 		attackCD = 5.0f;
-		player->TakeDmg();
+		//player->TakeDmg();
+		vec3 ghostToPlayer = (player->getPos() - getPos()).Normalize();
+		vec2 shove = vec2(this->force.x * ghostToPlayer.x, this->force.z * ghostToPlayer.z);
+		player->shovePlayer(shove, this->force.y);
 	}
-	
 }
 
 void Ghost::update(float dt)
@@ -35,6 +36,7 @@ void Ghost::update(float dt)
 				readyToAttack = true;
 			}
 		}
+		GainSpeed(dt);
 		followPlayer(dt);
 		if (player->ResetGhost()) {
 			this->Reset();
@@ -49,12 +51,16 @@ void Ghost::setActive(bool activate)
 
 void Ghost::Reset()
 {
-	setPos(vec3(player->getxPos(), player->getyPos() + 10.0f, player->getzPos()));
+	setPos(vec3(player->getPos().x, player->getPos().y, player->getPos().z - 10.f));
 	readyToAttack = true;
-	speed = 4;
+	speed = 1;
 	getPlayerPosCD = 0;
-	rangeToPlayerBeforeNearestWay = 10;
-	rangeToPointBeforeNewPoint = 3;
+	if (!PlayerPositions.empty())
+	{
+		std::queue<vec3> empty;
+		PlayerPositions.swap(empty);
+	}
+	this->active = false;
 }
 
 void Ghost::followPlayer(float dt)
@@ -64,13 +70,21 @@ void Ghost::followPlayer(float dt)
 		getPlayerPosCD -= dt;
 		if (getPlayerPosCD < 0) {
 			getPlayerPosCD = 3;
-			PlayerPositions.push(player->getPos());
-			std::cout << "shot" << std::endl;
+			if (PlayerPositions.empty())
+			{
+				PlayerPositions.push(player->getPos());
+			}
+			else
+			{
+				if ((player->getPos() - PlayerPositions.back()).length() > this->rangeToPointBeforeNewPoint)
+				{
+					PlayerPositions.push(player->getPos());
+				}
+			}
 		}
-		while (PlayerPositions.size() > 30) {
+		while (PlayerPositions.size() > 120) {
 			PlayerPositions.pop();
 		}
-		
 	} 
 	if (!checkIfRangeOfPlayer() && !PlayerPositions.empty()) {
 		vec3 ghostToPoint = (PlayerPositions.front() - getPos()).Normalize();
@@ -90,6 +104,7 @@ void Ghost::followPlayer(float dt)
 	}
 }
 
+//check if ghost are within range of player
 bool Ghost::checkIfInRangeOfPoint()
 {
 	if (PlayerPositions.empty()) {
@@ -99,8 +114,26 @@ bool Ghost::checkIfInRangeOfPoint()
 	return ghostToPoint.length() < rangeToPointBeforeNewPoint;
 }
 
+//check if distans to player is less then closest new point
 bool Ghost::checkIfRangeOfPlayer()
 {
 	vec3 ghostToPlayer = (player->getPos() - getPos());
 	return ghostToPlayer.length() < rangeToPlayerBeforeNearestWay;
+}
+
+//Increseas the ghost speed during the game.
+void Ghost::GainSpeed(float dt)
+{
+	if (this->speed < player->getSpeed())
+	{
+		if (this->Ghosts_Time >= this->ghost_Time_interval)
+		{
+			this->speed += this->speed_increase;
+			this->Ghosts_Time = 0.0f;
+		}
+		else
+		{
+			this->Ghosts_Time += dt;
+		}
+	}
 }
