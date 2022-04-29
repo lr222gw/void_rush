@@ -713,6 +713,9 @@
     <ClInclude Include="src\3Dproj\3DLettersHandler.h">
       <Filter>Engine\Header Files\Handlers</Filter>
     </ClInclude>
+    <ClInclude Include="src\HighScoreGameState.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src/3Dproj/Transforms.hlsli">
