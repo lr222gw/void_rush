@@ -40,6 +40,8 @@ public:
 	bool GetSubmitName();
 	void SetSubmitName(bool val);
 
+	void SetCurrentSeed(int seed);
+
 	
 private:
 	friend class ImguiManager;

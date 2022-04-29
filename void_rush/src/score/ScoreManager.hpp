@@ -15,6 +15,7 @@ public:
 	void SetPlayerSpeed(float speed);
 	void SetDifficulty(Difficulity diff);
 	void SetStartPlatform(Platform*& platform);
+	void SetSeed(int seed);
 	void SetScore(float points);
 	void AddScore(float points);
 	void LevelDone();
@@ -27,6 +28,7 @@ private:
 	Difficulity levelDifficulty;
 	float playerSpeed;
 	float score;
+	int seed;
 
 	const float constPoints = 0.1f;//Points given each update;
 	const float puzzlePoints = 100.0f;//Points given when puzzle is done
