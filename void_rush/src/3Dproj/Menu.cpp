@@ -8,7 +8,7 @@ Menu::Menu(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mous
 
 	cam->setPosition(vec3(0, 0, 0));
 	setUpObject();
-	//setUpUI();
+	setUpUI();
 	
 	soundManager.playMusic("assets/audio/MenuMusic.wav", 7.0f);
 	soundManager.setMusicLoop(true);
