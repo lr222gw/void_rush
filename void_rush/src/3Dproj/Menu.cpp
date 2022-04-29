@@ -47,7 +47,6 @@ GameStatesEnum Menu::update(float dt)
 		UI->createUIString("Loading...", vec2(-0.9, -0.75), vec2(0.2, 0.2), "loading");
 		theReturn = GameStatesEnum::TO_GAME;
 	}
-
 	checkHover();
 
 	return theReturn;
@@ -78,14 +77,18 @@ void Menu::setUpUI()
 {
 	UI = new UIManager(rm, gfx);
 	UI->createUIString("Void Rush", vec2(-0.4, 0.7), vec2(0.1, 0.1), "Title");
-	UI->createUIButton("assets/textures/outline.png", "Start", mouse, vec2(-0.9, 0.4), buttonSize, "Start", vec2(0.0, 0.0), vec2(0, 0.1));
-	UI->createUIButton("assets/textures/outline.png", "Button2", mouse, vec2(-0.9, 0.1), buttonSize, "Button2", vec2(0.0, 0.0), vec2(0, 0.1));
-	UI->createUIButton("assets/textures/outline.png", "Button3", mouse, vec2(-0.9, -0.2), buttonSize, "Button3", vec2(0.0, 0.0), vec2(0, 0.1));
-	UI->createUIButton("assets/textures/outline.png","END", mouse, vec2(-0.9, -0.5), buttonSize, "Quit", vec2(0.0,0.0), vec2(0,0.1));
+	UI->createUIButton("assets/textures/buttonBack.png", "Start", mouse, vec2(-0.9, 0.4), buttonSize, "Start", vec2(0.0, 0.0), vec2(0, 0.1));
+	UI->createUIButton("assets/textures/buttonBack.png", "Button2", mouse, vec2(-0.9, 0.1), buttonSize, "Button2", vec2(0.0, 0.0), vec2(0, 0.1));
+	UI->createUIButton("assets/textures/buttonBack.png", "Button3", mouse, vec2(-0.9, -0.2), buttonSize, "Button3", vec2(0.0, 0.0), vec2(0, 0.1));
+	UI->createUIButton("assets/textures/buttonBack.png","END", mouse, vec2(-0.9, -0.5), buttonSize, "Quit", vec2(0.0,0.0), vec2(0,0.1));
 	buttonNames.push_back("Start");
 	buttonNames.push_back("Button2");
 	buttonNames.push_back("Button3");
 	buttonNames.push_back("Quit");
+	buttonPos.push_back(vec2(-0.9, 0.4));
+	buttonPos.push_back(vec2(-0.9, 0.1));
+	buttonPos.push_back(vec2(-0.9, -0.2));
+	buttonPos.push_back(vec2(-0.9, -0.5));
 }
 
 void Menu::setUpObject()
@@ -107,9 +110,11 @@ void Menu::checkHover()
 	for (int i = 0; i < buttonNames.size(); i++) {
 		if (UI->getButton(buttonNames[i])->hover()) {
 			UI->getButton(buttonNames[i])->setSize(buttonSize.x * 1.1f, buttonSize.y * 1.1f);
+			UI->getButton(buttonNames[i])->setPosition(buttonPos[i].x - 0.01, buttonPos[i].y -0.01);
 		}
 		else {
 			UI->getButton(buttonNames[i])->setSize(buttonSize.x, buttonSize.y);
+			UI->getButton(buttonNames[i])->setPosition(buttonPos[i].x + 0.0, buttonPos[i].y + 0.0);
 		}
 	}
 }

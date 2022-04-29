@@ -198,12 +198,12 @@ GameStatesEnum Game::update(float dt)
 		}
 	}
 	else if(paused) {
-		UI->update();
 		if (keyboard->isKeyPressed(VK_DELETE)) {
 			paused = false;
 			keyboard->onKeyReleased(VK_DELETE);
 			UnPause();
 		}
+		UI->update();
 		if (UI->getButton("Resume")->clicked()) {
 			paused = false;
 			UnPause();
@@ -297,17 +297,14 @@ void Game::DrawToBuffer()
 			LightVisualizers[i]->draw(gfx, false);
 		}
 	}
-
 	letter3DHandler->draw();
+
 	if (player->IsAlive())
 	{
 		HUD->Update();
-		UI->draw();
 	}
-	else
-	{
-		UI->draw();
-	}
+	UI->draw();
+
 }
 
 void Game::setUpObject()
@@ -388,10 +385,12 @@ void Game::setUpUI()
 	UI->createUIString("press Enter to submit!", vec2(-10.0f, 0.15f), vec2(0.08f, 0.08f), "NameDesc2");
 	UI->createUIString(player->GetName(), vec2(-10.0f, -0.2f), vec2(0.1f, 0.1f), "Name");
 
+
 	//Pause Menu
-	UI->createUIString("Paused", vec2(-10.0f, 10.0f), vec2(0.08f, 0.08f), "PauseText");
-	UI->createUIButton("assets/textures/outline.png", "Resume", mouse, vec2(-10.0, -10.0), vec2(0.5, 0.15), "Resume", vec2(0.0, 0.0), vec2(0, 0.1));
-	UI->createUIButton("assets/textures/outline.png", "Menu", mouse, vec2(-10.0, -10.0), vec2(0.5, 0.15), "Menu", vec2(0.0, 0.0), vec2(0, 0.1));
+	UI->createUIString("Paused", vec2(-0.3f, 0.6f), vec2(0.08f, 0.08f), "PauseText");
+	UI->createUIButton("assets/textures/buttonBack.png", "Resume", mouse, vec2(-0.3, 0.2), vec2(0.5, 0.15), "Resume", vec2(0.0, 0.0), vec2(0, 0.1));
+	UI->createUIButton("assets/textures/buttonBack.png", "Menu", mouse, vec2(-0.3, -0.1), vec2(0.5, 0.15), "Menu", vec2(0.0, 0.0), vec2(0, 0.1));
+	UnPause();
 }
 
 void Game::setUpSound()
@@ -501,6 +500,9 @@ void Game::Pause()
 	UI->getStringElement("PauseText")->setPosition(vec2(-0.3f, 0.6f));
 	UI->getButton("Resume")->setPosition(-0.3, 0.1);
 	UI->getButton("Menu")->setPosition(-0.3, -0.2);
+	UI->getStringElement("Resume")->setPosition(vec2( - 0.3, 0.25));
+	UI->getStringElement("Menu")->setPosition(vec2( - 0.3, -0.05));
+
 
 	mouse->activateMouse(false);
 	gfx->getWindosClass().ShowCoursor();
@@ -510,7 +512,9 @@ void Game::UnPause()
 {
 	UI->getStringElement("PauseText")->setPosition(vec2(-10.0f, 10.0f));
 	UI->getButton("Resume")->setPosition(-10.0, -10.0);
+	UI->getStringElement("Resume")->setPosition(vec2( - 10.0, -10.0));
 	UI->getButton("Menu")->setPosition(-10.0, -10.0);
+	UI->getStringElement("Menu")->setPosition(vec2( - 10.0, -10.0));
 
 	mouse->activateMouse(true);
 	gfx->getWindosClass().HideCoursor();
