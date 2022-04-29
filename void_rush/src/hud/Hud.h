@@ -29,6 +29,23 @@ private:
 	bool passive3On = false;
 	bool passive4On = false;
 
+	int currentPowerUp = 0;
+	const int EMPTY = 0;
+	const int ROCKET = 1;
+	const int CARD = 2;
+	const int FREEZE = 3;
+	const int DEATH = 4;
+	const int EMP = 5;
+	const int PAD = 6;
+
+	//Rocket
+	//Credit Card
+	//Freeze
+	//Skull
+	//EMP
+	//Trampoline
+
+
 public:
 	Hud(Graphics*& gfx, ResourceManager*& rm);
 	virtual ~Hud();
@@ -39,7 +56,8 @@ public:
 	void IncreaseHealth();
 	void TurnOnPassive(int index);
 	void TurnOffPassive(int index);
-	bool getStatusOfPassive(int index);
+	void ChangeCurrentPowerUp(int index);
+	bool GetStatusOfPassive(int index);
 	void UpdateGhostBar(vec3 playerPos, vec3 puzzlePos, vec3 ghostPos, float totalDistance);
 
 	void Update();

@@ -31,6 +31,7 @@ private:
 	Generation_manager* generationManager;
 	CollisionHandler collisionHandler;
 	Hud* HUD;
+	int testInt = 0;
 	float distanceFromStartPosToPuzzle = 0.0f;
 
 	/*draw to buffer*/

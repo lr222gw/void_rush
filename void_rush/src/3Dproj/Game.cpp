@@ -172,6 +172,37 @@ GameStatesEnum Game::update(float dt)
 	if (getkey('4') && getkey(VK_F1)) {
 		lightNr = 3;
 	}
+
+	if (getkey('V') && testTime <= 0.0f)
+	{
+		testInt++;
+		if (testInt == 7)
+		{
+			testInt = 0;
+		}
+		testTime = 0.2f;
+		HUD->ChangeCurrentPowerUp(testInt);
+	}
+
+	if (getkey('B') && testTime <= 0.0f)
+	{
+		testTime = 0.2f;
+		if (HUD->GetStatusOfPassive(1))
+		{
+			HUD->TurnOffPassive(1);
+			HUD->TurnOffPassive(2);
+			HUD->TurnOffPassive(3);
+			HUD->TurnOffPassive(4);
+		}
+		else
+		{
+			HUD->TurnOnPassive(1);
+			HUD->TurnOnPassive(2);
+			HUD->TurnOnPassive(3);
+			HUD->TurnOnPassive(4);
+		}
+	}
+
 #pragma endregion camera_settings
 
 	Interact(this->GameObjManager->getAllInteractGameObjects());
