@@ -7,7 +7,7 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, C
     this->position_gen = new Position_generator(this->seed);
     this->player_jump_checker = new Player_jump_checker();
     position_gen->assignPlayer(player_jump_checker);
-    position_gen->setNrOfElements(10);
+    position_gen->setNrOfElements(150);
     this->collisionHandler = &collisionHandler;
 }
 
@@ -94,21 +94,22 @@ void Generation_manager::initialize()
     Platform* anchor = position_gen->getAnchors()->at(0);
     while(anchor){
         anchor->platformShape.setShapeCube(*anchor->getPos());
-        shape_export.build_shape_model(&anchor->platformShape, "test");
+        shape_export.build_shape_model(&anchor->platformShape, "map");
         collisionHandler->addPlatform(&anchor->platformShape);
         anchor = anchor->next;
     }
     Platform* jumppoint = position_gen->getJumpPoints()->at(0);
     while(jumppoint){
         jumppoint->platformShape.setShapeCube(*jumppoint->getPos());
-        shape_export.build_shape_model(&jumppoint->platformShape, "test");
+        shape_export.build_shape_model(&jumppoint->platformShape, "map");
         collisionHandler->addPlatform(&jumppoint->platformShape);
         jumppoint = jumppoint->next;
     }
 
-    shape_export.export_final_model("test");
+    //shape_export.export_final_model("map");
     platformObjs.push_back(
-        new PlatformObj(rm->get_Models("test.obj", gfx),
+        new PlatformObj(rm->load_map_scene(shape_export.getScene(),"map", gfx),
+        //new PlatformObj(rm->get_Models("map.obj",gfx),
             gfx,
             //vec3(anchor_pos->x + plane->offset.x, anchor_pos->y + plane->offset.y, anchor_pos->z + plane->offset.z),
             vec3(0.f,0.f,0.f),
