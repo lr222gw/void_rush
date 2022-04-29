@@ -77,7 +77,7 @@ void Menu::setUpUI()
 	UI = new UIManager(rm, gfx);
 	UI->createUIButton("assets/textures/backbebap.png","END", mouse, vec2(-0.75, 0), vec2(0.5, 0.5), "Quit");
 	UI->createUIButton("assets/textures/outline.png","Start", mouse, vec2(0.25, 0), vec2(0.5, 0.5), "Start", vec2(0.02,0.2), vec2(-0.01,0));
-	UI->createUIButton("assets/textures/outline.png", "HighScores", mouse, vec2(0.5, 0.5), vec2(0.5, 0.5), "HighScores", vec2(0.02, 0.2), vec2(-0.01, 0));
+	UI->createUIButton("assets/textures/outline.png", "HighScores", mouse, vec2(-0.25, -0.75), vec2(0.5, 0.5), "HighScores", vec2(0.02, 0.2), vec2(-0.01, 0));
 }
 
 void Menu::setUpObject()
