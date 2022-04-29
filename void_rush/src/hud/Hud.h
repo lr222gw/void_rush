@@ -24,6 +24,11 @@ private:
 	const int PASSIVE3 = 8;
 	const int PASSIVE4 = 9;
 
+	bool passive1On = false;
+	bool passive2On = false;
+	bool passive3On = false;
+	bool passive4On = false;
+
 public:
 	Hud(Graphics*& gfx, ResourceManager*& rm);
 	virtual ~Hud();
@@ -32,6 +37,9 @@ public:
 	void ResetHUD();
 	void LowerHealth();
 	void IncreaseHealth();
+	void TurnOnPassive(int index);
+	void TurnOffPassive(int index);
+	bool getStatusOfPassive(int index);
 	void UpdateGhostBar(vec3 playerPos, vec3 puzzlePos, vec3 ghostPos, float totalDistance);
 
 	void Update();

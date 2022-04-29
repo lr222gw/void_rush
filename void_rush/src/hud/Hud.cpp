@@ -19,6 +19,7 @@ void Hud::setUpUI()
 	UI->createUISprite("assets/textures/Ghost Frame.png", vec2(-0.25f, 0.8f), vec2(0.5f, 0.2f));
 	UI->createUISprite("assets/textures/Ghost Pointer.png", vec2(-0.26f, 0.71f), vec2(0.05f, 0.1f));
 	UI->createUIString("00m", vec2(-0.27f, 0.65f), vec2(0.03f, 0.03f), "GhostDistance");
+	UI->createUISprite("assets/textures/Zelda Heart.png", vec2(0.8f, 0.88f), vec2(0.1f, 0.1f)); //Change to score and add text that updates.
 	UI->createUISprite("assets/textures/PowerUpFrame.png", vec2(0.7f, -0.95f), vec2(0.3f, 0.3f));
 	UI->createUISprite("assets/textures/Empty.png", vec2(0.75f, -0.63f), vec2(0.05f, 0.05f));
 	UI->createUISprite("assets/textures/Empty.png", vec2(0.8f, -0.63f), vec2(0.05f, 0.05f));
@@ -45,6 +46,73 @@ void Hud::IncreaseHealth()
 	currentHealth++;
 	std::string health = "x" + std::to_string(currentHealth);
 	UI->getStringElement("Health")->setText(health);
+}
+
+void Hud::TurnOnPassive(int index)
+{
+	switch (index)
+	{
+	case 1:
+		UI->getElements(PASSIVE1)->replaceSprite(rm->getSprite("assets/textures/Feather.png", gfx));
+		passive1On = true;
+		break;
+	case 2:
+		UI->getElements(PASSIVE2)->replaceSprite(rm->getSprite("assets/textures/Pearl.png", gfx));
+		passive2On = true;
+		break;
+	case 3:
+		UI->getElements(PASSIVE3)->replaceSprite(rm->getSprite("assets/textures/Potion.png", gfx));
+		passive3On = true;
+		break;
+	case 4:
+		UI->getElements(PASSIVE4)->replaceSprite(rm->getSprite("assets/textures/Shield.png", gfx));
+		passive4On = true;
+		break;
+	}
+}
+
+void Hud::TurnOffPassive(int index)
+{
+	switch (index)
+	{
+	case 1:
+		UI->getElements(PASSIVE1)->replaceSprite(rm->getSprite("assets/textures/Empty.png", gfx));
+		passive1On = false;
+		break;
+	case 2:
+		UI->getElements(PASSIVE2)->replaceSprite(rm->getSprite("assets/textures/Empty.png", gfx));
+		passive2On = false;
+		break;
+	case 3:
+		UI->getElements(PASSIVE3)->replaceSprite(rm->getSprite("assets/textures/Empty.png", gfx));
+		passive3On = false;
+		break;
+	case 4:
+		UI->getElements(PASSIVE4)->replaceSprite(rm->getSprite("assets/textures/Empty.png", gfx));
+		passive4On = false;
+		break;
+	}
+}
+
+bool Hud::getStatusOfPassive(int index)
+{
+	switch (index)
+	{
+	case 1:
+		return passive1On;
+		break;
+	case 2:
+		return passive2On;
+		break;
+	case 3:
+		return passive3On;
+		break;
+	case 4:
+		return passive4On;
+		break;
+	}
+
+	return false;
 }
 
 void Hud::UpdateGhostBar(vec3 playerPos, vec3 puzzlePos, vec3 ghostPos, float totalDistance)
@@ -91,7 +159,8 @@ void Hud::UpdateGhostBar(vec3 playerPos, vec3 puzzlePos, vec3 ghostPos, float to
 	{
 		sizeOfBar = 0.001f;
 	}
-	sizeOfBar = (1.0f - currentGhostDistance) * sizeOfBar;// * 0.467f;
+
+	sizeOfBar = (1.0f - currentGhostDistance) * sizeOfBar;
 
 	UI->getElements(GHOSTICON)->setPosition((-0.26f + sizeOfBar), 0.71f);
 	UI->getStringElement("GhostDistance")->setPosition(vec2(-0.27f + sizeOfBar, 0.65f));

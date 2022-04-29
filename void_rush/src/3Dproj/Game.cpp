@@ -408,7 +408,6 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 		}
 	}
 
-
 	if (mouse->IsLeftDown() && testTime <= 0.0f)
 	{
 		testTime = 1.0f;
