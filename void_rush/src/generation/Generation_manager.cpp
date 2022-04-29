@@ -7,7 +7,7 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, C
     this->position_gen = new Position_generator(this->seed);
     this->player_jump_checker = new Player_jump_checker();
     position_gen->assignPlayer(player_jump_checker);
-    position_gen->setNrOfElements(20);
+    position_gen->setNrOfElements(5);
     this->collisionHandler = &collisionHandler;
 }
 
@@ -86,18 +86,30 @@ void Generation_manager::initialize()
     position_gen->start(difficulity);
 
     ///^vvvvvvvvvvvvvvvvvvvvvvv Testing
+    int c = 0;
+    Platform* jumppoint2 = position_gen->getJumpPoints()->at(0);
+    while(jumppoint2){
+        c++;
+        jumppoint2 = jumppoint2->next;
+
+    }
     
+    if (position_gen->getJumpPoints()->size() != c) {
+        int fff = 44;
+    }
+
     
-    shape_export.set_nrOf(position_gen->getAnchors()->size() + position_gen->getJumpPoints()->size(), 1); //TODO: do not hardcode!
+    shape_export.set_nrOf( position_gen->getJumpPoints()->size(), 1); //TODO: do not hardcode!
+    //shape_export.set_nrOf(position_gen->getAnchors()->size() + position_gen->getJumpPoints()->size(), 1); //TODO: do not hardcode!
     shape_export.init();
 
-    Platform* anchor = position_gen->getAnchors()->at(0);
+    /*Platform* anchor = position_gen->getAnchors()->at(0);
     while(anchor){
         anchor->platformShape.setShapeCube(*anchor->getPos());
         shape_export.build_shape_model(&anchor->platformShape, "map");
         collisionHandler->addPlatform(&anchor->platformShape);
         anchor = anchor->next;
-    }
+    }*/
     Platform* jumppoint = position_gen->getJumpPoints()->at(0);
     while(jumppoint){
         jumppoint->platformShape.setShapeCube(*jumppoint->getPos());

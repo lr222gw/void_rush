@@ -8,7 +8,10 @@
 enum class Difficulity {
     easy = 1, medium = 2, hard = 3
 };
-
+struct MM{
+    Platform* first;
+    Platform* last;
+};
 class Position_generator
 {
 private:
@@ -26,7 +29,7 @@ public:
     bool start (Difficulity diff);
     void generate_anchor_positions(int platforms_between_anchors, Difficulity selectedDiff);
     void generate_jumpPoints_positions(Difficulity selectedDiff);
-    void jumpPoint_generation_helper(Platform* start, Platform* end);
+    MM jumpPoint_generation_helper(Platform* start, Platform* end);
     vec3 jumpPoint_create_offset(Platform* plat, vec3& currentMiddle, vec3 start, vec3 end);
     void reset_generation(vec3 player_position);
     void set_seed(int _seed);

@@ -137,6 +137,9 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
     Platform* startJumpPoint = nullptr;; //TODO: memory leak    
     Platform* endJumpPoint = nullptr; //TODO: memory leak    
     
+    /*Platform* prev_last_jumppoint = nullptr;
+    Platform* first_jumppoint = nullptr;*/
+    MM* prev_first_last = nullptr;
 
     while (current->next != nullptr) {
         startanchorPos = current->getPos();
@@ -148,17 +151,45 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
         dir_between_anchor = *endanchorPos - *startanchorPos;
         vec3 normalized_dir = dir_between_anchor.Normalize();
         
+        
+        /*auto last_jumppoint = startJumpPoint;
+        while (last_jumppoint && last_jumppoint->next != endJumpPoint) {
+            last_jumppoint = last_jumppoint->next;
+        }
+        if (!this->jumpPoints.empty()) {
+
+            first_jumppoint = this->jumpPoints.back();
+        }*/
+
+        
+
+
         startJumpPoint = new Platform();        
         if (endJumpPoint) { endJumpPoint->next = startJumpPoint; } //endJumpPoint is nullptr, first iteration...
         startJumpPoint->setPosition(*startanchorPos);
-        this->jumpPoints.push_back(startJumpPoint);        
+        //this->jumpPoints.push_back(startJumpPoint);        
 
         endJumpPoint = new Platform();
         endJumpPoint->setPosition(*endanchorPos);           
-        this->jumpPoints.push_back(endJumpPoint);
+        //this->jumpPoints.push_back(endJumpPoint);
+        
+    /*    if (prev_last_jumppoint) {
+            prev_last_jumppoint->next = first_jumppoint;
+        }*/
+
+        auto first_last = jumpPoint_generation_helper(startJumpPoint, endJumpPoint);
+
+        /*prev_last_jumppoint = last_jumppoint;*/
+
+        if (prev_first_last) {
+            prev_first_last->last->next = first_last.first;
+        }
+
+
+        prev_first_last = &first_last;
         
 
-        jumpPoint_generation_helper(startJumpPoint, endJumpPoint);
+
         
         int BREAKPOINT = 3;
 
@@ -226,37 +257,43 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
     //this->jumpPoints.push_back(newPlat);
 }
 
-void Position_generator::jumpPoint_generation_helper(Platform* start, Platform* end)
+
+
+MM Position_generator::jumpPoint_generation_helper(Platform* start, Platform* end)
 {    
     vec3 start_end_dist = (*start->getPos() + *end->getPos()); //TODO: remove
     vec3 middle = (*end->getPos() - *start->getPos()) / 2;
     Platform* midd_platform = new Platform() ;
-
+    MM ret {nullptr, nullptr};
     midd_platform->setPosition(*start->getPos() + middle);
     
     this->jumpPoints.push_back(midd_platform);
 
     //Create jumppoint between new middle and end if jump not possible
-    
+    static int count_M = 0;
+    static int count_E = 0;
     //pl->moveto(middle);
     pl->moveto(*midd_platform->getPos());
     if(!this->pl->isJumpPossible(*end->getPos())){
         jumpPoint_create_offset(midd_platform, *midd_platform->getPos(), *start->getPos(), *end->getPos());
-        jumpPoint_generation_helper(midd_platform, end);                
+        ret.last = jumpPoint_generation_helper(midd_platform, end).last;                
     }else{
         midd_platform->next = end; //Set middle.next if end platform is close enogh
-        
+        count_M++;
+        ret.last = midd_platform;
     }
 
     //Create jumppoint between start and new middle if jump not possible
     pl->moveto(*start->getPos());
     if(!this->pl->isJumpPossible(*midd_platform->getPos())){
         
-        jumpPoint_generation_helper(start, midd_platform);
+        ret.first = jumpPoint_generation_helper(start, midd_platform).first;
     }else{
-        start->next = midd_platform;//Set start.next if new middle platform is close enogh        
+        start->next = midd_platform;//Set start.next if new middle platform is close enogh      
+        count_E++;
+        ret.first = midd_platform;
     }
-
+    return ret;
 }
 
 //TODO: remove return value...
