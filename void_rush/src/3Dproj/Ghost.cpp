@@ -3,12 +3,6 @@
 Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale):
 	Enemy(file, gfx, pos, rot, scale)
 {
-	/*this->player = player;
-	attackCD = 0.0f;
-	readyToAttack = true;
-	speed = 4;
-	getPlayerPosCD = 0;
-	*/
 	rangeToPlayerBeforeNearestWay = 5;
 	rangeToPointBeforeNewPoint = 0.5;
 	this->Ghosts_Time = 0.0f;
@@ -74,7 +68,17 @@ void Ghost::followPlayer(float dt)
 		getPlayerPosCD -= dt;
 		if (getPlayerPosCD < 0) {
 			getPlayerPosCD = 3;
-			PlayerPositions.push(player->getPos());
+			if (PlayerPositions.empty())
+			{
+				PlayerPositions.push(player->getPos());
+			}
+			else
+			{
+				if ((player->getPos() - PlayerPositions.back()).length() > this->rangeToPointBeforeNewPoint)
+				{
+					PlayerPositions.push(player->getPos());
+				}
+			}
 		}
 		while (PlayerPositions.size() > 30) {
 			PlayerPositions.pop();
