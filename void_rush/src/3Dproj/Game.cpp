@@ -32,6 +32,8 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	this->setUpSound();
 	this->setUpUI();
 	this->IMGUI->set_owner(this);
+
+	this->paused = false;
 }
 
 Game::~Game()
@@ -100,7 +102,7 @@ void Game::renderShadow()
 GameStatesEnum Game::update(float dt)
 {
 	GameStatesEnum theReturn = GameStatesEnum::NO_CHANGE;
-	if (player->IsAlive()) {
+	if (player->IsAlive() && !paused) {
 
 
 		/*DEBUG*/
@@ -169,8 +171,14 @@ GameStatesEnum Game::update(float dt)
 #pragma endregion camera_settings
 
 		Interact(this->GameObjManager->getAllInteractGameObjects());
+
+		if (keyboard->isKeyPressed(VK_DELETE)) {
+			paused = true;
+			keyboard->onKeyReleased(VK_DELETE);
+			Pause();
+		}
 	}
-	else {
+	else if(!player->IsAlive() && !paused) {
 		soundManager.update(camera->getPos(), camera->getForwardVec());
 		if (!player->GetSubmitName()) {
 			UI->getStringElement("NameDesc")->setPosition(vec2(-0.9f, 0.3f));
@@ -189,7 +197,21 @@ GameStatesEnum Game::update(float dt)
 			SetName();
 		}
 	}
-
+	else if(paused) {
+		UI->update();
+		if (keyboard->isKeyPressed(VK_DELETE)) {
+			paused = false;
+			keyboard->onKeyReleased(VK_DELETE);
+			UnPause();
+		}
+		if (UI->getButton("Resume")->clicked()) {
+			paused = false;
+			UnPause();
+		}
+		else if (UI->getButton("Menu")->clicked()) {
+			theReturn = GameStatesEnum::TO_MENU;
+		}
+	}
 
 	return theReturn;
 }
@@ -280,6 +302,7 @@ void Game::DrawToBuffer()
 	if (player->IsAlive())
 	{
 		HUD->Update();
+		UI->draw();
 	}
 	else
 	{
@@ -359,9 +382,16 @@ void Game::setUpUI()
 	UI = new UIManager(rm, gfx);
 	//UI->createUISprite("assets/textures/Fire.png", vec2(-1, 0), vec2(0.5, 0.5));
 	//UI->createUIString("string", vec2(0, 0), vec2(0.2, 0.5), "penis");
+	
+	//Name Input
 	UI->createUIString("Write your name and", vec2(-10.0f, 0.3f), vec2(0.08f, 0.08f), "NameDesc");
 	UI->createUIString("press Enter to submit!", vec2(-10.0f, 0.15f), vec2(0.08f, 0.08f), "NameDesc2");
 	UI->createUIString(player->GetName(), vec2(-10.0f, -0.2f), vec2(0.1f, 0.1f), "Name");
+
+	//Pause Menu
+	UI->createUIString("Paused", vec2(-10.0f, 10.0f), vec2(0.08f, 0.08f), "PauseText");
+	UI->createUIButton("assets/textures/outline.png", "Resume", mouse, vec2(-10.0, -10.0), vec2(0.5, 0.15), "Resume", vec2(0.0, 0.0), vec2(0, 0.1));
+	UI->createUIButton("assets/textures/outline.png", "Menu", mouse, vec2(-10.0, -10.0), vec2(0.5, 0.15), "Menu", vec2(0.0, 0.0), vec2(0, 0.1));
 }
 
 void Game::setUpSound()
@@ -464,5 +494,25 @@ void Game::SetName()
 		keyboard->onKeyReleased(VK_SPACE);
 	}
 	UI->getStringElement("Name")->setText(player->GetName());
+}
+
+void Game::Pause()
+{
+	UI->getStringElement("PauseText")->setPosition(vec2(-0.3f, 0.6f));
+	UI->getButton("Resume")->setPosition(-0.3, 0.1);
+	UI->getButton("Menu")->setPosition(-0.3, -0.2);
+
+	mouse->activateMouse(false);
+	gfx->getWindosClass().ShowCoursor();
+}
+
+void Game::UnPause()
+{
+	UI->getStringElement("PauseText")->setPosition(vec2(-10.0f, 10.0f));
+	UI->getButton("Resume")->setPosition(-10.0, -10.0);
+	UI->getButton("Menu")->setPosition(-10.0, -10.0);
+
+	mouse->activateMouse(true);
+	gfx->getWindosClass().HideCoursor();
 }
 
