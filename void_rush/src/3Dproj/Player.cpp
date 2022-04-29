@@ -614,8 +614,6 @@ void Player::SetDifficulity(Difficulity diff)
 	levelDifficulty = diff;
 }
 
-
-
 void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 {
 	DirectX::XMStoreFloat3(&translate, DirectX::XMVector3Transform(
@@ -735,7 +733,6 @@ void Player::TakeDmg(int dmg)
 	else {
 		score += deathPoints;
 	}
-	
 }
 
 void Player::AddHealth(int hlt)
