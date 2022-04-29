@@ -84,7 +84,6 @@ void App::run()
 
 void App::set_initial_gamestate(GameStatesEnum gameStateType)
 {
-	
 	if(gameStateType == GameStatesEnum::TO_GAME){
 		mouse->activateMouse(true);
 		gfx->getWindosClass().HideCoursor();

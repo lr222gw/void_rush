@@ -38,7 +38,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 
 	game.set_initial_gamestate(initialGameState);
 	//Run game
-	//game.run();
+	game.run();
     
     return 0;
 }
