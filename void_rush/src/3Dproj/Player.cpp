@@ -649,6 +649,11 @@ void Player::SetSubmitName(bool val)
 	submitName = val;
 }
 
+void Player::SetCurrentSeed(int seed)
+{
+	scoreManager.SetSeed(seed);
+}
+
 void Player::TakeDmg(int dmg)
 {
 	health-=dmg;
