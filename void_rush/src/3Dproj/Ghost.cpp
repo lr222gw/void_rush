@@ -20,6 +20,8 @@ void Ghost::collidedWithPlayer()
 		readyToAttack = false;
 		attackCD = 5.0f;
 		player->TakeDmg();
+		vec3 ghostToPlayer = (player->getPos() - getPos()).Normalize();
+		//player->shovePlayer(vec3(50.f, 3.f, 50.f), vec2(ghostToPlayer.x, ghostToPlayer.z));
 		this->Reset();
 	}
 	

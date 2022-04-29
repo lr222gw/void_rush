@@ -57,7 +57,6 @@ void Player::update(float dt)
 		}
 		if (getPos().y < maxDepth) {
 			TakeDmg();
-			Reset();
 		}
 	}
 	this->setRot(vec3(0, cam->getRot().x, 0));
@@ -583,6 +582,13 @@ bool Player::ResetGhost()
 		return true;
 	}
 	return false;
+}
+
+void Player::shovePlayer(vec3 force, vec2 direction)
+{
+	this->grounded = false;
+	this->jumpDir = direction;
+	this->velocity = force;
 }
 
 void Player::SetPuzzlePos(vec3 puzzlePosition)

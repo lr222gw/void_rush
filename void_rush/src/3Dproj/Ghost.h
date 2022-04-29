@@ -28,6 +28,10 @@ private:
 	bool readyToAttack;
 	bool fastestWayToPlayer;
 
+	//Variables for shoving player
+	vec3 force;
+	//vec2 dir;
+
 	bool active;
 	Player* player;
 };
