@@ -51,7 +51,8 @@ private:
 	bool grounded;
 	float groundedTimer;
 
-	//If player is shoved
+	//For being shoved
+	bool shoved;
 
 	vec2 startingJumpDir = vec2(0.0f, 0.0f);
 	char startingJumpKey = 'N';

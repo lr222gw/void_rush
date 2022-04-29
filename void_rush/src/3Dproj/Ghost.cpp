@@ -19,9 +19,9 @@ void Ghost::collidedWithPlayer()
 		std::cout << "Player loses a life" << std::endl;
 		readyToAttack = false;
 		attackCD = 5.0f;
-		player->TakeDmg();
+		//player->TakeDmg();
 		vec3 ghostToPlayer = (player->getPos() - getPos()).Normalize();
-		//player->shovePlayer(vec3(50.f, 3.f, 50.f), vec2(ghostToPlayer.x, ghostToPlayer.z));
+		player->shovePlayer(vec3(50.f, 3.f, 50.f), vec2(ghostToPlayer.x, ghostToPlayer.z));
 		this->Reset();
 	}
 	
@@ -82,7 +82,7 @@ void Ghost::followPlayer(float dt)
 				}
 			}
 		}
-		while (PlayerPositions.size() > 30) {
+		while (PlayerPositions.size() > 120) {
 			PlayerPositions.pop();
 		}
 		
@@ -137,3 +137,5 @@ void Ghost::GainSpeed(float dt)
 		}
 	}
 }
+
+

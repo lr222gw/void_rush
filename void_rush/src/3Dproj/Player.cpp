@@ -15,6 +15,8 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->mass = 1.f;
 	this->grounded = true;
 	this->groundedTimer = 0.0f;
+	this->shoved = false;
+
 	GOPTR = static_cast<GameObject*>(this);
 	this->setScale(vec3(0.2f,0.2f,0.2f));
 	setWeight(20);
@@ -469,14 +471,22 @@ void Player::handleEvents(float dt)
 	}
 	else
 	{
-		if (!jumpDir.legth() == 0.0f)
+		if (!shoved)
 		{
-			jumpDir = jumpDir / vec2(midAirAdj, midAirAdj);
-		}
-		jumpDir = jumpDir + startingJumpDir;
+			if (!jumpDir.legth() == 0.0f)
+			{
+				jumpDir = jumpDir / vec2(midAirAdj, midAirAdj);
+			}
+			jumpDir = jumpDir + startingJumpDir;
 
-		velocity.x = speed.x * jumpDir.x;
-		velocity.z = speed.z * jumpDir.y;
+			velocity.x = speed.x * jumpDir.x;
+			velocity.z = speed.z * jumpDir.y;
+		}
+		else
+		{
+			velocity.x *= jumpDir.x;
+			velocity.z *= jumpDir.y;
+		}
 	}
 	this->isKeyPressed = false;
 }
@@ -543,6 +553,7 @@ void Player::Reset(bool lvlClr)
 {
 	resetGhost = true;
 
+	this->shoved = false;
 	this->grounded = true;
 	this->resForce = vec3(0.0f, 0.0f, 0.0f);
 	this->jumpDir = vec2(0.0f, 0.0f);
@@ -587,6 +598,7 @@ bool Player::ResetGhost()
 void Player::shovePlayer(vec3 force, vec2 direction)
 {
 	this->grounded = false;
+	this->shoved = true;
 	this->jumpDir = direction;
 	this->velocity = force;
 }
