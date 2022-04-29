@@ -25,7 +25,6 @@ void Ghost::collidedWithPlayer()
 		player->shovePlayer(vec3(this->force.x, this->force.y,this->force.z), vec2(ghostToPlayer.x, ghostToPlayer.z));
 		this->Reset();
 	}
-	
 }
 
 void Ghost::update(float dt)
@@ -122,6 +121,7 @@ bool Ghost::checkIfRangeOfPlayer()
 	return ghostToPlayer.length() < rangeToPlayerBeforeNearestWay;
 }
 
+//Increseas the ghost speed during the game.
 void Ghost::GainSpeed(float dt)
 {
 	if (this->speed < player->getSpeed())

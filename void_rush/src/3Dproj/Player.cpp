@@ -595,6 +595,7 @@ bool Player::ResetGhost()
 	return false;
 }
 
+//Used by enemies to move player on collision
 void Player::shovePlayer(vec3 force, vec2 direction)
 {
 	this->grounded = false;
