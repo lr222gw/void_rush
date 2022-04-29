@@ -433,5 +433,7 @@ bool readObjFromScene(aiScene* scene,  std::vector<MeshObj>& Meshes, std::vector
 		createMesh(gfx, Meshes, vertecies, indecies, matrial[mesh->mMaterialIndex - 1]);
 	}
 
+	
+
 	return true;
 }

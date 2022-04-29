@@ -32,8 +32,7 @@ void ModelObj::init(aiScene* scene, Graphics*& gfx, ID3D11ShaderResourceView** d
 {
 
 	bool oneTex = false;
-	//matrial.resize(scene->mNumMaterials);
-	matrial.push_back(new Material(def));
+	matrial.resize(scene->mNumMaterials);	
 	for (int i = 0; i < (int)scene->mNumMaterials; i++) {
 		matrial[i] = new Material(def);
 		const aiMaterial* pMaterial = scene->mMaterials[i];

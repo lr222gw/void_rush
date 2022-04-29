@@ -7,7 +7,7 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, C
     this->position_gen = new Position_generator(this->seed);
     this->player_jump_checker = new Player_jump_checker();
     position_gen->assignPlayer(player_jump_checker);
-    position_gen->setNrOfElements(150);
+    position_gen->setNrOfElements(20);
     this->collisionHandler = &collisionHandler;
 }
 
