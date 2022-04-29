@@ -42,7 +42,8 @@ GameStatesEnum HighScoreGameState::update(float dt)
 	if (UI->getButton("back")->clicked()) {
 		theReturn = GameStatesEnum::TO_MENU;
 	}
-	camera->addRotation(vec3(dt * 0.001, dt * 0.01, 0));
+	camera->updateCamera();
+	camera->addRotation(vec3(0.1 * dt, 0.3 * dt, 0));
 	return theReturn;
 }
 
@@ -51,8 +52,16 @@ void HighScoreGameState::render()
 	gfx->setRenderTarget();
 	gfx->setTransparant(true);
 
-	gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), nullptr);
+	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	gfx->get_IMctx()->IASetInputLayout(gfx->getInputLayout()[0]);
+	gfx->get_IMctx()->GSSetShader(nullptr, nullptr, 0);
+	skybox->setPos(camera->getPos());
+	skybox->updateVertexShader(gfx);
+	skybox->updatePixelShader(gfx);
 	skybox->draw(gfx);
+
+	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
+	gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), nullptr);
 	UI->draw();
 	gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), gfx->getDepthStencil());
 
@@ -81,6 +90,9 @@ void HighScoreGameState::readHighScoreFile()
 	}
 	else {
 		std::cout << "couldn't open highscore file" << std::endl;
+	}
+	for (int i = 0; i < numberOfScores; i++) {
+		std::replace(scores[i].begin(), scores[i].end(), '_', ' ');
 	}
 
 }

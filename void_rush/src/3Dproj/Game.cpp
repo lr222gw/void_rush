@@ -148,7 +148,9 @@ GameStatesEnum Game::update(float dt)
 		/*update things*/
 		soundManager.update(camera->getPos(), camera->getForwardVec());
 		gfx->Update(dt, camera->getPos());
+
 		GameObjManager->update(dt);
+		
 
 #pragma region camera_settings
 
