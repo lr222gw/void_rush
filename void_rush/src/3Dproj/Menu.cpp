@@ -100,7 +100,7 @@ void Menu::setUpObject()
 		"assets/textures/Skybox/negz.png"//z-
 	};
 	rm->getSpriteCube(skyboxTextures, gfx);
-	//skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, vec3(0,0,0), rm->getSpriteCube(skyboxTextures,gfx));
+	skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, vec3(0,0,0), rm->getSpriteCube(skyboxTextures,gfx));
 }
 
 void Menu::checkHover()
