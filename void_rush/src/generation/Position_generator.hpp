@@ -43,6 +43,14 @@ public:
     float randF (float min, float max);
 
 private: // Magic Numbers
+    struct Anchor_point_settings{        
+        float minStepMod = 2.f; //2 is half, recommended
+        float stepMax = 50.f;    //Max distance between platforms
+        float lowest_Height = -100.f;   //Lowest point for generation
+        float minZAngle = 0.f;
+    };
+    Anchor_point_settings AP_conf;
+
     struct Jump_point_settings{        
         float random_dist_dividier = 2.f; //2 is half, recommended...
         float y_min_clamp = -0.2f;    //between -1 and 1
