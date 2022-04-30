@@ -118,6 +118,8 @@ void ImguiManager::render_generation_widgets()
 				ImGui::InputInt("Number of Anchors", &owner->generationManager->position_gen->elements);
 				ImGui::InputFloat("minStepMod", &owner->generationManager->position_gen->AP_conf.minStepMod);
 				ImGui::InputFloat("stepMax", &owner->generationManager->position_gen->AP_conf.stepMax);
+				ImGui::InputFloat("stepMaxHeight", &owner->generationManager->position_gen->AP_conf.stepMaxHeight);
+				ImGui::InputFloat("stepMinHeight", &owner->generationManager->position_gen->AP_conf.stepMinHeight);
 				ImGui::InputFloat("lowest_Height", &owner->generationManager->position_gen->AP_conf.lowest_Height);
 				ImGui::InputFloat("minZAngle", &owner->generationManager->position_gen->AP_conf.minZAngle);				
 				ImGui::TreePop();
@@ -252,15 +254,20 @@ void ImguiManager::render_player_widgets()
 	
 	std::string name = "Player";
 	if (ImGui::Begin(name.c_str())) {
-		
+		static bool player_invincible = false;
+		ImGui::Checkbox("Alive", &owner->player->alive);
 		if (ImGui::Checkbox("noClip", &owner->player->noClip)) {
 			owner->player->grounded = true;
 		}
+		ImGui::Checkbox("Invincible", &owner->player->invincible);
+
 		float* pos[3] = { &owner->player->pos.x,
 			&owner->player->pos.y,
 			&owner->player->pos.z };
-		ImGui::InputFloat3("PlayerPos", *pos);				
 		
+		ImGui::InputFloat3("PlayerPos", *pos);		
+
+		std::cout << owner->player->health << "\n";
 	}
 	ImGui::End();
 }

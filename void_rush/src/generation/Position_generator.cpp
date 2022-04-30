@@ -49,7 +49,9 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
     float stepMax = this->AP_conf.stepMax;
     float stepMin = stepMax / minStepMod * (int)selectedDiff;
     float distance = 0.0f;
-    float stepMaxZ = pl->jumpHeight() ;// reason for platforms not generating
+    //float stepMaxZ = pl->jumpHeight() ;// reason for platforms not generating
+    float stepMaxZ = this->AP_conf.stepMaxHeight; //pl->jumpHeight();// reason for platforms not generating
+    float stepMinZ = this->AP_conf.stepMinHeight; //pl->jumpHeight();// reason for platforms not generating
     vec3 dVect = vec3();
     vec3 position = *this->startPlat->getPos();
     Platform* current = startPlat;
@@ -57,7 +59,7 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
     pl->moveto(position);
     for (int i = 1; i < this->elements; i++)
     {
-        dVect.y = randF(-stepMaxZ, stepMaxZ);
+        dVect.y = randF(stepMinZ, stepMaxZ);
         // dVect.y = (rand() % (2 * stepMax)) - stepMax - 1;
         dVect.y = fmin(dVect.y, stepMaxZ);
         dVect.y = fmax(dVect.y, this->AP_conf.lowest_Height);

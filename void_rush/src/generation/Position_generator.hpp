@@ -46,6 +46,8 @@ private: // Magic Numbers
     struct Anchor_point_settings{        
         float minStepMod = 2.f; //2 is half, recommended
         float stepMax = 50.f;    //Max distance between platforms
+        float stepMaxHeight = 10.f;    //Max distance between platforms
+        float stepMinHeight = -10.f;    //Max distance between platforms
         float lowest_Height = -100.f;   //Lowest point for generation
         float minZAngle = 0.f;
     };
