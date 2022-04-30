@@ -119,23 +119,39 @@ void ImguiManager::render_generation_widgets()
 
 			if (ImGui::TreeNode("Platforms")) {
 
-				for (int i = 0; i < owner->generationManager->platformObjs.size(); i++) {
+				auto anchors = owner->generationManager->position_gen->getAnchors();
+				auto jumpPoints = owner->generationManager->position_gen->getJumpPoints();
+				Platform* current_anchor = anchors->at(0);
+				Platform* current_jump = jumpPoints->at(0);
+				int c = 0;
+				while (current_anchor) {
+					c++;
 
-					std::string name_pos = "platform_pos:" + std::to_string(i);
-					std::string name_rot = "platform_rot:" + std::to_string(i);
-					
-					float* pos[3] = { &owner->generationManager->platformObjs[i]->pos.x,
-							&owner->generationManager->platformObjs[i]->pos.y,
-							&owner->generationManager->platformObjs[i]->pos.z };
+					std::string name_pos = "A_platform_pos:" + std::to_string(c);
+					std::string name_rot = "A_platform_rot:" + std::to_string(c);
 
-					float* rot[3] = { &owner->generationManager->platformObjs[i]->rot.x,
-							&owner->generationManager->platformObjs[i]->rot.y,
-							&owner->generationManager->platformObjs[i]->rot.z };
+					float* pos[3] = { &current_anchor->pos.x,
+							&current_anchor->pos.y,
+							&current_anchor->pos.z };
 
-					//ImGui::InputFloat3(name.c_str(), *pos);
 					ImGui::DragFloat3(name_pos.c_str(), *pos);
-					ImGui::DragFloat3(name_rot.c_str(), *rot);
-				}				
+
+					current_anchor = current_anchor->next;
+				}
+				while (current_jump) {
+					c++;
+
+					std::string name_pos = "J_platform_pos:" + std::to_string(c);
+					std::string name_rot = "J_platform_rot:" + std::to_string(c);
+
+					float* pos[3] = { &current_jump->pos.x,
+							&current_jump->pos.y,
+							&current_jump->pos.z };
+
+					ImGui::DragFloat3(name_pos.c_str(), *pos);
+
+					current_jump = current_jump->next;
+				}
 				ImGui::TreePop();
 			}
 			ImGui::TreePop();

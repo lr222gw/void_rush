@@ -23,6 +23,8 @@ private:
     Player_jump_checker* pl;
     friend class ImguiManager;
 public:
+    Platform* firstJumpPoint;
+
     Position_generator(int seed);
     Position_generator(int seed, int elements);
     ~Position_generator();

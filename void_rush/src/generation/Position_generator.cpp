@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Position_generator.hpp"
-
+#include <algorithm>
 Position_generator::Position_generator(int _seed)
     : seed(_seed), elements(0), pl(nullptr), startPlat(nullptr)
 {    
@@ -94,6 +94,7 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
             pl->moveto(*newPlat->getPos());
             current->next = newPlat;
             this->anchors.push_back(current);
+            newPlat->prev = current;
             current = newPlat;
         }
         else
@@ -136,11 +137,9 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
 
     Platform* startJumpPoint = nullptr;; //TODO: memory leak    
     Platform* endJumpPoint = nullptr; //TODO: memory leak    
-    
-    /*Platform* prev_last_jumppoint = nullptr;
-    Platform* first_jumppoint = nullptr;*/
-    MM* prev_first_last = nullptr;
-
+    MM prev_first_last;
+    MM first_last;
+    firstJumpPoint = nullptr;
     while (current->next != nullptr) {
         startanchorPos = current->getPos();
         endanchorPos   = current->next->getPos();
@@ -150,22 +149,14 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
 
         dir_between_anchor = *endanchorPos - *startanchorPos;
         vec3 normalized_dir = dir_between_anchor.Normalize();
-        
-        
-        /*auto last_jumppoint = startJumpPoint;
-        while (last_jumppoint && last_jumppoint->next != endJumpPoint) {
-            last_jumppoint = last_jumppoint->next;
-        }
-        if (!this->jumpPoints.empty()) {
-
-            first_jumppoint = this->jumpPoints.back();
-        }*/
-
-        
 
 
         startJumpPoint = new Platform();        
-        if (endJumpPoint) { endJumpPoint->next = startJumpPoint; } //endJumpPoint is nullptr, first iteration...
+        if (endJumpPoint) { 
+            endJumpPoint->next = startJumpPoint;
+            startJumpPoint->prev = endJumpPoint;
+            prev_first_last = first_last;
+        } //endJumpPoint is nullptr, first iteration...
         startJumpPoint->setPosition(*startanchorPos);
         //this->jumpPoints.push_back(startJumpPoint);        
 
@@ -177,84 +168,28 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
             prev_last_jumppoint->next = first_jumppoint;
         }*/
 
-        auto first_last = jumpPoint_generation_helper(startJumpPoint, endJumpPoint);
-
-        /*prev_last_jumppoint = last_jumppoint;*/
-
-        if (prev_first_last) {
-            prev_first_last->last->next = first_last.first;
+        first_last = jumpPoint_generation_helper(startJumpPoint, endJumpPoint);
+        
+        if(!firstJumpPoint){
+            firstJumpPoint = first_last.first;
         }
 
+        if(prev_first_last.first && prev_first_last.last){
+            prev_first_last.last->next = first_last.first;
+            first_last.first->prev = prev_first_last.last;
+        }
 
-        prev_first_last = &first_last;
-        
-
-
-        
         int BREAKPOINT = 3;
 
 
-        /*
-        while (!this->pl->isJumpPossible(*endanchorPos)) {
-            //current = current->next;dVect.y = randF(-stepMaxZ, stepMaxZ);
-            // dVect.y = (rand() % (2 * stepMax)) - stepMax - 1;
-            //dVect.y = fmin(dVect.y, stepMaxZ);
-            //dVect.y = fmax(dVect.y, -100.0f);
-            dVect.y = 0;
-            position.y += dVect.y;
-            // Using the height the new platform to determine max distance
-            stepMax = pl->getJumpDistance(position.y); //the problem is tied to this
-            stepMin = stepMax / minStepMod * (int)selectedDiff;
-            // Generating x and y pos
-            //dVect.z = randF(0, 1);
-            //dVect.x = randF(-1, 1);
-
-            // vector3.magnitude  then  vector3.normalizeXY 
-            //dVect.normalizeXZ();
-            //float dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);
-            dVect.x = dVect.x / dvect_magnitude;
-            dVect.z = dVect.z / dvect_magnitude;
-            ///dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);  //Remove?      
-            // ^^^^^^^^^^^^ vector3.magnitude  then  vector3.normalizeXZ 
-            dVect.x = normalized_dir.x;
-            dVect.z = normalized_dir.z;
-
-            distance = randF(stepMin, stepMax - 3);
-            dVect.x = dVect.x * distance;
-            dVect.z = dVect.z * distance;
-
-            position.x += dVect.x;
-            position.z += dVect.z;
-            // Get random value for Z that is within possible jump
-
-
-            float dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);//Remove?
-            if (currentJumpPoint == nullptr) {
-                currentJumpPoint = new Platform(position, 0, 1, 0);
-                pl->moveto(*currentJumpPoint->getPos());
-            }
-            else if (pl->isJumpPossible(position) && dvect_magnitude > stepMin && dvect_magnitude < stepMax)
-            {
-                newPlat = new Platform(position, 0, 1, 0);
-                pl->moveto(*newPlat->getPos());
-                currentJumpPoint->next = newPlat;
-                this->jumpPoints.push_back(currentJumpPoint);
-                currentJumpPoint = newPlat;
-            }
-            else
-            {
-                position = position - dVect;
-                std::cout << "Jump not possible\n";
-            }
-        }
-
-        */
 
         current = current->next;
     }
     endJumpPoint->next = nullptr; //TODO: should not be needed...
     //this->jumpPoints.push_back(endJumpPoint);
     //this->jumpPoints.push_back(newPlat);
+    first_last.last->next = endJumpPoint->next;
+
 }
 
 
@@ -278,7 +213,8 @@ MM Position_generator::jumpPoint_generation_helper(Platform* start, Platform* en
         jumpPoint_create_offset(midd_platform, *midd_platform->getPos(), *start->getPos(), *end->getPos());
         ret.last = jumpPoint_generation_helper(midd_platform, end).last;                
     }else{
-        midd_platform->next = end; //Set middle.next if end platform is close enogh
+        midd_platform->next = end;
+        end->prev = midd_platform;//Set middle.next if end platform is close enogh
         count_M++;
         ret.last = midd_platform;
     }
@@ -289,7 +225,8 @@ MM Position_generator::jumpPoint_generation_helper(Platform* start, Platform* en
         
         ret.first = jumpPoint_generation_helper(start, midd_platform).first;
     }else{
-        start->next = midd_platform;//Set start.next if new middle platform is close enogh      
+        start->next = midd_platform;//Set start.next if new middle platform is close enogh  
+        midd_platform->prev = start;
         count_E++;
         ret.first = midd_platform;
     }
