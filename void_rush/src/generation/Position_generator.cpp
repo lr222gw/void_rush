@@ -232,7 +232,43 @@ MM Position_generator::jumpPoint_generation_helper(Platform* start, Platform* en
     }
     return ret;
 }
+MM Position_generator::jumpPoint_generation_helper(vec3 start, vec3 end){
+    vec3 start_end_dist = (start + end); //TODO: remove
+    vec3 middle = (end - start) / 2;
+    Platform* midd_platform = new Platform();
+    MM ret{ nullptr, nullptr };
+    midd_platform->setPosition(start + middle);
 
+    this->jumpPoints.push_back(midd_platform);
+
+    //Create jumppoint between new middle and end if jump not possible
+    static int count_M = 0;
+    static int count_E = 0;
+    //pl->moveto(middle);
+    pl->moveto(*midd_platform->getPos());
+    if (!this->pl->isJumpPossible(end)) {
+        jumpPoint_create_offset(midd_platform, *midd_platform->getPos(), start, end);
+        ret.last = jumpPoint_generation_helper(*midd_platform->getPos(), end).last;
+    }
+    else {
+        midd_platform->next = ret.last; //Set middle.next if end platform is close enogh
+        count_M++;
+        ret.last = midd_platform;
+    }
+
+    //Create jumppoint between start and new middle if jump not possible
+    pl->moveto(start);
+    if (!this->pl->isJumpPossible(*midd_platform->getPos())) {
+
+        ret.first = jumpPoint_generation_helper(start, *midd_platform->getPos()).last;
+    }
+    else {
+        ret.first->next = midd_platform;//Set start.next if new middle platform is close enogh      
+        count_E++;
+        ret.first = midd_platform;
+    }
+    return ret;
+}
 //TODO: remove return value...
 vec3 Position_generator::jumpPoint_create_offset(Platform* plat,vec3& currentMiddle, vec3 start, vec3 end)
 {
