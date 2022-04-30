@@ -417,6 +417,21 @@
     <ClCompile Include="src\common\Shape.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\common\Shape_exporter.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\3DLetters.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hud\Hud.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\score\ScoreManager.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\3DLettersHandler.cpp">
+      <Filter>Engine\Source Files\Handlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -692,6 +707,24 @@
     <ClInclude Include="src\3Dproj\Menu.h">
       <Filter>Void_Rush</Filter>
     </ClInclude>
+    <ClInclude Include="src\common\Shape_exporter.hpp">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\3DLetters.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\Hud.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\score\ScoreManager.hpp">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\3DLettersHandler.h">
+      <Filter>Engine\Header Files\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HighScoreGameState.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src/3Dproj/Transforms.hlsli">
@@ -768,6 +801,12 @@
     <FxCompile Include="src\3Dproj\UIPixelShader.hlsl" />
     <FxCompile Include="src\3Dproj\UIVertexShader.hlsl" />
     <FxCompile Include="NoShadowPS.hlsl">
+      <Filter>Engine\Resource Files\Shaders\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="src\3Dproj\3DTextVS.hlsl">
+      <Filter>Engine\Resource Files\Shaders\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="src\3Dproj\3DTextPS.hlsl">
       <Filter>Engine\Resource Files\Shaders\Pixel</Filter>
     </FxCompile>
   </ItemGroup>

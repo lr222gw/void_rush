@@ -1,4 +1,5 @@
 #include "Shape.hpp"
+#include "Shape_exporter.hpp"
 
 Shape::Shape():scale(1,1,1) {}
 
@@ -17,7 +18,7 @@ void Shape::addPlane(vec3 a, vec3 b, vec3 c, vec3 d)
 void Shape::setPosition(vec3 pos)
 {
     for (int i = 0; i < planes.size(); i++) {
-        vec3 offset = vec3::Normalize(planes[i]->get_normal()).mul(vec3(1, 1, 1));
+        vec3 offset = vec3::Normalize(planes[i]->get_normal()).mul(scale);
         planes[i]->move(pos + offset);
     }
 }
@@ -27,7 +28,20 @@ void Shape::setScale(vec3 scale)
     this->scale = scale;
 }
 
-void Shape::setShapeCube(vec3& center)
+void Shape::setShape(vec3 center)
+{
+    vec3 offset_left {      -scale.x, 0,    0       };
+    vec3 offset_right {      scale.x, 0,    0       };
+    vec3 offset_forward {    0,       0,    scale.z };
+    vec3 offset_back {       0,       0,   -scale.z };
+    
+    setShapeCube(center + offset_forward + offset_left );
+    setShapeCube(center + offset_forward + offset_right);
+    setShapeCube(center + offset_back    + offset_left );
+    setShapeCube(center + offset_back    + offset_right);
+}
+
+void Shape::setShapeCube(vec3 center)
 {    
     vec3 vert = center;
 
@@ -49,8 +63,47 @@ void Shape::setShapeCube(vec3& center)
         temp_planes[i]->offset = vec3::Normalize(temp_planes[i]->get_normal()).mul(scale);
         temp_planes[i]->move(center + temp_planes[i]->offset); //TODO: remove?
     }
-    //inCorner.pos = Vertexes[0];
-    //outCorner.pos = Vertexes[Vertexes.size() / 2];
+
+    
+    auto high = temp_planes[0]->point2;    
+    auto low = temp_planes[0]->point4;
+
+    vec3_pair min_max{low,high};
+    
+    bounding_boxes.push_back(min_max);
+
+}
+
+void Shape::export_as_obj()
+{
+    //TODO: this could probably be removed if we wanted...
+    //Shape_exporter::export_all(this, "test");
+
+}
+
+Plane::Plane()
+{
+    uv[0].x = 0;
+    uv[0].y = 0;
+    uv[1].x = 1;
+    uv[1].y = 0;
+    uv[2].x = 1;
+    uv[2].y = 1;
+    uv[3].x = 0;
+    uv[3].y = 1;
+}
+
+Plane::Plane(vec3 a, vec3 b, vec3 c, vec3 d):
+    point1(a), point2(b), point3(c), point4(d)
+{
+    uv[0].x = 0;
+    uv[0].y = 0;
+    uv[1].x = 1;
+    uv[1].y = 0;
+    uv[2].x = 1;
+    uv[2].y = 1;
+    uv[3].x = 0;
+    uv[3].y = 1;
 }
 
 //definition if plane functions
@@ -98,29 +151,42 @@ vec3 Plane::get_center()
     return (point1+point2+point3+point4)/4;
 }
 
+std::vector<vec3*> Plane::get_all_points()
+{
+    return std::vector<vec3*>{ &point1, & point2, & point3, & point4 };
+}
+
 void Plane::update_normal() { 
-    normal = vec3(point4 - point1).X((point2 - point1)).Normalize();
+    normal = vec3((point2 - point1)).X(point4 - point1).Normalize();
 }
 
-XZ_plane::XZ_plane(vec3 scale) {//Clockwise windingorder        
+XZ_plane::XZ_plane(vec3 scale) : 
+    Plane()
+{//Clockwise windingorder        
     
-    point1 = vec3(-1, 0, 1 ).mul(scale) ;  // top left
-    point2 = vec3( 1, 0,  1).mul(scale);   // top right
-    point3 = vec3( 1, 0, -1).mul(scale);  // bottom right
-    point4 = vec3(-1, 0, -1).mul(scale); // bottom left
+    point1 = vec3(-1, 0, 1 ).mul(scale) ;   // top left    
+    point2 = vec3( 1, 0,  1).mul(scale);    // top right
+    point3 = vec3( 1, 0, -1).mul(scale);    // bottom right
+    point4 = vec3(-1, 0, -1).mul(scale);    // bottom left
+    update_normal();
+    
+}
+
+XY_plane::XY_plane(vec3 scale) : 
+    Plane()
+{//Clockwise windingorder
+    
+    point1 = vec3(-1,  1, 0).mul(scale);    // top left
+    point2 = vec3( 1,  1, 0).mul(scale);    // top right
+    point3 = vec3( 1, -1, 0).mul(scale);    // bottom right
+    point4 = vec3(-1, -1, 0).mul(scale);    // bottom left
     update_normal();
 }
 
-XY_plane::XY_plane(vec3 scale) {//Clockwise windingorder
+YZ_plane::YZ_plane(vec3 scale) : 
+    Plane()
+{ //Clockwise windingorder
     
-    point1 = vec3(-1,  1, 0).mul(scale); // top left
-    point2 = vec3( 1,  1, 0).mul(scale);   // top right
-    point3 = vec3( 1, -1, 0).mul(scale);  // bottom right
-    point4 = vec3(-1, -1, 0).mul(scale); // bottom left
-    update_normal();
-}
-
-YZ_plane::YZ_plane(vec3 scale) { //Clockwise windingorder
     point1 = vec3(0,  1, -1).mul(scale) ;  // top left
     point2 = vec3(0,  1,  1).mul(scale) ;  // top right
     point3 = vec3(0, -1,  1).mul(scale) ;  // bottom right

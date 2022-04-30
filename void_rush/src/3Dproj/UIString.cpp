@@ -29,6 +29,14 @@ void UIString::setPosition(vec2 m)
 	}
 }
 
+void UIString::setText(std::string text)
+{
+	for (int i = 0; i < this->symbols.size(); i++)
+	{
+		symbols[i]->symbol_to_uv(text[i]);
+	}
+}
+
 void UIString::hide(bool h)
 {
 	this->hiding = h;

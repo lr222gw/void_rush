@@ -110,6 +110,28 @@ ModelObj* ResourceManager::get_Models(std::string key, Graphics*& gfx)
 	return Models.find(key)->second;
 }
 
+ModelObj* ResourceManager::load_map_scene(aiScene* scene,std::string key, Graphics*& gfx)
+{
+	//its not found try to add it to the library
+	ModelObj* model = new ModelObj();
+	//model->init("assets/obj/" + key, gfx, def);
+	
+	model->init(scene, gfx, def);
+
+	auto iterator = Models.find(key);
+	if ( iterator != Models.end() ) {
+		delete iterator->second;
+		Models.erase(iterator);		
+	}
+	Models.insert(std::make_pair(key, model));
+
+
+	for (int p = 0; p < model->getMatrial().size(); p++) {
+		TC::GetInst().add(model->getMatrial()[p]);
+	}
+	return Models.find(key)->second;
+}
+
 ID3D11ShaderResourceView** ResourceManager::getDef()
 {
 	return this->def;

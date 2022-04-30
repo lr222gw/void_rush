@@ -33,6 +33,7 @@ void ImguiManager::updateRender()
 		render_generation_widgets();
 		update_lights(owner->lightNr);
 		render_physics_widgets();
+		render_ghost_widgets();
 		render_debuginfo_widgets();
 	}
 	ImGui::Render();
@@ -105,12 +106,25 @@ void ImguiManager::render_generation_widgets()
 		}
 		if (ImGui::TreeNode("Position_generator")) {
 
-			ImGui::InputInt("Number of platforms", &owner->generationManager->position_gen->elements);						
-			ImGui::InputFloat("random_dist_dividier", &owner->generationManager->position_gen->JP_conf.random_dist_dividier);
-			ImGui::InputFloat("y_min_clamp", &owner->generationManager->position_gen->JP_conf.y_min_clamp);
-			ImGui::InputFloat("y_max_clamp", &owner->generationManager->position_gen->JP_conf.y_max_clamp);
-			ImGui::InputFloat("rand_dir_min_angle_percent", &owner->generationManager->position_gen->JP_conf.rand_dir_min_angle_percent);
-			ImGui::InputFloat("rand_dir_max_angle_percent", &owner->generationManager->position_gen->JP_conf.rand_dir_max_angle_percent);
+			if (ImGui::TreeNode("Jumppoints")) {
+				
+				ImGui::InputFloat("random_dist_dividier", &owner->generationManager->position_gen->JP_conf.random_dist_dividier);
+				ImGui::InputFloat("y_min_clamp", &owner->generationManager->position_gen->JP_conf.y_min_clamp);
+				ImGui::InputFloat("y_max_clamp", &owner->generationManager->position_gen->JP_conf.y_max_clamp);
+				ImGui::InputFloat("rand_dir_min_angle_percent", &owner->generationManager->position_gen->JP_conf.rand_dir_min_angle_percent);
+				ImGui::InputFloat("rand_dir_max_angle_percent", &owner->generationManager->position_gen->JP_conf.rand_dir_max_angle_percent);
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Anchors")) {
+				ImGui::InputInt("Number of Anchors", &owner->generationManager->position_gen->elements);
+				ImGui::InputFloat("minStepMod", &owner->generationManager->position_gen->AP_conf.minStepMod);
+				ImGui::InputFloat("stepMax", &owner->generationManager->position_gen->AP_conf.stepMax);
+				ImGui::InputFloat("stepMaxHeight", &owner->generationManager->position_gen->AP_conf.stepMaxHeight);
+				ImGui::InputFloat("stepMinHeight", &owner->generationManager->position_gen->AP_conf.stepMinHeight);
+				ImGui::InputFloat("lowest_Height", &owner->generationManager->position_gen->AP_conf.lowest_Height);
+				ImGui::InputFloat("minZAngle", &owner->generationManager->position_gen->AP_conf.minZAngle);				
+				ImGui::TreePop();
+			}
 			
 			ImGui::TreePop();
 		}		
@@ -119,23 +133,39 @@ void ImguiManager::render_generation_widgets()
 
 			if (ImGui::TreeNode("Platforms")) {
 
-				for (int i = 0; i < owner->generationManager->platformObjs.size(); i++) {
+				auto anchors = owner->generationManager->position_gen->getAnchors();
+				auto jumpPoints = owner->generationManager->position_gen->getJumpPoints();
+				Platform* current_anchor = anchors->at(0);
+				Platform* current_jump = jumpPoints->at(0);
+				int c = 0;
+				while (current_anchor) {
+					c++;
 
-					std::string name_pos = "platform_pos:" + std::to_string(i);
-					std::string name_rot = "platform_rot:" + std::to_string(i);
-					
-					float* pos[3] = { &owner->generationManager->platformObjs[i]->pos.x,
-							&owner->generationManager->platformObjs[i]->pos.y,
-							&owner->generationManager->platformObjs[i]->pos.z };
+					std::string name_pos = "A_platform_pos:" + std::to_string(c);
+					std::string name_rot = "A_platform_rot:" + std::to_string(c);
 
-					float* rot[3] = { &owner->generationManager->platformObjs[i]->rot.x,
-							&owner->generationManager->platformObjs[i]->rot.y,
-							&owner->generationManager->platformObjs[i]->rot.z };
+					float* pos[3] = { &current_anchor->pos.x,
+							&current_anchor->pos.y,
+							&current_anchor->pos.z };
 
-					//ImGui::InputFloat3(name.c_str(), *pos);
 					ImGui::DragFloat3(name_pos.c_str(), *pos);
-					ImGui::DragFloat3(name_rot.c_str(), *rot);
-				}				
+
+					current_anchor = current_anchor->next;
+				}
+				while (current_jump) {
+					c++;
+
+					std::string name_pos = "J_platform_pos:" + std::to_string(c);
+					std::string name_rot = "J_platform_rot:" + std::to_string(c);
+
+					float* pos[3] = { &current_jump->pos.x,
+							&current_jump->pos.y,
+							&current_jump->pos.z };
+
+					ImGui::DragFloat3(name_pos.c_str(), *pos);
+
+					current_jump = current_jump->next;
+				}
 				ImGui::TreePop();
 			}
 			ImGui::TreePop();
@@ -148,9 +178,44 @@ void ImguiManager::render_generation_widgets()
 			owner->generationManager->initialize();
 			owner->generationManager->generateGraph();
 		}
+
+		if (ImGui::Button("ExportFirstShape")) {
+			owner->generationManager->shape_export.export_final_model("map");
+			
+		}
 	}
 	ImGui::End();
 
+}
+
+void ImguiManager::render_ghost_widgets()
+{
+	std::string name = "Ghost";
+	if (ImGui::Begin(name.c_str())) {
+		
+		ImGui::Checkbox("Activate Ghost", &owner->ghost->active);
+		static float min_speed = 0;
+		static float max_speed = 10;
+		ImGui::SliderFloat("Speed", &owner->ghost->speed, min_speed, max_speed);
+		ImGui::InputFloat("Point Limit", &owner->ghost->rangeToPointBeforeNewPoint);
+		ImGui::InputFloat("Player range Limit", &owner->ghost->rangeToPlayerBeforeNearestWay);
+		ImGui::InputFloat("Speed Increase", &owner->ghost->speed_increase);
+		ImGui::InputFloat("time_s interval", &owner->ghost->ghost_Time_interval);
+		float* init_force[3] = { &owner->ghost->force.x, &owner->ghost->force.y, &owner->ghost->force.z };
+		static float min_force = 0;
+		static float max_force = 304;
+		static float forceSlider = owner->ghost->force.x;
+		if (ImGui::SliderFloat("Force", &forceSlider, min_force, max_force)) {
+			*init_force[0] = forceSlider;
+			//*init_force[1] = forceSlider;
+			*init_force[2] = forceSlider;
+		}
+		if (ImGui::Button("Reset", ImVec2(100, 25)))
+		{
+			owner->ghost->Reset();
+		}
+	}
+	ImGui::End();
 }
 
 void ImguiManager::render_physics_widgets()
@@ -169,11 +234,12 @@ void ImguiManager::render_physics_widgets()
 			*init_speed[1] = speedSlider;
 			*init_speed[2] = speedSlider;
 		}
-		ImGui::InputFloat("jumpSpeed", &owner->player->jumpSpeed.y);
 		ImGui::InputFloat("Gravity", &owner->player->gravity.y);
-			
-			
-
+		ImGui::InputFloat("Jumpforce", &owner->player->jumpForce);
+		static float min_MidAdj = 1;
+		static float max_MidAdj = 10;
+		ImGui::SliderFloat("Air adjustment", &owner->player->midAirAdj, min_MidAdj, max_MidAdj);
+		ImGui::InputFloat("Lives", &owner->player->health);
 	}
 	ImGui::End();
 }
@@ -206,13 +272,10 @@ void ImguiManager::render_debuginfo_widgets()
 		if(ImGui::TreeNode("settings")){
 			ImGui::SliderFloat("update_interval", &update_interval, 0.1f, 10.f);
 			ImGui::SliderFloat("allowed_diviation", &allowed_diviation_from_avg, 0.1f, 20.f);
-			if(fps + allowed_diviation_from_avg < average_fps ){
-				
-			}
 			ImGui::TreePop();
 		}
-		ImGui::End();
 	}
+	ImGui::End();
 }
 
 void ImguiManager::render_player_widgets()
@@ -220,15 +283,34 @@ void ImguiManager::render_player_widgets()
 	
 	std::string name = "Player";
 	if (ImGui::Begin(name.c_str())) {
-		
-		if (ImGui::Checkbox("noClip", &owner->player->noClip)) {
-			owner->player->grounded = true;
+		static bool player_invincible = false;
+		static vec3 prev_player_speed ;
+		ImGui::Checkbox("Alive", &owner->player->alive);
+		if (ImGui::Button("Toggle noClip")) {
+			owner->player->noClip = owner->player->noClip ? false : true;
+			if(!owner->player->noClip){
+				owner->player->speed = prev_player_speed;
+				owner->player->grounded = false;
+			}else{
+				prev_player_speed = owner->player->speed;
+				owner->player->grounded = true;
+				owner->player->velocity = vec3(0.f, 0.f, 0.f);
+				owner->player->speed = vec3(15.f, 15.f, 15.f);
+			}			
 		}
+		ImGui::Checkbox("Invincible", &owner->player->invincible);
+
 		float* pos[3] = { &owner->player->pos.x,
 			&owner->player->pos.y,
 			&owner->player->pos.z };
-		ImGui::InputFloat3("PlayerPos", *pos);				
 		
+		ImGui::InputFloat3("PlayerPos", *pos);	
+
+		float* vel[3] = { &owner->player->velocity.x,
+							& owner->player->velocity.y,
+							& owner->player->velocity.z };
+
+		ImGui::InputFloat3("vel", *vel);
 	}
 	ImGui::End();
 }

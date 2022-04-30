@@ -1,6 +1,6 @@
 # Blender 3.1.0
 # www.blender.org
-mtllib basic_platform.mtl
+mtllib platform.mtl
 o Cube
 v 1.000000 0.193838 -1.000000
 v 1.000000 -0.193838 -1.000000

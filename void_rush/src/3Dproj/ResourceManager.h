@@ -16,7 +16,6 @@ class ResourceManager {
 public:
 	ResourceManager(Graphics *& gfx);
 	~ResourceManager();
-	std::string name;
 	void loadThings(Graphics*& gfx);
 #pragma region Textures
 	ID3D11ShaderResourceView** getDef();
@@ -28,6 +27,8 @@ public:
 	/*can use this method even if the object is not already loded*/
 	ModelObj* get_Models(std::string key, Graphics*& gfx);
 	
+	//Special treatment for generated platform / map...
+	ModelObj* load_map_scene(aiScene* scene, std::string key, Graphics*& gfx);
 private:
 #pragma region Textures
 	ID3D11ShaderResourceView** def;//0 = difdef 1 = ndef

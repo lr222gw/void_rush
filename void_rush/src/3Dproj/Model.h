@@ -8,8 +8,10 @@ public:
 	ModelObj(const std::string& ModelFile, Graphics*& gfx, ID3D11ShaderResourceView** def);
 	ModelObj();
 	void init(const std::string& ModelFile, Graphics*& gfx, ID3D11ShaderResourceView** def);
+	void init(aiScene* scene, Graphics*& gfx, ID3D11ShaderResourceView** def);
 	virtual ~ModelObj();
 	void draw(Graphics*& gfx, bool shadowmap = false);
+	void drawRaw(Graphics*& gfx);
 	std::vector<MeshObj> &getMehses();
 	std::vector<Material*> &getMatrial();
 	vec3* getBoundingBox();

@@ -1,26 +1,38 @@
 #include "Player.h"
 #include <algorithm>
 
-Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale):
-	GameObject(file, gfx, pos, rot, scale), noClip(true)
+Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, Hud* HUD, vec3 pos, vec3 rot, vec3 scale):
+	GameObject(file, gfx, pos, rot, scale), noClip(false), HUD(HUD)
 {
 	this->mouse = mouse;
 	this->keyboard = keyboard;
 	this->cam = cam;
 	this->gravity = vec3(0.0f, -9.82f, 0.0f);
-	this->speed = vec3(5.f, 5.0f, 5.0f);
-	this->jumpSpeed = vec3(0.0f, 0.0f, 0.0f);
+	this->speed = vec3(2.7f, 0.0f, 2.7f);
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
+	this->jumpForce = 5.0f;
+	this->midAirAdj = 2.0f;
 	this->mass = 1.f;
 	this->grounded = true;
 	this->groundedTimer = 0.0f;
+	this->shoved = false;
+
 	GOPTR = static_cast<GameObject*>(this);
-	this->setScale(vec3(0.2f,0.2f,0.2f));
 	setWeight(20);
-	setBoundingBox(DirectX::XMFLOAT3(0, -0.9f, 0), DirectX::XMFLOAT3(0.3f, 0.5f, 0.3f));
+	setBoundingBox(DirectX::XMFLOAT3(0, -0.19, 0), DirectX::XMFLOAT3(0.19f, 0.10f, 0.19f));
 	this->health = 3;
 	this->alive = true;
 	this->maxDepth = -140.0f;
+	this->resetGhost = false;
+	this->submitName = false;
+
+	this->maxLetters = 10;
+	this->currentLetter = 0;
+	for (int i = 0; i < maxLetters; i++) {
+		this->name += "_";
+	}
+	this->scoreManager.SetPlayerSpeed(speed.length());
+
 }
 
 Player::~Player()
@@ -31,6 +43,7 @@ void Player::update(float dt)
 {
 	handleEvents(dt);
 	if (!noClip) {
+		scoreManager.Update(dt);
 		if (!grounded)
 		{
 			// Update forces
@@ -51,10 +64,12 @@ void Player::update(float dt)
 		}
 		if (getPos().y < maxDepth) {
 			TakeDmg();
-			Reset();
 		}
+	}else{
+		this->movePos(vec3(velocity.x * dt, 0.0f, velocity.z * dt));
 	}
-	//std::cout << "speed.y: " << speed.y << " Velocity.y: " << velocity.y << std::endl;
+
+
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
 	GameObject::update(dt);
@@ -79,82 +94,375 @@ void Player::handleEvents(float dt)
 	}
 	//change values here
 	DirectX::XMFLOAT3 translation = DirectX::XMFLOAT3(0, 0, 0);
-	if (keyboard->isKeyPressed('W')) {
+	if (keyboard->isKeyPressed('W') && !this->isKeyPressed) {
 		cam->calcFURVectors();
 		jumpDir = jumpDir + vec2(cam->getForwardVec().x,  cam->getForwardVec().z);
 		
-		if (/*grounded ||*/ noClip)
+		if (noClip)
 		{
 			translation = DirectX::XMFLOAT3(0, 0, -1);
 			Translate(dt, translation);
 		}
 		if (!grounded)
 		{
+			this->isKeyPressed = true;
+			if (this->startingJumpKey == 'W')
+			{
+				jumpDir = vec2(startingJumpDir.x, startingJumpDir.y);
+			}
+			else if (this->startingJumpKey == 'A')
+			{
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (0.5, 0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Upper Left" << std::endl;
+				}
 
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (-0.5, 0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Lower Left" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (-0.5, -0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Lower Right" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (0.5, -0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Upper Right" << std::endl;
+				}
+			}
+			else if (this->startingJumpKey == 'S')
+			{
+				jumpDir = vec2(-startingJumpDir.x, -startingJumpDir.y);
+			}
+			else if (this->startingJumpKey == 'D')
+			{
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (-0.5, -0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Upper Left" << std::endl;
+				}
+
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (0.5, -0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Lower Left" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (0.5, 0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Lower Right" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (-0.5, 0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Upper Right" << std::endl;
+				}
+			}
+		}
+		else
+		{
+			startingJumpKey = 'W';
 		}
 	}
-	if (keyboard->isKeyPressed('D')) {
+	if (keyboard->isKeyPressed('D') && !this->isKeyPressed) {
 		cam->calcFURVectors();
 		jumpDir = jumpDir + vec2(cam->getRightVector().x, cam->getRightVector().z);
 		
-		if (/*grounded ||*/ noClip)
+		if (noClip)
 		{
 			translation = DirectX::XMFLOAT3(-1, 0, 0);
 			Translate(dt, translation);
 		}
 		if (!grounded)
 		{
+			this->isKeyPressed = true;
+			if (this->startingJumpKey == 'W')
+			{
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (0.5, 0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Upper Left" << std::endl;
+				}
 
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (-0.5, 0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Lower Left" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (-0.5, -0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Lower Right" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (0.5, -0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Upper Right" << std::endl;
+				}
+			}
+			else if (this->startingJumpKey == 'A')
+			{
+				jumpDir = vec2(-startingJumpDir.x, -startingJumpDir.y);
+			}
+			else if (this->startingJumpKey == 'S')
+			{
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (-0.5, -0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Upper Left" << std::endl;
+				}
+
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (0.5, -0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Lower Left" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (0.5, 0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Lower Right" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (-0.5, 0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Upper Right" << std::endl;
+				}
+			}
+			else if (this->startingJumpKey == 'D')
+			{
+				jumpDir = vec2(startingJumpDir.x, startingJumpDir.y);
+			}
+		}
+		else
+		{
+			startingJumpKey = 'D';
 		}
 	}
-	if (keyboard->isKeyPressed('S')) {
+	if (keyboard->isKeyPressed('S') && !this->isKeyPressed) {
 		cam->calcFURVectors();
 		jumpDir = jumpDir + vec2(-cam->getForwardVec().x,  -cam->getForwardVec().z);
 		
-		if (/*grounded ||*/ noClip)
+		if (noClip)
 		{
 			translation = DirectX::XMFLOAT3(0, 0, 1);
 			Translate(dt, translation);
 		}
 		if (!grounded)
 		{
-			
+			this->isKeyPressed = true;
+			if (this->startingJumpKey == 'W')
+			{
+				jumpDir = vec2(-startingJumpDir.x, -startingJumpDir.y);
+			}
+			else if (this->startingJumpKey == 'A')
+			{
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (-0.5, -0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Upper Left" << std::endl;
+				}
+
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (0.5, -0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Lower Left" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (0.5, 0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Lower Right" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (-0.5, 0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Upper Right" << std::endl;
+				}
+			}
+			else if (this->startingJumpKey == 'S')
+			{
+				jumpDir = vec2(startingJumpDir.x, startingJumpDir.y);
+			}
+			else if (this->startingJumpKey == 'D')
+			{
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (0.5, 0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Upper Left" << std::endl;
+				}
+
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (-0.5, 0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Lower Left" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (-0.5, -0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Lower Right" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (0.5, -0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Upper Right" << std::endl;
+				}
+			}
+		}
+		else
+		{
+			startingJumpKey = 'S';
 		}
 	}
-	if (keyboard->isKeyPressed('A')) {
+	if (keyboard->isKeyPressed('A') && !this->isKeyPressed) {
 		cam->calcFURVectors();
 		jumpDir = jumpDir + vec2(-cam->getRightVector().x, -cam->getRightVector().z);
 		
-		if (/*grounded ||*/ noClip)
+		if (noClip)
 		{
 			translation = DirectX::XMFLOAT3(1, 0, 0);
 			Translate(dt, translation);
 		}
 		if (!grounded)
 		{
-			
+			this->isKeyPressed = true;
+			if (this->startingJumpKey == 'W')
+			{
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (-0.5, -0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Upper Left" << std::endl;
+				}
+
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (0.5, -0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Lower Left" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (0.5, 0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Lower Right" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (-0.5, 0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Upper Right" << std::endl;
+				}
+			}
+			else if (this->startingJumpKey == 'A')
+			{
+				jumpDir = vec2(startingJumpDir.x, startingJumpDir.y);
+			}
+			else if (this->startingJumpKey == 'S')
+			{
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (0.5, 0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Upper Left" << std::endl;
+				}
+
+				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (-0.5, 0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Lower Left" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
+				{
+					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (-0.5, -0.5f)
+					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
+					std::cout << "Lower Right" << std::endl;
+				}
+
+				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
+				{
+					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (0.5, -0.5f)
+					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
+					std::cout << "Upper Right" << std::endl;
+				}
+			}
+			else if (this->startingJumpKey == 'D')
+			{
+				jumpDir = vec2(-startingJumpDir.x, -startingJumpDir.y);
+			}
+		}
+		else
+		{
+			startingJumpKey = 'A';
 		}
 	}
 	if (!keyboard->isKeyPressed('W') && !keyboard->isKeyPressed('A') && !keyboard->isKeyPressed('S') && !keyboard->isKeyPressed('D'))
 	{
 		if (grounded)
+
 		{
 			jumpDir = vec2(0.0f, 0.0f);
 		}
 	}
 	if (keyboard->isKeyPressed(VK_SPACE) && grounded) {
 		if(!noClip){
-			if (grounded) {
-				grounded = false;
-				groundedTimer = 0.001f;
+			grounded = false;
+			groundedTimer = 0.001f;
+			startingJumpDir = jumpDir;
+			if (startingJumpDir.legth() != 0.0f)
+			{
+				startingJumpDir.Normalize();
 			}
+			
 			if (velocity.y > 0.0f)
 			{
-				velocity.y += speed.y;
+				velocity.y += jumpForce;
 			}
 			else
 			{
-				velocity = vec3(0.0f, speed.y, 0.0f);
+				velocity = vec3(0.0f, jumpForce, 0.0f);
 			}
 		}
 		else {
@@ -164,10 +472,35 @@ void Player::handleEvents(float dt)
 	if (keyboard->isKeyPressed(VK_CONTROL)) {
 		this->movePos(vec3(0, -speed.y * dt, 0));
 	}
+
 	jumpDir.Normalize();
-	//jumpSpeed = vec3(speed.x * jumpDir.x, speed.y, speed.z * jumpDir.y);
-	velocity.x = speed.x * jumpDir.x;
-	velocity.z = speed.z * jumpDir.y;
+	if (grounded)
+	{
+		velocity.x = speed.x * jumpDir.x;
+		velocity.z = speed.z * jumpDir.y;
+	}
+	else
+	{
+		if (!shoved)
+		{
+			if (!jumpDir.legth() == 0.0f)
+			{
+				jumpDir = jumpDir / vec2(midAirAdj, midAirAdj);
+			}
+			jumpDir = jumpDir + startingJumpDir;
+
+			velocity.x = speed.x * jumpDir.x;
+			velocity.z = speed.z * jumpDir.y;
+
+		}
+		else
+		{
+			velocity.x = shove.x;
+			velocity.z = shove.y;
+			
+		}
+	}
+	this->isKeyPressed = false;
 }
 
 void Player::rotateWithMouse(int x, int y)
@@ -195,11 +528,13 @@ void Player::setGrounded()
 	if (!grounded)
 	{
 		this->grounded = true;
+		this->shoved = false;
 		this->velocity = vec3(0.0f, 0.0f, 0.0f);
 		this->acceleration.y = 0.0f;
 		this->resForce.y = 0.0f;
 		this->groundedTimer = 0.0f;
-		//this->speed = vec3(5.0f, 5.0f, 5.0f);
+		this->startingJumpDir = vec2(0.0f, 0.0f);
+		this->startingJumpKey = 'N';
 	}
 }
 
@@ -212,6 +547,11 @@ void Player::setUngrounded()
 	}
 }
 
+float Player::getSpeed()
+{
+	return this->speed.x;
+}
+
 float Player::getGroundedTimer()
 {
 	return this->groundedTimer;
@@ -222,16 +562,57 @@ GameObject*& Player::getPlayerObjPointer()
 	return GOPTR;
 }
 
-void Player::Reset()
+void Player::Reset(bool lvlClr)
 {
+	resetGhost = true;
+
+	this->shoved = false;
 	this->grounded = true;
-	this->setPos(vec3(0.0f, 0.0f, 0.0f));
-	this->velocity = vec3(0.0f, 0.0f, 0.0f);
-	this->acceleration = vec3(0.0f, 0.0f, 0.0f);
 	this->resForce = vec3(0.0f, 0.0f, 0.0f);
+	this->jumpDir = vec2(0.0f, 0.0f);
+	this->acceleration = vec3(0.0f, 0.0f, 0.0f);
+	this->velocity = vec3(0.0f, 0.0f, 0.0f);
+	this->setPos(vec3(0.0f, 0.0f, 0.0f));
 	this->groundedTimer = 0.0f;
+	this->jumpDir = vec2(0.0f, 0.0f);
+	this->startingJumpDir = vec2(0.0f, 0.0f);
+
+	if (lvlClr) {
+		//Add points
+		scoreManager.LevelDone();
+	}
 }
 
+bool Player::ResetGhost()
+{
+	if (resetGhost) {
+		resetGhost = false;
+		return true;
+	}
+	return false;
+}
+
+//Used by enemies to move player on collision
+void Player::shovePlayer(vec2 shove, float forceY)
+{
+	this->groundedTimer = 0.001f;
+	this->grounded = false;
+	this->shoved = true;
+	this->shove = shove;
+	this->velocity.y = forceY;
+	ResetGhost();
+}
+
+//void Player::SetPuzzlePos(vec3 puzzlePosition)
+void Player::SetDifficulity(Difficulity diff)
+{
+	scoreManager.SetDifficulty(diff);
+}
+
+void Player::SetStartPlatform(Platform*& start)
+{
+	scoreManager.SetStartPlatform(start);
+}
 
 void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 {
@@ -249,13 +630,76 @@ void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 	));
 }
 
+void Player::writeScore(std::string file)
+{
+	scoreManager.WriteScore(name, file);
+}
+
+void Player::AddToName(unsigned char letter)
+{
+	if (currentLetter < maxLetters) {
+		name.at(currentLetter++) = letter;
+	}
+}
+
+void Player::RemoveLetter()
+{
+	if (currentLetter > 0) {
+		name.at(--currentLetter) = '_';
+	}
+	else {
+		name.at(0) = '_';
+	}
+}
+
+std::string Player::GetName() const
+{
+	return name;
+}
+
+int Player::GetMaxLetters()
+{
+	return maxLetters;
+}
+
+int Player::GetCurrentLetter()
+{
+	return currentLetter;
+}
+
+void Player::ResetName()
+{
+	for (int i = 0; i < maxLetters; i++) {
+		this->name.at(i) = '_';
+	}
+}
+
+bool Player::GetSubmitName()
+{
+	return submitName;
+}
+
+void Player::SetSubmitName(bool val)
+{
+	submitName = val;
+}
+
+void Player::SetCurrentSeed(int seed)
+{
+	scoreManager.SetSeed(seed);
+}
 
 void Player::TakeDmg(int dmg)
 {
 	health-=dmg;
-	if(health <= 0) {
-		alive = false;
+	this->Reset();	
+	if(health <= 0 && !this->invincible) {
+        alive = false;
 	}
+	else {
+		scoreManager.setDamageScore();
+	}
+	this->HUD->LowerHealth();
 }
 
 void Player::AddHealth(int hlt)
@@ -263,9 +707,19 @@ void Player::AddHealth(int hlt)
 	health += hlt;
 }
 
+void Player::AddScore(float scr)
+{
+	this->scoreManager.AddScore(scr);
+}
+
 int Player::GetHealth()
 {
 	return health;
+}
+
+float Player::GetScore()
+{
+	return scoreManager.GetScore();
 }
 
 bool Player::IsAlive()

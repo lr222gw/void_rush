@@ -99,6 +99,15 @@ void MeshObj::draw2(ID3D11DeviceContext*& immediateContext)
 	immediateContext->Draw(this->nrOfVertexes, 0);
 }
 
+void MeshObj::drawRaw(ID3D11DeviceContext*& immediateContext)
+{
+	UINT offset = 0;
+	static UINT strid = sizeof(vertex);
+	immediateContext->IASetVertexBuffers(0, 1, &this->vertexBuffer, &strid, &offset);
+	immediateContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	immediateContext->DrawIndexed(nrOfIndecies, 0, 0);
+}
+
 
 
 void MeshObj::SetShaders(ID3D11VertexShader* VS)

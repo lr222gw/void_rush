@@ -319,6 +319,8 @@
     <ClCompile Include="src/3Dproj/WindowClass.cpp" />
     <ClCompile Include="src/3Dproj/WindowContainer.cpp" />
     <ClCompile Include="src/3Dproj/WindowHelper.cpp" />
+    <ClCompile Include="src\3Dproj\3DLetters.cpp" />
+    <ClCompile Include="src\3Dproj\3DLettersHandler.cpp" />
     <ClCompile Include="src\3Dproj\App.cpp" />
     <ClCompile Include="src\3Dproj\Collision3D.cpp" />
     <ClCompile Include="src\3Dproj\CollisionHandler.cpp" />
@@ -336,11 +338,13 @@
     <ClCompile Include="src\3Dproj\Player.cpp" />
     <ClCompile Include="src\common\Helper.cpp" />
     <ClCompile Include="src\common\Shape.cpp" />
+    <ClCompile Include="src\common\Shape_exporter.cpp" />
     <ClCompile Include="src\common\Vector.cpp" />
     <ClCompile Include="src\generation\Position_generator.cpp" />
     <ClCompile Include="src\generation\Generation_manager.cpp" />
     <ClCompile Include="src\generation\Platform.cpp" />
     <ClCompile Include="src\generation\playerGen.cpp" />
+    <ClCompile Include="src\hud\Hud.cpp" />
     <ClCompile Include="src\interact\interact.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\physics\jump.cpp" />
@@ -350,8 +354,10 @@
     <ClCompile Include="src\puzzle\puzzle.cpp" />
     <ClCompile Include="src\puzzle\puzzle_hidden.cpp" />
     <ClCompile Include="src\puzzle\puzzle_math.cpp" />
+    <ClCompile Include="src\score\ScoreManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\common\Shape_exporter.hpp" />
     <ClInclude Include="src/3Dproj/AnimationModel.h" />
     <ClInclude Include="src/3Dproj/BillBoard.h" />
     <ClInclude Include="src/3Dproj/BillBoardManager.h" />
@@ -406,6 +412,8 @@
     <ClInclude Include="src/3Dproj/WindowClass.h" />
     <ClInclude Include="src/3Dproj/WindowContainer.h" />
     <ClInclude Include="src/3Dproj/WindowHelper.h" />
+    <ClInclude Include="src\3Dproj\3DLetters.h" />
+    <ClInclude Include="src\3Dproj\3DLettersHandler.h" />
     <ClInclude Include="src\3Dproj\App.h" />
     <ClInclude Include="src\3Dproj\Collision3D.h" />
     <ClInclude Include="src\3Dproj\CollisionHandler.h" />
@@ -430,6 +438,8 @@
     <ClInclude Include="src\generation\Platform.hpp" />
     <ClInclude Include="src\generation\playerGen.hpp" />
     <ClInclude Include="src\generation\proto.hpp" />
+    <ClInclude Include="src\HighScoreGameState.h" />
+    <ClInclude Include="src\hud\Hud.h" />
     <ClInclude Include="src\physics\Jump.hpp" />
     <ClInclude Include="src\physics\proto.hpp" />
     <ClInclude Include="src\Platform.h" />
@@ -439,6 +449,7 @@
     <ClInclude Include="src\puzzle\puzzle.hpp" />
     <ClInclude Include="src\puzzle\puzzle_hidden.hpp" />
     <ClInclude Include="src\puzzle\puzzle_math.hpp" />
+    <ClInclude Include="src\score\ScoreManager.hpp" />
     <ClInclude Include="src\Vector.hpp" />
     <ClInclude Include="src\interact\interact.hpp" />
   </ItemGroup>
@@ -691,6 +702,14 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_skipMenu|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src\3Dproj\3DTextPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_skipMenu|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="src\3Dproj\3DTextVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_skipMenu|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="src\3Dproj\UIPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
