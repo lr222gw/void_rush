@@ -100,6 +100,13 @@ void ModelObj::draw(Graphics*& gfx, bool shadowmap)
 	}
 }
 
+void ModelObj::drawRaw(Graphics*& gfx)
+{
+	for (int i = 0; i < mMeshes.size(); i++) {
+		mMeshes[i].drawRaw(gfx->get_IMctx());
+	}
+}
+
 std::vector<MeshObj> &ModelObj::getMehses()
 {
 	return this->mMeshes;

@@ -17,7 +17,7 @@ void UISymbols::symbol_to_uv(char symbol)
 	int xSymbol, ySymbol;
 	xSymbol = intSymbol % 8;
 	ySymbol = intSymbol / 8;
-	this->setUVPosition(xSymbol, ySymbol);
+	this->setUVPosition((float)xSymbol, (float)ySymbol);
 	this->setUVSize(1.f / 8.f, 1.f / 16.f);
 }
 

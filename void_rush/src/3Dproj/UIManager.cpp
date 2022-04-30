@@ -18,6 +18,9 @@ UIManager::~UIManager()
 	for (size_t i = 0; i < buttons.size(); i++) {
 		delete buttons[i];
 	}
+	elements.clear();
+	strings.clear();
+	buttons.clear();
 	vertexBuffer->Release();
 	pShader->Release();
 	vShader->Release();
@@ -47,6 +50,18 @@ void UIManager::createUIButton(std::string rmsprite, Mouse* mouse, vec2 pos, vec
 	buttons.push_back(new UIButton(rm->getSprite(rmsprite, gfx), gfx, mouse, pos, size));
 	if (name != "") {
 		mapOfButtons.insert(std::make_pair(name, buttons[buttons.size() - 1]));
+	}
+}
+
+void UIManager::createUIButton(std::string rmsprite, std::string str, Mouse* mouse, vec2 pos, vec2 size, std::string name, vec2 pos_offset, vec2 size_offset)
+{
+	buttons.push_back(new UIButton(rm->getSprite(rmsprite, gfx), gfx, mouse, pos, size));
+	if (name != "") {
+		mapOfButtons.insert(std::make_pair(name, buttons[buttons.size() - 1]));
+	}
+	this->strings.push_back(new UIString(gfx, str, pos + pos_offset, (size / str.size()) + size_offset));
+	if (name != "") {
+		mapOfString.insert(std::make_pair(name, strings[strings.size() - 1]));
 	}
 }
 

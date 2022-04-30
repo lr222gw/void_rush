@@ -1,0 +1,403 @@
+# File produced by Open Asset Import Library (http://www.assimp.sf.net)
+# (assimp v4.1.0)
+
+newmtl $Material_0
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_1
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_2
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_3
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_4
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_5
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_6
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_7
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_8
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_9
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_10
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_11
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_12
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_13
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_14
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_15
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_16
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_17
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_18
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_19
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_20
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_21
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_22
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_23
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_24
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_25
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_26
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_27
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_28
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_29
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_30
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_31
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_32
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_33
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_34
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_35
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_36
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_37
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_38
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_39
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_40
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_41
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_42
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_43
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_44
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_45
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_46
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_47
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_48
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_49
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_50
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_51
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_52
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_53
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_54
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_55
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_56
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_57
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_58
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_59
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_60
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_61
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_62
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_63
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_64
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_65
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_66
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_67
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_68
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_69
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_70
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_71
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_72
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_73
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_74
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_75
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_76
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_77
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_78
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_79
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_80
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_81
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_82
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_83
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_84
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_85
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_86
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_87
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_88
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_89
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_90
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_91
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_92
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_93
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_94
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_95
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_96
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_97
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_98
+illum 1
+map_Kd textures/outline.png
+
+newmtl $Material_99
+illum 1
+map_Kd textures/outline.png
+

@@ -16,7 +16,6 @@ class ResourceManager {
 public:
 	ResourceManager(Graphics *& gfx);
 	~ResourceManager();
-	std::string name;
 	void loadThings(Graphics*& gfx);
 #pragma region Textures
 	ID3D11ShaderResourceView** getDef();

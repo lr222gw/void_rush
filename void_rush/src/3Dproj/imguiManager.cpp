@@ -33,6 +33,7 @@ void ImguiManager::updateRender()
 		render_generation_widgets();
 		update_lights(owner->lightNr);
 		render_physics_widgets();
+		render_ghost_widgets();
 		render_debuginfo_widgets();
 	}
 	ImGui::Render();
@@ -185,6 +186,36 @@ void ImguiManager::render_generation_widgets()
 
 }
 
+void ImguiManager::render_ghost_widgets()
+{
+	std::string name = "Ghost";
+	if (ImGui::Begin(name.c_str())) {
+		
+		ImGui::Checkbox("Activate Ghost", &owner->ghost->active);
+		static float min_speed = 0;
+		static float max_speed = 10;
+		ImGui::SliderFloat("Speed", &owner->ghost->speed, min_speed, max_speed);
+		ImGui::InputFloat("Point Limit", &owner->ghost->rangeToPointBeforeNewPoint);
+		ImGui::InputFloat("Player range Limit", &owner->ghost->rangeToPlayerBeforeNearestWay);
+		ImGui::InputFloat("Speed Increase", &owner->ghost->speed_increase);
+		ImGui::InputFloat("time_s interval", &owner->ghost->ghost_Time_interval);
+		float* init_force[3] = { &owner->ghost->force.x, &owner->ghost->force.y, &owner->ghost->force.z };
+		static float min_force = 0;
+		static float max_force = 304;
+		static float forceSlider = owner->ghost->force.x;
+		if (ImGui::SliderFloat("Force", &forceSlider, min_force, max_force)) {
+			*init_force[0] = forceSlider;
+			//*init_force[1] = forceSlider;
+			*init_force[2] = forceSlider;
+		}
+		if (ImGui::Button("Reset", ImVec2(100, 25)))
+		{
+			owner->ghost->Reset();
+		}
+	}
+	ImGui::End();
+}
+
 void ImguiManager::render_physics_widgets()
 {
 	static std::string name = "Physics";
@@ -201,11 +232,12 @@ void ImguiManager::render_physics_widgets()
 			*init_speed[1] = speedSlider;
 			*init_speed[2] = speedSlider;
 		}
-		ImGui::InputFloat("jumpSpeed", &owner->player->jumpSpeed.y);
 		ImGui::InputFloat("Gravity", &owner->player->gravity.y);
-			
-			
-
+		ImGui::InputFloat("Jumpforce", &owner->player->jumpForce);
+		static float min_MidAdj = 1;
+		static float max_MidAdj = 10;
+		ImGui::SliderFloat("Air adjustment", &owner->player->midAirAdj, min_MidAdj, max_MidAdj);
+		ImGui::InputFloat("Lives", &owner->player->health);
 	}
 	ImGui::End();
 }
@@ -238,13 +270,10 @@ void ImguiManager::render_debuginfo_widgets()
 		if(ImGui::TreeNode("settings")){
 			ImGui::SliderFloat("update_interval", &update_interval, 0.1f, 10.f);
 			ImGui::SliderFloat("allowed_diviation", &allowed_diviation_from_avg, 0.1f, 20.f);
-			if(fps + allowed_diviation_from_avg < average_fps ){
-				
-			}
 			ImGui::TreePop();
 		}
-		ImGui::End();
 	}
+	ImGui::End();
 }
 
 void ImguiManager::render_player_widgets()

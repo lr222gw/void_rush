@@ -82,6 +82,9 @@ void Generation_manager::initialize()
     );    
     gameObjManager->addGameObject(platformObjs[0], "map");
     puzzleManager->Initiate(this->getPuzzelPos());    
+    this->player->SetDifficulity(this->difficulity);
+    this->player->SetStartPlatform(this->GetStartPlatform());
+    this->player->SetCurrentSeed(this->seed);
 }
 
 
@@ -112,9 +115,19 @@ void Generation_manager::setDifficulty(Difficulity diff)
     this->difficulity = diff;
 }
 
+Difficulity Generation_manager::getDifficulty() const
+{
+    return this->difficulity;
+}
+
 vec3 Generation_manager::getPuzzelPos()
 {
     return *this->position_gen->getAnchors()->at(position_gen->getAnchors()->size()-1)->getPos();
+}
+
+Platform*& Generation_manager::GetStartPlatform()
+{
+    return position_gen->GetStartPlatform();
 }
 
 void Generation_manager::draw()
