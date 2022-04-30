@@ -9,8 +9,8 @@ enum class Difficulity {
     easy = 1, medium = 2, hard = 3
 };
 struct MM{
-    Platform* first;
-    Platform* last;
+    Platform* first = nullptr;
+    Platform* last = nullptr;
 };
 class Position_generator
 {

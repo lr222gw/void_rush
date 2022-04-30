@@ -134,6 +134,7 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
 
     Platform* newPlat = nullptr;
 
+    std::vector<Platform*> trashBin;
 
     Platform* startJumpPoint = nullptr;; //TODO: memory leak    
     Platform* endJumpPoint = nullptr; //TODO: memory leak    
@@ -158,10 +159,12 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
             prev_first_last = first_last;
         } //endJumpPoint is nullptr, first iteration...
         startJumpPoint->setPosition(*startanchorPos);
+        trashBin.push_back(startJumpPoint);
         //this->jumpPoints.push_back(startJumpPoint);        
 
         endJumpPoint = new Platform();
-        endJumpPoint->setPosition(*endanchorPos);           
+        endJumpPoint->setPosition(*endanchorPos); 
+        trashBin.push_back(endJumpPoint);
         //this->jumpPoints.push_back(endJumpPoint);
         
     /*    if (prev_last_jumppoint) {
@@ -189,7 +192,10 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
     //this->jumpPoints.push_back(endJumpPoint);
     //this->jumpPoints.push_back(newPlat);
     first_last.last->next = endJumpPoint->next;
-
+    for(Platform* plat :trashBin){
+       delete plat;
+    }
+    trashBin.clear();
 }
 
 
