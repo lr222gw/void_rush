@@ -163,6 +163,8 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
     }
 
     first_last.last->next = endJumpPoint->next;
+
+    //Trash handling
     for(Platform* plat :trashBin){
        delete plat;
     }
