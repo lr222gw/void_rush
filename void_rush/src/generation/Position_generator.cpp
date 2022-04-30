@@ -44,9 +44,9 @@ bool Position_generator::start (Difficulity selectedDiff)
 
 void Position_generator::generate_anchor_positions(int platforms_between_anchors, Difficulity selectedDiff)
 {
-    float minStepMod = 2;
+    float minStepMod = this->AP_conf.minStepMod;
     //float stepMax = pl->getJumpDistance() * platforms_between_anchors;
-    float stepMax = 50;
+    float stepMax = this->AP_conf.stepMax;
     float stepMin = stepMax / minStepMod * (int)selectedDiff;
     float distance = 0.0f;
     float stepMaxZ = pl->jumpHeight() ;// reason for platforms not generating
@@ -60,25 +60,21 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
         dVect.y = randF(-stepMaxZ, stepMaxZ);
         // dVect.y = (rand() % (2 * stepMax)) - stepMax - 1;
         dVect.y = fmin(dVect.y, stepMaxZ);
-        dVect.y = fmax(dVect.y, -100.0f);
+        dVect.y = fmax(dVect.y, this->AP_conf.lowest_Height);
         position.y += dVect.y;
-        // Using the height the new platform to determine max distance
-        //stepMax = pl->getJumpDistance(position.y) * platforms_between_anchors; //the problem is tied to this
-        //stepMin = stepMax / minStepMod * (int)selectedDiff;
         // Generating x and y pos
-        dVect.z = randF(0, 1);
+        dVect.z = randF(this->AP_conf.minZAngle, 1);
         dVect.x = randF(-1, 1);
 
         // vector3.magnitude  then  vector3.normalizeXY 
         //dVect.normalizeXY();
         float dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);        
         dVect.x = dVect.x / dvect_magnitude;
-        dVect.z = dVect.z / dvect_magnitude;
-        //dvect_magnitude = sqrtf(dVect.x * dVect.x + dVect.z * dVect.z);  //Remove?      
+        dVect.z = dVect.z / dvect_magnitude;    
         // ^^^^^^^^^^^^ vector3.magnitude  then  vector3.normalizeXY 
 
         
-        distance = randF(stepMin, stepMax - 3);
+        distance = randF(stepMin, stepMax);
         dVect.x = dVect.x * distance;
         dVect.z = dVect.z* distance;
 
@@ -163,6 +159,8 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
     }
 
     first_last.last->next = endJumpPoint->next;
+
+    //Trash handling
     for(Platform* plat :trashBin){
        delete plat;
     }

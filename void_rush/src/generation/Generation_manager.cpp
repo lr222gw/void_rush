@@ -17,7 +17,7 @@ Generation_manager::~Generation_manager()
         collisionHandler->deletePlatform(&anchor->platformShape);
         anchor = anchor->next;
     }
-    Platform* jumppoint = position_gen->getJumpPoints()->at(0);
+    Platform* jumppoint = position_gen->firstJumpPoint;
     while(jumppoint){
         collisionHandler->deletePlatform(&jumppoint->platformShape);
         jumppoint = jumppoint->next;
@@ -52,7 +52,7 @@ void Generation_manager::initialize()
             collisionHandler->deletePlatform(&anchor_rm->platformShape);
             anchor_rm = anchor_rm->next;
         }
-        Platform* jumppoint_rm = position_gen->getJumpPoints()->at(0);
+        Platform* jumppoint_rm = position_gen->firstJumpPoint;
         while(jumppoint_rm){
             collisionHandler->deletePlatform(&jumppoint_rm->platformShape);
             jumppoint_rm = jumppoint_rm->next;
