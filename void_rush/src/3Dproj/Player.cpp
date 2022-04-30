@@ -2,7 +2,7 @@
 #include <algorithm>
 
 Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, Hud* HUD, vec3 pos, vec3 rot, vec3 scale):
-	GameObject(file, gfx, pos, rot, scale), noClip(true), HUD(HUD)
+	GameObject(file, gfx, pos, rot, scale), noClip(false), HUD(HUD)
 {
 	this->mouse = mouse;
 	this->keyboard = keyboard;
@@ -65,7 +65,11 @@ void Player::update(float dt)
 		if (getPos().y < maxDepth) {
 			TakeDmg();
 		}
+	}else{
+		this->movePos(vec3(velocity.x * dt, 0.0f, velocity.z * dt));
 	}
+
+
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
 	GameObject::update(dt);
@@ -437,6 +441,7 @@ void Player::handleEvents(float dt)
 	if (!keyboard->isKeyPressed('W') && !keyboard->isKeyPressed('A') && !keyboard->isKeyPressed('S') && !keyboard->isKeyPressed('D'))
 	{
 		if (grounded)
+
 		{
 			jumpDir = vec2(0.0f, 0.0f);
 		}

@@ -284,9 +284,19 @@ void ImguiManager::render_player_widgets()
 	std::string name = "Player";
 	if (ImGui::Begin(name.c_str())) {
 		static bool player_invincible = false;
+		static vec3 prev_player_speed ;
 		ImGui::Checkbox("Alive", &owner->player->alive);
-		if (ImGui::Checkbox("noClip", &owner->player->noClip)) {
-			owner->player->grounded = true;
+		if (ImGui::Button("Toggle noClip")) {
+			owner->player->noClip = owner->player->noClip ? false : true;
+			if(!owner->player->noClip){
+				owner->player->speed = prev_player_speed;
+				owner->player->grounded = false;
+			}else{
+				prev_player_speed = owner->player->speed;
+				owner->player->grounded = true;
+				owner->player->velocity = vec3(0.f, 0.f, 0.f);
+				owner->player->speed = vec3(15.f, 15.f, 15.f);
+			}			
 		}
 		ImGui::Checkbox("Invincible", &owner->player->invincible);
 
@@ -294,9 +304,13 @@ void ImguiManager::render_player_widgets()
 			&owner->player->pos.y,
 			&owner->player->pos.z };
 		
-		ImGui::InputFloat3("PlayerPos", *pos);		
+		ImGui::InputFloat3("PlayerPos", *pos);	
 
-		std::cout << owner->player->health << "\n";
+		float* vel[3] = { &owner->player->velocity.x,
+							& owner->player->velocity.y,
+							& owner->player->velocity.z };
+
+		ImGui::InputFloat3("vel", *vel);
 	}
 	ImGui::End();
 }

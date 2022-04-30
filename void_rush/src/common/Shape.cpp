@@ -28,6 +28,19 @@ void Shape::setScale(vec3 scale)
     this->scale = scale;
 }
 
+void Shape::setShape(vec3 center)
+{
+    vec3 offset_left {      -scale.x, 0,    0       };
+    vec3 offset_right {      scale.x, 0,    0       };
+    vec3 offset_forward {    0,       0,    scale.z };
+    vec3 offset_back {       0,       0,   -scale.z };
+    
+    setShapeCube(center + offset_forward + offset_left );
+    setShapeCube(center + offset_forward + offset_right);
+    setShapeCube(center + offset_back    + offset_left );
+    setShapeCube(center + offset_back    + offset_right);
+}
+
 void Shape::setShapeCube(vec3 center)
 {    
     vec3 vert = center;

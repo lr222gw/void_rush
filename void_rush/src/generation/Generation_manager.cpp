@@ -92,7 +92,7 @@ void Generation_manager::place_anchorPoints()
 {
     Platform* anchor = position_gen->getAnchors()->at(0);
     while (anchor) {
-        anchor->platformShape.setShapeCube(*anchor->getPos());
+        anchor->platformShape.setShape(*anchor->getPos());
         shape_export.build_shape_model(&anchor->platformShape, "map");
         collisionHandler->addPlatform(&anchor->platformShape);
         anchor = anchor->next;
@@ -104,6 +104,7 @@ void Generation_manager::place_jumpPoints()
     Platform* jumppoint = position_gen->firstJumpPoint;
     while (jumppoint) {
         jumppoint->platformShape.setShapeCube(*jumppoint->getPos());
+        //jumppoint->platformShape.setShape(*jumppoint->getPos());
         shape_export.build_shape_model(&jumppoint->platformShape, "map");
         collisionHandler->addPlatform(&jumppoint->platformShape);
         jumppoint = jumppoint->next;
