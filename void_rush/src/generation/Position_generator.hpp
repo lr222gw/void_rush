@@ -23,6 +23,8 @@ private:
     Player_jump_checker* pl;
     friend class ImguiManager;
 public:
+    Platform* firstJumpPoint;
+
     Position_generator(int seed);
     Position_generator(int seed, int elements);
     ~Position_generator();
@@ -30,6 +32,7 @@ public:
     void generate_anchor_positions(int platforms_between_anchors, Difficulity selectedDiff);
     void generate_jumpPoints_positions(Difficulity selectedDiff);
     MM jumpPoint_generation_helper(Platform* start, Platform* end);
+    MM jumpPoint_generation_helper(vec3 start, vec3 end);
     vec3 jumpPoint_create_offset(Platform* plat, vec3& currentMiddle, vec3 start, vec3 end);
     void reset_generation(vec3 player_position);
     void set_seed(int _seed);

@@ -35,4 +35,5 @@ class Platform
     float distance (vec3* position) const;
     float distance (std::vector<float> &position) const;
     Platform* next;
+    Platform* prev;
 };
