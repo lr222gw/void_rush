@@ -48,8 +48,7 @@ public:
 
 	void generateGraph();
 
-	void draw();
-	void updatePlatfoms();
+	void draw();	
 private:
 	Player* player;
 	ProtoPuzzle* puzzleManager;
@@ -57,8 +56,6 @@ private:
 	Shape_exporter shape_export; //TODO; temp
 	friend class ImguiManager;
 	int seed; 
-	int nrOfAnchors;
-	int nrOfJumpPoints;
 	Player_jump_checker* player_jump_checker;
 	Difficulity difficulity;
 	Position_generator* position_gen;

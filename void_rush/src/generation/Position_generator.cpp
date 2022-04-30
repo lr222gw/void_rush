@@ -109,35 +109,21 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
 
 void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
 {
-    float minStepMod = 2;
-    float stepMax = pl->getJumpDistance();
-    float stepMin = stepMax / minStepMod * (int)selectedDiff;
-    float distance = 0.0f;
-    float stepMaxZ = pl->jumpHeight();// reason for platforms not generating
-    vec3 dVect = vec3();
     pl->reset();
     vec3 position = *this->startPlat->getPos();
     pl->moveto(position);
-
-#pragma region
-    Platform* currentJumpPoint = nullptr;
+    
     Platform* current = startPlat;
-
     vec3* startanchorPos = current->getPos();
     vec3* endanchorPos = current->next->getPos();
-
     vec3 dir_between_anchor = *endanchorPos - *startanchorPos;
-
-    //this->jumpPoints.push_back(currentJumpPoint);
-
-#pragma endregion    
 
     Platform* newPlat = nullptr;
 
     std::vector<Platform*> trashBin;
 
-    Platform* startJumpPoint = nullptr;; //TODO: memory leak    
-    Platform* endJumpPoint = nullptr; //TODO: memory leak    
+    Platform* startJumpPoint = nullptr;
+    Platform* endJumpPoint = nullptr; 
     MM prev_first_last;
     MM first_last;
     firstJumpPoint = nullptr;
@@ -146,30 +132,21 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
         endanchorPos   = current->next->getPos();
 
         pl->moveto(*startanchorPos);
-        position = *startanchorPos;
-
-        dir_between_anchor = *endanchorPos - *startanchorPos;
-        vec3 normalized_dir = dir_between_anchor.Normalize();
-
 
         startJumpPoint = new Platform();        
-        if (endJumpPoint) { 
+        startJumpPoint->setPosition(*startanchorPos);
+        trashBin.push_back(startJumpPoint);
+
+        if (endJumpPoint) //endJumpPoint is nullptr, first iteration...
+        { 
             endJumpPoint->next = startJumpPoint;
             startJumpPoint->prev = endJumpPoint;
             prev_first_last = first_last;
-        } //endJumpPoint is nullptr, first iteration...
-        startJumpPoint->setPosition(*startanchorPos);
-        trashBin.push_back(startJumpPoint);
-        //this->jumpPoints.push_back(startJumpPoint);        
+        }         
 
         endJumpPoint = new Platform();
         endJumpPoint->setPosition(*endanchorPos); 
         trashBin.push_back(endJumpPoint);
-        //this->jumpPoints.push_back(endJumpPoint);
-        
-    /*    if (prev_last_jumppoint) {
-            prev_last_jumppoint->next = first_jumppoint;
-        }*/
 
         first_last = jumpPoint_generation_helper(startJumpPoint, endJumpPoint);
         
@@ -182,15 +159,9 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
             first_last.first->prev = prev_first_last.last;
         }
 
-        int BREAKPOINT = 3;
-
-
-
         current = current->next;
     }
-    endJumpPoint->next = nullptr; //TODO: should not be needed...
-    //this->jumpPoints.push_back(endJumpPoint);
-    //this->jumpPoints.push_back(newPlat);
+
     first_last.last->next = endJumpPoint->next;
     for(Platform* plat :trashBin){
        delete plat;
