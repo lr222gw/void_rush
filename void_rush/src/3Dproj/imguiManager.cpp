@@ -105,12 +105,23 @@ void ImguiManager::render_generation_widgets()
 		}
 		if (ImGui::TreeNode("Position_generator")) {
 
-			ImGui::InputInt("Number of platforms", &owner->generationManager->position_gen->elements);						
-			ImGui::InputFloat("random_dist_dividier", &owner->generationManager->position_gen->JP_conf.random_dist_dividier);
-			ImGui::InputFloat("y_min_clamp", &owner->generationManager->position_gen->JP_conf.y_min_clamp);
-			ImGui::InputFloat("y_max_clamp", &owner->generationManager->position_gen->JP_conf.y_max_clamp);
-			ImGui::InputFloat("rand_dir_min_angle_percent", &owner->generationManager->position_gen->JP_conf.rand_dir_min_angle_percent);
-			ImGui::InputFloat("rand_dir_max_angle_percent", &owner->generationManager->position_gen->JP_conf.rand_dir_max_angle_percent);
+			if (ImGui::TreeNode("Jumppoints")) {
+				
+				ImGui::InputFloat("random_dist_dividier", &owner->generationManager->position_gen->JP_conf.random_dist_dividier);
+				ImGui::InputFloat("y_min_clamp", &owner->generationManager->position_gen->JP_conf.y_min_clamp);
+				ImGui::InputFloat("y_max_clamp", &owner->generationManager->position_gen->JP_conf.y_max_clamp);
+				ImGui::InputFloat("rand_dir_min_angle_percent", &owner->generationManager->position_gen->JP_conf.rand_dir_min_angle_percent);
+				ImGui::InputFloat("rand_dir_max_angle_percent", &owner->generationManager->position_gen->JP_conf.rand_dir_max_angle_percent);
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Anchors")) {
+				ImGui::InputInt("Number of Anchors", &owner->generationManager->position_gen->elements);
+				ImGui::InputFloat("minStepMod", &owner->generationManager->position_gen->AP_conf.minStepMod);
+				ImGui::InputFloat("stepMax", &owner->generationManager->position_gen->AP_conf.stepMax);
+				ImGui::InputFloat("lowest_Height", &owner->generationManager->position_gen->AP_conf.lowest_Height);
+				ImGui::InputFloat("minZAngle", &owner->generationManager->position_gen->AP_conf.minZAngle);				
+				ImGui::TreePop();
+			}
 			
 			ImGui::TreePop();
 		}		
