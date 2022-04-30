@@ -14,6 +14,7 @@ public:
 	void createUIString(std::string str, vec2 pos, vec2 size, std::string name = "");
 	void createUISprite(std::string rmsprite, vec2 pos, vec2 size, std::string name = "");
 	void createUIButton(std::string rmsprite, Mouse* mouse, vec2 pos = vec2(0, 0), vec2 size = vec2(0, 0), std::string name = "");
+	void createUIButton(std::string rmsprite, std::string str, Mouse* mouse, vec2 pos = vec2(0, 0), vec2 size = vec2(0, 0), std::string name = "", vec2 pos_offset = vec2(0,0), vec2 size_offset = vec2(0,0));
 	UIElements* getElements(int index);
 	UIString* getStringElement(int index);
 	UIElements* getElements(std::string key);

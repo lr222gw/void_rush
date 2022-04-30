@@ -108,6 +108,19 @@ vec3 vec3::operator-(vec3 other)
 	return vec3(this->x - other.x, this->y - other.y, this->z - other.z);
 }
 
+float vec3::angle(vec3 other)
+{
+	vec3 a = Normalize(*this);
+	vec3 b = Normalize(other);
+	vec3 Vmin = a.X(b);
+	float min = Vmin.x < Vmin.y ? Vmin.x : Vmin.y;
+	min = min < Vmin.z ? min : Vmin.z;
+	if (min < 0.0) {
+		return -acos(a * b);
+	}
+	return acos(a * b);
+}
+
 float vec3::getWithNumber(int i)
 {
 	switch (i)
@@ -230,6 +243,11 @@ vec2 vec2::operator-(vec2 other)
 vec2 vec2::operator/(vec2 other)
 {
 	return vec2(this->x / other.x, this->y / other.y);
+}
+
+vec2 vec2::operator/(float other)
+{
+	return vec2(this->x / other, this->y / other);
 }
 
 float vec2::dot(vec2 a)

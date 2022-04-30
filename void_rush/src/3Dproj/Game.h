@@ -6,6 +6,8 @@
 #include "generation/Generation_manager.hpp"
 #include "interact/interact.hpp"
 #include "BillBoardManager.h"
+#include "hud/Hud.h"
+#include "3DLettersHandler.h"
 
 class Game : public GameState {
 public:
@@ -17,6 +19,8 @@ public:
 	virtual GameStatesEnum update(float dt);//then this
 	virtual void render();		//then this 
 private:
+	Letters3D* text;
+
 	void updateShaders(bool vs = true, bool ps = true);
 	float testTime = 0.0f;
 	ProtoPuzzle* testPuzzle;
@@ -29,6 +33,8 @@ private:
 	GameObjectManager* GameObjManager;
 	Generation_manager* generationManager;
 	CollisionHandler collisionHandler;
+	Hud* HUD;
+	Letters3DHandler* letter3DHandler;
 
 	/*draw to buffer*/
 	void ForwardDraw();
@@ -41,7 +47,10 @@ private:
 	void setUpUI();
 	void setUpSound();
 	void Interact(std::vector<GameObject*>& interactables);
-	void HandlePlayer();
+	void SetName();
+	void Pause();
+	void UnPause();
+	//void HandlePlayer();
 
 	//game objects
 	Light** light;
@@ -51,6 +60,7 @@ private:
 
 	//var
 	int nrOfLight;//must still exist
+	bool paused;
 
 	//debug var
 	int lightNr;

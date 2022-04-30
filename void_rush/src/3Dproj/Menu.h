@@ -13,9 +13,14 @@ public:
 private:
 	void setUpUI();
 	void setUpObject();
+	void checkHover();
 
 	GameObjectManager* GameObjManager;
 	UIManager* UI;
 	SkyBox* skybox;
 	SoundManager soundManager;
+
+	vec2 buttonSize;
+	std::vector<std::string>buttonNames;
+	std::vector<vec2>buttonPos;
 };

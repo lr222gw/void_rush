@@ -10,9 +10,11 @@ public:
 	void setActive(bool activate = true);
 	void Reset();
 private:
+	friend class ImguiManager;
 	void followPlayer(float dt);
 	bool checkIfInRangeOfPoint();
 	bool checkIfRangeOfPlayer();
+	void GainSpeed(float dt);
 
 	std::queue<vec3> PlayerPositions;
 	float attackCD;
@@ -20,8 +22,14 @@ private:
 	float rangeToPointBeforeNewPoint;
 	float speed;
 	float getPlayerPosCD;
+	float Ghosts_Time;
+	float ghost_Time_interval; 
+	float speed_increase;
 	bool readyToAttack;
 	bool fastestWayToPlayer;
+
+	//Variables for shoving player
+	vec3 force;
 
 	bool active;
 	Player* player;

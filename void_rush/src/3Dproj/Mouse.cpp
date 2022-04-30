@@ -73,7 +73,6 @@ float Mouse::getSense()
 
 bool Mouse::getMouseActive()
 {
-	activateMouse();
 	return mouse_active;
 }
 
@@ -139,19 +138,14 @@ void Mouse::onMouseMove(int x, int y)
 	mouseBuffer.push(m);
 }
 
+void Mouse::activateMouse(bool activate)
+{
+	mouse_active = activate;
+}
+
 void Mouse::onMouseMoveRaw(int x, int y)
 {
 	this->mouseBuffer.push(mouseEvent(mouseEvent::EventType::RAW_MOVE, x, y));
-}
-
-void Mouse::activateMouse()
-{
-	if (GetKeyState(VK_TAB) & 0x8000) {
-		mouse_active = true;
-	}
-	if (GetKeyState(VK_ESCAPE) & 0x8000) {
-		mouse_active = false;
-	}
 }
 
 /*Mouse event*/
