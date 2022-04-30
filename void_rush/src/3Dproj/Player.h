@@ -49,6 +49,7 @@ public:
 private:
 	friend class ImguiManager;
 	bool noClip;
+	bool invincible;
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
 	vec3 speed;
 	float jumpForce;

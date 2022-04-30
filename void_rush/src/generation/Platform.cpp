@@ -2,57 +2,52 @@
 
 Platform::Platform()
     : pos ({ 0.0f, 0.0f, 0.0f }), obstacles (0), difficluty (0),
-      rotation (0.0), next (nullptr)
+      rotation (0.0), next (nullptr), prev(nullptr)
 {
-    platformShape.setShapeCube (this->pos);
+    //platformShape.setShapeCube (this->pos);
     rotMat.rotateAroundZ (this->rotation);
     rotMat.rotateAroundZ (this->rotation);
-    for (int i = 0; i < this->platformShape.Vertexes.size (); i++)
-    {
-        rotMat.MultiplyVector (platformShape.Vertexes.at (i));
-    }
 }
 
 Platform::Platform(std::vector<float> pos, int obstacles, int difficluty,
                     float rotation)
     : obstacles (obstacles), difficluty (difficluty), rotation (rotation),
-      next (nullptr)
+      next (nullptr), prev(nullptr)
 {
     this->pos.x = pos[0];
     this->pos.y = pos[1];
     this->pos.z = pos[2];
-    platformShape.setShapeCube (this->pos);
+    //platformShape.setShapeCube (this->pos);
     rotMat.rotateAroundZ (this->rotation);
     rotMat.rotateAroundZ (this->rotation);
-    for (int i = 0; i < this->platformShape.Vertexes.size (); i++)
-    {
-        rotMat.MultiplyVector (platformShape.Vertexes.at (i));
-    }
 }
 
 Platform::Platform(vec3 pos, int obstacles, int difficluty,
                     float rotation)
     : pos (pos), obstacles (obstacles), difficluty (difficluty),
-      rotation (rotation), next (nullptr)
+      rotation (rotation), next (nullptr), prev(nullptr)
 {
-    this->platformShape.setShapeCube (this->pos);
+    //this->platformShape.setShapeCube (this->pos);
     rotMat.rotateAroundZ (this->rotation);
-    for (int i = 0; i < this->platformShape.Vertexes.size (); i++)
-    {
-        rotMat.MultiplyVector (platformShape.Vertexes.at (i));
-    }
 }
 
-Platform::~Platform () {}
+Platform::~Platform () {
+
+}
 
 void Platform::setPosition (float xPos, float yPos, float zPos)
 {
     this->pos.x = xPos;
     this->pos.y = yPos;
     this->pos.z = zPos;
+
+    platformShape.setPosition(vec3(xPos, yPos, zPos));
 }
 
-void Platform::setPosition (vec3 position) { this->pos = position; }
+void Platform::setPosition (vec3 position) { 
+    this->pos = position; 
+    platformShape.setPosition(position);
+}
 
 void Platform::move (float xOfset, float yOfset, float zOfset)
 {

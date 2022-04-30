@@ -41,9 +41,12 @@ bool RectRect(GameObject*& objectA, ColCube& in, ColCube& target, vec3& cp, vec3
 
 //only moves object A!!!
 void moveObject(GameObject*& objectA, GameObject*& objectB, ColCube colCubeA, ColCube colCubeB);
+void moveObject(GameObject*& player, ColCube colCubeA, ColCube colCubeB);
 //void collisionWithBlocking(GameObject*& objectA, GameObject*& objectB);
 //void collisionWithBlocking(GameObject*& objectA, GameObject*& objectB);
 void collisionWithBlocking(GameObject* objectA, GameObject* objectB);
+//void collisionWithBlocking(GameObject* player, DirectX::XMFLOAT4 platform_min_max_bounds[]);
+void collisionWithBlocking(DirectX::XMFLOAT4 platform_min_max_bounds[], GameObject* player);
 
 
 //two spheres

@@ -10,6 +10,11 @@
 #include "3Dproj/CollisionHandler.h"
 #include "puzzle/protoPuzzle.hpp"
 #include "3Dproj/GameObjectManager.h"
+
+#include "common/Helper.hpp"
+
+#include "common/Shape_exporter.hpp"
+
 //struct Platform{
 //	GameObject obj;
 //	Platform info;	
@@ -45,16 +50,14 @@ public:
 
 	void generateGraph();
 
-	void draw();
-	void updatePlatfoms();
+	void draw();	
 private:
 	Player* player;
 	ProtoPuzzle* puzzleManager;
 	GameObjectManager* gameObjManager;
+	Shape_exporter shape_export; //TODO; temp
 	friend class ImguiManager;
 	int seed; 
-	int nrOfAnchors;
-	int nrOfJumpPoints;
 	Player_jump_checker* player_jump_checker;
 	Difficulity difficulity;
 	Position_generator* position_gen;
