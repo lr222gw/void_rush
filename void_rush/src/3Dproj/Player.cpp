@@ -598,7 +598,7 @@ void Player::shovePlayer(vec2 shove, float forceY)
 	ResetGhost();
 }
 
-void Player::SetPuzzlePos(vec3 puzzlePosition)
+//void Player::SetPuzzlePos(vec3 puzzlePosition)
 void Player::SetDifficulity(Difficulity diff)
 {
 	scoreManager.SetDifficulty(diff);
