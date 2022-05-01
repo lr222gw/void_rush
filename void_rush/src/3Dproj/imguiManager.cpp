@@ -290,7 +290,7 @@ void ImguiManager::render_player_widgets()
 			owner->player->noClip = owner->player->noClip ? false : true;
 			if(!owner->player->noClip){
 				owner->player->speed = prev_player_speed;
-				owner->player->grounded = false;
+				//owner->player->grounded = false;
 			}else{
 				prev_player_speed = owner->player->speed;
 				owner->player->grounded = true;
