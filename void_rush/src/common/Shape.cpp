@@ -30,15 +30,181 @@ void Shape::setScale(vec3 scale)
 
 void Shape::setShape(vec3 center)
 {
-    vec3 offset_left {      -scale.x, 0,    0       };
-    vec3 offset_right {      scale.x, 0,    0       };
-    vec3 offset_forward {    0,       0,    scale.z };
-    vec3 offset_back {       0,       0,   -scale.z };
+    setScale(vec3(.5f, .2f, .5f)); // Todo remove!
+    vec3 offset_left {      -scale.x, 0,         0       };
+    vec3 offset_right {      scale.x, 0,         0       };
+    vec3 offset_forward {    0,       0,         scale.z };
+    vec3 offset_back {       0,       0,        -scale.z };
+    vec3 offset_down {       0,      -scale.y,   0       };
+    vec3 offset_up   {       0,      scale.y,    0       };
     
-    setShapeCube(center + offset_forward + offset_left );
-    setShapeCube(center + offset_forward + offset_right);
-    setShapeCube(center + offset_back    + offset_left );
-    setShapeCube(center + offset_back    + offset_right);
+    
+    const int matrixSize = 11; //Should to be Odd...
+    bool busyMatrix[matrixSize][matrixSize] = { false };
+
+    int first_index = (matrixSize * matrixSize / 2);
+    //int first_index = (matrixSize * matrixSize - matrixSize);
+
+    //Sets middle (first ) to true
+    busyMatrix[first_index / matrixSize][first_index % matrixSize] = true;
+    setShapeCube(center);
+
+    int max = 25;
+    int min = 10;
+    int nrOfVoxels = rand() % (max - min) + min; // random Number Of Voxels
+    struct Voxel{
+        Voxel* leftOf  = nullptr;
+        Voxel* rightOf = nullptr;
+        Voxel* behind  = nullptr;
+        Voxel* infront = nullptr;
+    };
+
+    //Voxel* root = new Voxel;
+    //Voxel* current = root;
+    int current_index = first_index;    
+    int prev_index = first_index;
+    vec3 current_center = center;
+    vec3 prev_center = center;
+
+    struct Center_Index_Pair {
+        vec3 current_center;
+        int current_index;
+    };
+    std::vector<Center_Index_Pair> previousVoxels;
+    previousVoxels.push_back({ current_center, current_index });
+    int extra_iterations_counter = 0;
+    for (int i = 0; i < nrOfVoxels; i++) {
+        int random_prev_index = rand() % (int)previousVoxels.size();
+        //Voxel* next = new Voxel;
+        int dir = rand() % 4;
+        switch (dir) {
+        case 0:
+            //current->leftOf = next;
+            current_index -= 1;
+            current_center = current_center + offset_left * 2;
+            break;
+        case 1:
+            //current->rightOf = next;
+            current_index += 1;
+            current_center = current_center + offset_right * 2;
+            break;
+        case 2:
+            //current->behind = next;
+            current_index += matrixSize;
+            current_center = current_center + offset_back * 2;
+            break;
+        case 3:
+            //current->infront = next;
+            current_index -= matrixSize;
+            current_center = current_center + offset_forward*2;
+            break;
+        }
+
+        //std::cout << "prev_index % matrixSize " << prev_index % matrixSize << "\n";
+        //std::cout << "current_index % matrixSize " << current_index % matrixSize << "\n";
+
+        if (!busyMatrix[current_index / matrixSize][current_index % matrixSize] &&
+            current_index < matrixSize * matrixSize) 
+        {
+
+            busyMatrix[current_index / matrixSize][current_index % matrixSize] = true;
+            prev_index = current_index;
+            prev_center = current_center;
+            previousVoxels.push_back({current_center, current_index});
+            setShapeCube(current_center);
+            
+        }
+        else 
+        {
+            i--;
+            current_center = previousVoxels[random_prev_index].current_center;
+            current_index  = previousVoxels[random_prev_index].current_index;
+        }
+
+        //current = next;
+        if(extra_iterations_counter > nrOfVoxels){
+            std::cout << "Not Done! " << " \n";
+        }
+        
+        extra_iterations_counter++;
+
+    }
+
+    if (extra_iterations_counter > nrOfVoxels) {
+        std::cout << "Extra Iterations: " << extra_iterations_counter - nrOfVoxels << " \n";
+    }
+    std::cout << "nrOfVoxels: " << nrOfVoxels << " \n";
+    for (int i = 0; i < matrixSize; i++) {
+
+        for (int j = 0; j < matrixSize; j++) {
+            std::cout << busyMatrix[i][j] << " ";
+        }
+        std::cout << " \n";
+
+    }
+
+    //Find longest distance
+    struct LongestDist{
+        vec3 startPos;
+        vec3 endPos;
+        float distance;    
+    };
+
+    LongestDist current;
+    LongestDist previous;
+    current.distance = 0;
+    int actualNrOfVoxels = nrOfVoxels + 1;
+    for (int i = 0; i < actualNrOfVoxels -1 ;  i++) {
+        
+
+        for (int j = i+1; j < actualNrOfVoxels;  j++) {
+
+            int temp = (previousVoxels[i].current_center - previousVoxels[j].current_center).length();
+
+            if(temp > current.distance){
+                current.distance = temp;
+                current.startPos = previousVoxels[j].current_center;
+                current.endPos   = previousVoxels[i].current_center;
+            }            
+        }
+    }
+
+    this->inCorner.pos = current.startPos;
+    this->outCorner.pos = current.endPos;
+
+    int breakHere = 0;
+
+    //SILLY TEST! 
+    /*for (int Y = 0; Y < nrOfVoxels_vert; Y++) {
+        for (int X = 0; X < nrOfVoxels_Horz; X++) {            
+            for (int Z = 0; Z < nrOfVoxels_Horz; Z++) {
+                
+                setShapeCube(center
+                    + offset_down * (Y * 2)
+                    + offset_right * (X * 2)
+                    + offset_forward * (Z * 2)
+                );
+                               
+            }
+        }
+    }*/
+    
+    //setShapeCube(center + offset_forward  + offset_left );
+   /*
+    setShapeCube(center + offset_forward  + offset_right);
+    setShapeCube(center + offset_forward *3 + offset_left);
+    setShapeCube(center + offset_forward *3 + offset_right);
+    setShapeCube(center + offset_forward *5 + offset_left);
+    setShapeCube(center + offset_forward *5 + offset_right);
+    setShapeCube(center + offset_back     + offset_left );
+    setShapeCube(center + offset_back     + offset_right);
+    setShapeCube(center + offset_back * 3 + offset_left);
+    setShapeCube(center + offset_back * 3 + offset_right);
+    setShapeCube(center + offset_back * 5 + offset_left);
+    setShapeCube(center + offset_back * 5 + offset_right);
+   
+   
+   */
 }
 
 void Shape::setShapeCube(vec3 center)

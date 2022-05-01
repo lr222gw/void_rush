@@ -41,6 +41,10 @@ protected:
     void update_normal();;
 };
 
+struct Voxel_matrix {
+    vec3*** voxels;
+};
+
 
 struct XZ_plane : public Plane
 {
