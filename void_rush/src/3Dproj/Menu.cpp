@@ -65,9 +65,7 @@ void Menu::render()
 	skybox->draw(gfx);
 
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
-	gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), nullptr);
 	UI->draw();
-	gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), gfx->getDepthStencil());
 
 	gfx->present(0);
 }
