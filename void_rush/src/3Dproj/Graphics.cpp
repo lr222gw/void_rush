@@ -41,7 +41,14 @@ void Graphics::setProjection(int flag, float fov)
 		vcbd.projection.element = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(fov), ratio, nearPlane, farPlane);
 		break;
 	}
-} 
+}
+
+void Graphics::setFov(float fov)
+{
+	this->fov = fov;
+	setProjection(0, fov);
+}
+
 
 void Graphics::CreateBlendState(int wBlend, bool transparance) {
 	D3D11_BLEND_DESC bd = {};

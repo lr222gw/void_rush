@@ -148,6 +148,7 @@ private:
 public:
 	/*0 = perspective, 1 = orthographic*/
 	void setProjection(int flag = 0, float fov = 45);
+	void setFov(float fov);
 	//get const Buffer
 	Vcb *getVertexconstbuffer();
 	Pcb *getPixelconstbuffer();
