@@ -21,6 +21,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	generationManager->set_GameObjManager(GameObjManager);
 	
 	camera->setRotation(vec3(0, 0, 0));
+	pauseMenu = false;
 	
 	letter3DHandler = new Letters3DHandler(rm, gfx);
 
@@ -58,6 +59,7 @@ Game::~Game()
 	delete generationManager;
 	delete HUD;
 	delete UI;
+	delete pauseUI;
 	delete GameObjManager;
 	delete letter3DHandler;
 }
@@ -67,10 +69,9 @@ void Game::handleEvents()
 	/*Read Mouse*/
 	while (!mouse->EventBufferEmpty() && mouse->getMouseActive()) {
 		mouseEvent e = mouse->ReadEvent();
-		if (e.getType() == mouseEvent::EventType::RAW_MOVE) {
+		if (e.getType() == mouseEvent::EventType::RAW_MOVE && !pauseMenu) {
 			player->rotateWithMouse(e.getPosX(), e.getPosY());
 		}
-		static int os = 0;
 		if (e.getType() == mouseEvent::EventType::LPress) {
 
 			soundManager.playSound("ah1", player->getPos());
@@ -79,6 +80,19 @@ void Game::handleEvents()
 
 			soundManager.playSound("Goat", player->getPos());
 		}
+	}
+	if (keyboard->onceisKeyReleased('F')) {
+		//set pause
+		pauseMenu = !pauseMenu;
+
+		if (pauseMenu) {
+			gfx->getWindosClass().ShowCoursor();
+		}
+		else {
+			gfx->getWindosClass().HideCoursor();
+		}
+
+
 	}
 }
 
@@ -102,8 +116,25 @@ void Game::renderShadow()
 GameStatesEnum Game::update(float dt)
 {
 	GameStatesEnum theReturn = GameStatesEnum::NO_CHANGE;
-	if (player->IsAlive() && !paused) {
+	if (pauseMenu) {
+		//dt = 0
+		camera->updateCamera(dt);
+		skybox->update(camera->getPos());
+		updateShaders();
+		pauseUI->update();
+		gfx->Update(dt, camera->getPos());
 
+		if (pauseUI->getButton("continue")->clicked()) {
+			pauseMenu = false;
+			//disepear mouse
+			mouse->activateMouse(true);
+			gfx->getWindosClass().HideCoursor();
+		}
+		if (pauseUI->getButton("menu")->clicked()) {
+			theReturn = GameStatesEnum::TO_MENU;
+		}
+	}
+	else if (player->IsAlive()) {
 
 		/*DEBUG*/
 		if (keyboard->isKeyPressed(VK_RETURN)) {
@@ -180,7 +211,7 @@ GameStatesEnum Game::update(float dt)
 			Pause();
 		}
 	}
-	else if(!player->IsAlive() && !paused) {
+	else {//player !alive
 		soundManager.update(camera->getPos(), camera->getForwardVec());
 		if (!player->GetSubmitName()) {
 			UI->getStringElement("NameDesc")->setPosition(vec2(-0.9f, 0.3f));
@@ -229,7 +260,6 @@ void Game::render()
 	//	defRend->BindSecondPass(shadowMap->GetshadowResV());
 	//}
 	if (!def_rend) {
-		//if deferred rendfering 
 		gfx->get_IMctx()->PSSetShaderResources(1, 1, &shadowMap->GetshadowResV());//add ShadowMapping
 		this->DrawToBuffer();
 
@@ -301,6 +331,10 @@ void Game::DrawToBuffer()
 	}
 	letter3DHandler->draw();
 
+	letter3DHandler->draw();
+	if (pauseMenu && player->IsAlive()) {
+		pauseUI->draw();
+	}
 	if (player->IsAlive())
 	{
 		HUD->Update();
@@ -387,12 +421,11 @@ void Game::setUpUI()
 	UI->createUIString("press Enter to submit!", vec2(-10.0f, 0.15f), vec2(0.08f, 0.08f), "NameDesc2");
 	UI->createUIString(player->GetName(), vec2(-10.0f, -0.2f), vec2(0.1f, 0.1f), "Name");
 
-
-	//Pause Menu
-	UI->createUIString("Paused", vec2(-0.3f, 0.6f), vec2(0.08f, 0.08f), "PauseText");
-	UI->createUIButton("assets/textures/buttonBack.png", "Resume", mouse, vec2(-0.3, 0.2), vec2(0.5, 0.15), "Resume", vec2(0.0, 0.0), vec2(0, 0.1));
-	UI->createUIButton("assets/textures/buttonBack.png", "Menu", mouse, vec2(-0.3, -0.1), vec2(0.5, 0.15), "Menu", vec2(0.0, 0.0), vec2(0, 0.1));
-	UnPause();
+	//pause UI
+	pauseUI = new UIManager(rm, gfx);
+	pauseUI->createUIButton("assets/textures/outline.png", "continue", mouse, vec2(-0.75, -0.2), vec2(0.5, 0.5), "continue",vec2(0.3,0));
+	pauseUI->createUIButton("assets/textures/outline.png", "menu", mouse, vec2(0.25, -0.2), vec2(0.5, 0.5), "menu");
+	pauseUI->createUIString("pause", vec2(-0.5,0.5), vec2(1/5.f,0.5), "pause");
 }
 
 void Game::setUpSound()

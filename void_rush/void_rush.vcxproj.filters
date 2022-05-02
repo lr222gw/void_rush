@@ -84,9 +84,6 @@
     <Filter Include="Engine\Resource Files\Shaders\Billboarding">
       <UniqueIdentifier>{0573c576-229e-4216-905f-892d3790cd15}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Resource Files\Shaders\CubeMap">
-      <UniqueIdentifier>{45a2d36b-60a3-4518-a4aa-eef17a05710c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
