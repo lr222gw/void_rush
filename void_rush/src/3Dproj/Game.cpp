@@ -81,7 +81,7 @@ void Game::handleEvents()
 			soundManager.playSound("Goat", player->getPos());
 		}
 	}
-	if (keyboard->onceisKeyReleased('F')) {
+	if (keyboard->onceisKeyReleased('F') && player->IsAlive()) {
 		//set pause
 		pauseMenu = !pauseMenu;
 
@@ -91,8 +91,6 @@ void Game::handleEvents()
 		else {
 			gfx->getWindosClass().HideCoursor();
 		}
-
-
 	}
 }
 
@@ -134,7 +132,7 @@ GameStatesEnum Game::update(float dt)
 			theReturn = GameStatesEnum::TO_MENU;
 		}
 	}
-	else if (player->IsAlive()) {
+	if (player->IsAlive()) {
 
 		/*DEBUG*/
 		if (keyboard->isKeyPressed(VK_RETURN)) {
@@ -423,9 +421,9 @@ void Game::setUpUI()
 
 	//pause UI
 	pauseUI = new UIManager(rm, gfx);
-	pauseUI->createUIButton("assets/textures/outline.png", "continue", mouse, vec2(-0.75, -0.2), vec2(0.5, 0.3), "continue", vec2(0,0.05), vec2(0,0.1));
-	pauseUI->createUIButton("assets/textures/outline.png", "  menu  ", mouse, vec2(0.25, -0.2), vec2(0.5, 0.3), "menu", vec2(0, 0.05), vec2(0,0.1));
-	pauseUI->createUIString("pause", vec2(-0.5,0.3), vec2(1/5.f,0.5), "pause");
+	pauseUI->createUIButton("assets/textures/outline.png", " continue ", mouse, vec2(-0.75, -0.2), vec2(0.5, 0.3), "continue", vec2(0,0.05), vec2(0,0.1));
+	pauseUI->createUIButton("assets/textures/outline.png", " main menu ", mouse, vec2(0.25, -0.2), vec2(0.5, 0.3), "menu", vec2(0, 0.05), vec2(0,0.1));
+	pauseUI->createUIString("Game Menu", vec2(-0.5,0.3), vec2(1/9.f,0.5), "Game Menu");
 }
 
 void Game::setUpSound()
