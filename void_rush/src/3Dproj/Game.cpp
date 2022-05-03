@@ -34,7 +34,6 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	this->setUpUI();
 	this->IMGUI->set_owner(this);
 
-	this->paused = false;
 }
 
 Game::~Game()
@@ -242,11 +241,6 @@ GameStatesEnum Game::update(float dt)
 
 		Interact(this->GameObjManager->getAllInteractGameObjects());
 
-		if (keyboard->isKeyPressed(VK_DELETE)) {
-			paused = true;
-			keyboard->onKeyReleased(VK_DELETE);
-			Pause();
-		}
 	}
 	else {//player !alive
 		soundManager.update(camera->getPos(), camera->getForwardVec());
@@ -267,21 +261,6 @@ GameStatesEnum Game::update(float dt)
 			SetName();
 		}
 	}
-	//else if(paused) {
-	//	if (keyboard->isKeyPressed(VK_DELETE)) {
-	//		paused = false;
-	//		keyboard->onKeyReleased(VK_DELETE);
-	//		UnPause();
-	//	}
-	//	UI->update();
-	//	if (UI->getButton("Resume")->clicked()) {
-	//		paused = false;
-	//		UnPause();
-	//	}
-	//	else if (UI->getButton("Menu")->clicked()) {
-	//		theReturn = GameStatesEnum::TO_MENU;
-	//	}
-	//}
 
 	return theReturn;
 }
@@ -567,30 +546,5 @@ void Game::SetName()
 		keyboard->onKeyReleased(VK_SPACE);
 	}
 	UI->getStringElement("Name")->setText(player->GetName());
-}
-
-void Game::Pause()
-{
-	UI->getStringElement("PauseText")->setPosition(vec2(-0.3f, 0.6f));
-	UI->getButton("Resume")->setPosition(-0.3, 0.1);
-	UI->getButton("Menu")->setPosition(-0.3, -0.2);
-	UI->getStringElement("Resume")->setPosition(vec2( - 0.3, 0.25));
-	UI->getStringElement("Menu")->setPosition(vec2( - 0.3, -0.05));
-
-
-	mouse->activateMouse(false);
-	gfx->getWindosClass().ShowCoursor();
-}
-
-void Game::UnPause()
-{
-	UI->getStringElement("PauseText")->setPosition(vec2(-10.0f, 10.0f));
-	UI->getButton("Resume")->setPosition(-10.0, -10.0);
-	UI->getStringElement("Resume")->setPosition(vec2( - 10.0, -10.0));
-	UI->getButton("Menu")->setPosition(-10.0, -10.0);
-	UI->getStringElement("Menu")->setPosition(vec2( - 10.0, -10.0));
-
-	mouse->activateMouse(true);
-	gfx->getWindosClass().HideCoursor();
 }
 
