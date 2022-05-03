@@ -93,7 +93,7 @@ void Generation_manager::place_anchorPoints()
 {
     Platform* anchor = position_gen->getAnchors()->at(0);
     while (anchor) {
-        anchor->platformShape.setShape(*anchor->getPos()); //TODO: this was how we used to do it.
+        //anchor->platformShape.setShape(*anchor->getPos()); //TODO: this was how we used to do it.
         //anchor->platformShape.setShape(*anchor->getPos() + anchor->platformShape.inCorner.pos);
         shape_export.build_shape_model(&anchor->platformShape, "map");
         collisionHandler->addPlatform(&anchor->platformShape);
@@ -107,7 +107,7 @@ void Generation_manager::place_jumpPoints()
     while (jumppoint) {
         //jumppoint->platformShape.setShape(*jumppoint->getPos());
         //jumppoint->platformShape.setShapeCube(*jumppoint->getPos()); //TODO: this was how we used to do it.
-        jumppoint->platformShape.setShape(*jumppoint->getPos()); //TODO: this was how we used to do it.
+        //jumppoint->platformShape.setShape(*jumppoint->getPos()); //TODO: this was how we used to do it.
         
         //TODO: This is now done in position_generator! 
         //jumppoint->platformShape.setShapeCube(*jumppoint->getPos() + jumppoint->platformShape.inCorner.pos); 

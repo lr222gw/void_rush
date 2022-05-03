@@ -73,11 +73,11 @@ void Game::handleEvents()
 		static int os = 0;
 		if (e.getType() == mouseEvent::EventType::LPress) {
 
-			soundManager.playSound("ah1", player->getPos());
+			//soundManager.playSound("ah1", player->getPos());
 		}
 		if (e.getType() == mouseEvent::EventType::RPress) {
 
-			soundManager.playSound("Goat", player->getPos());
+			//soundManager.playSound("Goat", player->getPos());
 		}
 	}
 }

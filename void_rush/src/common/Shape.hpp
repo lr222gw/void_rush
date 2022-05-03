@@ -82,9 +82,11 @@ public:
     ~Shape();
     void addPlane(vec3 a, vec3 b, vec3 c, vec3 d);
     void setPosition(vec3 pos);
+    void move(vec3 pos);
     void setScale(vec3 scale);
     void setShape(vec3 center);
     void setShapeCube(vec3 center);
+    void updateBoundingBoxes();
 
     void export_as_obj();
 

@@ -23,6 +23,13 @@ void Shape::setPosition(vec3 pos)
     }
 }
 
+void Shape::move(vec3 pos)
+{
+    for (int i = 0; i < planes.size(); i++) {
+        planes[i]->move(pos);
+    }
+}
+
 void Shape::setScale(vec3 scale)
 {
     this->scale = scale;
@@ -38,6 +45,9 @@ void Shape::setShape(vec3 center)
     vec3 offset_down {       0,      -scale.y,   0       };
     vec3 offset_up   {       0,      scale.y,    0       };
     
+    if(this->planes.size() > 0){
+        this->planes.clear();
+    }
     
     const int matrixSize = 11; //Should to be Odd...
     bool busyMatrix[matrixSize][matrixSize] = { false };
@@ -159,18 +169,24 @@ void Shape::setShape(vec3 center)
 
         for (int j = i+1; j < actualNrOfVoxels;  j++) {
 
-            int temp = (previousVoxels[i].current_center - previousVoxels[j].current_center).length();
+            float temp = (previousVoxels[i].current_center - previousVoxels[j].current_center).length();
 
             if(temp > current.distance){
                 current.distance = temp;
-                current.startPos = previousVoxels[j].current_center;
-                current.endPos   = previousVoxels[i].current_center;
+                current.startPos = previousVoxels[i].current_center;
+                current.endPos   = previousVoxels[j].current_center;
             }            
         }
     }
 
     this->inCorner.pos = current.startPos;
     this->outCorner.pos = current.endPos;
+   // vec3 dir = this->inCorner.pos - center;
+    vec3 dir = center - this->inCorner.pos;
+
+    this->outCorner.pos = this->outCorner.pos + dir;
+    this->inCorner.pos = this->inCorner.pos + dir;
+    this->move(dir);
 
     int breakHere = 0;
 
@@ -238,6 +254,16 @@ void Shape::setShapeCube(vec3 center)
     
     bounding_boxes.push_back(min_max);
 
+}
+
+void Shape::updateBoundingBoxes()
+{
+    bounding_boxes.clear();
+    for(Plane* plane : planes){
+        if(plane->normal == vec3(0,1,0)){
+            bounding_boxes.push_back(vec3_pair({plane->point4, plane->point2}));
+        }
+    }
 }
 
 void Shape::export_as_obj()
