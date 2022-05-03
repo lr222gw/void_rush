@@ -610,6 +610,7 @@ void Player::shovePlayer(vec2 shove, float forceY)
 	this->shoved = true;
 	this->shove = shove;
 	this->velocity.y = forceY;
+	sm->playSound("Shoved", getPos());
 	ResetGhost();
 }
 
