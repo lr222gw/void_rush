@@ -8,6 +8,7 @@
 
 
 #include "generation/Position_generator.hpp"//To use difficulty
+#include "SoundManager.h"
 #include "score/ScoreManager.hpp"
 
 #include <string>
@@ -64,7 +65,7 @@ public:
 	void SetSubmitName(bool val);
 
 	void SetCurrentSeed(int seed);
-
+	void SetSoundManager(SoundManager* soundManager);
 	
 private:
 	friend class ImguiManager;
@@ -98,6 +99,7 @@ private:
 	Mouse* mouse;
 	Keyboard* keyboard;
 	Camera* cam;
+	SoundManager* sm;
 
 	ScoreManager scoreManager;
 	std::string name;

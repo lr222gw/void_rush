@@ -10,7 +10,7 @@ Menu::Menu(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mous
 	setUpObject();
 	setUpUI();
 	
-	soundManager.playMusic("assets/audio/MenuMusic.wav", 7.0f);
+	soundManager.playMusic("assets/audio/MenuMusic.wav", 15.0f);
 	soundManager.setMusicLoop(true);
 }
 
