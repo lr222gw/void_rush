@@ -15,6 +15,11 @@ void HiddenPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
         midPos = GetMidPos(puzzleObjects[0], size);
         if (CanInteract(playerPos, forwardVec, midPos, size / 2.0f, 5.0f, test))
         {
+            for (size_t i = 0; i < puzzleObjects.size(); i++) {
+                this->GetColHandler()->deletePlatform(puzzleObjects[i]);
+                delete puzzleObjects[i];
+            }
+            puzzleObjects.clear();
             std::cout << "Key Picked Up!" << std::endl;
             this->SpawnDoor(this->GetPosition());
         }
@@ -44,8 +49,6 @@ void HiddenPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 pos
     {
         z = z - (puzzlePlatform->getWidthHeightDepth().z - 2.0f);
     }
-
-    std::cout << puzzlePlatform->getWidthHeightDepth().x << " " << puzzlePlatform->getWidthHeightDepth().y << " " << puzzlePlatform->getWidthHeightDepth().z << std::endl;
 
     puzzleObjects.push_back(new GameObject(rm->get_Models("Key.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 0.2f, puzzlePlatform->getzPos() + z), vec3(x, x / 2, z), vec3(1.0f, 1.0f, 1.0f)));
 
