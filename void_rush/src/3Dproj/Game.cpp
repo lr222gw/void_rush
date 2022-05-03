@@ -449,6 +449,7 @@ void Game::setUpSound()
 {
 	soundManager.loadSound("assets/audio/ah.wav", 5, "ah1");
 	soundManager.loadSound("assets/audio/Goat.wav", 5, "Goat");
+	soundManager.loadSound("assets/audio/Portal7.wav", 10, "Portal");
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
 	soundManager.setMusicLoop(true);
 }
@@ -514,6 +515,7 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			player->Reset(true);
 			generationManager->initialize();
 			distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
+			soundManager.playSound("Portal", player->getPos());
 		}
 	}
 }
