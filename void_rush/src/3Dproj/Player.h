@@ -7,6 +7,7 @@
 #include "hud/Hud.h"
 
 #include "generation/Position_generator.hpp"//To use difficulty
+#include "SoundManager.h"
 #include "score/ScoreManager.hpp"
 
 #include <string>
@@ -43,7 +44,11 @@ public:
 	void SetSubmitName(bool val);
 
 	void SetCurrentSeed(int seed);
+<<<<<<< HEAD
 	void getSoundManager(SoundManager& sm);
+=======
+	void SetSoundManager(SoundManager* soundManager);
+>>>>>>> 06587cee735806bb8320974358ee6a2ce5b87150
 	
 private:
 	friend class ImguiManager;
@@ -74,18 +79,19 @@ private:
 	Mouse* mouse;
 	Keyboard* keyboard;
 	Camera* cam;
+	SoundManager* sm;
 
 	ScoreManager scoreManager;
 	std::string name;
 	int maxLetters;
 	int currentLetter;
 	bool submitName;
+
 	//float levelTime;
 	vec3 puzzlePos;
 	Difficulity levelDifficulty;
 	Hud* HUD;
 
-	float score;
 	float health;
 	bool alive;
 	float maxDepth;

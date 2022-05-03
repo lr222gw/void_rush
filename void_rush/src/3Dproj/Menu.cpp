@@ -10,7 +10,7 @@ Menu::Menu(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mous
 	setUpObject();
 	setUpUI();
 	
-	soundManager.playMusic("assets/audio/MenuMusic.wav", 7.0f);
+	soundManager.playMusic("assets/audio/MenuMusic.wav", 15.0f);
 	soundManager.setMusicLoop(true);
 }
 
@@ -79,11 +79,13 @@ void Menu::setUpUI()
 	UI->createUIString("Void Rush", vec2(-0.4, 0.7), vec2(0.1, 0.1), "Title");
 	UI->createUIButton("assets/textures/buttonBack.png", "Start", mouse, vec2(-0.9, 0.4), buttonSize, "Start", vec2(0.0, 0.0), vec2(0, 0.1));
 	UI->createUIButton("assets/textures/buttonBack.png","END", mouse, vec2(-0.9, -0.5), buttonSize, "Quit", vec2(0.0,0.0), vec2(0,0.1));
-	UI->createUIButton("assets/textures/outline.png", "HighScores", mouse, vec2(0.5, 0.5), vec2(0.5, 0.5), "HighScores", vec2(0.02, 0.2), vec2(-0.01, 0));
+	UI->createUIButton("assets/textures/buttonBack.png", "HighScores", mouse, vec2(-0.9, 0), buttonSize, "HighScores", vec2(0.0, -0.025), vec2(0.0, 0.1));
 	buttonNames.push_back("Start");
 	buttonNames.push_back("Quit");
+	buttonNames.push_back("HighScores");
 	buttonPos.push_back(vec2(-0.9, 0.4));
 	buttonPos.push_back(vec2(-0.9, -0.5));
+	buttonPos.push_back(vec2(-0.9, -0.05));
 }
 
 void Menu::setUpObject()

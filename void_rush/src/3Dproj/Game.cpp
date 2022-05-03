@@ -33,6 +33,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	this->setUpSound();
 	this->setUpUI();
 	this->IMGUI->set_owner(this);
+
 }
 
 Game::~Game()
@@ -82,7 +83,6 @@ void Game::handleEvents()
 	if (keyboard->onceisKeyReleased('F') && player->IsAlive()) {
 		//set pause
 		pauseMenu = !pauseMenu;
-
 		if (pauseMenu) {
 			gfx->getWindosClass().ShowCoursor();
 		}
@@ -184,8 +184,6 @@ GameStatesEnum Game::update(float dt)
 	/*update things*/
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 	gfx->Update(dt, camera->getPos());
-	GameObjManager->update(dt);
-	player->update(dt);
 	HUD->UpdateGhostBar(player->getPos(), generationManager->getPuzzelPos(), ghost->getPos(), distanceFromStartPosToPuzzle);
 
 #pragma region camera_settings
@@ -369,6 +367,7 @@ void Game::setUpObject()
 	////////OBJECTS///////////
 
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f),vec3(0,0,0), vec3(0.2,0.2,0.2));
+	player->SetSoundManager(&soundManager);
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
@@ -444,8 +443,8 @@ void Game::setUpUI()
 
 	//pause UI
 	pauseUI = new UIManager(rm, gfx);
-	pauseUI->createUIButton("assets/textures/outline.png", " continue ", mouse, vec2(-0.75, -0.2), vec2(0.5, 0.3), "continue", vec2(0,0.05), vec2(0,0.1));
-	pauseUI->createUIButton("assets/textures/outline.png", " main menu ", mouse, vec2(0.25, -0.2), vec2(0.5, 0.3), "menu", vec2(0, 0.05), vec2(0,0.1));
+	pauseUI->createUIButton("assets/textures/buttonBack.png", " continue ", mouse, vec2(-0.75, -0.2), vec2(0.5, 0.3), "continue", vec2(0,0.05), vec2(0,0.1));
+	pauseUI->createUIButton("assets/textures/buttonBack.png", " main menu ", mouse, vec2(0.25, -0.2), vec2(0.5, 0.3), "menu", vec2(0, 0.05), vec2(0,0.1));
 	pauseUI->createUIString("Game Menu", vec2(-0.5,0.3), vec2(1/9.f,0.5), "Game Menu");
 }
 
@@ -453,9 +452,21 @@ void Game::setUpSound()
 {
 	soundManager.loadSound("assets/audio/ah.wav", 5, "ah1");
 	soundManager.loadSound("assets/audio/Goat.wav", 5, "Goat");
+<<<<<<< HEAD
 	player->getSoundManager(soundManager);
+=======
+	soundManager.loadSound("assets/audio/Portal7.wav", 10, "Portal");
+	soundManager.loadSound("assets/audio/Powerup6.wav", 10, "Pickup");
+	soundManager.loadSound("assets/audio/Jump1.wav", 30, "Jump");
+	soundManager.loadSound("assets/audio/Land4.wav", 30, "Land");
+	soundManager.loadSound("assets/audio/TheWilhelmScream.wav", 30, "Scream");
+	soundManager.loadSound("assets/audio/game_over.wav", 10, "GameOver");
+	soundManager.loadSound("assets/audio/begin.wav", 10, "Start");
+>>>>>>> 06587cee735806bb8320974358ee6a2ce5b87150
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
 	soundManager.setMusicLoop(true);
+
+	soundManager.playSound("Start", player->getPos());
 }
 
 void Game::Interact(std::vector<GameObject*>& interactables)
@@ -515,10 +526,10 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
 		if (testPuzzle->isCompleted())
 		{
-			//player->setPos(vec3(0.0f, 0.0f, 0.0f));
 			player->Reset(true);
 			generationManager->initialize();
 			distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
+			soundManager.playSound("Portal", player->getPos());
 		}
 	}
 }
@@ -551,3 +562,4 @@ void Game::SetName()
 	}
 	UI->getStringElement("Name")->setText(player->GetName());
 }
+
