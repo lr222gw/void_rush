@@ -52,6 +52,9 @@ private:
 	void setUpSound();
 	void Interact(std::vector<GameObject*>& interactables);
 	void SetName();
+	void Pause();
+	void UnPause();
+	//void HandlePlayer();
 
 	//game objects
 	Light** light;
@@ -61,6 +64,7 @@ private:
 
 	//var
 	int nrOfLight;//must still exist
+	bool paused;
 
 	//debug var
 	int lightNr;

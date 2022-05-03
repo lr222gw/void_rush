@@ -5,7 +5,7 @@ HighScoreGameState::HighScoreGameState(Graphics*& gfx, ResourceManager*& rm, Img
 {
 	readHighScoreFile();
 	UI = new UIManager(rm, gfx);
-	UI->createUIButton("assets/textures/outline.png", "back", mouse, vec2(-1, 0.8), vec2(0.2, 0.2), "back", vec2(0,0.1));
+	UI->createUIButton("assets/textures/buttonBack.png", "back", mouse, vec2(-1, 0.8), vec2(0.2, 0.2), "back", vec2(0,0.1));
 	for (int i = 0; i < 5; i++) {
 		UI->createUIString(scores[i], vec2(-0.75, 0.5 - i * 0.2),vec2(0.1,0.1));
 	}
