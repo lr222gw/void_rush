@@ -452,9 +452,6 @@ void Game::setUpSound()
 {
 	soundManager.loadSound("assets/audio/ah.wav", 5, "ah1");
 	soundManager.loadSound("assets/audio/Goat.wav", 5, "Goat");
-<<<<<<< HEAD
-	player->getSoundManager(soundManager);
-=======
 	soundManager.loadSound("assets/audio/Portal7.wav", 10, "Portal");
 	soundManager.loadSound("assets/audio/Powerup6.wav", 10, "Pickup");
 	soundManager.loadSound("assets/audio/Jump1.wav", 30, "Jump");
@@ -462,7 +459,6 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/TheWilhelmScream.wav", 30, "Scream");
 	soundManager.loadSound("assets/audio/game_over.wav", 10, "GameOver");
 	soundManager.loadSound("assets/audio/begin.wav", 10, "Start");
->>>>>>> 06587cee735806bb8320974358ee6a2ce5b87150
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
 	soundManager.setMusicLoop(true);
 

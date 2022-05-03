@@ -44,11 +44,7 @@ public:
 	void SetSubmitName(bool val);
 
 	void SetCurrentSeed(int seed);
-<<<<<<< HEAD
 	void getSoundManager(SoundManager& sm);
-=======
-	void SetSoundManager(SoundManager* soundManager);
->>>>>>> 06587cee735806bb8320974358ee6a2ce5b87150
 	
 private:
 	friend class ImguiManager;

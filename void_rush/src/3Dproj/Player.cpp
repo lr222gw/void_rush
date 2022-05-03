@@ -22,7 +22,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	setBoundingBox(DirectX::XMFLOAT3(0, -0.19, 0), DirectX::XMFLOAT3(0.19f, 0.10f, 0.19f));
 	this->health = 3;
 	this->alive = true;
-	this->maxDepth = -140.0f;
+	this->maxDepth = -100.0f;
 	this->resetGhost = false;
 	this->submitName = false;
 
@@ -470,6 +470,7 @@ void Player::handleEvents(float dt)
 			{
 				velocity = vec3(0.0f, jumpForce, 0.0f);
 			}
+			sm->playSound("Jump", getPos());
 		}
 		else {
 			this->movePos(vec3(0.0f, speed.y * dt, 0.0f));
@@ -541,6 +542,8 @@ void Player::setGrounded()
 		this->groundedTimer = 0.0f;
 		this->startingJumpDir = vec2(0.0f, 0.0f);
 		this->startingJumpKey = 'N';
+
+		sm->playSound("Land", this->getPos());
 	}
 }
 
@@ -551,7 +554,6 @@ void Player::setUngrounded()
 		this->grounded = false;
 		this->startingJumpDir = jumpDir;
 		groundedTimer = 0.001f;
-		this->startingJumpDir = jumpDir;
 	}
 }
 
@@ -729,9 +731,11 @@ void Player::TakeDmg(int dmg)
 	this->Reset();	
 	if(health <= 0 && !this->invincible) {
         alive = false;
+		sm->playSound("GameOver", getPos());
 	}
 	else {
 		scoreManager.setDamageScore();
+		sm->playSound("Scream", getPos());
 	}
 	this->HUD->LowerHealth();
 }
