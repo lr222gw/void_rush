@@ -187,5 +187,40 @@ void ScoreManager::WriteScore(std::string name, std::string file)
 		scoreFileWrite << newFile;
 		scoreFileWrite.close();
 	}
+	SortScores(file);
 	Reset();
+}
+
+void ScoreManager::SortScores(std::string file)
+{
+	std::ifstream scoreFile;
+	std::ofstream scoreFileWrite;
+	std::string temp;
+	std::string newFile;
+	std::vector<std::string>scores;
+	scoreFile.open(file, std::ifstream::in);
+	scoreFile >> newFile;
+	newFile += "\n";
+	while (std::getline(scoreFile, temp)) {
+		if(temp != "")
+			scores.push_back(temp);
+	}
+	for (int i = 0; i < scores.size()-1; i++){
+		for (int j = i+1; j < scores.size(); j++) {
+			int n1 = std::stoi(scores[i].substr(0, scores[i].find(" ")));
+			int n2 = std::stoi(scores[j].substr(0, scores[j].find(" ")));
+			if (n1 < n2) {
+				temp = scores[i];
+				scores[i] = scores[j];
+				scores[j] = temp;
+			}
+		}
+	}
+	for (int i = 0; i < scores.size(); i++) {
+		newFile += scores[i]+"\n";
+	}
+	scoreFileWrite.open(file, std::ofstream::out);
+	scoreFileWrite << newFile;
+	scoreFileWrite.close();
+
 }
