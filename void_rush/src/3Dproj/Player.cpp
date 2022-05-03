@@ -467,6 +467,7 @@ void Player::handleEvents(float dt)
 			{
 				velocity = vec3(0.0f, jumpForce, 0.0f);
 			}
+			sm->playSound("Jump", getPos());
 		}
 		else {
 			this->movePos(vec3(0.0f, speed.y * dt, 0.0f));
