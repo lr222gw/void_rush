@@ -188,8 +188,9 @@ void GameObject::Updateshaders(Graphics*& gfx, bool vertex)
 /*Interaction*/
 void GameObject::Use()
 {
-	if (!used)
+	if (!used) {
 		used = true;
+	}
 	else {
 		used = false;
 	}

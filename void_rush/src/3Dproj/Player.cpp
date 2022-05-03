@@ -538,6 +538,8 @@ void Player::setGrounded()
 		this->groundedTimer = 0.0f;
 		this->startingJumpDir = vec2(0.0f, 0.0f);
 		this->startingJumpKey = 'N';
+
+		sm->playSound("Land", this->getPos());
 	}
 }
 
@@ -693,15 +695,22 @@ void Player::SetCurrentSeed(int seed)
 	scoreManager.SetSeed(seed);
 }
 
+void Player::SetSoundManager(SoundManager* soundManager)
+{
+	sm = soundManager;
+}
+
 void Player::TakeDmg(int dmg)
 {
 	health-=dmg;
 	this->Reset();	
 	if(health <= 0 && !this->invincible) {
         alive = false;
+		sm->playSound("GameOver", getPos());
 	}
 	else {
 		scoreManager.setDamageScore();
+		sm->playSound("Scream", getPos());
 	}
 	this->HUD->LowerHealth();
 }

@@ -83,7 +83,6 @@ void Game::handleEvents()
 	if (keyboard->onceisKeyReleased('F') && player->IsAlive()) {
 		//set pause
 		pauseMenu = !pauseMenu;
-
 		if (pauseMenu) {
 			gfx->getWindosClass().ShowCoursor();
 		}
@@ -364,6 +363,7 @@ void Game::setUpObject()
 	////////OBJECTS///////////
 
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f),vec3(0,0,0), vec3(0.2,0.2,0.2));
+	player->SetSoundManager(&soundManager);
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
@@ -449,8 +449,15 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/ah.wav", 5, "ah1");
 	soundManager.loadSound("assets/audio/Goat.wav", 5, "Goat");
 	soundManager.loadSound("assets/audio/Portal7.wav", 10, "Portal");
+	soundManager.loadSound("assets/audio/Powerup6.wav", 10, "Pickup");
+	soundManager.loadSound("assets/audio/Land3.wav", 30, "Land");
+	soundManager.loadSound("assets/audio/TheWilhelmScream.wav", 30, "Scream");
+	soundManager.loadSound("assets/audio/game_over.wav", 10, "GameOver");
+	soundManager.loadSound("assets/audio/begin.wav", 10, "Start");
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
 	soundManager.setMusicLoop(true);
+
+	soundManager.playSound("Start", player->getPos());
 }
 
 void Game::Interact(std::vector<GameObject*>& interactables)
@@ -510,7 +517,6 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
 		if (testPuzzle->isCompleted())
 		{
-			//player->setPos(vec3(0.0f, 0.0f, 0.0f));
 			player->Reset(true);
 			generationManager->initialize();
 			distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
