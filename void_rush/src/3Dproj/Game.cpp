@@ -12,7 +12,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	player = nullptr;
 	skybox = nullptr;
 	
-	
+	HUD = new Hud(gfx, rm);
 	lightNr = 0;
 	testPuzzle = new ProtoPuzzle(gfx, rm, collisionHandler);
 	
@@ -22,6 +22,8 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	
 	camera->setRotation(vec3(0, 0, 0));
 	
+	letter3DHandler = new Letters3DHandler(rm, gfx);
+
 	/*set ups*/
 	this->setUpObject();
 	this->setUpLights();
@@ -30,6 +32,8 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	this->setUpSound();
 	this->setUpUI();
 	this->IMGUI->set_owner(this);
+
+	this->paused = false;
 }
 
 Game::~Game()
@@ -52,18 +56,14 @@ Game::~Game()
 	delete skybox;
 	delete testPuzzle;
 	delete generationManager;
+	delete HUD;
 	delete UI;
 	delete GameObjManager;
+	delete letter3DHandler;
 }
 
 void Game::handleEvents()
 {
-	if (keyboard->isKeyPressed('P')) {
-		gfx->getWindosClass().HideCoursor();
-	}
-	else if (keyboard->isKeyPressed('O')) {
-		gfx->getWindosClass().ShowCoursor();
-	}
 	/*Read Mouse*/
 	while (!mouse->EventBufferEmpty() && mouse->getMouseActive()) {
 		mouseEvent e = mouse->ReadEvent();
@@ -102,82 +102,116 @@ void Game::renderShadow()
 GameStatesEnum Game::update(float dt)
 {
 	GameStatesEnum theReturn = GameStatesEnum::NO_CHANGE;
-
-	/*DEBUG*/
-	if (keyboard->isKeyPressed(VK_RETURN)) {
-		ghost->setActive();
-	}
-	/*******/
-	if (testTime > 0.0f)
-	{
-		testTime -= dt;
-	}
-	/*Move things*/
-	camera->updateCamera(dt);
-	if (getkey('N')) {
-		DirectX::XMMATRIX viewMatrix = DirectX::XMMATRIX(
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			-GameObjManager->getGameObject(1)->getPos().x, -GameObjManager->getGameObject(1)->getPos().y, -GameObjManager->getGameObject(1)->getPos().z, 1.0f
-		);
-		XRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().x);
-		YRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().y);
-		gfx->getVertexconstbuffer()->view.element = viewMatrix;
-	}
-	for (int i = 0; i < billboardGroups.size(); i++) {
-		billboardGroups[i]->update(dt, gfx);
-	}
-	for (int i = 0; i < LightVisualizers.size(); i++) {
-		LightVisualizers[i]->setPos(light[i]->getPos());
-		LightVisualizers[i]->setRot(vec3(0, light[i]->getRotation().x, -light[i]->getRotation().y) + vec3(0, 1.57f, 0));
-	}
-	camera->calcFURVectors();
-	skybox->update(camera->getPos());
-
-	/*update matrixes*/
-	GameObjManager->updateMatrix();
-	player->updateMatrix();
+	if (player->IsAlive() && !paused) {
 
 
+		/*DEBUG*/
+		if (keyboard->isKeyPressed(VK_RETURN)) {
+			ghost->setActive();
+		}
+		/*******/
+		if (testTime > 0.0f)
+		{
+			testTime -= dt;
+		}
+		/*Move things*/
+		camera->updateCamera(dt);
+		if (getkey('N')) {
+			DirectX::XMMATRIX viewMatrix = DirectX::XMMATRIX(
+				1.0f, 0.0f, 0.0f, 0.0f,
+				0.0f, 1.0f, 0.0f, 0.0f,
+				0.0f, 0.0f, 1.0f, 0.0f,
+				-GameObjManager->getGameObject(1)->getPos().x, -GameObjManager->getGameObject(1)->getPos().y, -GameObjManager->getGameObject(1)->getPos().z, 1.0f
+			);
+			XRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().x);
+			YRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().y);
+			gfx->getVertexconstbuffer()->view.element = viewMatrix;
+		}
+		for (int i = 0; i < billboardGroups.size(); i++) {
+			billboardGroups[i]->update(dt, gfx);
+		}
+		for (int i = 0; i < LightVisualizers.size(); i++) {
+			LightVisualizers[i]->setPos(light[i]->getPos());
+			LightVisualizers[i]->setRot(vec3(0, light[i]->getRotation().x, -light[i]->getRotation().y) + vec3(0, 1.57f, 0));
+		}
+		camera->calcFURVectors();
+		skybox->update(camera->getPos());
 
-	collisionHandler.update();
+		/*update matrixes*/
+		collisionHandler.update();
 
-	/*update vertex*/
-	updateShaders();
+		GameObjManager->updateMatrix();
 
-	/*update things*/
-	soundManager.update(camera->getPos(), camera->getForwardVec());
-	gfx->Update(dt, camera->getPos());
-	GameObjManager->update(dt);
-	player->update(dt);
+		/*update vertex*/
+		updateShaders();
+
+		/*update things*/
+		soundManager.update(camera->getPos(), camera->getForwardVec());
+		gfx->Update(dt, camera->getPos());
+		GameObjManager->update(dt);
 
 #pragma region camera_settings
 
-	if (getkey('C')) {
-		camera->setPosition(light[lightNr]->getPos());
-		camera->setRotation(light[lightNr]->getRotation());
-	}
-	if (getkey('1') && getkey(VK_F1)) {
-		lightNr = 0;
-	}
-	if (getkey('2') && getkey(VK_F1)) {
-		lightNr = 1;
-	}
-	if (getkey('3') && getkey(VK_F1)) {
-		lightNr = 2;
-	}
-	if (getkey('4') && getkey(VK_F1)) {
-		lightNr = 3;
-	}
+		if (getkey('C')) {
+			camera->setPosition(light[lightNr]->getPos());
+			camera->setRotation(light[lightNr]->getRotation());
+		}
+		if (getkey('1') && getkey(VK_F1)) {
+			lightNr = 0;
+		}
+		if (getkey('2') && getkey(VK_F1)) {
+			lightNr = 1;
+		}
+		if (getkey('3') && getkey(VK_F1)) {
+			lightNr = 2;
+		}
+		if (getkey('4') && getkey(VK_F1)) {
+			lightNr = 3;
+		}
 #pragma endregion camera_settings
 
-	Interact(this->GameObjManager->getAllInteractGameObjects());
-	if (!player->IsAlive()) {
-		player->writeScore("Player");
-		theReturn = GameStatesEnum::TO_MENU;
-	}
+		Interact(this->GameObjManager->getAllInteractGameObjects());
 
+		if (keyboard->isKeyPressed(VK_DELETE)) {
+			paused = true;
+			keyboard->onKeyReleased(VK_DELETE);
+			Pause();
+		}
+	}
+	else if(!player->IsAlive() && !paused) {
+		soundManager.update(camera->getPos(), camera->getForwardVec());
+		if (!player->GetSubmitName()) {
+			UI->getStringElement("NameDesc")->setPosition(vec2(-0.9f, 0.3f));
+			UI->getStringElement("NameDesc2")->setPosition(vec2(-0.9f, 0.15f));
+			UI->getStringElement("Name")->setPosition(vec2(-0.5f, -0.2f));
+			player->SetSubmitName(true);
+
+		}
+		if (keyboard->isKeyPressed(VK_RETURN)) {
+			player->writeScore();
+			player->ResetName();
+			keyboard->onKeyReleased(VK_RETURN);
+			theReturn = GameStatesEnum::TO_MENU;
+		}
+		else{
+			SetName();
+		}
+	}
+	else if(paused) {
+		if (keyboard->isKeyPressed(VK_DELETE)) {
+			paused = false;
+			keyboard->onKeyReleased(VK_DELETE);
+			UnPause();
+		}
+		UI->update();
+		if (UI->getButton("Resume")->clicked()) {
+			paused = false;
+			UnPause();
+		}
+		else if (UI->getButton("Menu")->clicked()) {
+			theReturn = GameStatesEnum::TO_MENU;
+		}
+	}
 
 	return theReturn;
 }
@@ -196,6 +230,7 @@ void Game::render()
 		//if deferred rendfering 
 		gfx->get_IMctx()->PSSetShaderResources(1, 1, &shadowMap->GetshadowResV());//add ShadowMapping
 		this->DrawToBuffer();
+
 	}
 	this->ForwardDraw();
 	
@@ -204,10 +239,10 @@ void Game::render()
 
 void Game::updateShaders(bool vs, bool ps)
 {
+
 	for (int i = 0; i < billboardGroups.size(); i++) {
 		billboardGroups[i]->updateShader(gfx, camera->getPos());
 	}
-
 	if (vs)
 	{
 		GameObjManager->updateVertex();
@@ -249,7 +284,6 @@ void Game::DrawToBuffer()
 
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
 	testPuzzle->Update();
-	//player->draw(gfx);
 	generationManager->draw(); //Todo: ask Simon where to put this...
 	GameObjManager->draw();
 	camera->calcFURVectors();
@@ -258,24 +292,32 @@ void Game::DrawToBuffer()
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
 	gfx->get_IMctx()->PSSetShader(gfx->getPS()[0], nullptr, 0);
 
-
 	if (getkey('F')) {
 		for (int i = 0; i < LightVisualizers.size(); i++) {
 			LightVisualizers[i]->draw(gfx, false);
 		}
 	}
+	letter3DHandler->draw();
 
+	if (player->IsAlive())
+	{
+		HUD->Update();
+	}
 	UI->draw();
+
 }
 
 void Game::setUpObject()
 {
 	////////OBJECTS///////////
 
-	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, vec3(0.0f, 0.0f, 0.0f));
+	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f),vec3(0,0,0), vec3(0.2,0.2,0.2));
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
+
+	GameObjManager->CreateGameObject("DCube.obj", "cam", vec3(5, -10, 0), vec3(0, 0, 0));
+	GameObjManager->CreateGameObject("DCube.obj", "cubetest", vec3(0, 0, 50), vec3(0, 0, 0));
 
 	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2));
 	GameObjManager->addGameObject(ghost, "Ghost");
@@ -284,6 +326,7 @@ void Game::setUpObject()
 	generationManager->initialize();
 	testPuzzle->Initiate(generationManager->getPuzzelPos());
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
+
 
 	std::string skyboxTextures[6] = {
 		"assets/textures/Skybox/posx.png",//x+
@@ -299,19 +342,20 @@ void Game::setUpObject()
 void Game::setUpLights()
 {
 	//current max number is set in graphics.cpp and transforms.hlsli
-	nrOfLight = 1;
+	nrOfLight = 2;
 	light = new Light * [nrOfLight];
 
 	//create the lights with 
 	//light[0] = new DirLight(vec3(0, 30, 8), vec3(0.1f, -PI / 2, 1.f), 100, 100);
-	light[0] = new PointLight(vec3(3, 25, 5), 200, vec3(1, 1, 1));
-	//light[1] = new SpotLight(vec3(18, 46, 45), vec3(-2.4f, -0.5, 1));
+	light[0] = new PointLight(vec3(3, 25, 5), 20, vec3(1, 1, 1));
+	//light[1] = new SpotLight(vec3(0, 46, 45), vec3(0, -1.57, 1));
+	light[1] = new SpotLight(vec3(0, 500, 0), vec3(0, -1.57, 1));
 	//light[2] = new SpotLight(vec3(8, 47.f, 0), vec3(0, -1, 1));
 	//light[3] = new SpotLight(vec3(30, 50, 0), vec3(-1, -1, 1));
 
 	//set color for lights (deafault white)
-	light[0]->getColor() = vec3(1, 1, 1);
-	//light[1]->getColor() = vec3(1, 0, 1);
+	light[0]->getColor() = vec3(1, 0, 0);
+	light[1]->getColor() = vec3(1, 0, 1);
 
 	for (int i = 0; i < nrOfLight; i++) {
 		LightVisualizers.push_back(new GameObject(rm->get_Models("Camera.obj"), gfx, light[i]->getPos(), light[i]->getRotation()));
@@ -335,12 +379,26 @@ void Game::setUpUI()
 	UI = new UIManager(rm, gfx);
 	//UI->createUISprite("assets/textures/Fire.png", vec2(-1, 0), vec2(0.5, 0.5));
 	//UI->createUIString("string", vec2(0, 0), vec2(0.2, 0.5), "penis");
+	
+	//Name Input
+	UI->createUIString("Write your name and", vec2(-10.0f, 0.3f), vec2(0.08f, 0.08f), "NameDesc");
+	UI->createUIString("press Enter to submit!", vec2(-10.0f, 0.15f), vec2(0.08f, 0.08f), "NameDesc2");
+	UI->createUIString(player->GetName(), vec2(-10.0f, -0.2f), vec2(0.1f, 0.1f), "Name");
+
+
+	//Pause Menu
+	UI->createUIString("Paused", vec2(-0.3f, 0.6f), vec2(0.08f, 0.08f), "PauseText");
+	UI->createUIButton("assets/textures/buttonBack.png", "Resume", mouse, vec2(-0.3, 0.2), vec2(0.5, 0.15), "Resume", vec2(0.0, 0.0), vec2(0, 0.1));
+	UI->createUIButton("assets/textures/buttonBack.png", "Menu", mouse, vec2(-0.3, -0.1), vec2(0.5, 0.15), "Menu", vec2(0.0, 0.0), vec2(0, 0.1));
+	UnPause();
 }
 
 void Game::setUpSound()
 {
 	soundManager.loadSound("assets/audio/ah.wav", 5, "ah1");
 	soundManager.loadSound("assets/audio/Goat.wav", 5, "Goat");
+	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
+	soundManager.setMusicLoop(true);
 }
 
 void Game::Interact(std::vector<GameObject*>& interactables)
@@ -354,18 +412,7 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 	bool interact = false;
 	float size = 0.0f;
 	for (int i = 0; i < interactables.size(); i++) {
-		/*interactables[i]->getBoundingBox(bb);
-		xSize = fabs(bb[1].x - bb[0].x);
-		ySize = fabs(bb[1].y - bb[0].y);
-		zSize = fabs(bb[1].z - bb[0].z);
-		if (xSize >= ySize && xSize >= zSize)
-			size = xSize;
-		else if (ySize >= xSize && ySize >= zSize)
-			size = ySize;
-		else 
-			size = zSize;*/
 		
-		//objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
 		objMidPos = GetMidPos(interactables[i], size);
 		
 		//RayDist is the shortest path from the center of the object to the nearest point on the ray
@@ -417,5 +464,59 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			generationManager->initialize();
 		}
 	}
+}
+
+void Game::SetName()
+{
+	//A-Z
+	for (int i = 65; i < 91; i++) {
+		if (keyboard->isKeyPressed(i)) {
+			player->AddToName(i);
+			keyboard->onKeyReleased(i);
+		}
+	}
+	//0-9
+	for (int i = 48; i < 58; i++) {
+		if (keyboard->isKeyPressed(i)) {
+			player->AddToName(i);
+			keyboard->onKeyReleased(i);
+		}
+	}
+	//Backspace
+	if (keyboard->isKeyPressed(VK_BACK)) {
+		player->RemoveLetter();
+		keyboard->onKeyReleased(VK_BACK);
+	}
+	//Space
+	if (keyboard->isKeyPressed(VK_SPACE)) {
+		player->AddToName('_');
+		keyboard->onKeyReleased(VK_SPACE);
+	}
+	UI->getStringElement("Name")->setText(player->GetName());
+}
+
+void Game::Pause()
+{
+	UI->getStringElement("PauseText")->setPosition(vec2(-0.3f, 0.6f));
+	UI->getButton("Resume")->setPosition(-0.3, 0.1);
+	UI->getButton("Menu")->setPosition(-0.3, -0.2);
+	UI->getStringElement("Resume")->setPosition(vec2( - 0.3, 0.25));
+	UI->getStringElement("Menu")->setPosition(vec2( - 0.3, -0.05));
+
+
+	mouse->activateMouse(false);
+	gfx->getWindosClass().ShowCoursor();
+}
+
+void Game::UnPause()
+{
+	UI->getStringElement("PauseText")->setPosition(vec2(-10.0f, 10.0f));
+	UI->getButton("Resume")->setPosition(-10.0, -10.0);
+	UI->getStringElement("Resume")->setPosition(vec2( - 10.0, -10.0));
+	UI->getButton("Menu")->setPosition(-10.0, -10.0);
+	UI->getStringElement("Menu")->setPosition(vec2( - 10.0, -10.0));
+
+	mouse->activateMouse(true);
+	gfx->getWindosClass().HideCoursor();
 }
 

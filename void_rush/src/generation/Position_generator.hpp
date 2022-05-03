@@ -8,7 +8,10 @@
 enum class Difficulity {
     easy = 1, medium = 2, hard = 3
 };
-
+struct MM{
+    Platform* first = nullptr;
+    Platform* last = nullptr;
+};
 class Position_generator
 {
 private:
@@ -20,13 +23,16 @@ private:
     Player_jump_checker* pl;
     friend class ImguiManager;
 public:
+    Platform* firstJumpPoint;
+
     Position_generator(int seed);
     Position_generator(int seed, int elements);
     ~Position_generator();
     bool start (Difficulity diff);
     void generate_anchor_positions(int platforms_between_anchors, Difficulity selectedDiff);
     void generate_jumpPoints_positions(Difficulity selectedDiff);
-    void jumpPoint_generation_helper(Platform* start, Platform* end);
+    MM jumpPoint_generation_helper(Platform* start, Platform* end);
+    MM jumpPoint_generation_helper(vec3 start, vec3 end);
     vec3 jumpPoint_create_offset(Platform* plat, vec3& currentMiddle, vec3 start, vec3 end);
     void reset_generation(vec3 player_position);
     void set_seed(int _seed);
@@ -36,7 +42,19 @@ public:
     void assignPlayer (Player_jump_checker* player);
     float randF (float min, float max);
 
+    Platform*& GetStartPlatform();
+
 private: // Magic Numbers
+    struct Anchor_point_settings{        
+        float minStepMod = 2.f; //2 is half, recommended
+        float stepMax = 50.f;    //Max distance between platforms
+        float stepMaxHeight = 10.f;    //Max distance between platforms
+        float stepMinHeight = -10.f;    //Max distance between platforms
+        float lowest_Height = -100.f;   //Lowest point for generation
+        float minZAngle = 0.f;
+    };
+    Anchor_point_settings AP_conf;
+
     struct Jump_point_settings{        
         float random_dist_dividier = 2.f; //2 is half, recommended...
         float y_min_clamp = -0.2f;    //between -1 and 1

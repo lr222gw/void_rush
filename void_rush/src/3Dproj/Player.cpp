@@ -1,8 +1,8 @@
 #include "Player.h"
 #include <algorithm>
 
-Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale):
-	GameObject(file, gfx, pos, rot, scale), noClip(true)
+Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, Hud* HUD, vec3 pos, vec3 rot, vec3 scale):
+	GameObject(file, gfx, pos, rot, scale), noClip(false), HUD(HUD)
 {
 	this->mouse = mouse;
 	this->keyboard = keyboard;
@@ -18,14 +18,20 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->shoved = false;
 
 	GOPTR = static_cast<GameObject*>(this);
-	this->setScale(vec3(0.2f,0.2f,0.2f));
 	setWeight(20);
-	setBoundingBox(DirectX::XMFLOAT3(0, -0.9, 0), DirectX::XMFLOAT3(0.5f, 0.4f, 0.5f));
+	setBoundingBox(DirectX::XMFLOAT3(0, -0.19, 0), DirectX::XMFLOAT3(0.19f, 0.10f, 0.19f));
 	this->health = 3;
 	this->alive = true;
 	this->maxDepth = -140.0f;
-	this->levelTime = 0.0f;
 	this->resetGhost = false;
+	this->submitName = false;
+
+	this->maxLetters = 10;
+	this->currentLetter = 0;
+	for (int i = 0; i < maxLetters; i++) {
+		this->name += "_";
+	}
+	this->scoreManager.SetPlayerSpeed(speed.length());
 
 }
 
@@ -37,8 +43,7 @@ void Player::update(float dt)
 {
 	handleEvents(dt);
 	if (!noClip) {
-		levelTime += dt;
-		score += constPoints;
+		scoreManager.Update(dt);
 		if (!grounded)
 		{
 			// Update forces
@@ -60,7 +65,11 @@ void Player::update(float dt)
 		if (getPos().y < maxDepth) {
 			TakeDmg();
 		}
+	}else{
+		this->movePos(vec3(velocity.x * dt, 0.0f, velocity.z * dt));
 	}
+
+
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
 	GameObject::update(dt);
@@ -432,6 +441,7 @@ void Player::handleEvents(float dt)
 	if (!keyboard->isKeyPressed('W') && !keyboard->isKeyPressed('A') && !keyboard->isKeyPressed('S') && !keyboard->isKeyPressed('D'))
 	{
 		if (grounded)
+
 		{
 			jumpDir = vec2(0.0f, 0.0f);
 		}
@@ -568,24 +578,8 @@ void Player::Reset(bool lvlClr)
 	this->startingJumpDir = vec2(0.0f, 0.0f);
 
 	if (lvlClr) {
-
 		//Add points
-		float timeMultiplyer = 5.0f;
-		switch (levelDifficulty)
-		{
-		case Difficulity::medium:
-			timeMultiplyer = 4.0f;
-			break;
-		case Difficulity::hard:
-			timeMultiplyer = 3.0f;
-			break;
-		}
-		float levelLength = puzzlePos.length();
-		float optimalTime = (levelLength / speed.length())*timeMultiplyer;//Time it would take to go in a straight line (* some multiplyer)
-		float scoreToGive = levelPoints * (optimalTime/levelTime);
-		score += scoreToGive + puzzlePoints;
-		//Reset timer
-		levelTime = 0.0f;
+		scoreManager.LevelDone();
 	}
 }
 
@@ -609,14 +603,15 @@ void Player::shovePlayer(vec2 shove, float forceY)
 	ResetGhost();
 }
 
-void Player::SetPuzzlePos(vec3 puzzlePosition)
-{
-	puzzlePos = puzzlePosition;
-}
-
+//void Player::SetPuzzlePos(vec3 puzzlePosition)
 void Player::SetDifficulity(Difficulity diff)
 {
-	levelDifficulty = diff;
+	scoreManager.SetDifficulty(diff);
+}
+
+void Player::SetStartPlatform(Platform*& start)
+{
+	scoreManager.SetStartPlatform(start);
 }
 
 void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
@@ -635,109 +630,76 @@ void Player::Translate(float dt, DirectX::XMFLOAT3 translate)
 	));
 }
 
-
-void Player::writeScore(std::string name, float score, std::string file)
+void Player::writeScore(std::string file)
 {
-	if (score == -1) {
-		score == this->score;
-	}
-	std::ifstream scoreFile;
-	std::ofstream scoreFileWrite;
-	std::string numScoresS;
-	std::string tempScore;
-	std::string tempName;
-	std::string newFile;
-	int numScoresI;
-	bool scoreInserted = false;
-	bool nameExists = false;
-	bool reWrite = false;
+	scoreManager.WriteScore(name, file);
+}
 
-	std::vector<std::string>scores;
-	std::vector<std::string>names;
-	scoreFile.open(file, std::ifstream::in);
-	scoreFile >> numScoresS;
-	if (numScoresS != "" && numScoresS != "0") {
-		numScoresI = std::stoi(numScoresS);
-		for (int i = 0; i < numScoresI; i++) {
-			scoreFile >> tempScore;
-			scoreFile >> tempName;
-			if (tempName == name) {
-				nameExists = true;
-				if (std::stoi(tempScore) < (int)score) {
-					reWrite = true;
-					tempScore = std::to_string((int)score);
-				}
-			}
-			scores.push_back(tempScore);
-			names.push_back(tempName);
-		}
-		if (nameExists ) {
-			if (reWrite) {
-				newFile += std::to_string(numScoresI) + "\n";
-				for (int i = 0; i < scores.size(); i++) {
-					newFile += scores[i] + " " + names[i] + "\n";
-				}
-			}
-		}
-		else if (numScoresI < maxScores) {
-			reWrite = true;
-			newFile += std::to_string(numScoresI + 1)+"\n";
-			std::string toInsert;
-			for (int i = 0; i < scores.size(); i++) {
-				if (std::stoi(scores[i]) < score && !scoreInserted) {
-					toInsert = std::to_string((int)score) + " " + name+"\n";
-					toInsert += scores[i] + " " + names[i] + "\n";
-					scoreInserted = true;
-				}
-				else {
-					toInsert = scores[i] + " " + names[i]+"\n";
-				}
-				newFile += toInsert;
-			}
-			if (!scoreInserted) {
-				newFile += std::to_string((int)score) + " " + name + "\n";
-			}
-		}
-		else {
-			reWrite = true;
-			newFile += numScoresS + "\n";
-			for (int i = 0; i < scores.size(); i++) {
-				if (std::stoi(scores[i]) < score && !scoreInserted) {
-					for (int j = scores.size()-1; j > i; j--) {
-						scores[j] = scores[j-1];
-						names[j] = names[j - 1];
-					}
-					scores[i] = std::to_string((int)score);
-					names[i] = name;
-					scoreInserted = true;
-				}
-				newFile += scores[i] + " " + names[i] + "\n";
-			}
-		}
+void Player::AddToName(unsigned char letter)
+{
+	if (currentLetter < maxLetters) {
+		name.at(currentLetter++) = letter;
+	}
+}
+
+void Player::RemoveLetter()
+{
+	if (currentLetter > 0) {
+		name.at(--currentLetter) = '_';
 	}
 	else {
-		reWrite = true;
-		newFile = "1\n" + std::to_string((int)score) + " " + name + "\n";
+		name.at(0) = '_';
 	}
-	scoreFile.close();
-	if (reWrite) {
-		scoreFileWrite.open(file, std::ofstream::out);
-		scoreFileWrite << newFile;
-		scoreFileWrite.close();
+}
+
+std::string Player::GetName() const
+{
+	return name;
+}
+
+int Player::GetMaxLetters()
+{
+	return maxLetters;
+}
+
+int Player::GetCurrentLetter()
+{
+	return currentLetter;
+}
+
+void Player::ResetName()
+{
+	for (int i = 0; i < maxLetters; i++) {
+		this->name.at(i) = '_';
 	}
+}
+
+bool Player::GetSubmitName()
+{
+	return submitName;
+}
+
+void Player::SetSubmitName(bool val)
+{
+	submitName = val;
+}
+
+void Player::SetCurrentSeed(int seed)
+{
+	scoreManager.SetSeed(seed);
 }
 
 void Player::TakeDmg(int dmg)
 {
 	health-=dmg;
-	this->Reset();
-	if(health <= 0) {
-		alive = false;
-		//writeScore(score, "Player");
+	this->Reset();	
+	if(health <= 0 && !this->invincible) {
+        alive = false;
 	}
 	else {
-		score += deathPoints;
+		scoreManager.setDamageScore();
 	}
+	this->HUD->LowerHealth();
 }
 
 void Player::AddHealth(int hlt)
@@ -747,7 +709,7 @@ void Player::AddHealth(int hlt)
 
 void Player::AddScore(float scr)
 {
-	this->score += scr;
+	this->scoreManager.AddScore(scr);
 }
 
 int Player::GetHealth()
@@ -757,7 +719,7 @@ int Player::GetHealth()
 
 float Player::GetScore()
 {
-	return score;
+	return scoreManager.GetScore();
 }
 
 bool Player::IsAlive()

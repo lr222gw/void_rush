@@ -72,6 +72,7 @@ struct vec3 {
 	vec3 operator/(float other);
 	vec3 operator+(vec3 other);
 	vec3 operator-(vec3 other);
+	float angle(vec3 other);
 	//0 = x, 1 = y, 2 = z
 	float getWithNumber(int i);
 	vec3 mirror();

@@ -12,14 +12,17 @@
 class Platform 
 {
   private:
+ 
     vec3 pos;
     int obstacles;
     int difficluty;
     float rotation;
-    Shape platformShape;
     RotationMatrix rotMat;
     friend class ImguiManager;
-  public:
+
+  public:    
+
+    Shape platformShape;
     Platform();
     Platform(std::vector<float> pos, int obstacles, int difficluty, float rotation = 0.0f);
     Platform(vec3 pos, int obstacles, int difficluty, float rotation = 0.0f);
@@ -32,4 +35,5 @@ class Platform
     float distance (vec3* position) const;
     float distance (std::vector<float> &position) const;
     Platform* next;
+    Platform* prev;
 };

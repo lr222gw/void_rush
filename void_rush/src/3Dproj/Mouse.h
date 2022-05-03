@@ -66,9 +66,9 @@ public:
 	void onWheelUp(int x, int y);
 	void onWheelDown(int x, int y);
 	void onMouseMove(int x, int y);
+	void activateMouse(bool activate);
 	
 private:
-	void activateMouse();
 	bool mouse_active;
 	bool once;
 	int x, y;

@@ -69,10 +69,8 @@ float4 main(PixelShaderInput input) : SV_TARGET
 
             //specular
             float3 reflectDir = reflect(-lightDir, input.normal.xyz);
-            float spec = pow(max(dot(viewDir, reflectDir), 0.0), ks.w);
+            float spec = pow(max(dot(viewDir, reflectDir), 0.0), ks.w + 0.000001);
             float3 specular = ks.xyz * spec;
-
-            //FinalPixel.xyz += saturate(ambient_light + defuse_light) + specular;
             FinalPixel.xyz += saturate(ambient_light * attenuation + defuse_light * attenuation) + specular * attenuation;
         }
         else

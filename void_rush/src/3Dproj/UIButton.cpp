@@ -26,3 +26,8 @@ bool UIButton::clicked()
 {
     return mouse->IsLeftDown() && hovered;
 }
+
+bool UIButton::hover()
+{
+    return hovered;
+}

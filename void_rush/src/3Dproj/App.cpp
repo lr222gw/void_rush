@@ -17,7 +17,6 @@ App::App(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR
 	//Create a buffer for the light const buffer(hlsli)
 	CreateConstBuffer(gfx, gfx->getConstBuffers(0), sizeof(*gfx->getLightconstbufferforCS()), gfx->getLightconstbufferforCS());
 	CreateConstBuffer(gfx, gfx->getConstBuffers(1), sizeof(*gfx->getCamPosconstbuffer()), gfx->getCamPosconstbuffer());
-
 	
 }
 
@@ -43,6 +42,17 @@ void App::run()
 		if (dt.dt() > 0.2f) {
 			dt.setDeltaTime(0.2f);
 		}
+		/*DEBUG MOSUE*/
+		if (getkey('P')) {
+			mouse->activateMouse(true);
+			gfx->getWindosClass().HideCoursor();
+		}
+		else if (getkey(VK_ESCAPE)) {
+			mouse->activateMouse(false);
+			gfx->getWindosClass().ShowCoursor();
+		}
+		
+
 		//handle events
 		gamestate->handleEvents();
 
@@ -76,8 +86,12 @@ void App::set_initial_gamestate(GameStatesEnum gameStateType)
 {
 	
 	if(gameStateType == GameStatesEnum::TO_GAME){
+		mouse->activateMouse(true);
+		gfx->getWindosClass().HideCoursor();
 		gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
 	}else if(gameStateType == GameStatesEnum::TO_MENU){
+		mouse->activateMouse(true);
+		gfx->getWindosClass().ShowCoursor();
 		gamestate = new Menu(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
 	}
 }
@@ -89,12 +103,16 @@ void App::handleGamestateChanges(GameStatesEnum handle)
 		quit = true;
 		break;
 	case GameStatesEnum::TO_GAME:
+		mouse->activateMouse(true);
+		gfx->getWindosClass().HideCoursor();
 		//delete current gamestate
 		delete gamestate;
 		//set gamestate to Game
 		gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
 		break;
 	case GameStatesEnum::TO_MENU:
+		mouse->activateMouse(true);
+		gfx->getWindosClass().ShowCoursor();
 		//delete current gamestate
 		delete gamestate;
 		//set gamestate to Menu

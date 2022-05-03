@@ -4,15 +4,17 @@
 #include "Keyboard.h"
 #include "Camera.h"
 #include "common/Vector.hpp"
+#include "hud/Hud.h"
 
 #include "generation/Position_generator.hpp"//To use difficulty
+#include "score/ScoreManager.hpp"
 
 #include <string>
 #include <fstream>
 
 class Player : public GameObject {
 public:
-	Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
+	Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, Hud* HUD, vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
 	virtual ~Player();
 	void update(float dt) override;
 	void handleEvents(float dt);
@@ -28,16 +30,26 @@ public:
 	bool ResetGhost();
 	void shovePlayer(vec2 shove, float forceY);
 
-	void SetPuzzlePos(vec3 puzzlePosition);
 	void SetDifficulity(Difficulity diff);
+	void SetStartPlatform(Platform*& start);
+	void writeScore(std::string file = "assets/files/highScores.txt");
 
-	//score -1: using players score
-	void writeScore(std::string name, float score = -1, std::string file = "assets/files/highScores.txt");
+	void AddToName(unsigned char letter);
+	void RemoveLetter();
+	std::string GetName()const;
+	int GetMaxLetters();
+	int GetCurrentLetter();
+	void ResetName();
+	bool GetSubmitName();
+	void SetSubmitName(bool val);
+
+	void SetCurrentSeed(int seed);
 
 	
 private:
 	friend class ImguiManager;
 	bool noClip;
+	bool invincible;
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
 	vec3 speed;
 	float jumpForce;
@@ -64,22 +76,21 @@ private:
 	Keyboard* keyboard;
 	Camera* cam;
 
-	float levelTime;
+	ScoreManager scoreManager;
+	std::string name;
+	int maxLetters;
+	int currentLetter;
+	bool submitName;
+	//float levelTime;
 	vec3 puzzlePos;
 	Difficulity levelDifficulty;
+	Hud* HUD;
 
 	float score;
 	float health;
 	bool alive;
 	float maxDepth;
 
-	const float constPoints = 0.1f;//Points given each update;
-	const float puzzlePoints = 100.0f;//Points given when puzzle is done
-	const float levelPoints = 1000.0f;//Points given when level is done
-	const float deathPoints = -5.0f;//Points given when player looses a life
-	//const std::string scoreFile = "asstes/files/highScores.txt";
-
-	const int maxScores = 10;
 	
 public:
 	void TakeDmg(int dmg = 1);
