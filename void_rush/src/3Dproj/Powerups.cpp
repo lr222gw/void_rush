@@ -14,6 +14,7 @@ Powerups::~Powerups()
 void Powerups::update(float dt)
 {
 	UsePowerUp();
+	
 }
 
 void Powerups::UsePowerUp()
@@ -21,18 +22,20 @@ void Powerups::UsePowerUp()
 	if (getPowerUpIndex() == EMPTY)
 	{
 		//Do nothing
-		std::cout << "Has nothing" << std::endl;
 	}
-	else if (this->player->getPlayerPower() == ROCKET)
+	else if (player->getPlayerPower() == ROCKET)
 	{
 		if (this->keyboard->isKeyPressed('E'))
 		{
 			std::cout << "Has Rocket" << std::endl;
+
 		}
 	}
-	else if (getPowerUpIndex() == APPLE)
+	else if (player->getPlayerPower() == APPLE)
 	{
-		std::cout << "has apple" << std::endl;
+		std::cout << "picked apple" << std::endl;
+		player->AddHealth();
+		player->setPlayerPower(EMPTY);
 	}
 	
 }

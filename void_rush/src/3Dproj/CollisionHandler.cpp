@@ -171,8 +171,7 @@ void CollisionHandler::update()
 		if (collision3D(player->getPlayerObjPointer(), powerups[i]))
 		{
 			player->pickedUpPower(powerups[i]->getPowerUpIndex());
-
+			deletePowerups(powerups[i]);
 		}
 	}
-
 }

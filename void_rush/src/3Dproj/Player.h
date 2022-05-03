@@ -49,7 +49,7 @@ public:
 	//Powerup function
 	void pickedUpPower(Powerup index);
 	Powerup getPlayerPower();
-	void usePowerup();
+	void setPlayerPower(Powerup index);
 
 	void SetDifficulity(Difficulity diff);
 	void SetStartPlatform(Platform*& start);
