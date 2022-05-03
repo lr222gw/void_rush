@@ -22,12 +22,14 @@ private:
 	Letters3D* text;
 
 	void updateShaders(bool vs = true, bool ps = true);
+	bool pauseMenu;
 	float testTime = 0.0f;
 	ProtoPuzzle* testPuzzle;
 	ShadowMap* shadowMap;
 	SkyBox* skybox;
 	SoundManager soundManager;
 	UIManager* UI;
+	UIManager* pauseUI;
 	Player* player;
 	Powerups* powerups;
 	Ghost* ghost;

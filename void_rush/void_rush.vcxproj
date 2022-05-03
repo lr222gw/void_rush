@@ -345,6 +345,7 @@
     <ClCompile Include="src\generation\Generation_manager.cpp" />
     <ClCompile Include="src\generation\Platform.cpp" />
     <ClCompile Include="src\generation\playerGen.cpp" />
+    <ClCompile Include="src\HighScoreGameState.cpp" />
     <ClCompile Include="src\hud\Hud.cpp" />
     <ClCompile Include="src\interact\interact.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -708,10 +709,12 @@
     <FxCompile Include="src\3Dproj\3DTextPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_skipMenu|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="src\3Dproj\3DTextVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_skipMenu|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="src\3Dproj\UIPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>

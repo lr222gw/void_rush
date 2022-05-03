@@ -198,14 +198,12 @@ bool CreateInputLayoutOwn(ID3D11Device* device, ID3D11InputLayout*& inputLayout,
 	return !FAILED(hr);
 }
 
-bool CreateTextureCube(std::string files[], ID3D11Device* device, ID3D11Texture2D*& tex, ID3D11ShaderResourceView*& texSRV, UINT wh)
+bool CreateTextureCube(std::string files[], ID3D11Device* device, ID3D11Texture2D*& tex, ID3D11ShaderResourceView*& texSRV)
 {
 	HRESULT hr;
 	const int nrOfRTV = 6;
 
 	D3D11_TEXTURE2D_DESC textureDesc;
-	textureDesc.Width = wh;
-	textureDesc.Height = wh;
 	textureDesc.MipLevels = 1;
 	textureDesc.ArraySize = nrOfRTV;
 	textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -234,7 +232,8 @@ bool CreateTextureCube(std::string files[], ID3D11Device* device, ID3D11Texture2
 		data[i].SysMemSlicePitch = textureWidth * textureHeight * 4;
 		
 	}
-
+	textureDesc.Width = textureWidth;
+	textureDesc.Height = textureHeight;
 	if (FAILED(device->CreateTexture2D(&textureDesc, data, &tex))) {
 		printf("doesn't work tex2d");
 		return false;
@@ -257,6 +256,7 @@ bool CreateTextureCube(std::string files[], ID3D11Device* device, ID3D11Texture2
 	for (int i = 0; i < 6; i++) {
 		delete[] textureData[i];
 	}
+	tex->Release();
 
 	return true;
 }
