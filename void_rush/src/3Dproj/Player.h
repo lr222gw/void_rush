@@ -33,7 +33,6 @@ public:
 	void SetDifficulity(Difficulity diff);
 	void SetStartPlatform(Platform*& start);
 	void writeScore(std::string file = "assets/files/highScores.txt");
-
 	void AddToName(unsigned char letter);
 	void RemoveLetter();
 	std::string GetName()const;
@@ -44,7 +43,7 @@ public:
 	void SetSubmitName(bool val);
 
 	void SetCurrentSeed(int seed);
-
+	void getSoundManager(SoundManager& sm);
 	
 private:
 	friend class ImguiManager;
@@ -91,6 +90,11 @@ private:
 	bool alive;
 	float maxDepth;
 
+	//running sound effect
+	void PlayRunSoundEffect(float dt);
+	float soundEffectCD = 0.4f;
+	float currentSoundEffectCD = 0.f;
+	std::string stepSounds[4];
 	
 public:
 	void TakeDmg(int dmg = 1);
@@ -99,5 +103,5 @@ public:
 	int GetHealth();
 	float GetScore();
 	bool IsAlive();
-	GameObject* GOPTR; //GameObjectPlayerPointer
+	GameObject* GOPTR; //GameObjectPlayerPointer//should not be here
 };

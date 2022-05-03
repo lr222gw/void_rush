@@ -449,6 +449,7 @@ void Game::setUpSound()
 {
 	soundManager.loadSound("assets/audio/ah.wav", 5, "ah1");
 	soundManager.loadSound("assets/audio/Goat.wav", 5, "Goat");
+	player->getSoundManager(soundManager);
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
 	soundManager.setMusicLoop(true);
 }

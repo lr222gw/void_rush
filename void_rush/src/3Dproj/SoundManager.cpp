@@ -38,7 +38,6 @@ void SoundManager::loadSound(std::string filePath, float volume, std::string nam
 		return;
 	}
 	sf::Sound* newSound = new sf::Sound(*buffer);
-	//newSound.setBuffer(*buffer);
 	newSound->setVolume(this->volume * volume);
 	
 	std::string Soundname;

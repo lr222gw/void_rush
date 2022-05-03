@@ -58,6 +58,9 @@ void Player::update(float dt)
 		if (grounded)
 		{
 			this->movePos(vec3(velocity.x* dt, 0.0f, velocity.z * dt));
+			if (velocity.length() > 0.3) {
+				PlayRunSoundEffect(dt);
+			}
 		}
 		if (this->groundedTimer != 0.0f)
 		{
@@ -692,6 +695,32 @@ void Player::SetSubmitName(bool val)
 void Player::SetCurrentSeed(int seed)
 {
 	scoreManager.SetSeed(seed);
+}
+
+void Player::PlayRunSoundEffect(float dt)
+{
+	static int a = 0;
+	currentSoundEffectCD -= dt;
+	if (currentSoundEffectCD < 0 && sm != nullptr) {
+		currentSoundEffectCD = soundEffectCD;
+		sm->playSound(stepSounds[a % 4], getPos());
+		a++;
+		//sm->playSound("Goat", getPos());
+	}
+}
+
+void Player::getSoundManager(SoundManager& sm)
+{
+	//set sounds
+	stepSounds[0] = "step1";
+	stepSounds[1] = "step2";
+	stepSounds[2] = "step3";
+	stepSounds[3] = "step4";
+	for (int i = 0; i < 4; i++) {
+		sm.loadSound("assets/audio/" + stepSounds[i] + ".ogg", 20, stepSounds[i]);
+	}
+
+	GameObject::getSoundManager(sm);
 }
 
 void Player::TakeDmg(int dmg)
