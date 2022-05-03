@@ -2,19 +2,21 @@
 #include <algorithm>
 
 Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, Hud* HUD, vec3 pos, vec3 rot, vec3 scale):
-	GameObject(file, gfx, pos, rot, scale), noClip(true), HUD(HUD)
+	GameObject(file, gfx, pos, rot, scale), noClip(false), HUD(HUD)
 {
 	this->mouse = mouse;
 	this->keyboard = keyboard;
 	this->cam = cam;
 	this->gravity = vec3(0.0f, -9.82f, 0.0f);
-	this->speed = vec3(5.f, 0.0f, 5.0f);
+	this->speed = vec3(2.7f, 0.0f, 2.7f);
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
 	this->jumpForce = 5.0f;
 	this->midAirAdj = 2.0f;
 	this->mass = 1.f;
 	this->grounded = true;
 	this->groundedTimer = 0.0f;
+	this->shoved = false;
+
 	GOPTR = static_cast<GameObject*>(this);
 	setWeight(20);
 	setBoundingBox(DirectX::XMFLOAT3(0, -0.19, 0), DirectX::XMFLOAT3(0.19f, 0.10f, 0.19f));
@@ -62,9 +64,12 @@ void Player::update(float dt)
 		}
 		if (getPos().y < maxDepth) {
 			TakeDmg();
-			Reset();
 		}
+	}else{
+		this->movePos(vec3(velocity.x * dt, 0.0f, velocity.z * dt));
 	}
+
+
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
 	GameObject::update(dt);
@@ -436,6 +441,7 @@ void Player::handleEvents(float dt)
 	if (!keyboard->isKeyPressed('W') && !keyboard->isKeyPressed('A') && !keyboard->isKeyPressed('S') && !keyboard->isKeyPressed('D'))
 	{
 		if (grounded)
+
 		{
 			jumpDir = vec2(0.0f, 0.0f);
 		}
@@ -475,14 +481,24 @@ void Player::handleEvents(float dt)
 	}
 	else
 	{
-		if (!jumpDir.legth() == 0.0f)
+		if (!shoved)
 		{
-			jumpDir = jumpDir / vec2(midAirAdj, midAirAdj);
-		}
-		jumpDir = jumpDir + startingJumpDir;
+			if (!jumpDir.legth() == 0.0f)
+			{
+				jumpDir = jumpDir / vec2(midAirAdj, midAirAdj);
+			}
+			jumpDir = jumpDir + startingJumpDir;
 
-		velocity.x = speed.x * jumpDir.x;
-		velocity.z = speed.z * jumpDir.y;
+			velocity.x = speed.x * jumpDir.x;
+			velocity.z = speed.z * jumpDir.y;
+
+		}
+		else
+		{
+			velocity.x = shove.x;
+			velocity.z = shove.y;
+			
+		}
 	}
 	this->isKeyPressed = false;
 }
@@ -512,6 +528,7 @@ void Player::setGrounded()
 	if (!grounded)
 	{
 		this->grounded = true;
+		this->shoved = false;
 		this->velocity = vec3(0.0f, 0.0f, 0.0f);
 		this->acceleration.y = 0.0f;
 		this->resForce.y = 0.0f;
@@ -527,7 +544,13 @@ void Player::setUngrounded()
 	{
 		this->grounded = false;
 		groundedTimer = 0.001f;
+		this->startingJumpDir = jumpDir;
 	}
+}
+
+float Player::getSpeed()
+{
+	return this->speed.x;
 }
 
 float Player::getGroundedTimer()
@@ -544,6 +567,7 @@ void Player::Reset(bool lvlClr)
 {
 	resetGhost = true;
 
+	this->shoved = false;
 	this->grounded = true;
 	this->resForce = vec3(0.0f, 0.0f, 0.0f);
 	this->jumpDir = vec2(0.0f, 0.0f);
@@ -569,6 +593,18 @@ bool Player::ResetGhost()
 	return false;
 }
 
+//Used by enemies to move player on collision
+void Player::shovePlayer(vec2 shove, float forceY)
+{
+	this->groundedTimer = 0.001f;
+	this->grounded = false;
+	this->shoved = true;
+	this->shove = shove;
+	this->velocity.y = forceY;
+	ResetGhost();
+}
+
+//void Player::SetPuzzlePos(vec3 puzzlePosition)
 void Player::SetDifficulity(Difficulity diff)
 {
 	scoreManager.SetDifficulty(diff);
@@ -657,8 +693,9 @@ void Player::SetCurrentSeed(int seed)
 void Player::TakeDmg(int dmg)
 {
 	health-=dmg;
-	if(health <= 0) {
-		alive = false;
+	this->Reset();	
+	if(health <= 0 && !this->invincible) {
+        alive = false;
 	}
 	else {
 		scoreManager.setDamageScore();

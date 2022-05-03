@@ -27,6 +27,7 @@ public:
 	void deleteElement(std::string name);
 	void deleteString(std::string name);
 	void deleteButton(std::string name);
+	void replaceElement(int index, std::string rmsprite);
 	void update();
 	void draw();
 private:

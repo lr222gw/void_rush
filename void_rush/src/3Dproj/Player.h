@@ -22,10 +22,13 @@ public:
 	void addRot(vec3 rot);
 	void setGrounded();
 	void setUngrounded();
+	float getSpeed();
 	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
 	void Reset(bool lvlClr = false);
+	//Used when player falls of platform to rest ghost
 	bool ResetGhost();
+	void shovePlayer(vec2 shove, float forceY);
 
 	void SetDifficulity(Difficulity diff);
 	void SetStartPlatform(Platform*& start);
@@ -46,6 +49,7 @@ public:
 private:
 	friend class ImguiManager;
 	bool noClip;
+	bool invincible;
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
 	vec3 speed;
 	float jumpForce;
@@ -58,6 +62,10 @@ private:
 	float mass;
 	bool grounded;
 	float groundedTimer;
+
+	//For being shoved
+	bool shoved;
+	vec2 shove;
 
 	vec2 startingJumpDir = vec2(0.0f, 0.0f);
 	char startingJumpKey = 'N';
@@ -78,7 +86,8 @@ private:
 	Difficulity levelDifficulty;
 	Hud* HUD;
 
-	int health;
+	float score;
+	float health;
 	bool alive;
 	float maxDepth;
 

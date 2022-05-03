@@ -182,6 +182,11 @@ void UIManager::deleteButton(std::string name)
 	mapOfButtons.erase(it);
 }
 
+void UIManager::replaceElement(int index, std::string rmsprite)
+{
+	elements[index]->replaceSprite(rm->getSprite(rmsprite, gfx));
+}
+
 void UIManager::update()
 {
 	for (size_t i = 0; i < buttons.size(); i++) {
