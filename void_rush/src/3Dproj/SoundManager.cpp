@@ -5,12 +5,16 @@ SoundManager::SoundManager()
 {
 	this->volume = 1;
 	musicLoop = false;
+	changingMusic = false;
+	activeMusic = 0;
 }
 
 SoundManager::SoundManager(float volume)
 {
 	this->volume = volume;
 	musicLoop = false;
+	changingMusic = false;
+	activeMusic = 0;
 }
 
 SoundManager::~SoundManager()
@@ -22,11 +26,14 @@ SoundManager::~SoundManager()
 	}
 }
 
-void SoundManager::update(vec3 playerPos, vec3 playerDir, vec3 upVec)
+void SoundManager::update(vec3 playerPos, vec3 playerDir, float dt, vec3 upVec)
 {
 	sf::Listener::setPosition(playerPos.x, playerPos.y, playerPos.z);
 	sf::Listener::setDirection(-playerDir.x, -playerDir.y, -playerDir.z);
 	sf::Listener::setUpVector(upVec.x, upVec.y, upVec.z);
+	if (changingMusic) {
+		changeVolumeMusics(dt);
+	}
 }
 
 void SoundManager::loadSound(std::string filePath, float volume, std::string name)
@@ -72,12 +79,22 @@ void SoundManager::playSound(std::string soundName, vec3 soundposition)
 	sounds.find(soundName)->second.sound->play();
 }
 
+void SoundManager::setLoopSound(std::string sound, bool loop)
+{
+	sounds.find(sound)->second.sound->setLoop(true);
+}
+
+void SoundManager::updatePositionOfSound(vec3 position, std::string sound)
+{
+	sounds.find(sound)->second.sound->setPosition(position.x, position.y, position.z);
+}
+
 void SoundManager::playMusic(std::string filePath, float volume)
 {
-	music.setVolume(volume * this->volume);
-	if (this->music.openFromFile(filePath)) {
-		music.play();
-		music.setLoop(false);
+	Music[activeMusic].setVolume(volume * this->volume);
+	if (Music[activeMusic].openFromFile(filePath)) {
+		Music[activeMusic].play();
+		Music[activeMusic].setLoop(this->musicLoop);
 	}
 	else {
 		std::cout << "cant find file: " << filePath << std::endl;
@@ -87,10 +104,40 @@ void SoundManager::playMusic(std::string filePath, float volume)
 void SoundManager::setMusicLoop(const bool loop)
 {
 	this->musicLoop = loop;
-	music.setLoop(loop);
+	Music[activeMusic].setLoop(loop);
 }
 
 float SoundManager::getVolume() const
 {
 	return this->volume;
 }
+
+void SoundManager::changeMusic(std::string NewMusic, float volume, float timeToChange)
+{
+	if (Music[(activeMusic + 1) % 2].openFromFile(NewMusic)) {
+		Music[(activeMusic + 1) % 2].play();
+		Music[(activeMusic + 1) % 2].setLoop(this->musicLoop);
+		Music[(activeMusic + 1) % 2].setVolume(0);
+	}
+	else {
+		std::cout << "cant find file: " << NewMusic << std::endl;
+	}
+	currentVolumeDiv[0] = Music[activeMusic].getVolume() / timeToChange;
+	currentVolumeDiv[1] = volume / timeToChange;
+	toVolume = volume;
+	changingMusic = true;
+	activeMusic++;
+	activeMusic %= 2;
+}
+
+void SoundManager::changeVolumeMusics(float dt)
+{
+	Music[(activeMusic + 1) % 2].setVolume(Music[(activeMusic + 1) % 2].getVolume() - currentVolumeDiv[0] * dt);
+	Music[activeMusic].setVolume(Music[activeMusic].getVolume() + currentVolumeDiv[1] * dt);
+	if (Music[activeMusic].getVolume() >= toVolume) {
+		Music[activeMusic].setVolume(toVolume);
+		changingMusic = false;
+		Music[(activeMusic + 1) % 2].stop();
+	}
+}
+

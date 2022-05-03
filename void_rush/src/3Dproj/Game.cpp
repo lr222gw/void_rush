@@ -90,6 +90,12 @@ void Game::handleEvents()
 			gfx->getWindosClass().HideCoursor();
 		}
 	}
+	if (keyboard->onceisKeyReleased('N')) {
+		soundManager.changeMusic("assets/audio/More_Plastic-Rewind.wav", 7, 4);
+	}
+	if (keyboard->onceisKeyReleased('M')) {
+		soundManager.changeMusic("assets/audio/EpicBeat.wav", 7.0f, 4);
+	}
 }
 
 void Game::renderShadow()
@@ -169,7 +175,7 @@ GameStatesEnum Game::update(float dt)
 		updateShaders();
 
 		/*update things*/
-		soundManager.update(camera->getPos(), camera->getForwardVec());
+		soundManager.update(camera->getPos(), camera->getForwardVec(), dt);
 		gfx->Update(dt, camera->getPos());
 
 		GameObjManager->update(dt);
@@ -346,8 +352,6 @@ void Game::DrawToBuffer()
 			LightVisualizers[i]->draw(gfx, false);
 		}
 	}
-	letter3DHandler->draw();
-
 	letter3DHandler->draw();
 	if (pauseMenu && player->IsAlive()) {
 		pauseUI->draw();
