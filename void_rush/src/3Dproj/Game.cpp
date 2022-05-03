@@ -453,6 +453,7 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Jump1.wav", 30, "Jump");
 	soundManager.loadSound("assets/audio/Land4.wav", 30, "Land");
 	soundManager.loadSound("assets/audio/TheWilhelmScream.wav", 30, "Scream");
+	soundManager.loadSound("assets/audio/Shoved1.wav", 30, "Shoved");
 	soundManager.loadSound("assets/audio/game_over.wav", 10, "GameOver");
 	soundManager.loadSound("assets/audio/begin.wav", 10, "Start");
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);

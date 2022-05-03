@@ -83,12 +83,12 @@ private:
 	int maxLetters;
 	int currentLetter;
 	bool submitName;
+
 	//float levelTime;
 	vec3 puzzlePos;
 	Difficulity levelDifficulty;
 	Hud* HUD;
 
-	float score;
 	float health;
 	bool alive;
 	float maxDepth;
