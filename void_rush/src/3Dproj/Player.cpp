@@ -42,6 +42,7 @@ Player::~Player()
 void Player::update(float dt)
 {
 	handleEvents(dt);
+
 	if (!noClip) {
 		scoreManager.Update(dt);
 		if (!grounded)
@@ -72,11 +73,13 @@ void Player::update(float dt)
 
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
+	
 	GameObject::update(dt);
 }
 
 void Player::handleEvents(float dt)
 {
+
 	//change these to use keyboard
 	if (!mouse->getMouseActive()) {
 		if (GetKeyState(VK_RIGHT) & 0x8000) {
@@ -543,6 +546,7 @@ void Player::setUngrounded()
 	if (grounded && !noClip)
 	{
 		this->grounded = false;
+		this->startingJumpDir = jumpDir;
 		groundedTimer = 0.001f;
 		this->startingJumpDir = jumpDir;
 	}

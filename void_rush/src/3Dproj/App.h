@@ -9,6 +9,7 @@
 #include "flags.h"
 #include "Game.h"
 #include "Menu.h"
+#include "HighScoreGameState.h"
 
 //git
 class App {
