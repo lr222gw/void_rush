@@ -21,21 +21,22 @@ enum powerups
 	FREEZE,
 	DEATH,
 	EMP, 
-	PAD
+	PAD,
+	APPLE
 };
 
 
 class Powerups:public GameObject
 {
 public:
-	Powerups(Player * player, Hud * hud, ModelObj* file, Graphics*& gfx, vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
+	Powerups(Player * player, ModelObj* file, Graphics*& gfx, vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1), powerups pow = EMPTY);
 	virtual ~Powerups();
 
 	void UsePowerUp();
+	powerups getPowerUpIndex();
 	
 private:
 
-
-	Hud* hud;
+	powerups power_index;
 	Player* player;
 };

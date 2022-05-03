@@ -8,6 +8,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	GameObjManager = new GameObjectManager(gfx, rm);
 	UI = nullptr;
 	ghost = nullptr;
+	powerups = nullptr;
 	nrOfLight = 0; 
 	player = nullptr;
 	skybox = nullptr;
@@ -367,6 +368,9 @@ void Game::setUpObject()
 	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2));
 	GameObjManager->addGameObject(ghost, "Ghost");
 	collisionHandler.addEnemies(ghost);
+
+	powerups = new Powerups(player, rm->get_Models("DCube.obj", gfx), gfx, vec3(0.0f, 0.0f, 0.0f), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2));
+	GameObjManager->addGameObject(powerups, "Powerups");
 
 	generationManager->initialize();
 	distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();

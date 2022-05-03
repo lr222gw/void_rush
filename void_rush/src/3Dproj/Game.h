@@ -29,6 +29,7 @@ private:
 	SoundManager soundManager;
 	UIManager* UI;
 	Player* player;
+	Powerups* powerups;
 	Ghost* ghost;
 	GameObjectManager* GameObjManager;
 	Generation_manager* generationManager;
