@@ -95,7 +95,7 @@ public:
     void setPosition(vec3 pos);
     void move(vec3 pos);
     void setScale(vec3 scale);
-    void setShape(vec3 center);
+    void setShape(vec3 center, float distanceToEnd);
     void setShapeCube(vec3 center);
     void buildShape();
     void updateBoundingBoxes();
@@ -107,6 +107,8 @@ public:
     outCorner outCorner;
     static Normals normals;
     vec3 scale;
+    vec3 shapeMidpoint;
+    float shapeRadius;
 
     //std::vector<DirectX::XMFLOAT4*> bounding_boxes; //TODO: Handle memory here!
     //std::vector<vec3[2]> bounding_boxes; //TODO: Handle memory here!
