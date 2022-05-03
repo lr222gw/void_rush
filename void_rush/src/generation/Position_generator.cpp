@@ -207,8 +207,14 @@ MM Position_generator::jumpPoint_generation_helper(Platform* start, Platform* en
     //pl->moveto(middle);
     pl->moveto(midd_platform->platformShape.outCorner.pos);
     if(!this->pl->isJumpPossible(end->platformShape.inCorner.pos)){
-        jumpPoint_create_offset(midd_platform, midd_platform->platformShape.inCorner.pos, start->platformShape.outCorner.pos, end->platformShape.inCorner.pos);
-        ret.last = jumpPoint_generation_helper(midd_platform, end).last;                
+        jumpPoint_create_offset(midd_platform, *midd_platform->getPos(), start->platformShape.outCorner.pos, end->platformShape.inCorner.pos);
+        if(this->pl->distance(end->platformShape.inCorner.pos) >  pl->getJumpDistance()/2){
+            ret.last = jumpPoint_generation_helper(midd_platform, end).last;
+        }
+        else{
+            midd_platform->platformShape.setShapeCube(*midd_platform->getPos()); 
+            ret.last = jumpPoint_generation_helper(midd_platform, end).last;
+        }
     }else{
         midd_platform->next = end;
         end->prev = midd_platform;//Set middle.next if end platform is close enogh
@@ -244,13 +250,14 @@ vec3 Position_generator::jumpPoint_create_offset(Platform* plat,vec3& currentMid
     }    
         
     vec3 randomDir = start_End_dir.X(temp).Normalize();
-    randomDir.y = std::clamp(randomDir.y, JP_conf.y_min_clamp, JP_conf.y_max_clamp);
+    //randomDir.y = std::clamp(randomDir.y, JP_conf.y_min_clamp, JP_conf.y_max_clamp);
+    randomDir.y = 0.f;
 
 
     float randomDist = randF(0.f, start_End.length()) / JP_conf.random_dist_dividier;
     vec3 offset = randomDir * randomDist; 
 
-    plat->setPosition(currentMiddle + offset);
+    plat->setPosition(start + offset);
     return offset;
 }
 

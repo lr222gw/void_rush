@@ -57,18 +57,11 @@ void Shape::setShape(vec3 center)
 
     //Sets middle (first ) to true
     busyMatrix[first_index / matrixSize][first_index % matrixSize] = true;
-    setShapeCube(center);
+    //setShapeCube(center);
 
-    int max = 25;
-    int min = 10;
+    int max = 5;
+    int min = 2;
     int nrOfVoxels = rand() % (max - min) + min; // random Number Of Voxels
-    struct Voxel{
-        Voxel* leftOf  = nullptr;
-        Voxel* rightOf = nullptr;
-        Voxel* behind  = nullptr;
-        Voxel* infront = nullptr;
-    };
-
     //Voxel* root = new Voxel;
     //Voxel* current = root;
     int current_index = first_index;    
@@ -76,11 +69,6 @@ void Shape::setShape(vec3 center)
     vec3 current_center = center;
     vec3 prev_center = center;
 
-    struct Center_Index_Pair {
-        vec3 current_center;
-        int current_index;
-    };
-    std::vector<Center_Index_Pair> previousVoxels;
     previousVoxels.push_back({ current_center, current_index });
     int extra_iterations_counter = 0;
     for (int i = 0; i < nrOfVoxels; i++) {
@@ -120,15 +108,15 @@ void Shape::setShape(vec3 center)
             busyMatrix[current_index / matrixSize][current_index % matrixSize] = true;
             prev_index = current_index;
             prev_center = current_center;
-            previousVoxels.push_back({current_center, current_index});
-            setShapeCube(current_center);
+            this->previousVoxels.push_back({current_center, current_index});
+            //setShapeCube(current_center);
             
         }
         else 
         {
             i--;
-            current_center = previousVoxels[random_prev_index].current_center;
-            current_index  = previousVoxels[random_prev_index].current_index;
+            current_center = this->previousVoxels[random_prev_index].current_center;
+            current_index  = this->previousVoxels[random_prev_index].current_index;
         }
 
         //current = next;
@@ -154,12 +142,6 @@ void Shape::setShape(vec3 center)
     }
 
     //Find longest distance
-    struct LongestDist{
-        vec3 startPos;
-        vec3 endPos;
-        float distance;    
-    };
-
     LongestDist current;
     LongestDist previous;
     current.distance = 0;
@@ -182,11 +164,11 @@ void Shape::setShape(vec3 center)
     this->inCorner.pos = current.startPos;
     this->outCorner.pos = current.endPos;
    // vec3 dir = this->inCorner.pos - center;
-    vec3 dir = center - this->inCorner.pos;
+    //vec3 dir = center - this->inCorner.pos;
 
-    this->outCorner.pos = this->outCorner.pos + dir;
+    /*this->outCorner.pos = this->outCorner.pos + dir;
     this->inCorner.pos = this->inCorner.pos + dir;
-    this->move(dir);
+    this->move(dir);*/
 
     int breakHere = 0;
 
@@ -254,6 +236,13 @@ void Shape::setShapeCube(vec3 center)
     
     bounding_boxes.push_back(min_max);
 
+}
+
+void Shape::buildShape()
+{
+    for(Center_Index_Pair voxel : this->previousVoxels){
+        this->setShapeCube(voxel.current_center);
+    }
 }
 
 void Shape::updateBoundingBoxes()

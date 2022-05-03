@@ -70,9 +70,20 @@ struct Normals{
 };
 static Normals normals;
 
+struct LongestDist {
+    vec3 startPos;
+    vec3 endPos;
+    float distance;
+};
+
 struct vec3_pair {
     vec3 first;
     vec3 second;
+};
+
+struct Center_Index_Pair {
+    vec3 current_center;
+    int current_index;
 };
 
 class Shape
@@ -86,6 +97,7 @@ public:
     void setScale(vec3 scale);
     void setShape(vec3 center);
     void setShapeCube(vec3 center);
+    void buildShape();
     void updateBoundingBoxes();
 
     void export_as_obj();
@@ -99,6 +111,7 @@ public:
     //std::vector<DirectX::XMFLOAT4*> bounding_boxes; //TODO: Handle memory here!
     //std::vector<vec3[2]> bounding_boxes; //TODO: Handle memory here!
     std::vector<vec3_pair> bounding_boxes; //TODO: Handle memory here!
+    std::vector<Center_Index_Pair> previousVoxels;
 
     
 
