@@ -228,21 +228,21 @@ GameStatesEnum Game::update(float dt)
 			SetName();
 		}
 	}
-	else if(paused) {
-		if (keyboard->isKeyPressed(VK_DELETE)) {
-			paused = false;
-			keyboard->onKeyReleased(VK_DELETE);
-			UnPause();
-		}
-		UI->update();
-		if (UI->getButton("Resume")->clicked()) {
-			paused = false;
-			UnPause();
-		}
-		else if (UI->getButton("Menu")->clicked()) {
-			theReturn = GameStatesEnum::TO_MENU;
-		}
-	}
+	//else if(paused) {
+	//	if (keyboard->isKeyPressed(VK_DELETE)) {
+	//		paused = false;
+	//		keyboard->onKeyReleased(VK_DELETE);
+	//		UnPause();
+	//	}
+	//	UI->update();
+	//	if (UI->getButton("Resume")->clicked()) {
+	//		paused = false;
+	//		UnPause();
+	//	}
+	//	else if (UI->getButton("Menu")->clicked()) {
+	//		theReturn = GameStatesEnum::TO_MENU;
+	//	}
+	//}
 
 	return theReturn;
 }
