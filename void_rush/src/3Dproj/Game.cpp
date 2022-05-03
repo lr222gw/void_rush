@@ -180,8 +180,6 @@ GameStatesEnum Game::update(float dt)
 	/*update things*/
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 	gfx->Update(dt, camera->getPos());
-	GameObjManager->update(dt);
-	player->update(dt);
 	HUD->UpdateGhostBar(player->getPos(), generationManager->getPuzzelPos(), ghost->getPos(), distanceFromStartPosToPuzzle);
 
 #pragma region camera_settings
