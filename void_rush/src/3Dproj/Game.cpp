@@ -452,8 +452,12 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Powerup6.wav", 10, "Pickup");
 	soundManager.loadSound("assets/audio/Land3.wav", 30, "Land");
 	soundManager.loadSound("assets/audio/TheWilhelmScream.wav", 30, "Scream");
+	soundManager.loadSound("assets/audio/game_over.wav", 10, "GameOver");
+	soundManager.loadSound("assets/audio/begin.wav", 10, "Start");
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
 	soundManager.setMusicLoop(true);
+
+	soundManager.playSound("Start", player->getPos());
 }
 
 void Game::Interact(std::vector<GameObject*>& interactables)

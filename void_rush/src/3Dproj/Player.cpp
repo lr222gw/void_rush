@@ -706,6 +706,7 @@ void Player::TakeDmg(int dmg)
 	this->Reset();	
 	if(health <= 0 && !this->invincible) {
         alive = false;
+		sm->playSound("GameOver", getPos());
 	}
 	else {
 		scoreManager.setDamageScore();
