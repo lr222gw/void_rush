@@ -150,24 +150,69 @@ GameStatesEnum Game::update(float dt)
 		gfx->Update(dt, camera->getPos());
 		GameObjManager->update(dt);
 
+	/*update things*/
+	soundManager.update(camera->getPos(), camera->getForwardVec());
+	gfx->Update(dt, camera->getPos());
+	GameObjManager->update(dt);
+	player->update(dt);
+	HUD->UpdateGhostBar(player->getPos(), generationManager->getPuzzelPos(), ghost->getPos(), distanceFromStartPosToPuzzle);
+
 #pragma region camera_settings
 
-		if (getkey('C')) {
-			camera->setPosition(light[lightNr]->getPos());
-			camera->setRotation(light[lightNr]->getRotation());
+	if (getkey('C')) {
+		camera->setPosition(light[lightNr]->getPos());
+		camera->setRotation(light[lightNr]->getRotation());
+	}
+	if (getkey('1') && getkey(VK_F1)) {
+		lightNr = 0;
+	}
+	if (getkey('2') && getkey(VK_F1)) {
+		lightNr = 1;
+	}
+	if (getkey('3') && getkey(VK_F1)) {
+		lightNr = 2;
+	}
+	if (getkey('4') && getkey(VK_F1)) {
+		lightNr = 3;
+	}
+
+	/*
+	if (getkey('L'))
+	{
+		HUD->UpdateScore(10000);
+	}
+
+	if (getkey('V') && testTime <= 0.0f)
+	{
+		testInt++;
+		if (testInt == 7)
+		{
+			testInt = 0;
 		}
-		if (getkey('1') && getkey(VK_F1)) {
-			lightNr = 0;
+		testTime = 0.2f;
+		HUD->ChangeCurrentPowerUp(testInt);
+	}
+
+	if (getkey('B') && testTime <= 0.0f)
+	{
+		testTime = 0.2f;
+		if (HUD->GetStatusOfPassive(1))
+		{
+			HUD->TurnOffPassive(1);
+			HUD->TurnOffPassive(2);
+			HUD->TurnOffPassive(3);
+			HUD->TurnOffPassive(4);
 		}
-		if (getkey('2') && getkey(VK_F1)) {
-			lightNr = 1;
+		else
+		{
+			HUD->TurnOnPassive(1);
+			HUD->TurnOnPassive(2);
+			HUD->TurnOnPassive(3);
+			HUD->TurnOnPassive(4);
 		}
-		if (getkey('3') && getkey(VK_F1)) {
-			lightNr = 2;
-		}
-		if (getkey('4') && getkey(VK_F1)) {
-			lightNr = 3;
-		}
+	}
+	*/
+
 #pragma endregion camera_settings
 
 		Interact(this->GameObjManager->getAllInteractGameObjects());
@@ -324,7 +369,7 @@ void Game::setUpObject()
 	collisionHandler.addEnemies(ghost);
 
 	generationManager->initialize();
-	testPuzzle->Initiate(generationManager->getPuzzelPos());
+	distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 
 
@@ -452,7 +497,6 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 		}
 	}
 
-
 	if (mouse->IsLeftDown() && testTime <= 0.0f)
 	{
 		testTime = 1.0f;
@@ -462,6 +506,7 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			//player->setPos(vec3(0.0f, 0.0f, 0.0f));
 			player->Reset(true);
 			generationManager->initialize();
+			distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
 		}
 	}
 }

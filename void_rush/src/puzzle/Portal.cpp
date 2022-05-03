@@ -7,6 +7,7 @@ Portal::Portal(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandle
 Portal::~Portal()
 {
     for (size_t i = 0; i < portals.size(); i++) {
+        colHandler->deletePlatform(portals[i]);
         delete portals[i];
     }
     portals.clear();
@@ -61,6 +62,12 @@ void Portal::InteractPortal(vec3 playerPos, vec3 forwardVec)
 
 void Portal::ResetPortal()
 {
+    for (size_t i = 0; i < portals.size(); i++)
+    {
+        colHandler->deletePlatform(portals[i]);
+        delete portals[i];
+    }
+    portals.clear();
     this->spawned = false;
     this->completed = false;
 }

@@ -76,6 +76,7 @@ void UIElements::moveUVPosition(float x, float y)
     constBufferData.UVSizeWXY.element[3] += y;
 }
 
+
 vec2 UIElements::getSize()
 {
     return vec2(constBufferData.size.element[0],
