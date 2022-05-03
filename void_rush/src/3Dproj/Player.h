@@ -6,11 +6,25 @@
 #include "common/Vector.hpp"
 #include "hud/Hud.h"
 
+
 #include "generation/Position_generator.hpp"//To use difficulty
 #include "score/ScoreManager.hpp"
 
 #include <string>
 #include <fstream>
+
+enum Powerup
+{
+	EMPTY,
+	ROCKET,
+	CARD,
+	FREEZE,
+	DEATH,
+	EMP,
+	PAD,
+	APPLE
+};
+
 
 class Player : public GameObject {
 public:
@@ -26,9 +40,15 @@ public:
 	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
 	void Reset(bool lvlClr = false);
+
 	//Used when player falls of platform to rest ghost
 	bool ResetGhost();
 	void shovePlayer(vec2 shove, float forceY);
+
+	//Powerup function
+	void pickedUpPower(Powerup index);
+	Powerup getPlayerPower();
+	void usePowerup();
 
 	void SetDifficulity(Difficulity diff);
 	void SetStartPlatform(Platform*& start);
@@ -67,6 +87,9 @@ private:
 	bool shoved;
 	vec2 shove;
 
+	//Powerups
+	Powerup power_index;
+
 	vec2 startingJumpDir = vec2(0.0f, 0.0f);
 	char startingJumpKey = 'N';
 	bool isKeyPressed = false;
@@ -85,6 +108,7 @@ private:
 	vec3 puzzlePos;
 	Difficulity levelDifficulty;
 	Hud* HUD;
+	
 
 	float score;
 	float health;

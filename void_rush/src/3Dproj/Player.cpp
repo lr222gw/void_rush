@@ -17,6 +17,8 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->groundedTimer = 0.0f;
 	this->shoved = false;
 
+	this->power_index = EMPTY;
+
 	GOPTR = static_cast<GameObject*>(this);
 	setWeight(20);
 	setBoundingBox(DirectX::XMFLOAT3(0, -0.19, 0), DirectX::XMFLOAT3(0.19f, 0.10f, 0.19f));
@@ -606,6 +608,24 @@ void Player::shovePlayer(vec2 shove, float forceY)
 	this->velocity.y = forceY;
 	ResetGhost();
 }
+
+//gets the powerup index from collission handler when one is picked up
+void Player::pickedUpPower(Powerup index)
+{
+	this->power_index = index;
+	this->HUD->ChangeCurrentPowerUp(this->power_index);
+}
+
+Powerup Player::getPlayerPower()
+{
+	return this->power_index;
+}
+
+void Player::usePowerup()
+{
+	
+}
+
 
 //void Player::SetPuzzlePos(vec3 puzzlePosition)
 void Player::SetDifficulity(Difficulity diff)

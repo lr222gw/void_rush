@@ -170,7 +170,8 @@ void CollisionHandler::update()
 	{
 		if (collision3D(player->getPlayerObjPointer(), powerups[i]))
 		{
-			powerups[i]->UsePowerUp();
+			player->pickedUpPower(powerups[i]->getPowerUpIndex());
+
 		}
 	}
 

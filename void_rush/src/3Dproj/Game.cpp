@@ -396,7 +396,7 @@ void Game::setUpObject()
 	GameObjManager->addGameObject(ghost, "Ghost");
 	collisionHandler.addEnemies(ghost);
 
-	powerups = new Powerups(player, rm->get_Models("DCube.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), APPLE);
+	powerups = new Powerups(rm->get_Models("DCube.obj", gfx), gfx,player, keyboard, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), ROCKET);
 	GameObjManager->addGameObject(powerups, "Powerups");
 	collisionHandler.addPowerups(powerups);
 
