@@ -173,6 +173,12 @@ GameStatesEnum Game::update(float dt)
 		lightNr = 3;
 	}
 
+	/*
+	if (getkey('L'))
+	{
+		HUD->UpdateScore(10000);
+	}
+
 	if (getkey('V') && testTime <= 0.0f)
 	{
 		testInt++;
@@ -202,6 +208,7 @@ GameStatesEnum Game::update(float dt)
 			HUD->TurnOnPassive(4);
 		}
 	}
+	*/
 
 #pragma endregion camera_settings
 

@@ -12,6 +12,7 @@ private:
 	float sizeOfBar = 0.0f;
 	float fullBar = 0.467f;
 	float noBar = 0.01f;
+	int score = 0;
 
 	const int HEALTH = 0;
 	const int GHOSTBAR = 1;
@@ -38,26 +39,19 @@ private:
 	const int EMP = 5;
 	const int PAD = 6;
 
-	//Rocket
-	//Credit Card
-	//Freeze
-	//Skull
-	//EMP
-	//Trampoline
-
-
 public:
 	Hud(Graphics*& gfx, ResourceManager*& rm);
 	virtual ~Hud();
 
 	void setUpUI();
-	void ResetHUD();
 	void LowerHealth();
 	void IncreaseHealth();
+	void UpdateScore(int points);
 	void TurnOnPassive(int index);
 	void TurnOffPassive(int index);
 	void ChangeCurrentPowerUp(int index);
-	bool GetStatusOfPassive(int index);
+	bool GetStatusOfPassive(int index) const;
+	int GetCurrentPowerUp() const;
 	void UpdateGhostBar(vec3 playerPos, vec3 puzzlePos, vec3 ghostPos, float totalDistance);
 
 	void Update();

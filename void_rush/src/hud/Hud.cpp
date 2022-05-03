@@ -19,19 +19,13 @@ void Hud::setUpUI()
 	UI->createUISprite("assets/textures/Ghost Frame.png", vec2(-0.25f, 0.8f), vec2(0.5f, 0.2f));
 	UI->createUISprite("assets/textures/Ghost Pointer.png", vec2(-0.26f, 0.71f), vec2(0.05f, 0.1f));
 	UI->createUIString("00m", vec2(-0.27f, 0.65f), vec2(0.03f, 0.03f), "GhostDistance");
-	UI->createUISprite("assets/textures/Zelda Heart.png", vec2(0.8f, 0.88f), vec2(0.1f, 0.1f)); //Change to score and add text that updates.
+	UI->createUISprite("assets/textures/ScoreText.png", vec2(0.54f, 0.88f), vec2(0.15f, 0.1f));
+	UI->createUIString("000000", vec2(0.7f, 0.88f), vec2(0.05f, 0.08f), "Score");
 	UI->createUISprite("assets/textures/PowerUpFrame.png", vec2(0.7f, -0.95f), vec2(0.3f, 0.3f));
 	UI->createUISprite("assets/textures/Empty.png", vec2(0.75f, -0.63f), vec2(0.05f, 0.05f));
 	UI->createUISprite("assets/textures/Empty.png", vec2(0.8f, -0.63f), vec2(0.05f, 0.05f));
 	UI->createUISprite("assets/textures/Empty.png", vec2(0.85f, -0.63f), vec2(0.05f, 0.05f));
 	UI->createUISprite("assets/textures/Empty.png", vec2(0.9f, -0.63f), vec2(0.05f, 0.05f));
-}
-
-void Hud::ResetHUD()
-{
-	currentHealth = 3;
-	std::string health = "x" + std::to_string(currentHealth);
-	UI->getStringElement("Health")->setText(health);
 }
 
 void Hud::LowerHealth()
@@ -46,6 +40,46 @@ void Hud::IncreaseHealth()
 	currentHealth++;
 	std::string health = "x" + std::to_string(currentHealth);
 	UI->getStringElement("Health")->setText(health);
+}
+
+void Hud::UpdateScore(int points)
+{
+	this->score += points;
+	std::string scoreString;
+	if (this->score <= 9)
+	{
+		scoreString = "00000" + std::to_string(this->score);
+		UI->getStringElement("Score")->setText(scoreString);
+	}
+	else if (this->score <= 99)
+	{
+		scoreString = "0000" + std::to_string(this->score);
+		UI->getStringElement("Score")->setText(scoreString);
+	}
+	else if (this->score <= 999)
+	{
+		scoreString = "000" + std::to_string(this->score);
+		UI->getStringElement("Score")->setText(scoreString);
+	}
+	else if (this->score <= 9999)
+	{
+		scoreString = "00" + std::to_string(this->score);
+		UI->getStringElement("Score")->setText(scoreString);
+	}
+	else if (this->score <= 99999)
+	{
+		scoreString = "0" + std::to_string(this->score);
+		UI->getStringElement("Score")->setText(scoreString);
+	}
+	else if (this->score <= 999999)
+	{
+		scoreString = std::to_string(this->score);
+		UI->getStringElement("Score")->setText(scoreString);
+	}
+	else
+	{
+		UI->getStringElement("Score")->setText("999999");
+	}
 }
 
 void Hud::TurnOnPassive(int index)
@@ -129,7 +163,7 @@ void Hud::ChangeCurrentPowerUp(int index)
 	}
 }
 
-bool Hud::GetStatusOfPassive(int index)
+bool Hud::GetStatusOfPassive(int index) const
 {
 	switch (index)
 	{
@@ -148,6 +182,11 @@ bool Hud::GetStatusOfPassive(int index)
 	}
 
 	return false;
+}
+
+int Hud::GetCurrentPowerUp() const
+{
+	return this->currentPowerUp;
 }
 
 void Hud::UpdateGhostBar(vec3 playerPos, vec3 puzzlePos, vec3 ghostPos, float totalDistance)
