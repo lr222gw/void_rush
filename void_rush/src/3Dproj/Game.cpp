@@ -33,6 +33,8 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	this->setUpSound();
 	this->setUpUI();
 	this->IMGUI->set_owner(this);
+
+	this->paused = false;
 }
 
 Game::~Game()
@@ -178,8 +180,6 @@ GameStatesEnum Game::update(float dt)
 	/*update things*/
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 	gfx->Update(dt, camera->getPos());
-	GameObjManager->update(dt);
-	player->update(dt);
 	HUD->UpdateGhostBar(player->getPos(), generationManager->getPuzzelPos(), ghost->getPos(), distanceFromStartPosToPuzzle);
 
 #pragma region camera_settings
@@ -242,6 +242,11 @@ GameStatesEnum Game::update(float dt)
 
 		Interact(this->GameObjManager->getAllInteractGameObjects());
 
+		if (keyboard->isKeyPressed(VK_DELETE)) {
+			paused = true;
+			keyboard->onKeyReleased(VK_DELETE);
+			Pause();
+		}
 	}
 	else {//player !alive
 		soundManager.update(camera->getPos(), camera->getForwardVec());
@@ -262,6 +267,21 @@ GameStatesEnum Game::update(float dt)
 			SetName();
 		}
 	}
+	//else if(paused) {
+	//	if (keyboard->isKeyPressed(VK_DELETE)) {
+	//		paused = false;
+	//		keyboard->onKeyReleased(VK_DELETE);
+	//		UnPause();
+	//	}
+	//	UI->update();
+	//	if (UI->getButton("Resume")->clicked()) {
+	//		paused = false;
+	//		UnPause();
+	//	}
+	//	else if (UI->getButton("Menu")->clicked()) {
+	//		theReturn = GameStatesEnum::TO_MENU;
+	//	}
+	//}
 
 	return theReturn;
 }
@@ -440,8 +460,8 @@ void Game::setUpUI()
 
 	//pause UI
 	pauseUI = new UIManager(rm, gfx);
-	pauseUI->createUIButton("assets/textures/outline.png", " continue ", mouse, vec2(-0.75, -0.2), vec2(0.5, 0.3), "continue", vec2(0,0.05), vec2(0,0.1));
-	pauseUI->createUIButton("assets/textures/outline.png", " main menu ", mouse, vec2(0.25, -0.2), vec2(0.5, 0.3), "menu", vec2(0, 0.05), vec2(0,0.1));
+	pauseUI->createUIButton("assets/textures/buttonBack.png", " continue ", mouse, vec2(-0.75, -0.2), vec2(0.5, 0.3), "continue", vec2(0,0.05), vec2(0,0.1));
+	pauseUI->createUIButton("assets/textures/buttonBack.png", " main menu ", mouse, vec2(0.25, -0.2), vec2(0.5, 0.3), "menu", vec2(0, 0.05), vec2(0,0.1));
 	pauseUI->createUIString("Game Menu", vec2(-0.5,0.3), vec2(1/9.f,0.5), "Game Menu");
 }
 
@@ -548,3 +568,29 @@ void Game::SetName()
 	}
 	UI->getStringElement("Name")->setText(player->GetName());
 }
+
+void Game::Pause()
+{
+	UI->getStringElement("PauseText")->setPosition(vec2(-0.3f, 0.6f));
+	UI->getButton("Resume")->setPosition(-0.3, 0.1);
+	UI->getButton("Menu")->setPosition(-0.3, -0.2);
+	UI->getStringElement("Resume")->setPosition(vec2( - 0.3, 0.25));
+	UI->getStringElement("Menu")->setPosition(vec2( - 0.3, -0.05));
+
+
+	mouse->activateMouse(false);
+	gfx->getWindosClass().ShowCoursor();
+}
+
+void Game::UnPause()
+{
+	UI->getStringElement("PauseText")->setPosition(vec2(-10.0f, 10.0f));
+	UI->getButton("Resume")->setPosition(-10.0, -10.0);
+	UI->getStringElement("Resume")->setPosition(vec2( - 10.0, -10.0));
+	UI->getButton("Menu")->setPosition(-10.0, -10.0);
+	UI->getStringElement("Menu")->setPosition(vec2( - 10.0, -10.0));
+
+	mouse->activateMouse(true);
+	gfx->getWindosClass().HideCoursor();
+}
+
