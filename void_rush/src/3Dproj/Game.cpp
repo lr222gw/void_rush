@@ -115,10 +115,6 @@ GameStatesEnum Game::update(float dt)
 {
 	GameStatesEnum theReturn = GameStatesEnum::NO_CHANGE;
 	if (pauseMenu) {
-		//dt = 0
-		camera->updateCamera(dt);
-		skybox->update(camera->getPos());
-		updateShaders();
 		pauseUI->update();
 		gfx->Update(dt, camera->getPos());
 
