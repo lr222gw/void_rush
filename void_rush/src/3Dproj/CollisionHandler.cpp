@@ -30,6 +30,11 @@ void CollisionHandler::addObstacle(GameObject* Obstacle)
 	this->Obstacle.push_back(Obstacle);
 }
 
+void CollisionHandler::addPowerups(Powerups* powerups)
+{
+	this->powerups.push_back(powerups);
+}
+
 void CollisionHandler::deletePlatform(GameObject* ptr)
 {
 	for (size_t i = 0; i < Custom_platforms.size(); i++) {
@@ -62,6 +67,15 @@ void CollisionHandler::deleteObstacle(GameObject* ptr)
 	for (size_t i = 0; i < Obstacle.size(); i++) {
 		if (Obstacle[i] == ptr) {
 			Obstacle.erase(std::next(Obstacle.begin(), i));
+		}
+	}
+}
+
+void CollisionHandler::deletePowerups(Powerups* ptr)
+{
+	for (size_t i = 0; i < powerups.size(); i++) {
+		if (powerups[i] == ptr) {
+			powerups.erase(std::next(powerups.begin(), i));
 		}
 	}
 }
@@ -149,6 +163,14 @@ void CollisionHandler::update()
 	for (size_t i = 0; i < Enemies.size(); i++) {
 		for (size_t o = i; o < Obstacle.size(); o++) {
 
+		}
+	}
+
+	for (size_t i = 0; i < powerups.size(); i++)
+	{
+		if (collision3D(player->getPlayerObjPointer(), powerups[i]))
+		{
+			powerups[i]->UsePowerUp();
 		}
 	}
 

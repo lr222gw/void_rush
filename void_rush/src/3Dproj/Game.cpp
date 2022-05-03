@@ -118,7 +118,7 @@ GameStatesEnum Game::update(float dt)
 	if (pauseMenu) {
 		pauseUI->update();
 		gfx->Update(dt, camera->getPos());
-
+		
 		if (pauseUI->getButton("continue")->clicked()) {
 			pauseMenu = false;
 			//disepear mouse
@@ -283,7 +283,6 @@ GameStatesEnum Game::update(float dt)
 	//		theReturn = GameStatesEnum::TO_MENU;
 	//	}
 	//}
-
 	return theReturn;
 }
 
@@ -397,8 +396,9 @@ void Game::setUpObject()
 	GameObjManager->addGameObject(ghost, "Ghost");
 	collisionHandler.addEnemies(ghost);
 
-	powerups = new Powerups(player, rm->get_Models("DCube.obj", gfx), gfx, vec3(0.0f, 0.0f, 0.0f), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2));
+	powerups = new Powerups(player, rm->get_Models("DCube.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), APPLE);
 	GameObjManager->addGameObject(powerups, "Powerups");
+	collisionHandler.addPowerups(powerups);
 
 	generationManager->initialize();
 	distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
