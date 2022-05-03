@@ -544,6 +544,7 @@ void Player::setUngrounded()
 	{
 		this->grounded = false;
 		groundedTimer = 0.001f;
+		this->startingJumpDir = jumpDir;
 	}
 }
 
