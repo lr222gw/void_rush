@@ -55,6 +55,7 @@ void Shape::setShape(vec3 center, float distanceToEnd)
     struct Center_busy_pair {
         vec3 position;
         bool isBusy = false; 
+        int index;
     };
     Center_busy_pair busyMatrix[matrixSize][matrixSize] = { Center_busy_pair() };
 
@@ -62,7 +63,7 @@ void Shape::setShape(vec3 center, float distanceToEnd)
     //int first_index = (matrixSize * matrixSize - matrixSize);
 
     //Sets middle (first ) to true
-    busyMatrix[first_index / matrixSize][first_index % matrixSize] = Center_busy_pair{center, true};
+    busyMatrix[first_index / matrixSize][first_index % matrixSize] = Center_busy_pair{center, true, 0};
     //setShapeCube(center);
 
     
@@ -118,7 +119,7 @@ void Shape::setShape(vec3 center, float distanceToEnd)
             current_index < matrixSize * matrixSize) 
         {
 
-            busyMatrix[current_index / matrixSize][current_index % matrixSize] = Center_busy_pair{ current_center ,true } ;
+            busyMatrix[current_index / matrixSize][current_index % matrixSize] = Center_busy_pair{ current_center ,true, (int)this->previousVoxels.size()} ;
             prev_index = current_index;
             prev_center = current_center;
             this->previousVoxels.push_back({current_center, current_index});
@@ -181,8 +182,6 @@ void Shape::setShape(vec3 center, float distanceToEnd)
                 current.distance = temp;
                 current.startPos = previousVoxels[i].current_center;
                 current.endPos   = previousVoxels[j].current_center;
-                START   = &previousVoxels[i].current_center;
-                END     = &previousVoxels[j].current_center;
             }            
         }
     }
@@ -201,15 +200,17 @@ void Shape::setShape(vec3 center, float distanceToEnd)
             if(busyMatrix[i][j].isBusy){
 
                 last = busyMatrix[i][j].position;
-                if (wasFirst) {
+                if (!wasFirst) {
+                    END = &previousVoxels[busyMatrix[i][j].index].current_center;
                     first = busyMatrix[i][j].position;
                     wasFirst = true;
                 }
+                START = &previousVoxels[busyMatrix[i][j].index].current_center;
             }
         }
     }
-    this->inCorner.pos = first+center;
-    this->outCorner.pos = last+center;
+    this->inCorner.pos = last;
+    this->outCorner.pos = first;
 
 
 
