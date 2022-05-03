@@ -9,8 +9,7 @@ Menu::Menu(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mous
 	cam->setPosition(vec3(0, 0, 0));
 	setUpObject();
 	setUpUI();
-	//this->IMGUI->set_owner(this);
-
+	
 	soundManager.playMusic("assets/audio/MenuMusic.wav", 7.0f);
 	soundManager.setMusicLoop(true);
 }
@@ -47,6 +46,9 @@ GameStatesEnum Menu::update(float dt)
 		UI->createUIString("Loading...", vec2(-0.9, -0.75), vec2(0.2, 0.2), "loading");
 		theReturn = GameStatesEnum::TO_GAME;
 	}
+	else if (UI->getButton("HighScores")->clicked()) {
+		theReturn = GameStatesEnum::TO_HIGHSCORE;
+	}
 	checkHover();
 
 	return theReturn;
@@ -66,9 +68,7 @@ void Menu::render()
 	skybox->draw(gfx);
 
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
-	gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), nullptr);
 	UI->draw();
-	gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), gfx->getDepthStencil());
 
 	gfx->present(0);
 }
@@ -78,16 +78,11 @@ void Menu::setUpUI()
 	UI = new UIManager(rm, gfx);
 	UI->createUIString("Void Rush", vec2(-0.4, 0.7), vec2(0.1, 0.1), "Title");
 	UI->createUIButton("assets/textures/buttonBack.png", "Start", mouse, vec2(-0.9, 0.4), buttonSize, "Start", vec2(0.0, 0.0), vec2(0, 0.1));
-	UI->createUIButton("assets/textures/buttonBack.png", "Button2", mouse, vec2(-0.9, 0.1), buttonSize, "Button2", vec2(0.0, 0.0), vec2(0, 0.1));
-	UI->createUIButton("assets/textures/buttonBack.png", "Button3", mouse, vec2(-0.9, -0.2), buttonSize, "Button3", vec2(0.0, 0.0), vec2(0, 0.1));
 	UI->createUIButton("assets/textures/buttonBack.png","END", mouse, vec2(-0.9, -0.5), buttonSize, "Quit", vec2(0.0,0.0), vec2(0,0.1));
+	UI->createUIButton("assets/textures/outline.png", "HighScores", mouse, vec2(0.5, 0.5), vec2(0.5, 0.5), "HighScores", vec2(0.02, 0.2), vec2(-0.01, 0));
 	buttonNames.push_back("Start");
-	buttonNames.push_back("Button2");
-	buttonNames.push_back("Button3");
 	buttonNames.push_back("Quit");
 	buttonPos.push_back(vec2(-0.9, 0.4));
-	buttonPos.push_back(vec2(-0.9, 0.1));
-	buttonPos.push_back(vec2(-0.9, -0.2));
 	buttonPos.push_back(vec2(-0.9, -0.5));
 }
 
@@ -102,7 +97,8 @@ void Menu::setUpObject()
 		"assets/textures/Skybox/posz.png",//z+
 		"assets/textures/Skybox/negz.png"//z-
 	};
-	skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, vec3(0,0,0), skyboxTextures);
+	rm->getSpriteCube(skyboxTextures, gfx);
+	skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, vec3(0,0,0), rm->getSpriteCube(skyboxTextures,gfx));
 }
 
 void Menu::checkHover()
