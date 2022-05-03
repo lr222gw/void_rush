@@ -27,9 +27,13 @@ void Powerups::UsePowerUp()
 	{
 		if (this->keyboard->isKeyPressed('E'))
 		{
-			std::cout << "Has Rocket" << std::endl;
+			std::cout << "Has Freeze" << std::endl;
 
 		}
+	}
+	else if (player->getPlayerPower() == FREEZE)
+	{
+		std::cout << "Has Rocket" << std::endl;
 	}
 	else if (player->getPlayerPower() == APPLE)
 	{

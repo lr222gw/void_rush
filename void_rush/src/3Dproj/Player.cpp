@@ -588,6 +588,7 @@ void Player::pickedUpPower(Powerup index)
 	{
 		HUD->IncreaseHealth();
 	}
+	
 }
 
 Powerup Player::getPlayerPower()

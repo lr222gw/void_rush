@@ -7,14 +7,6 @@
 #include "hud/Hud.h"
 #include "Player.h"
 
-//ROCKET = 1;
-//CARD = 2;
-//FREEZE = 3;
-//DEATH = 4;
-//EMP = 5;
-//PAD = 6;
-
-
 
 class Powerups:public GameObject
 {
