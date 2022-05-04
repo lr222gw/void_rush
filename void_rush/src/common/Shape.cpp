@@ -71,14 +71,18 @@ void Shape::setShape(vec3 center, float distanceToEnd)
     
     int max = shape_conf.maxNrOfVoxels;
     int min = shape_conf.minNrOfVoxels;
-    int mmm = distanceToEnd / max;
-    mmm = std::clamp(mmm, min, max);
+    //int mmm = distanceToEnd / min;
+    //mmm = std::clamp(mmm, min, max);
     //max = distanceToEnd / min;
     //min = distanceToEnd / max;
 
 
     
-    int nrOfVoxels = rand() % ((mmm - min <= 0 ? 1 : mmm - min)) + min; // random Number Of Voxels    
+    //int nrOfVoxels = rand() % ((max - min <= 0 ? 1 : max - min)) + min; // random Number Of Voxels    
+    int nrOfVoxels = rand() % (max - min ) + min; // random Number Of Voxels    
+
+    nrOfVoxels = std::clamp(nrOfVoxels, min, (int)distanceToEnd);
+
     //Voxel* root = new Voxel;
     //Voxel* current = root;
     int current_index = first_index;    

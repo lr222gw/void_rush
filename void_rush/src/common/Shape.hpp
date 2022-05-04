@@ -116,8 +116,8 @@ public:
     std::vector<Center_Index_Pair> previousVoxels;
 
     struct Shape_settings{
-        int maxNrOfVoxels = 10;
-        int minNrOfVoxels = 2;
+        int maxNrOfVoxels = 25;
+        int minNrOfVoxels = 1;
     };
     static struct Shape_settings shape_conf; //same for all instances...
     
