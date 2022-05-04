@@ -115,6 +115,11 @@ public:
     std::vector<vec3_pair> bounding_boxes; //TODO: Handle memory here!
     std::vector<Center_Index_Pair> previousVoxels;
 
+    struct Shape_settings{
+        int maxNrOfVoxels = 10;
+        int minNrOfVoxels = 2;
+    };
+    static struct Shape_settings shape_conf; //same for all instances...
     
 
 };

@@ -1,6 +1,8 @@
 #include "Shape.hpp"
 #include "Shape_exporter.hpp"
 
+Shape::Shape_settings Shape::shape_conf;
+
 Shape::Shape():scale(1,1,1) {}
 
 Shape::~Shape() {
@@ -67,15 +69,16 @@ void Shape::setShape(vec3 center, float distanceToEnd)
     //setShapeCube(center);
 
     
-    int max = 10;
-    int min = 2;
+    int max = shape_conf.maxNrOfVoxels;
+    int min = shape_conf.minNrOfVoxels;
     int mmm = distanceToEnd / max;
     mmm = std::clamp(mmm, min, max);
     //max = distanceToEnd / min;
     //min = distanceToEnd / max;
 
 
-    int nrOfVoxels = rand() % ((mmm - min <= 0 ? 1 : mmm - min)) + min; // random Number Of Voxels
+    
+    int nrOfVoxels = rand() % ((mmm - min <= 0 ? 1 : mmm - min)) + min; // random Number Of Voxels    
     //Voxel* root = new Voxel;
     //Voxel* current = root;
     int current_index = first_index;    

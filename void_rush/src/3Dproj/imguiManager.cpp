@@ -125,6 +125,13 @@ void ImguiManager::render_generation_widgets()
 				ImGui::InputFloat("minZAngle", &owner->generationManager->position_gen->AP_conf.minZAngle);				
 				ImGui::TreePop();
 			}
+			if (ImGui::TreeNode("Platforms,Shape")) {
+				
+				ImGui::InputInt("maxNrOfVoxels", &Shape::shape_conf.maxNrOfVoxels);
+				ImGui::InputInt("minNrOfVoxels", &Shape::shape_conf.minNrOfVoxels);
+
+				ImGui::TreePop();
+			}
 			
 			ImGui::TreePop();
 		}		
