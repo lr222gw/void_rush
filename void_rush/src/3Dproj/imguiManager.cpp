@@ -319,6 +319,14 @@ void ImguiManager::render_player_widgets()
 							& owner->player->velocity.z };
 
 		ImGui::InputFloat3("vel", *vel);
+		ImGui::InputFloat("jumpForce", &owner->player->jumpForce);
+
+		float* scale[3] = { &owner->player->scale.x,
+							&owner->player->scale.y,
+							&owner->player->scale.z };
+		if(ImGui::InputFloat3("Scale", *scale)){
+			owner->player->setBoundingBox(DirectX::XMFLOAT3(0, -owner->player->scale.y - 0.01f, 0), DirectX::XMFLOAT3(owner->player->scale.x - 0.01f, 0.10f, owner->player->scale.z - 0.01f));
+		}
 	}
 	ImGui::End();
 }
