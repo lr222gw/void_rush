@@ -118,6 +118,7 @@ public:
     struct Shape_settings{
         int maxNrOfVoxels = 25;
         int minNrOfVoxels = 1;
+        int max_clamp_padding = 0;
     };
     static struct Shape_settings shape_conf; //same for all instances...
     

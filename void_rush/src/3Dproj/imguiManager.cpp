@@ -114,7 +114,7 @@ void ImguiManager::render_generation_widgets()
 				ImGui::InputFloat("rand_dir_min_angle_percent", &owner->generationManager->position_gen->JP_conf.rand_dir_min_angle_percent);
 				ImGui::InputFloat("rand_dir_max_angle_percent", &owner->generationManager->position_gen->JP_conf.rand_dir_max_angle_percent);
 				ImGui::TreePop();
-			}
+			} 
 			if (ImGui::TreeNode("Anchors")) {
 				ImGui::InputInt("Number of Anchors", &owner->generationManager->position_gen->elements);
 				ImGui::InputFloat("minStepMod", &owner->generationManager->position_gen->AP_conf.minStepMod);
@@ -129,6 +129,7 @@ void ImguiManager::render_generation_widgets()
 				
 				ImGui::InputInt("maxNrOfVoxels", &Shape::shape_conf.maxNrOfVoxels);
 				ImGui::InputInt("minNrOfVoxels", &Shape::shape_conf.minNrOfVoxels);
+				ImGui::SliderInt("distance_padding", &Shape::shape_conf.max_clamp_padding, -10,10);
 
 				ImGui::TreePop();
 			}
