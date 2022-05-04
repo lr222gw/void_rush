@@ -82,7 +82,7 @@ void Generation_manager::initialize()
             vec3(1.0f, 1.0f, 1.0f))
     );    
     gameObjManager->addGameObject(platformObjs[0], "map");
-    puzzleManager->Initiate(this->getPuzzelPos());    
+    //puzzleManager->Initiate(this->getPuzzelPos());    //TODO: REMOVE COMMENT
     this->player->SetDifficulity(this->difficulity);
     this->player->SetStartPlatform(this->GetStartPlatform());
     this->player->SetCurrentSeed(this->seed);
