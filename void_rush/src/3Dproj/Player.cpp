@@ -480,6 +480,32 @@ void Player::handleEvents(float dt)
 		this->movePos(vec3(0, -speed.y * dt, 0));
 	}
 
+
+	static vec3 rememberSpeed = this->speed;
+	static bool held = false;
+	static bool released = false;
+	if(keyboard->isKeyPressed(VK_SHIFT)){
+				
+		if(!held && released && grounded){
+			held = true;
+			released = false; 
+			rememberSpeed = this->speed; 
+			//std::cout << "PRESSED \n";
+			this->speed = this->speed * 2;
+		}else if (held && !released){
+			//std::cout << "HELD \n";			
+		}
+
+	}
+	else {
+		//std::cout << "Released\n";
+		if (!released) {
+			this->speed = rememberSpeed;
+		}
+		held = false;
+		released = true;		
+	}
+
 	jumpDir.Normalize();
 	if (grounded)
 	{
