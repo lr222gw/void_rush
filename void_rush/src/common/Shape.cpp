@@ -225,9 +225,9 @@ void Shape::setShape(vec3 center, float distanceToEnd)
     this->shapeMidpoint = current.startPos + ( current.endPos - current.startPos) / 2;
 
 
-    float off = .2f;
-    START->y = START->y + off;
-    END->y = END->y - off;
+    //float off = .2f;
+    //START->y = START->y + off;
+    //END->y = END->y - off;
 
    // vec3 dir = this->inCorner.pos - center;
     //vec3 dir = center - this->inCorner.pos;
