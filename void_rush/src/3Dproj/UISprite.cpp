@@ -6,6 +6,11 @@ UISprite::UISprite(ID3D11ShaderResourceView*& _sprite, vec2 pos, vec2 size, Grap
 
 }
 
+void UISprite::replaceSprite(ID3D11ShaderResourceView* _sprite)
+{
+	this->sprite = _sprite;
+}
+
 void UISprite::draw(Graphics*& gfx)
 {
 	gfx->get_IMctx()->VSSetConstantBuffers(0, 1, &this->constBuffer);

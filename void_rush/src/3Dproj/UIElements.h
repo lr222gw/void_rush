@@ -34,6 +34,7 @@ public:
 	vec2 getUVPosition();
 
 	virtual ~UIElements();
+	virtual void replaceSprite(ID3D11ShaderResourceView* _sprite) = 0;
 	virtual void draw(Graphics*& gfx) = 0;
 protected:
 	ID3D11Buffer* constBuffer;

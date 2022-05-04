@@ -84,7 +84,6 @@ void App::run()
 
 void App::set_initial_gamestate(GameStatesEnum gameStateType)
 {
-	
 	if(gameStateType == GameStatesEnum::TO_GAME){
 		mouse->activateMouse(true);
 		gfx->getWindosClass().HideCoursor();
@@ -93,6 +92,11 @@ void App::set_initial_gamestate(GameStatesEnum gameStateType)
 		mouse->activateMouse(true);
 		gfx->getWindosClass().ShowCoursor();
 		gamestate = new Menu(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
+	}
+	else if (gameStateType == GameStatesEnum::TO_HIGHSCORE) {
+		mouse->activateMouse(true);
+		gfx->getWindosClass().ShowCoursor();
+		gamestate = new HighScoreGameState(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
 	}
 }
 
@@ -119,6 +123,16 @@ void App::handleGamestateChanges(GameStatesEnum handle)
 		this->IMGUIManager.set_owner(nullptr);
 		gamestate = new Menu(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
 		break;
+	case GameStatesEnum::TO_HIGHSCORE:
+		mouse->activateMouse(true);
+		gfx->getWindosClass().ShowCoursor();
+		//delete current gamestate
+		delete gamestate;
+		//set gamestate to Menu
+		this->IMGUIManager.set_owner(nullptr);
+		gamestate = new HighScoreGameState(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
+		break;
 	}
+	
 }
 

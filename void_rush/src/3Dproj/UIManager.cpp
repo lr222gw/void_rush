@@ -182,6 +182,11 @@ void UIManager::deleteButton(std::string name)
 	mapOfButtons.erase(it);
 }
 
+void UIManager::replaceElement(int index, std::string rmsprite)
+{
+	elements[index]->replaceSprite(rm->getSprite(rmsprite, gfx));
+}
+
 void UIManager::update()
 {
 	for (size_t i = 0; i < buttons.size(); i++) {
@@ -194,6 +199,7 @@ void UIManager::draw()
 
 	UINT offset = 0;
 	static UINT strid = sizeof(UIVertex);
+	gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), nullptr);
 	gfx->get_IMctx()->IASetVertexBuffers(0, 1, &this->vertexBuffer, &strid, &offset);
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	gfx->get_IMctx()->IASetInputLayout(inputLayout);
@@ -212,6 +218,7 @@ void UIManager::draw()
 	for (int i = 0; i < strings.size(); i++) {
 		strings[i]->draw(gfx);
 	}
+	gfx->get_IMctx()->OMSetRenderTargets(1, &gfx->getRenderTarget(), gfx->getDepthStencil());
 }
 
 void UIManager::init(Graphics*& gfx)

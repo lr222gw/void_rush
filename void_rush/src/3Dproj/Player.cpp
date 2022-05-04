@@ -22,7 +22,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	setBoundingBox(DirectX::XMFLOAT3(0, -0.19, 0), DirectX::XMFLOAT3(0.19f, 0.10f, 0.19f));
 	this->health = 3;
 	this->alive = true;
-	this->maxDepth = -140.0f;
+	this->maxDepth = -100.0f;
 	this->resetGhost = false;
 	this->submitName = false;
 
@@ -42,6 +42,7 @@ Player::~Player()
 void Player::update(float dt)
 {
 	handleEvents(dt);
+
 	if (!noClip) {
 		scoreManager.Update(dt);
 		if (!grounded)
@@ -72,11 +73,13 @@ void Player::update(float dt)
 
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
+	
 	GameObject::update(dt);
 }
 
 void Player::handleEvents(float dt)
 {
+
 	//change these to use keyboard
 	if (!mouse->getMouseActive()) {
 		if (GetKeyState(VK_RIGHT) & 0x8000) {
@@ -464,6 +467,7 @@ void Player::handleEvents(float dt)
 			{
 				velocity = vec3(0.0f, jumpForce, 0.0f);
 			}
+			sm->playSound("Jump", getPos());
 		}
 		else {
 			this->movePos(vec3(0.0f, speed.y * dt, 0.0f));
@@ -535,6 +539,8 @@ void Player::setGrounded()
 		this->groundedTimer = 0.0f;
 		this->startingJumpDir = vec2(0.0f, 0.0f);
 		this->startingJumpKey = 'N';
+
+		sm->playSound("Land", this->getPos());
 	}
 }
 
@@ -543,6 +549,7 @@ void Player::setUngrounded()
 	if (grounded && !noClip)
 	{
 		this->grounded = false;
+		this->startingJumpDir = jumpDir;
 		groundedTimer = 0.001f;
 	}
 }
@@ -600,6 +607,7 @@ void Player::shovePlayer(vec2 shove, float forceY)
 	this->shoved = true;
 	this->shove = shove;
 	this->velocity.y = forceY;
+	sm->playSound("Shoved", getPos());
 	ResetGhost();
 }
 
@@ -689,15 +697,22 @@ void Player::SetCurrentSeed(int seed)
 	scoreManager.SetSeed(seed);
 }
 
+void Player::SetSoundManager(SoundManager* soundManager)
+{
+	sm = soundManager;
+}
+
 void Player::TakeDmg(int dmg)
 {
 	health-=dmg;
 	this->Reset();	
 	if(health <= 0 && !this->invincible) {
         alive = false;
+		sm->playSound("GameOver", getPos());
 	}
 	else {
 		scoreManager.setDamageScore();
+		sm->playSound("Scream", getPos());
 	}
 	this->HUD->LowerHealth();
 }

@@ -22,18 +22,22 @@ private:
 	Letters3D* text;
 
 	void updateShaders(bool vs = true, bool ps = true);
+	bool pauseMenu;
 	float testTime = 0.0f;
 	ProtoPuzzle* testPuzzle;
 	ShadowMap* shadowMap;
 	SkyBox* skybox;
 	SoundManager soundManager;
 	UIManager* UI;
+	UIManager* pauseUI;
 	Player* player;
 	Ghost* ghost;
 	GameObjectManager* GameObjManager;
 	Generation_manager* generationManager;
 	CollisionHandler collisionHandler;
 	Hud* HUD;
+	int testInt = 0;
+	float distanceFromStartPosToPuzzle = 0.0f;
 	Letters3DHandler* letter3DHandler;
 
 	/*draw to buffer*/
@@ -48,9 +52,6 @@ private:
 	void setUpSound();
 	void Interact(std::vector<GameObject*>& interactables);
 	void SetName();
-	void Pause();
-	void UnPause();
-	//void HandlePlayer();
 
 	//game objects
 	Light** light;
@@ -60,7 +61,6 @@ private:
 
 	//var
 	int nrOfLight;//must still exist
-	bool paused;
 
 	//debug var
 	int lightNr;
