@@ -27,7 +27,9 @@ enum Powerup
 	FEATHER,
 	PEARL,
 	POTION,
-	SHIELD
+	SHIELD,
+	KILL,
+	MONEY
 
 };
 
