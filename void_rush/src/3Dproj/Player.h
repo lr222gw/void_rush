@@ -64,6 +64,7 @@ public:
 
 	void SetCurrentSeed(int seed);
 	void getSoundManager(SoundManager& sm);
+	SoundManager* getSm()const;
 	
 private:
 	friend class ImguiManager;
