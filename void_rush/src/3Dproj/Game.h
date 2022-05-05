@@ -31,7 +31,7 @@ private:
 	UIManager* UI;
 	UIManager* pauseUI;
 	Player* player;
-	Powerups* powerups;
+	std::vector<Powerups*> powers;
 	Ghost* ghost;
 	GameObjectManager* GameObjManager;
 	Generation_manager* generationManager;
@@ -51,6 +51,7 @@ private:
 	void setUpParticles();
 	void setUpUI();
 	void setUpSound();
+	void setUpPowerups(int chosenDiff, vec3 pos);
 	void Interact(std::vector<GameObject*>& interactables);
 	void SetName();
 

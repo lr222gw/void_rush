@@ -43,13 +43,10 @@ void Powerups::UsePowerUp()
 	}
 	else if (player->getPlayerPower() == APPLE)
 	{
-		if (this->keyboard->isKeyPressed('E'))
-		{
 			std::cout << "picked apple" << std::endl;
 			player->getSm()->playSound("GoldApple", player->getPos());
 			player->AddHealth();
 			player->setPlayerPower(EMPTY);
-		}
 	}
 	
 }
@@ -59,8 +56,18 @@ Powerup Powerups::getPowerUpIndex()
 	return this->power_index;
 }
 
-//Decides which powerups are used this map.
-void Powerups::initiatePowerups()
-{
-}
-
+//Alternativ f�r feather
+//else if (!grounded)
+//{
+//	if (keyboard->isKeyPressed(VK_SPACE))
+//	{
+//		if (this->canDoubleJump)
+//		{
+//			//Jump
+//		}
+//	}
+//	else
+//	{
+//		this->canDoubleJump = true;
+//	}
+//}
