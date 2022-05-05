@@ -23,6 +23,7 @@ public:
 
 	void WriteScore(std::string name, std::string file = "assets/files/highScores.txt");
 private:
+	void SortScores(std::string file = "assets/files/highScores.txt");
 	float levelTime;
 	float levelLength;
 	Difficulity levelDifficulty;
