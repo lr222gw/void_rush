@@ -1,6 +1,6 @@
 #include "puzzle_hidden.hpp"
 
-HiddenPuzzle::HiddenPuzzle(int seed,Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler) : Puzzle(seed, gfx, rm, colHandler)
+HiddenPuzzle::HiddenPuzzle(int seed,Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler, SoundManager* soundManager) : Puzzle(seed, gfx, rm, colHandler, soundManager)
 {
     
 }
@@ -15,6 +15,7 @@ void HiddenPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
         midPos = GetMidPos(puzzleObjects[0], size);
         if (CanInteract(playerPos, forwardVec, midPos, size / 2.0f, 5.0f, test))
         {
+            soundManager->playSound("Correct", midPos);
             for (size_t i = 0; i < puzzleObjects.size(); i++) {
                 this->GetColHandler()->deletePlatform(puzzleObjects[i]);
                 delete puzzleObjects[i];

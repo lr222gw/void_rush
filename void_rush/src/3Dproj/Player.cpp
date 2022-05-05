@@ -60,6 +60,9 @@ void Player::update(float dt)
 		if (grounded)
 		{
 			this->movePos(vec3(velocity.x* dt, 0.0f, velocity.z * dt));
+			if (velocity.length() > 0.3) {
+				PlayRunSoundEffect(dt);
+			}
 		}
 		if (this->groundedTimer != 0.0f)
 		{
@@ -624,6 +627,7 @@ void Player::shovePlayer(vec2 shove, float forceY)
 //gets the powerup index from collission handler when one is picked up
 void Player::pickedUpPower(Powerup index)
 {
+	sm->playSound("Pickup", getPos());
 	this->power_index = index;
 	this->HUD->ChangeCurrentPowerUp(this->power_index);
 	if (this->power_index == APPLE)
@@ -730,9 +734,35 @@ void Player::SetCurrentSeed(int seed)
 	scoreManager.SetSeed(seed);
 }
 
-void Player::SetSoundManager(SoundManager* soundManager)
+void Player::PlayRunSoundEffect(float dt)
 {
-	sm = soundManager;
+	static int a = 0;
+	currentSoundEffectCD -= dt;
+	if (currentSoundEffectCD < 0 && sm != nullptr) {
+		currentSoundEffectCD = soundEffectCD;
+		sm->playSound(stepSounds[a % 4], getPos());
+		a++;
+		//sm->playSound("Goat", getPos());
+	}
+}
+
+void Player::getSoundManager(SoundManager& sm)
+{
+	//set sounds
+	stepSounds[0] = "step1";
+	stepSounds[1] = "step2";
+	stepSounds[2] = "step3";
+	stepSounds[3] = "step4";
+	for (int i = 0; i < 4; i++) {
+		sm.loadSound("assets/audio/" + stepSounds[i] + ".ogg", 20, stepSounds[i]);
+	}
+
+	GameObject::getSoundManager(sm);
+}
+
+SoundManager* Player::getSm() const
+{
+	return sm;
 }
 
 void Player::TakeDmg(int dmg)

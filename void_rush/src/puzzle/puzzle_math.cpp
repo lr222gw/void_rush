@@ -1,7 +1,7 @@
 #include "puzzle_math.hpp"
 #include <string>
 
-MathPuzzle::MathPuzzle(int seed, Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler) : Puzzle(seed, gfx, rm, colHandler)
+MathPuzzle::MathPuzzle(int seed, Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler, SoundManager* soundManager) : Puzzle(seed, gfx, rm, colHandler, soundManager)
 {
 }
 
@@ -51,10 +51,12 @@ void MathPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
                 puzzleObjects.clear();
                 this->SpawnDoor(this->GetPosition());
                 std::cout << "Correct choice!" << std::endl;
+                soundManager->playSound("Correct", midPos);
             }
             else
             {
                 std::cout << "Wrong choice! You suck! >:(" << std::endl;
+                soundManager->playSound("Wrong", midPos);
             }
         }
     }

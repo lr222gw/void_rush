@@ -27,6 +27,7 @@ void Powerups::UsePowerUp()
 	{
 		if (this->keyboard->isKeyPressed('E'))
 		{
+			player->getSm()->playSound("Rocket", player->getPos());
 			std::cout << "Has Rocket" << std::endl;
 
 		}
@@ -35,15 +36,20 @@ void Powerups::UsePowerUp()
 	{
 		if (this->keyboard->isKeyPressed('E'))
 		{
+			player->getSm()->playSound("Freeze", player->getPos());
 			std::cout << "Has Freeze" << std::endl;
 
 		}
 	}
 	else if (player->getPlayerPower() == APPLE)
 	{
-		std::cout << "picked apple" << std::endl;
-		player->AddHealth();
-		player->setPlayerPower(EMPTY);
+		if (this->keyboard->isKeyPressed('E'))
+		{
+			std::cout << "picked apple" << std::endl;
+			player->getSm()->playSound("GoldApple", player->getPos());
+			player->AddHealth();
+			player->setPlayerPower(EMPTY);
+		}
 	}
 	
 }
