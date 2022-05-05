@@ -8,6 +8,7 @@
 #include "3Dproj/GameObject.h"
 #include "3Dproj/ResourceManager.h"
 #include "3Dproj/Graphics.h"
+#include "3Dproj/SoundManager.h"
 #include "Portal.h"
 #include <vector>
 
@@ -20,10 +21,11 @@ protected:
     std::vector<GameObject*> puzzleObjects;
     GameObject* puzzlePlatform = nullptr;
     vec3 position = vec3(0.0f, 0.0f, 0.0f);
+    SoundManager* soundManager;
 
 public:
     //Create puzzle
-    Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler);
+    Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler, SoundManager* soundManager);
     virtual ~Puzzle();
 
     void SetPosition(vec3 pos);

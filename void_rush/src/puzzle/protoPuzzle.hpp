@@ -7,6 +7,7 @@
 #include "puzzle_math.hpp"
 #include "puzzle.hpp"
 #include "puzzle_hidden.hpp"
+#include "3Dproj/SoundManager.h"
 #include <vector>
 
 class ProtoPuzzle
@@ -22,7 +23,7 @@ private:
 	ResourceManager*& rmPuzzle;
 
 public:
-	ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler);
+	ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler, SoundManager* soundManager);
 	~ProtoPuzzle();
 	void Initiate(vec3 platformPosition);
 	int ChoosePuzzle();

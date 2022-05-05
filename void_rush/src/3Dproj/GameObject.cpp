@@ -152,6 +152,11 @@ void GameObject::update(float dt)
 	object::update(dt);
 }
 
+void GameObject::getSoundManager(SoundManager& sm)
+{
+	this->sm = &sm;
+}
+
 vec3 GameObject::getWidthHeightDepth()
 {
 	return this->WHD;
