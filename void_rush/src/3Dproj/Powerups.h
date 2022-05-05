@@ -6,6 +6,7 @@
 #include "common/Vector.hpp"
 #include "hud/Hud.h"
 #include "Player.h"
+#include "Ghost.h"
 
 
 class Powerups:public GameObject
@@ -22,5 +23,6 @@ private:
 	Keyboard* keyboard;
 	Powerup power_index;
 	Player* player;
+	Ghost* ghost;
 
 };

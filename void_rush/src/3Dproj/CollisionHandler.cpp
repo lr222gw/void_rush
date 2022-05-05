@@ -2,7 +2,6 @@
 
 CollisionHandler::CollisionHandler()
 {
-	
 }
 
 void CollisionHandler::addPlatform(GameObject* platform)
