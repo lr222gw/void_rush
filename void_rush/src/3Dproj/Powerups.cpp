@@ -44,6 +44,7 @@ void Powerups::UsePowerUp()
 		std::cout << "picked apple" << std::endl;
 		player->AddHealth();
 		player->setPlayerPower(EMPTY);
+
 	}
 	
 }
@@ -56,5 +57,22 @@ Powerup Powerups::getPowerUpIndex()
 //Decides which powerups are used this map.
 void Powerups::initiatePowerups()
 {
+
 }
 
+
+//Alternativ för feather
+//else if (!grounded)
+//{
+//	if (keyboard->isKeyPressed(VK_SPACE))
+//	{
+//		if (this->canDoubleJump)
+//		{
+//			//Jump
+//		}
+//	}
+//	else
+//	{
+//		this->canDoubleJump = true;
+//	}
+//}

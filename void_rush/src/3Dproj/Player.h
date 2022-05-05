@@ -23,9 +23,22 @@ enum Powerup
 	DEATH,
 	EMP,
 	PAD,
-	APPLE
+	APPLE,
+	FEATHER,
+	PEARL,
+	POTION,
+	SHIELD
+
 };
 
+//used with HUD
+enum PowerUpPassiv
+{
+	FEATHER_P = 1,
+	PEARL_P = 2,
+	POTION_P = 3,
+	SHIELD_P = 4
+};
 
 class Player : public GameObject {
 public:
