@@ -15,10 +15,10 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	
 	HUD = new Hud(gfx, rm);
 	lightNr = 0;
-	testPuzzle = new ProtoPuzzle(gfx, rm, collisionHandler, &soundManager);
+	testPuzzle = new ProtoPuzzle(gfx, rm, collisionHandler, &soundManager); //TODO: REMOVE COMMENT
 	
 	generationManager = new Generation_manager(gfx, rm, collisionHandler);
-	generationManager->set_PuzzleManager(testPuzzle);
+	generationManager->set_PuzzleManager(testPuzzle); //TODO: REMOVE COMMENT
 	generationManager->set_GameObjManager(GameObjManager);
 	
 	camera->setRotation(vec3(0, 0, 0));
@@ -56,7 +56,7 @@ Game::~Game()
 	}
 	
 	delete skybox;
-	delete testPuzzle;
+	//delete testPuzzle; //TODO: REMOVE COMMENT
 	delete generationManager;
 	delete HUD;
 	delete UI;
@@ -79,7 +79,6 @@ void Game::handleEvents()
 		}
 		if (e.getType() == mouseEvent::EventType::RPress) {
 
-			//soundManager.playSound("Goat", player->getPos());
 			soundManager.playSound("German", player->getPos());
 		}
 	}
@@ -341,7 +340,7 @@ void Game::DrawToBuffer()
 	skybox->draw(gfx);
 
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
-	testPuzzle->Update();
+	testPuzzle->Update(); 
 	generationManager->draw(); //Todo: ask Simon where to put this...
 	GameObjManager->draw();
 	camera->calcFURVectors();
@@ -435,7 +434,7 @@ void Game::setUpObject()
 	collisionHandler.addPowerups(powers.back());
 
 	generationManager->initialize();
-	distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
+	testPuzzle->Initiate(generationManager->getPuzzelPos()); 
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 	setUpPowerups(1, vec3(10, 10, 10));
 	setUpPowerups(1, vec3(15, 10, 15));
@@ -753,13 +752,13 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 	if (mouse->IsLeftDown() && testTime <= 0.0f)
 	{
 		testTime = 1.0f;
+		//TODO: REMOVE COMMENT
 		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
 		if (testPuzzle->isCompleted())
 		{
+			//player->setPos(vec3(0.0f, 0.0f, 0.0f));
 			player->Reset(true);
 			generationManager->initialize();
-			distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
-			soundManager.playSound("Portal", player->getPos());
 		}
 	}
 }

@@ -46,7 +46,7 @@ void Platform::setPosition (float xPos, float yPos, float zPos)
 
 void Platform::setPosition (vec3 position) { 
     this->pos = position; 
-    platformShape.setPosition(position);
+    platformShape.move(position);
 }
 
 void Platform::move (float xOfset, float yOfset, float zOfset)
@@ -54,6 +54,7 @@ void Platform::move (float xOfset, float yOfset, float zOfset)
     this->pos.x += xOfset;
     this->pos.y += yOfset;
     this->pos.z += zOfset;
+    platformShape.move(vec3(xOfset, yOfset, zOfset));
 }
 
 vec3* Platform::getPos () { return &this->pos; }
