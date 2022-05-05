@@ -53,3 +53,8 @@ Powerup Powerups::getPowerUpIndex()
 	return this->power_index;
 }
 
+//Decides which powerups are used this map.
+void Powerups::initiatePowerups()
+{
+}
+
