@@ -135,6 +135,30 @@ void SoundManager::playSound(std::string soundName, vec3 soundposition)
 	sounds.find(soundName)->second->sound.play();
 }
 
+void SoundManager::setSoundVolume(std::string soundName, float volume)
+{
+	if (!soundManagerActive) {
+		return;
+	}
+	if (sounds.find(soundName) == sounds.end()) {
+		std::cout << "couldn't find sound: " << soundName << std::endl;
+		return;
+	}
+	sounds.find(soundName)->second->sound.setVolume(volume);
+}
+
+void SoundManager::setSoundPosition(std::string soundName, vec3 position)
+{
+	if (!soundManagerActive) {
+		return;
+	}
+	if (sounds.find(soundName) == sounds.end()) {
+		std::cout << "couldn't find sound: " << soundName << std::endl;
+		return;
+	}
+	sounds.find(soundName)->second->sound.setPosition(sf::Vector3(position.x, position.y, position.z));
+}
+
 void SoundManager::setLoopSound(std::string sound, bool loop)
 {
 	if (!soundManagerActive) {

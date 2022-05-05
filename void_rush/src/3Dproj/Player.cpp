@@ -78,6 +78,14 @@ void Player::update(float dt)
 
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
+
+	if (this->velocity.y < -this->jumpForce) {
+		sm->setSoundPosition("Wind", this->getPos());
+		sm->setSoundVolume("Wind", abs(this->velocity.y + this->jumpForce) * 15);
+	}
+	else {
+		sm->setSoundVolume("Wind", 0);
+	}
 	
 	GameObject::update(dt);
 }
@@ -544,6 +552,8 @@ void Player::setGrounded()
 {
 	if (!grounded)
 	{
+		float volume = (this->velocity.length() / this->speed.length())*15;
+
 		this->grounded = true;
 		this->shoved = false;
 		this->velocity = vec3(0.0f, 0.0f, 0.0f);
@@ -553,6 +563,7 @@ void Player::setGrounded()
 		this->startingJumpDir = vec2(0.0f, 0.0f);
 		this->startingJumpKey = 'N';
 
+		sm->setSoundVolume("Land", volume);
 		sm->playSound("Land", this->getPos());
 	}
 }

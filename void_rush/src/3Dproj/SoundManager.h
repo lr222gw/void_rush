@@ -17,6 +17,8 @@ public:
 	void loadSound(std::string filePath, float volume = 1, std::string name = "");
 	void playSound(std::string soundName);
 	void playSound(std::string soundName, vec3 soundposition);
+	void setSoundVolume(std::string soundName, float volume);
+	void setSoundPosition(std::string soundName, vec3 position);
 	void setLoopSound(std::string sound, bool loop);
 	void updatePositionOfSound(vec3 position, std::string sound);
 	void playMusic(std::string filePath, float volume = 1);

@@ -522,10 +522,13 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Portal1.wav", 10, "Rocket");
 	soundManager.loadSound("assets/audio/Hit.wav", 20, "Hit");
 	soundManager.loadSound("assets/audio/German.wav", 40, "German");
+	soundManager.loadSound("assets/audio/Wind1.wav", 0, "Wind");
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
 	soundManager.setMusicLoop(true);
 
 	soundManager.playSound("Start", player->getPos());
+	soundManager.playSound("Wind", player->getPos());
+	soundManager.setLoopSound("Wind", true);
 }
 
 //Decides which powerups are used this map.
