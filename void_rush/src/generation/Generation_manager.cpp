@@ -28,7 +28,7 @@ Generation_manager::~Generation_manager()
     
     delete player_jump_checker;    
     delete position_gen;
-    //delete shape_export;
+    delete shape_export;
 }
 
 void Generation_manager::set_player(Player* player)

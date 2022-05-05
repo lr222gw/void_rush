@@ -174,12 +174,12 @@ void Shape::setShapeCube(vec3 center)
         temp_planes[i]->move(center + temp_planes[i]->offset); //TODO: remove?
     }
 
-    
     auto high = temp_planes[0]->point2;    
     auto low = temp_planes[0]->point4;
+    low.y = low.y - this->scale.y;
 
     vec3_pair min_max{low,high};
-    
+     
     bounding_boxes.push_back(min_max);
 
 }
