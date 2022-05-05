@@ -75,11 +75,12 @@ void Game::handleEvents()
 		}
 		if (e.getType() == mouseEvent::EventType::LPress) {
 
-			soundManager.playSound("ah1", player->getPos());
+			//soundManager.playSound("ah1", player->getPos());
 		}
 		if (e.getType() == mouseEvent::EventType::RPress) {
 
-			soundManager.playSound("Goat", player->getPos());
+			//soundManager.playSound("Goat", player->getPos());
+			soundManager.playSound("German", player->getPos());
 		}
 	}
 	if (keyboard->onceisKeyReleased('F') && player->IsAlive()) {
@@ -463,15 +464,17 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Powerup6.wav", 10, "Pickup");
 	soundManager.loadSound("assets/audio/Jump4.wav", 3, "Jump");
 	soundManager.loadSound("assets/audio/Land4.wav", 30, "Land");
-	soundManager.loadSound("assets/audio/TheWilhelmScream.wav", 30, "Scream");
-	soundManager.loadSound("assets/audio/Shoved1.wav", 30, "Shoved");
+	soundManager.loadSound("assets/audio/Fall1.wav", 30, "Scream");
+	soundManager.loadSound("assets/audio/Shoved2.wav", 30, "Shoved");
 	soundManager.loadSound("assets/audio/game_over.wav", 10, "GameOver");
 	soundManager.loadSound("assets/audio/begin.wav", 10, "Start");
-	soundManager.loadSound("assets/audio/Correct2.wav", 10, "Correct");
-	soundManager.loadSound("assets/audio/Wrong4.wav", 10, "Wrong");
+	soundManager.loadSound("assets/audio/Correct2.wav", 15, "Correct");
+	soundManager.loadSound("assets/audio/Wrong4.wav", 15, "Wrong");
 	soundManager.loadSound("assets/audio/Powerup7.wav", 10, "GoldApple");
 	soundManager.loadSound("assets/audio/Freeze1.wav", 10, "Freeze");
 	soundManager.loadSound("assets/audio/Portal1.wav", 10, "Rocket");
+	soundManager.loadSound("assets/audio/Hit.wav", 20, "Hit");
+	soundManager.loadSound("assets/audio/German.wav", 40, "German");
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
 	soundManager.setMusicLoop(true);
 

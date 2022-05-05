@@ -43,13 +43,10 @@ void Powerups::UsePowerUp()
 	}
 	else if (player->getPlayerPower() == APPLE)
 	{
-		if (this->keyboard->isKeyPressed('E'))
-		{
 			std::cout << "picked apple" << std::endl;
 			player->getSm()->playSound("GoldApple", player->getPos());
 			player->AddHealth();
 			player->setPlayerPower(EMPTY);
-		}
 	}
 	
 }

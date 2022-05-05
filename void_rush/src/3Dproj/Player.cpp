@@ -620,6 +620,7 @@ void Player::shovePlayer(vec2 shove, float forceY)
 	this->shoved = true;
 	this->shove = shove;
 	this->velocity.y = forceY;
+	sm->playSound("Hit", getPos());
 	sm->playSound("Shoved", getPos());
 	ResetGhost();
 }
@@ -754,7 +755,7 @@ void Player::getSoundManager(SoundManager& sm)
 	stepSounds[2] = "step3";
 	stepSounds[3] = "step4";
 	for (int i = 0; i < 4; i++) {
-		sm.loadSound("assets/audio/" + stepSounds[i] + ".ogg", 20, stepSounds[i]);
+		sm.loadSound("assets/audio/" + stepSounds[i] + ".ogg", 90, stepSounds[i]);
 	}
 
 	GameObject::getSoundManager(sm);
