@@ -176,7 +176,7 @@ void Shape::setShapeCube(vec3 center)
 
     auto high = temp_planes[0]->point2;    
     auto low = temp_planes[0]->point4;
-    low.y = low.y - this->scale.y;
+    low.y = low.y - this->scale.y * 2;
 
     vec3_pair min_max{low,high};
      
