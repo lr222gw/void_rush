@@ -56,7 +56,7 @@ Game::~Game()
 	}
 	
 	delete skybox;
-	//delete testPuzzle; //TODO: REMOVE COMMENT
+	delete testPuzzle; //TODO: REMOVE COMMENT
 	delete generationManager;
 	delete HUD;
 	delete UI;

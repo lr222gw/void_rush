@@ -320,6 +320,7 @@ void ImguiManager::render_player_widgets()
 
 		ImGui::InputFloat3("vel", *vel);
 		ImGui::InputFloat("jumpForce", &owner->player->jumpForce);
+		ImGui::InputFloat("maxDepth", &owner->player->maxDepth);
 
 		float* scale[3] = { &owner->player->scale.x,
 							&owner->player->scale.y,
