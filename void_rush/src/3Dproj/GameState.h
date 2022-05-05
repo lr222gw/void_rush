@@ -7,6 +7,7 @@
 #include "skybox.h"
 #include "UIManager.h"
 #include "Ghost.h"
+#include "Powerups.h"
 #include "imguiManager.h"
 #include "flags.h"
 

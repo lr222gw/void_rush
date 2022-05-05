@@ -9,6 +9,7 @@ public:
 	void update(float dt) override;
 	void setActive(bool activate = true);
 	void Reset();
+	void getSoundManager(SoundManager& sm);
 private:
 	friend class ImguiManager;
 	void followPlayer(float dt);
@@ -28,9 +29,13 @@ private:
 	bool readyToAttack;
 	bool fastestWayToPlayer;
 
+	int whatNoice = 0;
+	float TimeToMakeNoice = 9.0f;
+	float currentTimeToMakeNoice = 0;
+
 	//Variables for shoving player
 	vec3 force;
-
+	std::string sounds[3];
 	bool active;
 	Player* player;
 };

@@ -5,6 +5,7 @@
 #include "object.h"
 #include <DirectXCollision.h>
 #include "Model.h"
+#include "SoundManager.h"
 
 class GameObject : public object{
 public:
@@ -37,10 +38,13 @@ public:
 	float getWeight();
 	virtual void update(float dt);
 
+	void getSoundManager(SoundManager& sm);
+
 	//DEBUG
 	vec3 getWidthHeightDepth();
 protected:
 	ModelObj* model;
+	SoundManager* sm;
 private:
 	friend class ImguiManager;
 	bool tess;
@@ -49,7 +53,6 @@ private:
 	DirectX::XMFLOAT3 BBsizes;
 	void setHeightWidthDepth();
 	vec3 WHD;
-
 	//Interaction Start
 private:
 	bool used;

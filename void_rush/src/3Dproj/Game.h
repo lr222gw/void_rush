@@ -31,6 +31,7 @@ private:
 	UIManager* UI;
 	UIManager* pauseUI;
 	Player* player;
+	Powerups* powerups;
 	Ghost* ghost;
 	GameObjectManager* GameObjManager;
 	Generation_manager* generationManager;

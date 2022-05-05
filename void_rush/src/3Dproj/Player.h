@@ -6,12 +6,25 @@
 #include "common/Vector.hpp"
 #include "hud/Hud.h"
 
+
 #include "generation/Position_generator.hpp"//To use difficulty
-#include "SoundManager.h"
 #include "score/ScoreManager.hpp"
 
 #include <string>
 #include <fstream>
+
+enum Powerup
+{
+	EMPTY,
+	ROCKET,
+	CARD,
+	FREEZE,
+	DEATH,
+	EMP,
+	PAD,
+	APPLE
+};
+
 
 class Player : public GameObject {
 public:
@@ -27,14 +40,19 @@ public:
 	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
 	void Reset(bool lvlClr = false);
+
 	//Used when player falls of platform to rest ghost
 	bool ResetGhost();
 	void shovePlayer(vec2 shove, float forceY);
 
+	//Powerup function
+	void pickedUpPower(Powerup index);
+	Powerup getPlayerPower();
+	void setPlayerPower(Powerup index);
+
 	void SetDifficulity(Difficulity diff);
 	void SetStartPlatform(Platform*& start);
 	void writeScore(std::string file = "assets/files/highScores.txt");
-
 	void AddToName(unsigned char letter);
 	void RemoveLetter();
 	std::string GetName()const;
@@ -45,7 +63,8 @@ public:
 	void SetSubmitName(bool val);
 
 	void SetCurrentSeed(int seed);
-	void SetSoundManager(SoundManager* soundManager);
+	void getSoundManager(SoundManager& sm);
+	SoundManager* getSm()const;
 	
 private:
 	friend class ImguiManager;
@@ -68,15 +87,16 @@ private:
 	bool shoved;
 	vec2 shove;
 
+	//Powerups
+	Powerup power_index;
+
 	vec2 startingJumpDir = vec2(0.0f, 0.0f);
 	char startingJumpKey = 'N';
-	bool isKeyPressed = false;
 	bool resetGhost;
 
 	Mouse* mouse;
 	Keyboard* keyboard;
 	Camera* cam;
-	SoundManager* sm;
 
 	ScoreManager scoreManager;
 	std::string name;
@@ -88,11 +108,17 @@ private:
 	vec3 puzzlePos;
 	Difficulity levelDifficulty;
 	Hud* HUD;
+	
 
 	float health;
 	bool alive;
 	float maxDepth;
 
+	//running sound effect
+	void PlayRunSoundEffect(float dt);
+	float soundEffectCD = 0.4f;
+	float currentSoundEffectCD = 0.f;
+	std::string stepSounds[4];
 	
 public:
 	void TakeDmg(int dmg = 1);
@@ -101,5 +127,5 @@ public:
 	int GetHealth();
 	float GetScore();
 	bool IsAlive();
-	GameObject* GOPTR; //GameObjectPlayerPointer
+	GameObject* GOPTR; //GameObjectPlayerPointer//should not be here
 };

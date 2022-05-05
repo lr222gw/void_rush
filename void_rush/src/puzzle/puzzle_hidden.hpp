@@ -7,7 +7,7 @@ class HiddenPuzzle : public Puzzle
 private:
 
 public:
-    HiddenPuzzle(int seed, Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler);
+    HiddenPuzzle(int seed, Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler, SoundManager* soundManager);
 
     void Interaction(vec3 playerPos, vec3 forwardVec) override;
 

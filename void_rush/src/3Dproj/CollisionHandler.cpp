@@ -2,7 +2,6 @@
 
 CollisionHandler::CollisionHandler()
 {
-	
 }
 
 void CollisionHandler::addPlatform(GameObject* platform)
@@ -28,6 +27,11 @@ void CollisionHandler::addEnemies(Enemy* enemies)
 void CollisionHandler::addObstacle(GameObject* Obstacle)
 {
 	this->Obstacle.push_back(Obstacle);
+}
+
+void CollisionHandler::addPowerups(Powerups* powerups)
+{
+	this->powerups.push_back(powerups);
 }
 
 void CollisionHandler::deletePlatform(GameObject* ptr)
@@ -62,6 +66,15 @@ void CollisionHandler::deleteObstacle(GameObject* ptr)
 	for (size_t i = 0; i < Obstacle.size(); i++) {
 		if (Obstacle[i] == ptr) {
 			Obstacle.erase(std::next(Obstacle.begin(), i));
+		}
+	}
+}
+
+void CollisionHandler::deletePowerups(Powerups* ptr)
+{
+	for (size_t i = 0; i < powerups.size(); i++) {
+		if (powerups[i] == ptr) {
+			powerups.erase(std::next(powerups.begin(), i));
 		}
 	}
 }
@@ -152,4 +165,12 @@ void CollisionHandler::update()
 		}
 	}
 
+	for (size_t i = 0; i < powerups.size(); i++)
+	{
+		if (collision3D(player->getPlayerObjPointer(), powerups[i]))
+		{
+			player->pickedUpPower(powerups[i]->getPowerUpIndex());
+			powerups[i]->setPos(vec3(1000.f, 1000.f, 1000.f));
+		}
+	}
 }

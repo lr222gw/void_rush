@@ -2,6 +2,9 @@
 
 App::App(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
+	if (CoInitialize((LPVOID)NULL) != S_OK) {
+		exit(1);
+	}
 	gfx = new Graphics(hInstance, hPrevInstance, lpCmdLine, nCmdShow, mouse);
 	mouse = gfx->getWindosClass().getMouse();
 	keyboard = gfx->getWindosClass().getKeyboard();

@@ -1,5 +1,6 @@
 #include "Game.h"
 
+
 Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam):
 	GameState(gfx,rm,imguimanager,mouse,keyboard,cam),
 	soundManager(1)//be able to change this later based on settings
@@ -8,6 +9,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	GameObjManager = new GameObjectManager(gfx, rm);
 	UI = nullptr;
 	ghost = nullptr;
+	powerups = nullptr;
 	nrOfLight = 0; 
 	player = nullptr;
 	skybox = nullptr;
@@ -90,6 +92,12 @@ void Game::handleEvents()
 			gfx->getWindosClass().HideCoursor();
 		}
 	}
+	if (keyboard->onceisKeyReleased('N')) {
+		soundManager.changeMusic("assets/audio/More_Plastic-Rewind.wav", 7, 4);
+	}
+	if (keyboard->onceisKeyReleased('M')) {
+		soundManager.changeMusic("assets/audio/EpicBeat.wav", 7.0f, 4);
+	}
 }
 
 void Game::renderShadow()
@@ -115,7 +123,7 @@ GameStatesEnum Game::update(float dt)
 	if (pauseMenu) {
 		pauseUI->update();
 		gfx->Update(dt, camera->getPos());
-
+		
 		if (pauseUI->getButton("continue")->clicked()) {
 			pauseMenu = false;
 			//disepear mouse
@@ -169,7 +177,7 @@ GameStatesEnum Game::update(float dt)
 		updateShaders();
 
 		/*update things*/
-		soundManager.update(camera->getPos(), camera->getForwardVec());
+		soundManager.update(camera->getPos(), camera->getForwardVec(), dt);
 		gfx->Update(dt, camera->getPos());
 
 		GameObjManager->update(dt);
@@ -345,8 +353,6 @@ void Game::DrawToBuffer()
 		}
 	}
 	letter3DHandler->draw();
-
-	letter3DHandler->draw();
 	if (pauseMenu && player->IsAlive()) {
 		pauseUI->draw();
 	}
@@ -362,8 +368,8 @@ void Game::setUpObject()
 {
 	////////OBJECTS///////////
 
-	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f),vec3(0,0,0), vec3(1.2,1.2,1.2));
-	player->SetSoundManager(&soundManager);
+	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f),vec3(0,0,0), vec3(0.2,0.2,0.2));
+	player->getSoundManager(soundManager);
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
@@ -372,8 +378,13 @@ void Game::setUpObject()
 	GameObjManager->CreateGameObject("DCube.obj", "cubetest", vec3(0, 0, 50), vec3(0, 0, 0));
 
 	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2));
+	ghost->getSoundManager(soundManager);
 	GameObjManager->addGameObject(ghost, "Ghost");
 	collisionHandler.addEnemies(ghost);
+
+	powerups = new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx,player, keyboard, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), APPLE);
+	GameObjManager->addGameObject(powerups, "Powerups");
+	collisionHandler.addPowerups(powerups);
 
 	generationManager->initialize();
 	//testPuzzle->Initiate(generationManager->getPuzzelPos()); //TODO: REMOVE COMMENT
@@ -450,12 +461,17 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Goat.wav", 5, "Goat");
 	soundManager.loadSound("assets/audio/Portal7.wav", 10, "Portal");
 	soundManager.loadSound("assets/audio/Powerup6.wav", 10, "Pickup");
-	soundManager.loadSound("assets/audio/Jump1.wav", 30, "Jump");
+	soundManager.loadSound("assets/audio/Jump4.wav", 3, "Jump");
 	soundManager.loadSound("assets/audio/Land4.wav", 30, "Land");
 	soundManager.loadSound("assets/audio/TheWilhelmScream.wav", 30, "Scream");
 	soundManager.loadSound("assets/audio/Shoved1.wav", 30, "Shoved");
 	soundManager.loadSound("assets/audio/game_over.wav", 10, "GameOver");
 	soundManager.loadSound("assets/audio/begin.wav", 10, "Start");
+	soundManager.loadSound("assets/audio/Correct2.wav", 10, "Correct");
+	soundManager.loadSound("assets/audio/Wrong4.wav", 10, "Wrong");
+	soundManager.loadSound("assets/audio/Powerup7.wav", 10, "GoldApple");
+	soundManager.loadSound("assets/audio/Freeze1.wav", 10, "Freeze");
+	soundManager.loadSound("assets/audio/Portal1.wav", 10, "Rocket");
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
 	soundManager.setMusicLoop(true);
 

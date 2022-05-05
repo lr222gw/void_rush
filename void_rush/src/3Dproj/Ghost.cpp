@@ -41,6 +41,16 @@ void Ghost::update(float dt)
 		if (player->ResetGhost()) {
 			this->Reset();
 		}
+		currentTimeToMakeNoice += dt;
+		if (currentTimeToMakeNoice > TimeToMakeNoice) {
+			sm->playSound(sounds[whatNoice]);
+			whatNoice++;
+			whatNoice %= 3;
+			currentTimeToMakeNoice = 0;
+		}
+		for (int i = 0; i < 3; i++) {
+			sm->updatePositionOfSound(getPos(), sounds[i]);
+		}
 	}
 }
 
@@ -61,6 +71,18 @@ void Ghost::Reset()
 		PlayerPositions.swap(empty);
 	}
 	this->active = false;
+}
+
+void Ghost::getSoundManager(SoundManager& sm)
+{
+	sounds[0] = "G0";
+	sounds[1] = "G1";
+	sounds[2] = "G2";
+
+	sm.loadSound("assets/audio/Ghost1.wav", 10, sounds[0]);
+	sm.loadSound("assets/audio/Ghost2.wav", 10, sounds[1]);
+	sm.loadSound("assets/audio/Ghost3.wav", 10, sounds[2]);
+	GameObject::getSoundManager(sm);
 }
 
 void Ghost::followPlayer(float dt)
