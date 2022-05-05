@@ -75,11 +75,12 @@ void Game::handleEvents()
 		}
 		if (e.getType() == mouseEvent::EventType::LPress) {
 
-			soundManager.playSound("ah1", player->getPos());
+			//soundManager.playSound("ah1", player->getPos());
 		}
 		if (e.getType() == mouseEvent::EventType::RPress) {
 
-			soundManager.playSound("Goat", player->getPos());
+			//soundManager.playSound("Goat", player->getPos());
+			soundManager.playSound("German", player->getPos());
 		}
 	}
 	if (keyboard->onceisKeyReleased('F') && player->IsAlive()) {
@@ -472,6 +473,8 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Powerup7.wav", 10, "GoldApple");
 	soundManager.loadSound("assets/audio/Freeze1.wav", 10, "Freeze");
 	soundManager.loadSound("assets/audio/Portal1.wav", 10, "Rocket");
+	soundManager.loadSound("assets/audio/Hit.wav", 20, "Hit");
+	soundManager.loadSound("assets/audio/German.wav", 40, "German");
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
 	soundManager.setMusicLoop(true);
 
