@@ -22,6 +22,7 @@ protected:
     GameObject* puzzlePlatform = nullptr;
     vec3 position = vec3(0.0f, 0.0f, 0.0f);
     SoundManager* soundManager;
+    vec3 playerPos = vec3(0.0f, 0.0f, 0.0f);
 
 public:
     //Create puzzle
@@ -43,6 +44,8 @@ public:
     bool GetPortalCompleted() const;
 
     void SpawnDoor(vec3 pos);
+
+    void UpdatePlayerPos(vec3 newPlayerPos);
 
     virtual void Interaction(vec3 playerPos, vec3 forwardVec) = 0;
 

@@ -208,6 +208,8 @@ GameStatesEnum Game::update(float dt)
 		lightNr = 3;
 	}
 
+#pragma endregion camera_settings
+
 	/*
 	if (getkey('L'))
 	{
@@ -245,7 +247,7 @@ GameStatesEnum Game::update(float dt)
 	}
 	*/
 
-#pragma endregion camera_settings
+		testPuzzle->UpdatePlayerPosition(this->player->getPos());
 
 		Interact(this->GameObjManager->getAllInteractGameObjects());
 
