@@ -630,7 +630,27 @@ void Player::pickedUpPower(Powerup index)
 {
 	sm->playSound("Pickup", getPos());
 	this->power_index = index;
-	this->HUD->ChangeCurrentPowerUp(this->power_index);
+	if (this->power_index == FEATHER)
+	{
+		this->HUD->TurnOnPassive(FEATHER_P);
+	}
+	if (this->power_index == PEARL)
+	{
+		this->HUD->TurnOnPassive(PEARL_P);
+	}
+	if (this->power_index == POTION)
+	{
+		this->HUD->TurnOnPassive(POTION_P);
+	}
+	if (this->power_index == SHIELD)
+	{
+		this->HUD->TurnOnPassive(SHIELD_P);
+	}
+	else
+	{
+		this->HUD->ChangeCurrentPowerUp(this->power_index);
+	}
+
 	if (this->power_index == APPLE)
 	{
 		HUD->IncreaseHealth();

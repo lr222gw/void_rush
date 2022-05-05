@@ -9,7 +9,6 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	GameObjManager = new GameObjectManager(gfx, rm);
 	UI = nullptr;
 	ghost = nullptr;
-	powerups = nullptr;
 	nrOfLight = 0; 
 	player = nullptr;
 	skybox = nullptr;
@@ -55,6 +54,7 @@ Game::~Game()
 	for (int i = 0; i < billboardGroups.size(); i++) {
 		delete billboardGroups[i];
 	}
+	
 	delete skybox;
 	delete testPuzzle;
 	delete generationManager;
@@ -383,14 +383,61 @@ void Game::setUpObject()
 	GameObjManager->addGameObject(ghost, "Ghost");
 	collisionHandler.addEnemies(ghost);
 
-	powerups = new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx,player, keyboard, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), APPLE);
-	GameObjManager->addGameObject(powerups, "Powerups");
-	collisionHandler.addPowerups(powerups);
+	///////POWERUPS///////
+	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), APPLE));
+	GameObjManager->addGameObject(powers.back(), "Apple");
+	collisionHandler.addPowerups(powers.back());
+
+	powers.push_back(new Powerups(rm->get_Models("Feather.obj", gfx), gfx, player, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), FEATHER));
+	GameObjManager->addGameObject(powers.back(), "Feather");
+	collisionHandler.addPowerups(powers.back());
+
+	powers.push_back(new Powerups(rm->get_Models("Potion.obj", gfx), gfx, player, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), POTION));
+	GameObjManager->addGameObject(powers.back(), "Potion");
+	collisionHandler.addPowerups(powers.back());
+
+	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), SHIELD));
+	GameObjManager->addGameObject(powers.back(), "Shield");
+	collisionHandler.addPowerups(powers.back());
+
+	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), MONEY));
+	GameObjManager->addGameObject(powers.back(), "Money");
+	collisionHandler.addPowerups(powers.back());
+
+	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), FREEZE));
+	GameObjManager->addGameObject(powers.back(), "Freeze");
+	collisionHandler.addPowerups(powers.back());
+
+	powers.push_back(new Powerups(rm->get_Models("Pearl.obj", gfx), gfx, player, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), PEARL));
+	GameObjManager->addGameObject(powers.back(), "Pearl");
+	collisionHandler.addPowerups(powers.back());
+
+	powers.push_back(new Powerups(rm->get_Models("EMP.obj", gfx), gfx, player, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), EMP));
+	GameObjManager->addGameObject(powers.back(), "Emp");
+	collisionHandler.addPowerups(powers.back());
+
+	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), PAD));
+	GameObjManager->addGameObject(powers.back(), "Pad");
+	collisionHandler.addPowerups(powers.back());
+
+	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), KILL));
+	GameObjManager->addGameObject(powers.back(), "Kill");
+	collisionHandler.addPowerups(powers.back());
+
+	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), ROCKET));
+	GameObjManager->addGameObject(powers.back(), "Rocket");
+	collisionHandler.addPowerups(powers.back());
+
+	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), CARD));
+	GameObjManager->addGameObject(powers.back(), "Card");
+	collisionHandler.addPowerups(powers.back());
 
 	generationManager->initialize();
 	distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
-
+	setUpPowerups(1, vec3(10, 10, 10));
+	setUpPowerups(1, vec3(15, 10, 15));
+	setUpPowerups(1, vec3(20, 10, 20));
 
 	std::string skyboxTextures[6] = {
 		"assets/textures/Skybox/posx.png",//x+
@@ -479,6 +526,172 @@ void Game::setUpSound()
 	soundManager.setMusicLoop(true);
 
 	soundManager.playSound("Start", player->getPos());
+}
+
+//Decides which powerups are used this map.
+void Game::setUpPowerups(int chosenDiff, vec3 pos)
+{	
+		int	chosenPower = 1 + (rand() % 100);
+		//Difficulty easy
+		if (chosenDiff == 1)
+		{
+			if (chosenPower <= 60)
+			{
+				//Got F-tier
+				if (chosenPower <= 15)
+				{
+					//choose feather and moved into position
+					GameObjManager->getGameObject("Feather")->setPos(pos);
+
+				}
+				else if (chosenPower > 15 && chosenPower <= 30)
+				{
+					//choose speed and moved into position
+					GameObjManager->getGameObject("Potion")->setPos(pos);
+
+				}
+				else if (chosenPower > 30 &&  chosenPower <= 45)
+				{
+					//choose shield and moved into position
+					GameObjManager->getGameObject("Shield")->setPos(pos);
+				}
+				else if (chosenPower > 45 && chosenPower <= 60)
+				{
+					// choose Money and moved into position
+					GameObjManager->getGameObject("Money")->setPos(pos);
+				}
+			}
+			else if (chosenPower > 60 && chosenPower <= 92)
+			{
+				//Got C-tier
+				if (chosenPower >= 60 && chosenPower <= 68)
+				{
+					//Freeze
+					GameObjManager->getGameObject("Freeze")->setPos(pos);
+				}
+				else if (chosenPower > 68 && chosenPower <= 76)
+				{
+					//Pearl
+					GameObjManager->getGameObject("Pearl")->setPos(pos);
+				}
+				else if (chosenPower > 76 && chosenPower <= 84)
+				{
+					// EMP
+					GameObjManager->getGameObject("Emp")->setPos(pos);
+				}
+				else if (chosenPower > 84 && chosenPower <= 92)
+				{
+					// PAD
+					GameObjManager->getGameObject("Pad")->setPos(pos);
+				}
+			}
+			else if (chosenPower >= 93)
+			{
+				//Got S-tier
+				if (chosenPower >= 93 && chosenPower <= 94)
+				{
+					//Freeze
+					GameObjManager->getGameObject("Apple")->setPos(pos);
+				}
+				else if (chosenPower > 94 && chosenPower <= 96)
+				{
+					//Pearl
+					GameObjManager->getGameObject("kill")->setPos(pos);
+				}
+				else if (chosenPower > 96 && chosenPower <= 98)
+				{
+					// EMP
+					GameObjManager->getGameObject("Rocket")->setPos(pos);
+				}
+				else if (chosenPower > 98 && chosenPower <= 100)
+				{
+					// PAD
+					GameObjManager->getGameObject("Card")->setPos(pos);
+				}
+			}
+		}
+		else if (chosenDiff == 2) //Difficult medium
+		{
+			if (chosenPower <= 60)
+			{
+				//Got F-tier
+				if (chosenPower <= 15)
+				{
+					//choose feather and moved into position
+					GameObjManager->getGameObject("Feather")->setPos(pos);
+
+				}
+				else if (chosenPower > 15 && chosenPower <= 30)
+				{
+					//choose speed and moved into position
+					GameObjManager->getGameObject("Potion")->setPos(pos);
+
+				}
+				else if (chosenPower > 30 && chosenPower <= 45)
+				{
+					//choose shield and moved into position
+					GameObjManager->getGameObject("Shield")->setPos(pos);
+				}
+				else if (chosenPower > 45 && chosenPower <= 60)
+				{
+					// choose Money and moved into position
+					GameObjManager->getGameObject("Money")->setPos(pos);
+				}
+			}
+			else if (chosenPower > 60 && chosenPower <= 92)
+			{
+				//Got C-tier
+				if (chosenPower >= 60 && chosenPower <= 68)
+				{
+					//Freeze
+					GameObjManager->getGameObject("Freeze")->setPos(pos);
+				}
+				else if (chosenPower > 68 && chosenPower <= 76)
+				{
+					//Pearl
+					GameObjManager->getGameObject("Pearl")->setPos(pos);
+				}
+				else if (chosenPower > 76 && chosenPower <= 84)
+				{
+					// EMP
+					GameObjManager->getGameObject("Emp")->setPos(pos);
+				}
+				else if (chosenPower > 84 && chosenPower <= 92)
+				{
+					// PAD
+					GameObjManager->getGameObject("Pad")->setPos(pos);
+				}
+			}
+			else if (chosenPower >= 93)
+			{
+				//Got S-tier
+				if (chosenPower >= 93 && chosenPower <= 94)
+				{
+					//Freeze
+					GameObjManager->getGameObject("Apple")->setPos(pos);
+				}
+				else if (chosenPower > 94 && chosenPower <= 96)
+				{
+					//Pearl
+					GameObjManager->getGameObject("kill")->setPos(pos);
+				}
+				else if (chosenPower > 96 && chosenPower <= 98)
+				{
+					// EMP
+					GameObjManager->getGameObject("Rocket")->setPos(pos);
+				}
+				else if (chosenPower > 98 && chosenPower <= 100)
+				{
+					// PAD
+					GameObjManager->getGameObject("Card")->setPos(pos);
+				}
+			}
+		}
+		/*else if (chosenDiff == 3)
+		{
+
+		}*/
+		std::cout << chosenPower << std::endl;
 }
 
 void Game::Interact(std::vector<GameObject*>& interactables)

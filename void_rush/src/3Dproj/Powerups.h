@@ -17,7 +17,6 @@ public:
 	void update(float dt) override;
 	void UsePowerUp();
 	Powerup getPowerUpIndex();
-	void initiatePowerups();
 
 private:
 

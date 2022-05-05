@@ -56,8 +56,18 @@ Powerup Powerups::getPowerUpIndex()
 	return this->power_index;
 }
 
-//Decides which powerups are used this map.
-void Powerups::initiatePowerups()
-{
-}
-
+//Alternativ f�r feather
+//else if (!grounded)
+//{
+//	if (keyboard->isKeyPressed(VK_SPACE))
+//	{
+//		if (this->canDoubleJump)
+//		{
+//			//Jump
+//		}
+//	}
+//	else
+//	{
+//		this->canDoubleJump = true;
+//	}
+//}
