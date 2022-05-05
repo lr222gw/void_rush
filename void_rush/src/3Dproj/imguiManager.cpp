@@ -188,7 +188,7 @@ void ImguiManager::render_generation_widgets()
 		}
 
 		if (ImGui::Button("ExportFirstShape")) {
-			owner->generationManager->shape_export.export_final_model("map");
+			owner->generationManager->shape_export->export_final_model("map");
 			
 		}
 	}

@@ -1,10 +1,15 @@
 #include "Shape_exporter.hpp"
 #include "Shape.hpp"
 
+Shape_exporter::Shape_exporter()
+{
+}
+
 Shape_exporter::~Shape_exporter()
 {
     
     delete scene;
+    
 }
 
 void Shape_exporter::set_nrOf(int nrOfMeshes, int nrOfMaterials)
@@ -16,6 +21,7 @@ void Shape_exporter::set_nrOf(int nrOfMeshes, int nrOfMaterials)
 void Shape_exporter::init()
 {
     if (scene) {
+        
         delete scene;
         scene = nullptr;
     }

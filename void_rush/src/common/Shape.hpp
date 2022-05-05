@@ -86,6 +86,22 @@ struct Center_Index_Pair {
     int current_index;
 };
 
+struct Offset{
+    Offset(vec3 scale);
+    vec3 left;
+    vec3 right;
+    vec3 forward;
+    vec3 back;
+    vec3 down;
+    vec3 up;
+};
+
+struct Center_busy_pair {
+    vec3 position;
+    bool isBusy = false;
+    int index;
+};
+
 class Shape
 {
 public:
@@ -99,6 +115,11 @@ public:
     void setShapeCube(vec3 center);
     void buildShape();
     void updateBoundingBoxes();
+
+    void set_InOut_longstDist(int nrOfVoxels);
+    //template <size_t rows, size_t cols>
+    //void set_InOut_firstLastDeclared(Center_busy_pair (&busyMatrix)[rows][cols], int matrixsize);
+    void set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair>> busyMatrix, int matrixsize);
 
     void export_as_obj();
 

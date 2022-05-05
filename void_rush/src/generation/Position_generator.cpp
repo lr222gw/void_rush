@@ -2,13 +2,13 @@
 #include "Position_generator.hpp"
 #include <algorithm>
 Position_generator::Position_generator(int _seed)
-    : seed(_seed), elements(0), pl(nullptr), startPlat(nullptr)
+    : seed(_seed), elements(0), pl(nullptr), startPlat(nullptr), firstJumpPoint(nullptr)
 {    
     //this->startPlat = new Platform(Vector3(), 0, 0); //NOTE:  this is now done in the reset function
 }
 
 Position_generator::Position_generator (int seed, int elements)
-    : seed (seed), elements (elements), pl (nullptr), startPlat(nullptr)
+    : seed (seed), elements (elements), pl (nullptr), startPlat(nullptr),firstJumpPoint(nullptr)
 {
     //this->startPlat = new Platform (Vector3 (), 0, 0); //NOTE:  this is now done in the reset function
 }
@@ -179,7 +179,7 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
         current = current->next;
     }
 
-    first_last.last->next = endJumpPoint->next;
+    first_last.last->next = nullptr; 
 
     //Trash handling
     for(Platform* plat :trashBin){

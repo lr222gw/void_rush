@@ -401,3 +401,5 @@ assets/obj/test.obj
 assets/obj/map.mtl
 
 assets/obj/map.obj
+
+void_rush_cppcheck-cppcheck-build-dir/
