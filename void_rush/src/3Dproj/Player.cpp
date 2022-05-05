@@ -627,6 +627,7 @@ void Player::shovePlayer(vec2 shove, float forceY)
 //gets the powerup index from collission handler when one is picked up
 void Player::pickedUpPower(Powerup index)
 {
+	sm->playSound("Pickup", getPos());
 	this->power_index = index;
 	this->HUD->ChangeCurrentPowerUp(this->power_index);
 	if (this->power_index == APPLE)
@@ -757,6 +758,11 @@ void Player::getSoundManager(SoundManager& sm)
 	}
 
 	GameObject::getSoundManager(sm);
+}
+
+SoundManager* Player::getSm() const
+{
+	return sm;
 }
 
 void Player::TakeDmg(int dmg)

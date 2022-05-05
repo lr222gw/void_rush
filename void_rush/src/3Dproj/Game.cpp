@@ -466,8 +466,9 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Shoved1.wav", 30, "Shoved");
 	soundManager.loadSound("assets/audio/game_over.wav", 10, "GameOver");
 	soundManager.loadSound("assets/audio/begin.wav", 10, "Start");
-	soundManager.loadSound("assets/audio/Correct1.wav", 10, "Correct");
-	soundManager.loadSound("assets/audio/Wrong1.wav", 10, "Wrong");
+	soundManager.loadSound("assets/audio/Correct2.wav", 10, "Correct");
+	soundManager.loadSound("assets/audio/Wrong4.wav", 10, "Wrong");
+	soundManager.loadSound("assets/audio/Powerup7.wav", 10, "GoldApple");
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
 	soundManager.setMusicLoop(true);
 
