@@ -17,6 +17,8 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->groundedTimer = 0.0f;
 	this->shoved = false;
 
+	this->power_index = EMPTY;
+
 	GOPTR = static_cast<GameObject*>(this);
 	setWeight(20);
 	setBoundingBox(DirectX::XMFLOAT3(0, -0.19, 0), DirectX::XMFLOAT3(0.19f, 0.10f, 0.19f));
@@ -119,28 +121,24 @@ void Player::handleEvents(float dt)
 				{
 					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (0.5, 0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Upper Left" << std::endl;
 				}
 
 				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (-0.5, 0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Lower Left" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (-0.5, -0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Lower Right" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
 				{
 					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (0.5, -0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Upper Right" << std::endl;
 				}
 			}
 			else if (this->startingJumpKey == 'S')
@@ -153,28 +151,24 @@ void Player::handleEvents(float dt)
 				{
 					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (-0.5, -0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Upper Left" << std::endl;
 				}
 
 				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (0.5, -0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Lower Left" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (0.5, 0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Lower Right" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
 				{
 					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (-0.5, 0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Upper Right" << std::endl;
 				}
 			}
 		}
@@ -201,28 +195,24 @@ void Player::handleEvents(float dt)
 				{
 					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (0.5, 0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Upper Left" << std::endl;
 				}
 
 				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (-0.5, 0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Lower Left" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (-0.5, -0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Lower Right" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
 				{
 					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (0.5, -0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Upper Right" << std::endl;
 				}
 			}
 			else if (this->startingJumpKey == 'A')
@@ -235,28 +225,24 @@ void Player::handleEvents(float dt)
 				{
 					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (-0.5, -0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Upper Left" << std::endl;
 				}
 
 				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (0.5, -0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Lower Left" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (0.5, 0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Lower Right" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
 				{
 					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (-0.5, 0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Upper Right" << std::endl;
 				}
 			}
 			else if (this->startingJumpKey == 'D')
@@ -291,28 +277,24 @@ void Player::handleEvents(float dt)
 				{
 					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (-0.5, -0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Upper Left" << std::endl;
 				}
 
 				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (0.5, -0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Lower Left" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (0.5, 0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Lower Right" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
 				{
 					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (-0.5, 0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Upper Right" << std::endl;
 				}
 			}
 			else if (this->startingJumpKey == 'S')
@@ -325,28 +307,24 @@ void Player::handleEvents(float dt)
 				{
 					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (0.5, 0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Upper Left" << std::endl;
 				}
 
 				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (-0.5, 0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Lower Left" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (-0.5, -0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Lower Right" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
 				{
 					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (0.5, -0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Upper Right" << std::endl;
 				}
 			}
 		}
@@ -373,28 +351,24 @@ void Player::handleEvents(float dt)
 				{
 					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (-0.5, -0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Upper Left" << std::endl;
 				}
 
 				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (0.5, -0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Lower Left" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (0.5, 0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Lower Right" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
 				{
 					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (-0.5, 0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Upper Right" << std::endl;
 				}
 			}
 			else if (this->startingJumpKey == 'A')
@@ -407,28 +381,24 @@ void Player::handleEvents(float dt)
 				{
 					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (0.5, 0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Upper Left" << std::endl;
 				}
 
 				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (-0.5, 0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Lower Left" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
 				{
 					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (-0.5, -0.5f)
 					jumpDir = vec2(-startingJumpDir.x, startingJumpDir.y);
-					std::cout << "Lower Right" << std::endl;
 				}
 
 				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
 				{
 					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (0.5, -0.5f)
 					jumpDir = vec2(startingJumpDir.x, -startingJumpDir.y);
-					std::cout << "Upper Right" << std::endl;
 				}
 			}
 			else if (this->startingJumpKey == 'D')
@@ -636,6 +606,29 @@ void Player::shovePlayer(vec2 shove, float forceY)
 	sm->playSound("Shoved", getPos());
 	ResetGhost();
 }
+
+//gets the powerup index from collission handler when one is picked up
+void Player::pickedUpPower(Powerup index)
+{
+	this->power_index = index;
+	this->HUD->ChangeCurrentPowerUp(this->power_index);
+	if (this->power_index == APPLE)
+	{
+		HUD->IncreaseHealth();
+	}
+	
+}
+
+Powerup Player::getPlayerPower()
+{
+	return this->power_index;
+}
+
+void Player::setPlayerPower(Powerup index)
+{
+	this->power_index = index;
+}
+
 
 //void Player::SetPuzzlePos(vec3 puzzlePosition)
 void Player::SetDifficulity(Difficulity diff)

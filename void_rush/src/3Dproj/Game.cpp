@@ -8,6 +8,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	GameObjManager = new GameObjectManager(gfx, rm);
 	UI = nullptr;
 	ghost = nullptr;
+	powerups = nullptr;
 	nrOfLight = 0; 
 	player = nullptr;
 	skybox = nullptr;
@@ -115,7 +116,7 @@ GameStatesEnum Game::update(float dt)
 	if (pauseMenu) {
 		pauseUI->update();
 		gfx->Update(dt, camera->getPos());
-
+		
 		if (pauseUI->getButton("continue")->clicked()) {
 			pauseMenu = false;
 			//disepear mouse
@@ -374,6 +375,10 @@ void Game::setUpObject()
 	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2));
 	GameObjManager->addGameObject(ghost, "Ghost");
 	collisionHandler.addEnemies(ghost);
+
+	powerups = new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx,player, keyboard, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), APPLE);
+	GameObjManager->addGameObject(powerups, "Powerups");
+	collisionHandler.addPowerups(powerups);
 
 	generationManager->initialize();
 	distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
