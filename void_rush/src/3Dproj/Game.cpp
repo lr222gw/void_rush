@@ -469,6 +469,8 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Correct2.wav", 10, "Correct");
 	soundManager.loadSound("assets/audio/Wrong4.wav", 10, "Wrong");
 	soundManager.loadSound("assets/audio/Powerup7.wav", 10, "GoldApple");
+	soundManager.loadSound("assets/audio/Freeze1.wav", 10, "Freeze");
+	soundManager.loadSound("assets/audio/Portal1.wav", 10, "Rocket");
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
 	soundManager.setMusicLoop(true);
 

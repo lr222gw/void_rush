@@ -27,6 +27,7 @@ void Powerups::UsePowerUp()
 	{
 		if (this->keyboard->isKeyPressed('E'))
 		{
+			player->getSm()->playSound("Rocket", player->getPos());
 			std::cout << "Has Rocket" << std::endl;
 
 		}
@@ -35,6 +36,7 @@ void Powerups::UsePowerUp()
 	{
 		if (this->keyboard->isKeyPressed('E'))
 		{
+			player->getSm()->playSound("Freeze", player->getPos());
 			std::cout << "Has Freeze" << std::endl;
 
 		}
