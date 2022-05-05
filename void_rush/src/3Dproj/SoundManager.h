@@ -6,6 +6,8 @@
 #include "Vec.h"
 #include <thread>
 
+bool AnyAudio();
+
 class SoundManager {
 public:
 	SoundManager();
@@ -24,10 +26,11 @@ public:
 private:
 	void changeVolumeMusics(float dt);
 	struct soundPair {
-		sf::Sound *sound;
-		sf::SoundBuffer *soundBuffer;
+		soundPair(std::string file, float volume);
+		sf::Sound sound;
+		sf::SoundBuffer soundBuffer;
 	};
-	std::map<std::string, soundPair> sounds;
+	std::map<std::string, soundPair*> sounds;
 	sf::Music Music[2];
 	int activeMusic;
 	
@@ -39,4 +42,5 @@ private:
 	float currentVolumeDiv[2];
 	float toVolume;
 
+	bool soundManagerActive;
 };

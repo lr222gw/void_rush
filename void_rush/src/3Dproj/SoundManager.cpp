@@ -1,8 +1,60 @@
 #include "SoundManager.h"
 #include "Keyboard.h"
+#include <mmdeviceapi.h>
+
+bool hrIsOk(HRESULT hr) {
+	if (hr != S_OK) {
+		std::cout << "hr is not ok" << std::endl;
+		return false;
+	}
+	return true;
+}
+
+bool AnyAudio()
+{
+	const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);
+	const IID IID_IMMDeviceEnumerator = __uuidof(IMMDeviceEnumerator);
+	HRESULT hr = S_OK;
+	IMMDeviceEnumerator* pEnumerator = NULL;
+	IMMDeviceCollection* pCollection = NULL;
+
+	hr = CoCreateInstance(
+		CLSID_MMDeviceEnumerator, NULL,
+		CLSCTX_ALL, IID_IMMDeviceEnumerator,
+		(void**)&pEnumerator);
+	if (!hrIsOk(hr)) {
+		exit(1);
+	}
+
+	hr = pEnumerator->EnumAudioEndpoints(
+		eRender, DEVICE_STATE_ACTIVE | DEVICE_STATE_DISABLED,
+		&pCollection);
+	if (!hrIsOk(hr)) {
+		exit(1);
+	}
+
+	UINT  count;
+	hr = pCollection->GetCount(&count);
+	if (!hrIsOk(hr)) {
+		exit(1);
+	}
+
+	pEnumerator->Release();
+	pCollection->Release();
+
+	if (count == 0)
+	{
+		return false;
+	}
+	return true;
+}
 
 SoundManager::SoundManager()
 {
+	soundManagerActive = true;
+	if (!AnyAudio()) {
+		soundManagerActive = false;
+	}
 	this->volume = 1;
 	musicLoop = false;
 	changingMusic = false;
@@ -11,6 +63,10 @@ SoundManager::SoundManager()
 
 SoundManager::SoundManager(float volume)
 {
+	soundManagerActive = true;
+	if (!AnyAudio()) {
+		soundManagerActive = false;
+	}
 	this->volume = volume;
 	musicLoop = false;
 	changingMusic = false;
@@ -21,13 +77,15 @@ SoundManager::~SoundManager()
 {
 	for (auto const& [key, val] : sounds)
 	{
-		delete val.sound;
-		delete val.soundBuffer;
+		delete val;
 	}
 }
 
 void SoundManager::update(vec3 playerPos, vec3 playerDir, float dt, vec3 upVec)
 {
+	if (!soundManagerActive) {
+		return;
+	}
 	sf::Listener::setPosition(playerPos.x, playerPos.y, playerPos.z);
 	sf::Listener::setDirection(-playerDir.x, -playerDir.y, -playerDir.z);
 	sf::Listener::setUpVector(upVec.x, upVec.y, upVec.z);
@@ -37,16 +95,10 @@ void SoundManager::update(vec3 playerPos, vec3 playerDir, float dt, vec3 upVec)
 }
 
 void SoundManager::loadSound(std::string filePath, float volume, std::string name)
-{
-	soundPair sPair;
-	sf::SoundBuffer* buffer = new sf::SoundBuffer();
-	if (!buffer->loadFromFile(filePath)) {
-		std::cout << "cannot load file:" << filePath << std::endl;
+{	
+	if (!soundManagerActive) {
 		return;
 	}
-	sf::Sound* newSound = new sf::Sound(*buffer);
-	newSound->setVolume(this->volume * volume);
-	
 	std::string Soundname;
 	if (name == "") {
 		Soundname = filePath;
@@ -54,43 +106,56 @@ void SoundManager::loadSound(std::string filePath, float volume, std::string nam
 	else {
 		Soundname = name;
 	}
-	sPair.sound = newSound;
-	sPair.soundBuffer = buffer;
 
-	sounds.insert(std::make_pair(Soundname, sPair));
+	sounds.insert(std::make_pair(Soundname, new soundPair(filePath, this->volume * volume)));
 }
 
 void SoundManager::playSound(std::string soundName)
 {
+	if (!soundManagerActive) {
+		return;
+	}
 	if (sounds.find(soundName) == sounds.end()) {
 		std::cout << "couldn't find sound: " << soundName << std::endl;
 		return;
 	}
-	sounds.find(soundName)->second.sound->play();
+	sounds.find(soundName)->second->sound.play();
 }
 
 void SoundManager::playSound(std::string soundName, vec3 soundposition)
 {
+	if (!soundManagerActive) {
+		return;
+	}
 	if (sounds.find(soundName) == sounds.end()) {
 		std::cout << "couldn't find sound: " << soundName << std::endl;
 		return;
 	}
-	sounds.find(soundName)->second.sound->setPosition(soundposition.x, soundposition.y, soundposition.z);
-	sounds.find(soundName)->second.sound->play();
+	sounds.find(soundName)->second->sound.setPosition(soundposition.x, soundposition.y, soundposition.z);
+	sounds.find(soundName)->second->sound.play();
 }
 
 void SoundManager::setLoopSound(std::string sound, bool loop)
 {
-	sounds.find(sound)->second.sound->setLoop(true);
+	if (!soundManagerActive) {
+		return;
+	}
+	sounds.find(sound)->second->sound.setLoop(true);
 }
 
 void SoundManager::updatePositionOfSound(vec3 position, std::string sound)
 {
-	sounds.find(sound)->second.sound->setPosition(position.x, position.y, position.z);
+	if (!soundManagerActive) {
+		return;
+	}
+	sounds.find(sound)->second->sound.setPosition(position.x, position.y, position.z);
 }
 
 void SoundManager::playMusic(std::string filePath, float volume)
 {
+	if (!soundManagerActive) {
+		return;
+	}
 	Music[activeMusic].setVolume(volume * this->volume);
 	if (Music[activeMusic].openFromFile(filePath)) {
 		Music[activeMusic].play();
@@ -103,6 +168,9 @@ void SoundManager::playMusic(std::string filePath, float volume)
 
 void SoundManager::setMusicLoop(const bool loop)
 {
+	if (!soundManagerActive) {
+		return;
+	}
 	this->musicLoop = loop;
 	Music[activeMusic].setLoop(loop);
 }
@@ -114,6 +182,9 @@ float SoundManager::getVolume() const
 
 void SoundManager::changeMusic(std::string NewMusic, float volume, float timeToChange)
 {
+	if (!soundManagerActive) {
+		return;
+	}
 	if (Music[(activeMusic + 1) % 2].openFromFile(NewMusic)) {
 		Music[(activeMusic + 1) % 2].play();
 		Music[(activeMusic + 1) % 2].setLoop(this->musicLoop);
@@ -140,4 +211,15 @@ void SoundManager::changeVolumeMusics(float dt)
 		Music[(activeMusic + 1) % 2].stop();
 	}
 }
+
+SoundManager::soundPair::soundPair(std::string file, float volume)
+{
+	if (!soundBuffer.loadFromFile(file)) {
+		std::cout << "cannot load file:" << file << std::endl;
+		return;
+	}
+	sound.setBuffer(soundBuffer);
+	sound.setVolume(volume);
+}
+
 
