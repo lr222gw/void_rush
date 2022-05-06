@@ -9,6 +9,7 @@
 
 #include "generation/Position_generator.hpp"//To use difficulty
 #include "score/ScoreManager.hpp"
+#include "Collision3D.h"
 
 #include <string>
 #include <fstream>
@@ -39,6 +40,8 @@ public:
 	float getSpeed();
 	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
+	ColCube getFallCube()const;
+	void ResetFallBoxTimer();
 	void Reset(bool lvlClr = false);
 
 	//Used when player falls of platform to rest ghost
@@ -113,6 +116,11 @@ private:
 	float health;
 	bool alive;
 	float maxDepth;
+	float maxFallTime;
+	ColCube fallCube;
+	vec3 fallCubeSize;
+	float fallBoxTimer;
+	bool scream;
 
 	//running sound effect
 	void PlayRunSoundEffect(float dt);
@@ -127,5 +135,6 @@ public:
 	int GetHealth();
 	float GetScore();
 	bool IsAlive();
+	void UpdateFallBox();
 	GameObject* GOPTR; //GameObjectPlayerPointer//should not be here
 };
