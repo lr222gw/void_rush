@@ -55,7 +55,7 @@ void Letters3D::update(Graphics*& gfx, vec3 camPos)
 	for (size_t i = 0; i < letters.size(); i++) {
 		letters[i]->Updateshaders(gfx);
 		if (rotateToPlayer) {
-			letters[i]->setRot(vec3(0, -rot,0)+ vec3(0,-1.57,0));
+			letters[i]->setRot(vec3(0, -rot,0)+ vec3(0,-1.57f,0));
 		}
 	}
 }
@@ -90,6 +90,6 @@ void Letters3D::symbol_to_uv(char symbol)
 	int xSymbol, ySymbol;
 	xSymbol = intSymbol % 8;
 	ySymbol = intSymbol / 8;
-	u.push_back(xSymbol);
-	v.push_back(ySymbol);
+	u.push_back((float)xSymbol);
+	v.push_back((float)ySymbol);
 }

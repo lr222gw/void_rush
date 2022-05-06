@@ -438,6 +438,9 @@
     <ClCompile Include="src\Turret.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\3Dproj\Projectile.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -735,6 +738,9 @@
       <Filter>Void_Rush\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="src\Turret.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\Projectile.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

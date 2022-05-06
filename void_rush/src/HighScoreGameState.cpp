@@ -5,9 +5,9 @@ HighScoreGameState::HighScoreGameState(Graphics*& gfx, ResourceManager*& rm, Img
 {
 	readHighScoreFile();
 	UI = new UIManager(rm, gfx);
-	UI->createUIButton("assets/textures/buttonBack.png", "back", mouse, vec2(-1, 0.8), vec2(0.2, 0.2), "back", vec2(0,0.1));
+	UI->createUIButton("assets/textures/buttonBack.png", "back", mouse, vec2(-1, 0.8f), vec2(0.2f, 0.2f), "back", vec2(0,0.1f));
 	for (int i = 0; i < 5; i++) {
-		UI->createUIString(scores[i], vec2(-0.75, 0.5 - i * 0.2),vec2(0.1,0.1));
+		UI->createUIString(scores[i], vec2(-0.75f, 0.5f - i * 0.2f),vec2(0.1f,0.1f));
 	}
 	std::string skyboxTextures[6] = {
 	"assets/textures/Skybox/posx.png",//x+
@@ -43,7 +43,7 @@ GameStatesEnum HighScoreGameState::update(float dt)
 		theReturn = GameStatesEnum::TO_MENU;
 	}
 	camera->updateCamera();
-	camera->addRotation(vec3(0.1 * dt, 0.3 * dt, 0));
+	camera->addRotation(vec3(0.1f * dt, 0.3f * dt, 0));
 	return theReturn;
 }
 
