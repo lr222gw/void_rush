@@ -50,9 +50,7 @@ vec3 vec3::Normalize(const vec3& ref)
 		(double)ref.z * (double)ref.z);
 	if (i == 0)
 	{
-		ret.x = 0.f;
-		ret.y = 0.f;
-		ret.z = 0.f;
+		return vec3(0, 0, 0);
 	}
 	ret.x = (float)(ref.x / i);
 	ret.y = (float)(ref.y / i);
@@ -118,6 +116,13 @@ float vec3::angle(vec3 other)
 	if (min < 0.0) {
 		return -acos(a * b);
 	}
+	return acos(a * b);
+}
+
+float vec3::angleNM(vec3 other)
+{
+	vec3 a = Normalize(*this);
+	vec3 b = Normalize(other);
 	return acos(a * b);
 }
 

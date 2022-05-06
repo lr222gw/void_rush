@@ -4,7 +4,7 @@ Menu::Menu(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mous
 	GameState(gfx, rm, imguimanager, mouse, keyboard, cam),
 	soundManager(1)//be able to change this later based on settings
 {
-	buttonSize = vec2(0.5, 0.15);
+	buttonSize = vec2(0.5f, 0.15f);
 
 	cam->setPosition(vec3(0, 0, 0));
 	setUpObject();
@@ -35,7 +35,7 @@ GameStatesEnum Menu::update(float dt)
 	GameStatesEnum theReturn = GameStatesEnum::NO_CHANGE;
 
 	camera->updateCamera();
-	camera->addRotation(vec3(0.1 * dt, 0.3 * dt, 0));
+	camera->addRotation(vec3(0.1f * dt, 0.3f * dt, 0));
 	UI->update();
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 
@@ -43,7 +43,7 @@ GameStatesEnum Menu::update(float dt)
 		theReturn = GameStatesEnum::QUIT;
 	}
 	else if (UI->getButton("Start")->clicked()) {
-		UI->createUIString("Loading...", vec2(-0.9, -0.75), vec2(0.2, 0.2), "loading");
+		UI->createUIString("Loading...", vec2(-0.9f, -0.75f), vec2(0.2f, 0.2f), "loading");
 		theReturn = GameStatesEnum::TO_GAME;
 	}
 	else if (UI->getButton("HighScores")->clicked()) {
@@ -76,16 +76,16 @@ void Menu::render()
 void Menu::setUpUI()
 {
 	UI = new UIManager(rm, gfx);
-	UI->createUIString("Void Rush", vec2(-0.4, 0.7), vec2(0.1, 0.1), "Title");
-	UI->createUIButton("assets/textures/buttonBack.png", "Start", mouse, vec2(-0.9, 0.4), buttonSize, "Start", vec2(0.0, 0.0), vec2(0, 0.1));
-	UI->createUIButton("assets/textures/buttonBack.png","END", mouse, vec2(-0.9, -0.5), buttonSize, "Quit", vec2(0.0,0.0), vec2(0,0.1));
-	UI->createUIButton("assets/textures/buttonBack.png", "HighScores", mouse, vec2(-0.9, 0), buttonSize, "HighScores", vec2(0.0, -0.025), vec2(0.0, 0.1));
+	UI->createUIString("Void Rush", vec2(-0.4f, 0.7f), vec2(0.1f, 0.1f), "Title");
+	UI->createUIButton("assets/textures/buttonBack.png", "Start", mouse, vec2(-0.9f, 0.4f), buttonSize, "Start", vec2(0.0f, 0.0f), vec2(0, 0.1f));
+	UI->createUIButton("assets/textures/buttonBack.png","END", mouse, vec2(-0.9f, -0.5f), buttonSize, "Quit", vec2(0.0f,0.0f), vec2(0,0.1f));
+	UI->createUIButton("assets/textures/buttonBack.png", "HighScores", mouse, vec2(-0.9f, 0), buttonSize, "HighScores", vec2(0.0f, -0.025f), vec2(0.0f, 0.1f));
 	buttonNames.push_back("Start");
 	buttonNames.push_back("Quit");
 	buttonNames.push_back("HighScores");
-	buttonPos.push_back(vec2(-0.9, 0.4));
-	buttonPos.push_back(vec2(-0.9, -0.5));
-	buttonPos.push_back(vec2(-0.9, -0.05));
+	buttonPos.push_back(vec2(-0.9f, 0.4f));
+	buttonPos.push_back(vec2(-0.9f, -0.5f));
+	buttonPos.push_back(vec2(-0.9f, -0.05f));
 }
 
 void Menu::setUpObject()
@@ -108,11 +108,11 @@ void Menu::checkHover()
 	for (int i = 0; i < buttonNames.size(); i++) {
 		if (UI->getButton(buttonNames[i])->hover()) {
 			UI->getButton(buttonNames[i])->setSize(buttonSize.x * 1.1f, buttonSize.y * 1.1f);
-			UI->getButton(buttonNames[i])->setPosition(buttonPos[i].x - 0.01, buttonPos[i].y -0.01);
+			UI->getButton(buttonNames[i])->setPosition(buttonPos[i].x - 0.01f, buttonPos[i].y -0.01f);
 		}
 		else {
 			UI->getButton(buttonNames[i])->setSize(buttonSize.x, buttonSize.y);
-			UI->getButton(buttonNames[i])->setPosition(buttonPos[i].x + 0.0, buttonPos[i].y + 0.0);
+			UI->getButton(buttonNames[i])->setPosition(buttonPos[i].x + 0.0f, buttonPos[i].y + 0.0f);
 		}
 	}
 }
