@@ -62,6 +62,7 @@ struct vec3 {
 	}
 
 	vec3 Normalize();
+	void Normalize_XZ();
 	static vec3 Normalize(const vec3& ref);
 	vec3 X(const vec3& other);
 	float operator*(vec3& other);//dot
@@ -82,6 +83,7 @@ struct vec3 {
 	DirectX::XMVECTOR toXMvector();
 	DirectX::XMFLOAT3 toXMFloat3();
 	float length();
+	float length_XZ();
 	std::string to_string() {
 		//return "x: " + std::to_string(x) + " y: " + std::to_string(y) + " z: " + std::to_string(z);
 		return  std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z);

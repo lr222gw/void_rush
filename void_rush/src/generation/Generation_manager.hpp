@@ -15,11 +15,6 @@
 
 #include "common/Shape_exporter.hpp"
 
-//struct Platform{
-//	GameObject obj;
-//	Platform info;	
-//};
-
 class PlatformObj : public GameObject 
 {
 public:
@@ -27,7 +22,6 @@ public:
 	~PlatformObj();
 private:
 	friend class ImguiManager;
-	//GameObject* GOPTR;
 };
 
 
@@ -55,7 +49,7 @@ private:
 	Player* player;
 	ProtoPuzzle* puzzleManager;
 	GameObjectManager* gameObjManager;
-	Shape_exporter* shape_export; //TODO; temp
+	Shape_exporter* shape_export;
 	friend class ImguiManager;
 	int seed; 
 	Player_jump_checker* player_jump_checker;

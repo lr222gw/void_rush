@@ -123,7 +123,8 @@ void ImguiManager::render_generation_widgets()
 				ImGui::InputFloat("stepMinHeight", &owner->generationManager->position_gen->AP_conf.stepMinHeight);
 				ImGui::InputFloat("lowest_Height", &owner->generationManager->position_gen->AP_conf.lowest_Height);
 				ImGui::InputFloat("minZAngle", &owner->generationManager->position_gen->AP_conf.minZAngle);				
-				ImGui::TreePop();
+				ImGui::InputFloat("spawn_Y_offset_origo", &owner->generationManager->position_gen->AP_conf.spawn_Y_offset_origo);
+				ImGui::TreePop(); 
 			}
 			if (ImGui::TreeNode("Platforms,Shape")) {
 				

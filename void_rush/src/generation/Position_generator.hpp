@@ -8,7 +8,7 @@
 enum class Difficulity {
     easy = 1, medium = 2, hard = 3
 };
-struct MM{
+struct FirstLast_between_Anchor{
     Platform* first = nullptr;
     Platform* last = nullptr;
 };
@@ -29,11 +29,10 @@ public:
     Position_generator(int seed, int elements);
     ~Position_generator();
     bool start (Difficulity diff);
-    void generate_anchor_positions(int platforms_between_anchors, Difficulity selectedDiff);
+    void generate_anchor_positions(Difficulity selectedDiff);
     void generate_jumpPoints_positions(Difficulity selectedDiff);
-    MM jumpPoint_generation_helper(Platform* start, Platform* end);
-    MM jumpPoint_generation_basic(Platform* start, Platform* end);
-    vec3 jumpPoint_create_offset(Platform* plat, vec3& currentMiddle, vec3 start, vec3 end);
+    FirstLast_between_Anchor jumpPoint_generation_helper(Platform* start, Platform* end);    
+    void jumpPoint_create_offset(Platform* plat, vec3& currentMiddle, vec3 start, vec3 end);
     void reset_generation(vec3 player_position);
     void set_seed(int _seed);
     std::vector<Platform*>* getAnchors ();
@@ -52,6 +51,7 @@ private: // Magic Numbers
         float stepMinHeight = -10.f;    //Max distance between platforms
         float lowest_Height = -100.f;   //Lowest point for generation
         float minZAngle = 0.f;
+        float spawn_Y_offset_origo = -10.f;
     };
     Anchor_point_settings AP_conf;
 

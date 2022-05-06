@@ -329,7 +329,7 @@
     <ClCompile Include="src\3Dproj\Ghost.cpp" />
     <ClCompile Include="src\3Dproj\GameState.cpp" />
     <ClCompile Include="src\3Dproj\Menu.cpp" />
-	<ClCompile Include="src\3Dproj\Powerups.cpp" />
+    <ClCompile Include="src\3Dproj\Powerups.cpp" />
     <ClCompile Include="src\3Dproj\UIButton.cpp" />
     <ClCompile Include="src\3Dproj\UIElements.cpp" />
     <ClCompile Include="src\3Dproj\UIManager.cpp" />
@@ -359,7 +359,7 @@
     <ClCompile Include="src\score\ScoreManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-	<ClInclude Include="src\3Dproj\Powerups.h" />
+    <ClInclude Include="src\3Dproj\Powerups.h" />
     <ClInclude Include="src\common\Shape_exporter.hpp" />
     <ClInclude Include="src/3Dproj/AnimationModel.h" />
     <ClInclude Include="src/3Dproj/BillBoard.h" />
@@ -440,7 +440,6 @@
     <ClInclude Include="src\generation\Generation_manager.hpp" />
     <ClInclude Include="src\generation\Platform.hpp" />
     <ClInclude Include="src\generation\playerGen.hpp" />
-    <ClInclude Include="src\generation\proto.hpp" />
     <ClInclude Include="src\HighScoreGameState.h" />
     <ClInclude Include="src\hud\Hud.h" />
     <ClInclude Include="src\physics\Jump.hpp" />

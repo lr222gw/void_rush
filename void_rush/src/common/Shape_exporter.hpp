@@ -6,7 +6,7 @@
 #include "assimp/config.h"
 
 #include <string>
-#include <iostream>//TEMP; REMOVE LATER
+#include <iostream> // Output error message
 
 class Shape;
 class Shape_exporter{
@@ -20,8 +20,6 @@ public:
     void export_final_model(std::string name);
     aiScene* getScene();
 private:
-    //static Shape_exporter* get();
-    //friend class Shape_exporter;
     aiScene* scene;
     int mesh_index;
     int material_index;        

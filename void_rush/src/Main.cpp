@@ -1,4 +1,3 @@
-#include "generation/proto.hpp"
 #include "physics/proto.hpp"
 #include "interact/interact.hpp"
 #include <cmath>

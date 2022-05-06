@@ -432,6 +432,9 @@
     <ClCompile Include="src\HighScoreGameState.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\3Dproj\Powerups.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -593,9 +596,6 @@
     <ClInclude Include="src\physics\proto.hpp">
       <Filter>Protoypes\physics</Filter>
     </ClInclude>
-    <ClInclude Include="src\generation\proto.hpp">
-      <Filter>Protoypes\generation</Filter>
-    </ClInclude>
     <ClInclude Include="src\generation\Platform.hpp">
       <Filter>Protoypes\generation</Filter>
     </ClInclude>
@@ -723,6 +723,9 @@
       <Filter>Engine\Header Files\Handlers</Filter>
     </ClInclude>
     <ClInclude Include="src\HighScoreGameState.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\Powerups.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

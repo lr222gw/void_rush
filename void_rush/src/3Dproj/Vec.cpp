@@ -41,6 +41,12 @@ vec3 vec3::Normalize() //TODO: should not set and return... confusing
 	this->z = (float)(z / i);
 	return vec3(x, y, z);
 }
+void vec3::Normalize_XZ()
+{
+	float magnitude_2D = sqrtf(this->x * this->x +this->z * this->z);
+	this->x = this->x / magnitude_2D;
+	this->z = this->z / magnitude_2D;
+}
 vec3 vec3::Normalize(const vec3& ref)
 {
 	vec3 ret;
@@ -176,6 +182,11 @@ DirectX::XMFLOAT3 vec3::toXMFloat3()
 float vec3::length()
 {
 	return (float)sqrt((double)(x * x + y * y + z * z));
+}
+
+float vec3::length_XZ()
+{
+	return sqrtf(this->x * this->x + this->z * this->z);
 }
 
 void vec4::Normalize()
