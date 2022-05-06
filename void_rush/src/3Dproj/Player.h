@@ -104,6 +104,8 @@ private:
 	//For being shoved
 	bool shoved;
 	vec2 shove;
+	bool shoveDelay;
+	float shoveTimer;
 
 	//Powerups
 	Powerup power_index;

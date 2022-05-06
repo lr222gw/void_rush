@@ -529,7 +529,7 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Potion1.wav", 10, "Potion");
 	soundManager.loadSound("assets/audio/Shield1.wav", 10, "Shield");
 	soundManager.loadSound("assets/audio/Coin1.wav", 10, "Money");
-	soundManager.loadSound("assets/audio/Hit.wav", 20, "Hit");
+	soundManager.loadSound("assets/audio/Hit2.wav", 70, "Hit");
 	soundManager.loadSound("assets/audio/German.wav", 40, "German");
 	soundManager.loadSound("assets/audio/wind1.wav", 0, "Wind");
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);

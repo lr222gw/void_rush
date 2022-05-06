@@ -41,6 +41,8 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	UpdateFallBox();
 	fallBoxTimer = 0.0f;
 	scream = false;
+	this->shoveDelay = false;
+	this->shoveTimer = 0.0f;
 
 }
 
@@ -99,6 +101,14 @@ void Player::update(float dt)
 	}
 	else {
 		sm->setSoundVolume("Wind", 0);
+	}
+	if (shoveDelay) {
+		shoveTimer += dt;
+		if (shoveTimer > 0.1f) {
+			shoveDelay = false;
+			shoveTimer = 0.0f;
+			sm->playSound("Shoved", getPos());
+		}
 	}
 	
 	GameObject::update(dt);
@@ -660,7 +670,7 @@ void Player::shovePlayer(vec2 shove, float forceY)
 	this->shove = shove;
 	this->velocity.y = forceY;
 	sm->playSound("Hit", getPos());
-	sm->playSound("Shoved", getPos());
+	shoveDelay = true;
 	ResetGhost();
 }
 
