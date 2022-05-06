@@ -1,10 +1,59 @@
 #include "Shape_exporter.hpp"
 #include "Shape.hpp"
 
+aiScene::aiScene()
+{
+    this->mFlags = 0;
+    this->mRootNode = NULL;
+    this->mNumMeshes = 0;
+    this->mMeshes = NULL;
+    this->mNumMaterials = 0;
+    this->mMaterials = NULL;
+    this->mNumAnimations = 0;
+    this->mAnimations = NULL;
+    this->mNumTextures = 0;
+    this->mTextures = NULL;
+    this->mNumLights = 0;
+    this->mLights = NULL;
+    this->mNumCameras = 0;
+    this->mCameras = NULL;
+    this->mPrivate = NULL;
+}
+
+aiScene::~aiScene(){
+
+    for(int i = 0; i < this->mNumMeshes; i++ ){
+        delete this->mMeshes[i];
+
+    }
+    delete[] this->mMeshes;
+    
+    for(int i = 0; i < this->mNumMaterials; i++){
+        delete this->mMaterials[i];
+    }
+    delete[] this->mMaterials;
+
+    for (int i = 0; i < this->mRootNode->mNumMeshes; i++) {
+        this->mRootNode->mMeshes[i];
+    }
+
+    delete[] this->mRootNode->mMeshes;
+    free(this->mRootNode);
+        
+    delete this->mPrivate;
+
+}
+
+
+Shape_exporter::Shape_exporter() : scene(nullptr)
+{
+}
+
 Shape_exporter::~Shape_exporter()
 {
     
     delete scene;
+    
 }
 
 void Shape_exporter::set_nrOf(int nrOfMeshes, int nrOfMaterials)
@@ -15,9 +64,9 @@ void Shape_exporter::set_nrOf(int nrOfMeshes, int nrOfMaterials)
 
 void Shape_exporter::init()
 {
-    if (scene) {
-        delete scene;
-        scene = nullptr;
+    if (scene) {        
+        delete scene;    
+        scene = nullptr; 
     }
     unsigned int flags 
         = 
