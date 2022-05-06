@@ -258,7 +258,6 @@ GameStatesEnum Game::update(float dt)
 			UI->getStringElement("NameDesc2")->setPosition(vec2(-0.9f, 0.15f));
 			UI->getStringElement("Name")->setPosition(vec2(-0.5f, -0.2f));
 			player->SetSubmitName(true);
-
 		}
 		if (keyboard->isKeyPressed(VK_RETURN)) {
 			player->writeScore();
@@ -376,9 +375,14 @@ void Game::setUpObject()
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
 
-	GameObjManager->CreateEnemy(player, enemyType::TURRET, "Turret.obj", "turr", vec3(0, 1, 0));
-	GameObjManager->CreateEnemy(player, enemyType::PROJECTILE, "DCube.obj", "proj", vec3(5, 0, 0), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
-	((Turret*)GameObjManager->getGameObject("turr"))->addProjectiles((TurrProjectile*)GameObjManager->getGameObject("proj"));
+
+	GameObjManager->CreateEnemy(player, enemyType::TURRET, "Turret.obj", "turr", vec3(50, 1, 0));
+	const int MaxNrOfProjectiles = 5;
+	for (int i = 0; i < MaxNrOfProjectiles; i++) {
+		GameObjManager->CreateEnemy(player, enemyType::PROJECTILE, "DCube.obj", "proj" + std::to_string(i), vec3(5, 0, 0), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
+		collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("proj"+ std::to_string(i)));
+		((Turret*)GameObjManager->getGameObject("turr"))->addProjectiles((TurrProjectile*)GameObjManager->getGameObject("proj" + std::to_string(i)));
+	}	
 
 	GameObjManager->CreateGameObject("DCube.obj", "cam", vec3(5, -10, 0), vec3(0, 0, 0));
 	GameObjManager->CreateGameObject("DCube.obj", "cubetest", vec3(0, 0, 50), vec3(0, 0, 0));

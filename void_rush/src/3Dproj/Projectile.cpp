@@ -3,7 +3,7 @@
 TurrProjectile::TurrProjectile(ModelObj* file, Graphics*& gfx, Player* player, vec3 pos, vec3 rot, vec3 scale) :
 	Enemy(file, gfx, pos, rot, scale),
 	direction(0.f, 0.f, 0.f),
-	speed(5.f),
+	speed(20.f),
 	active(false),
 	TimeActive(4.f),
 	currentTimeActive(0)
@@ -48,7 +48,7 @@ void TurrProjectile::setDirection(vec3 dir)
 
 void TurrProjectile::draw(Graphics*& gfx, bool sm)
 {
-	//if (active) {
+	if (active) {
 		GameObject::draw(gfx, sm);
-	//}
+	}
 }

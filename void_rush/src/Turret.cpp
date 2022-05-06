@@ -33,7 +33,6 @@ void Turret::update(float dt)
 					projectiles[i]->setDirection(player->getPos() - getPos());
 					projectiles[i]->setPos(getPos());
 					done = true;
-					std::cout << "shoot" << std::endl;
 				}
 			}
 
