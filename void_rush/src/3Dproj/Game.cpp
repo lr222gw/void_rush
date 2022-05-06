@@ -617,85 +617,158 @@ void Game::setUpPowerups(int chosenDiff, vec3 pos)
 		}
 		else if (chosenDiff == 2) //Difficult medium
 		{
-			if (chosenPower <= 60)
+			if (chosenPower <= 36)
 			{
 				//Got F-tier
-				if (chosenPower <= 15)
+				if (chosenPower <= 9)
 				{
 					//choose feather and moved into position
 					GameObjManager->getGameObject("Feather")->setPos(pos);
 
 				}
-				else if (chosenPower > 15 && chosenPower <= 30)
+				else if (chosenPower > 9 && chosenPower <= 18)
 				{
 					//choose speed and moved into position
 					GameObjManager->getGameObject("Potion")->setPos(pos);
 
 				}
-				else if (chosenPower > 30 && chosenPower <= 45)
+				else if (chosenPower > 18 && chosenPower <= 27)
 				{
 					//choose shield and moved into position
 					GameObjManager->getGameObject("Shield")->setPos(pos);
 				}
-				else if (chosenPower > 45 && chosenPower <= 60)
+				else if (chosenPower > 27 && chosenPower <= 36)
 				{
 					// choose Money and moved into position
 					GameObjManager->getGameObject("Money")->setPos(pos);
 				}
 			}
-			else if (chosenPower > 60 && chosenPower <= 92)
+			else if (chosenPower > 36 && chosenPower <= 84)
 			{
 				//Got C-tier
-				if (chosenPower >= 60 && chosenPower <= 68)
+				if (chosenPower >= 37 && chosenPower <= 48)
 				{
 					//Freeze
 					GameObjManager->getGameObject("Freeze")->setPos(pos);
 				}
-				else if (chosenPower > 68 && chosenPower <= 76)
+				else if (chosenPower > 48 && chosenPower <= 60)
 				{
 					//Pearl
 					GameObjManager->getGameObject("Pearl")->setPos(pos);
 				}
-				else if (chosenPower > 76 && chosenPower <= 84)
+				else if (chosenPower > 60 && chosenPower <= 72)
 				{
 					// EMP
 					GameObjManager->getGameObject("Emp")->setPos(pos);
 				}
-				else if (chosenPower > 84 && chosenPower <= 92)
+				else if (chosenPower > 72 && chosenPower <= 84)
 				{
 					// PAD
 					GameObjManager->getGameObject("Pad")->setPos(pos);
 				}
 			}
-			else if (chosenPower >= 93)
+			else if (chosenPower >= 85)
 			{
 				//Got S-tier
-				if (chosenPower >= 93 && chosenPower <= 94)
+				if (chosenPower >= 85 && chosenPower <= 88)
 				{
 					//Freeze
 					GameObjManager->getGameObject("Apple")->setPos(pos);
 				}
-				else if (chosenPower > 94 && chosenPower <= 96)
+				else if (chosenPower > 88 && chosenPower <= 92)
 				{
 					//Pearl
 					GameObjManager->getGameObject("Kill")->setPos(pos);
 				}
-				else if (chosenPower > 96 && chosenPower <= 98)
+				else if (chosenPower > 92 && chosenPower <= 96)
 				{
 					// EMP
 					GameObjManager->getGameObject("Rocket")->setPos(pos);
 				}
-				else if (chosenPower > 98 && chosenPower <= 100)
+				else if (chosenPower > 96 && chosenPower <= 100)
 				{
 					// PAD
 					GameObjManager->getGameObject("Card")->setPos(pos);
 				}
 			}
 		}
-		/*else if (chosenDiff == 3)
+		else if (chosenDiff == 3)
 		{
+			//if (chosenPower <= 24)
+			//{
+			//	//Got F-tier
+			//	if (chosenPower <= )
+			//	{
+			//		//choose feather and moved into position
+			//		GameObjManager->getGameObject("Feather")->setPos(pos);
 
-		}*/
+			//	}
+			//	else if (chosenPower >  && chosenPower <= )
+			//	{
+			//		//choose speed and moved into position
+			//		GameObjManager->getGameObject("Potion")->setPos(pos);
+
+			//	}
+			//	else if (chosenPower >  && chosenPower <= )
+			//	{
+			//		//choose shield and moved into position
+			//		GameObjManager->getGameObject("Shield")->setPos(pos);
+			//	}
+			//	else if (chosenPower >  && chosenPower <= )
+			//	{
+			//		// choose Money and moved into position
+			//		GameObjManager->getGameObject("Money")->setPos(pos);
+			//	}
+			//}
+			//else if (chosenPower >  && chosenPower <= )
+			//{
+			//	//Got C-tier
+			//	if (chosenPower >=  && chosenPower <=)
+			//	{
+			//		//Freeze
+			//		GameObjManager->getGameObject("Freeze")->setPos(pos);
+			//	}
+			//	else if (chosenPower >  && chosenPower <= )
+			//	{
+			//		//Pearl
+			//		GameObjManager->getGameObject("Pearl")->setPos(pos);
+			//	}
+			//	else if (chosenPower >  && chosenPower <= )
+			//	{
+			//		// EMP
+			//		GameObjManager->getGameObject("Emp")->setPos(pos);
+			//	}
+			//	else if (chosenPower >  && chosenPower <= )
+			//	{
+			//		// PAD
+			//		GameObjManager->getGameObject("Pad")->setPos(pos);
+			//	}
+			//}
+			//else if (chosenPower >= )
+			//{
+			//	//Got S-tier
+			//	if (chosenPower >=  && chosenPower <= )
+			//	{
+			//		//Freeze
+			//		GameObjManager->getGameObject("Apple")->setPos(pos);
+			//	}
+			//	else if (chosenPower >  && chosenPower <= )
+			//	{
+			//		//Pearl
+			//		GameObjManager->getGameObject("Kill")->setPos(pos);
+			//	}
+			//	else if (chosenPower >  && chosenPower <= )
+			//	{
+			//		// EMP
+			//		GameObjManager->getGameObject("Rocket")->setPos(pos);
+			//	}
+			//	else if (chosenPower >  && chosenPower <= )
+			//	{
+			//		// PAD
+			//		GameObjManager->getGameObject("Card")->setPos(pos);
+			//	}
+			//}
+		}
 		std::cout << chosenPower << std::endl;
 }
 
