@@ -600,7 +600,7 @@ void Game::setUpPowerups(int chosenDiff, vec3 pos)
 				else if (chosenPower > 94 && chosenPower <= 96)
 				{
 					//Pearl
-					GameObjManager->getGameObject("kill")->setPos(pos);
+					GameObjManager->getGameObject("Kill")->setPos(pos);
 				}
 				else if (chosenPower > 96 && chosenPower <= 98)
 				{
@@ -677,7 +677,7 @@ void Game::setUpPowerups(int chosenDiff, vec3 pos)
 				else if (chosenPower > 94 && chosenPower <= 96)
 				{
 					//Pearl
-					GameObjManager->getGameObject("kill")->setPos(pos);
+					GameObjManager->getGameObject("Kill")->setPos(pos);
 				}
 				else if (chosenPower > 96 && chosenPower <= 98)
 				{
