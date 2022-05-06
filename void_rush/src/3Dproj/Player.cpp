@@ -43,7 +43,8 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	scream = false;
 	this->shoveDelay = false;
 	this->shoveTimer = 0.0f;
-
+	this->heartBeatTimer = 0.0f;
+	this->bpm = 60;
 }
 
 Player::~Player()
@@ -89,7 +90,7 @@ void Player::update(float dt)
 	}
 
 	fallBoxTimer+=dt;
-
+	heartBeatTimer += dt;
 
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
@@ -109,6 +110,10 @@ void Player::update(float dt)
 			shoveTimer = 0.0f;
 			sm->playSound("Shoved", getPos());
 		}
+	}
+	if (heartBeatTimer >= 60/bpm) {
+		sm->playSound("HeartBeat", getPos());
+		heartBeatTimer = 0.0f;
 	}
 	
 	GameObject::update(dt);
@@ -833,6 +838,11 @@ void Player::getSoundManager(SoundManager& sm)
 SoundManager* Player::getSm() const
 {
 	return sm;
+}
+
+void Player::setBpm(float bpm)
+{
+	this->bpm = bpm;
 }
 
 void Player::TakeDmg(int dmg)

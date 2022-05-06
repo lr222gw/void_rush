@@ -51,6 +51,18 @@ void Ghost::update(float dt)
 		for (int i = 0; i < 3; i++) {
 			sm->updatePositionOfSound(getPos(), sounds[i]);
 		}
+		float bpm = 60;
+		if (fabs(player->getPos().length() - this->getPos().length()) < 20.0f) {
+			float len = fabs((this->getPos() - player->getPos()).length());
+			if (len < 1.0f) {
+				len = 1.0f;
+			}
+			bpm = 60 + ((20/len)*10);
+		}
+		player->setBpm(bpm);
+	}
+	else {
+		player->setBpm(60.0f);
 	}
 }
 
