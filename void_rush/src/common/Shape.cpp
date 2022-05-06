@@ -37,7 +37,7 @@ void Shape::setScale(vec3 scale)
     this->scale = scale;
 }
 
-void Shape::setShape(vec3 center, float distanceToEnd)
+void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
 {
     setScale(vec3(.5f, .2f, .5f)); // Todo remove!
     vec3 offset_left {      -scale.x, 0,         0       };
@@ -61,7 +61,7 @@ void Shape::setShape(vec3 center, float distanceToEnd)
         busyMatrix[i].resize(matrixSize);
     }
 
-
+    static std::vector<Center_Index_Pair> all_previousVoxels;;
 
     int first_index = (matrixSize * matrixSize / 2);
     //Sets middle (first ) to true
@@ -70,7 +70,7 @@ void Shape::setShape(vec3 center, float distanceToEnd)
     
     int max = shape_conf.maxNrOfVoxels;
     int min = shape_conf.minNrOfVoxels;
-    int max_padding = std::clamp((int)distanceToEnd + shape_conf.max_clamp_padding, 0, (int)distanceToEnd + shape_conf.max_clamp_padding);
+    int max_padding = std::clamp((int)(distanceToEnd+1) + shape_conf.max_clamp_padding, 0, (int)(distanceToEnd+1) + shape_conf.max_clamp_padding);
    
     int nrOfVoxels = rand() % (max - min ) + min; // random Number Of Voxels    
 
@@ -83,11 +83,23 @@ void Shape::setShape(vec3 center, float distanceToEnd)
     vec3 current_center = center;
     vec3 prev_center = center;
 
+    std::stack<int> prev_index_stack;
+
+    prev_index_stack.push((int)this->previousVoxels.size());
     previousVoxels.push_back({ current_center, current_index });
+
     int extra_iterations_counter = 0;
+    bool failed_placement = false;
+    int dir = 0;
+    int start_dir = 0;
     for (int i = 0; i < nrOfVoxels; i++) {
-        int random_prev_index = rand() % (int)previousVoxels.size();
-        int dir = rand() % 4;
+        //int random_prev_index = rand() % (int)previousVoxels.size();
+        
+        if(!failed_placement){
+            dir = rand() % 4;
+        }else{
+            dir = (dir + 1) % 4;
+        }
         switch (dir) {
         case 0:
             current_index -= 1;
@@ -107,25 +119,68 @@ void Shape::setShape(vec3 center, float distanceToEnd)
             break;
         }
 
+
+        bool collided = false;
+        if(prev){
+            for(int i = 0; i< all_previousVoxels.size(); i++){
+                if((all_previousVoxels[i].current_center - current_center).length() < this->scale.length()){
+                    collided = true;
+                    break;
+                }
+            }
+        }
+
         if (current_index < matrixSize * matrixSize && 
            current_index >  0 && 
-            !busyMatrix[current_index / matrixSize][current_index % matrixSize].isBusy) 
+            !busyMatrix[current_index / matrixSize][current_index % matrixSize].isBusy && 
+            !collided
+            ) 
         {
-
-            busyMatrix[current_index / matrixSize][current_index % matrixSize] = Center_busy_pair{ current_center ,true, (int)this->previousVoxels.size()} ;
+            
+            busyMatrix[current_index / matrixSize][current_index % matrixSize]
+                = Center_busy_pair{ current_center ,true, (int)this->previousVoxels.size() };
             prev_index = current_index;
             prev_center = current_center;
-            this->previousVoxels.push_back({current_center, current_index});
-            
+            prev_index_stack.push((int)this->previousVoxels.size());
+            this->previousVoxels.push_back({ current_center, current_index });
+            all_previousVoxels.push_back({ current_center, current_index });
+            failed_placement = false;
+      
         }
         else 
         {
-            i--;
-            current_center = this->previousVoxels[random_prev_index].current_center;
-            current_index  = this->previousVoxels[random_prev_index].current_index;
+            if(failed_placement == false)
+            {
+                start_dir = dir;
+                failed_placement = true;
+            }
+            else if(start_dir == dir)
+            {
+                int prev_from_stack = -1;
+                if(!prev_index_stack.empty()){
+                    prev_from_stack = prev_index_stack.top();
+                    prev_index_stack.pop();
+                }else{
+                    nrOfVoxels = i;
+                    break;
+                }
+
+                current_center = this->previousVoxels[prev_from_stack].current_center;
+                current_index = this->previousVoxels[prev_from_stack].current_index;
+                prev_index = current_index;
+                prev_center = current_center;
+                failed_placement = false;
+            }
+
+            current_index = prev_index;
+            current_center = prev_center;
+
+            i--;                        
         }
         extra_iterations_counter++;
     }
+
+    
 
     if (extra_iterations_counter > nrOfVoxels) {
         std::cout << "Extra Iterations: " << extra_iterations_counter - nrOfVoxels << " \n";

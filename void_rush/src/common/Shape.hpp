@@ -3,6 +3,7 @@
 #include "3Dproj/Vec.h"
 #include "Helper.hpp"
 #include <vector>
+#include <stack>
 
 class Shape_exporter;
 struct inCorner {
@@ -111,7 +112,7 @@ public:
     void setPosition(vec3 pos);
     void move(vec3 pos);
     void setScale(vec3 scale);
-    void setShape(vec3 center, float distanceToEnd);
+    void setShape(vec3 center, float distanceToEnd, Shape* prev = nullptr);
     void setShapeCube(vec3 center);
     void buildShape();
     void updateBoundingBoxes();
@@ -134,7 +135,7 @@ public:
     //std::vector<DirectX::XMFLOAT4*> bounding_boxes; //TODO: Handle memory here!
     //std::vector<vec3[2]> bounding_boxes; //TODO: Handle memory here!
     std::vector<vec3_pair> bounding_boxes; //TODO: Handle memory here!
-    std::vector<Center_Index_Pair> previousVoxels;
+    std::vector<Center_Index_Pair> previousVoxels;    
 
     struct Shape_settings{
         int maxNrOfVoxels = 25;

@@ -74,6 +74,7 @@ void Generation_manager::initialize()
     this->player_jump_checker->set_physics_params(
         player->getJumpForce(),
         player->getSpeed(),
+        //5.f,
         player->getGravity());
 
     position_gen->set_seed(this->seed);
