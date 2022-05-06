@@ -1,10 +1,13 @@
 #include "Powerups.h"
 
-Powerups::Powerups(ModelObj* file, Graphics*& gfx, Player* player, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale, Powerup pow)
+Powerups::Powerups(ModelObj* file, Graphics*& gfx, Player* player, Ghost* ghost, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale, Powerup pow)
 	: GameObject(file, gfx, pos, rot, scale), power_index(pow)
 {
 	this->player = player;
 	this->keyboard = keyboard;
+	this->ghostFrozenTimer = 0.0f;
+	this->ghost = ghost;
+
 }
 
 Powerups::~Powerups()
@@ -13,11 +16,11 @@ Powerups::~Powerups()
 
 void Powerups::update(float dt)
 {
-	UsePowerUp();
+	UsePowerUp(dt);
 	
 }
 
-void Powerups::UsePowerUp()
+void Powerups::UsePowerUp(float dt)
 {
 	if (getPowerUpIndex() == EMPTY)
 	{
@@ -47,13 +50,25 @@ void Powerups::UsePowerUp()
 	{
 		////ADD HERE WHAT CARD DOES WHEN ACTIVATED////
 	}
-	else if (player->getPlayerPower() == FREEZE)
+	if (player->getPlayerPower() == FREEZE || ghost->isFrozen())
 	{
-		if (this->keyboard->isKeyPressed('E'))
+		if (this->keyboard->isKeyPressed('E') && !ghost->isFrozen())
 		{
 			////ADD HERE WHAT FREEZE DOES WHEN ACTIVATED////
 			player->getSm()->playSound("Freeze", player->getPos());
-			std::cout << "Has Freeze" << std::endl;
+			ghostFrozenTimer = 0.1f;
+			ghost->freezeGhost();
+			std::cout << "Frozen: " << std::endl;
+		}
+		if (ghostFrozenTimer >= 10.0f)
+		{
+			ghost->freezeGhost();
+			ghostFrozenTimer = 0.0f;
+			std::cout << "unfrozen" << std::endl;
+		}
+		if (ghostFrozenTimer != 0.0f)
+		{
+			ghostFrozenTimer += dt;
 		}
 	}
 	else if (player->getPlayerPower() == PEARL)

@@ -10,6 +10,10 @@ public:
 	void setActive(bool activate = true);
 	void Reset();
 	void getSoundManager(SoundManager& sm);
+	//Functions for freeze power
+	void freezeGhost();
+	bool isFrozen();
+
 private:
 	friend class ImguiManager;
 	void followPlayer(float dt);
@@ -34,7 +38,7 @@ private:
 	float currentTimeToMakeNoice = 0;
 
 	//Variable for freezing ghost
-	bool Frozen;
+	bool frozen;
 
 	//Variables for shoving player
 	vec3 force;
