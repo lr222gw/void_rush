@@ -522,6 +522,13 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Powerup7.wav", 10, "GoldApple");
 	soundManager.loadSound("assets/audio/Freeze1.wav", 10, "Freeze");
 	soundManager.loadSound("assets/audio/Portal1.wav", 10, "Rocket");
+	soundManager.loadSound("assets/audio/EMP2.wav", 10, "EMP");
+	soundManager.loadSound("assets/audio/Pearl2.wav", 10, "Pearl");
+	soundManager.loadSound("assets/audio/Jump2.wav", 10, "Pad");
+	soundManager.loadSound("assets/audio/Feather1.wav", 10, "Feather");
+	soundManager.loadSound("assets/audio/Potion1.wav", 10, "Potion");
+	soundManager.loadSound("assets/audio/Shield1.wav", 10, "Shield");
+	soundManager.loadSound("assets/audio/Coin1.wav", 10, "Money");
 	soundManager.loadSound("assets/audio/Hit.wav", 20, "Hit");
 	soundManager.loadSound("assets/audio/German.wav", 40, "German");
 	soundManager.loadSound("assets/audio/wind1.wav", 0, "Wind");
