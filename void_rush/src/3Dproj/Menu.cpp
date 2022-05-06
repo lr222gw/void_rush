@@ -42,7 +42,7 @@ GameStatesEnum Menu::update(float dt)
 	if (UI->getButton("Quit")->clicked()) {
 		theReturn = GameStatesEnum::QUIT;
 	}
-	else if (UI->getButton("Start")->clicked()) {
+	else if (UI->getButton("Start")->clicked() || keyboard->isKeyPressed(VK_RETURN)) {
 		UI->createUIString("Loading...", vec2(-0.9, -0.75), vec2(0.2, 0.2), "loading");
 		theReturn = GameStatesEnum::TO_GAME;
 	}
