@@ -148,6 +148,9 @@
     <Filter Include="Engine\Source Files\Graphic\Paricle">
       <UniqueIdentifier>{76b250a2-9755-4e96-951d-af0fb06089f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Void_Rush\Scenes">
+      <UniqueIdentifier>{a6db6fb4-5d2a-4f39-a7f1-f275c20a532f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src/3Dproj/D311Helper.cpp">
@@ -306,9 +309,6 @@
     <ClCompile Include="src\common\Vector.cpp">
       <Filter>Protoypes\common</Filter>
     </ClCompile>
-    <ClCompile Include="src/3Dproj/Game.cpp">
-      <Filter>Void_Rush</Filter>
-    </ClCompile>
     <ClCompile Include="src\3Dproj\Player.cpp">
       <Filter>Void_Rush\Objects</Filter>
     </ClCompile>
@@ -408,9 +408,6 @@
     <ClCompile Include="src\3Dproj\UIButton.cpp">
       <Filter>Engine\Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="src\3Dproj\Menu.cpp">
-      <Filter>Void_Rush</Filter>
-    </ClCompile>
     <ClCompile Include="src\common\Shape.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
@@ -433,6 +430,15 @@
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\HighScoreGameState.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\Menu.cpp">
+      <Filter>Void_Rush\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/Game.cpp">
+      <Filter>Void_Rush\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Turret.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -620,9 +626,6 @@
     <ClInclude Include="src\generation\Generation_manager.hpp">
       <Filter>Protoypes\generation</Filter>
     </ClInclude>
-    <ClInclude Include="src/3Dproj/Game.h">
-      <Filter>Void_Rush</Filter>
-    </ClInclude>
     <ClInclude Include="src\3Dproj\Player.h">
       <Filter>Void_Rush\Objects</Filter>
     </ClInclude>
@@ -707,9 +710,6 @@
     <ClInclude Include="src\3Dproj\App.h">
       <Filter>Engine\Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="src\3Dproj\Menu.h">
-      <Filter>Void_Rush</Filter>
-    </ClInclude>
     <ClInclude Include="src\common\Shape_exporter.hpp">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
@@ -729,6 +729,15 @@
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\3Dproj\Powerups.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3Dproj\Menu.h">
+      <Filter>Void_Rush\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src/3Dproj/Game.h">
+      <Filter>Void_Rush\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Turret.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -813,6 +822,9 @@
       <Filter>Engine\Resource Files\Shaders\Vertex</Filter>
     </FxCompile>
     <FxCompile Include="src\3Dproj\3DTextPS.hlsl">
+      <Filter>Engine\Resource Files\Shaders\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="src\3Dproj\NormalForwardNMapPS.hlsl">
       <Filter>Engine\Resource Files\Shaders\Pixel</Filter>
     </FxCompile>
   </ItemGroup>

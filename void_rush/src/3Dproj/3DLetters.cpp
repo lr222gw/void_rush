@@ -55,7 +55,6 @@ void Letters3D::update(Graphics*& gfx, vec3 camPos)
 	for (size_t i = 0; i < letters.size(); i++) {
 		letters[i]->Updateshaders(gfx);
 		if (rotateToPlayer) {
-			//letters[i]->addRot(vec3(0, 0.01,0));
 			letters[i]->setRot(vec3(0, -rot,0)+ vec3(0,-1.57,0));
 		}
 	}
