@@ -78,6 +78,17 @@ void Letters3DHandler::removeText(int index)
 	}
 }
 
+void Letters3DHandler::removeAllText()
+{
+	for (size_t i = 0; i < strings.size(); i++)
+	{
+		delete strings[i];
+	}
+	strings.clear();
+
+	mapOfLetters.clear();
+}
+
 Letters3D* Letters3DHandler::getText(std::string key)
 {
 	return mapOfLetters.find(key)->second;

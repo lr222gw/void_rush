@@ -67,3 +67,8 @@ void Puzzle::SpawnDoor (vec3 pos)
     // Spawn the door after puzzle is completed.
     this->Spawn(pos);
 }
+
+void Puzzle::UpdatePlayerPos(vec3 newPlayerPos)
+{
+    this->playerPos = newPlayerPos;
+}

@@ -12,6 +12,7 @@ class Shape;
 class Shape_exporter{
 
 public:
+    Shape_exporter();
     ~Shape_exporter();
     void set_nrOf(int nrOfMeshes, int nrOfMaterials);
     void init();

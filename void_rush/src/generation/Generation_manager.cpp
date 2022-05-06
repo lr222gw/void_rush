@@ -3,10 +3,12 @@
 Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, CollisionHandler& collisionHandler)
 	: gfx(_gfx), rm(_rm), seed((int)time(0)), difficulity(Difficulity::easy), player(nullptr), puzzleManager(nullptr), gameObjManager(nullptr)
 {            
+    this->shape_export = new Shape_exporter();
     this->position_gen = new Position_generator(this->seed);
     this->player_jump_checker = new Player_jump_checker();
     position_gen->assignPlayer(player_jump_checker);
     position_gen->setNrOfElements(3);
+    
     this->collisionHandler = &collisionHandler;
 }
 
@@ -24,8 +26,9 @@ Generation_manager::~Generation_manager()
     }    
     gameObjManager->removeGameObject("map");
     
-    delete position_gen;
     delete player_jump_checker;    
+    delete position_gen;
+    delete shape_export;
 }
 
 void Generation_manager::set_player(Player* player)
@@ -67,21 +70,22 @@ void Generation_manager::initialize()
     position_gen->set_seed(this->seed);
     position_gen->start(difficulity);
     
-    shape_export.set_nrOf(position_gen->getAnchors()->size() + position_gen->getJumpPoints()->size(), 1); //TODO: do not hardcode material!
-    shape_export.init();
+    shape_export->set_nrOf(position_gen->getAnchors()->size() + position_gen->getJumpPoints()->size(), 1); //TODO: do not hardcode material!
+    shape_export->init();
     
     place_anchorPoints();
     place_jumpPoints();
 
     platformObjs.push_back(
-            new PlatformObj(rm->load_map_scene(shape_export.getScene(),"map", gfx),        
+            new PlatformObj(rm->load_map_scene(shape_export->getScene(),"map", gfx),        
             gfx,            
             vec3(0.f,0.f,0.f),            
             vec3(0.f,0.f,0.f),            
             vec3(1.0f, 1.0f, 1.0f))
     );    
     gameObjManager->addGameObject(platformObjs[0], "map");
-    puzzleManager->Initiate(this->getPuzzelPos());    
+    
+    puzzleManager->Initiate(this->getPuzzelPos());    //TODO: REMOVE COMMENT
     this->player->SetDifficulity(this->difficulity);
     this->player->SetStartPlatform(this->GetStartPlatform());
     this->player->SetCurrentSeed(this->seed);
@@ -92,8 +96,10 @@ void Generation_manager::place_anchorPoints()
 {
     Platform* anchor = position_gen->getAnchors()->at(0);
     while (anchor) {
-        anchor->platformShape.setShape(*anchor->getPos());
-        shape_export.build_shape_model(&anchor->platformShape, "map");
+        //anchor->platformShape.setShape(*anchor->getPos()); //TODO: this was how we used to do it.
+        //anchor->platformShape.setShape(*anchor->getPos() + anchor->platformShape.inCorner.pos);
+        anchor->platformShape.buildShape();
+        shape_export->build_shape_model(&anchor->platformShape, "map");
         collisionHandler->addPlatform(&anchor->platformShape);
         anchor = anchor->next;
     }
@@ -102,12 +108,19 @@ void Generation_manager::place_anchorPoints()
 void Generation_manager::place_jumpPoints()
 {
     Platform* jumppoint = position_gen->firstJumpPoint;
+    int c = 0;
     while (jumppoint) {
-        jumppoint->platformShape.setShapeCube(*jumppoint->getPos());
         //jumppoint->platformShape.setShape(*jumppoint->getPos());
-        shape_export.build_shape_model(&jumppoint->platformShape, "map");
+        //jumppoint->platformShape.setShapeCube(*jumppoint->getPos()); //TODO: this was how we used to do it.
+        //jumppoint->platformShape.setShape(*jumppoint->getPos()); //TODO: this was how we used to do it.
+        
+        //TODO: This is now done in position_generator! 
+        //jumppoint->platformShape.setShapeCube(*jumppoint->getPos() + jumppoint->platformShape.inCorner.pos); 
+        jumppoint->platformShape.buildShape();
+        shape_export->build_shape_model(&jumppoint->platformShape, "map");
         collisionHandler->addPlatform(&jumppoint->platformShape);
         jumppoint = jumppoint->next;
+        c++;
     }
 }
 
@@ -123,7 +136,8 @@ Difficulity Generation_manager::getDifficulty() const
 
 vec3 Generation_manager::getPuzzelPos()
 {
-    return *this->position_gen->getAnchors()->at(position_gen->getAnchors()->size()-1)->getPos();
+    vec3 platformPosOffset = vec3(0.f, -20.f, 0.f);
+    return *this->position_gen->getAnchors()->at(position_gen->getAnchors()->size()-1)->getPos() + platformPosOffset;
 }
 
 Platform*& Generation_manager::GetStartPlatform()

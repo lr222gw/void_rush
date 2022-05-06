@@ -114,7 +114,7 @@ void ImguiManager::render_generation_widgets()
 				ImGui::InputFloat("rand_dir_min_angle_percent", &owner->generationManager->position_gen->JP_conf.rand_dir_min_angle_percent);
 				ImGui::InputFloat("rand_dir_max_angle_percent", &owner->generationManager->position_gen->JP_conf.rand_dir_max_angle_percent);
 				ImGui::TreePop();
-			}
+			} 
 			if (ImGui::TreeNode("Anchors")) {
 				ImGui::InputInt("Number of Anchors", &owner->generationManager->position_gen->elements);
 				ImGui::InputFloat("minStepMod", &owner->generationManager->position_gen->AP_conf.minStepMod);
@@ -123,6 +123,14 @@ void ImguiManager::render_generation_widgets()
 				ImGui::InputFloat("stepMinHeight", &owner->generationManager->position_gen->AP_conf.stepMinHeight);
 				ImGui::InputFloat("lowest_Height", &owner->generationManager->position_gen->AP_conf.lowest_Height);
 				ImGui::InputFloat("minZAngle", &owner->generationManager->position_gen->AP_conf.minZAngle);				
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Platforms,Shape")) {
+				
+				ImGui::InputInt("maxNrOfVoxels", &Shape::shape_conf.maxNrOfVoxels);
+				ImGui::InputInt("minNrOfVoxels", &Shape::shape_conf.minNrOfVoxels);
+				ImGui::SliderInt("distance_padding", &Shape::shape_conf.max_clamp_padding, -10,10);
+
 				ImGui::TreePop();
 			}
 			
@@ -180,7 +188,7 @@ void ImguiManager::render_generation_widgets()
 		}
 
 		if (ImGui::Button("ExportFirstShape")) {
-			owner->generationManager->shape_export.export_final_model("map");
+			owner->generationManager->shape_export->export_final_model("map");
 			
 		}
 	}
@@ -311,6 +319,15 @@ void ImguiManager::render_player_widgets()
 							& owner->player->velocity.z };
 
 		ImGui::InputFloat3("vel", *vel);
+		ImGui::InputFloat("jumpForce", &owner->player->jumpForce);
+		ImGui::InputFloat("maxDepth", &owner->player->maxDepth);
+
+		float* scale[3] = { &owner->player->scale.x,
+							&owner->player->scale.y,
+							&owner->player->scale.z };
+		if(ImGui::InputFloat3("Scale", *scale)){
+			owner->player->setBoundingBox(DirectX::XMFLOAT3(0, -owner->player->scale.y - 0.01f, 0), DirectX::XMFLOAT3(owner->player->scale.x - 0.01f, 0.10f, owner->player->scale.z - 0.01f));
+		}
 	}
 	ImGui::End();
 }
