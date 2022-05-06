@@ -569,7 +569,7 @@ void Game::setUpPowerups(int chosenDiff, vec3 pos)
 			else if (chosenPower > 60 && chosenPower <= 92)
 			{
 				//Got C-tier
-				if (chosenPower >= 60 && chosenPower <= 68)
+				if (chosenPower > 60 && chosenPower <= 68)
 				{
 					//Freeze
 					GameObjManager->getGameObject("Freeze")->setPos(pos);

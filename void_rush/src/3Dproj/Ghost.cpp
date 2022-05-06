@@ -11,6 +11,7 @@ Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot,
 	this->force = vec3(10.0f, 3.0f, 10.f);
 	this->player = player;
 	Reset();
+	this->Frozen = false;
 	this->active = false;
 }
 

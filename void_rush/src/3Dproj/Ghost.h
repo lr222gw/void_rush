@@ -33,6 +33,9 @@ private:
 	float TimeToMakeNoice = 9.0f;
 	float currentTimeToMakeNoice = 0;
 
+	//Variable for freezing ghost
+	bool Frozen;
+
 	//Variables for shoving player
 	vec3 force;
 	std::string sounds[3];
