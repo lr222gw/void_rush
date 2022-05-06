@@ -532,7 +532,7 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Hit2.wav", 70, "Hit");
 	soundManager.loadSound("assets/audio/German.wav", 40, "German");
 	soundManager.loadSound("assets/audio/wind1.wav", 0, "Wind");
-	soundManager.loadSound("assets/audio/HeartBeat.wav", 50, "HeartBeat");
+	soundManager.loadSound("assets/audio/HeartBeat.wav", 30, "HeartBeat");
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
 	soundManager.setMusicLoop(true);
 
