@@ -833,6 +833,7 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			//player->setPos(vec3(0.0f, 0.0f, 0.0f));
 			player->Reset(true);
 			generationManager->initialize();
+			soundManager.playSound("Portal", player->getPos());
 		}
 	}
 }
