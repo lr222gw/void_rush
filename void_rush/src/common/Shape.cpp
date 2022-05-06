@@ -145,9 +145,7 @@ void Shape::setShape(vec3 center, float distanceToEnd)
     this->set_InOut_firstLastDeclared(busyMatrix, matrixSize);    
 
 
-    //float off = .2f;
-    //START->y = START->y + off;
-    //END->y = END->y - off;
+    
 
 }
 
@@ -262,6 +260,10 @@ void Shape::set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair
     }
     this->inCorner.pos = last;
     this->outCorner.pos = first;
+
+    float off = .2f;
+    START->y = START->y + off;
+    END->y = END->y - off;
 }
 
 

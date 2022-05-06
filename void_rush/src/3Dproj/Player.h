@@ -52,6 +52,8 @@ public:
 	void setGrounded();
 	void setUngrounded();
 	float getSpeed();
+	float getJumpForce();
+	float getGravity();
 	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
 	void Reset(bool lvlClr = false);

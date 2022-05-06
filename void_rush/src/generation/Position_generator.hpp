@@ -1,6 +1,6 @@
 #pragma once
 #include "Platform.hpp"
-#include "playerGen.hpp"
+#include "Player_jump_checker.hpp"
 #include "3Dproj/Vec.h"
 #include <random>
 
@@ -26,7 +26,6 @@ public:
     Platform* firstJumpPoint;
 
     Position_generator(int seed);
-    Position_generator(int seed, int elements);
     ~Position_generator();
     bool start (Difficulity diff);
     void generate_anchor_positions(Difficulity selectedDiff);

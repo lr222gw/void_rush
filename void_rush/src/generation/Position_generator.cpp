@@ -6,11 +6,6 @@ Position_generator::Position_generator(int _seed)
 {    
 }
 
-Position_generator::Position_generator (int seed, int elements)
-    : seed (seed), elements (elements), pl (nullptr), startPlat(nullptr),firstJumpPoint(nullptr)
-{
-}
-
 Position_generator::~Position_generator ()
 {
     for (int i = 0; i < anchors.size (); i++)
@@ -77,7 +72,7 @@ void Position_generator::generate_anchor_positions(Difficulity selectedDiff)
         float dvect_magnitude = dVect.length_XZ();
         if (dvect_magnitude > stepMin && dvect_magnitude < stepMax)
         {
-            newPlat = new Platform(position, 0, 1, 0);
+            newPlat = new Platform(position);
             newPlat->platformShape.setShape(*newPlat->getPos(), dVect.length());
 
             pl->moveto(newPlat->platformShape.outCorner.pos);

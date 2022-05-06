@@ -2,34 +2,15 @@
 
 Platform::Platform()
     : pos ({ 0.0f, 0.0f, 0.0f }), obstacles (0), difficluty (0),
-      rotation (0.0), next (nullptr), prev(nullptr)
+    next (nullptr), prev(nullptr)
 {
-    //platformShape.setShapeCube (this->pos);
-    rotMat.rotateAroundZ (this->rotation);
-    rotMat.rotateAroundZ (this->rotation);
+ 
 }
 
-Platform::Platform(std::vector<float> pos, int obstacles, int difficluty,
-                    float rotation)
-    : obstacles (obstacles), difficluty (difficluty), rotation (rotation),
-      next (nullptr), prev(nullptr)
-{
-    this->pos.x = pos[0];
-    this->pos.y = pos[1];
-    this->pos.z = pos[2];
-    //platformShape.setShapeCube (this->pos);
-    rotMat.rotateAroundZ (this->rotation);
-    rotMat.rotateAroundZ (this->rotation);
-}
-
-Platform::Platform(vec3 pos, int obstacles, int difficluty,
-                    float rotation)
-    : pos (pos), obstacles (obstacles), difficluty (difficluty),
-      rotation (rotation), next (nullptr), prev(nullptr)
-{
-    //this->platformShape.setShapeCube (this->pos);
-    rotMat.rotateAroundZ (this->rotation);
-}
+Platform::Platform(vec3 pos, int obstacles, int difficluty)
+    : pos(pos), obstacles(obstacles), difficluty(difficluty), 
+    next(nullptr), prev(nullptr)
+{}
 
 Platform::~Platform () {
 
@@ -58,8 +39,6 @@ void Platform::move (float xOfset, float yOfset, float zOfset)
 }
 
 vec3* Platform::getPos () { return &this->pos; }
-
-float Platform::getRotation () const { return this->rotation; }
 
 float Platform::distance (vec3* position) const
 {

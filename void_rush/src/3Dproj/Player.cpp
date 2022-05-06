@@ -586,6 +586,16 @@ float Player::getSpeed()
 	return this->speed.x;
 }
 
+float Player::getJumpForce()
+{
+	return this->jumpForce;
+}
+
+float Player::getGravity()
+{
+	return this->gravity.y;
+}
+
 float Player::getGroundedTimer()
 {
 	return this->groundedTimer;

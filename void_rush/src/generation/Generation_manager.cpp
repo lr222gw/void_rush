@@ -34,6 +34,10 @@ Generation_manager::~Generation_manager()
 void Generation_manager::set_player(Player* player)
 {
     this->player = player;
+    this->player_jump_checker->set_physics_params(
+        player->getJumpForce(),
+        player->getSpeed(), 
+        player->getGravity());
 }
 
 void Generation_manager::set_PuzzleManager(ProtoPuzzle* puzzleManager)
@@ -66,6 +70,11 @@ void Generation_manager::initialize()
            
     platformObjs.clear();
     position_gen->reset_generation(this->player->getPos());
+    
+    this->player_jump_checker->set_physics_params(
+        player->getJumpForce(),
+        player->getSpeed(),
+        player->getGravity());
 
     position_gen->set_seed(this->seed);
     position_gen->start(difficulity);
@@ -85,7 +94,7 @@ void Generation_manager::initialize()
     );    
     gameObjManager->addGameObject(platformObjs[0], "map");
     
-    puzzleManager->Initiate(this->getPuzzelPos());    //TODO: REMOVE COMMENT
+    puzzleManager->Initiate(this->getPuzzelPos());  
     this->player->SetDifficulity(this->difficulity);
     this->player->SetStartPlatform(this->GetStartPlatform());
     this->player->SetCurrentSeed(this->seed);
@@ -173,8 +182,7 @@ void Generation_manager::generateGraph()
 
         output_stream << i << " platform.\nXPos: " << platforms->at(i)->getPos()->x
             << " YPos: " << platforms->at(i)->getPos()->y
-            << " ZPos: " << platforms->at(i)->getPos()->z << "\n"
-            << "Rotation: " << platforms->at(i)->getRotation() << "\n";
+            << " ZPos: " << platforms->at(i)->getPos()->z << "\n";            
         if (i != platforms->size() - 1)
         {
             output_stream << i << " Distance to next "

@@ -282,9 +282,6 @@
     <ClCompile Include="src\physics\proto.cpp">
       <Filter>Protoypes\physics</Filter>
     </ClCompile>
-    <ClCompile Include="src\generation\playerGen.cpp">
-      <Filter>Protoypes\generation</Filter>
-    </ClCompile>
     <ClCompile Include="src\generation\Platform.cpp">
       <Filter>Protoypes\generation</Filter>
     </ClCompile>
@@ -433,6 +430,9 @@
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\3Dproj\Powerups.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\generation\Player_jump_checker.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -599,7 +599,7 @@
     <ClInclude Include="src\generation\Platform.hpp">
       <Filter>Protoypes\generation</Filter>
     </ClInclude>
-    <ClInclude Include="src\generation\playerGen.hpp">
+    <ClInclude Include="src\generation\Player_jump_checker.hpp">
       <Filter>Protoypes\generation</Filter>
     </ClInclude>
     <ClInclude Include="src\common\Helper.hpp">
