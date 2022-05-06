@@ -692,80 +692,80 @@ void Game::setUpPowerups(int chosenDiff, vec3 pos)
 		}
 		else if (chosenDiff == 3)
 		{
-			//if (chosenPower <= 24)
-			//{
-			//	//Got F-tier
-			//	if (chosenPower <= )
-			//	{
-			//		//choose feather and moved into position
-			//		GameObjManager->getGameObject("Feather")->setPos(pos);
+			if (chosenPower <= 24)
+			{
+				//Got F-tier
+				if (chosenPower <= 6)
+				{
+					//choose feather and moved into position
+					GameObjManager->getGameObject("Feather")->setPos(pos);
 
-			//	}
-			//	else if (chosenPower >  && chosenPower <= )
-			//	{
-			//		//choose speed and moved into position
-			//		GameObjManager->getGameObject("Potion")->setPos(pos);
+				}
+				else if (chosenPower > 6  && chosenPower <= 12)
+				{
+					//choose speed and moved into position
+					GameObjManager->getGameObject("Potion")->setPos(pos);
 
-			//	}
-			//	else if (chosenPower >  && chosenPower <= )
-			//	{
-			//		//choose shield and moved into position
-			//		GameObjManager->getGameObject("Shield")->setPos(pos);
-			//	}
-			//	else if (chosenPower >  && chosenPower <= )
-			//	{
-			//		// choose Money and moved into position
-			//		GameObjManager->getGameObject("Money")->setPos(pos);
-			//	}
-			//}
-			//else if (chosenPower >  && chosenPower <= )
-			//{
-			//	//Got C-tier
-			//	if (chosenPower >=  && chosenPower <=)
-			//	{
-			//		//Freeze
-			//		GameObjManager->getGameObject("Freeze")->setPos(pos);
-			//	}
-			//	else if (chosenPower >  && chosenPower <= )
-			//	{
-			//		//Pearl
-			//		GameObjManager->getGameObject("Pearl")->setPos(pos);
-			//	}
-			//	else if (chosenPower >  && chosenPower <= )
-			//	{
-			//		// EMP
-			//		GameObjManager->getGameObject("Emp")->setPos(pos);
-			//	}
-			//	else if (chosenPower >  && chosenPower <= )
-			//	{
-			//		// PAD
-			//		GameObjManager->getGameObject("Pad")->setPos(pos);
-			//	}
-			//}
-			//else if (chosenPower >= )
-			//{
-			//	//Got S-tier
-			//	if (chosenPower >=  && chosenPower <= )
-			//	{
-			//		//Freeze
-			//		GameObjManager->getGameObject("Apple")->setPos(pos);
-			//	}
-			//	else if (chosenPower >  && chosenPower <= )
-			//	{
-			//		//Pearl
-			//		GameObjManager->getGameObject("Kill")->setPos(pos);
-			//	}
-			//	else if (chosenPower >  && chosenPower <= )
-			//	{
-			//		// EMP
-			//		GameObjManager->getGameObject("Rocket")->setPos(pos);
-			//	}
-			//	else if (chosenPower >  && chosenPower <= )
-			//	{
-			//		// PAD
-			//		GameObjManager->getGameObject("Card")->setPos(pos);
-			//	}
-			//}
+				}
+				else if (chosenPower > 12 && chosenPower <= 18)
+				{
+					//choose shield and moved into position
+					GameObjManager->getGameObject("Shield")->setPos(pos);
+				}
+				else if (chosenPower > 18 && chosenPower <= 24)
+				{
+					// choose Money and moved into position
+					GameObjManager->getGameObject("Money")->setPos(pos);
+				}
+			}
+			else if (chosenPower > 24 && chosenPower <= 60)
+			{
+				//Got C-tier
+				if (chosenPower >= 24  && chosenPower <= 33)
+				{
+					//Freeze
+					GameObjManager->getGameObject("Freeze")->setPos(pos);
+				}
+				else if (chosenPower > 33 && chosenPower <= 42)
+				{
+					//Pearl
+					GameObjManager->getGameObject("Pearl")->setPos(pos);
+				}
+				else if (chosenPower > 42 && chosenPower <= 51)
+				{
+					// EMP
+					GameObjManager->getGameObject("Emp")->setPos(pos);
+				}
+				else if (chosenPower > 51 && chosenPower <= 60)
+				{
+					// PAD
+					GameObjManager->getGameObject("Pad")->setPos(pos);
+				}
+			}
+			else if (chosenPower > 61)
+			{
+				//Got S-tier
+				if (chosenPower >= 61 && chosenPower <= 70)
+				{
+					//Freeze
+					GameObjManager->getGameObject("Apple")->setPos(pos);
+				}
+				else if (chosenPower > 70 && chosenPower <= 80)
+				{
+					//Pearl
+					GameObjManager->getGameObject("Kill")->setPos(pos);
+				}
+				else if (chosenPower > 80 && chosenPower <= 90)
+				{
+					// EMP
+					GameObjManager->getGameObject("Rocket")->setPos(pos);
+				}
+				else if (chosenPower > 90 && chosenPower <= 100)
+				{
+					// PAD
+					GameObjManager->getGameObject("Card")->setPos(pos);
+				}
+			}
 		}
 		std::cout << chosenPower << std::endl;
 }
