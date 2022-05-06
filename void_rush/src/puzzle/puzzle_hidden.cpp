@@ -13,7 +13,7 @@ void HiddenPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
         float size, test;
         vec3 midPos;
         midPos = GetMidPos(puzzleObjects[0], size);
-        if (CanInteract(playerPos, forwardVec, midPos, size / 2.0f, 5.0f, test))
+        if (CanInteract(playerPos, forwardVec, midPos, size / 2.0f, 1.5f, test))
         {
             soundManager->playSound("Correct", midPos);
             for (size_t i = 0; i < puzzleObjects.size(); i++) {
@@ -36,22 +36,22 @@ void HiddenPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 pos
     this->SetPosition(position);
     std::cout << "Hidden puzzle chosen" << std::endl;
     //Based on the size of the platform, place out the key in a valid position where the key can be reached by the player.
-    puzzlePlatform = new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, position, vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
+    puzzlePlatform = new GameObject(rm->get_Models("BasePlatformTexture.obj", gfx), gfx, position, vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
     float x, z;
-    x = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 3);
-    z = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 2);
+    x = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 5);
+    z = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 5);
 
     if (x > (puzzlePlatform->getWidthHeightDepth().x / 2.0f))
     {
-        x = x - (puzzlePlatform->getWidthHeightDepth().x - 3.0f);
+        x = x - (puzzlePlatform->getWidthHeightDepth().x - 5.0f);
     }
 
     if (z > (puzzlePlatform->getWidthHeightDepth().z / 2.0f))
     {
-        z = z - (puzzlePlatform->getWidthHeightDepth().z - 2.0f);
+        z = z - (puzzlePlatform->getWidthHeightDepth().z - 5.0f);
     }
 
-    puzzleObjects.push_back(new GameObject(rm->get_Models("Key.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 0.2f, puzzlePlatform->getzPos() + z), vec3(x, x / 2, z), vec3(1.0f, 1.0f, 1.0f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("Key.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(x, x / 2, z), vec3(0.2f, 0.2f, 0.2f)));
 
     this->GetColHandler()->addPlatform(puzzlePlatform);
     this->GetColHandler()->addPlatform(puzzleObjects[0]);
