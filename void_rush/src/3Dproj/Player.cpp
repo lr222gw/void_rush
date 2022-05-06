@@ -37,6 +37,10 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 		this->name += "_";
 	}
 	this->scoreManager.SetPlayerSpeed(speed.length());
+	fallCubeSize = vec3(50.0f, 200.0f, 50.0f);
+	UpdateFallBox();
+	fallBoxTimer = 0.0f;
+	scream = false;
 
 }
 
@@ -71,16 +75,23 @@ void Player::update(float dt)
 		{
 			this->groundedTimer += dt;
 		}
-		if (getPos().y < maxDepth) {
+		if (fallBoxTimer > 2 && !scream) {
+			sm->playSound("Scream", getPos());
+			scream = true;
+		}
+		if (fallBoxTimer > 4) {
 			TakeDmg();
 		}
 	}else{
 		this->movePos(vec3(velocity.x * dt, 0.0f, velocity.z * dt));
 	}
 
+	fallBoxTimer+=dt;
+
 
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
+	UpdateFallBox();
 
 	if (this->velocity.y < -this->jumpForce) {
 		sm->setSoundPosition("Wind", this->getPos());
@@ -565,6 +576,8 @@ void Player::setGrounded()
 		this->groundedTimer = 0.0f;
 		this->startingJumpDir = vec2(0.0f, 0.0f);
 		this->startingJumpKey = 'N';
+		this->fallBoxTimer = 0.0f;
+		this->scream = false;
 
 		sm->setSoundVolume("Land", volume);
 		sm->playSound("Land", this->getPos());
@@ -596,6 +609,17 @@ GameObject*& Player::getPlayerObjPointer()
 	return GOPTR;
 }
 
+ColCube Player::getFallCube() const
+{
+	return fallCube;
+}
+
+void Player::ResetFallBoxTimer()
+{
+	fallBoxTimer = 0.0f;
+	this->scream = false;
+}
+
 void Player::Reset(bool lvlClr)
 {
 	resetGhost = true;
@@ -610,6 +634,7 @@ void Player::Reset(bool lvlClr)
 	this->groundedTimer = 0.0f;
 	this->jumpDir = vec2(0.0f, 0.0f);
 	this->startingJumpDir = vec2(0.0f, 0.0f);
+	this->fallBoxTimer = 0.0f;
 
 	if (lvlClr) {
 		//Add points
@@ -808,10 +833,11 @@ void Player::TakeDmg(int dmg)
         alive = false;
 		sm->playSound("GameOver", getPos());
 	}
-	else {
+	else if(!scream) {
 		scoreManager.setDamageScore();
 		sm->playSound("Scream", getPos());
 	}
+	scream = false;
 	this->HUD->LowerHealth();
 }
 
@@ -838,4 +864,10 @@ float Player::GetScore()
 bool Player::IsAlive()
 {
 	return alive;
+}
+
+void Player::UpdateFallBox()
+{
+	fallCube.highPoint = vec3(getPos().x + (fallCubeSize.x/2), getPos().y, getPos().z + (fallCubeSize.z / 2));
+	fallCube.lowPoint = vec3(getPos().x - (fallCubeSize.x / 2), getPos().y - fallCubeSize.y, getPos().z - (fallCubeSize.z / 2));
 }
