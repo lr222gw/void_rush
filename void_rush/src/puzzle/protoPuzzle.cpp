@@ -29,6 +29,11 @@ void ProtoPuzzle::Interact(vec3 playerPos, vec3 forwardVec)
     this->puzzleList[chosenPuzzle]->Interaction(playerPos, forwardVec);
 }
 
+void ProtoPuzzle::UpdatePlayerPosition(vec3 Pos)
+{
+    math->UpdatePlayerPos(Pos);
+}
+
 void ProtoPuzzle::Initiate(vec3 platformPosition)
 {
     if (chosenPuzzle != -1)

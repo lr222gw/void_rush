@@ -168,16 +168,16 @@ bool Hud::GetStatusOfPassive(int index) const
 	switch (index)
 	{
 	case 1:
-		return passive1On;
+		return passive1On; //feater
 		break;
 	case 2:
-		return passive2On;
+		return passive2On; //pearl
 		break;
 	case 3:
-		return passive3On;
+		return passive3On; //potion
 		break;
 	case 4:
-		return passive4On;
+		return passive4On; //shield
 		break;
 	}
 

@@ -21,7 +21,10 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 
 	GOPTR = static_cast<GameObject*>(this);
 	setWeight(20);
-	setBoundingBox(DirectX::XMFLOAT3(0, -0.19, 0), DirectX::XMFLOAT3(0.19f, 0.10f, 0.19f));
+
+	
+	//setBoundingBox(DirectX::XMFLOAT3(0, -0.19, 0), DirectX::XMFLOAT3(0.19f, 0.10f, 0.19f));
+	setBoundingBox(DirectX::XMFLOAT3(0, -scale.y - 0.01f, 0), DirectX::XMFLOAT3(scale.x - 0.01f, 0.10f, scale.z - 0.01f));
 	this->health = 3;
 	this->alive = true;
 	this->maxDepth = -100.0f;
@@ -78,6 +81,14 @@ void Player::update(float dt)
 
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
+
+	if (this->velocity.y < -this->jumpForce) {
+		sm->setSoundPosition("Wind", this->getPos());
+		sm->setSoundVolume("Wind", abs(this->velocity.y + this->jumpForce) * 15);
+	}
+	else {
+		sm->setSoundVolume("Wind", 0);
+	}
 	
 	GameObject::update(dt);
 }
@@ -544,6 +555,8 @@ void Player::setGrounded()
 {
 	if (!grounded)
 	{
+		float volume = (this->velocity.length() / this->speed.length())*15;
+
 		this->grounded = true;
 		this->shoved = false;
 		this->velocity = vec3(0.0f, 0.0f, 0.0f);
@@ -553,6 +566,7 @@ void Player::setGrounded()
 		this->startingJumpDir = vec2(0.0f, 0.0f);
 		this->startingJumpKey = 'N';
 
+		sm->setSoundVolume("Land", volume);
 		sm->playSound("Land", this->getPos());
 	}
 }
@@ -620,6 +634,7 @@ void Player::shovePlayer(vec2 shove, float forceY)
 	this->shoved = true;
 	this->shove = shove;
 	this->velocity.y = forceY;
+	sm->playSound("Hit", getPos());
 	sm->playSound("Shoved", getPos());
 	ResetGhost();
 }
@@ -629,7 +644,27 @@ void Player::pickedUpPower(Powerup index)
 {
 	sm->playSound("Pickup", getPos());
 	this->power_index = index;
-	this->HUD->ChangeCurrentPowerUp(this->power_index);
+	if (this->power_index == FEATHER)
+	{
+		this->HUD->TurnOnPassive(FEATHER_P);
+	}
+	if (this->power_index == PEARL)
+	{
+		this->HUD->TurnOnPassive(PEARL_P);
+	}
+	if (this->power_index == POTION)
+	{
+		this->HUD->TurnOnPassive(POTION_P);
+	}
+	if (this->power_index == SHIELD)
+	{
+		this->HUD->TurnOnPassive(SHIELD_P);
+	}
+	else
+	{
+		this->HUD->ChangeCurrentPowerUp(this->power_index);
+	}
+
 	if (this->power_index == APPLE)
 	{
 		HUD->IncreaseHealth();
@@ -754,7 +789,7 @@ void Player::getSoundManager(SoundManager& sm)
 	stepSounds[2] = "step3";
 	stepSounds[3] = "step4";
 	for (int i = 0; i < 4; i++) {
-		sm.loadSound("assets/audio/" + stepSounds[i] + ".ogg", 20, stepSounds[i]);
+		sm.loadSound("assets/audio/" + stepSounds[i] + ".ogg", 90, stepSounds[i]);
 	}
 
 	GameObject::getSoundManager(sm);
