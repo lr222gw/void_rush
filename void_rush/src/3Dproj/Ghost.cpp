@@ -30,7 +30,7 @@ void Ghost::collidedWithPlayer()
 
 void Ghost::update(float dt)
 {
-	if (active) {
+	if (active && !this->frozen) {
 		if (!readyToAttack) {
 			attackCD -= dt;
 			if (attackCD < 0) {

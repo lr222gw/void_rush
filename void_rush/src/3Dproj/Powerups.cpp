@@ -58,6 +58,7 @@ void Powerups::UsePowerUp(float dt)
 			player->getSm()->playSound("Freeze", player->getPos());
 			ghostFrozenTimer = 0.1f;
 			ghost->freezeGhost();
+			player->setPlayerPower(EMPTY);
 			std::cout << "Frozen: " << std::endl;
 		}
 		if (ghostFrozenTimer >= 10.0f)

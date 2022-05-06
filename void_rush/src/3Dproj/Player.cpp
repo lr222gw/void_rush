@@ -680,6 +680,7 @@ Powerup Player::getPlayerPower()
 void Player::setPlayerPower(Powerup index)
 {
 	this->power_index = index;
+	this->HUD->ChangeCurrentPowerUp(index);
 }
 
 
