@@ -55,7 +55,7 @@ private:
 	Player* player;
 	ProtoPuzzle* puzzleManager;
 	GameObjectManager* gameObjManager;
-	Shape_exporter shape_export; //TODO; temp
+	Shape_exporter* shape_export; //TODO; temp
 	friend class ImguiManager;
 	int seed; 
 	Player_jump_checker* player_jump_checker;

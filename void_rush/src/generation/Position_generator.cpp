@@ -2,13 +2,13 @@
 #include "Position_generator.hpp"
 #include <algorithm>
 Position_generator::Position_generator(int _seed)
-    : seed(_seed), elements(0), pl(nullptr), startPlat(nullptr)
+    : seed(_seed), elements(0), pl(nullptr), startPlat(nullptr), firstJumpPoint(nullptr)
 {    
     //this->startPlat = new Platform(Vector3(), 0, 0); //NOTE:  this is now done in the reset function
 }
 
 Position_generator::Position_generator (int seed, int elements)
-    : seed (seed), elements (elements), pl (nullptr), startPlat(nullptr)
+    : seed (seed), elements (elements), pl (nullptr), startPlat(nullptr),firstJumpPoint(nullptr)
 {
     //this->startPlat = new Platform (Vector3 (), 0, 0); //NOTE:  this is now done in the reset function
 }
@@ -56,7 +56,11 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
     vec3 position = *this->startPlat->getPos();
     Platform* current = startPlat;
     Platform* newPlat = nullptr;
+    //pl->moveto(position); //TODO: this was how we used to do it.
+    startPlat->platformShape.setShape(*startPlat->getPos(), AP_conf.stepMax);
+    position = current->platformShape.outCorner.pos;
     pl->moveto(position);
+
     for (int i = 1; i < this->elements; i++)
     {
         dVect.y = randF(stepMinZ, stepMaxZ);
@@ -89,7 +93,10 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
         if (dvect_magnitude > stepMin && dvect_magnitude < stepMax)
         {
             newPlat = new Platform(position, 0, 1, 0);
-            pl->moveto(*newPlat->getPos());
+            newPlat->platformShape.setShape(*newPlat->getPos(), dVect.length());
+           // pl->moveto(*newPlat->getPos()); //TODO: this was how we used to do it.
+            pl->moveto(newPlat->platformShape.outCorner.pos);
+            position = newPlat->platformShape.outCorner.pos;
             current->next = newPlat;
             this->anchors.push_back(current);
             newPlat->prev = current;
@@ -108,12 +115,17 @@ void Position_generator::generate_anchor_positions(int platforms_between_anchors
 void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
 {
     pl->reset();
+
     vec3 position = *this->startPlat->getPos();
-    pl->moveto(position);
+    pl->moveto(position); //TODO: this was how we used to do it.
+    //startPlat->platformShape.setShapeCube(*startPlat->getPos() + startPlat->platformShape.inCorner.pos); <- Done in Anchor points..
+    pl->moveto(startPlat->platformShape.outCorner.pos);
     
     Platform* current = startPlat;
-    vec3* startanchorPos = current->getPos();
-    vec3* endanchorPos = current->next->getPos();
+    vec3* startanchorPos = current->getPos();  //TODO: this was how we used to do it.
+    //vec3* startanchorPos = &current->platformShape.outCorner.pos;
+    vec3* endanchorPos = current->next->getPos(); //TODO: this was how we used to do it.
+    //vec3* endanchorPos = &current->next->platformShape.inCorner.pos;
     vec3 dir_between_anchor = *endanchorPos - *startanchorPos;
 
     Platform* newPlat = nullptr;
@@ -126,13 +138,18 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
     MM first_last;
     firstJumpPoint = nullptr;
     while (current->next != nullptr) {
-        startanchorPos = current->getPos();
-        endanchorPos   = current->next->getPos();
+        //TODO: Fix trainwreck...
+        //current->next->platformShape.setShape(*current->next->getPos() + current->next->platformShape.inCorner.pos);
+        startanchorPos = current->getPos(); //TODO: this was how we used to do it.
+        //startanchorPos = &current->platformShape.outCorner.pos;
+        endanchorPos   = current->next->getPos(); //TODO: this was how we used to do it.        
+        //endanchorPos   = &current->next->platformShape.inCorner.pos; 
 
         pl->moveto(*startanchorPos);
 
         startJumpPoint = new Platform();        
         startJumpPoint->setPosition(*startanchorPos);
+        startJumpPoint->platformShape = current->platformShape;
         trashBin.push_back(startJumpPoint);
 
         if (endJumpPoint) //endJumpPoint is nullptr, first iteration...
@@ -144,8 +161,10 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
 
         endJumpPoint = new Platform();
         endJumpPoint->setPosition(*endanchorPos); 
+        endJumpPoint->platformShape = current->next->platformShape;
         trashBin.push_back(endJumpPoint);
 
+        //first_last = jumpPoint_generation_helper(startJumpPoint, endJumpPoint);
         first_last = jumpPoint_generation_helper(startJumpPoint, endJumpPoint);
         
         if(!firstJumpPoint){
@@ -160,7 +179,7 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
         current = current->next;
     }
 
-    first_last.last->next = endJumpPoint->next;
+    first_last.last->next = nullptr; 
 
     //Trash handling
     for(Platform* plat :trashBin){
@@ -172,12 +191,17 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
 
 
 MM Position_generator::jumpPoint_generation_helper(Platform* start, Platform* end)
-{    
-    vec3 start_end_dist = (*start->getPos() + *end->getPos()); //TODO: remove
-    vec3 middle = (*end->getPos() - *start->getPos()) / 2;
+{ 
+    vec3 middle = (end->platformShape.inCorner.pos - start->platformShape.outCorner.pos) / 2;
     Platform* midd_platform = new Platform() ;
+    
+    //float distanceToEnd = (end->platformShape.shapeMidpoint - middle).length() ;
+    float distanceToEnd = middle.length() ;
+    //float distanceToEnd = (end->platformShape.inCorner.pos - middle).length();
+
     MM ret {nullptr, nullptr};
-    midd_platform->setPosition(*start->getPos() + middle);
+    midd_platform->setPosition(start->platformShape.outCorner.pos + middle);
+    midd_platform->platformShape.setShape(*midd_platform->getPos(), distanceToEnd);
     
     this->jumpPoints.push_back(midd_platform);
 
@@ -185,10 +209,15 @@ MM Position_generator::jumpPoint_generation_helper(Platform* start, Platform* en
     static int count_M = 0;
     static int count_E = 0;
     //pl->moveto(middle);
-    pl->moveto(*midd_platform->getPos());
-    if(!this->pl->isJumpPossible(*end->getPos())){
-        jumpPoint_create_offset(midd_platform, *midd_platform->getPos(), *start->getPos(), *end->getPos());
-        ret.last = jumpPoint_generation_helper(midd_platform, end).last;                
+    pl->moveto(midd_platform->platformShape.outCorner.pos);
+    if(!this->pl->isJumpPossible(end->platformShape.inCorner.pos)){
+        
+        /*if (this->pl->distance(end->platformShape.inCorner.pos) < pl->getJumpDistance(end->platformShape.inCorner.pos.y) + 2 ) {
+            midd_platform->platformShape.setShapeCube(*midd_platform->getPos());
+        }else{*/
+            jumpPoint_create_offset(midd_platform, *midd_platform->getPos(), start->platformShape.outCorner.pos, end->platformShape.inCorner.pos);
+            ret.last = jumpPoint_generation_helper(midd_platform, end).last;
+        //}
     }else{
         midd_platform->next = end;
         end->prev = midd_platform;//Set middle.next if end platform is close enogh
@@ -197,8 +226,8 @@ MM Position_generator::jumpPoint_generation_helper(Platform* start, Platform* en
     }
 
     //Create jumppoint between start and new middle if jump not possible
-    pl->moveto(*start->getPos());
-    if(!this->pl->isJumpPossible(*midd_platform->getPos())){
+    pl->moveto(start->platformShape.outCorner.pos);
+    if(!this->pl->isJumpPossible(midd_platform->platformShape.inCorner.pos)){
         
         ret.first = jumpPoint_generation_helper(start, midd_platform).first;
     }else{
@@ -209,38 +238,61 @@ MM Position_generator::jumpPoint_generation_helper(Platform* start, Platform* en
     }
     return ret;
 }
-MM Position_generator::jumpPoint_generation_helper(vec3 start, vec3 end){
-    vec3 start_end_dist = (start + end); //TODO: remove
-    vec3 middle = (end - start) / 2;
+MM Position_generator::jumpPoint_generation_basic(Platform* start, Platform* end)
+{
+    vec3 middle = (end->platformShape.inCorner.pos - start->platformShape.outCorner.pos) / 2;
     Platform* midd_platform = new Platform();
+
+    //float distanceToEnd = (end->platformShape.shapeMidpoint - middle).length();
+    float distanceToEnd = (*end->getPos() - middle).length();
+    
+
     MM ret{ nullptr, nullptr };
-    midd_platform->setPosition(start + middle);
+    midd_platform->setPosition(start->platformShape.outCorner.pos + middle);
+    midd_platform->platformShape.setShape(*midd_platform->getPos(), distanceToEnd);
 
     this->jumpPoints.push_back(midd_platform);
 
     //Create jumppoint between new middle and end if jump not possible
     static int count_M = 0;
     static int count_E = 0;
-    //pl->moveto(middle);
-    pl->moveto(*midd_platform->getPos());
-    if (!this->pl->isJumpPossible(end)) {
-        jumpPoint_create_offset(midd_platform, *midd_platform->getPos(), start, end);
-        ret.last = jumpPoint_generation_helper(*midd_platform->getPos(), end).last;
+    
+    pl->moveto(midd_platform->platformShape.outCorner.pos);
+    
+    //vec3 dist_mid_end = end->platformShape.shapeMidpoint - midd_platform->platformShape.shapeMidpoint;
+    vec3 dist_mid_end = *end->getPos() - midd_platform->platformShape.shapeMidpoint;
+    float rad_sum = end->platformShape.shapeRadius + midd_platform->platformShape.shapeRadius;
+    auto l = dist_mid_end.length();
+    bool intersects = dist_mid_end.length() < rad_sum*2;
+
+    if (!intersects) {
+
+        
+        jumpPoint_create_offset(midd_platform, *midd_platform->getPos(), start->platformShape.outCorner.pos, end->platformShape.inCorner.pos);
+        ret.last = jumpPoint_generation_basic(midd_platform, end).last;
+        
     }
     else {
-        midd_platform->next = ret.last; //Set middle.next if end platform is close enogh
+        midd_platform->next = end;
+        end->prev = midd_platform;//Set middle.next if end platform is close enogh
         count_M++;
         ret.last = midd_platform;
     }
 
-    //Create jumppoint between start and new middle if jump not possible
-    pl->moveto(start);
-    if (!this->pl->isJumpPossible(*midd_platform->getPos())) {
+    vec3 dist_mid_start = start->platformShape.shapeMidpoint - midd_platform->platformShape.shapeMidpoint;
+    rad_sum = start->platformShape.shapeRadius + midd_platform->platformShape.shapeRadius;
 
-        ret.first = jumpPoint_generation_helper(start, *midd_platform->getPos()).last;
+    intersects = dist_mid_start.length() < rad_sum;
+
+    //Create jumppoint between start and new middle if jump not possible
+    pl->moveto(start->platformShape.outCorner.pos);
+    if (!intersects) {
+
+        ret.first = jumpPoint_generation_basic(start, midd_platform).first;
     }
     else {
-        ret.first->next = midd_platform;//Set start.next if new middle platform is close enogh      
+        start->next = midd_platform;//Set start.next if new middle platform is close enogh  
+        midd_platform->prev = start;
         count_E++;
         ret.first = midd_platform;
     }
@@ -262,12 +314,13 @@ vec3 Position_generator::jumpPoint_create_offset(Platform* plat,vec3& currentMid
         
     vec3 randomDir = start_End_dir.X(temp).Normalize();
     randomDir.y = std::clamp(randomDir.y, JP_conf.y_min_clamp, JP_conf.y_max_clamp);
+    //randomDir.y = 0.f;
 
 
     float randomDist = randF(0.f, start_End.length()) / JP_conf.random_dist_dividier;
     vec3 offset = randomDir * randomDist; 
 
-    plat->setPosition(currentMiddle + offset);        
+    plat->setPosition(start + offset);
     return offset;
 }
 

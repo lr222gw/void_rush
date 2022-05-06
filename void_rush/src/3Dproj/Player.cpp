@@ -21,7 +21,10 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 
 	GOPTR = static_cast<GameObject*>(this);
 	setWeight(20);
-	setBoundingBox(DirectX::XMFLOAT3(0, -0.19, 0), DirectX::XMFLOAT3(0.19f, 0.10f, 0.19f));
+
+	
+	//setBoundingBox(DirectX::XMFLOAT3(0, -0.19, 0), DirectX::XMFLOAT3(0.19f, 0.10f, 0.19f));
+	setBoundingBox(DirectX::XMFLOAT3(0, -scale.y - 0.01f, 0), DirectX::XMFLOAT3(scale.x - 0.01f, 0.10f, scale.z - 0.01f));
 	this->health = 3;
 	this->alive = true;
 	this->maxDepth = -100.0f;
@@ -666,7 +669,27 @@ void Player::pickedUpPower(Powerup index)
 {
 	sm->playSound("Pickup", getPos());
 	this->power_index = index;
-	this->HUD->ChangeCurrentPowerUp(this->power_index);
+	if (this->power_index == FEATHER)
+	{
+		this->HUD->TurnOnPassive(FEATHER_P);
+	}
+	if (this->power_index == PEARL)
+	{
+		this->HUD->TurnOnPassive(PEARL_P);
+	}
+	if (this->power_index == POTION)
+	{
+		this->HUD->TurnOnPassive(POTION_P);
+	}
+	if (this->power_index == SHIELD)
+	{
+		this->HUD->TurnOnPassive(SHIELD_P);
+	}
+	else
+	{
+		this->HUD->ChangeCurrentPowerUp(this->power_index);
+	}
+
 	if (this->power_index == APPLE)
 	{
 		HUD->IncreaseHealth();

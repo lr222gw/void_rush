@@ -41,6 +41,10 @@ protected:
     void update_normal();;
 };
 
+struct Voxel_matrix {
+    vec3*** voxels;
+};
+
 
 struct XZ_plane : public Plane
 {
@@ -66,9 +70,36 @@ struct Normals{
 };
 static Normals normals;
 
+struct LongestDist {
+    vec3 startPos;
+    vec3 endPos;
+    float distance;
+};
+
 struct vec3_pair {
     vec3 first;
     vec3 second;
+};
+
+struct Center_Index_Pair {
+    vec3 current_center;
+    int current_index;
+};
+
+struct Offset{
+    Offset(vec3 scale);
+    vec3 left;
+    vec3 right;
+    vec3 forward;
+    vec3 back;
+    vec3 down;
+    vec3 up;
+};
+
+struct Center_busy_pair {
+    vec3 position;
+    bool isBusy = false;
+    int index;
 };
 
 class Shape
@@ -78,9 +109,17 @@ public:
     ~Shape();
     void addPlane(vec3 a, vec3 b, vec3 c, vec3 d);
     void setPosition(vec3 pos);
+    void move(vec3 pos);
     void setScale(vec3 scale);
-    void setShape(vec3 center);
+    void setShape(vec3 center, float distanceToEnd);
     void setShapeCube(vec3 center);
+    void buildShape();
+    void updateBoundingBoxes();
+
+    void set_InOut_longstDist(int nrOfVoxels);
+    //template <size_t rows, size_t cols>
+    //void set_InOut_firstLastDeclared(Center_busy_pair (&busyMatrix)[rows][cols], int matrixsize);
+    void set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair>> busyMatrix, int matrixsize);
 
     void export_as_obj();
 
@@ -89,11 +128,20 @@ public:
     outCorner outCorner;
     static Normals normals;
     vec3 scale;
+    vec3 shapeMidpoint;
+    float shapeRadius;
 
     //std::vector<DirectX::XMFLOAT4*> bounding_boxes; //TODO: Handle memory here!
     //std::vector<vec3[2]> bounding_boxes; //TODO: Handle memory here!
     std::vector<vec3_pair> bounding_boxes; //TODO: Handle memory here!
+    std::vector<Center_Index_Pair> previousVoxels;
 
+    struct Shape_settings{
+        int maxNrOfVoxels = 25;
+        int minNrOfVoxels = 1;
+        int max_clamp_padding = 0;
+    };
+    static struct Shape_settings shape_conf; //same for all instances...
     
 
 };

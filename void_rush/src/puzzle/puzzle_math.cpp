@@ -1,8 +1,15 @@
 #include "puzzle_math.hpp"
 #include <string>
 
-MathPuzzle::MathPuzzle(int seed, Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler, SoundManager* soundManager) : Puzzle(seed, gfx, rm, colHandler, soundManager)
+MathPuzzle::MathPuzzle(int seed, Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler, SoundManager* soundManager) : Puzzle(seed, gfx, rm, colHandler, soundManager), letters(new Letters3DHandler(rm, gfx))
 {
+
+}
+
+MathPuzzle::~MathPuzzle()
+{
+    letters->removeAllText();
+    delete letters;
 }
 
 std::string MathPuzzle::GetComponents() const
@@ -20,22 +27,19 @@ void MathPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
         for (int i = 0; i < 3; i++)
         {
             midPos = GetMidPos(puzzleObjects[i], size);
-            if (CanInteract(playerPos, forwardVec, midPos, size / 2.0f, 5.0f, test))
+            if (CanInteract(playerPos, forwardVec, midPos, size / 2.0f, 1.5f, test))
             {
                 if (i == 0)
                 {
                     choice = 0;
-                    std::cout << "Is in range A" << std::endl;
                 }
                 else if (i == 1)
                 {
                     choice = 1;
-                    std::cout << "Is in range B" << std::endl;
                 }
                 else
                 {
                     choice = 2;
-                    std::cout << "Is in range C" << std::endl;
                 }
             }
         }
@@ -50,12 +54,10 @@ void MathPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
                 }
                 puzzleObjects.clear();
                 this->SpawnDoor(this->GetPosition());
-                std::cout << "Correct choice!" << std::endl;
                 soundManager->playSound("Correct", midPos);
             }
             else
             {
-                std::cout << "Wrong choice! You suck! >:(" << std::endl;
                 soundManager->playSound("Wrong", midPos);
             }
         }
@@ -68,6 +70,8 @@ void MathPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
 
 void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position)
 {
+    letters->removeAllText();
+
     this->SetPosition(position);
     int typeOfQuestion = (int)rand() % 4 + 1;
 
@@ -158,7 +162,7 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 posit
     }
     }
 
-    puzzlePlatform = new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, position, vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
+    puzzlePlatform = new GameObject(rm->get_Models("BasePlatformTexture.obj", gfx), gfx, position, vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
 
     float x, z, x2, z2, x3, z3;
 
@@ -166,15 +170,15 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 posit
     {
         if (i == 0)
         {
-            x = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 2);
-            z = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 2);
+            x = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 1);
+            z = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 1);
         }
         else if (i == 1)
         {
-            x2 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 2);
-            z2 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 2);
+            x2 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 1);
+            z2 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 1);
 
-            if (abs(x2 - x) < 5.0f || abs(z2 - z) < 5.0f)
+            if (abs(x2 - x) < 2.0f || abs(z2 - z) < 2.0f)
             {
                 i--;
             }
@@ -184,7 +188,7 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 posit
             x3 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 2);
             z3 = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 2);
 
-            if (abs(x3 - x) < 5.0f || abs(z3 - z) < 5.0f || abs(x3 - x2) < 5.0f || abs(z3 - z2) < 5.0f)
+            if (abs(x3 - x) < 2.0f || abs(z3 - z) < 2.0f || abs(x3 - x2) < 2.0f || abs(z3 - z2) < 2.0f)
             {
                 i--;
             }
@@ -217,15 +221,21 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 posit
         z3 = z3 - (puzzlePlatform->getWidthHeightDepth().z - 2.0f);
     }
 
-    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
-    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x2, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z2), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
-    puzzleObjects.push_back(new GameObject(rm->get_Models("BasePlatform.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x3, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z3), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.3f, 0.05f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("Chalice.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("Chalice.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x2, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z2), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("Chalice.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x3, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z3), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f)));
 
     this->GetColHandler()->addPlatform(puzzlePlatform);
     for (size_t i = 0; i < puzzleObjects.size(); i++)
     {
         this->GetColHandler()->addPlatform(puzzleObjects[i]);
     }
+
+    std::string question = "What is  " + std::to_string(components[0]) + std::string(1, arithmetic) + std::to_string(components[1]) + "?";
+    letters->createText(question, (puzzlePlatform->getPos() + vec3(0.0f, 8.0f, 0.0f)), vec2(0.5f, 0.5f), "Question");
+    letters->createText(std::to_string(this->choices[0]), (puzzleObjects[0]->getPos() + vec3(0.0f, 1.0f, 0.0f)), vec2(0.2f, 0.2f), "Choice1");
+    letters->createText(std::to_string(this->choices[1]), (puzzleObjects[1]->getPos() + vec3(0.0f, 1.0f, 0.0f)), vec2(0.2f, 0.2f), "Choice2");
+    letters->createText(std::to_string(this->choices[2]), (puzzleObjects[2]->getPos() + vec3(0.0f, 1.0f, 0.0f)), vec2(0.2f, 0.2f), "Choice3");
 
     std::cout << this->GetComponents() << std::endl;
 }
@@ -248,6 +258,8 @@ void MathPuzzle::Update(Graphics*& gfx)
             puzzleObjects[i]->updatePixelShader(gfx);
             puzzleObjects[i]->draw(gfx);
         }
+        letters->update(this->playerPos);
+        letters->draw();
     }
     else
     {
