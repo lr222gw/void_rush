@@ -173,7 +173,7 @@ FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platfor
 
     Platform* midd_platform = new Platform() ;    
     midd_platform->setPosition(start->platformShape.outCorner.pos + middle);
-    auto t = start->platformShape.previousVoxels[0].current_center - *midd_platform->getPos();
+    //auto t = start->platformShape.previousVoxels[0].current_center - *midd_platform->getPos();
 
     
     

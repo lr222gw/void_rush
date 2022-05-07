@@ -117,10 +117,12 @@ public:
     void buildShape();
     void updateBoundingBoxes();
 
-    void set_InOut_longstDist(int nrOfVoxels);
+    int index = 0;
+
+    void set_InOut_longstDist(int nrOfVoxels, vec3& given_center);
     //template <size_t rows, size_t cols>
     //void set_InOut_firstLastDeclared(Center_busy_pair (&busyMatrix)[rows][cols], int matrixsize);
-    void set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair>> busyMatrix, int matrixsize);
+    void set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair>> busyMatrix, int matrixsize, vec3& given_center);
 
     void export_as_obj();
 
@@ -141,6 +143,7 @@ public:
         int maxNrOfVoxels = 25;
         int minNrOfVoxels = 1;
         int max_clamp_padding = 0;
+        float plattform_voxel_margin = 4.f;
     };
     static struct Shape_settings shape_conf; //same for all instances...
     

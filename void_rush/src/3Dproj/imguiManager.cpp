@@ -1,6 +1,8 @@
 #include "imguiManager.h"
 #include "Game.h"
 
+static vec3 prev_player_speed;
+
 ImguiManager::ImguiManager()
 {
 	IMGUI_CHECKVERSION();
@@ -130,6 +132,7 @@ void ImguiManager::render_generation_widgets()
 				
 				ImGui::InputInt("maxNrOfVoxels", &Shape::shape_conf.maxNrOfVoxels);
 				ImGui::InputInt("minNrOfVoxels", &Shape::shape_conf.minNrOfVoxels);
+				ImGui::InputFloat("plattform_voxel_margin", &Shape::shape_conf.plattform_voxel_margin);
 				ImGui::SliderInt("distance_padding", &Shape::shape_conf.max_clamp_padding, -10,10);
 
 				ImGui::TreePop();
@@ -142,16 +145,20 @@ void ImguiManager::render_generation_widgets()
 
 			if (ImGui::TreeNode("Platforms")) {
 
+				if(owner->collisionHandler.lastCollided_ShapePlatform){
+					ImGui::Text(std::to_string(owner->collisionHandler.lastCollided_ShapePlatform->index).c_str());
+				}
+
 				auto anchors = owner->generationManager->position_gen->getAnchors();
 				auto jumpPoints = owner->generationManager->position_gen->getJumpPoints();
 				Platform* current_anchor = anchors->at(0);
 				Platform* current_jump = jumpPoints->at(0);
-				int c = 0;
+				int shape_index = 0;
 				while (current_anchor) {
-					c++;
+					shape_index = current_anchor->platformShape.index;
 
-					std::string name_pos = "A_platform_pos:" + std::to_string(c);
-					std::string name_rot = "A_platform_rot:" + std::to_string(c);
+					std::string name = "A_platform_[" + std::to_string(shape_index) + "]:";
+					std::string name_pos = "A_platform_["+ std::to_string(shape_index) +"]_pos:" ;					
 
 					float* pos[3] = { &current_anchor->pos.x,
 							&current_anchor->pos.y,
@@ -159,13 +166,30 @@ void ImguiManager::render_generation_widgets()
 
 					ImGui::DragFloat3(name_pos.c_str(), *pos);
 
+					if (ImGui::TreeNode(name.c_str())) {
+						int voxel_index = 0;
+						for (Center_Index_Pair vox : current_anchor->platformShape.previousVoxels) {
+							std::string vox_id = "Voxel[" + std::to_string(voxel_index) + "]:";
+
+							float* voxel_pos[3] = { &vox.current_center.x,
+							&vox.current_center.y,
+							&vox.current_center.z };
+
+							ImGui::DragFloat3(name_pos.c_str(), *voxel_pos);
+
+							voxel_index++;
+						}
+
+						ImGui::TreePop();
+					}
+
 					current_anchor = current_anchor->next;
 				}
 				while (current_jump) {
-					c++;
+					shape_index = current_jump->platformShape.index;
 
-					std::string name_pos = "J_platform_pos:" + std::to_string(c);
-					std::string name_rot = "J_platform_rot:" + std::to_string(c);
+					std::string name = "J_platform_[" + std::to_string(shape_index) + "]:";					
+					std::string name_pos = "J_platform_["+ std::to_string(shape_index) +"]_pos:" ;
 
 					float* pos[3] = { &current_jump->pos.x,
 							&current_jump->pos.y,
@@ -173,6 +197,23 @@ void ImguiManager::render_generation_widgets()
 
 					ImGui::DragFloat3(name_pos.c_str(), *pos);
 
+					if (ImGui::TreeNode(name.c_str())) {
+						int voxel_index = 0;
+						for(Center_Index_Pair vox : current_jump->platformShape.previousVoxels){
+							std::string vox_id = "Voxel[" + std::to_string(voxel_index) + "]:";
+							
+							float* voxel_pos[3] = { &vox.current_center.x,
+							&vox.current_center.y,
+							&vox.current_center.z };
+							
+								ImGui::DragFloat3(name_pos.c_str(), *voxel_pos);
+
+							voxel_index++;
+						}
+
+						ImGui::TreePop();
+					}
+					
 					current_jump = current_jump->next;
 				}
 				ImGui::TreePop();
@@ -184,8 +225,11 @@ void ImguiManager::render_generation_widgets()
 		
 
 		if(ImGui::Button("initialize")){
+			auto temp = owner->player->speed;	//Fix to use initialize while noclipping
+			owner->player->speed = prev_player_speed; //  
 			owner->generationManager->initialize();
 			owner->generationManager->generateGraph();
+			owner->player->speed = temp;
 		}
 
 		if (ImGui::Button("ExportFirstShape")) {
@@ -293,7 +337,7 @@ void ImguiManager::render_player_widgets()
 	std::string name = "Player";
 	if (ImGui::Begin(name.c_str())) {
 		static bool player_invincible = false;
-		static vec3 prev_player_speed ;
+		
 		ImGui::Checkbox("Alive", &owner->player->alive);
 		if (ImGui::Button("Toggle noClip")) {
 			owner->player->noClip = owner->player->noClip ? false : true;

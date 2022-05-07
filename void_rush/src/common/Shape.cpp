@@ -3,7 +3,10 @@
 
 Shape::Shape_settings Shape::shape_conf;
 
-Shape::Shape():scale(1,1,1), shapeRadius(0.f) {}
+Shape::Shape():scale(1,1,1), shapeRadius(0.f) {
+    static int index_incrementor = 0;
+    this->index = index_incrementor++;
+}
 
 Shape::~Shape() {
     for (int i = 0; i < planes.size(); i++) {
@@ -63,7 +66,7 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
 
     static std::vector<Center_Index_Pair> all_previousVoxels;;
 
-    int first_index = (matrixSize * matrixSize / 2);
+    int first_index = (matrixSize * matrixSize / 2.5f);
     //Sets middle (first ) to true
     busyMatrix[first_index / matrixSize][first_index % matrixSize] = Center_busy_pair{center, true, 0};
 
@@ -122,8 +125,15 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
 
         bool collided = false;
         if(prev){
-            for(int i = 0; i< all_previousVoxels.size(); i++){
-                if((all_previousVoxels[i].current_center - current_center).length() < this->scale.length()){
+            /*for(int i = 0; i< all_previousVoxels.size(); i++){
+                if((all_previousVoxels[i].current_center - current_center).length() < 4.f){
+                    collided = true;
+                    break;
+                }
+            }*/
+            
+            for(int i = 0; i< prev->previousVoxels.size(); i++){
+                if((prev->previousVoxels[i].current_center - current_center).length() < shape_conf.plattform_voxel_margin){
                     collided = true;
                     break;
                 }
@@ -180,7 +190,24 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
         extra_iterations_counter++;
     }
 
-    
+    ////////////////////////////////////////
+
+    bool collided = false;
+    if (prev) {
+
+        for (int i = 0; i < prev->previousVoxels.size(); i++) {
+            if ((prev->previousVoxels[i].current_center - previousVoxels.back().current_center).length() < shape_conf.plattform_voxel_margin) {
+                collided = true;
+                break;
+            }
+        }
+    }
+
+
+    if( previousVoxels.size() == 1 && collided){
+        previousVoxels.clear();
+        busyMatrix[first_index / matrixSize][first_index % matrixSize].isBusy = false;        
+    }
 
     if (extra_iterations_counter > nrOfVoxels) {
         std::cout << "Extra Iterations: " << extra_iterations_counter - nrOfVoxels << " \n";
@@ -194,10 +221,12 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
         std::cout << " \n";
 
     }
+    
+
 
     //Find longest distance
-    this->set_InOut_longstDist(nrOfVoxels);    
-    this->set_InOut_firstLastDeclared(busyMatrix, matrixSize);    
+    this->set_InOut_longstDist(nrOfVoxels, center);    
+    this->set_InOut_firstLastDeclared(busyMatrix, matrixSize, center);
 
 
     
@@ -261,11 +290,13 @@ void Shape::export_as_obj()
 
 }
 
-void Shape::set_InOut_longstDist(int nrOfVoxels)
+void Shape::set_InOut_longstDist(int nrOfVoxels, vec3 &given_center)
 {
     LongestDist current;
     LongestDist previous;
-    current.distance = 0;
+    current.endPos = given_center;
+    current.startPos = given_center;
+    current.distance = 0;    
     vec3* END = nullptr;
     vec3* START = nullptr;
     int actualNrOfVoxels = nrOfVoxels + 1;
@@ -290,13 +321,13 @@ void Shape::set_InOut_longstDist(int nrOfVoxels)
     this->shapeMidpoint = current.startPos + (current.endPos - current.startPos) / 2;
 }
 
-void Shape::set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair>> busyMatrix, int matrixsize)
+void Shape::set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair>> busyMatrix, int matrixsize, vec3& given_center)
 {
     bool wasFirst = false;
     vec3* END = nullptr;
     vec3* START = nullptr;
-    vec3 last;
-    vec3 first;
+    vec3 last = given_center;
+    vec3 first = given_center;
     for (int i = 0; i < matrixsize; i++) {
 
         for (int j = 0; j < matrixsize; j++) {
@@ -316,9 +347,9 @@ void Shape::set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair
     this->inCorner.pos = last;
     this->outCorner.pos = first;
 
-    float off = .2f;
+    /*float off = .2f;
     START->y = START->y + off;
-    END->y = END->y - off;
+    END->y = END->y - off;*/
 }
 
 
