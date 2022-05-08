@@ -327,10 +327,11 @@ void Position_generator::removeOverlappingPlatformVoxels()
 
     float platform_voxlel_marigin = Shape::shape_conf.plattform_voxel_margin;
     //Remove Jumppoints voxels that overlaps anchorpoints voxels
-    for (int i = 0; i < this->anchors.size(); i++) {
+    for (int i = 0; i < this->anchors.size()-1; i++) {
 
-        for (int j = 0; j < this->jumpPoints.size(); j++) {
-            for (int A_voxel = 0; A_voxel < anchors[i]->platformShape.previousVoxels.size(); A_voxel++) {
+        for (int A_voxel = 0; A_voxel < anchors[i]->platformShape.previousVoxels.size(); A_voxel++) {
+            
+            for (int j = i+1; j < this->jumpPoints.size(); j++) {
                 
                 
                 for (int J_voxel = 0; J_voxel < jumpPoints[j]->platformShape.previousVoxels.size(); J_voxel++) {
@@ -346,8 +347,8 @@ void Position_generator::removeOverlappingPlatformVoxels()
                         if(jumpPoints[j]->platformShape.previousVoxels.size() == 0){
                             jumpPoints[j]->platformShape.is_illegal = true;
                         }
+                        J_voxel--;
                     }
-
                 }
             }
         }    
@@ -356,9 +357,9 @@ void Position_generator::removeOverlappingPlatformVoxels()
     //Remove Jumppoints voxels that overlaps other Jumppoint voxels
     for (int i = 0; i < this->jumpPoints.size()-1; i++) {
 
-        for (int j = i+1; j < this->jumpPoints.size(); j++) {
-            for (int A_voxel = 0; A_voxel < jumpPoints[i]->platformShape.previousVoxels.size(); A_voxel++) {
+        for (int A_voxel = 0; A_voxel < jumpPoints[i]->platformShape.previousVoxels.size(); A_voxel++) {
 
+            for (int j = i+1; j < this->jumpPoints.size(); j++) {
 
                 for (int J_voxel = 0; J_voxel < jumpPoints[j]->platformShape.previousVoxels.size(); J_voxel++) {
 
@@ -373,8 +374,8 @@ void Position_generator::removeOverlappingPlatformVoxels()
                         if (jumpPoints[j]->platformShape.previousVoxels.size() == 0) {
                             jumpPoints[j]->platformShape.is_illegal = true;
                         }
+                        J_voxel--;
                     }
-
                 }
             }
         }

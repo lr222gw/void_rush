@@ -120,6 +120,7 @@ public:
     void updateBoundingBoxes();
 
     int index = 0;
+    static int index_incrementor;
 
     void set_InOut_longstDist(int nrOfVoxels, vec3& given_center);
     //template <size_t rows, size_t cols>

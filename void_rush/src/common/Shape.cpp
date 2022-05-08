@@ -2,9 +2,10 @@
 #include "Shape_exporter.hpp"
 
 Shape::Shape_settings Shape::shape_conf;
+int Shape::index_incrementor = 0;
 
 Shape::Shape():scale(1,1,1), shapeRadius(0.f) {
-    static int index_incrementor = 0;
+    //static int index_incrementor = 0;
     this->index = index_incrementor++;
 }
 
@@ -70,6 +71,7 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
     static vec3 origo(0.f,0.f,0.f);
     if(center.x == origo.x && center.z == origo.z){ //The offset in y-axis might differ, thus we dont check it.
         all_previousVoxels.clear();
+        Shape::index_incrementor = 0;
     }
 
     int first_index = (matrixSize * matrixSize / 2.5f);

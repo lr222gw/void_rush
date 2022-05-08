@@ -145,11 +145,14 @@ void ImguiManager::render_generation_widgets()
 
 		if (ImGui::TreeNode("Generation_manager")) {			
 
+			if (owner->collisionHandler.lastCollided_ShapePlatform) {
+				std::string info = std::to_string(owner->collisionHandler.lastCollided_ShapePlatform->index).c_str();
+				ImGui::Text(("Current Platform.shape index: " + info ).c_str());
+			}
+
 			if (ImGui::TreeNode("Platforms")) {
 
-				if(owner->collisionHandler.lastCollided_ShapePlatform){
-					ImGui::Text(std::to_string(owner->collisionHandler.lastCollided_ShapePlatform->index).c_str());
-				}
+				
 
 				auto anchors = owner->generationManager->position_gen->getAnchors();
 				auto jumpPoints = owner->generationManager->position_gen->getJumpPoints();
