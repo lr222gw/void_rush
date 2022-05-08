@@ -285,7 +285,45 @@ float Position_generator::randF (float min, float max)
     return random;
 }
 
+int Position_generator::getNrOfValidJumppoints()
+{
+    Platform* currentJumppoint = this->firstJumpPoint;
+    int validMeshes = 0;
+    while (currentJumppoint) {
+        if (!currentJumppoint->platformShape.is_illegal) {
+            validMeshes++;
+        }
+        currentJumppoint = currentJumppoint->next;
+    }
+    return validMeshes;
+}
+
+Platform* Position_generator::getFirstJumppoint()
+{
+    return this->firstJumpPoint;
+}
+
+Platform* Position_generator::getFirstAnchorpoint()
+{
+    return this->anchors[0];
+}
+
+int Position_generator::getNrOfValidAnchorpoints()
+{
+    int validMeshes = 0;    
+    Platform* currentAnchor = this->getAnchors()->at(0);
+    while (currentAnchor) {
+        if (!currentAnchor->platformShape.is_illegal) {
+            validMeshes++;
+        }
+        currentAnchor = currentAnchor->next;
+    }
+    return validMeshes;
+}
+
+
 Platform*& Position_generator::GetStartPlatform()
 {
     return startPlat;
 }
+

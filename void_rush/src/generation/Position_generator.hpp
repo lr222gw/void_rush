@@ -40,6 +40,11 @@ public:
     void assignPlayer (Player_jump_checker* player);
     float randF (float min, float max);
 
+    Platform* getFirstJumppoint();
+    Platform* getFirstAnchorpoint();
+    int getNrOfValidJumppoints();
+    int getNrOfValidAnchorpoints();
+
     Platform*& GetStartPlatform();
 
 private: // Magic Numbers

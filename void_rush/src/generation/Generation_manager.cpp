@@ -81,49 +81,8 @@ void Generation_manager::initialize()
     position_gen->start(difficulity);
     
     // Count Valid meshes 
-    int validMeshes = 0;
-    int validMeshes_t = 0;
-    Platform* currentAnchor = position_gen->getAnchors()->at(0);
-    while(currentAnchor){
-        bool was_illegal = false;
-        for (int i = 0; i < currentAnchor->platformShape.previousVoxels.size(); i++) {
-            auto voxel = &currentAnchor->platformShape.previousVoxels[i];
-            if(voxel->is_illegal){
-                was_illegal = true;
-                break;
-            }
-        }
-        if(was_illegal == false){
-            validMeshes++;
-        }
-        if(!currentAnchor->platformShape.is_illegal){
-            validMeshes_t++;
-        }
-
-        currentAnchor = currentAnchor->next;
-    }
-    Platform* currentJumppoint = position_gen->firstJumpPoint;
-    while (currentJumppoint) {
-
-        bool was_illegal = false;
-        for (int i = 0; i < currentJumppoint->platformShape.previousVoxels.size(); i++) {
-            auto voxel = &currentJumppoint->platformShape.previousVoxels[i];
-            if (voxel->is_illegal) {
-                was_illegal = true;
-                break;
-            }
-        }
-        if (was_illegal == false) {
-            validMeshes++;
-        }
-        if (!currentJumppoint->platformShape.is_illegal) {
-            validMeshes_t++;
-        }
-        currentJumppoint = currentJumppoint->next;
-    }
-
-    //shape_export->set_nrOf(position_gen->getAnchors()->size() + position_gen->getJumpPoints()->size(), 1); //TODO: do not hardcode material!
-    shape_export->set_nrOf(validMeshes_t, 1); //TODO: do not hardcode material!
+    int nrOf_validMeshes = position_gen->getNrOfValidAnchorpoints() + position_gen->getNrOfValidJumppoints();
+    shape_export->set_nrOf(nrOf_validMeshes, 1); //TODO: do not hardcode material!
     shape_export->init();
     
     place_anchorPoints();
@@ -147,44 +106,32 @@ void Generation_manager::initialize()
 
 void Generation_manager::place_anchorPoints()
 {
-    Platform* anchor = position_gen->getAnchors()->at(0);
-    int c = 0;
+    Platform* anchor = position_gen->getFirstAnchorpoint();
+
     while (anchor) {
-        //anchor->platformShape.setShape(*anchor->getPos()); //TODO: this was how we used to do it.
-        //anchor->platformShape.setShape(*anchor->getPos() + anchor->platformShape.inCorner.pos);
         if(!anchor->platformShape.is_illegal){
             anchor->platformShape.buildShape();        
             shape_export->build_shape_model(&anchor->platformShape, "map");
-            collisionHandler->addPlatform(&anchor->platformShape);
-            c++;
+            collisionHandler->addPlatform(&anchor->platformShape);            
         }
         anchor = anchor->next;
     }
-    int breakMe = 4;
 }
 
 void Generation_manager::place_jumpPoints()
 {
-    Platform* jumppoint = position_gen->firstJumpPoint;
-    //Platform* jumppoint = position_gen->getJumpPoints()->at(0);
-    int c = 0;
+    Platform* jumppoint = position_gen->getFirstJumppoint();
+
     while (jumppoint) {
-        //jumppoint->platformShape.setShape(*jumppoint->getPos());
-        //jumppoint->platformShape.setShapeCube(*jumppoint->getPos()); //TODO: this was how we used to do it.
-        //jumppoint->platformShape.setShape(*jumppoint->getPos()); //TODO: this was how we used to do it.
-        
-        //TODO: This is now done in position_generator! 
-        //jumppoint->platformShape.setShapeCube(*jumppoint->getPos() + jumppoint->platformShape.inCorner.pos); 
+
         if (!jumppoint->platformShape.is_illegal) {
             jumppoint->platformShape.buildShape();
             shape_export->build_shape_model(&jumppoint->platformShape, "map");
             collisionHandler->addPlatform(&jumppoint->platformShape);
-            c++;
         }
         jumppoint = jumppoint->next;
         
     }
-    int breakMe = 4;
 }
 
 void Generation_manager::setDifficulty(Difficulity diff)
