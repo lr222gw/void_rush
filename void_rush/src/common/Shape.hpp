@@ -85,6 +85,7 @@ struct vec3_pair {
 struct Center_Index_Pair {
     vec3 current_center;
     int current_index;
+    bool is_illegal = false;
 };
 
 struct Offset{
@@ -101,6 +102,7 @@ struct Center_busy_pair {
     vec3 position;
     bool isBusy = false;
     int index;
+    bool is_illegal = false;
 };
 
 class Shape
@@ -133,6 +135,8 @@ public:
     vec3 scale;
     vec3 shapeMidpoint;
     float shapeRadius;
+
+    bool is_illegal = false;
 
     //std::vector<DirectX::XMFLOAT4*> bounding_boxes; //TODO: Handle memory here!
     //std::vector<vec3[2]> bounding_boxes; //TODO: Handle memory here!

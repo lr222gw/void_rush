@@ -52,6 +52,8 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
     
     if(this->planes.size() > 0){
         this->planes.clear();
+        static_assert (true);
+        
     }
     
     const int matrixSize = 11; //Should to be Odd...    
@@ -64,7 +66,11 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
         busyMatrix[i].resize(matrixSize);
     }
 
-    static std::vector<Center_Index_Pair> all_previousVoxels;;
+    static std::vector<Center_Index_Pair> all_previousVoxels;
+
+    if(center == vec3()){
+        all_previousVoxels.clear();
+    }
 
     int first_index = (matrixSize * matrixSize / 2.5f);
     //Sets middle (first ) to true
@@ -132,8 +138,8 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
                 }
             }*/
             
-            for(int i = 0; i< prev->previousVoxels.size(); i++){
-                if((prev->previousVoxels[i].current_center - current_center).length() < shape_conf.plattform_voxel_margin){
+            for(int i = 0; i< all_previousVoxels.size(); i++){
+                if((all_previousVoxels[i].current_center - current_center).length() < shape_conf.plattform_voxel_margin){
                     collided = true;
                     break;
                 }
@@ -195,18 +201,21 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
     bool collided = false;
     if (prev) {
 
-        for (int i = 0; i < prev->previousVoxels.size(); i++) {
-            if ((prev->previousVoxels[i].current_center - previousVoxels.back().current_center).length() < shape_conf.plattform_voxel_margin) {
+        for (int i = 0; i < all_previousVoxels.size(); i++) {
+            if ((all_previousVoxels[i].current_center - previousVoxels.back().current_center).length() < shape_conf.plattform_voxel_margin) {
                 collided = true;
                 break;
             }
         }
     }
 
-
+    static int c = 0; 
     if( previousVoxels.size() == 1 && collided){
-        previousVoxels.clear();
-        busyMatrix[first_index / matrixSize][first_index % matrixSize].isBusy = false;        
+        //previousVoxels.clear();        
+        busyMatrix[first_index / matrixSize][first_index % matrixSize].is_illegal = true;
+        previousVoxels.back().is_illegal = true;
+        this->is_illegal = true;
+        c++;
     }
 
     if (extra_iterations_counter > nrOfVoxels) {
@@ -269,7 +278,9 @@ void Shape::setShapeCube(vec3 center)
 void Shape::buildShape()
 {
     for(Center_Index_Pair voxel : this->previousVoxels){
-        this->setShapeCube(voxel.current_center);
+        //if(!voxel.is_illegal){
+            this->setShapeCube(voxel.current_center);
+        //}
     }
 }
 

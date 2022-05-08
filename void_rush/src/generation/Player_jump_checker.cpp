@@ -73,7 +73,7 @@ bool Player_jump_checker::isJumpPossible (vec3 position)
     {
         return false;
     }
-    if (distanceDif <= 0)
+    if (distanceDif <= 0 && jumpDist != 0.f)
     {
         return false;
     }
