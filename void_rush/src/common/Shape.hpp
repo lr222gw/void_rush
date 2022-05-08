@@ -148,6 +148,8 @@ public:
         int minNrOfVoxels = 1;
         int max_clamp_padding = 0;
         float plattform_voxel_margin = 2.f;
+        bool tryRandom = false;
+        int randomOccurances = 2; // use random everytime the random index is even nmbr
     };
     static struct Shape_settings shape_conf; //same for all instances...
     

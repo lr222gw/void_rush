@@ -134,6 +134,8 @@ void ImguiManager::render_generation_widgets()
 				ImGui::InputInt("minNrOfVoxels", &Shape::shape_conf.minNrOfVoxels);
 				ImGui::InputFloat("plattform_voxel_margin", &Shape::shape_conf.plattform_voxel_margin);
 				ImGui::SliderInt("distance_padding", &Shape::shape_conf.max_clamp_padding, -10,10);
+				ImGui::Checkbox("tryRandom", &Shape::shape_conf.tryRandom);
+				ImGui::SliderInt("randomOccurances", &Shape::shape_conf.randomOccurances, 1, 10);
 
 				ImGui::TreePop();
 			}
@@ -279,7 +281,7 @@ void ImguiManager::render_physics_widgets()
 							
 		float* init_speed[3] = {&owner->player->speed.x, &owner->player->speed.y, &owner->player->speed.z};
 		static float min_speed = 0; 
-		static float max_speed = 304;
+		static float max_speed = 100;
 		static float speedSlider = owner->player->speed.x;
 		//ImGui::SliderFloat3("Speed", *init_speed, min_speed, max_speed);
 		if (ImGui::SliderFloat("Speed", &speedSlider, min_speed, max_speed)){

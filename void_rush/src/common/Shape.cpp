@@ -102,7 +102,7 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
     int dir = 0;
     int start_dir = 0;
     for (int i = 0; i < nrOfVoxels; i++) {
-        //int random_prev_index = rand() % (int)previousVoxels.size();
+        int random_prev_index = rand() % (int)previousVoxels.size();
         
         if(!failed_placement){
             dir = rand() % 4;
@@ -128,29 +128,9 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
             break;
         }
 
-
-        bool collided = false;
-        if(prev && false){
-            /*for(int i = 0; i< all_previousVoxels.size(); i++){
-                if((all_previousVoxels[i].current_center - current_center).length() < 4.f){
-                    collided = true;
-                    break;
-                }
-            }*/
-            
-            for(int i = 0; i< prev->previousVoxels.size(); i++){
-                auto length = (prev->previousVoxels[i].current_center - current_center).length();
-                if((prev->previousVoxels[i].current_center - current_center).length() < shape_conf.plattform_voxel_margin){
-                    collided = true;
-                    break;
-                }
-            }
-       }
-
         if (current_index < matrixSize * matrixSize && 
            current_index >  0 && 
-            !busyMatrix[current_index / matrixSize][current_index % matrixSize].isBusy && 
-            !collided
+            !busyMatrix[current_index / matrixSize][current_index % matrixSize].isBusy 
             ) 
         {
             
@@ -163,6 +143,25 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
             all_previousVoxels.push_back({ current_center, current_index });
             failed_placement = false;
       
+        }else if (shape_conf.tryRandom && random_prev_index % shape_conf.randomOccurances == 0){
+            
+            int index_to_use = -1;
+        
+            index_to_use = random_prev_index;
+
+            current_center = this->previousVoxels[index_to_use].current_center;
+            current_index = this->previousVoxels[index_to_use].current_index;
+
+            prev_index = current_index;
+            prev_center = current_center;
+            failed_placement = false;
+
+            current_index = prev_index;
+            current_center = prev_center;
+
+            i--;
+            
+        
         }
         else 
         {
@@ -173,6 +172,7 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
             }
             else if(start_dir == dir)
             {
+                                                                
                 int prev_from_stack = -1;
                 if(!prev_index_stack.empty()){
                     prev_from_stack = prev_index_stack.top();
@@ -180,14 +180,17 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
                 }else{
                     nrOfVoxels = i;
                     break;
-                }
-
+                }              
+                                
                 current_center = this->previousVoxels[prev_from_stack].current_center;
                 current_index = this->previousVoxels[prev_from_stack].current_index;
+
                 prev_index = current_index;
                 prev_center = current_center;
                 failed_placement = false;
             }
+
+            
 
             current_index = prev_index;
             current_center = prev_center;
@@ -197,7 +200,6 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
         extra_iterations_counter++;
     }
 
-    ////////////////////////////////////////
 
     bool collided = false;
     if (prev) {
