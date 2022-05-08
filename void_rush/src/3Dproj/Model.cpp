@@ -67,7 +67,9 @@ void ModelObj::init(aiScene* scene, Graphics*& gfx, ID3D11ShaderResourceView** d
 		matrial[i]->Ks[0] = ks.r;
 		matrial[i]->Ks[1] = ks.g;
 		matrial[i]->Ks[2] = ks.b;
-		matrial[i]->Ns = 0;
+		matrial[i]->Ns = ns; //<-- does not work yet... it seems
+		//matrial[i]->Ns = 0;
+
 
 	}
 

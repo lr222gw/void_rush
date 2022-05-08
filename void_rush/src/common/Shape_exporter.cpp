@@ -94,6 +94,14 @@ void Shape_exporter::init()
         scene->mMaterials[i] = new aiMaterial(); //TODO: change this to have more materials!
         aiString texture_test = aiString("textures/outline.png"); //TODO: use a vector with aiStrings for all different materials..
         scene->mMaterials[i]->AddProperty(&texture_test, AI_MATKEY_TEXTURE_DIFFUSE(0));
+        aiColor3D diffuse(1.f);        
+        aiColor3D ambient(0.25f);        
+        aiColor3D specular(0.25f);        
+        float shiny = 0.65f;        
+        scene->mMaterials[i]->AddProperty<aiColor3D>(&diffuse, 1,AI_MATKEY_COLOR_DIFFUSE);
+        scene->mMaterials[i]->AddProperty<aiColor3D>(&ambient, 1,AI_MATKEY_COLOR_AMBIENT);
+        scene->mMaterials[i]->AddProperty<aiColor3D>(&specular, 1,AI_MATKEY_COLOR_SPECULAR);
+        scene->mMaterials[i]->AddProperty<float>(&shiny, 1, AI_MATKEY_SHININESS);
     }
     
 }
