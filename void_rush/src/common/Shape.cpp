@@ -130,7 +130,7 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
 
 
         bool collided = false;
-        if(prev){
+        if(prev && false){
             /*for(int i = 0; i< all_previousVoxels.size(); i++){
                 if((all_previousVoxels[i].current_center - current_center).length() < 4.f){
                     collided = true;
@@ -138,13 +138,14 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
                 }
             }*/
             
-            for(int i = 0; i< all_previousVoxels.size(); i++){
-                if((all_previousVoxels[i].current_center - current_center).length() < shape_conf.plattform_voxel_margin){
+            for(int i = 0; i< prev->previousVoxels.size(); i++){
+                auto length = (prev->previousVoxels[i].current_center - current_center).length();
+                if((prev->previousVoxels[i].current_center - current_center).length() < shape_conf.plattform_voxel_margin){
                     collided = true;
                     break;
                 }
             }
-        }
+       }
 
         if (current_index < matrixSize * matrixSize && 
            current_index >  0 && 

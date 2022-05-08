@@ -26,6 +26,7 @@ bool Position_generator::start (Difficulity selectedDiff)
     
     generate_anchor_positions(selectedDiff);
     generate_jumpPoints_positions(selectedDiff);
+    removeOverlappingPlatformVoxels();
 
     return true;
 }
@@ -319,6 +320,66 @@ int Position_generator::getNrOfValidAnchorpoints()
         currentAnchor = currentAnchor->next;
     }
     return validMeshes;
+}
+
+void Position_generator::removeOverlappingPlatformVoxels()
+{
+
+    float platform_voxlel_marigin = Shape::shape_conf.plattform_voxel_margin;
+    //Remove Jumppoints voxels that overlaps anchorpoints voxels
+    for (int i = 0; i < this->anchors.size(); i++) {
+
+        for (int j = 0; j < this->jumpPoints.size(); j++) {
+            for (int A_voxel = 0; A_voxel < anchors[i]->platformShape.previousVoxels.size(); A_voxel++) {
+                
+                
+                for (int J_voxel = 0; J_voxel < jumpPoints[j]->platformShape.previousVoxels.size(); J_voxel++) {
+
+                    float lengthBetweenVoxels =
+                        (anchors[i]->platformShape.previousVoxels[A_voxel].current_center -
+                            jumpPoints[j]->platformShape.previousVoxels[J_voxel].current_center).length();
+
+                    if(lengthBetweenVoxels < platform_voxlel_marigin){
+                        //remove this jumppoint_voxel
+                        auto iterator = jumpPoints[j]->platformShape.previousVoxels.begin() + J_voxel;
+                        jumpPoints[j]->platformShape.previousVoxels.erase(iterator);
+                        if(jumpPoints[j]->platformShape.previousVoxels.size() == 0){
+                            jumpPoints[j]->platformShape.is_illegal = true;
+                        }
+                    }
+
+                }
+            }
+        }    
+    }
+
+    //Remove Jumppoints voxels that overlaps other Jumppoint voxels
+    for (int i = 0; i < this->jumpPoints.size()-1; i++) {
+
+        for (int j = i+1; j < this->jumpPoints.size(); j++) {
+            for (int A_voxel = 0; A_voxel < jumpPoints[i]->platformShape.previousVoxels.size(); A_voxel++) {
+
+
+                for (int J_voxel = 0; J_voxel < jumpPoints[j]->platformShape.previousVoxels.size(); J_voxel++) {
+
+                    float lengthBetweenVoxels =
+                        (jumpPoints[i]->platformShape.previousVoxels[A_voxel].current_center -
+                            jumpPoints[j]->platformShape.previousVoxels[J_voxel].current_center).length();
+
+                    if (lengthBetweenVoxels < platform_voxlel_marigin) {
+                        //remove this jumppoint_voxel
+                        auto iterator = jumpPoints[j]->platformShape.previousVoxels.begin() + J_voxel;
+                        jumpPoints[j]->platformShape.previousVoxels.erase(iterator);
+                        if (jumpPoints[j]->platformShape.previousVoxels.size() == 0) {
+                            jumpPoints[j]->platformShape.is_illegal = true;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
 }
 
 

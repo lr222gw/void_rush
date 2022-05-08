@@ -78,7 +78,7 @@ void Generation_manager::initialize()
         player->getGravity());
 
     position_gen->set_seed(this->seed);
-    position_gen->start(difficulity);
+    position_gen->start(difficulity);    
     
     // Count Valid meshes 
     int nrOf_validMeshes = position_gen->getNrOfValidAnchorpoints() + position_gen->getNrOfValidJumppoints();

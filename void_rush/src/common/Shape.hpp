@@ -147,7 +147,7 @@ public:
         int maxNrOfVoxels = 25;
         int minNrOfVoxels = 1;
         int max_clamp_padding = 0;
-        float plattform_voxel_margin = 4.f;
+        float plattform_voxel_margin = 2.f;
     };
     static struct Shape_settings shape_conf; //same for all instances...
     

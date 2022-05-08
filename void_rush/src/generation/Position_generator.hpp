@@ -29,7 +29,8 @@ public:
     ~Position_generator();
     bool start (Difficulity diff);
     void generate_anchor_positions(Difficulity selectedDiff);
-    void generate_jumpPoints_positions(Difficulity selectedDiff);
+    void generate_jumpPoints_positions(Difficulity selectedDiff);        
+
     FirstLast_between_Anchor jumpPoint_generation_helper(Platform* start, Platform* end);    
     void jumpPoint_create_offset(Platform* plat, vec3& currentMiddle, vec3 start, vec3 end);
     void reset_generation(vec3 player_position);
@@ -46,6 +47,8 @@ public:
     int getNrOfValidAnchorpoints();
 
     Platform*& GetStartPlatform();
+
+    void removeOverlappingPlatformVoxels();
 
 private: // Magic Numbers
     struct Anchor_point_settings{        
