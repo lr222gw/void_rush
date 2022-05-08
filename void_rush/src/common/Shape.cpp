@@ -67,8 +67,8 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
     }
 
     static std::vector<Center_Index_Pair> all_previousVoxels;
-
-    if(center == vec3()){
+    static vec3 origo(0.f,0.f,0.f);
+    if(center.x == origo.x && center.z == origo.z){ //The offset in y-axis might differ, thus we dont check it.
         all_previousVoxels.clear();
     }
 
