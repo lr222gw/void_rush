@@ -146,7 +146,7 @@ void Generation_manager::initialize()
     shape_export->set_nrOf(nrOf_validMeshes, 1); //TODO: do not hardcode material!
     shape_export->init(texturesEnum::top);
 
-    place_jumpPoints();  //Do this ONCE for all anchors...
+    place_jumpPoints();  //Do this ONCE for all Jumppoints...
 
     place_jumpPoints_top();
     

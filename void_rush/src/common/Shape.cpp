@@ -245,6 +245,8 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
     this->set_InOut_longstDist(nrOfVoxels, center);    
     this->set_InOut_firstLastDeclared(busyMatrix, matrixSize, center);
 
+
+    // new way to determine in/out points...
     if(prev){
 
         vec3 direction = center - prev->outCorner.pos;
@@ -256,7 +258,12 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
         inOut.pos_close = center;
         inOut.pos_far = center;
 
-        setShapeCube(center);
+        //setShapeCube(center);
+        for (Center_Index_Pair voxel : this->previousVoxels) {
+            if(!voxel.is_illegal){
+            this->setShapeCube(voxel.current_center);
+            }
+        }
 
         for (int i = 0; i < this->planes.size(); i++) {
 
