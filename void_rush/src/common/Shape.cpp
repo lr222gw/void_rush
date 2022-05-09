@@ -4,15 +4,18 @@
 Shape::Shape_settings Shape::shape_conf;
 int Shape::index_incrementor = 0;
 
-Shape::Shape():scale(1,1,1), shapeRadius(0.f) {
+Shape::Shape():scale(shape_conf.default_scale), shapeRadius(0.f) {
     //static int index_incrementor = 0;
-    this->index = index_incrementor++;
+    this->index = index_incrementor++;    
 }
 
 Shape::~Shape() {
     for (int i = 0; i < planes.size(); i++) {
         delete planes[i];
     }
+    delete top;
+    delete sides;
+    delete bottom;
     planes.clear();
 }
 
@@ -43,7 +46,7 @@ void Shape::setScale(vec3 scale)
 
 void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
 {
-    setScale(vec3(.5f, .2f, .5f)); // Todo remove!
+    
     vec3 offset_left {      -scale.x, 0,         0       };
     vec3 offset_right {      scale.x, 0,         0       };
     vec3 offset_forward {    0,       0,         scale.z };
@@ -242,7 +245,37 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
     this->set_InOut_longstDist(nrOfVoxels, center);    
     this->set_InOut_firstLastDeclared(busyMatrix, matrixSize, center);
 
+    if(prev){
 
+        vec3 direction = center - prev->outCorner.pos;
+        struct InOut {
+            vec3 pos_close;
+            vec3 pos_far;
+
+        }inOut;
+        inOut.pos_close = center;
+        inOut.pos_far = center;
+
+        setShapeCube(center);
+
+        for (int i = 0; i < this->planes.size(); i++) {
+
+            for(vec3* point : this->planes[i]->get_all_points()){
+
+                float length = (prev->outCorner.pos - *point).length();
+
+                if((inOut.pos_close - *point).length() > length){
+                    inOut.pos_close = *point;
+                }
+                if ((inOut.pos_far - *point).length() < length) {
+                    inOut.pos_far = *point;
+                }
+            }
+        }
+        this->inCorner.pos = inOut.pos_close;
+        this->outCorner.pos = inOut.pos_far;
+    }
+    
     
 
 }
@@ -255,6 +288,7 @@ void Shape::setShapeCube(vec3 center)
 
     Plane* temp_planes_helper[3]{ new XZ_plane(scale), new XY_plane(scale), new YZ_plane(scale) };
 
+    
     for (auto plane : temp_planes_helper) {
         
         planes.push_back(plane);
@@ -270,6 +304,17 @@ void Shape::setShapeCube(vec3 center)
         temp_planes[i]->move(center + temp_planes[i]->offset); //TODO: remove?
     }
 
+    
+    if (top || bottom || sides) {
+        top->planes.push_back(new XZ_plane(temp_planes[0]));
+        bottom->planes.push_back(new XZ_plane(temp_planes[1]));
+        sides->planes.push_back(new XY_plane(temp_planes[2]));
+        sides->planes.push_back(new XY_plane(temp_planes[3]));
+        sides->planes.push_back(new YZ_plane(temp_planes[4]));
+        sides->planes.push_back(new YZ_plane(temp_planes[5]));
+    }
+
+
     auto high = temp_planes[0]->point2;    
     auto low = temp_planes[0]->point4;
     low.y = low.y - this->scale.y * 2;
@@ -278,10 +323,13 @@ void Shape::setShapeCube(vec3 center)
      
     bounding_boxes.push_back(min_max);
 
+    
+
 }
 
 void Shape::buildShape()
 {
+    this->init_shape_bottomTopSides();
     for(Center_Index_Pair voxel : this->previousVoxels){
         //if(!voxel.is_illegal){
             this->setShapeCube(voxel.current_center);
@@ -337,6 +385,21 @@ void Shape::set_InOut_longstDist(int nrOfVoxels, vec3 &given_center)
     this->shapeMidpoint = current.startPos + (current.endPos - current.startPos) / 2;
 }
 
+void Shape::init_shape_bottomTopSides()
+{
+    //NOTE: setShapeCube should not run several times,
+    //      but during tests it might. This prevent memory leaks in such cases...
+    if (top || bottom || sides) {
+        delete top; top = nullptr;
+        delete bottom; bottom = nullptr;
+        delete sides; sides = nullptr;
+    }
+
+    top = new Shape();
+    bottom = new Shape();
+    sides = new Shape();
+}
+
 void Shape::set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair>> busyMatrix, int matrixsize, vec3& given_center)
 {
     bool wasFirst = false;
@@ -360,8 +423,14 @@ void Shape::set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair
             }
         }
     }
-    this->inCorner.pos = last;
-    this->outCorner.pos = first;
+
+    /*this->inCorner.pos = last;
+    this->outCorner.pos = first;*/
+
+    vec3 offest = this->scale;
+
+    this->inCorner.pos = last - offest;
+    this->outCorner.pos = first + offest;
 
     /*float off = .2f;
     START->y = START->y + off;
@@ -380,6 +449,19 @@ Plane::Plane()
     uv[2].y = 1;
     uv[3].x = 0;
     uv[3].y = 1;
+}
+
+Plane::Plane(const Plane* ref)
+{
+    this->normal = ref->normal;
+    this->offset= ref->offset;
+    this->point1= ref->point1;
+    this->point2= ref->point2;
+    this->point3= ref->point3;
+    this->point4= ref->point4;
+    for (int i = 0; i < 4; i++) {
+        this->uv[i] = ref->uv[i];
+    }    
 }
 
 Plane::Plane(vec3 a, vec3 b, vec3 c, vec3 d):

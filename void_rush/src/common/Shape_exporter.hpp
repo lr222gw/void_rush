@@ -9,13 +9,22 @@
 #include <iostream> // Output error message
 
 class Shape;
+
+enum class texturesEnum{
+    top,
+    bottom,
+    sides,
+    in,
+    out
+};
+
 class Shape_exporter{
 
 public:
     Shape_exporter();
     ~Shape_exporter();
     void set_nrOf(int nrOfMeshes, int nrOfMaterials);
-    void init();
+    void init(texturesEnum texture);
     void build_shape_model(Shape* shape, std::string name);
     void export_final_model(std::string name);
     aiScene* getScene();

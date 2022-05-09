@@ -129,7 +129,11 @@ void ImguiManager::render_generation_widgets()
 				ImGui::TreePop(); 
 			}
 			if (ImGui::TreeNode("Platforms,Shape")) {
+				float* scale[3] = { &Shape::shape_conf.default_scale.x,
+					& Shape::shape_conf.default_scale.y,
+					& Shape::shape_conf.default_scale.z };
 				
+				ImGui::InputFloat3("default_scale", *scale);
 				ImGui::InputInt("maxNrOfVoxels", &Shape::shape_conf.maxNrOfVoxels);
 				ImGui::InputInt("minNrOfVoxels", &Shape::shape_conf.minNrOfVoxels);
 				ImGui::InputFloat("plattform_voxel_margin", &Shape::shape_conf.plattform_voxel_margin);

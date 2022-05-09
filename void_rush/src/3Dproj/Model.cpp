@@ -36,12 +36,17 @@ void ModelObj::init(aiScene* scene, Graphics*& gfx, ID3D11ShaderResourceView** d
 	for (int i = 0; i < (int)scene->mNumMaterials; i++) {
 		matrial[i] = new Material(def);
 		const aiMaterial* pMaterial = scene->mMaterials[i];
+
+		
+
 		if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
 			aiString Path;
+			
 			if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
 				std::string thePath = getPathfrom(Path.data, "textures");
 				matrial[i]->loadTexture(thePath, gfx, 0, def);
 			}
+			
 		}
 		if (pMaterial->GetTextureCount(aiTextureType_NORMALS) > 0) {
 			aiString Path;

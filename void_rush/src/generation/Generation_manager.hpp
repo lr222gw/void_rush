@@ -35,7 +35,13 @@ public:
 	void set_GameObjManager(GameObjectManager* goMan);
 	void initialize();
 	void place_anchorPoints();
+	void place_anchorPoints_top();
+	void place_anchorPoints_bottom();
+	void place_anchorPoints_sides();
 	void place_jumpPoints();
+	void place_jumpPoints_top();
+	void place_jumpPoints_bottom();
+	void place_jumpPoints_sides();
 
 	void setDifficulty(Difficulity diff);
 	Difficulity getDifficulty()const;

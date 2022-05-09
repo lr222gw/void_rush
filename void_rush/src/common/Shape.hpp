@@ -22,7 +22,8 @@ struct line
 
 struct Plane
 {   
-    Plane();
+    Plane();    
+    Plane(const Plane* ref);
     Plane(vec3 a, vec3 b, vec3 c, vec3 d);
     vec3 point1;
     vec3 point2;
@@ -50,15 +51,19 @@ struct Voxel_matrix {
 struct XZ_plane : public Plane
 {
     XZ_plane(vec3 scale);    
+    XZ_plane(const Plane* ref) : Plane(ref) {  };
 };
 
 struct XY_plane : public Plane
 {
     XY_plane(vec3 scale);
+    XY_plane(const Plane* ref) :Plane(ref) { };
+
 };
 struct YZ_plane : public Plane
 { 
     YZ_plane(vec3 scale);
+    YZ_plane(const Plane* ref) :Plane(ref) {  };
 };
 
 struct Normals{
@@ -117,7 +122,12 @@ public:
     void setShape(vec3 center, float distanceToEnd, Shape* prev = nullptr);
     void setShapeCube(vec3 center);
     void buildShape();
+    void init_shape_bottomTopSides();
     void updateBoundingBoxes();
+
+    Shape* top = nullptr;
+    Shape* sides = nullptr;
+    Shape* bottom = nullptr;
 
     int index = 0;
     static int index_incrementor;
@@ -145,6 +155,7 @@ public:
     std::vector<Center_Index_Pair> previousVoxels;    
 
     struct Shape_settings{
+        vec3 default_scale = vec3(0.5f,0.2f,0.5f);
         int maxNrOfVoxels = 25;
         int minNrOfVoxels = 1;
         int max_clamp_padding = 0;

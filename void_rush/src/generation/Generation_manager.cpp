@@ -24,7 +24,12 @@ Generation_manager::~Generation_manager()
         collisionHandler->deletePlatform(&jumppoint->platformShape);
         jumppoint = jumppoint->next;
     }    
-    gameObjManager->removeGameObject("map");
+    gameObjManager->removeGameObject("map_top");
+    gameObjManager->removeGameObject("map_sides");
+    gameObjManager->removeGameObject("map_bottom");
+    gameObjManager->removeGameObject("map_topJP");
+    gameObjManager->removeGameObject("map_sidesJP");
+    gameObjManager->removeGameObject("map_bottomJP");
     
     delete player_jump_checker;    
     delete position_gen;
@@ -65,7 +70,12 @@ void Generation_manager::initialize()
             jumppoint_rm = jumppoint_rm->next;
         }    
 
-        gameObjManager->removeGameObject("map");
+        gameObjManager->removeGameObject("map_top");
+        gameObjManager->removeGameObject("map_sides");
+        gameObjManager->removeGameObject("map_bottom");
+        gameObjManager->removeGameObject("map_topJP");
+        gameObjManager->removeGameObject("map_sidesJP");
+        gameObjManager->removeGameObject("map_bottomJP");
     }
            
     platformObjs.clear();
@@ -81,21 +91,109 @@ void Generation_manager::initialize()
     position_gen->start(difficulity);    
     
     // Count Valid meshes 
-    int nrOf_validMeshes = position_gen->getNrOfValidAnchorpoints() + position_gen->getNrOfValidJumppoints();
+    int nrOf_validMeshes = position_gen->getNrOfValidAnchorpoints();
     shape_export->set_nrOf(nrOf_validMeshes, 1); //TODO: do not hardcode material!
-    shape_export->init();
+    shape_export->init(texturesEnum::top);
     
-    place_anchorPoints();
-    place_jumpPoints();
+    place_anchorPoints();  //Do this ONCE for all anchors...
+
+    place_anchorPoints_top();    
+    //place_jumpPoints();
 
     platformObjs.push_back(
-            new PlatformObj(rm->load_map_scene(shape_export->getScene(),"map", gfx),        
+            new PlatformObj(rm->load_map_scene(shape_export->getScene(),"map_top", gfx),        
             gfx,            
             vec3(0.f,0.f,0.f),            
             vec3(0.f,0.f,0.f),            
             vec3(1.0f, 1.0f, 1.0f))
     );    
-    gameObjManager->addGameObject(platformObjs[0], "map");
+    gameObjManager->addGameObject(platformObjs[0], "map_top");
+
+    /// <summary>
+    
+    nrOf_validMeshes = position_gen->getNrOfValidAnchorpoints() ;
+    shape_export->set_nrOf(nrOf_validMeshes, 1); //TODO: do not hardcode material!
+    shape_export->init(texturesEnum::sides);
+    
+    place_anchorPoints_sides();
+
+    platformObjs.push_back(
+        new PlatformObj(rm->load_map_scene(shape_export->getScene(), "map_sides", gfx),
+            gfx,
+            vec3(0.f, 0.f, 0.f),
+            vec3(0.f, 0.f, 0.f),
+            vec3(1.0f, 1.0f, 1.0f))
+    );
+    gameObjManager->addGameObject(platformObjs[1], "map_sides");
+    /// <summary>
+
+    nrOf_validMeshes = position_gen->getNrOfValidAnchorpoints() ;
+    shape_export->set_nrOf(nrOf_validMeshes, 1); //TODO: do not hardcode material!
+    shape_export->init(texturesEnum::bottom);
+
+    place_anchorPoints_bottom();
+
+    platformObjs.push_back(
+        new PlatformObj(rm->load_map_scene(shape_export->getScene(), "map_bottom", gfx),
+            gfx,
+            vec3(0.f, 0.f, 0.f),
+            vec3(0.f, 0.f, 0.f),
+            vec3(1.0f, 1.0f, 1.0f))
+    );
+    gameObjManager->addGameObject(platformObjs[2], "map_bottom");
+    /////////////
+    nrOf_validMeshes = position_gen->getNrOfValidJumppoints();
+    shape_export->set_nrOf(nrOf_validMeshes, 1); //TODO: do not hardcode material!
+    shape_export->init(texturesEnum::top);
+
+    place_jumpPoints();  //Do this ONCE for all anchors...
+
+    place_jumpPoints_top();
+    
+
+    platformObjs.push_back(
+        new PlatformObj(rm->load_map_scene(shape_export->getScene(), "map_topJP", gfx),
+            gfx,
+            vec3(0.f, 0.f, 0.f),
+            vec3(0.f, 0.f, 0.f),
+            vec3(1.0f, 1.0f, 1.0f))
+    );
+    gameObjManager->addGameObject(platformObjs[3], "map_topJP");
+
+    /////////////
+    nrOf_validMeshes = position_gen->getNrOfValidJumppoints();
+    shape_export->set_nrOf(nrOf_validMeshes, 1); //TODO: do not hardcode material!
+    shape_export->init(texturesEnum::sides);
+
+    place_jumpPoints_sides();
+
+    platformObjs.push_back(
+        new PlatformObj(rm->load_map_scene(shape_export->getScene(), "map_sidesJP", gfx),
+            gfx,
+            vec3(0.f, 0.f, 0.f),
+            vec3(0.f, 0.f, 0.f),
+            vec3(1.0f, 1.0f, 1.0f))
+    );
+    gameObjManager->addGameObject(platformObjs[4], "map_sidesJP");
+    /////////////
+
+    nrOf_validMeshes = position_gen->getNrOfValidJumppoints();
+    shape_export->set_nrOf(nrOf_validMeshes, 1); //TODO: do not hardcode material!
+    shape_export->init(texturesEnum::bottom);
+
+    place_jumpPoints_bottom();
+
+    platformObjs.push_back(
+        new PlatformObj(rm->load_map_scene(shape_export->getScene(), "map_bottomJP", gfx),
+            gfx,
+            vec3(0.f, 0.f, 0.f),
+            vec3(0.f, 0.f, 0.f),
+            vec3(1.0f, 1.0f, 1.0f))
+    );
+    gameObjManager->addGameObject(platformObjs[5], "map_bottomJP");
+    
+
+
     
     puzzleManager->Initiate(this->getPuzzelPos());  
     this->player->SetDifficulity(this->difficulity);
@@ -111,8 +209,64 @@ void Generation_manager::place_anchorPoints()
     while (anchor) {
         if(!anchor->platformShape.is_illegal){
             anchor->platformShape.buildShape();        
-            shape_export->build_shape_model(&anchor->platformShape, "map");
+            //shape_export->build_shape_model(&anchor->platformShape, "map");
+            //shape_export->build_shape_model(anchor->platformShape.top, "map_top");
+            //shape_export->build_shape_model(anchor->platformShape.sides, "map_sides");
+            //shape_export->build_shape_model(anchor->platformShape.bottom, "map_bottom");
+
             collisionHandler->addPlatform(&anchor->platformShape);            
+        }
+        anchor = anchor->next;
+    }
+}
+
+void Generation_manager::place_anchorPoints_top()
+{
+    Platform* anchor = position_gen->getFirstAnchorpoint();
+
+    while (anchor) {
+        if (!anchor->platformShape.is_illegal) {
+            //anchor->platformShape.buildShape();
+            //shape_export->build_shape_model(&anchor->platformShape, "map");
+            shape_export->build_shape_model(anchor->platformShape.top, "map_top");
+            //shape_export->build_shape_model(anchor->platformShape.sides, "map_sides");
+            //shape_export->build_shape_model(anchor->platformShape.bottom, "map_bottom");
+
+            //collisionHandler->addPlatform(&anchor->platformShape);
+        }
+        anchor = anchor->next;
+    }
+}
+void Generation_manager::place_anchorPoints_bottom()
+{
+    Platform* anchor = position_gen->getFirstAnchorpoint();
+
+    while (anchor) {
+        if (!anchor->platformShape.is_illegal) {
+            //anchor->platformShape.buildShape();
+            //shape_export->build_shape_model(&anchor->platformShape, "map");
+            //shape_export->build_shape_model(anchor->platformShape.top, "map_top");
+            //shape_export->build_shape_model(anchor->platformShape.sides, "map_sides");
+            shape_export->build_shape_model(anchor->platformShape.bottom, "map_bottom");
+
+            //collisionHandler->addPlatform(&anchor->platformShape);
+        }
+        anchor = anchor->next;
+    }
+}
+void Generation_manager::place_anchorPoints_sides()
+{
+    Platform* anchor = position_gen->getFirstAnchorpoint();
+
+    while (anchor) {
+        if (!anchor->platformShape.is_illegal) {
+            //anchor->platformShape.buildShape();
+            //shape_export->build_shape_model(&anchor->platformShape, "map");
+            //shape_export->build_shape_model(anchor->platformShape.top, "map_top");
+            shape_export->build_shape_model(anchor->platformShape.sides, "map_sides");
+            //shape_export->build_shape_model(anchor->platformShape.bottom, "map_bottom");
+
+            //collisionHandler->addPlatform(&anchor->platformShape);
         }
         anchor = anchor->next;
     }
@@ -126,11 +280,69 @@ void Generation_manager::place_jumpPoints()
 
         if (!jumppoint->platformShape.is_illegal) {
             jumppoint->platformShape.buildShape();
-            shape_export->build_shape_model(&jumppoint->platformShape, "map");
+            //shape_export->build_shape_model(&jumppoint->platformShape, "map");
+            /*shape_export->build_shape_model(jumppoint->platformShape.top, "map_top");
+            shape_export->build_shape_model(jumppoint->platformShape.sides, "map_sides");
+            shape_export->build_shape_model(jumppoint->platformShape.bottom, "map_bottom");*/
             collisionHandler->addPlatform(&jumppoint->platformShape);
         }
         jumppoint = jumppoint->next;
         
+    }
+}
+
+void Generation_manager::place_jumpPoints_top()
+{
+    Platform* jumppoint = position_gen->getFirstJumppoint();
+
+    while (jumppoint) {
+
+        if (!jumppoint->platformShape.is_illegal) {
+            //jumppoint->platformShape.buildShape();
+            //shape_export->build_shape_model(&jumppoint->platformShape, "map");
+            shape_export->build_shape_model(jumppoint->platformShape.top, "map_top");
+            /*shape_export->build_shape_model(jumppoint->platformShape.sides, "map_sides");
+            shape_export->build_shape_model(jumppoint->platformShape.bottom, "map_bottom");*/
+            //collisionHandler->addPlatform(&jumppoint->platformShape);
+        }
+        jumppoint = jumppoint->next;
+
+    }
+}
+void Generation_manager::place_jumpPoints_bottom()
+{
+    Platform* jumppoint = position_gen->getFirstJumppoint();
+
+    while (jumppoint) {
+
+        if (!jumppoint->platformShape.is_illegal) {
+            //jumppoint->platformShape.buildShape();
+            //shape_export->build_shape_model(&jumppoint->platformShape, "map");
+            //shape_export->build_shape_model(jumppoint->platformShape.top, "map_top");
+            /*shape_export->build_shape_model(jumppoint->platformShape.sides, "map_sides");*/
+            shape_export->build_shape_model(jumppoint->platformShape.bottom, "map_bottom");
+            //collisionHandler->addPlatform(&jumppoint->platformShape);
+        }
+        jumppoint = jumppoint->next;
+
+    }
+}
+void Generation_manager::place_jumpPoints_sides()
+{
+    Platform* jumppoint = position_gen->getFirstJumppoint();
+
+    while (jumppoint) {
+
+        if (!jumppoint->platformShape.is_illegal) {
+            //jumppoint->platformShape.buildShape();
+            //shape_export->build_shape_model(&jumppoint->platformShape, "map");
+            //shape_export->build_shape_model(jumppoint->platformShape.top, "map_top");
+            shape_export->build_shape_model(jumppoint->platformShape.sides, "map_sides");
+            /*shape_export->build_shape_model(jumppoint->platformShape.bottom, "map_bottom");*/
+            //collisionHandler->addPlatform(&jumppoint->platformShape);
+        }
+        jumppoint = jumppoint->next;
+
     }
 }
 
