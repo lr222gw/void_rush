@@ -57,7 +57,7 @@ void GameObjectManager::CreateGameObject(std::string modelFile, std::string name
 	VGameObj.push_back(objPtr);
 }
 
-void GameObjectManager::CreateEnemy(Player* player, enemyType typeofEnemy, std::string modelFile, std::string name, vec3 pos, vec3 rot, vec3 scale)
+void GameObjectManager::CreateEnemy(Player* player, enemyType typeofEnemy, SoundManager& sm, std::string modelFile, std::string name, vec3 pos, vec3 rot, vec3 scale)
 {
 	if (name == "") {
 		name = "_model_id_name_" + std::to_string(++GameObjID);
@@ -70,6 +70,7 @@ void GameObjectManager::CreateEnemy(Player* player, enemyType typeofEnemy, std::
 			modelFile = "Turret.obj";
 		}
 		objPtr = new Turret(rm->get_Models(modelFile, gfx), gfx, player, pos, rot, scale);
+		((Turret*)objPtr)->setSoundManager(sm);
 		break;
 	case enemyType::PROJECTILE:
 		if (modelFile == "") {

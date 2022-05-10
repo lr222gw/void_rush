@@ -15,7 +15,7 @@ public:
 	//cannot remove a object that ha
 	void removeGameObject(std::string name, bool del = true);
 	void CreateGameObject(std::string modelFile, std::string name = "", vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
-	void CreateEnemy(Player* player, enemyType typeofEnemy, std::string modelFile = "", std::string name = "", vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
+	void CreateEnemy(Player* player, enemyType typeofEnemy, SoundManager& sm, std::string modelFile = "", std::string name = "", vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
 	std::vector<GameObject*>& getAllGameObjects();
 	std::vector<GameObject*>& getAllInteractGameObjects();
 	void update(float dt);
