@@ -12,6 +12,12 @@ Menu::Menu(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mous
 	
 	soundManager.playMusic("assets/audio/MenuMusic.wav", 15.0f);
 	soundManager.setMusicLoop(true);
+
+	//int nrOfCharsInSeed = std::floorf(std::log10(INT_MAX) + 1);
+	inputSeed = false;
+	SeedClicked = false;
+	currentNumber = 0;
+	seed = "__________";
 }
 
 Menu::~Menu()
@@ -30,9 +36,11 @@ void Menu::renderShadow()
 	//nothing here yet
 }
 
-GameStatesEnum Menu::update(float dt)
+GameStateRet Menu::update(float dt)
 {
-	GameStatesEnum theReturn = GameStatesEnum::NO_CHANGE;
+	GameStateRet theReturn;
+	theReturn.gameState = GameStatesEnum::NO_CHANGE;
+	theReturn.seed = 0;
 
 	camera->updateCamera();
 	camera->addRotation(vec3(0.1f * dt, 0.3f * dt, 0));
@@ -40,16 +48,34 @@ GameStatesEnum Menu::update(float dt)
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 
 	if (UI->getButton("Quit")->clicked()) {
-		theReturn = GameStatesEnum::QUIT;
+		theReturn.gameState = GameStatesEnum::QUIT;
 	}
 	else if (UI->getButton("Start")->clicked() || keyboard->isKeyPressed(VK_RETURN)) {
 		UI->createUIString("Loading...", vec2(-0.9, -0.75), vec2(0.2, 0.2), "loading");
-		theReturn = GameStatesEnum::TO_GAME;
+		theReturn.gameState = GameStatesEnum::TO_GAME;
+		theReturn.seed = getSeedInt();
 	}
 	else if (UI->getButton("HighScores")->clicked()) {
-		theReturn = GameStatesEnum::TO_HIGHSCORE;
+		theReturn.gameState = GameStatesEnum::TO_HIGHSCORE;
+	}
+	else if (UI->getButton("InputSeed")->clicked()) {
+		//Enable seed input
+		if (!SeedClicked) {
+			if (inputSeed) {
+				UI->getStringElement("Seed")->setPosition(vec2(-0.2, 10));
+				inputSeed = false;
+			}
+			else {
+				UI->getStringElement("Seed")->setPosition(vec2(-0.2, 0));
+				inputSeed = true;
+			}
+		}
+		SeedClicked = true;
 	}
 	checkHover();
+	if (inputSeed) {
+		getSeedInput();
+	}
 
 	return theReturn;
 }
@@ -76,16 +102,20 @@ void Menu::render()
 void Menu::setUpUI()
 {
 	UI = new UIManager(rm, gfx);
-	UI->createUIString("Void Rush", vec2(-0.4f, 0.7f), vec2(0.1f, 0.1f), "Title");
-	UI->createUIButton("assets/textures/buttonBack.png", "Start", mouse, vec2(-0.9f, 0.4f), buttonSize, "Start", vec2(0.0f, 0.0f), vec2(0, 0.1f));
-	UI->createUIButton("assets/textures/buttonBack.png","END", mouse, vec2(-0.9f, -0.5f), buttonSize, "Quit", vec2(0.0f,0.0f), vec2(0,0.1f));
-	UI->createUIButton("assets/textures/buttonBack.png", "HighScores", mouse, vec2(-0.9f, 0), buttonSize, "HighScores", vec2(0.0f, -0.025f), vec2(0.0f, 0.1f));
+	UI->createUIString("Void Rush", vec2(-0.4, 0.7), vec2(0.1, 0.1), "Title");
+	UI->createUIButton("assets/textures/buttonBack.png", "Start", mouse, vec2(-0.9, 0.4), buttonSize, "Start", vec2(0.0, 0.0), vec2(0, 0.1));
+	UI->createUIButton("assets/textures/buttonBack.png","END", mouse, vec2(-0.9, -0.5), buttonSize, "Quit", vec2(0.0,0.0), vec2(0,0.1));
+	UI->createUIButton("assets/textures/buttonBack.png", "HighScores", mouse, vec2(-0.9, 0), buttonSize, "HighScores", vec2(0.0, -0.025), vec2(0.0, 0.1));
+	UI->createUIButton("assets/textures/buttonBack.png", "InputSeed", mouse, vec2(0, 0.4), buttonSize, "InputSeed", vec2(0.0, -0.025), vec2(0.0, 0.1));
+	UI->createUIString("__________", vec2(-0.2, 10), vec2(0.1, 0.1), "Seed");
+	//Used for scaling buttons
 	buttonNames.push_back("Start");
 	buttonNames.push_back("Quit");
 	buttonNames.push_back("HighScores");
-	buttonPos.push_back(vec2(-0.9f, 0.4f));
-	buttonPos.push_back(vec2(-0.9f, -0.5f));
-	buttonPos.push_back(vec2(-0.9f, -0.05f));
+	buttonNames.push_back("InputSeed");
+	for (int i = 0; i < buttonNames.size(); i++) {
+		buttonPos.push_back(UI->getButton(buttonNames[i])->getPosition());
+	}
 }
 
 void Menu::setUpObject()
@@ -115,4 +145,47 @@ void Menu::checkHover()
 			UI->getButton(buttonNames[i])->setPosition(buttonPos[i].x + 0.0f, buttonPos[i].y + 0.0f);
 		}
 	}
+
+	if (!UI->getButton("InputSeed")->clicked()) {
+		SeedClicked = false;
+	}
 }
+
+void Menu::getSeedInput()
+{
+	if (currentNumber < 10) {
+		for (int i = 48; i < 58; i++) {
+			if (keyboard->isKeyPressed(i)) {
+				seed.at(currentNumber++) = char(i);
+				UI->getStringElement("Seed")->setText(seed);
+				keyboard->onKeyReleased(i);
+			}
+		}
+	}
+	
+	if (currentNumber > 0) {
+		if (keyboard->isKeyPressed(VK_BACK)) {
+			seed.at(--currentNumber) = '_';
+			UI->getStringElement("Seed")->setText(seed);
+			keyboard->onKeyReleased(VK_BACK);
+		}
+	}
+}
+
+int Menu::getSeedInt()
+{
+	std::string cleanSeed="";
+	for (int i = 0; i < seed.size(); i++) {
+		if (seed.at(i) == '_') {
+			if (i == 0) {
+				cleanSeed = "-1";
+			}
+			break;
+		}
+		else {
+			cleanSeed += seed.at(i);
+		}
+	}
+	return std::stoi(cleanSeed);
+}
+

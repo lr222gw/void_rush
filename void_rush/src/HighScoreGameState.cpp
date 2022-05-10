@@ -35,12 +35,14 @@ void HighScoreGameState::renderShadow()
 	//Nothing in here
 }
 
-GameStatesEnum HighScoreGameState::update(float dt)
+GameStateRet HighScoreGameState::update(float dt)
 {
-	GameStatesEnum theReturn = GameStatesEnum::NO_CHANGE;
+	GameStateRet theReturn;
+	theReturn.gameState = GameStatesEnum::NO_CHANGE;
+	theReturn.seed = 0;
 	UI->update();
 	if (UI->getButton("back")->clicked()) {
-		theReturn = GameStatesEnum::TO_MENU;
+		theReturn.gameState = GameStatesEnum::TO_MENU;
 	}
 	camera->updateCamera();
 	camera->addRotation(vec3(0.1f * dt, 0.3f * dt, 0));
