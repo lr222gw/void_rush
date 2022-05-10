@@ -52,6 +52,7 @@ public:
 	void setGrounded();
 	void setUngrounded();
 	float getSpeed();
+	bool isGrounded();
 	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
 	void Reset(bool lvlClr = false);
@@ -64,6 +65,9 @@ public:
 	void pickedUpPower(Powerup index);
 	Powerup getPlayerPower();
 	void setPlayerPower(Powerup index);
+	void setCanDoubleJump();
+	void unsetDoublejump();
+	bool canDoubleJump();
 
 	void SetDifficulity(Difficulity diff);
 	void SetStartPlatform(Platform*& start);
@@ -104,6 +108,7 @@ private:
 
 	//Powerups
 	Powerup power_index;
+	bool canDoublejump;
 
 	vec2 startingJumpDir = vec2(0.0f, 0.0f);
 	char startingJumpKey = 'N';

@@ -25,5 +25,7 @@ private:
 	Player* player;
 	Ghost* ghost;
 	float ghostFrozenTimer;
-
+	bool featherActive;
+	float featherTimer;
+	
 };

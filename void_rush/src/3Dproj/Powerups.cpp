@@ -7,7 +7,8 @@ Powerups::Powerups(ModelObj* file, Graphics*& gfx, Player* player, Ghost* ghost,
 	this->keyboard = keyboard;
 	this->ghostFrozenTimer = 0.0f;
 	this->ghost = ghost;
-
+	this->featherActive = false;
+	this->featherTimer = 0.0f;
 }
 
 Powerups::~Powerups()
@@ -84,9 +85,22 @@ void Powerups::UsePowerUp(float dt)
 	{
 		////ADD HERE WHAT TRAMPOLINE DOES WHEN ACTIVATED////
 	}
-	else if (player->getPlayerPower() == FEATHER)
+	if (player->getPlayerPower() == FEATHER || featherActive == true)
 	{
 		////ADD HERE WHAT FEATHER DOES WHEN ACTIVATED////
+		if (this->featherActive == false)
+		{
+			player->setPlayerPower(EMPTY);
+		}
+		this->featherActive = true;
+		if (keyboard->onceisKeyReleased(VK_SPACE) && !player->isGrounded())
+		{
+			player->setCanDoubleJump();
+			
+			this->featherActive = false;
+
+		}
+		
 	}
 	else if (player->getPlayerPower() == POTION)
 	{
