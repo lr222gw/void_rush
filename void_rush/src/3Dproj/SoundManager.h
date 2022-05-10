@@ -19,6 +19,7 @@ public:
 	void playSound(std::string soundName, vec3 soundposition);
 	void setSoundVolume(std::string soundName, float volume);
 	void setSoundPosition(std::string soundName, vec3 position);
+	void setSoundOffset(std::string soundName, sf::Time time);
 	void setLoopSound(std::string sound, bool loop);
 	void updatePositionOfSound(vec3 position, std::string sound);
 	void playMusic(std::string filePath, float volume = 1);

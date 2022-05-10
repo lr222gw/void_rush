@@ -16,13 +16,15 @@ float ScoreManager::GetScore() const
 
 void ScoreManager::setDamageScore()
 {
-	score += deathPoints;
+	//score += deathPoints;
+	AddScore(deathPoints);
 }
 
 void ScoreManager::Update(float dt)
 {
 	levelTime += dt;
-	score += constPoints;
+	//score += constPoints;
+	AddScore(constPoints*dt);
 }
 
 void ScoreManager::SetPlayerSpeed(float speed)
@@ -58,7 +60,14 @@ void ScoreManager::SetScore(float points)
 
 void ScoreManager::AddScore(float points)
 {
-	score += points;
+
+	if (score + points < 0) {
+		score = 0;
+	}
+	else {
+		score += points;
+	}
+	HUD->UpdateScore(score);
 }
 
 void ScoreManager::LevelDone()
@@ -79,7 +88,8 @@ void ScoreManager::LevelDone()
 	}
 	float optimalTime = puzzleTime + (levelLength / playerSpeed);//Time it would take to go in a straight line (* some multiplyer)
 	float scoreToGive = levelPoints * (optimalTime / levelTime);
-	score += (scoreToGive + puzzlePoints) * scoreMultiplyer;
+	//score += (scoreToGive + puzzlePoints) * scoreMultiplyer;
+	AddScore((scoreToGive + puzzlePoints) * scoreMultiplyer);
 	//Reset timer
 	levelTime = 0.0f;
 
@@ -223,4 +233,9 @@ void ScoreManager::SortScores(std::string file)
 	scoreFileWrite << newFile;
 	scoreFileWrite.close();
 
+}
+
+void ScoreManager::SetHUD(Hud*& hud)
+{
+	this->HUD = hud;
 }

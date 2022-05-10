@@ -53,7 +53,8 @@ void MathPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
                     delete puzzleObjects[i];
                 }
                 puzzleObjects.clear();
-                this->SpawnDoor(this->GetPosition());
+                vec3 spawnPosition = vec3(puzzlePlatform->getxPos(), puzzlePlatform->getyPos(), puzzlePlatform->getzPos() + (puzzlePlatform->getWidthHeightDepth().z / 2.0f));
+                this->SpawnDoor(spawnPosition);
                 soundManager->playSound("Correct", midPos);
             }
             else
@@ -221,9 +222,9 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 posit
         z3 = z3 - (puzzlePlatform->getWidthHeightDepth().z - 2.0f);
     }
 
-    puzzleObjects.push_back(new GameObject(rm->get_Models("Chalice.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0.0f, 0.0f, 0.0f), vec3(0.5f, 0.5f, 0.5f)));
-    puzzleObjects.push_back(new GameObject(rm->get_Models("Chalice.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x2, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z2), vec3(0.0f, 0.0f, 0.0f), vec3(0.5f, 0.5f, 0.5f)));
-    puzzleObjects.push_back(new GameObject(rm->get_Models("Chalice.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x3, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z3), vec3(0.0f, 0.0f, 0.0f), vec3(0.5f, 0.5f, 0.5f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("Chalice.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("Chalice.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x2, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z2), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("Chalice.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x3, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z3), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f)));
 
     this->GetColHandler()->addPlatform(puzzlePlatform);
     for (size_t i = 0; i < puzzleObjects.size(); i++)
@@ -232,10 +233,10 @@ void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 posit
     }
 
     std::string question = "What is  " + std::to_string(components[0]) + std::string(1, arithmetic) + std::to_string(components[1]) + "?";
-    letters->createText(question, (puzzlePlatform->getPos() + vec3(0.0f, 10.0f, 0.0f)), vec2(0.5f, 0.5f), "Question");
-    letters->createText(std::to_string(this->choices[0]), (puzzleObjects[0]->getPos() + vec3(0.0f, 3.0f, 0.0f)), vec2(0.5f, 0.5f), "Choice1");
-    letters->createText(std::to_string(this->choices[1]), (puzzleObjects[1]->getPos() + vec3(0.0f, 3.0f, 0.0f)), vec2(0.5f, 0.5f), "Choice2");
-    letters->createText(std::to_string(this->choices[2]), (puzzleObjects[2]->getPos() + vec3(0.0f, 3.0f, 0.0f)), vec2(0.5f, 0.5f), "Choice3");
+    letters->createText(question, (puzzlePlatform->getPos() + vec3(0.0f, 8.0f, 0.0f)), vec2(0.5f, 0.5f), "Question");
+    letters->createText(std::to_string(this->choices[0]), (puzzleObjects[0]->getPos() + vec3(0.0f, 1.0f, 0.0f)), vec2(0.2f, 0.2f), "Choice1");
+    letters->createText(std::to_string(this->choices[1]), (puzzleObjects[1]->getPos() + vec3(0.0f, 1.0f, 0.0f)), vec2(0.2f, 0.2f), "Choice2");
+    letters->createText(std::to_string(this->choices[2]), (puzzleObjects[2]->getPos() + vec3(0.0f, 1.0f, 0.0f)), vec2(0.2f, 0.2f), "Choice3");
 
     std::cout << this->GetComponents() << std::endl;
 }

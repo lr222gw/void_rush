@@ -23,9 +23,9 @@ void Portal::Spawn(vec3 pos)
     portals.clear();
 	this->spawned = true;
 
-    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(pos.x -15.0f, pos.y + 9.0f, pos.z + 15.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
-    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(pos.x, pos.y + 9.0f, pos.z + 15.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
-    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(pos.x + 15.0f, pos.y + 9.0f, pos.z + 15.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
+    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(pos.x -3.0f, pos.y + 6.7f, pos.z - 1.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f)));
+    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(pos.x, pos.y + 6.7f, pos.z - 1.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f)));
+    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(pos.x + 3.0f, pos.y + 6.7f, pos.z - 1.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f)));
     for (size_t i = 0; i < portals.size(); i++)
     {
         colHandler->addPlatform(portals[i]);
@@ -39,21 +39,21 @@ void Portal::InteractPortal(vec3 playerPos, vec3 forwardVec)
     for (int i = 0; i < 3; i++)
     {
         midPos = GetMidPos(portals[i], size);
-        if (CanInteract(playerPos, forwardVec, midPos, size / 2.0f, 5.0f, test))
+        if (CanInteract(playerPos, forwardVec, midPos, size / 2.0f, 1.5f, test))
         {
             if (i == 0)
             {
-                std::cout << "Spawn next puzzle on easy mode" << std::endl;
+                //Easy Mode
                 this->completed = true;
             }
             else if (i == 1)
             {
-                std::cout << "Spawn next puzzle on medium mode" << std::endl;
+                //Medium Mode
                 this->completed = true;
             }
             else
             {
-                std::cout << "Spawn next puzzle on hard mode" << std::endl;
+                //Hard Mode
                 this->completed = true;
             }
         }

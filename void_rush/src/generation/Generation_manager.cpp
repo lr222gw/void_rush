@@ -1,7 +1,7 @@
 #include "Generation_manager.hpp"
 
-Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, CollisionHandler& collisionHandler)
-	: gfx(_gfx), rm(_rm), seed((int)time(0)), difficulity(Difficulity::easy), player(nullptr), puzzleManager(nullptr), gameObjManager(nullptr)
+Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, CollisionHandler& collisionHandler, int seed)
+	: gfx(_gfx), rm(_rm), seed(seed), difficulity(Difficulity::easy), player(nullptr), puzzleManager(nullptr), gameObjManager(nullptr)
 {            
     this->shape_export = new Shape_exporter();
     this->position_gen = new Position_generator(this->seed);
@@ -10,6 +10,9 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, C
     position_gen->setNrOfElements(3);
     
     this->collisionHandler = &collisionHandler;
+    if (this->seed == -1) {
+        this->seed = (int)time(0);
+    }
 }
 
 Generation_manager::~Generation_manager()

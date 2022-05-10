@@ -29,7 +29,7 @@ private:
 
 class Generation_manager {
 public:
-	Generation_manager(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& collisionHandler);
+	Generation_manager(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& collisionHandler, int seed);
 	~Generation_manager();
 	void set_player(Player* player);
 	void set_PuzzleManager(ProtoPuzzle* puzzleManager);

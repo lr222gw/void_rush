@@ -49,7 +49,6 @@ void Graphics::setFov(float fov)
 	setProjection(0, fov);
 }
 
-
 void Graphics::CreateBlendState(int wBlend, bool transparance) {
 	D3D11_BLEND_DESC bd = {};
 	if (transparance) {
@@ -81,11 +80,9 @@ Graphics::Graphics(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	
 	inputLayout = new ID3D11InputLayout * [2]{nullptr, nullptr};
 	
-	vShader = new ID3D11VertexShader * [4]{ nullptr, nullptr, nullptr };//3 is used
-	gShader = new ID3D11GeometryShader * [4]{ nullptr, nullptr };//2 is used
-	pShader = new ID3D11PixelShader * [4] { nullptr, nullptr,nullptr, nullptr };//4 is used
-	hShader = new ID3D11HullShader * [4] { nullptr,nullptr };//2 is used
-	dShader = new ID3D11DomainShader * [4] { nullptr,nullptr };//2 is used
+	vShader = new ID3D11VertexShader * [5]{ nullptr, nullptr, nullptr };//4 is used
+	gShader = new ID3D11GeometryShader * [5]{ nullptr, nullptr };//2 is used
+	pShader = new ID3D11PixelShader * [5] { nullptr, nullptr,nullptr, nullptr };//4 is used
 	
 	//setting normal value for pcbd
 	this->LCBG.lightColor = { 1,1,1,0 };
@@ -112,7 +109,7 @@ Graphics::Graphics(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//std::cerr << "cant set up" << std::endl;
 		delete this;
 	}
-	if (!SetupPipeline(device, vShader, pShader, gShader, hShader, dShader, inputLayout, tex, sampler))
+	if (!SetupPipeline(device, vShader, pShader, gShader, inputLayout, tex, sampler))
 	{
 		std::cerr << "cant set up" << std::endl;
 		delete this;
@@ -125,6 +122,7 @@ Graphics::Graphics(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	
 	//set settings up
 	immediateContext->PSSetSamplers(0, 1, &sampler);
+	immediateContext->VSSetSamplers(0, 1, &sampler);
 	immediateContext->DSSetSamplers(0, 1, &sampler);
 	immediateContext->CSSetSamplers(0, 1, &sampler);
 	
@@ -145,7 +143,7 @@ Graphics::~Graphics()
 	inputLayout[1]->Release();
 	delete[] inputLayout;
 	
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 5; i++) {
 		if (vShader[i] != nullptr) {
 			vShader[i]->Release();
 		}
@@ -155,18 +153,10 @@ Graphics::~Graphics()
 		if (gShader[i] != nullptr) {
 			gShader[i]->Release();
 		}
-		if (hShader[i] != nullptr) {
-			hShader[i]->Release();
-		}
-		if (dShader[i] != nullptr) {
-			dShader[i]->Release();
-		}
 	}
 	delete[] vShader;
 	delete[] pShader;
 	delete[] gShader;
-	delete[] hShader;
-	delete[] dShader;
 	
 	if (device != nullptr) {
 		device->Release();
@@ -310,14 +300,6 @@ ID3D11PixelShader** Graphics::getPS()
 ID3D11GeometryShader** Graphics::getGS()
 {
 	return this->gShader;
-}
-ID3D11HullShader** Graphics::getHS()
-{
-	return this->hShader;
-}
-ID3D11DomainShader** Graphics::getDS()
-{
-	return this->dShader;
 }
 IDXGISwapChain*& Graphics::getSwapChain()
 {

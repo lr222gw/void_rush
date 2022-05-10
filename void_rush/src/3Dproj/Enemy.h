@@ -1,6 +1,10 @@
 #pragma once
 #include "Player.h"
 
+enum enemyType {
+	TURRET, GHOST, PROJECTILE
+};
+
 class Enemy : public GameObject {
 public:
 	Enemy(ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale);

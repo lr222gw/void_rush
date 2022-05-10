@@ -101,7 +101,6 @@ void ModelObj::draw(Graphics*& gfx, bool shadowmap)
 		else{
 			gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 			gfx->get_IMctx()->IASetInputLayout(gfx->getInputLayout()[1]);
-			gfx->get_IMctx()->VSSetShader(gfx->getVS()[3], nullptr, 0);
 		}
 		mMeshes[i].draw(gfx->get_IMctx());
 	}

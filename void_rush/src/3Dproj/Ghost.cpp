@@ -10,8 +10,9 @@ Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot,
 	this->speed_increase = 0.1f;
 	this->force = vec3(10.0f, 3.0f, 10.f);
 	this->player = player;
-	Reset();
+	this->frozen = false;
 	this->active = false;
+	Reset();
 }
 
 void Ghost::collidedWithPlayer()
@@ -29,7 +30,7 @@ void Ghost::collidedWithPlayer()
 
 void Ghost::update(float dt)
 {
-	if (active) {
+	if (active && !this->frozen) {
 		if (!readyToAttack) {
 			attackCD -= dt;
 			if (attackCD < 0) {
@@ -51,6 +52,28 @@ void Ghost::update(float dt)
 		for (int i = 0; i < 3; i++) {
 			sm->updatePositionOfSound(getPos(), sounds[i]);
 		}
+		//Adjusting players bpm and game music based on distance
+		float bpm = 60;
+		float musicVol = 3.0f;
+		float len = fabs((this->getPos() - player->getPos()).length());
+		if (len < 20.0f) {
+			if (len < 1.0f) {
+				len = 1.0f;
+			}
+			bpm = 60 + ((20 / len) * 10);
+			if (len > 10 && len < 15) {
+				musicVol = 2 + (20 / len)*2;
+			}
+			else if (len < 10) {
+				musicVol = 2 + (20 / len)*4;
+			}
+		}
+		player->setBpm(bpm);
+		player->setMusicVol(musicVol);
+	}
+	else {
+		player->setBpm(60.0f);
+		player->setMusicVol(3.0f);
 	}
 }
 
@@ -83,6 +106,23 @@ void Ghost::getSoundManager(SoundManager& sm)
 	sm.loadSound("assets/audio/Ghost2.wav", 10, sounds[1]);
 	sm.loadSound("assets/audio/Ghost3.wav", 10, sounds[2]);
 	GameObject::getSoundManager(sm);
+}
+
+void Ghost::freezeGhost()
+{
+	if (this->frozen == false)
+	{
+		this->frozen = true;
+	}
+	else
+	{
+		this->frozen = false;
+	}
+}
+
+bool Ghost::isFrozen()
+{
+	return this->frozen;
 }
 
 void Ghost::followPlayer(float dt)

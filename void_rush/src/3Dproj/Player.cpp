@@ -18,6 +18,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->shoved = false;
 
 	this->power_index = EMPTY;
+	this->canDoublejump = false;
 
 	GOPTR = static_cast<GameObject*>(this);
 	setWeight(20);
@@ -37,7 +38,16 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 		this->name += "_";
 	}
 	this->scoreManager.SetPlayerSpeed(speed.length());
-
+	this->scoreManager.SetHUD(HUD);
+	fallCubeSize = vec3(50.0f, 200.0f, 50.0f);
+	UpdateFallBox();
+	fallBoxTimer = 0.0f;
+	scream = false;
+	this->shoveDelay = false;
+	this->shoveTimer = 0.0f;
+	this->heartBeatTimer = 0.0f;
+	this->bpm = 60;
+	this->musicVol = 3.0f;
 }
 
 Player::~Player()
@@ -47,7 +57,6 @@ Player::~Player()
 void Player::update(float dt)
 {
 	handleEvents(dt);
-
 	if (!noClip) {
 		scoreManager.Update(dt);
 		if (!grounded)
@@ -71,16 +80,23 @@ void Player::update(float dt)
 		{
 			this->groundedTimer += dt;
 		}
-		if (getPos().y < maxDepth) {
+		if (fallBoxTimer > 2 && !scream) {
+			sm->playSound("Scream", getPos());
+			scream = true;
+		}
+		if (fallBoxTimer > 4) {
 			TakeDmg();
 		}
 	}else{
 		this->movePos(vec3(velocity.x * dt, 0.0f, velocity.z * dt));
 	}
 
+	fallBoxTimer+=dt;
+	heartBeatTimer += dt;
 
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
+	UpdateFallBox();
 
 	if (this->velocity.y < -this->jumpForce) {
 		sm->setSoundPosition("Wind", this->getPos());
@@ -89,6 +105,20 @@ void Player::update(float dt)
 	else {
 		sm->setSoundVolume("Wind", 0);
 	}
+	if (shoveDelay) {
+		shoveTimer += dt;
+		if (shoveTimer > 0.1f) {
+			shoveDelay = false;
+			shoveTimer = 0.0f;
+			sm->playSound("Shoved", getPos());
+		}
+	}
+	if (heartBeatTimer >= 60/bpm) {
+		sm->setSoundVolume("HeartBeat", 30 + 30/(260 / bpm));
+		//sm->playSound("HeartBeat", getPos());
+		heartBeatTimer = 0.0f;
+	}
+	sm->setSoundVolume("MusicChange", musicVol);
 	
 	GameObject::update(dt);
 }
@@ -270,7 +300,6 @@ void Player::handleEvents(float dt)
 			cam->calcFURVectors();
 			jumpDir = jumpDir + vec2(cam->getRightVector().x, cam->getRightVector().z);
 		}
-
 		if (this->startingJumpDir.legth() == 0.0f)
 		{
 			cam->calcFURVectors();
@@ -448,7 +477,7 @@ void Player::handleEvents(float dt)
 			jumpDir = vec2(0.0f, 0.0f);
 		}
 	}
-	if (keyboard->isKeyPressed(VK_SPACE) && grounded) {
+	if ((keyboard->isKeyPressed(VK_SPACE) && (grounded || canDoublejump))) {
 		if(!noClip){
 			grounded = false;
 			groundedTimer = 0.001f;
@@ -457,10 +486,16 @@ void Player::handleEvents(float dt)
 			{
 				startingJumpDir.Normalize();
 			}
-			
 			if (velocity.y > 0.0f)
 			{
-				velocity.y += jumpForce;
+				velocity.y = jumpForce;
+
+				if (canDoublejump == true)	//For doublejump powerup
+				{
+					sm->playSound("Feather");
+					this->canDoublejump = false;
+					this->HUD->TurnOffPassive(FEATHER_P);
+				}
 			}
 			else
 			{
@@ -565,6 +600,8 @@ void Player::setGrounded()
 		this->groundedTimer = 0.0f;
 		this->startingJumpDir = vec2(0.0f, 0.0f);
 		this->startingJumpKey = 'N';
+		this->fallBoxTimer = 0.0f;
+		this->scream = false;
 
 		sm->setSoundVolume("Land", volume);
 		sm->playSound("Land", this->getPos());
@@ -584,6 +621,11 @@ void Player::setUngrounded()
 float Player::getSpeed()
 {
 	return this->speed.x;
+}
+
+bool Player::isGrounded()
+{
+	return this->grounded;
 }
 
 float Player::getJumpForce()
@@ -606,6 +648,17 @@ GameObject*& Player::getPlayerObjPointer()
 	return GOPTR;
 }
 
+ColCube Player::getFallCube() const
+{
+	return fallCube;
+}
+
+void Player::ResetFallBoxTimer()
+{
+	fallBoxTimer = 0.0f;
+	this->scream = false;
+}
+
 void Player::Reset(bool lvlClr)
 {
 	resetGhost = true;
@@ -620,6 +673,7 @@ void Player::Reset(bool lvlClr)
 	this->groundedTimer = 0.0f;
 	this->jumpDir = vec2(0.0f, 0.0f);
 	this->startingJumpDir = vec2(0.0f, 0.0f);
+	this->fallBoxTimer = 0.0f;
 
 	if (lvlClr) {
 		//Add points
@@ -645,7 +699,7 @@ void Player::shovePlayer(vec2 shove, float forceY)
 	this->shove = shove;
 	this->velocity.y = forceY;
 	sm->playSound("Hit", getPos());
-	sm->playSound("Shoved", getPos());
+	shoveDelay = true;
 	ResetGhost();
 }
 
@@ -679,6 +733,12 @@ void Player::pickedUpPower(Powerup index)
 	{
 		HUD->IncreaseHealth();
 	}
+	if (this->power_index == MONEY)
+	{
+		AddScore(100);
+		//HUD->UpdateScore(100);
+
+	}
 	
 }
 
@@ -690,8 +750,29 @@ Powerup Player::getPlayerPower()
 void Player::setPlayerPower(Powerup index)
 {
 	this->power_index = index;
+	this->HUD->ChangeCurrentPowerUp(index);
 }
 
+void Player::setCanDoubleJump()
+{
+	if (canDoublejump == false)
+	{
+		canDoublejump = true;
+	}
+}
+
+void Player::unsetDoublejump()
+{
+	if (canDoublejump == true)
+	{
+		canDoublejump = false;
+	}
+}
+
+bool Player::canDoubleJump()
+{
+	return this->canDoublejump;
+}
 
 //void Player::SetPuzzlePos(vec3 puzzlePosition)
 void Player::SetDifficulity(Difficulity diff)
@@ -810,6 +891,16 @@ SoundManager* Player::getSm() const
 	return sm;
 }
 
+void Player::setBpm(float bpm)
+{
+	this->bpm = bpm;
+}
+
+void Player::setMusicVol(float vol)
+{
+	musicVol = vol;
+}
+
 void Player::TakeDmg(int dmg)
 {
 	health-=dmg;
@@ -818,10 +909,11 @@ void Player::TakeDmg(int dmg)
         alive = false;
 		sm->playSound("GameOver", getPos());
 	}
-	else {
-		scoreManager.setDamageScore();
+	else if(!scream) {
 		sm->playSound("Scream", getPos());
 	}
+	scoreManager.setDamageScore();
+	scream = false;
 	this->HUD->LowerHealth();
 }
 
@@ -848,4 +940,10 @@ float Player::GetScore()
 bool Player::IsAlive()
 {
 	return alive;
+}
+
+void Player::UpdateFallBox()
+{
+	fallCube.highPoint = vec3(getPos().x + (fallCubeSize.x/2), getPos().y, getPos().z + (fallCubeSize.z / 2));
+	fallCube.lowPoint = vec3(getPos().x - (fallCubeSize.x / 2), getPos().y - fallCubeSize.y, getPos().z - (fallCubeSize.z / 2));
 }
