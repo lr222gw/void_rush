@@ -1,4 +1,5 @@
 #include "Generation_manager.hpp"
+#include "3Dproj/flags.h"
 
 Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, CollisionHandler& collisionHandler)
 	: gfx(_gfx), rm(_rm), seed((int)time(0)), difficulity(Difficulity::easy), player(nullptr), puzzleManager(nullptr), gameObjManager(nullptr)
@@ -10,6 +11,7 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, C
     position_gen->setNrOfElements(3);
     
     this->collisionHandler = &collisionHandler;
+    startSeed = -1;
 }
 
 Generation_manager::~Generation_manager()
@@ -66,8 +68,16 @@ void Generation_manager::initialize()
            
     platformObjs.clear();
     position_gen->reset_generation(this->player->getPos());
-
-    position_gen->set_seed(this->seed);
+    if (startSeed == -1) {
+        startSeed = seed;
+    }
+    if (DEVMODE_ || DEBUGMODE) {
+        position_gen->set_seed(this->seed);
+    }
+    else {
+        position_gen->set_seed(this->seed++);
+    }
+    
     position_gen->start(difficulity);
     
     shape_export->set_nrOf(position_gen->getAnchors()->size() + position_gen->getJumpPoints()->size(), 1); //TODO: do not hardcode material!
@@ -208,6 +218,11 @@ void Generation_manager::generateGraph()
 
     out.close();
     output_stream.close();
+}
+
+int Generation_manager::getStartSeed() const
+{
+    return startSeed;
 }
 
 PlatformObj::PlatformObj(ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale)

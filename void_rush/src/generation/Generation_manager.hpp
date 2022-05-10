@@ -49,6 +49,7 @@ public:
 	Platform*& GetStartPlatform();
 
 	void generateGraph();
+	int getStartSeed()const;
 
 	void draw();	
 private:
@@ -58,6 +59,7 @@ private:
 	Shape_exporter* shape_export; //TODO; temp
 	friend class ImguiManager;
 	int seed; 
+	int startSeed;
 	Player_jump_checker* player_jump_checker;
 	Difficulity difficulity;
 	Position_generator* position_gen;
