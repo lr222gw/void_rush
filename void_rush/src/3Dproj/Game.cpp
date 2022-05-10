@@ -17,8 +17,8 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	lightNr = 0;
 	puzzleManager = new ProtoPuzzle(gfx, rm, collisionHandler, &soundManager); //TODO: REMOVE COMMENT
 	
-	generationManager->set_PuzzleManager(puzzleManager); //TODO: REMOVE COMMENT
 	generationManager = new Generation_manager(gfx, rm, collisionHandler, seed);
+	generationManager->set_PuzzleManager(puzzleManager); //TODO: REMOVE COMMENT
 	generationManager->set_GameObjManager(GameObjManager);
 	
 	camera->setRotation(vec3(0, 0, 0));
