@@ -74,7 +74,7 @@ void App::run()
 		gfx->RsetViewPort();
 		
 
-		theHandle = gamestate->update(dt.dt());
+		theHandle = gamestate->update((float)dt.dt());
 
 		gamestate->render();
 

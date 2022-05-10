@@ -115,8 +115,6 @@ private:
 	ID3D11VertexShader**	vShader;
 	ID3D11PixelShader**		pShader;
 	ID3D11GeometryShader**	gShader;
-	ID3D11HullShader**		hShader;
-	ID3D11DomainShader**	dShader;
 	////////////////////////
 
 	Vcb vcbd = {};//vertexConstBuffer
@@ -167,8 +165,6 @@ public:
 	ID3D11VertexShader** getVS();
 	ID3D11PixelShader** getPS();
 	ID3D11GeometryShader** getGS();
-	ID3D11HullShader** getHS();
-	ID3D11DomainShader** getDS();
 
 	ID3D11InputLayout** getInputLayout();
 	ID3D11RenderTargetView*& getRenderTarget();

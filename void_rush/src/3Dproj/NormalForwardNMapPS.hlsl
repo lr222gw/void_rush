@@ -19,6 +19,7 @@ cbuffer CBuf
 
 Texture2D diffuseTex : register(t0); // diffuse base color
 Texture2DArray<float4> shadowMapping : register(t1);
+Texture2D nMap : register(t2); // diffuse base color
 SamplerState testSampler;
 
 float Attenuate(uniform float attConst, uniform float attLin, uniform float attQuad, const in float distFragToL)
@@ -30,6 +31,22 @@ float4 main(PixelShaderInput input) : SV_TARGET
 {
     float4 color = diffuseTex.Sample(testSampler, input.uv);
 
+    float3 inputnormal = input.normal;
+    if (true)
+    {
+        float3 nMapNormal;
+        float3x3 TBN = float3x3(
+			input.tangent.xyz,
+			input.bitangent.xyz,
+			input.normal.xyz
+			);
+        const float3 normalSample = nMap.Sample(testSampler, input.uv).xyz;
+        nMapNormal.x = normalSample.x * 2.0f - 1.0f;
+        nMapNormal.y = normalSample.y * 2.0f - 1.0f;
+        nMapNormal.z = normalSample.z * 2.0f - 1.0f;
+        input.normal = mul(nMapNormal, (float3x3) TBN);
+    }
+    
     float4 FinalPixel = float4(0, 0, 0, 0);
     for (int i = 0; i < nrOfLight; i++)
     {

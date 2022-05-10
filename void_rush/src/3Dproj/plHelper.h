@@ -6,7 +6,6 @@
 //git
 bool SetupPipeline(ID3D11Device* device, ID3D11VertexShader**& vShader,
 	ID3D11PixelShader**& pShader, ID3D11GeometryShader**& gShader,
-	ID3D11HullShader**& hShader, ID3D11DomainShader**& dShader,
 	ID3D11InputLayout**& inputLayout,
 	ID3D11Texture2D*& tex, ID3D11SamplerState*& sampler);
 
