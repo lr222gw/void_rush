@@ -25,6 +25,9 @@ void ImguiManager::takeLight(Light* light)
 
 void ImguiManager::updateRender()
 {
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -72,7 +75,9 @@ void ImguiManager::update_lights(int lightNr)
 
 void ImguiManager::render_generation_widgets()
 {
-		
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	static std::string name = "Generation";
 	if (ImGui::Begin(name.c_str())) {
 		
@@ -198,6 +203,9 @@ void ImguiManager::render_generation_widgets()
 
 void ImguiManager::render_ghost_widgets()
 {
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	std::string name = "Ghost";
 	if (ImGui::Begin(name.c_str())) {
 		
@@ -228,6 +236,9 @@ void ImguiManager::render_ghost_widgets()
 
 void ImguiManager::render_physics_widgets()
 {
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	static std::string name = "Physics";
 	if (ImGui::Begin(name.c_str())) {
 		//owner->player->speed
@@ -254,6 +265,9 @@ void ImguiManager::render_physics_widgets()
 
 void ImguiManager::render_debuginfo_widgets()
 {
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	if (ImGui::Begin("Debuginfo")) {
 
 		static auto cur_time = ImGui::GetTime();
@@ -288,7 +302,9 @@ void ImguiManager::render_debuginfo_widgets()
 
 void ImguiManager::render_player_widgets()
 {
-	
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	std::string name = "Player";
 	if (ImGui::Begin(name.c_str())) {
 		static bool player_invincible = false;

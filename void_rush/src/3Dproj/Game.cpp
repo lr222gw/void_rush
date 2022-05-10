@@ -280,13 +280,8 @@ void Game::render()
 {
 	gfx->setRenderTarget();
 	gfx->setTransparant(true);
-	//if (def_rend) {
-	//	//deferred rendering
-	//	defRend->BindFirstPass();
-	//	this->DrawToBuffer();
-	//	defRend->BindSecondPass(shadowMap->GetshadowResV());
-	//}
-	if (!def_rend) {
+
+	if (!def_rend) {//def rendering dosen't work anymore
 		gfx->get_IMctx()->PSSetShaderResources(1, 1, &shadowMap->GetshadowResV());//add ShadowMapping
 		this->DrawToBuffer();
 
@@ -500,8 +495,6 @@ void Game::setUpParticles()
 void Game::setUpUI()
 {
 	UI = new UIManager(rm, gfx);
-	//UI->createUISprite("assets/textures/Fire.png", vec2(-1, 0), vec2(0.5, 0.5));
-	//UI->createUIString("string", vec2(0, 0), vec2(0.2, 0.5), "penis");
 	
 	//Name Input
 	UI->createUIString("Write your name and", vec2(-10.0f, 0.3f), vec2(0.08f, 0.08f), "NameDesc");

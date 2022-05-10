@@ -852,7 +852,6 @@ void Player::PlayRunSoundEffect(float dt)
 		currentSoundEffectCD = soundEffectCD;
 		sm->playSound(stepSounds[a % 4], getPos());
 		a++;
-		//sm->playSound("Goat", getPos());
 	}
 }
 

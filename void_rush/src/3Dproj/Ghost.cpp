@@ -1,4 +1,5 @@
 #include "Ghost.h"
+#include "flags.h"
 
 Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale):
 	Enemy(file, gfx, pos, rot, scale)
@@ -13,6 +14,8 @@ Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot,
 	this->frozen = false;
 	this->active = false;
 	Reset();
+	if (!(DEVMODE_ || DEBUGMODE))
+		active = true;
 }
 
 void Ghost::collidedWithPlayer()
@@ -87,13 +90,12 @@ void Ghost::Reset()
 	setPos(vec3(player->getPos().x, player->getPos().y, player->getPos().z - 10.f));
 	readyToAttack = true;
 	speed = 1;
-	getPlayerPosCD = 0;
+	getPlayerPosCD = 1;
 	if (!PlayerPositions.empty())
 	{
 		std::queue<vec3> empty;
 		PlayerPositions.swap(empty);
 	}
-	this->active = false;
 }
 
 void Ghost::getSoundManager(SoundManager& sm)
