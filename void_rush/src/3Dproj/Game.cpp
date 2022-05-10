@@ -411,11 +411,11 @@ void Game::setUpObject()
 	GameObjManager->addGameObject(powers.back(), "Shield");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), MONEY));
+	powers.push_back(new Powerups(rm->get_Models("Money.obj", gfx), gfx, player, ghost, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), MONEY));
 	GameObjManager->addGameObject(powers.back(), "Money");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), FREEZE));
+	powers.push_back(new Powerups(rm->get_Models("Snowflake.obj", gfx), gfx, player, ghost, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), FREEZE));
 	GameObjManager->addGameObject(powers.back(), "Freeze");
 	collisionHandler.addPowerups(powers.back());
 
@@ -431,11 +431,11 @@ void Game::setUpObject()
 	GameObjManager->addGameObject(powers.back(), "Pad");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), KILL));
+	powers.push_back(new Powerups(rm->get_Models("Skull.obj", gfx), gfx, player, ghost, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), KILL));
 	GameObjManager->addGameObject(powers.back(), "Kill");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), ROCKET));
+	powers.push_back(new Powerups(rm->get_Models("Rocket.obj", gfx), gfx, player, ghost, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), ROCKET));
 	GameObjManager->addGameObject(powers.back(), "Rocket");
 	collisionHandler.addPowerups(powers.back());
 
@@ -447,8 +447,8 @@ void Game::setUpObject()
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 	distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
 	setUpPowerups(1, vec3(10, 10, 10));
-	//setUpPowerups(1, vec3(15, 10, 15));
-	//setUpPowerups(1, vec3(20, 10, 20));
+	setUpPowerups(1, vec3(15, 10, 15));
+	setUpPowerups(1, vec3(20, 10, 20));
 
 	std::string skyboxTextures[6] = {
 		"assets/textures/Skybox/posx.png",//x+
@@ -561,8 +561,8 @@ void Game::setUpSound()
 //Decides which powerups are used this map.
 void Game::setUpPowerups(int chosenDiff, vec3 pos)
 {	
-		int chosenPower = 15;
-		//int chosenPower = 1 + (rand() % 100);
+		//int chosenPower = 15;
+		int chosenPower = 1 + (rand() % 100);
 		//Difficulty easy
 		if (chosenDiff == 1)
 		{
