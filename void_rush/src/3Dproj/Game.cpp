@@ -379,13 +379,13 @@ void Game::setUpObject()
 	generationManager->set_player(player);
 
 
-	GameObjManager->CreateEnemy(player, enemyType::TURRET, soundManager, "Turret.obj", "turr", vec3(20, 1, 0));
-	const int MaxNrOfProjectiles = 5;
+	//GameObjManager->CreateEnemy(player, enemyType::TURRET, soundManager, "Turret.obj", "turr", vec3(20, 1, 0));
+	/*const int MaxNrOfProjectiles = 5;
 	for (int i = 0; i < MaxNrOfProjectiles; i++) {
 		GameObjManager->CreateEnemy(player, enemyType::PROJECTILE, soundManager, "DCube.obj", "proj" + std::to_string(i), vec3(5, 0, 0), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
 		collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("proj"+ std::to_string(i)));
 		((Turret*)GameObjManager->getGameObject("turr"))->addProjectiles((TurrProjectile*)GameObjManager->getGameObject("proj" + std::to_string(i)));
-	}	
+	}	*/
 
 	GameObjManager->CreateGameObject("DCube.obj", "cam", vec3(5, -10, 0), vec3(0, 0, 0));
 	GameObjManager->CreateGameObject("DCube.obj", "cubetest", vec3(0, 0, 50), vec3(0, 0, 0));

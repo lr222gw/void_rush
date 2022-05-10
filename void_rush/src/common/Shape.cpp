@@ -283,6 +283,12 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
         }
         this->inCorner.pos = inOut.pos_close;
         this->outCorner.pos = inOut.pos_far;
+
+        //Remove temporary planes, or else collision with invisible shape
+        for (int i = 0; i < planes.size(); i++) {
+            delete planes[i];
+        }
+        planes.clear();
     }
 
 }
