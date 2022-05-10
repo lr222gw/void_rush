@@ -16,5 +16,6 @@ private:
 	SkyBox* skybox;
 	static const int numberOfHighScore = 5;
 	std::string scores[numberOfHighScore];
+	std::string seeds[numberOfHighScore];
 
 };

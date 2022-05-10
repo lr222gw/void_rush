@@ -70,6 +70,7 @@ void Generation_manager::initialize()
     position_gen->reset_generation(this->player->getPos());
     if (startSeed == -1) {
         startSeed = seed;
+        this->player->SetCurrentSeed(this->seed);
     }
     if (DEVMODE_ || DEBUGMODE) {
         position_gen->set_seed(this->seed);
@@ -98,7 +99,6 @@ void Generation_manager::initialize()
     puzzleManager->Initiate(this->getPuzzelPos());    //TODO: REMOVE COMMENT
     this->player->SetDifficulity(this->difficulity);
     this->player->SetStartPlatform(this->GetStartPlatform());
-    this->player->SetCurrentSeed(this->seed);
 }
 
 
