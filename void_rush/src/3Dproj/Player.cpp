@@ -45,6 +45,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->shoveTimer = 0.0f;
 	this->heartBeatTimer = 0.0f;
 	this->bpm = 60;
+	this->musicVol = 3.0f;
 }
 
 Player::~Player()
@@ -116,6 +117,7 @@ void Player::update(float dt)
 		sm->playSound("HeartBeat", getPos());
 		heartBeatTimer = 0.0f;
 	}
+	sm->setSoundVolume("MusicChange", musicVol);
 	
 	GameObject::update(dt);
 }
@@ -844,6 +846,11 @@ SoundManager* Player::getSm() const
 void Player::setBpm(float bpm)
 {
 	this->bpm = bpm;
+}
+
+void Player::setMusicVol(float vol)
+{
+	musicVol = vol;
 }
 
 void Player::TakeDmg(int dmg)

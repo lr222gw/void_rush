@@ -51,18 +51,28 @@ void Ghost::update(float dt)
 		for (int i = 0; i < 3; i++) {
 			sm->updatePositionOfSound(getPos(), sounds[i]);
 		}
+		//Adjusting players bpm and game music based on distance
 		float bpm = 60;
-		if (fabs(player->getPos().length() - this->getPos().length()) < 20.0f) {
-			float len = fabs((this->getPos() - player->getPos()).length());
+		float musicVol = 3.0f;
+		float len = fabs((this->getPos() - player->getPos()).length());
+		if (len < 20.0f) {
 			if (len < 1.0f) {
 				len = 1.0f;
 			}
-			bpm = 60 + ((20/len)*10);
+			bpm = 60 + ((20 / len) * 10);
+			if (len > 10 && len < 15) {
+				musicVol = 2 + (20 / len)*2;
+			}
+			else if (len < 10) {
+				musicVol = 2 + (20 / len)*4;
+			}
 		}
 		player->setBpm(bpm);
+		player->setMusicVol(musicVol);
 	}
 	else {
 		player->setBpm(60.0f);
+		player->setMusicVol(3.0f);
 	}
 }
 

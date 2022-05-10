@@ -85,6 +85,7 @@ public:
 	SoundManager* getSm()const;
 
 	void setBpm(float bpm);
+	void setMusicVol(float vol);
 	
 private:
 	friend class ImguiManager;
@@ -111,6 +112,7 @@ private:
 	//Beat
 	float heartBeatTimer;
 	float bpm;
+	float musicVol;
 
 	//Powerups
 	Powerup power_index;

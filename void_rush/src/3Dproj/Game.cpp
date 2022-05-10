@@ -533,11 +533,18 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/German.wav", 40, "German");
 	soundManager.loadSound("assets/audio/wind1.wav", 0, "Wind");
 	soundManager.loadSound("assets/audio/HeartBeat.wav", 30, "HeartBeat");
-	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
-	soundManager.setMusicLoop(true);
+	//soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
+	//soundManager.setMusicLoop(true);
+	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicBase");
+	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicChange");
+	soundManager.playSound("MusicBase", player->getPos());
+	soundManager.playSound("MusicChange", player->getPos());
+	soundManager.setLoopSound("MusicBase", true);
+	soundManager.setLoopSound("MusicChange", true);
 
 	soundManager.playSound("Start", player->getPos());
 	soundManager.playSound("Wind", player->getPos());
+
 	soundManager.setLoopSound("Wind", true);
 }
 
