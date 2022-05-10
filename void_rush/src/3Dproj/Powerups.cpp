@@ -91,7 +91,6 @@ void Powerups::UsePowerUp(float dt)
 	if (player->getPlayerPower() == FEATHER || featherActive == true)
 	{
 		////ADD HERE WHAT FEATHER DOES WHEN ACTIVATED////
-		//player->getSm()->playSound("Feather", player->getPos());
 		if (this->featherActive == false)
 		{
 			player->setPlayerPower(EMPTY);

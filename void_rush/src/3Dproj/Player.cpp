@@ -491,6 +491,7 @@ void Player::handleEvents(float dt)
 
 				if (canDoublejump == true)	//For doublejump powerup
 				{
+					sm->playSound("Feather");
 					this->canDoublejump = false;
 					this->HUD->TurnOffPassive(FEATHER_P);
 				}
