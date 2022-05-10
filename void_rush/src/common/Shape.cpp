@@ -2,13 +2,20 @@
 #include "Shape_exporter.hpp"
 
 Shape::Shape_settings Shape::shape_conf;
+int Shape::index_incrementor = 0;
 
-Shape::Shape():scale(1,1,1), shapeRadius(0.f) {}
+Shape::Shape():scale(shape_conf.default_scale), shapeRadius(0.f) {
+    //static int index_incrementor = 0;
+    this->index = ++index_incrementor;
+}
 
 Shape::~Shape() {
     for (int i = 0; i < planes.size(); i++) {
         delete planes[i];
     }
+    delete top;
+    delete sides;
+    delete bottom;
     planes.clear();
 }
 
@@ -37,9 +44,9 @@ void Shape::setScale(vec3 scale)
     this->scale = scale;
 }
 
-void Shape::setShape(vec3 center, float distanceToEnd)
+void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
 {
-    setScale(vec3(.5f, .2f, .5f)); // Todo remove!
+    
     vec3 offset_left {      -scale.x, 0,         0       };
     vec3 offset_right {      scale.x, 0,         0       };
     vec3 offset_forward {    0,       0,         scale.z };
@@ -49,6 +56,8 @@ void Shape::setShape(vec3 center, float distanceToEnd)
     
     if(this->planes.size() > 0){
         this->planes.clear();
+        static_assert (true);
+        
     }
     
     const int matrixSize = 11; //Should to be Odd...    
@@ -61,16 +70,23 @@ void Shape::setShape(vec3 center, float distanceToEnd)
         busyMatrix[i].resize(matrixSize);
     }
 
+    static std::vector<Center_Index_Pair> all_previousVoxels;
+    static vec3 origo(0.f,0.f,0.f);
+    if(center.x == origo.x && center.z == origo.z){ //The offset in y-axis might differ, thus we dont check it.
+        all_previousVoxels.clear();
+        this->index = 0;
+        Shape::index_incrementor = 0;
+    }
 
-
-    int first_index = (matrixSize * matrixSize / 2);
+    int first_index = (matrixSize * matrixSize / 2.5f);
     //Sets middle (first ) to true
     busyMatrix[first_index / matrixSize][first_index % matrixSize] = Center_busy_pair{center, true, 0};
 
     
     int max = shape_conf.maxNrOfVoxels;
     int min = shape_conf.minNrOfVoxels;
-    int max_padding = std::clamp((int)distanceToEnd + shape_conf.max_clamp_padding, 0, (int)distanceToEnd + shape_conf.max_clamp_padding);
+    
+    int max_padding = std::clamp((int)(distanceToEnd+1) + shape_conf.max_clamp_padding, min, (int)std::fmaxf(min, (distanceToEnd + 1) + shape_conf.max_clamp_padding));
    
     int nrOfVoxels = rand() % (max - min ) + min; // random Number Of Voxels    
 
@@ -83,11 +99,23 @@ void Shape::setShape(vec3 center, float distanceToEnd)
     vec3 current_center = center;
     vec3 prev_center = center;
 
+    std::stack<int> prev_index_stack;
+
+    prev_index_stack.push((int)this->previousVoxels.size());
     previousVoxels.push_back({ current_center, current_index });
+
     int extra_iterations_counter = 0;
+    bool failed_placement = false;
+    int dir = 0;
+    int start_dir = 0;
     for (int i = 0; i < nrOfVoxels; i++) {
         int random_prev_index = rand() % (int)previousVoxels.size();
-        int dir = rand() % 4;
+        
+        if(!failed_placement){
+            dir = rand() % 4;
+        }else{
+            dir = (dir + 1) % 4;
+        }
         switch (dir) {
         case 0:
             current_index -= 1;
@@ -109,25 +137,98 @@ void Shape::setShape(vec3 center, float distanceToEnd)
 
         if (current_index < matrixSize * matrixSize && 
            current_index >  0 && 
-            !busyMatrix[current_index / matrixSize][current_index % matrixSize].isBusy) 
+            !busyMatrix[current_index / matrixSize][current_index % matrixSize].isBusy 
+            ) 
         {
-
-            busyMatrix[current_index / matrixSize][current_index % matrixSize] = Center_busy_pair{ current_center ,true, (int)this->previousVoxels.size()} ;
+            
+            busyMatrix[current_index / matrixSize][current_index % matrixSize]
+                = Center_busy_pair{ current_center ,true, (int)this->previousVoxels.size() };
             prev_index = current_index;
             prev_center = current_center;
-            this->previousVoxels.push_back({current_center, current_index});
+            prev_index_stack.push((int)this->previousVoxels.size());
+            this->previousVoxels.push_back({ current_center, current_index });
+            all_previousVoxels.push_back({ current_center, current_index });
+            failed_placement = false;
+      
+        }else if (shape_conf.tryRandom && random_prev_index % shape_conf.randomOccurances == 0){
             
+            int index_to_use = -1;
+        
+            index_to_use = random_prev_index;
+
+            current_center = this->previousVoxels[index_to_use].current_center;
+            current_index = this->previousVoxels[index_to_use].current_index;
+
+            prev_index = current_index;
+            prev_center = current_center;
+            failed_placement = false;
+
+            current_index = prev_index;
+            current_center = prev_center;
+
+            i--;
+            
+        
         }
         else 
         {
-            i--;
-            current_center = this->previousVoxels[random_prev_index].current_center;
-            current_index  = this->previousVoxels[random_prev_index].current_index;
+            if(failed_placement == false)
+            {
+                start_dir = dir;
+                failed_placement = true;
+            }
+            else if(start_dir == dir)
+            {
+                                                                
+                int prev_from_stack = -1;
+                if(!prev_index_stack.empty()){
+                    prev_from_stack = prev_index_stack.top();
+                    prev_index_stack.pop();
+                }else{
+                    nrOfVoxels = i;
+                    break;
+                }              
+                                
+                current_center = this->previousVoxels[prev_from_stack].current_center;
+                current_index = this->previousVoxels[prev_from_stack].current_index;
+
+                prev_index = current_index;
+                prev_center = current_center;
+                failed_placement = false;
+            }
+
+            
+
+            current_index = prev_index;
+            current_center = prev_center;
+
+            i--;                        
         }
         extra_iterations_counter++;
     }
 
-    if (extra_iterations_counter > nrOfVoxels) {
+
+    bool collided = false;
+    if (prev) {
+
+        for (int i = 0; i < all_previousVoxels.size(); i++) {
+            if ((all_previousVoxels[i].current_center - previousVoxels.back().current_center).length() < shape_conf.plattform_voxel_margin) {
+                collided = true;
+                break;
+            }
+        }
+    }
+
+    static int c = 0; 
+    if( previousVoxels.size() == 1 && collided){
+        //previousVoxels.clear();        
+        busyMatrix[first_index / matrixSize][first_index % matrixSize].is_illegal = true;
+        previousVoxels.back().is_illegal = true;
+        this->is_illegal = true;
+        c++;
+    }
+
+    /*if (extra_iterations_counter > nrOfVoxels) {
         std::cout << "Extra Iterations: " << extra_iterations_counter - nrOfVoxels << " \n";
     }
     std::cout << "nrOfVoxels: " << nrOfVoxels << " \n";
@@ -138,16 +239,51 @@ void Shape::setShape(vec3 center, float distanceToEnd)
         }
         std::cout << " \n";
 
-    }
+    }*/
+    
+
 
     //Find longest distance
-    this->set_InOut_longstDist(nrOfVoxels);    
-    this->set_InOut_firstLastDeclared(busyMatrix, matrixSize);    
+    this->set_InOut_longstDist(nrOfVoxels, center);    
+    this->set_InOut_firstLastDeclared(busyMatrix, matrixSize, center);
 
 
-    //float off = .2f;
-    //START->y = START->y + off;
-    //END->y = END->y - off;
+    // new way to determine in/out points...
+    if(prev){
+
+        vec3 direction = center - prev->outCorner.pos;
+        struct InOut {
+            vec3 pos_close;
+            vec3 pos_far;
+
+        }inOut;
+        inOut.pos_close = center;
+        inOut.pos_far = center;
+
+        //setShapeCube(center);
+        for (Center_Index_Pair voxel : this->previousVoxels) {
+            if(!voxel.is_illegal){
+                this->setShapeCube(voxel.current_center);
+            }
+        }
+
+        for (int i = 0; i < this->planes.size(); i++) {
+
+            for(vec3* point : this->planes[i]->get_all_points()){
+
+                float length = (prev->outCorner.pos - *point).length();
+
+                if((inOut.pos_close - *point).length() > length){
+                    inOut.pos_close = *point;
+                }
+                if ((inOut.pos_far - *point).length() < length) {
+                    inOut.pos_far = *point;
+                }
+            }
+        }
+        this->inCorner.pos = inOut.pos_close;
+        this->outCorner.pos = inOut.pos_far;
+    }
 
 }
 
@@ -159,6 +295,7 @@ void Shape::setShapeCube(vec3 center)
 
     Plane* temp_planes_helper[3]{ new XZ_plane(scale), new XY_plane(scale), new YZ_plane(scale) };
 
+    
     for (auto plane : temp_planes_helper) {
         
         planes.push_back(plane);
@@ -174,21 +311,27 @@ void Shape::setShapeCube(vec3 center)
         temp_planes[i]->move(center + temp_planes[i]->offset); //TODO: remove?
     }
 
-    auto high = temp_planes[0]->point2;    
-    auto low = temp_planes[0]->point4;
-    low.y = low.y - this->scale.y * 2;
-
-    vec3_pair min_max{low,high};
-     
-    bounding_boxes.push_back(min_max);
+    
+    if (top || bottom || sides) {
+        top->planes.push_back(new XZ_plane(temp_planes[0]));
+        bottom->planes.push_back(new XZ_plane(temp_planes[1]));
+        sides->planes.push_back(new XY_plane(temp_planes[2]));
+        sides->planes.push_back(new XY_plane(temp_planes[3]));
+        sides->planes.push_back(new YZ_plane(temp_planes[4]));
+        sides->planes.push_back(new YZ_plane(temp_planes[5]));
+    }
 
 }
 
 void Shape::buildShape()
 {
+    this->init_shape_bottomTopSides();
     for(Center_Index_Pair voxel : this->previousVoxels){
-        this->setShapeCube(voxel.current_center);
+        //if(!voxel.is_illegal){
+            this->setShapeCube(voxel.current_center);
+        //}
     }
+    this->updateBoundingBoxes();
 }
 
 void Shape::updateBoundingBoxes()
@@ -196,7 +339,13 @@ void Shape::updateBoundingBoxes()
     bounding_boxes.clear();
     for(Plane* plane : planes){
         if(plane->normal == vec3(0,1,0)){
-            bounding_boxes.push_back(vec3_pair({plane->point4, plane->point2}));
+            auto high = plane->point2;
+            auto low = plane->point4;
+            low.y = low.y - this->scale.y * 2;
+
+            vec3_pair min_max{ low,high };
+
+            bounding_boxes.push_back(min_max);
         }
     }
 }
@@ -208,11 +357,13 @@ void Shape::export_as_obj()
 
 }
 
-void Shape::set_InOut_longstDist(int nrOfVoxels)
+void Shape::set_InOut_longstDist(int nrOfVoxels, vec3 &given_center)
 {
     LongestDist current;
     LongestDist previous;
-    current.distance = 0;
+    current.endPos = given_center;
+    current.startPos = given_center;
+    current.distance = 0;    
     vec3* END = nullptr;
     vec3* START = nullptr;
     int actualNrOfVoxels = nrOfVoxels + 1;
@@ -237,13 +388,28 @@ void Shape::set_InOut_longstDist(int nrOfVoxels)
     this->shapeMidpoint = current.startPos + (current.endPos - current.startPos) / 2;
 }
 
-void Shape::set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair>> busyMatrix, int matrixsize)
+void Shape::init_shape_bottomTopSides()
+{
+    //NOTE: setShapeCube should not run several times,
+    //      but during tests it might. This prevent memory leaks in such cases...
+    if (top || bottom || sides) {
+        delete top; top = nullptr;
+        delete bottom; bottom = nullptr;
+        delete sides; sides = nullptr;
+    }
+
+    top = new Shape();
+    bottom = new Shape();
+    sides = new Shape();
+}
+
+void Shape::set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair>> busyMatrix, int matrixsize, vec3& given_center)
 {
     bool wasFirst = false;
     vec3* END = nullptr;
     vec3* START = nullptr;
-    vec3 last;
-    vec3 first;
+    vec3 last = given_center;
+    vec3 first = given_center;
     for (int i = 0; i < matrixsize; i++) {
 
         for (int j = 0; j < matrixsize; j++) {
@@ -260,8 +426,18 @@ void Shape::set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair
             }
         }
     }
-    this->inCorner.pos = last;
-    this->outCorner.pos = first;
+
+    /*this->inCorner.pos = last;
+    this->outCorner.pos = first;*/
+
+    vec3 offest = this->scale;
+
+    this->inCorner.pos = last - offest;
+    this->outCorner.pos = first + offest;
+
+    /*float off = .2f;
+    START->y = START->y + off;
+    END->y = END->y - off;*/
 }
 
 
@@ -276,6 +452,19 @@ Plane::Plane()
     uv[2].y = 1;
     uv[3].x = 0;
     uv[3].y = 1;
+}
+
+Plane::Plane(const Plane* ref)
+{
+    this->normal = ref->normal;
+    this->offset= ref->offset;
+    this->point1= ref->point1;
+    this->point2= ref->point2;
+    this->point3= ref->point3;
+    this->point4= ref->point4;
+    for (int i = 0; i < 4; i++) {
+        this->uv[i] = ref->uv[i];
+    }    
 }
 
 Plane::Plane(vec3 a, vec3 b, vec3 c, vec3 d):

@@ -16,6 +16,7 @@ class Player_jump_checker
   public:
     Player_jump_checker();
     void reset();
+    void set_physics_params(float jumpvel, float speed, float gravity);
     void moveto (const vec3& pos);
     float getJumpDistance ();
     float getJumpDistance (float height);

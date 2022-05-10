@@ -30,5 +30,7 @@ private:
 	std::vector<Powerups*> powerups;
 	Player* player;
 
-
+private:
+	friend class ImguiManager;
+	Shape* lastCollided_ShapePlatform;
 };

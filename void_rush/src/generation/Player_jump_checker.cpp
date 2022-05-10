@@ -1,4 +1,4 @@
-#include "playerGen.hpp"
+#include "Player_jump_checker.hpp"
 
 Player_jump_checker::Player_jump_checker()
     : pos ({ 0.0f, 0.0f, 0.0f }), jumpvel (5.0f), speed (5.0f),
@@ -12,6 +12,17 @@ void Player_jump_checker::reset()
     this->pos.y = 0.f;
     this->pos.z = 0.f;
     
+}
+
+void Player_jump_checker::set_physics_params(float jumpvel, float speed, float gravity)
+{
+
+    this->jumpvel = jumpvel;
+    this->speed = speed;
+    this->gravity = -gravity;
+
+    this->launchangle = 45.f; //NOTE: might want to calculate this later.
+
 }
 
 void Player_jump_checker::moveto (const vec3&pos)
@@ -44,7 +55,8 @@ float Player_jump_checker::getJumpDistance (float height)
 
 float Player_jump_checker::jumpHeight ()
 {
-    float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
+    //float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
+    float vel = this->jumpvel;
     return this->pos.y
            + (powf (vel, 2.0f) * powf (sinf (this->launchangle), 2.0f)
               / (2 * this->gravity));
@@ -54,20 +66,14 @@ bool Player_jump_checker::isJumpPossible (vec3 position)
 {
     float jumpheight = jumpHeight ();
     float heightDif = jumpheight - position.y;
-    float jumpDist = getJumpDistance (position.y);//TODO: no hardcode, use from Position_generator...
+    float jumpDist = getJumpDistance (position.y);
     float distanceDif = jumpDist - this->distance (position);
-    /*if (heightDif <= 0) {
-        plat->move(0, 0, heightDif);
-    }
-    if (distanceDif <= 0)
-    {
-        plat->move();
-    }*/
+
     if (heightDif <= 0)
     {
         return false;
     }
-    if (distanceDif <= 0)
+    if (distanceDif <= 0 && jumpDist != 0.f)
     {
         return false;
     }

@@ -628,6 +628,16 @@ bool Player::isGrounded()
 	return this->grounded;
 }
 
+float Player::getJumpForce()
+{
+	return this->jumpForce;
+}
+
+float Player::getGravity()
+{
+	return this->gravity.y;
+}
+
 float Player::getGroundedTimer()
 {
 	return this->groundedTimer;

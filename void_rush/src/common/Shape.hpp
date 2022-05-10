@@ -3,6 +3,7 @@
 #include "3Dproj/Vec.h"
 #include "Helper.hpp"
 #include <vector>
+#include <stack>
 
 class Shape_exporter;
 struct inCorner {
@@ -21,7 +22,8 @@ struct line
 
 struct Plane
 {   
-    Plane();
+    Plane();    
+    Plane(const Plane* ref);
     Plane(vec3 a, vec3 b, vec3 c, vec3 d);
     vec3 point1;
     vec3 point2;
@@ -49,15 +51,19 @@ struct Voxel_matrix {
 struct XZ_plane : public Plane
 {
     XZ_plane(vec3 scale);    
+    XZ_plane(const Plane* ref) : Plane(ref) {  };
 };
 
 struct XY_plane : public Plane
 {
     XY_plane(vec3 scale);
+    XY_plane(const Plane* ref) :Plane(ref) { };
+
 };
 struct YZ_plane : public Plane
 { 
     YZ_plane(vec3 scale);
+    YZ_plane(const Plane* ref) :Plane(ref) {  };
 };
 
 struct Normals{
@@ -84,6 +90,7 @@ struct vec3_pair {
 struct Center_Index_Pair {
     vec3 current_center;
     int current_index;
+    bool is_illegal = false;
 };
 
 struct Offset{
@@ -100,6 +107,7 @@ struct Center_busy_pair {
     vec3 position;
     bool isBusy = false;
     int index;
+    bool is_illegal = false;
 };
 
 class Shape
@@ -111,15 +119,23 @@ public:
     void setPosition(vec3 pos);
     void move(vec3 pos);
     void setScale(vec3 scale);
-    void setShape(vec3 center, float distanceToEnd);
+    void setShape(vec3 center, float distanceToEnd, Shape* prev = nullptr);
     void setShapeCube(vec3 center);
     void buildShape();
+    void init_shape_bottomTopSides();
     void updateBoundingBoxes();
 
-    void set_InOut_longstDist(int nrOfVoxels);
+    Shape* top = nullptr;
+    Shape* sides = nullptr;
+    Shape* bottom = nullptr;
+
+    int index = 0;
+    static int index_incrementor;
+
+    void set_InOut_longstDist(int nrOfVoxels, vec3& given_center);
     //template <size_t rows, size_t cols>
     //void set_InOut_firstLastDeclared(Center_busy_pair (&busyMatrix)[rows][cols], int matrixsize);
-    void set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair>> busyMatrix, int matrixsize);
+    void set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair>> busyMatrix, int matrixsize, vec3& given_center);
 
     void export_as_obj();
 
@@ -131,15 +147,21 @@ public:
     vec3 shapeMidpoint;
     float shapeRadius;
 
+    bool is_illegal = false;
+
     //std::vector<DirectX::XMFLOAT4*> bounding_boxes; //TODO: Handle memory here!
     //std::vector<vec3[2]> bounding_boxes; //TODO: Handle memory here!
     std::vector<vec3_pair> bounding_boxes; //TODO: Handle memory here!
-    std::vector<Center_Index_Pair> previousVoxels;
+    std::vector<Center_Index_Pair> previousVoxels;    
 
     struct Shape_settings{
+        vec3 default_scale = vec3(0.5f,0.2f,0.5f);
         int maxNrOfVoxels = 25;
         int minNrOfVoxels = 1;
         int max_clamp_padding = 0;
+        float plattform_voxel_margin = 2.f;
+        bool tryRandom = false;
+        int randomOccurances = 2; // use random everytime the random index is even nmbr
     };
     static struct Shape_settings shape_conf; //same for all instances...
     
