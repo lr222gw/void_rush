@@ -269,9 +269,9 @@ void ImguiManager::render_debuginfo_widgets()
 		cur_time = ImGui::GetTime() ;
 		if ((prev_time + update_interval) < (cur_time)) {
 			fps = -(frame_count - (float)ImGui::GetFrameCount()) / update_interval;
-			frame_count = (float)ImGui::GetFrameCount() ;
-			past_time = cur_time - time_offset;
-			average_fps = frame_count /(past_time == 0 ? 1 : past_time);
+			frame_count = ImGui::GetFrameCount() ;
+			past_time = (int)(cur_time - time_offset);
+			average_fps = (float)(frame_count /(past_time == 0 ? 1 : past_time));
 			prev_time = cur_time;
 		}
 

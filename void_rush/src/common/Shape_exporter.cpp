@@ -22,18 +22,18 @@ aiScene::aiScene()
 
 aiScene::~aiScene(){
 
-    for(int i = 0; i < this->mNumMeshes; i++ ){
+    for(int i = 0; i < (int)this->mNumMeshes; i++ ){
         delete this->mMeshes[i];
 
     }
     delete[] this->mMeshes;
     
-    for(int i = 0; i < this->mNumMaterials; i++){
+    for(int i = 0; i < (int)this->mNumMaterials; i++){
         delete this->mMaterials[i];
     }
     delete[] this->mMaterials;
 
-    for (int i = 0; i < this->mRootNode->mNumMeshes; i++) {
+    for (int i = 0; i < (int)this->mRootNode->mNumMeshes; i++) {
         this->mRootNode->mMeshes[i];
     }
 
@@ -113,7 +113,7 @@ void Shape_exporter::build_shape_model(Shape* shape, std::string name)
     pMesh->mNumVertices = static_cast<unsigned  int>(nrOfVertices);
     pMesh->mNormals = new aiVector3D[nrOfVertices];
 
-    pMesh->mNumFaces = shape->planes.size();
+    pMesh->mNumFaces = (int)shape->planes.size();
     pMesh->mFaces = new aiFace[pMesh->mNumFaces];
 
     pMesh->mTextureCoords[0] = new aiVector3D[nrOfVertices];

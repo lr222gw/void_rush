@@ -73,7 +73,7 @@ void Generation_manager::initialize()
     position_gen->set_seed(this->seed);
     position_gen->start(difficulity);
     
-    shape_export->set_nrOf(position_gen->getAnchors()->size() + position_gen->getJumpPoints()->size(), 1); //TODO: do not hardcode material!
+    shape_export->set_nrOf((int)(position_gen->getAnchors()->size() + position_gen->getJumpPoints()->size()), 1); //TODO: do not hardcode material!
     shape_export->init();
     
     place_anchorPoints();
@@ -170,7 +170,7 @@ void Generation_manager::generateGraph()
     float abs_Y = 0;
     Player_jump_checker p;
     std::vector<Platform*>* platforms = this->position_gen->getAnchors();
-    int platforms_size = platforms->size();
+    int platforms_size = (int)(platforms->size());
     for (int i = 0; i < platforms_size; i++)
     {
 

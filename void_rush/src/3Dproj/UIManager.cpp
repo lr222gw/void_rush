@@ -59,7 +59,7 @@ void UIManager::createUIButton(std::string rmsprite, std::string str, Mouse* mou
 	if (name != "") {
 		mapOfButtons.insert(std::make_pair(name, buttons[buttons.size() - 1]));
 	}
-	this->strings.push_back(new UIString(gfx, str, pos + pos_offset, (size / str.size()) + size_offset));
+	this->strings.push_back(new UIString(gfx, str, pos + pos_offset, (size / (float)str.size()) + size_offset));
 	if (name != "") {
 		mapOfString.insert(std::make_pair(name, strings[strings.size() - 1]));
 	}

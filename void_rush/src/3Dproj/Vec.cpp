@@ -114,16 +114,16 @@ float vec3::angle(vec3 other)
 	float min = Vmin.x < Vmin.y ? Vmin.x : Vmin.y;
 	min = min < Vmin.z ? min : Vmin.z;
 	if (min < 0.0) {
-		return -acos(a * b);
+		return (float)(- acos(a * b));
 	}
-	return acos(a * b);
+	return (float)acos(a * b);
 }
 
 float vec3::angleNM(vec3 other)
 {
 	vec3 a = Normalize(*this);
 	vec3 b = Normalize(other);
-	return acos(a * b);
+	return (float)acos(a * b);
 }
 
 float vec3::getWithNumber(int i)

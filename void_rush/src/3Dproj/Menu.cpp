@@ -51,7 +51,7 @@ GameStateRet Menu::update(float dt)
 		theReturn.gameState = GameStatesEnum::QUIT;
 	}
 	else if (UI->getButton("Start")->clicked() || keyboard->isKeyPressed(VK_RETURN)) {
-		UI->createUIString("Loading...", vec2(-0.9, -0.75), vec2(0.2, 0.2), "loading");
+		UI->createUIString("Loading...", vec2(-0.9f, -0.75f), vec2(0.2f, 0.2f), "loading");
 		theReturn.gameState = GameStatesEnum::TO_GAME;
 		theReturn.seed = getSeedInt();
 	}
@@ -62,11 +62,11 @@ GameStateRet Menu::update(float dt)
 		//Enable seed input
 		if (!SeedClicked) {
 			if (inputSeed) {
-				UI->getStringElement("Seed")->setPosition(vec2(-0.2, 10));
+				UI->getStringElement("Seed")->setPosition(vec2(-0.2f, 10.0f));
 				inputSeed = false;
 			}
 			else {
-				UI->getStringElement("Seed")->setPosition(vec2(-0.2, 0));
+				UI->getStringElement("Seed")->setPosition(vec2(-0.2f, 0.0f));
 				inputSeed = true;
 			}
 		}
@@ -102,12 +102,12 @@ void Menu::render()
 void Menu::setUpUI()
 {
 	UI = new UIManager(rm, gfx);
-	UI->createUIString("Void Rush", vec2(-0.4, 0.7), vec2(0.1, 0.1), "Title");
-	UI->createUIButton("assets/textures/buttonBack.png", "Start", mouse, vec2(-0.9, 0.4), buttonSize, "Start", vec2(0.0, 0.0), vec2(0, 0.1));
-	UI->createUIButton("assets/textures/buttonBack.png","END", mouse, vec2(-0.9, -0.5), buttonSize, "Quit", vec2(0.0,0.0), vec2(0,0.1));
-	UI->createUIButton("assets/textures/buttonBack.png", "HighScores", mouse, vec2(-0.9, 0), buttonSize, "HighScores", vec2(0.0, -0.025), vec2(0.0, 0.1));
-	UI->createUIButton("assets/textures/buttonBack.png", "InputSeed", mouse, vec2(0, 0.4), buttonSize, "InputSeed", vec2(0.0, -0.025), vec2(0.0, 0.1));
-	UI->createUIString("__________", vec2(-0.2, 10), vec2(0.1, 0.1), "Seed");
+	UI->createUIString("Void Rush", vec2(-0.4f, 0.7f), vec2(0.1f, 0.1f), "Title");
+	UI->createUIButton("assets/textures/buttonBack.png", "Start", mouse, vec2(-0.9f, 0.4f), buttonSize, "Start", vec2(0.0f, 0.0f), vec2(0.0f, 0.1f));
+	UI->createUIButton("assets/textures/buttonBack.png","END", mouse, vec2(-0.9f, -0.5f), buttonSize, "Quit", vec2(0.0f,0.0f), vec2(0.0f,0.1f));
+	UI->createUIButton("assets/textures/buttonBack.png", "HighScores", mouse, vec2(-0.9f, 0.0f), buttonSize, "HighScores", vec2(0.0f, -0.025f), vec2(0.0f, 0.1f));
+	UI->createUIButton("assets/textures/buttonBack.png", "InputSeed", mouse, vec2(0.0f, 0.4f), buttonSize, "InputSeed", vec2(0.0f, -0.025f), vec2(0.0f, 0.1f));
+	UI->createUIString("__________", vec2(-0.2f, 10.0f), vec2(0.1f, 0.1f), "Seed");
 	//Used for scaling buttons
 	buttonNames.push_back("Start");
 	buttonNames.push_back("Quit");
