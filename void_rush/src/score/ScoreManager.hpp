@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include "generation/Position_generator.hpp"//To use difficulty
+#include "hud/Hud.h"
 
 class ScoreManager {
 public:
@@ -21,6 +22,7 @@ public:
 	void LevelDone();
 	void Reset();
 
+	void SetHUD(Hud*& hud);
 	void WriteScore(std::string name, std::string file = "assets/files/highScores.txt");
 private:
 	void SortScores(std::string file = "assets/files/highScores.txt");
@@ -30,8 +32,9 @@ private:
 	float playerSpeed;
 	float score;
 	int seed;
+	Hud* HUD;
 
-	const float constPoints = 0.1f;//Points given each update;
+	const float constPoints = 1.0f;//Points given each update
 	const float puzzlePoints = 100.0f;//Points given when puzzle is done
 	const float levelPoints = 1000.0f;//Points given when level is done (Depends on how fast the player is)
 	const float deathPoints = -5.0f;//Points given when player looses a life

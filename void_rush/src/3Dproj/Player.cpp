@@ -37,6 +37,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 		this->name += "_";
 	}
 	this->scoreManager.SetPlayerSpeed(speed.length());
+	this->scoreManager.SetHUD(HUD);
 	fallCubeSize = vec3(50.0f, 200.0f, 50.0f);
 	UpdateFallBox();
 	fallBoxTimer = 0.0f;

@@ -189,6 +189,7 @@ GameStateRet Game::update(float dt)
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 	gfx->Update(dt, camera->getPos());
 	HUD->UpdateGhostBar(player->getPos(), generationManager->getPuzzelPos(), ghost->getPos(), distanceFromStartPosToPuzzle);
+	//HUD->UpdateScore(player->GetScore());
 
 #pragma region camera_settings
 
