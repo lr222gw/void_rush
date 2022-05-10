@@ -37,7 +37,7 @@ private:
 	const float constPoints = 1.0f;//Points given each update
 	const float puzzlePoints = 100.0f;//Points given when puzzle is done
 	const float levelPoints = 1000.0f;//Points given when level is done (Depends on how fast the player is)
-	const float deathPoints = -5.0f;//Points given when player looses a life
+	const float deathPoints = -50.0f;//Points given when player looses a life
 
 	const int maxScores = 5;
 };
