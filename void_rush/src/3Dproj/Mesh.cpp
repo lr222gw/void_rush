@@ -82,12 +82,14 @@ void MeshObj::draw(ID3D11DeviceContext*& immediateContext)
 	else {
 		immediateContext->PSSetShaderResources(0, 1, &this->matrial->texSRVPS[0]);
 	}
+	if (matrial->flags.Maps[3]) {
+		immediateContext->PSSetShaderResources(2, 1, &this->matrial->texSRVPS[3]);
+	}
 	
 	immediateContext->PSSetConstantBuffers(0, 1, &this->Pg_pConstantBuffer);
 	immediateContext->IASetVertexBuffers(0, 1, &this->vertexBuffer, &strid, &offset);
 	immediateContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	immediateContext->DrawIndexed(nrOfIndecies, 0, 0);
-
 }
 
 void MeshObj::draw2(ID3D11DeviceContext*& immediateContext)

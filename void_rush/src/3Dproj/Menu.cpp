@@ -4,7 +4,7 @@ Menu::Menu(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mous
 	GameState(gfx, rm, imguimanager, mouse, keyboard, cam),
 	soundManager(1)//be able to change this later based on settings
 {
-	buttonSize = vec2(0.5, 0.15);
+	buttonSize = vec2(0.5f, 0.15f);
 
 	cam->setPosition(vec3(0, 0, 0));
 	setUpObject();
@@ -43,7 +43,7 @@ GameStateRet Menu::update(float dt)
 	theReturn.seed = 0;
 
 	camera->updateCamera();
-	camera->addRotation(vec3(0.1 * dt, 0.3 * dt, 0));
+	camera->addRotation(vec3(0.1f * dt, 0.3f * dt, 0));
 	UI->update();
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 
@@ -138,11 +138,11 @@ void Menu::checkHover()
 	for (int i = 0; i < buttonNames.size(); i++) {
 		if (UI->getButton(buttonNames[i])->hover()) {
 			UI->getButton(buttonNames[i])->setSize(buttonSize.x * 1.1f, buttonSize.y * 1.1f);
-			UI->getButton(buttonNames[i])->setPosition(buttonPos[i].x - 0.01, buttonPos[i].y -0.01);
+			UI->getButton(buttonNames[i])->setPosition(buttonPos[i].x - 0.01f, buttonPos[i].y -0.01f);
 		}
 		else {
 			UI->getButton(buttonNames[i])->setSize(buttonSize.x, buttonSize.y);
-			UI->getButton(buttonNames[i])->setPosition(buttonPos[i].x + 0.0, buttonPos[i].y + 0.0);
+			UI->getButton(buttonNames[i])->setPosition(buttonPos[i].x + 0.0f, buttonPos[i].y + 0.0f);
 		}
 	}
 
