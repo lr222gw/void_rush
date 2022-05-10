@@ -1,7 +1,7 @@
 #include "Game.h"
 
 
-Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam):
+Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam, int seed):
 	GameState(gfx,rm,imguimanager,mouse,keyboard,cam),
 	soundManager(1)//be able to change this later based on settings
 {
@@ -17,7 +17,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	lightNr = 0;
 	testPuzzle = new ProtoPuzzle(gfx, rm, collisionHandler, &soundManager); //TODO: REMOVE COMMENT
 	
-	generationManager = new Generation_manager(gfx, rm, collisionHandler);
+	generationManager = new Generation_manager(gfx, rm, collisionHandler, seed);
 	generationManager->set_PuzzleManager(testPuzzle); //TODO: REMOVE COMMENT
 	generationManager->set_GameObjManager(GameObjManager);
 	
@@ -117,9 +117,11 @@ void Game::renderShadow()
 	}
 }
 
-GameStatesEnum Game::update(float dt)
+GameStateRet Game::update(float dt)
 {
-	GameStatesEnum theReturn = GameStatesEnum::NO_CHANGE;
+	GameStateRet theReturn;
+	theReturn.gameState = GameStatesEnum::NO_CHANGE;
+	theReturn.seed = 0;
 	if (pauseMenu) {
 		pauseUI->update();
 		gfx->Update(dt, camera->getPos());
@@ -131,7 +133,7 @@ GameStatesEnum Game::update(float dt)
 			gfx->getWindosClass().HideCoursor();
 		}
 		if (pauseUI->getButton("menu")->clicked()) {
-			theReturn = GameStatesEnum::TO_MENU;
+			theReturn.gameState = GameStatesEnum::TO_MENU;
 		}
 	}
 	if (player->IsAlive()) {
@@ -264,7 +266,7 @@ GameStatesEnum Game::update(float dt)
 			player->writeScore();
 			player->ResetName();
 			keyboard->onKeyReleased(VK_RETURN);
-			theReturn = GameStatesEnum::TO_MENU;
+			theReturn.gameState = GameStatesEnum::TO_MENU;
 		}
 		else{
 			SetName();

@@ -11,6 +11,8 @@
 #include "Menu.h"
 #include "HighScoreGameState.h"
 
+
+
 //git
 class App {
 public:
@@ -36,5 +38,5 @@ private:
 	Camera* camera;
 	GameState* gamestate;
 	bool quit;
-	void handleGamestateChanges(GameStatesEnum handle);
+	void handleGamestateChanges(GameStateRet handle);
 };
