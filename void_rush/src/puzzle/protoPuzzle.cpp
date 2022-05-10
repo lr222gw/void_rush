@@ -8,6 +8,7 @@ ProtoPuzzle::ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm, CollisionHandler&
 
     this->math = new MathPuzzle(seed, gfx, rm, colHandler, soundManager);
     this->hidden = new HiddenPuzzle(seed, gfx, rm, colHandler, soundManager);
+    this->memory = new MemoryPuzzle(seed, gfx, rm, colHandler, soundManager);
 
     this->puzzleList.push_back(math);
     this->puzzleList.push_back(hidden);
