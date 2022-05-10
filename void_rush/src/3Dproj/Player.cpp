@@ -114,7 +114,7 @@ void Player::update(float dt)
 	}
 	if (heartBeatTimer >= 60/bpm) {
 		sm->setSoundVolume("HeartBeat", 30 + 30/(260 / bpm));
-		sm->playSound("HeartBeat", getPos());
+		//sm->playSound("HeartBeat", getPos());
 		heartBeatTimer = 0.0f;
 	}
 	sm->setSoundVolume("MusicChange", musicVol);
