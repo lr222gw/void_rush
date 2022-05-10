@@ -44,7 +44,7 @@ void Hud::IncreaseHealth()
 
 void Hud::UpdateScore(int points)
 {
-	this->score += points;
+	this->score = points;
 	std::string scoreString;
 	if (this->score <= 9)
 	{
