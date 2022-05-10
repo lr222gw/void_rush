@@ -235,7 +235,11 @@ void ImguiManager::render_generation_widgets()
 
 		if(ImGui::Button("initialize")){
 			auto temp = owner->player->speed;	//Fix to use initialize while noclipping
-			owner->player->speed = prev_player_speed; //  
+			static vec3 empty;
+			if (empty == prev_player_speed){
+				prev_player_speed = owner->player->speed;
+			}
+			owner->player->speed = prev_player_speed;  
 			owner->generationManager->initialize();
 			owner->generationManager->generateGraph();
 			owner->player->speed = temp;
@@ -360,6 +364,7 @@ void ImguiManager::render_player_widgets()
 				owner->player->speed = vec3(15.f, 15.f, 15.f);
 			}			
 		}
+
 		ImGui::Checkbox("Invincible", &owner->player->invincible);
 
 		float* pos[3] = { &owner->player->pos.x,
