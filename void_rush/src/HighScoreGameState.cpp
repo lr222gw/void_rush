@@ -8,7 +8,7 @@ HighScoreGameState::HighScoreGameState(Graphics*& gfx, ResourceManager*& rm, Img
 	UI->createUIButton("assets/textures/buttonBack.png", "back", mouse, vec2(-1, 0.8f), vec2(0.2f, 0.2f), "back", vec2(0,0.1f));
 	for (int i = 0; i < 5; i++) {
 		UI->createUIString(scores[i], vec2(-0.9f, 0.5f - i * 0.2f),vec2(0.09f,0.1f));
-		UI->createUIString(seeds[i], vec2(0.4, 0.5f - i * 0.2f), vec2(0.04f, 0.04f));
+		UI->createUIString(seeds[i], vec2(-0.9f, 0.45f - i * 0.2f), vec2(0.03f, 0.03f));
 	}
 	std::string skyboxTextures[6] = {
 	"assets/textures/Skybox/posx.png",//x+
