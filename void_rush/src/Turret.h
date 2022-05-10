@@ -8,12 +8,14 @@ public:
 	void collidedWithPlayer();
 	void update(float dt);
 	void addProjectiles(TurrProjectile* projectile);
+	void setSoundManager(SoundManager& sm);
 private:
 	Player* player;
 	Graphics* gfx;
 	std::vector<TurrProjectile*> projectiles;
 	//have a vector of projectiles
 private:
+	SoundManager* sm;
 	float range;
 	float shootCD;
 	float currentTimeTillShoot;

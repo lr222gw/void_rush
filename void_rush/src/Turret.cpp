@@ -29,6 +29,7 @@ void Turret::update(float dt)
 			bool done = false;
 			for (size_t i = 0; i < projectiles.size() && !done; i++) {
 				if (!projectiles[i]->isActive()) {
+					sm->playSound("TurrShot",getPos());
 					projectiles[i]->setActive(true);
 					projectiles[i]->setDirection(player->getPos() - getPos());
 					projectiles[i]->setPos(getPos());
@@ -43,6 +44,11 @@ void Turret::update(float dt)
 void Turret::addProjectiles(TurrProjectile* projectile)
 {
 	projectiles.push_back(projectile);
+}
+
+void Turret::setSoundManager(SoundManager& sm)
+{
+	this->sm = &sm;
 }
 
 void Turret::lookat()

@@ -376,10 +376,10 @@ void Game::setUpObject()
 	generationManager->set_player(player);
 
 
-	GameObjManager->CreateEnemy(player, enemyType::TURRET, "Turret.obj", "turr", vec3(50, 1, 0));
+	GameObjManager->CreateEnemy(player, enemyType::TURRET, soundManager, "Turret.obj", "turr", vec3(50, 1, 0));
 	const int MaxNrOfProjectiles = 5;
 	for (int i = 0; i < MaxNrOfProjectiles; i++) {
-		GameObjManager->CreateEnemy(player, enemyType::PROJECTILE, "DCube.obj", "proj" + std::to_string(i), vec3(5, 0, 0), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
+		GameObjManager->CreateEnemy(player, enemyType::PROJECTILE, soundManager, "DCube.obj", "proj" + std::to_string(i), vec3(5, 0, 0), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
 		collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("proj"+ std::to_string(i)));
 		((Turret*)GameObjManager->getGameObject("turr"))->addProjectiles((TurrProjectile*)GameObjManager->getGameObject("proj" + std::to_string(i)));
 	}	
@@ -534,6 +534,7 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/German.wav", 40, "German");
 	soundManager.loadSound("assets/audio/wind1.wav", 0, "Wind");
 	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
+	soundManager.loadSound("assets/audio/sci-fi-gun-shot.wav", 10, "TurrShot");
 	soundManager.setMusicLoop(true);
 
 	soundManager.playSound("Start", player->getPos());
