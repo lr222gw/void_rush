@@ -14,7 +14,8 @@ TurrProjectile::TurrProjectile(ModelObj* file, Graphics*& gfx, Player* player, v
 void TurrProjectile::collidedWithPlayer()
 {
 	if (active) {
-		player->shovePlayer(vec2(1.f, 1.f), 5.f);//just test
+		vec3 shf = (getPos() - player->getPos()).Normalize() * 5;
+		player->shovePlayer(vec2(shf.x, shf.z), 5.f);
 	}
 }
 

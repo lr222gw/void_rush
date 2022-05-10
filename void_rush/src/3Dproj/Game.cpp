@@ -376,7 +376,7 @@ void Game::setUpObject()
 	generationManager->set_player(player);
 
 
-	GameObjManager->CreateEnemy(player, enemyType::TURRET, soundManager, "Turret.obj", "turr", vec3(50, 1, 0));
+	GameObjManager->CreateEnemy(player, enemyType::TURRET, soundManager, "Turret.obj", "turr", vec3(20, 1, 0));
 	const int MaxNrOfProjectiles = 5;
 	for (int i = 0; i < MaxNrOfProjectiles; i++) {
 		GameObjManager->CreateEnemy(player, enemyType::PROJECTILE, soundManager, "DCube.obj", "proj" + std::to_string(i), vec3(5, 0, 0), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
