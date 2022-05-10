@@ -1,7 +1,7 @@
 #include "Game.h"
 
 
-Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam):
+Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam, int seed):
 	GameState(gfx,rm,imguimanager,mouse,keyboard,cam),
 	soundManager(1)//be able to change this later based on settings
 {
@@ -17,7 +17,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	lightNr = 0;
 	puzzleManager = new ProtoPuzzle(gfx, rm, collisionHandler, &soundManager); //TODO: REMOVE COMMENT
 	
-	generationManager = new Generation_manager(gfx, rm, collisionHandler);
+	generationManager = new Generation_manager(gfx, rm, collisionHandler, seed);
 	generationManager->set_PuzzleManager(puzzleManager); //TODO: REMOVE COMMENT
 	generationManager->set_GameObjManager(GameObjManager);
 	
@@ -117,9 +117,11 @@ void Game::renderShadow()
 	}
 }
 
-GameStatesEnum Game::update(float dt)
+GameStateRet Game::update(float dt)
 {
-	GameStatesEnum theReturn = GameStatesEnum::NO_CHANGE;
+	GameStateRet theReturn;
+	theReturn.gameState = GameStatesEnum::NO_CHANGE;
+	theReturn.seed = 0;
 	if (pauseMenu) {
 		pauseUI->update();
 		gfx->Update(dt, camera->getPos());
@@ -131,7 +133,7 @@ GameStatesEnum Game::update(float dt)
 			gfx->getWindosClass().HideCoursor();
 		}
 		if (pauseUI->getButton("menu")->clicked()) {
-			theReturn = GameStatesEnum::TO_MENU;
+			theReturn.gameState = GameStatesEnum::TO_MENU;
 		}
 	}
 	if (player->IsAlive()) {
@@ -263,7 +265,7 @@ GameStatesEnum Game::update(float dt)
 			player->writeScore();
 			player->ResetName();
 			keyboard->onKeyReleased(VK_RETURN);
-			theReturn = GameStatesEnum::TO_MENU;
+			theReturn.gameState = GameStatesEnum::TO_MENU;
 		}
 		else{
 			SetName();
@@ -529,15 +531,30 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Powerup7.wav", 10, "GoldApple");
 	soundManager.loadSound("assets/audio/Freeze1.wav", 10, "Freeze");
 	soundManager.loadSound("assets/audio/Portal1.wav", 10, "Rocket");
-	soundManager.loadSound("assets/audio/Hit.wav", 20, "Hit");
+	soundManager.loadSound("assets/audio/EMP2.wav", 10, "EMP");
+	soundManager.loadSound("assets/audio/Pearl2.wav", 10, "Pearl");
+	soundManager.loadSound("assets/audio/Jump2.wav", 10, "Pad");
+	soundManager.loadSound("assets/audio/Feather1.wav", 10, "Feather");
+	soundManager.loadSound("assets/audio/Potion1.wav", 10, "Potion");
+	soundManager.loadSound("assets/audio/Shield1.wav", 10, "Shield");
+	soundManager.loadSound("assets/audio/Coin1.wav", 10, "Money");
+	soundManager.loadSound("assets/audio/Hit2.wav", 70, "Hit");
 	soundManager.loadSound("assets/audio/German.wav", 40, "German");
 	soundManager.loadSound("assets/audio/wind1.wav", 0, "Wind");
-	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
 	soundManager.loadSound("assets/audio/sci-fi-gun-shot.wav", 10, "TurrShot");
-	soundManager.setMusicLoop(true);
+	soundManager.loadSound("assets/audio/HeartBeat.wav", 30, "HeartBeat");
+	//soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
+	//soundManager.setMusicLoop(true);
+	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicBase");
+	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicChange");
+	soundManager.playSound("MusicBase", player->getPos());
+	soundManager.playSound("MusicChange", player->getPos());
+	soundManager.setLoopSound("MusicBase", true);
+	soundManager.setLoopSound("MusicChange", true);
 
 	soundManager.playSound("Start", player->getPos());
 	soundManager.playSound("Wind", player->getPos());
+
 	soundManager.setLoopSound("Wind", true);
 }
 

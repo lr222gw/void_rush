@@ -8,12 +8,14 @@ public:
 	virtual ~Menu();
 	virtual void handleEvents();//this first
 	virtual void renderShadow();//then this
-	virtual GameStatesEnum update(float dt);//then this
+	virtual GameStateRet update(float dt);//then this
 	virtual void render();		//then this 
 private:
 	void setUpUI();
 	void setUpObject();
 	void checkHover();
+	void getSeedInput();
+	int getSeedInt();
 
 	GameObjectManager* GameObjManager;
 	UIManager* UI;
@@ -23,4 +25,9 @@ private:
 	vec2 buttonSize;
 	std::vector<std::string>buttonNames;
 	std::vector<vec2>buttonPos;
+
+	bool inputSeed;
+	bool SeedClicked;
+	std::string seed;
+	int currentNumber;
 };

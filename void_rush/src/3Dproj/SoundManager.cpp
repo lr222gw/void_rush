@@ -159,6 +159,18 @@ void SoundManager::setSoundPosition(std::string soundName, vec3 position)
 	sounds.find(soundName)->second->sound.setPosition(sf::Vector3(position.x, position.y, position.z));
 }
 
+void SoundManager::setSoundOffset(std::string soundName, sf::Time time)
+{
+	if (!soundManagerActive) {
+		return;
+	}
+	if (sounds.find(soundName) == sounds.end()) {
+		std::cout << "couldn't find sound: " << soundName << std::endl;
+		return;
+	}
+	sounds.find(soundName)->second->sound.setPlayingOffset(time);
+}
+
 void SoundManager::setLoopSound(std::string sound, bool loop)
 {
 	if (!soundManagerActive) {

@@ -87,6 +87,9 @@ public:
 	void SetCurrentSeed(int seed);
 	void getSoundManager(SoundManager& sm);
 	SoundManager* getSm()const;
+
+	void setBpm(float bpm);
+	void setMusicVol(float vol);
 	
 private:
 	friend class ImguiManager;
@@ -108,6 +111,12 @@ private:
 	//For being shoved
 	bool shoved;
 	vec2 shove;
+	bool shoveDelay;
+	float shoveTimer;
+	//Beat
+	float heartBeatTimer;
+	float bpm;
+	float musicVol;
 
 	//Powerups
 	Powerup power_index;

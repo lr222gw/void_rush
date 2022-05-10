@@ -22,9 +22,10 @@ void GameState::renderShadow()
 {
 }
 
-GameStatesEnum GameState::update(float dt)
+GameStateRet GameState::update(float dt)
 {
-	return GameStatesEnum();
+	GameStateRet ret{GameStatesEnum(), 1};
+	return ret;
 }
 
 void GameState::render()
