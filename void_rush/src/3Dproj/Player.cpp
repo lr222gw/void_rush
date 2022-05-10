@@ -723,6 +723,12 @@ void Player::pickedUpPower(Powerup index)
 	{
 		HUD->IncreaseHealth();
 	}
+	if (this->power_index == MONEY)
+	{
+		AddScore(100);
+		//HUD->UpdateScore(100);
+
+	}
 	
 }
 
