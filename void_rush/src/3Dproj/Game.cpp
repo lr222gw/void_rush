@@ -190,6 +190,9 @@ GameStateRet Game::update(float dt)
 	gfx->Update(dt, camera->getPos());
 	HUD->UpdateGhostBar(player->getPos(), generationManager->getPuzzelPos(), ghost->getPos(), distanceFromStartPosToPuzzle);
 	//HUD->UpdateScore(player->GetScore());
+	light[0]->getPos().x = player->getPos().x;
+	light[0]->getPos().y = player->getPos().y;
+	light[0]->getPos().z = player->getPos().z;
 
 #pragma region camera_settings
 
@@ -460,20 +463,20 @@ void Game::setUpObject()
 void Game::setUpLights()
 {
 	//current max number is set in graphics.cpp and transforms.hlsli
-	nrOfLight = 1;
+	nrOfLight = 2;
 	light = new Light * [nrOfLight];
 
 	//create the lights with 
 	//light[0] = new DirLight(vec3(0, 30, 8), vec3(0.1f, -PI / 2, 1.f), 100, 100);
-	light[0] = new PointLight(vec3(3, 25, 5), 20, vec3(1, 1, 1));
+	light[0] = new PointLight(vec3(3, 25, 5), 0.5, vec3(1, 1, 1));
 	//light[1] = new SpotLight(vec3(0, 46, 45), vec3(0, -1.57, 1));
-	//light[1] = new SpotLight(vec3(0, 500, 0), vec3(0, -1.57, 1));
+	light[1] = new SpotLight(vec3(0, 200, 0), vec3(0, -1.57, 1));
 	//light[2] = new SpotLight(vec3(8, 47.f, 0), vec3(0, -1, 1));
 	//light[3] = new SpotLight(vec3(30, 50, 0), vec3(-1, -1, 1));
 
 	//set color for lights (deafault white)
-	light[0]->getColor() = vec3(1, 1, 1);
-	//light[1]->getColor() = vec3(1, 0, 1);
+	light[0]->getColor() = vec3(1, 0, 0);
+	light[1]->getColor() = vec3(0.4, 0.4, 0.8);
 
 	for (int i = 0; i < nrOfLight; i++) {
 		LightVisualizers.push_back(new GameObject(rm->get_Models("Camera.obj"), gfx, light[i]->getPos(), light[i]->getRotation()));
