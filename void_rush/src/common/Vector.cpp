@@ -84,8 +84,8 @@ Vector2 &Vector2::operator-= (const Vector2 &other)
 Vector2 Vector2::operator* (const double &other) const
 {
     Vector2 ret;
-    ret.x = this->x * other;
-    ret.y = this->y * other;
+    ret.x = (float)(this->x * other);
+    ret.y = (float)(this->y * other);
 
     return ret;
 }
