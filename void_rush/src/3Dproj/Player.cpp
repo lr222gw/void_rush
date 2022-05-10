@@ -900,9 +900,9 @@ void Player::TakeDmg(int dmg)
 		sm->playSound("GameOver", getPos());
 	}
 	else if(!scream) {
-		scoreManager.setDamageScore();
 		sm->playSound("Scream", getPos());
 	}
+	scoreManager.setDamageScore();
 	scream = false;
 	this->HUD->LowerHealth();
 }

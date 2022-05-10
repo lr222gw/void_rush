@@ -41,7 +41,8 @@ void HiddenPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
             }
             puzzleObjects.clear();
             std::cout << "Key Picked Up!" << std::endl;
-            this->SpawnDoor(this->GetPosition());
+            vec3 spawnPosition = vec3(puzzlePlatform->getxPos(), puzzlePlatform->getyPos(), puzzlePlatform->getzPos() + (puzzlePlatform->getWidthHeightDepth().z / 2.0f));
+            this->SpawnDoor(spawnPosition);
         }
     }
     else

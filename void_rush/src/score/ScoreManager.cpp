@@ -60,7 +60,13 @@ void ScoreManager::SetScore(float points)
 
 void ScoreManager::AddScore(float points)
 {
-	score += points;
+
+	if (score + points < 0) {
+		score = 0;
+	}
+	else {
+		score += points;
+	}
 	HUD->UpdateScore(score);
 }
 
