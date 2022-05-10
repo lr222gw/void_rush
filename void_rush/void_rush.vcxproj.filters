@@ -441,6 +441,18 @@
     <ClCompile Include="src\3Dproj\Projectile.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\3Dproj\Menu.cpp">
+      <Filter>Void_Rush\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src/3Dproj/Game.cpp">
+      <Filter>Void_Rush\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Turret.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3Dproj\Projectile.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
