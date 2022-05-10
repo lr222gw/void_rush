@@ -1,7 +1,7 @@
 #include "Game.h"
 
 
-Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam):
+Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam, int seed):
 	GameState(gfx,rm,imguimanager,mouse,keyboard,cam),
 	soundManager(1)//be able to change this later based on settings
 {
@@ -15,10 +15,10 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	
 	HUD = new Hud(gfx, rm);
 	lightNr = 0;
-	testPuzzle = new ProtoPuzzle(gfx, rm, collisionHandler, &soundManager); //TODO: REMOVE COMMENT
+	puzzleManager = new ProtoPuzzle(gfx, rm, collisionHandler, &soundManager); //TODO: REMOVE COMMENT
 	
-	generationManager = new Generation_manager(gfx, rm, collisionHandler);
-	generationManager->set_PuzzleManager(testPuzzle); //TODO: REMOVE COMMENT
+	generationManager = new Generation_manager(gfx, rm, collisionHandler, seed);
+	generationManager->set_PuzzleManager(puzzleManager); //TODO: REMOVE COMMENT
 	generationManager->set_GameObjManager(GameObjManager);
 	
 	camera->setRotation(vec3(0, 0, 0));
@@ -29,7 +29,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	/*set ups*/
 	this->setUpObject();
 	this->setUpLights();
-	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, gfx->getClientWH().x, gfx->getClientWH().y);
+	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, (UINT)gfx->getClientWH().x, (UINT)gfx->getClientWH().y);
 	this->setUpParticles();
 	this->setUpSound();
 	this->setUpUI();
@@ -56,7 +56,7 @@ Game::~Game()
 	}
 	
 	delete skybox;
-	delete testPuzzle; //TODO: REMOVE COMMENT
+	delete puzzleManager; //TODO: REMOVE COMMENT
 	delete generationManager;
 	delete HUD;
 	delete UI;
@@ -117,9 +117,11 @@ void Game::renderShadow()
 	}
 }
 
-GameStatesEnum Game::update(float dt)
+GameStateRet Game::update(float dt)
 {
-	GameStatesEnum theReturn = GameStatesEnum::NO_CHANGE;
+	GameStateRet theReturn;
+	theReturn.gameState = GameStatesEnum::NO_CHANGE;
+	theReturn.seed = 0;
 	if (pauseMenu) {
 		pauseUI->update();
 		gfx->Update(dt, camera->getPos());
@@ -131,7 +133,7 @@ GameStatesEnum Game::update(float dt)
 			gfx->getWindosClass().HideCoursor();
 		}
 		if (pauseUI->getButton("menu")->clicked()) {
-			theReturn = GameStatesEnum::TO_MENU;
+			theReturn.gameState = GameStatesEnum::TO_MENU;
 		}
 	}
 	if (player->IsAlive()) {
@@ -246,7 +248,7 @@ GameStatesEnum Game::update(float dt)
 	}
 	
 
-		testPuzzle->UpdatePlayerPosition(this->player->getPos());
+		puzzleManager->UpdatePlayerPosition(this->player->getPos());
 
 		Interact(this->GameObjManager->getAllInteractGameObjects());
 
@@ -258,13 +260,12 @@ GameStatesEnum Game::update(float dt)
 			UI->getStringElement("NameDesc2")->setPosition(vec2(-0.9f, 0.15f));
 			UI->getStringElement("Name")->setPosition(vec2(-0.5f, -0.2f));
 			player->SetSubmitName(true);
-
 		}
 		if (keyboard->isKeyPressed(VK_RETURN)) {
 			player->writeScore();
 			player->ResetName();
 			keyboard->onKeyReleased(VK_RETURN);
-			theReturn = GameStatesEnum::TO_MENU;
+			theReturn.gameState = GameStatesEnum::TO_MENU;
 		}
 		else{
 			SetName();
@@ -340,7 +341,7 @@ void Game::DrawToBuffer()
 	skybox->draw(gfx);
 
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
-	testPuzzle->Update(); 
+	puzzleManager->Update(); 
 	generationManager->draw(); //Todo: ask Simon where to put this...
 	GameObjManager->draw();
 	camera->calcFURVectors();
@@ -370,16 +371,25 @@ void Game::setUpObject()
 {
 	////////OBJECTS///////////
 
-	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f),vec3(0,0,0), vec3(0.2,0.2,0.2));
+	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f),vec3(0,0,0), vec3(0.2f,0.2f,0.2f));
 	player->getSoundManager(soundManager);
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
 
+
+	GameObjManager->CreateEnemy(player, enemyType::TURRET, soundManager, "Turret.obj", "turr", vec3(20, 1, 0));
+	const int MaxNrOfProjectiles = 5;
+	for (int i = 0; i < MaxNrOfProjectiles; i++) {
+		GameObjManager->CreateEnemy(player, enemyType::PROJECTILE, soundManager, "DCube.obj", "proj" + std::to_string(i), vec3(5, 0, 0), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
+		collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("proj"+ std::to_string(i)));
+		((Turret*)GameObjManager->getGameObject("turr"))->addProjectiles((TurrProjectile*)GameObjManager->getGameObject("proj" + std::to_string(i)));
+	}	
+
 	GameObjManager->CreateGameObject("DCube.obj", "cam", vec3(5, -10, 0), vec3(0, 0, 0));
 	GameObjManager->CreateGameObject("DCube.obj", "cubetest", vec3(0, 0, 50), vec3(0, 0, 0));
 
-	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2));
+	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
 	ghost->getSoundManager(soundManager);
 	GameObjManager->addGameObject(ghost, "Ghost");
 	collisionHandler.addEnemies(ghost);
@@ -434,7 +444,6 @@ void Game::setUpObject()
 	collisionHandler.addPowerups(powers.back());
 
 	generationManager->initialize();
-	testPuzzle->Initiate(generationManager->getPuzzelPos()); 
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 	distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
 	setUpPowerups(1, vec3(10, 10, 10));
@@ -455,20 +464,20 @@ void Game::setUpObject()
 void Game::setUpLights()
 {
 	//current max number is set in graphics.cpp and transforms.hlsli
-	nrOfLight = 2;
+	nrOfLight = 1;
 	light = new Light * [nrOfLight];
 
 	//create the lights with 
 	//light[0] = new DirLight(vec3(0, 30, 8), vec3(0.1f, -PI / 2, 1.f), 100, 100);
 	light[0] = new PointLight(vec3(3, 25, 5), 20, vec3(1, 1, 1));
 	//light[1] = new SpotLight(vec3(0, 46, 45), vec3(0, -1.57, 1));
-	light[1] = new SpotLight(vec3(0, 500, 0), vec3(0, -1.57, 1));
+	//light[1] = new SpotLight(vec3(0, 500, 0), vec3(0, -1.57, 1));
 	//light[2] = new SpotLight(vec3(8, 47.f, 0), vec3(0, -1, 1));
 	//light[3] = new SpotLight(vec3(30, 50, 0), vec3(-1, -1, 1));
 
 	//set color for lights (deafault white)
-	light[0]->getColor() = vec3(1, 0, 0);
-	light[1]->getColor() = vec3(1, 0, 1);
+	light[0]->getColor() = vec3(1, 1, 1);
+	//light[1]->getColor() = vec3(1, 0, 1);
 
 	for (int i = 0; i < nrOfLight; i++) {
 		LightVisualizers.push_back(new GameObject(rm->get_Models("Camera.obj"), gfx, light[i]->getPos(), light[i]->getRotation()));
@@ -500,9 +509,9 @@ void Game::setUpUI()
 
 	//pause UI
 	pauseUI = new UIManager(rm, gfx);
-	pauseUI->createUIButton("assets/textures/buttonBack.png", " continue ", mouse, vec2(-0.75, -0.2), vec2(0.5, 0.3), "continue", vec2(0,0.05), vec2(0,0.1));
-	pauseUI->createUIButton("assets/textures/buttonBack.png", " main menu ", mouse, vec2(0.25, -0.2), vec2(0.5, 0.3), "menu", vec2(0, 0.05), vec2(0,0.1));
-	pauseUI->createUIString("Game Menu", vec2(-0.5,0.3), vec2(1/9.f,0.5), "Game Menu");
+	pauseUI->createUIButton("assets/textures/buttonBack.png", " continue ", mouse, vec2(-0.75f, -0.2f), vec2(0.5f, 0.3f), "continue", vec2(0,0.05f), vec2(0,0.1f));
+	pauseUI->createUIButton("assets/textures/buttonBack.png", " main menu ", mouse, vec2(0.25f, -0.2f), vec2(0.5f, 0.3f), "menu", vec2(0, 0.05f), vec2(0,0.1f));
+	pauseUI->createUIString("Game Menu", vec2(-0.5f,0.3f), vec2(1/9.f,0.5f), "Game Menu");
 }
 
 void Game::setUpSound()
@@ -522,14 +531,30 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Powerup7.wav", 10, "GoldApple");
 	soundManager.loadSound("assets/audio/Freeze1.wav", 10, "Freeze");
 	soundManager.loadSound("assets/audio/Portal1.wav", 10, "Rocket");
-	soundManager.loadSound("assets/audio/Hit.wav", 20, "Hit");
+	soundManager.loadSound("assets/audio/EMP2.wav", 10, "EMP");
+	soundManager.loadSound("assets/audio/Pearl2.wav", 10, "Pearl");
+	soundManager.loadSound("assets/audio/Jump2.wav", 10, "Pad");
+	soundManager.loadSound("assets/audio/Feather1.wav", 10, "Feather");
+	soundManager.loadSound("assets/audio/Potion1.wav", 10, "Potion");
+	soundManager.loadSound("assets/audio/Shield1.wav", 10, "Shield");
+	soundManager.loadSound("assets/audio/Coin1.wav", 10, "Money");
+	soundManager.loadSound("assets/audio/Hit2.wav", 70, "Hit");
 	soundManager.loadSound("assets/audio/German.wav", 40, "German");
-	soundManager.loadSound("assets/audio/Wind1.wav", 0, "Wind");
-	soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
-	soundManager.setMusicLoop(true);
+	soundManager.loadSound("assets/audio/wind1.wav", 0, "Wind");
+	soundManager.loadSound("assets/audio/sci-fi-gun-shot.wav", 10, "TurrShot");
+	soundManager.loadSound("assets/audio/HeartBeat.wav", 30, "HeartBeat");
+	//soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
+	//soundManager.setMusicLoop(true);
+	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicBase");
+	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicChange");
+	soundManager.playSound("MusicBase", player->getPos());
+	soundManager.playSound("MusicChange", player->getPos());
+	soundManager.setLoopSound("MusicBase", true);
+	soundManager.setLoopSound("MusicChange", true);
 
 	soundManager.playSound("Start", player->getPos());
 	soundManager.playSound("Wind", player->getPos());
+
 	soundManager.setLoopSound("Wind", true);
 }
 
@@ -828,12 +853,13 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 	{
 		testTime = 1.0f;
 		//TODO: REMOVE COMMENT
-		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
-		if (testPuzzle->isCompleted())
+		puzzleManager->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
+		if (puzzleManager->isCompleted())
 		{
 			//player->setPos(vec3(0.0f, 0.0f, 0.0f));
 			player->Reset(true);
 			generationManager->initialize();
+			soundManager.playSound("Portal", player->getPos());
 		}
 	}
 }

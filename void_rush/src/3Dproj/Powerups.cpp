@@ -76,14 +76,17 @@ void Powerups::UsePowerUp(float dt)
 	else if (player->getPlayerPower() == PEARL)
 	{
 		////ADD HERE WHAT PEARL DOES WHEN ACTIVATED////
+		//player->getSm()->playSound("Pearl", player->getPos());
 	}
 	else if (player->getPlayerPower() == EMP)
 	{
 		////ADD HERE WHAT PEARL DOES WHEN ACTIVATED////
+		//player->getSm()->playSound("EMP", player->getPos());
 	}
 	else if (player->getPlayerPower() == PAD)
 	{
 		////ADD HERE WHAT TRAMPOLINE DOES WHEN ACTIVATED////
+		//player->getSm()->playSound("Pad", player->getPos());
 	}
 	if (player->getPlayerPower() == FEATHER || featherActive == true)
 	{
@@ -105,14 +108,17 @@ void Powerups::UsePowerUp(float dt)
 	else if (player->getPlayerPower() == POTION)
 	{
 		////ADD HERE WHAT POTION DOES WHEN ACTIVATED////
+		//player->getSm()->playSound("Potion", player->getPos());
 	}
 	else if (player->getPlayerPower() == SHIELD)
 	{
 		////ADD HERE WHAT SHEILD DOES WHEN ACTIVATED////
+		//player->getSm()->playSound("Shield", player->getPos());
 	}
 	else if (player->getPlayerPower() == MONEY)
 	{
 		////ADD HERE WHAT MONEY DOES WHEN ACTIVATED////
+		//player->getSm()->playSound("Money", player->getPos());
 	}
 }
 

@@ -84,6 +84,10 @@ void CollisionHandler::update()
 	//check player with Custom platforms (Pussels and other(?) handmade)
 	bool done = false;
 	
+	//Fall box
+	DirectX::XMFLOAT4 bb[2];
+	ColCube obj;
+
 	for (size_t i = 0; i < Custom_platforms.size(); i++) {
 		if (!done && collision3D(player->getPlayerObjPointer(), Custom_platforms[i], true, false))
 		{
@@ -95,6 +99,15 @@ void CollisionHandler::update()
 			}
 		}
 		collisionWithBlocking(Custom_platforms[i], player);
+
+
+		//Player scream / fallbox check
+		Custom_platforms[i]->getBoundingBox(bb);
+		obj.highPoint = vec3(bb[1].x, bb[1].y, bb[1].z);
+		obj.lowPoint = vec3(bb[0].x, bb[0].y, bb[0].z);
+		if (collision3D(player->getFallCube(), obj)) {
+			player->ResetFallBoxTimer();
+		}
 	}
 
 	//Check player with generated platforms	
@@ -132,7 +145,17 @@ void CollisionHandler::update()
 			}
 
 			collisionWithBlocking(min_max_bounds, player);
+
+			//Player scream / fallbox check
+			obj.highPoint = Generated_Platforms[i]->bounding_boxes[j].first;
+			obj.lowPoint = Generated_Platforms[i]->bounding_boxes[j].second;
+			if (collision3D(player->getFallCube(), obj)) {
+				player->ResetFallBoxTimer();
+			}
+
 		}
+
+		
 	}
 	if (!done)
 	{

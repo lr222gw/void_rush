@@ -39,7 +39,10 @@ App::~App()
 
 void App::run()
 {
-	GameStatesEnum theHandle = GameStatesEnum::NO_CHANGE;
+	GameStateRet theHandle;
+	theHandle.gameState = GameStatesEnum::NO_CHANGE;
+	theHandle.seed = 0;
+
 	while (msg.message != WM_QUIT && gfx->getWindosClass().ProcessMessages() && !quit)
 	{
 		if (dt.dt() > 0.2f) {
@@ -74,7 +77,9 @@ void App::run()
 		gfx->RsetViewPort();
 		
 
-		theHandle = gamestate->update(dt.dt());
+		theHandle = gamestate->update((float)dt.dt());
+
+		
 
 		gamestate->render();
 
@@ -103,9 +108,9 @@ void App::set_initial_gamestate(GameStatesEnum gameStateType)
 	}
 }
 
-void App::handleGamestateChanges(GameStatesEnum handle)
+void App::handleGamestateChanges(GameStateRet handle)
 {
-	switch (handle) {
+	switch (handle.gameState) {
 	case GameStatesEnum::QUIT:
 		quit = true;
 		break;
@@ -115,7 +120,7 @@ void App::handleGamestateChanges(GameStatesEnum handle)
 		//delete current gamestate
 		delete gamestate;
 		//set gamestate to Game
-		gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
+		gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera, handle.seed);
 		break;
 	case GameStatesEnum::TO_MENU:
 		mouse->activateMouse(true);

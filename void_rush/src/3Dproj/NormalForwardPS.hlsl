@@ -18,7 +18,6 @@ cbuffer CBuf
 };
 
 Texture2D diffuseTex : register(t0); // diffuse base color
-//Texture2D nMap : register(t1); // normal map
 Texture2DArray<float4> shadowMapping : register(t1);
 SamplerState testSampler;
 
