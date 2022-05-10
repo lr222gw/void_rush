@@ -6,7 +6,7 @@ int Shape::index_incrementor = 0;
 
 Shape::Shape():scale(shape_conf.default_scale), shapeRadius(0.f) {
     //static int index_incrementor = 0;
-    this->index = index_incrementor++;    
+    this->index = ++index_incrementor;
 }
 
 Shape::~Shape() {
@@ -74,6 +74,7 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
     static vec3 origo(0.f,0.f,0.f);
     if(center.x == origo.x && center.z == origo.z){ //The offset in y-axis might differ, thus we dont check it.
         all_previousVoxels.clear();
+        this->index = 0;
         Shape::index_incrementor = 0;
     }
 
@@ -227,7 +228,7 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
         c++;
     }
 
-    if (extra_iterations_counter > nrOfVoxels) {
+    /*if (extra_iterations_counter > nrOfVoxels) {
         std::cout << "Extra Iterations: " << extra_iterations_counter - nrOfVoxels << " \n";
     }
     std::cout << "nrOfVoxels: " << nrOfVoxels << " \n";
@@ -238,7 +239,7 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
         }
         std::cout << " \n";
 
-    }
+    }*/
     
 
 
@@ -262,7 +263,7 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
         //setShapeCube(center);
         for (Center_Index_Pair voxel : this->previousVoxels) {
             if(!voxel.is_illegal){
-            this->setShapeCube(voxel.current_center);
+                this->setShapeCube(voxel.current_center);
             }
         }
 
@@ -283,8 +284,6 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
         this->inCorner.pos = inOut.pos_close;
         this->outCorner.pos = inOut.pos_far;
     }
-    
-    
 
 }
 
@@ -322,17 +321,6 @@ void Shape::setShapeCube(vec3 center)
         sides->planes.push_back(new YZ_plane(temp_planes[5]));
     }
 
-
-    auto high = temp_planes[0]->point2;    
-    auto low = temp_planes[0]->point4;
-    low.y = low.y - this->scale.y * 2;
-
-    vec3_pair min_max{low,high};
-     
-    bounding_boxes.push_back(min_max);
-
-    
-
 }
 
 void Shape::buildShape()
@@ -343,6 +331,7 @@ void Shape::buildShape()
             this->setShapeCube(voxel.current_center);
         //}
     }
+    this->updateBoundingBoxes();
 }
 
 void Shape::updateBoundingBoxes()
@@ -350,7 +339,13 @@ void Shape::updateBoundingBoxes()
     bounding_boxes.clear();
     for(Plane* plane : planes){
         if(plane->normal == vec3(0,1,0)){
-            bounding_boxes.push_back(vec3_pair({plane->point4, plane->point2}));
+            auto high = plane->point2;
+            auto low = plane->point4;
+            low.y = low.y - this->scale.y * 2;
+
+            vec3_pair min_max{ low,high };
+
+            bounding_boxes.push_back(min_max);
         }
     }
 }
