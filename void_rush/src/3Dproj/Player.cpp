@@ -18,6 +18,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->shoved = false;
 
 	this->power_index = EMPTY;
+	this->canDoublejump = false;
 
 	GOPTR = static_cast<GameObject*>(this);
 	setWeight(20);
@@ -51,7 +52,6 @@ Player::~Player()
 void Player::update(float dt)
 {
 	handleEvents(dt);
-
 	if (!noClip) {
 		scoreManager.Update(dt);
 		if (!grounded)
@@ -281,7 +281,6 @@ void Player::handleEvents(float dt)
 			cam->calcFURVectors();
 			jumpDir = jumpDir + vec2(cam->getRightVector().x, cam->getRightVector().z);
 		}
-
 		if (this->startingJumpDir.legth() == 0.0f)
 		{
 			cam->calcFURVectors();
@@ -459,7 +458,7 @@ void Player::handleEvents(float dt)
 			jumpDir = vec2(0.0f, 0.0f);
 		}
 	}
-	if (keyboard->isKeyPressed(VK_SPACE) && grounded) {
+	if ((keyboard->isKeyPressed(VK_SPACE) && (grounded || canDoublejump))) {
 		if(!noClip){
 			grounded = false;
 			groundedTimer = 0.001f;
@@ -468,10 +467,15 @@ void Player::handleEvents(float dt)
 			{
 				startingJumpDir.Normalize();
 			}
-			
 			if (velocity.y > 0.0f)
 			{
-				velocity.y += jumpForce;
+				velocity.y = jumpForce;
+
+				if (canDoublejump == true)	//For doublejump powerup
+				{
+					this->canDoublejump = false;
+					this->HUD->TurnOffPassive(FEATHER_P);
+				}
 			}
 			else
 			{
@@ -599,6 +603,11 @@ float Player::getSpeed()
 	return this->speed.x;
 }
 
+bool Player::isGrounded()
+{
+	return this->grounded;
+}
+
 float Player::getGroundedTimer()
 {
 	return this->groundedTimer;
@@ -705,8 +714,29 @@ Powerup Player::getPlayerPower()
 void Player::setPlayerPower(Powerup index)
 {
 	this->power_index = index;
+	this->HUD->ChangeCurrentPowerUp(index);
 }
 
+void Player::setCanDoubleJump()
+{
+	if (canDoublejump == false)
+	{
+		canDoublejump = true;
+	}
+}
+
+void Player::unsetDoublejump()
+{
+	if (canDoublejump == true)
+	{
+		canDoublejump = false;
+	}
+}
+
+bool Player::canDoubleJump()
+{
+	return this->canDoublejump;
+}
 
 //void Player::SetPuzzlePos(vec3 puzzlePosition)
 void Player::SetDifficulity(Difficulity diff)

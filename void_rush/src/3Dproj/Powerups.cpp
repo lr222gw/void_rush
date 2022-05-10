@@ -1,10 +1,14 @@
 #include "Powerups.h"
 
-Powerups::Powerups(ModelObj* file, Graphics*& gfx, Player* player, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale, Powerup pow)
+Powerups::Powerups(ModelObj* file, Graphics*& gfx, Player* player, Ghost* ghost, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale, Powerup pow)
 	: GameObject(file, gfx, pos, rot, scale), power_index(pow)
 {
 	this->player = player;
 	this->keyboard = keyboard;
+	this->ghostFrozenTimer = 0.0f;
+	this->ghost = ghost;
+	this->featherActive = false;
+	this->featherTimer = 0.0f;
 }
 
 Powerups::~Powerups()
@@ -13,11 +17,11 @@ Powerups::~Powerups()
 
 void Powerups::update(float dt)
 {
-	UsePowerUp();
+	UsePowerUp(dt);
 	
 }
 
-void Powerups::UsePowerUp()
+void Powerups::UsePowerUp(float dt)
 {
 	if (getPowerUpIndex() == EMPTY)
 	{
@@ -47,13 +51,26 @@ void Powerups::UsePowerUp()
 	{
 		////ADD HERE WHAT CARD DOES WHEN ACTIVATED////
 	}
-	else if (player->getPlayerPower() == FREEZE)
+	if (player->getPlayerPower() == FREEZE || ghost->isFrozen())
 	{
-		if (this->keyboard->isKeyPressed('E'))
+		if (this->keyboard->isKeyPressed('E') && !ghost->isFrozen())
 		{
 			////ADD HERE WHAT FREEZE DOES WHEN ACTIVATED////
 			player->getSm()->playSound("Freeze", player->getPos());
-			std::cout << "Has Freeze" << std::endl;
+			ghostFrozenTimer = 0.1f;
+			ghost->freezeGhost();
+			player->setPlayerPower(EMPTY);
+			std::cout << "Frozen: " << std::endl;
+		}
+		if (ghostFrozenTimer >= 10.0f)
+		{
+			ghost->freezeGhost();
+			ghostFrozenTimer = 0.0f;
+			std::cout << "unfrozen" << std::endl;
+		}
+		if (ghostFrozenTimer != 0.0f)
+		{
+			ghostFrozenTimer += dt;
 		}
 	}
 	else if (player->getPlayerPower() == PEARL)
@@ -68,9 +85,22 @@ void Powerups::UsePowerUp()
 	{
 		////ADD HERE WHAT TRAMPOLINE DOES WHEN ACTIVATED////
 	}
-	else if (player->getPlayerPower() == FEATHER)
+	if (player->getPlayerPower() == FEATHER || featherActive == true)
 	{
 		////ADD HERE WHAT FEATHER DOES WHEN ACTIVATED////
+		if (this->featherActive == false)
+		{
+			player->setPlayerPower(EMPTY);
+		}
+		this->featherActive = true;
+		if (keyboard->onceisKeyReleased(VK_SPACE) && !player->isGrounded())
+		{
+			player->setCanDoubleJump();
+			
+			this->featherActive = false;
+
+		}
+		
 	}
 	else if (player->getPlayerPower() == POTION)
 	{
