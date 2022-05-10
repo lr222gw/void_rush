@@ -5,6 +5,26 @@ HiddenPuzzle::HiddenPuzzle(int seed,Graphics*& gfx, ResourceManager*& rm, Collis
     
 }
 
+void HiddenPuzzle::randomizeValue(float &value, float &value2)
+{
+    float val, val2;
+    val = (float)(rand() % ((int)puzzlePlatform->getWidthHeightDepth().x - 2));
+    val2 = (float)(rand() % ((int)puzzlePlatform->getWidthHeightDepth().z - 2));
+
+    if (val > ((puzzlePlatform->getWidthHeightDepth().x / 2.0f) - 2.0f))
+    {
+        val = -val + ((puzzlePlatform->getWidthHeightDepth().x / 2.0f));
+    }
+
+    if (val2 > ((puzzlePlatform->getWidthHeightDepth().z / 2.0f) - 2.0f))
+    {
+        val2 = -val2 + ((puzzlePlatform->getWidthHeightDepth().z / 2.0f));
+    }
+
+    value = val;
+    value2 = val2;
+}
+
 void HiddenPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
 {
     //Check if left click is pressed while player is close enough and looking at the hitbox of the key.
@@ -17,7 +37,6 @@ void HiddenPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
         {
             soundManager->playSound("Correct", midPos);
             for (size_t i = 0; i < puzzleObjects.size(); i++) {
-                this->GetColHandler()->deletePlatform(puzzleObjects[i]);
                 delete puzzleObjects[i];
             }
             puzzleObjects.clear();
@@ -38,23 +57,45 @@ void HiddenPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 pos
     //Based on the size of the platform, place out the key in a valid position where the key can be reached by the player.
     puzzlePlatform = new GameObject(rm->get_Models("BasePlatformTexture.obj", gfx), gfx, position, vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
     float x, z;
-    x = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().x - 5);
-    z = (float)(rand() % (int)puzzlePlatform->getWidthHeightDepth().z - 5);
+    x = (float)(rand() % ((int)puzzlePlatform->getWidthHeightDepth().x - 1));
+    z = (float)(rand() % ((int)puzzlePlatform->getWidthHeightDepth().z - 1));
 
-    if (x > (puzzlePlatform->getWidthHeightDepth().x / 2.0f))
+    if (x > ((puzzlePlatform->getWidthHeightDepth().x / 2.0f) - 1.0f))
     {
-        x = x - (puzzlePlatform->getWidthHeightDepth().x - 5.0f);
+        x = -x + ((puzzlePlatform->getWidthHeightDepth().x / 2.0f));
     }
 
-    if (z > (puzzlePlatform->getWidthHeightDepth().z / 2.0f))
+    if (z > ((puzzlePlatform->getWidthHeightDepth().z / 2.0f) - 1.0f))
     {
-        z = z - (puzzlePlatform->getWidthHeightDepth().z - 5.0f);
+        z = -z + ((puzzlePlatform->getWidthHeightDepth().z / 2.0f));
     }
 
-    puzzleObjects.push_back(new GameObject(rm->get_Models("Key.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(x, x / 2, z), vec3(0.2f, 0.2f, 0.2f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("Key.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0, 0, -0.5f), vec3(0.2f, 0.2f, 0.2f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BigBush.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x + 0.7f, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z + 0.4f), vec3(0, 0, 0), vec3(0.3f, 0.3f, 0.3f)));
+    randomizeValue(x, z);
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BigBush.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0, 0, 0), vec3(0.3f, 0.3f, 0.3f)));
+    randomizeValue(x, z);
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BigBush.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0, 0, 0), vec3(0.3f, 0.3f, 0.3f)));
+    randomizeValue(x, z);
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BigBush.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0, 0, 0), vec3(0.3f, 0.3f, 0.3f)));
+    randomizeValue(x, z);
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BigBush.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0, 0, 0), vec3(0.3f, 0.3f, 0.3f)));
+    randomizeValue(x, z);
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BigBush.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0, 0, 0), vec3(0.3f, 0.3f, 0.3f)));
+    randomizeValue(x, z);
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BigBush.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0, 0, 0), vec3(0.3f, 0.3f, 0.3f)));
+    randomizeValue(x, z);
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BigBush.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0, 0, 0), vec3(0.3f, 0.3f, 0.3f)));
+    randomizeValue(x, z);
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BigBush.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0, 0, 0), vec3(0.3f, 0.3f, 0.3f)));
+    randomizeValue(x, z);
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BigBush.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0, 0, 0), vec3(0.3f, 0.3f, 0.3f)));
+    randomizeValue(x, z);
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BigBush.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0, 0, 0), vec3(0.3f, 0.3f, 0.3f)));
+    randomizeValue(x, z);
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BigBush.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0, 0, 0), vec3(0.3f, 0.3f, 0.3f)));
 
     this->GetColHandler()->addPlatform(puzzlePlatform);
-    this->GetColHandler()->addPlatform(puzzleObjects[0]);
 }
 
 void HiddenPuzzle::Update(Graphics*& gfx)

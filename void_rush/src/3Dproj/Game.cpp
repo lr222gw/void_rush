@@ -15,10 +15,10 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	
 	HUD = new Hud(gfx, rm);
 	lightNr = 0;
-	testPuzzle = new ProtoPuzzle(gfx, rm, collisionHandler, &soundManager); //TODO: REMOVE COMMENT
+	puzzleManager = new ProtoPuzzle(gfx, rm, collisionHandler, &soundManager); //TODO: REMOVE COMMENT
 	
 	generationManager = new Generation_manager(gfx, rm, collisionHandler);
-	generationManager->set_PuzzleManager(testPuzzle); //TODO: REMOVE COMMENT
+	generationManager->set_PuzzleManager(puzzleManager); //TODO: REMOVE COMMENT
 	generationManager->set_GameObjManager(GameObjManager);
 	
 	camera->setRotation(vec3(0, 0, 0));
@@ -56,7 +56,7 @@ Game::~Game()
 	}
 	
 	delete skybox;
-	delete testPuzzle; //TODO: REMOVE COMMENT
+	delete puzzleManager; //TODO: REMOVE COMMENT
 	delete generationManager;
 	delete HUD;
 	delete UI;
@@ -246,7 +246,7 @@ GameStatesEnum Game::update(float dt)
 	}
 	
 
-		testPuzzle->UpdatePlayerPosition(this->player->getPos());
+		puzzleManager->UpdatePlayerPosition(this->player->getPos());
 
 		Interact(this->GameObjManager->getAllInteractGameObjects());
 
@@ -340,7 +340,7 @@ void Game::DrawToBuffer()
 	skybox->draw(gfx);
 
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
-	testPuzzle->Update(); 
+	puzzleManager->Update(); 
 	generationManager->draw(); //Todo: ask Simon where to put this...
 	GameObjManager->draw();
 	camera->calcFURVectors();
@@ -434,7 +434,6 @@ void Game::setUpObject()
 	collisionHandler.addPowerups(powers.back());
 
 	generationManager->initialize();
-	testPuzzle->Initiate(generationManager->getPuzzelPos()); 
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 	distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
 	setUpPowerups(1, vec3(10, 10, 10));
@@ -827,8 +826,8 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 	{
 		testTime = 1.0f;
 		//TODO: REMOVE COMMENT
-		testPuzzle->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
-		if (testPuzzle->isCompleted())
+		puzzleManager->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
+		if (puzzleManager->isCompleted())
 		{
 			//player->setPos(vec3(0.0f, 0.0f, 0.0f));
 			player->Reset(true);
