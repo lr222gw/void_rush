@@ -84,7 +84,8 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
     
     int max = shape_conf.maxNrOfVoxels;
     int min = shape_conf.minNrOfVoxels;
-    int max_padding = std::clamp((int)(distanceToEnd+1) + shape_conf.max_clamp_padding, 0, (int)(distanceToEnd+1) + shape_conf.max_clamp_padding);
+    
+    int max_padding = std::clamp((int)(distanceToEnd+1) + shape_conf.max_clamp_padding, min, (int)std::fmaxf(min, (distanceToEnd + 1) + shape_conf.max_clamp_padding));
    
     int nrOfVoxels = rand() % (max - min ) + min; // random Number Of Voxels    
 

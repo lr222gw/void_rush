@@ -340,7 +340,10 @@ void Position_generator::removeOverlappingPlatformVoxels()
                         (anchors[i]->platformShape.previousVoxels[A_voxel].current_center -
                             jumpPoints[j]->platformShape.previousVoxels[J_voxel].current_center).length();
 
-                    if(lengthBetweenVoxels < platform_voxlel_marigin){
+                    float heightDiff = std::fabsf(anchors[i]->platformShape.previousVoxels[A_voxel].current_center.y - jumpPoints[j]->platformShape.previousVoxels[J_voxel].current_center.y);
+                    float stackHeight = anchors[i]->platformShape.scale.y + jumpPoints[j]->platformShape.scale.y;
+
+                    if(lengthBetweenVoxels < platform_voxlel_marigin && heightDiff < stackHeight){
                         //remove this jumppoint_voxel
                         auto iterator = jumpPoints[j]->platformShape.previousVoxels.begin() + J_voxel;
                         jumpPoints[j]->platformShape.previousVoxels.erase(iterator);
@@ -367,7 +370,10 @@ void Position_generator::removeOverlappingPlatformVoxels()
                         (jumpPoints[i]->platformShape.previousVoxels[A_voxel].current_center -
                             jumpPoints[j]->platformShape.previousVoxels[J_voxel].current_center).length();
 
-                    if (lengthBetweenVoxels < platform_voxlel_marigin) {
+                    float heightDiff = std::fabsf(jumpPoints[i]->platformShape.previousVoxels[A_voxel].current_center.y - jumpPoints[j]->platformShape.previousVoxels[J_voxel].current_center.y);
+                    float stackHeight = jumpPoints[i]->platformShape.scale.y + jumpPoints[j]->platformShape.scale.y;
+
+                    if (lengthBetweenVoxels < platform_voxlel_marigin && heightDiff < stackHeight) {
                         //remove this jumppoint_voxel
                         auto iterator = jumpPoints[j]->platformShape.previousVoxels.begin() + J_voxel;
                         jumpPoints[j]->platformShape.previousVoxels.erase(iterator);
