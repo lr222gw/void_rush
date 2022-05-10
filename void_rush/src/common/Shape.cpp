@@ -78,7 +78,7 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
         Shape::index_incrementor = 0;
     }
 
-    int first_index = (matrixSize * matrixSize / 2.5f);
+    int first_index = (int)(matrixSize * matrixSize / 2.5f);
     //Sets middle (first ) to true
     busyMatrix[first_index / matrixSize][first_index % matrixSize] = Center_busy_pair{center, true, 0};
 
@@ -86,7 +86,7 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
     int max = shape_conf.maxNrOfVoxels;
     int min = shape_conf.minNrOfVoxels;
     
-    int max_padding = std::clamp((int)(distanceToEnd+1) + shape_conf.max_clamp_padding, min, (int)std::fmaxf(min, (distanceToEnd + 1) + shape_conf.max_clamp_padding));
+    int max_padding = std::clamp((int)(distanceToEnd+1) + shape_conf.max_clamp_padding, min, (int)std::fmaxf((float)min, (distanceToEnd + 1) + shape_conf.max_clamp_padding));
    
     int nrOfVoxels = rand() % (max - min ) + min; // random Number Of Voxels    
 

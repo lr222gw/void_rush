@@ -1,4 +1,5 @@
 #include "Generation_manager.hpp"
+#include "3Dproj/flags.h"
 
 Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, CollisionHandler& collisionHandler, int seed)
 	: gfx(_gfx), rm(_rm), seed(seed), difficulity(Difficulity::easy), player(nullptr), puzzleManager(nullptr), gameObjManager(nullptr)
@@ -10,6 +11,7 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, C
     position_gen->setNrOfElements(3);
     
     this->collisionHandler = &collisionHandler;
+    startSeed = -1;
     if (this->seed == -1) {
         this->seed = (int)time(0);
     }
@@ -84,14 +86,27 @@ void Generation_manager::initialize()
     platformObjs.clear();
     position_gen->reset_generation(this->player->getPos());
     
+     
+    
     this->player_jump_checker->set_physics_params(
         player->getJumpForce(),
         player->getSpeed(),
         //5.f,
         player->getGravity());
 
-    position_gen->set_seed(this->seed);
-    position_gen->start(difficulity);    
+ 
+    if (startSeed == -1) {
+        startSeed = seed;
+        this->player->SetCurrentSeed(this->seed);
+    }
+    if (DEVMODE_ || DEBUGMODE) {
+        position_gen->set_seed(this->seed);
+    }
+    else {
+        position_gen->set_seed(this->seed++);
+    }
+    
+    position_gen->start(difficulity);
     
     place_anchorPoints();  
     place_jumpPoints();  
@@ -99,7 +114,6 @@ void Generation_manager::initialize()
     puzzleManager->Initiate(this->getPuzzelPos());  
     this->player->SetDifficulity(this->difficulity);
     this->player->SetStartPlatform(this->GetStartPlatform());
-    this->player->SetCurrentSeed(this->seed);
 }
 
 
@@ -320,7 +334,7 @@ void Generation_manager::generateGraph()
     float abs_Y = 0;
     Player_jump_checker p;
     std::vector<Platform*>* platforms = this->position_gen->getAnchors();
-    int platforms_size = platforms->size();
+    int platforms_size = (int)(platforms->size());
     for (int i = 0; i < platforms_size; i++)
     {
 
@@ -360,6 +374,11 @@ void Generation_manager::generateGraph()
 
     out.close();
     output_stream.close();
+}
+
+int Generation_manager::getStartSeed() const
+{
+    return startSeed;
 }
 
 PlatformObj::PlatformObj(ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale)

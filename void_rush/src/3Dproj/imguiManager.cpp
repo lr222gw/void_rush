@@ -27,6 +27,9 @@ void ImguiManager::takeLight(Light* light)
 
 void ImguiManager::updateRender()
 {
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -74,7 +77,9 @@ void ImguiManager::update_lights(int lightNr)
 
 void ImguiManager::render_generation_widgets()
 {
-		
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	static std::string name = "Generation";
 	if (ImGui::Begin(name.c_str())) {
 		
@@ -256,6 +261,9 @@ void ImguiManager::render_generation_widgets()
 
 void ImguiManager::render_ghost_widgets()
 {
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	std::string name = "Ghost";
 	if (ImGui::Begin(name.c_str())) {
 		
@@ -286,6 +294,9 @@ void ImguiManager::render_ghost_widgets()
 
 void ImguiManager::render_physics_widgets()
 {
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	static std::string name = "Physics";
 	if (ImGui::Begin(name.c_str())) {
 		//owner->player->speed
@@ -312,6 +323,9 @@ void ImguiManager::render_physics_widgets()
 
 void ImguiManager::render_debuginfo_widgets()
 {
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	if (ImGui::Begin("Debuginfo")) {
 
 		static auto cur_time = ImGui::GetTime();
@@ -327,9 +341,9 @@ void ImguiManager::render_debuginfo_widgets()
 		cur_time = ImGui::GetTime() ;
 		if ((prev_time + update_interval) < (cur_time)) {
 			fps = -(frame_count - (float)ImGui::GetFrameCount()) / update_interval;
-			frame_count = (float)ImGui::GetFrameCount() ;
-			past_time = cur_time - time_offset;
-			average_fps = frame_count /(past_time == 0 ? 1 : past_time);
+			frame_count = ImGui::GetFrameCount() ;
+			past_time = (int)(cur_time - time_offset);
+			average_fps = (float)(frame_count /(past_time == 0 ? 1 : past_time));
 			prev_time = cur_time;
 		}
 
@@ -346,7 +360,9 @@ void ImguiManager::render_debuginfo_widgets()
 
 void ImguiManager::render_player_widgets()
 {
-	
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	std::string name = "Player";
 	if (ImGui::Begin(name.c_str())) {
 		static bool player_invincible = false;

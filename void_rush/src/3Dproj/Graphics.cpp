@@ -104,7 +104,7 @@ Graphics::Graphics(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	windowClass.Initialize(hInstance, "a", "a", WIDTH, HEIGHT);
 	
 	ImGui_ImplWin32_Init(windowClass.getRenderWindow().getHandle());
-	if (!SetupD3D11(this->getClientWH().x, this->getClientWH().y, windowClass.getRenderWindow().getHandle(), device, immediateContext, swapChain, renderTarget, dsTexture, dsView, viewPort, pRS))
+	if (!SetupD3D11((UINT)this->getClientWH().x, (UINT)this->getClientWH().y, windowClass.getRenderWindow().getHandle(), device, immediateContext, swapChain, renderTarget, dsTexture, dsView, viewPort, pRS))
 	{
 		//std::cerr << "cant set up" << std::endl;
 		delete this;
@@ -251,7 +251,7 @@ void Graphics::Update(float dt, vec3 camPos)
 	a++;
 	if (nextFpsUpdate >= 0.5f) {
 		nextFpsUpdate = 0;
-		float fps = a * 2;
+		float fps = (float)(a * 2);
 		a = 0;
 		SetWindowTextA(windowClass.getRenderWindow().getHandle(), std::to_string(fps).c_str());
 	}
@@ -342,7 +342,7 @@ vec2 Graphics::getClientWH()
 		width = rect.right - rect.left;
 		height = rect.bottom - rect.top;
 	}
-	return vec2(width, height);
+	return vec2((float)width, (float)height);
 }
 
 void Graphics::setTransparant(bool transparance)
@@ -362,7 +362,7 @@ void Graphics::takeLight(Light** light, int nrOfLights)
 	/*set constant buffer*/
 	for (int i = 0; i < nrOfLights; i++) {
 		LCBG.lightView.element[i] = this->light[i]->getLightViewProj();
-		LCBG.lightPos.element[i][3] = light[i]->getType();
+		LCBG.lightPos.element[i][3] = (float)light[i]->getType();
 		LCBG.lightColor.element[i][3] = light[i]->getFallOff();
 	}
 }
