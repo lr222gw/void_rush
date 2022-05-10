@@ -90,7 +90,6 @@ void Powerups::UsePowerUp(float dt)
 	}
 	if (player->getPlayerPower() == FEATHER || featherActive == true)
 	{
-		////ADD HERE WHAT FEATHER DOES WHEN ACTIVATED////
 		if (this->featherActive == false)
 		{
 			player->setPlayerPower(EMPTY);
@@ -101,9 +100,7 @@ void Powerups::UsePowerUp(float dt)
 			player->setCanDoubleJump();
 			
 			this->featherActive = false;
-
 		}
-		
 	}
 	else if (player->getPlayerPower() == POTION)
 	{
