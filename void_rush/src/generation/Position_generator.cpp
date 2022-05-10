@@ -335,7 +335,8 @@ void Position_generator::removeOverlappingPlatformVoxels()
 
                 float length = (*anchors[i]->getPos()-*jumpPoints[j]->getPos()).length();
                 
-                float cullingDist = anchors[i]->platformShape.scale.length() * anchors[i]->platformShape.previousVoxels.size();
+                float cullingDist = anchors[i]->platformShape.scale.length() * 2 * anchors[i]->platformShape.previousVoxels.size() +
+                                    jumpPoints[j]->platformShape.scale.length() * 2 * jumpPoints[j]->platformShape.previousVoxels.size();
 
                 for (int J_voxel = 0; J_voxel < jumpPoints[j]->platformShape.previousVoxels.size() && length < cullingDist; J_voxel++) {
 
