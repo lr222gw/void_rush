@@ -53,7 +53,8 @@ void MathPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
                     delete puzzleObjects[i];
                 }
                 puzzleObjects.clear();
-                this->SpawnDoor(this->GetPosition());
+                vec3 spawnPosition = vec3(puzzlePlatform->getxPos(), puzzlePlatform->getyPos(), puzzlePlatform->getzPos() + (puzzlePlatform->getWidthHeightDepth().z / 2.0f));
+                this->SpawnDoor(spawnPosition);
                 soundManager->playSound("Correct", midPos);
             }
             else
