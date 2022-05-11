@@ -122,7 +122,7 @@ void Generation_manager::place_anchorPoints()
     Platform* anchor = position_gen->getFirstAnchorpoint();
 
     while (anchor) {
-        if(!anchor->platformShape.is_illegal){
+        if(!anchor->platformShape.get_is_Illegal()){
             anchor->platformShape.buildShape();        
             collisionHandler->addPlatform(&anchor->platformShape);            
         }
@@ -141,7 +141,7 @@ void Generation_manager::place_anchorPoints_top()
 
     Platform* anchor = position_gen->getFirstAnchorpoint();
     while (anchor) {
-        if (!anchor->platformShape.is_illegal) {
+        if (!anchor->platformShape.get_is_Illegal()) {
             shape_export->build_shape_model(anchor->platformShape.top, "map_top");
         }
         anchor = anchor->next;
@@ -164,7 +164,7 @@ void Generation_manager::place_anchorPoints_bottom()
     Platform* anchor = position_gen->getFirstAnchorpoint();
 
     while (anchor) {
-        if (!anchor->platformShape.is_illegal) {
+        if (!anchor->platformShape.get_is_Illegal()) {
             shape_export->build_shape_model(anchor->platformShape.bottom, "map_bottom");
         }
         anchor = anchor->next;
@@ -186,7 +186,7 @@ void Generation_manager::place_anchorPoints_sides()
 
     Platform* anchor = position_gen->getFirstAnchorpoint();
     while (anchor) {
-        if (!anchor->platformShape.is_illegal) {
+        if (!anchor->platformShape.get_is_Illegal()) {
             shape_export->build_shape_model(anchor->platformShape.sides, "map_sides");
         }
         anchor = anchor->next;
@@ -207,7 +207,7 @@ void Generation_manager::place_jumpPoints()
 
     while (jumppoint) {
 
-        if (!jumppoint->platformShape.is_illegal) {
+        if (!jumppoint->platformShape.get_is_Illegal()) {
             jumppoint->platformShape.buildShape();
             collisionHandler->addPlatform(&jumppoint->platformShape);
         }
@@ -228,7 +228,7 @@ void Generation_manager::place_jumpPoints_top()
 
     while (jumppoint) {
 
-        if (!jumppoint->platformShape.is_illegal) {
+        if (!jumppoint->platformShape.get_is_Illegal()) {
             shape_export->build_shape_model(jumppoint->platformShape.top, "map_top");
         }
         jumppoint = jumppoint->next;
@@ -252,7 +252,7 @@ void Generation_manager::place_jumpPoints_bottom()
     Platform* jumppoint = position_gen->getFirstJumppoint();
     while (jumppoint) {
 
-        if (!jumppoint->platformShape.is_illegal) {
+        if (!jumppoint->platformShape.get_is_Illegal()) {
             shape_export->build_shape_model(jumppoint->platformShape.bottom, "map_bottom");
         }
         jumppoint = jumppoint->next;
@@ -275,7 +275,7 @@ void Generation_manager::place_jumpPoints_sides()
     Platform* jumppoint = position_gen->getFirstJumppoint();
     while (jumppoint) {
 
-        if (!jumppoint->platformShape.is_illegal) {
+        if (!jumppoint->platformShape.get_is_Illegal()) {
             shape_export->build_shape_model(jumppoint->platformShape.sides, "map_sides");
         }
         jumppoint = jumppoint->next;

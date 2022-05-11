@@ -139,8 +139,10 @@ void ImguiManager::render_generation_widgets()
 					& Shape::shape_conf.default_scale.z };
 				
 				ImGui::InputFloat3("default_scale", *scale);
-				ImGui::InputInt("maxNrOfVoxels", &Shape::shape_conf.maxNrOfVoxels);
-				ImGui::InputInt("minNrOfVoxels", &Shape::shape_conf.minNrOfVoxels);
+				ImGui::InputInt("maxNrOfVoxels_AP", &Shape::shape_conf.maxNrOfVoxels_AP);
+				ImGui::InputInt("minNrOfVoxels_AP", &Shape::shape_conf.minNrOfVoxels_AP);
+				ImGui::InputInt("maxNrOfVoxels_JP", &Shape::shape_conf.maxNrOfVoxels_JP);
+				ImGui::InputInt("minNrOfVoxels_JP", &Shape::shape_conf.minNrOfVoxels_JP);
 				ImGui::InputFloat("plattform_voxel_margin", &Shape::shape_conf.plattform_voxel_margin);
 				ImGui::SliderInt("distance_padding", &Shape::shape_conf.max_clamp_padding, -10,10);
 				ImGui::Checkbox("tryRandom", &Shape::shape_conf.tryRandom);
