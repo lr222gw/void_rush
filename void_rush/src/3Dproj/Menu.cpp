@@ -8,6 +8,8 @@ Menu::Menu(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mous
 	camera->setPosition(vec3(0, 0, 0));
 	camera->setRotation(vec3(0, 0, 0));
 	setUpObject();
+	setUpLights();
+	this->shadowMap = new ShadowMap((SpotLight**)lights, nrOfLights, gfx, (UINT)gfx->getClientWH().x, (UINT)gfx->getClientWH().y);
 	setUpUI();
 	
 	soundManager.playMusic("assets/audio/MenuMusic.wav", 15.0f);
@@ -25,6 +27,11 @@ Menu::~Menu()
 	delete GameObjManager;
 	delete UI;
 	delete skybox;
+	for (int i = 0; i < nrOfLights; i++) {
+		delete lights[i];
+	}
+	delete lights;
+	delete shadowMap;
 }
 
 void Menu::handleEvents()
@@ -43,6 +50,7 @@ GameStateRet Menu::update(float dt)
 	theReturn.seed = 0;
 
 	camera->updateCamera();
+	gfx->Update(dt);
 	//camera->addRotation(vec3(0.1f * dt, 0.3f * dt, 0));
 	skybox->addRot(vec3(0, -0.08f * dt, 0.09 * dt));
 	UI->update();
@@ -77,7 +85,7 @@ GameStateRet Menu::update(float dt)
 	if (heightObject >= 2 * 3.14) {
 		heightObject = 0;
 	}
-	GameObjManager->getGameObject("Ghost")->setPos(vec3(5, sin(heightObject), 10));
+	GameObjManager->getGameObject("Ghost")->setPos(vec3(3, (sin(heightObject) * 0.5) - 3, 10));
 
 	checkHover();
 	if (inputSeed) {
@@ -91,6 +99,7 @@ void Menu::render()
 {
 	gfx->setRenderTarget();
 	gfx->setTransparant(true);
+	gfx->get_IMctx()->PSSetShaderResources(1, 1, &shadowMap->GetshadowResV());
 	
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gfx->get_IMctx()->IASetInputLayout(gfx->getInputLayout()[0]);
@@ -140,9 +149,22 @@ void Menu::setUpObject()
 		"assets/textures/Skybox/posz.png",//z+
 		"assets/textures/Skybox/negz.png"//z-
 	};
-	GameObjManager->CreateGameObject("stol.obj", "Ghost", vec3(0, 0, 20));
+	GameObjManager->CreateGameObject("ghost.obj", "Ghost", vec3(0, 0, 20), vec3(0,0.7f,0));
 	rm->getSpriteCube(skyboxTextures, gfx);
 	skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, vec3(0,0,0), rm->getSpriteCube(skyboxTextures,gfx));
+}
+
+void Menu::setUpLights()
+{
+	//current max number is set in graphics.cpp and transforms.hlsli
+	nrOfLights = 1;
+	lights = new Light * [nrOfLights];
+
+	lights[0] = new PointLight(vec3(0.f, 0.f, 0.f), 1.5, vec3(1, 0.3, 0.3));
+
+	//say to graphics/shaders how many lights we have
+	gfx->getLightconstbufferforCS()->nrOfLights.element = nrOfLights;
+	gfx->takeLight(lights, nrOfLights);
 }
 
 void Menu::checkHover()
