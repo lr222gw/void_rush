@@ -18,7 +18,7 @@ Powerups::~Powerups()
 void Powerups::update(float dt)
 {
 	UsePowerUp(dt);
-	
+	//std::cout << "player power: " << player->getPlayerPower() << std::endl;
 }
 
 void Powerups::UsePowerUp(float dt)
@@ -115,7 +115,8 @@ void Powerups::UsePowerUp(float dt)
 	else if (player->getPlayerPower() == MONEY)
 	{
 		////ADD HERE WHAT MONEY DOES WHEN ACTIVATED////
-		//player->getSm()->playSound("Money", player->getPos());
+		player->getSm()->playSound("Money", player->getPos());
+		player->setPlayerPower(EMPTY);
 	}
 }
 

@@ -628,6 +628,16 @@ bool Player::isGrounded()
 	return this->grounded;
 }
 
+float Player::getJumpForce()
+{
+	return this->jumpForce;
+}
+
+float Player::getGravity()
+{
+	return this->gravity.y;
+}
+
 float Player::getGroundedTimer()
 {
 	return this->groundedTimer;
@@ -722,6 +732,12 @@ void Player::pickedUpPower(Powerup index)
 	if (this->power_index == APPLE)
 	{
 		HUD->IncreaseHealth();
+	}
+	if (this->power_index == MONEY)
+	{
+		AddScore(100);
+		//HUD->UpdateScore(100);
+
 	}
 	
 }
@@ -852,7 +868,6 @@ void Player::PlayRunSoundEffect(float dt)
 		currentSoundEffectCD = soundEffectCD;
 		sm->playSound(stepSounds[a % 4], getPos());
 		a++;
-		//sm->playSound("Goat", getPos());
 	}
 }
 

@@ -1,6 +1,8 @@
 #include "imguiManager.h"
 #include "Game.h"
 
+static vec3 prev_player_speed;
+
 ImguiManager::ImguiManager()
 {
 	IMGUI_CHECKVERSION();
@@ -25,6 +27,9 @@ void ImguiManager::takeLight(Light* light)
 
 void ImguiManager::updateRender()
 {
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -72,7 +77,9 @@ void ImguiManager::update_lights(int lightNr)
 
 void ImguiManager::render_generation_widgets()
 {
-		
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	static std::string name = "Generation";
 	if (ImGui::Begin(name.c_str())) {
 		
@@ -123,13 +130,21 @@ void ImguiManager::render_generation_widgets()
 				ImGui::InputFloat("stepMinHeight", &owner->generationManager->position_gen->AP_conf.stepMinHeight);
 				ImGui::InputFloat("lowest_Height", &owner->generationManager->position_gen->AP_conf.lowest_Height);
 				ImGui::InputFloat("minZAngle", &owner->generationManager->position_gen->AP_conf.minZAngle);				
-				ImGui::TreePop();
+				ImGui::InputFloat("spawn_Y_offset_origo", &owner->generationManager->position_gen->AP_conf.spawn_Y_offset_origo);
+				ImGui::TreePop(); 
 			}
 			if (ImGui::TreeNode("Platforms,Shape")) {
+				float* scale[3] = { &Shape::shape_conf.default_scale.x,
+					& Shape::shape_conf.default_scale.y,
+					& Shape::shape_conf.default_scale.z };
 				
+				ImGui::InputFloat3("default_scale", *scale);
 				ImGui::InputInt("maxNrOfVoxels", &Shape::shape_conf.maxNrOfVoxels);
 				ImGui::InputInt("minNrOfVoxels", &Shape::shape_conf.minNrOfVoxels);
+				ImGui::InputFloat("plattform_voxel_margin", &Shape::shape_conf.plattform_voxel_margin);
 				ImGui::SliderInt("distance_padding", &Shape::shape_conf.max_clamp_padding, -10,10);
+				ImGui::Checkbox("tryRandom", &Shape::shape_conf.tryRandom);
+				ImGui::SliderInt("randomOccurances", &Shape::shape_conf.randomOccurances, 1, 10);
 
 				ImGui::TreePop();
 			}
@@ -139,18 +154,25 @@ void ImguiManager::render_generation_widgets()
 
 		if (ImGui::TreeNode("Generation_manager")) {			
 
+			if (owner->collisionHandler.lastCollided_ShapePlatform) {
+				std::string info = std::to_string(owner->collisionHandler.lastCollided_ShapePlatform->index).c_str();
+				ImGui::Text(("Current Platform.shape index: " + info ).c_str());
+			}
+
 			if (ImGui::TreeNode("Platforms")) {
+
+				
 
 				auto anchors = owner->generationManager->position_gen->getAnchors();
 				auto jumpPoints = owner->generationManager->position_gen->getJumpPoints();
 				Platform* current_anchor = anchors->at(0);
 				Platform* current_jump = jumpPoints->at(0);
-				int c = 0;
+				int shape_index = 0;
 				while (current_anchor) {
-					c++;
+					shape_index = current_anchor->platformShape.index;
 
-					std::string name_pos = "A_platform_pos:" + std::to_string(c);
-					std::string name_rot = "A_platform_rot:" + std::to_string(c);
+					std::string name = "A_platform_[" + std::to_string(shape_index) + "]:";
+					std::string name_pos = "A_platform_["+ std::to_string(shape_index) +"]_pos:" ;					
 
 					float* pos[3] = { &current_anchor->pos.x,
 							&current_anchor->pos.y,
@@ -158,13 +180,30 @@ void ImguiManager::render_generation_widgets()
 
 					ImGui::DragFloat3(name_pos.c_str(), *pos);
 
+					if (ImGui::TreeNode(name.c_str())) {
+						int voxel_index = 0;
+						for (Center_Index_Pair vox : current_anchor->platformShape.previousVoxels) {
+							std::string vox_id = "Voxel[" + std::to_string(voxel_index) + "]:";
+
+							float* voxel_pos[3] = { &vox.current_center.x,
+							&vox.current_center.y,
+							&vox.current_center.z };
+
+							ImGui::DragFloat3(name_pos.c_str(), *voxel_pos);
+
+							voxel_index++;
+						}
+
+						ImGui::TreePop();
+					}
+
 					current_anchor = current_anchor->next;
 				}
 				while (current_jump) {
-					c++;
+					shape_index = current_jump->platformShape.index;
 
-					std::string name_pos = "J_platform_pos:" + std::to_string(c);
-					std::string name_rot = "J_platform_rot:" + std::to_string(c);
+					std::string name = "J_platform_[" + std::to_string(shape_index) + "]:";					
+					std::string name_pos = "J_platform_["+ std::to_string(shape_index) +"]_pos:" ;
 
 					float* pos[3] = { &current_jump->pos.x,
 							&current_jump->pos.y,
@@ -172,6 +211,23 @@ void ImguiManager::render_generation_widgets()
 
 					ImGui::DragFloat3(name_pos.c_str(), *pos);
 
+					if (ImGui::TreeNode(name.c_str())) {
+						int voxel_index = 0;
+						for(Center_Index_Pair vox : current_jump->platformShape.previousVoxels){
+							std::string vox_id = "Voxel[" + std::to_string(voxel_index) + "]:";
+							
+							float* voxel_pos[3] = { &vox.current_center.x,
+							&vox.current_center.y,
+							&vox.current_center.z };
+							
+								ImGui::DragFloat3(name_pos.c_str(), *voxel_pos);
+
+							voxel_index++;
+						}
+
+						ImGui::TreePop();
+					}
+					
 					current_jump = current_jump->next;
 				}
 				ImGui::TreePop();
@@ -183,8 +239,15 @@ void ImguiManager::render_generation_widgets()
 		
 
 		if(ImGui::Button("initialize")){
+			auto temp = owner->player->speed;	//Fix to use initialize while noclipping
+			static vec3 empty;
+			if (empty == prev_player_speed){
+				prev_player_speed = owner->player->speed;
+			}
+			owner->player->speed = prev_player_speed;  
 			owner->generationManager->initialize();
 			owner->generationManager->generateGraph();
+			owner->player->speed = temp;
 		}
 
 		if (ImGui::Button("ExportFirstShape")) {
@@ -198,6 +261,9 @@ void ImguiManager::render_generation_widgets()
 
 void ImguiManager::render_ghost_widgets()
 {
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	std::string name = "Ghost";
 	if (ImGui::Begin(name.c_str())) {
 		
@@ -228,13 +294,16 @@ void ImguiManager::render_ghost_widgets()
 
 void ImguiManager::render_physics_widgets()
 {
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	static std::string name = "Physics";
 	if (ImGui::Begin(name.c_str())) {
 		//owner->player->speed
 							
 		float* init_speed[3] = {&owner->player->speed.x, &owner->player->speed.y, &owner->player->speed.z};
 		static float min_speed = 0; 
-		static float max_speed = 304;
+		static float max_speed = 100;
 		static float speedSlider = owner->player->speed.x;
 		//ImGui::SliderFloat3("Speed", *init_speed, min_speed, max_speed);
 		if (ImGui::SliderFloat("Speed", &speedSlider, min_speed, max_speed)){
@@ -254,6 +323,9 @@ void ImguiManager::render_physics_widgets()
 
 void ImguiManager::render_debuginfo_widgets()
 {
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	if (ImGui::Begin("Debuginfo")) {
 
 		static auto cur_time = ImGui::GetTime();
@@ -288,11 +360,13 @@ void ImguiManager::render_debuginfo_widgets()
 
 void ImguiManager::render_player_widgets()
 {
-	
+	if (!(DEVMODE_ || DEBUGMODE))
+		return;
+
 	std::string name = "Player";
 	if (ImGui::Begin(name.c_str())) {
 		static bool player_invincible = false;
-		static vec3 prev_player_speed ;
+		
 		ImGui::Checkbox("Alive", &owner->player->alive);
 		if (ImGui::Button("Toggle noClip")) {
 			owner->player->noClip = owner->player->noClip ? false : true;
@@ -306,6 +380,7 @@ void ImguiManager::render_player_widgets()
 				owner->player->speed = vec3(15.f, 15.f, 15.f);
 			}			
 		}
+
 		ImGui::Checkbox("Invincible", &owner->player->invincible);
 
 		float* pos[3] = { &owner->player->pos.x,
