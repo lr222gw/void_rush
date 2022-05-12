@@ -241,8 +241,7 @@ void ImguiManager::render_generation_widgets()
 		}
 
 		ImGui::Checkbox("init from Origo", &owner->generationManager->position_gen->imgui_conf.useOrigo);
-		
-
+				
 		if(ImGui::Button("initialize")){
 			auto temp = owner->player->speed;	//Fix to use initialize while noclipping
 			static vec3 empty;
@@ -259,6 +258,7 @@ void ImguiManager::render_generation_widgets()
 			owner->generationManager->shape_export->export_final_model("map");
 			
 		}
+
 	}
 	ImGui::End();
 

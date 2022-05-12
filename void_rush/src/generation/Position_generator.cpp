@@ -330,6 +330,49 @@ int Position_generator::getNrOfValidAnchorpoints()
     return validMeshes;
 }
 
+mapDimensions Position_generator::getCurrentMapDimensions()
+{
+    mapDimensions currentMapDimension{
+        0,
+        0
+    }; 
+
+    vec2 min; 
+    vec2 max;
+
+    std::vector<Platform*> allPlatforms;
+    allPlatforms.insert(allPlatforms.begin(), this->anchors.begin(), this->anchors.end());
+    allPlatforms.insert(allPlatforms.end(), this->jumpPoints.begin(), this->jumpPoints.end());
+
+    //Get height    
+    for (size_t i = 0; i < allPlatforms.size(); i++)
+    {
+        for(size_t j = 0; j < allPlatforms[i]->platformShape.previousVoxels.size(); j++){
+            
+            if(min.y > allPlatforms[i]->platformShape.previousVoxels[j].current_center.z){ //Get min Z 
+                min.y = allPlatforms[i]->platformShape.previousVoxels[j].current_center.z - allPlatforms[i]->platformShape.get_scale().z;
+            }
+
+            if (min.x > allPlatforms[i]->platformShape.previousVoxels[j].current_center.x) { //Get min X 
+                min.x = allPlatforms[i]->platformShape.previousVoxels[j].current_center.x - allPlatforms[i]->platformShape.get_scale().x;
+            }
+            if (max.y < allPlatforms[i]->platformShape.previousVoxels[j].current_center.z) { //Get min Z 
+                max.y = allPlatforms[i]->platformShape.previousVoxels[j].current_center.z + allPlatforms[i]->platformShape.get_scale().z;
+            }
+
+            if (max.x < allPlatforms[i]->platformShape.previousVoxels[j].current_center.x) { //Get min X 
+                max.x = allPlatforms[i]->platformShape.previousVoxels[j].current_center.x + allPlatforms[i]->platformShape.get_scale().x;
+            }
+        }
+    }
+
+    currentMapDimension.x_width = max.x - min.x;
+    currentMapDimension.z_width = max.y - min.y;
+
+    return currentMapDimension;
+
+}
+
 void Position_generator::removeOverlappingPlatformVoxels()
 {
 

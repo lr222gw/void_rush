@@ -290,6 +290,11 @@ void Generation_manager::place_jumpPoints_sides()
     gameObjManager->addGameObject(platformObjs[4], "map_sidesJP");
 }
 
+mapDimensions Generation_manager::getMapDimensions()
+{    
+    return this->position_gen->getCurrentMapDimensions();
+}
+
 void Generation_manager::setDifficulty(Difficulity diff)
 {
     this->difficulity = diff;

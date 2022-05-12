@@ -4,6 +4,10 @@
 #include "3Dproj/Vec.h"
 #include <random>
 
+struct mapDimensions {
+    float x_width;
+    float z_width;
+};
 
 enum class Difficulity {
     easy = 1, medium = 2, hard = 3
@@ -44,6 +48,7 @@ public:
     Platform* getFirstAnchorpoint();
     int getNrOfValidJumppoints();
     int getNrOfValidAnchorpoints();
+    mapDimensions getCurrentMapDimensions();
 
     Platform*& GetStartPlatform();
 
