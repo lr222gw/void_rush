@@ -1,4 +1,5 @@
 #include "Generation_manager.hpp"
+#include "3Dproj/flags.h"
 
 Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, CollisionHandler& collisionHandler, int seed)
 	: gfx(_gfx), rm(_rm), seed(seed), difficulity(Difficulity::easy), player(nullptr), puzzleManager(nullptr), gameObjManager(nullptr)
@@ -10,6 +11,7 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, C
     position_gen->setNrOfElements(3);
     
     this->collisionHandler = &collisionHandler;
+    startSeed = -1;
     if (this->seed == -1) {
         this->seed = (int)time(0);
     }
@@ -27,7 +29,12 @@ Generation_manager::~Generation_manager()
         collisionHandler->deletePlatform(&jumppoint->platformShape);
         jumppoint = jumppoint->next;
     }    
-    gameObjManager->removeGameObject("map");
+    gameObjManager->removeGameObject("map_top");
+    gameObjManager->removeGameObject("map_sides");
+    gameObjManager->removeGameObject("map_bottom");
+    gameObjManager->removeGameObject("map_topJP");
+    gameObjManager->removeGameObject("map_sidesJP");
+    gameObjManager->removeGameObject("map_bottomJP");
     
     delete player_jump_checker;    
     delete position_gen;
@@ -37,6 +44,10 @@ Generation_manager::~Generation_manager()
 void Generation_manager::set_player(Player* player)
 {
     this->player = player;
+    this->player_jump_checker->set_physics_params(
+        player->getJumpForce(),
+        player->getSpeed(), 
+        player->getGravity());
 }
 
 void Generation_manager::set_PuzzleManager(ProtoPuzzle* puzzleManager)
@@ -64,67 +75,220 @@ void Generation_manager::initialize()
             jumppoint_rm = jumppoint_rm->next;
         }    
 
-        gameObjManager->removeGameObject("map");
+        gameObjManager->removeGameObject("map_top");
+        gameObjManager->removeGameObject("map_sides");
+        gameObjManager->removeGameObject("map_bottom");
+        gameObjManager->removeGameObject("map_topJP");
+        gameObjManager->removeGameObject("map_sidesJP");
+        gameObjManager->removeGameObject("map_bottomJP");
     }
            
     platformObjs.clear();
     position_gen->reset_generation(this->player->getPos());
+    
+     
+    
+    this->player_jump_checker->set_physics_params(
+        player->getJumpForce(),
+        player->getSpeed(),
+        //5.f,
+        player->getGravity());
 
-    position_gen->set_seed(this->seed);
+ 
+    if (startSeed == -1) {
+        startSeed = seed;
+        this->player->SetCurrentSeed(this->seed);
+    }
+    if (DEVMODE_ || DEBUGMODE) {
+        position_gen->set_seed(this->seed);
+    }
+    else {
+        position_gen->set_seed(this->seed++);
+    }
+    
     position_gen->start(difficulity);
     
-    shape_export->set_nrOf(position_gen->getAnchors()->size() + position_gen->getJumpPoints()->size(), 1); //TODO: do not hardcode material!
-    shape_export->init();
-    
-    place_anchorPoints();
-    place_jumpPoints();
-
-    platformObjs.push_back(
-            new PlatformObj(rm->load_map_scene(shape_export->getScene(),"map", gfx),        
-            gfx,            
-            vec3(0.f,0.f,0.f),            
-            vec3(0.f,0.f,0.f),            
-            vec3(1.0f, 1.0f, 1.0f))
-    );    
-    gameObjManager->addGameObject(platformObjs[0], "map");
-    
-    puzzleManager->Initiate(this->getPuzzelPos());    //TODO: REMOVE COMMENT
+    place_anchorPoints();  
+    place_jumpPoints();  
+           
+    puzzleManager->Initiate(this->getPuzzelPos());  
     this->player->SetDifficulity(this->difficulity);
     this->player->SetStartPlatform(this->GetStartPlatform());
-    this->player->SetCurrentSeed(this->seed);
 }
 
 
 void Generation_manager::place_anchorPoints()
 {
-    Platform* anchor = position_gen->getAnchors()->at(0);
+    Platform* anchor = position_gen->getFirstAnchorpoint();
+
     while (anchor) {
-        //anchor->platformShape.setShape(*anchor->getPos()); //TODO: this was how we used to do it.
-        //anchor->platformShape.setShape(*anchor->getPos() + anchor->platformShape.inCorner.pos);
-        anchor->platformShape.buildShape();
-        shape_export->build_shape_model(&anchor->platformShape, "map");
-        collisionHandler->addPlatform(&anchor->platformShape);
+        if(!anchor->platformShape.is_illegal){
+            anchor->platformShape.buildShape();        
+            collisionHandler->addPlatform(&anchor->platformShape);            
+        }
         anchor = anchor->next;
     }
+    place_anchorPoints_top();
+    place_anchorPoints_sides();
+    place_anchorPoints_bottom();
+}
+
+void Generation_manager::place_anchorPoints_top()
+{
+    int nrOf_validMeshes = position_gen->getNrOfValidAnchorpoints();
+    shape_export->set_nrOf(nrOf_validMeshes, 1); //TODO: do not hardcode material!
+    shape_export->init(texturesEnum::top);
+
+    Platform* anchor = position_gen->getFirstAnchorpoint();
+    while (anchor) {
+        if (!anchor->platformShape.is_illegal) {
+            shape_export->build_shape_model(anchor->platformShape.top, "map_top");
+        }
+        anchor = anchor->next;
+    }
+    platformObjs.push_back(
+        new PlatformObj(rm->load_map_scene(shape_export->getScene(), "map_top", gfx),
+            gfx,
+            vec3(0.f, 0.f, 0.f),
+            vec3(0.f, 0.f, 0.f),
+            vec3(1.0f, 1.0f, 1.0f))
+    );
+    gameObjManager->addGameObject(platformObjs[0], "map_top");
+}
+void Generation_manager::place_anchorPoints_bottom()
+{
+    int nrOf_validMeshes = position_gen->getNrOfValidAnchorpoints();
+    shape_export->set_nrOf(nrOf_validMeshes, 1); //TODO: do not hardcode material!
+    shape_export->init(texturesEnum::bottom);
+
+    Platform* anchor = position_gen->getFirstAnchorpoint();
+
+    while (anchor) {
+        if (!anchor->platformShape.is_illegal) {
+            shape_export->build_shape_model(anchor->platformShape.bottom, "map_bottom");
+        }
+        anchor = anchor->next;
+    }
+    platformObjs.push_back(
+        new PlatformObj(rm->load_map_scene(shape_export->getScene(), "map_bottom", gfx),
+            gfx,
+            vec3(0.f, 0.f, 0.f),
+            vec3(0.f, 0.f, 0.f),
+            vec3(1.0f, 1.0f, 1.0f))
+    );
+    gameObjManager->addGameObject(platformObjs[2], "map_bottom");
+}
+void Generation_manager::place_anchorPoints_sides()
+{
+    int nrOf_validMeshes = position_gen->getNrOfValidAnchorpoints();
+    shape_export->set_nrOf(nrOf_validMeshes, 1); //TODO: do not hardcode material!
+    shape_export->init(texturesEnum::sides);
+
+    Platform* anchor = position_gen->getFirstAnchorpoint();
+    while (anchor) {
+        if (!anchor->platformShape.is_illegal) {
+            shape_export->build_shape_model(anchor->platformShape.sides, "map_sides");
+        }
+        anchor = anchor->next;
+    }
+    platformObjs.push_back(
+        new PlatformObj(rm->load_map_scene(shape_export->getScene(), "map_sides", gfx),
+            gfx,
+            vec3(0.f, 0.f, 0.f),
+            vec3(0.f, 0.f, 0.f),
+            vec3(1.0f, 1.0f, 1.0f))
+    );
+    gameObjManager->addGameObject(platformObjs[1], "map_sides");
 }
 
 void Generation_manager::place_jumpPoints()
 {
-    Platform* jumppoint = position_gen->firstJumpPoint;
-    int c = 0;
+    Platform* jumppoint = position_gen->getFirstJumppoint();
+
     while (jumppoint) {
-        //jumppoint->platformShape.setShape(*jumppoint->getPos());
-        //jumppoint->platformShape.setShapeCube(*jumppoint->getPos()); //TODO: this was how we used to do it.
-        //jumppoint->platformShape.setShape(*jumppoint->getPos()); //TODO: this was how we used to do it.
-        
-        //TODO: This is now done in position_generator! 
-        //jumppoint->platformShape.setShapeCube(*jumppoint->getPos() + jumppoint->platformShape.inCorner.pos); 
-        jumppoint->platformShape.buildShape();
-        shape_export->build_shape_model(&jumppoint->platformShape, "map");
-        collisionHandler->addPlatform(&jumppoint->platformShape);
-        jumppoint = jumppoint->next;
-        c++;
+
+        if (!jumppoint->platformShape.is_illegal) {
+            jumppoint->platformShape.buildShape();
+            collisionHandler->addPlatform(&jumppoint->platformShape);
+        }
+        jumppoint = jumppoint->next;        
     }
+    place_jumpPoints_top();
+    place_jumpPoints_sides();
+    place_jumpPoints_bottom();
+}
+
+void Generation_manager::place_jumpPoints_top()
+{
+    int nrOf_validMeshes = position_gen->getNrOfValidJumppoints();
+    shape_export->set_nrOf(nrOf_validMeshes, 1); //TODO: do not hardcode material!
+    shape_export->init(texturesEnum::top);
+
+    Platform* jumppoint = position_gen->getFirstJumppoint();
+
+    while (jumppoint) {
+
+        if (!jumppoint->platformShape.is_illegal) {
+            shape_export->build_shape_model(jumppoint->platformShape.top, "map_top");
+        }
+        jumppoint = jumppoint->next;
+
+    }
+    platformObjs.push_back(
+        new PlatformObj(rm->load_map_scene(shape_export->getScene(), "map_topJP", gfx),
+            gfx,
+            vec3(0.f, 0.f, 0.f),
+            vec3(0.f, 0.f, 0.f),
+            vec3(1.0f, 1.0f, 1.0f))
+    );
+    gameObjManager->addGameObject(platformObjs[3], "map_topJP");
+}
+void Generation_manager::place_jumpPoints_bottom()
+{
+    int nrOf_validMeshes = position_gen->getNrOfValidJumppoints();
+    shape_export->set_nrOf(nrOf_validMeshes, 1); //TODO: do not hardcode material!
+    shape_export->init(texturesEnum::bottom);
+
+    Platform* jumppoint = position_gen->getFirstJumppoint();
+    while (jumppoint) {
+
+        if (!jumppoint->platformShape.is_illegal) {
+            shape_export->build_shape_model(jumppoint->platformShape.bottom, "map_bottom");
+        }
+        jumppoint = jumppoint->next;
+
+    }
+    platformObjs.push_back(
+        new PlatformObj(rm->load_map_scene(shape_export->getScene(), "map_bottomJP", gfx),
+            gfx,
+            vec3(0.f, 0.f, 0.f),
+            vec3(0.f, 0.f, 0.f),
+            vec3(1.0f, 1.0f, 1.0f))
+    );
+    gameObjManager->addGameObject(platformObjs[5], "map_bottomJP");
+}
+void Generation_manager::place_jumpPoints_sides()
+{
+    int nrOf_validMeshes = position_gen->getNrOfValidJumppoints();
+    shape_export->set_nrOf(nrOf_validMeshes, 1); //TODO: do not hardcode material!
+    shape_export->init(texturesEnum::sides);
+    Platform* jumppoint = position_gen->getFirstJumppoint();
+    while (jumppoint) {
+
+        if (!jumppoint->platformShape.is_illegal) {
+            shape_export->build_shape_model(jumppoint->platformShape.sides, "map_sides");
+        }
+        jumppoint = jumppoint->next;
+
+    }
+    platformObjs.push_back(
+        new PlatformObj(rm->load_map_scene(shape_export->getScene(), "map_sidesJP", gfx),
+            gfx,
+            vec3(0.f, 0.f, 0.f),
+            vec3(0.f, 0.f, 0.f),
+            vec3(1.0f, 1.0f, 1.0f))
+    );
+    gameObjManager->addGameObject(platformObjs[4], "map_sidesJP");
 }
 
 void Generation_manager::setDifficulty(Difficulity diff)
@@ -170,14 +334,13 @@ void Generation_manager::generateGraph()
     float abs_Y = 0;
     Player_jump_checker p;
     std::vector<Platform*>* platforms = this->position_gen->getAnchors();
-    int platforms_size = platforms->size();
+    int platforms_size = (int)(platforms->size());
     for (int i = 0; i < platforms_size; i++)
     {
 
         output_stream << i << " platform.\nXPos: " << platforms->at(i)->getPos()->x
             << " YPos: " << platforms->at(i)->getPos()->y
-            << " ZPos: " << platforms->at(i)->getPos()->z << "\n"
-            << "Rotation: " << platforms->at(i)->getRotation() << "\n";
+            << " ZPos: " << platforms->at(i)->getPos()->z << "\n";            
         if (i != platforms->size() - 1)
         {
             output_stream << i << " Distance to next "
@@ -211,6 +374,11 @@ void Generation_manager::generateGraph()
 
     out.close();
     output_stream.close();
+}
+
+int Generation_manager::getStartSeed() const
+{
+    return startSeed;
 }
 
 PlatformObj::PlatformObj(ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale)

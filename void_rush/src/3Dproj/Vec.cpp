@@ -41,6 +41,12 @@ vec3 vec3::Normalize() //TODO: should not set and return... confusing
 	this->z = (float)(z / i);
 	return vec3(x, y, z);
 }
+void vec3::Normalize_XZ()
+{
+	float magnitude_2D = sqrtf(this->x * this->x +this->z * this->z);
+	this->x = this->x / magnitude_2D;
+	this->z = this->z / magnitude_2D;
+}
 vec3 vec3::Normalize(const vec3& ref)
 {
 	vec3 ret;
@@ -114,16 +120,16 @@ float vec3::angle(vec3 other)
 	float min = Vmin.x < Vmin.y ? Vmin.x : Vmin.y;
 	min = min < Vmin.z ? min : Vmin.z;
 	if (min < 0.0) {
-		return -acos(a * b);
+		return (float)(- acos(a * b));
 	}
-	return acos(a * b);
+	return (float)acos(a * b);
 }
 
 float vec3::angleNM(vec3 other)
 {
 	vec3 a = Normalize(*this);
 	vec3 b = Normalize(other);
-	return acos(a * b);
+	return (float)acos(a * b);
 }
 
 float vec3::getWithNumber(int i)
@@ -181,6 +187,11 @@ DirectX::XMFLOAT3 vec3::toXMFloat3()
 float vec3::length()
 {
 	return (float)sqrt((double)(x * x + y * y + z * z));
+}
+
+float vec3::length_XZ()
+{
+	return sqrtf(this->x * this->x + this->z * this->z);
 }
 
 void vec4::Normalize()

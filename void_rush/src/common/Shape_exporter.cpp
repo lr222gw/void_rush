@@ -22,18 +22,18 @@ aiScene::aiScene()
 
 aiScene::~aiScene(){
 
-    for(int i = 0; i < this->mNumMeshes; i++ ){
+    for(int i = 0; i < (int)this->mNumMeshes; i++ ){
         delete this->mMeshes[i];
 
     }
     delete[] this->mMeshes;
     
-    for(int i = 0; i < this->mNumMaterials; i++){
+    for(int i = 0; i < (int)this->mNumMaterials; i++){
         delete this->mMaterials[i];
     }
     delete[] this->mMaterials;
 
-    for (int i = 0; i < this->mRootNode->mNumMeshes; i++) {
+    for (int i = 0; i < (int)this->mRootNode->mNumMeshes; i++) {
         this->mRootNode->mMeshes[i];
     }
 
@@ -62,7 +62,7 @@ void Shape_exporter::set_nrOf(int nrOfMeshes, int nrOfMaterials)
     this->nrOfMaterials = nrOfMaterials;
 }
 
-void Shape_exporter::init()
+void Shape_exporter::init(texturesEnum texture)
 {
     if (scene) {        
         delete scene;    
@@ -76,6 +76,13 @@ void Shape_exporter::init()
         | aiProcess_CalcTangentSpace
         | aiProcess_JoinIdenticalVertices;    
 
+    std::vector<aiString> textures{ 
+        aiString("textures/UnderTexture.png"),
+        aiString("textures/outline.png"),
+        aiString("textures/Cork.png"),
+    };
+    //nrOfMaterials = textures.size();
+
     mesh_index = 0; 
     material_index = 0; 
     this->scene = new aiScene();
@@ -88,13 +95,43 @@ void Shape_exporter::init()
     this->scene->mMaterials = new aiMaterial * [this->nrOfMaterials]{ nullptr };
     this->scene->mRootNode->mMeshes = new unsigned int[this->nrOfMeshes];
     this->scene->mRootNode->mNumMeshes = this->nrOfMeshes;
+    
 
-    for (int i = 0; i < nrOfMaterials; i++) {
+    scene->mMaterials[0] = new aiMaterial(); //TODO: change this to have more materials!        
+    //aiString texture_test = textures[0];
 
-        scene->mMaterials[i] = new aiMaterial(); //TODO: change this to have more materials!
-        aiString texture_test = aiString("textures/outline.png"); //TODO: use a vector with aiStrings for all different materials..
-        scene->mMaterials[i]->AddProperty(&texture_test, AI_MATKEY_TEXTURE_DIFFUSE(0));
-    }
+    //scene->mMaterials[0]->AddProperty(&texMaterial, AI_MATKEY_TEXTURE_DIFFUSE(0));
+    scene->mMaterials[0]->AddProperty(&textures[(int)texture], AI_MATKEY_TEXTURE_DIFFUSE(0));
+    aiColor3D diffuse(1.f);
+    aiColor3D ambient(0.25f);
+    aiColor3D specular(0.25f);
+    float shiny = 0.65f;
+    scene->mMaterials[0]->AddProperty<aiColor3D>(&diffuse, 1, AI_MATKEY_COLOR_DIFFUSE);
+    scene->mMaterials[0]->AddProperty<aiColor3D>(&ambient, 1, AI_MATKEY_COLOR_AMBIENT);
+    scene->mMaterials[0]->AddProperty<aiColor3D>(&specular, 1, AI_MATKEY_COLOR_SPECULAR);
+    scene->mMaterials[0]->AddProperty<float>(&shiny, 1, AI_MATKEY_SHININESS);
+    //c++;
+
+    //for (int i = 0; i < nrOfMaterials; i++) {
+
+        //int c = 0;
+        //for(aiString texMaterial : textures){            
+
+        //scene->mMaterials[c] = new aiMaterial(); //TODO: change this to have more materials!        
+        //aiString texture_test = textures[c];
+
+        //    scene->mMaterials[c]->AddProperty(&texMaterial, AI_MATKEY_TEXTURE_DIFFUSE(0));
+        //    aiColor3D diffuse(1.f);
+        //    aiColor3D ambient(0.25f);
+        //    aiColor3D specular(0.25f);
+        //    float shiny = 0.65f;
+        //    scene->mMaterials[c]->AddProperty<aiColor3D>(&diffuse, 1 , AI_MATKEY_COLOR_DIFFUSE);
+        //    scene->mMaterials[c]->AddProperty<aiColor3D>(&ambient, 1 , AI_MATKEY_COLOR_AMBIENT);
+        //    scene->mMaterials[c]->AddProperty<aiColor3D>(&specular, 1, AI_MATKEY_COLOR_SPECULAR);
+        //    scene->mMaterials[c]->AddProperty<float>(&shiny, 1, AI_MATKEY_SHININESS);
+        //    c++;
+        //}        
+    //}
     
 }
 
@@ -102,18 +139,19 @@ void Shape_exporter::build_shape_model(Shape* shape, std::string name)
 {    
             
     scene->mMeshes[mesh_index] = new aiMesh();
+    
     scene->mMeshes[mesh_index]->mMaterialIndex = material_index;
 
     scene->mRootNode->mMeshes[mesh_index] = mesh_index;
 
     auto pMesh = scene->mMeshes[mesh_index];
-
+    
     size_t nrOfVertices = shape->planes.size() * 4; //planes have 4 verts each    
     pMesh->mVertices = new aiVector3D[nrOfVertices];
     pMesh->mNumVertices = static_cast<unsigned  int>(nrOfVertices);
     pMesh->mNormals = new aiVector3D[nrOfVertices];
 
-    pMesh->mNumFaces = shape->planes.size();
+    pMesh->mNumFaces = (int)shape->planes.size();
     pMesh->mFaces = new aiFace[pMesh->mNumFaces];
 
     pMesh->mTextureCoords[0] = new aiVector3D[nrOfVertices];
@@ -159,6 +197,8 @@ void Shape_exporter::build_shape_model(Shape* shape, std::string name)
         }
         pMesh->mFaces[face_counter++] = face;
         
+        
+
     }
 
     mesh_index++;

@@ -54,6 +54,8 @@ public:
 	void setUngrounded();
 	float getSpeed();
 	bool isGrounded();
+	float getJumpForce();
+	float getGravity();
 	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
 	ColCube getFallCube()const;

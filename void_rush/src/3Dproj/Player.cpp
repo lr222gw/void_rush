@@ -569,13 +569,13 @@ void Player::handleEvents(float dt)
 
 void Player::rotateWithMouse(int x, int y)
 {
-	float ycr = cam->getRot().y + static_cast<float>(y) * -mouse->getSense() * 0.01;
+	float ycr = (float)(cam->getRot().y + static_cast<float>(y) * -mouse->getSense() * 0.01);
 	ycr = std::clamp(ycr, -1.5f, 1.57f);
 
 	cam->setRotation(vec3(
-		cam->getRot().x + static_cast<float>(x) * mouse->getSense() * 0.01,
-		ycr,
-		0
+		(float)(cam->getRot().x + static_cast<float>(x) * mouse->getSense() * 0.01),
+		(float)ycr,
+		0.0f
 	));
 }
 
@@ -627,6 +627,16 @@ float Player::getSpeed()
 bool Player::isGrounded()
 {
 	return this->grounded;
+}
+
+float Player::getJumpForce()
+{
+	return this->jumpForce;
+}
+
+float Player::getGravity()
+{
+	return this->gravity.y;
 }
 
 float Player::getGroundedTimer()
@@ -867,7 +877,6 @@ void Player::PlayRunSoundEffect(float dt)
 		currentSoundEffectCD = soundEffectCD;
 		sm->playSound(stepSounds[a % 4], getPos());
 		a++;
-		//sm->playSound("Goat", getPos());
 	}
 }
 
@@ -928,7 +937,7 @@ void Player::AddScore(float scr)
 
 int Player::GetHealth()
 {
-	return health;
+	return (int)health;
 }
 
 float Player::GetScore()
