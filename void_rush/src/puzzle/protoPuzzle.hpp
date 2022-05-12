@@ -8,6 +8,7 @@
 #include "puzzle.hpp"
 #include "puzzle_hidden.hpp"
 #include "puzzle_memory.hpp"
+#include "puzzle_move.hpp"
 #include "3Dproj/SoundManager.h"
 #include <vector>
 
@@ -17,10 +18,11 @@ private:
 	std::vector<Puzzle*> puzzleList;
 	int chosenPuzzle = -1;
 	int seed;
-	const int PUZZLES = 3; //Set to amount of puzzles done.
+	const int PUZZLES = 4; //Set to amount of puzzles done.
 	MathPuzzle* math;
 	HiddenPuzzle* hidden;
 	MemoryPuzzle* memory;
+	MovePuzzle* move;
 	Graphics*& gfxPuzzle;
 	ResourceManager*& rmPuzzle;
 

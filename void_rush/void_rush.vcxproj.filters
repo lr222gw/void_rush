@@ -459,6 +459,9 @@
     <ClCompile Include="src\puzzle\puzzle_memory.cpp">
       <Filter>Protoypes\puzzle</Filter>
     </ClCompile>
+    <ClCompile Include="src\puzzle\puzzle_move.cpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -759,6 +762,9 @@
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\puzzle\puzzle_memory.hpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\puzzle\puzzle_move.hpp">
       <Filter>Protoypes\puzzle</Filter>
     </ClInclude>
   </ItemGroup>

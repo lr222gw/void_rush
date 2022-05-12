@@ -9,10 +9,12 @@ ProtoPuzzle::ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm, CollisionHandler&
     this->math = new MathPuzzle(seed, gfx, rm, colHandler, soundManager);
     this->hidden = new HiddenPuzzle(seed, gfx, rm, colHandler, soundManager);
     this->memory = new MemoryPuzzle(seed, gfx, rm, colHandler, soundManager);
+    this->move = new MovePuzzle(seed, gfx, rm, colHandler, soundManager);
 
     this->puzzleList.push_back(math);
     this->puzzleList.push_back(hidden);
     this->puzzleList.push_back(memory);
+    this->puzzleList.push_back(move);
 }
 
 int ProtoPuzzle::ChoosePuzzle()
@@ -25,6 +27,7 @@ ProtoPuzzle::~ProtoPuzzle()
     delete this->math;
     delete this->hidden;
     delete this->memory;
+    delete this->move;
 }
 
 void ProtoPuzzle::Interact(vec3 playerPos, vec3 forwardVec)
