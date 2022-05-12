@@ -53,10 +53,12 @@ public:
 private: // Magic Numbers
     struct Anchor_point_settings{        
         float minStepMod = 2.f; //2 is half, recommended
-        float stepMax = 50.f;    //Max distance between platforms
-        float stepMaxHeight = 10.f;    //Max distance between platforms
+        float stepMax = 100.f;    //Max distance between platforms
+        float stepMaxHeight = 0.f;    //Max distance between platforms
         float stepMinHeight = -10.f;    //Max distance between platforms
         float lowest_Height = -100.f;   //Lowest point for generation
+        float freeFallModifier = -50.f;
+        int freFallRate = 5; // Procentage chance would be 1 / freeFallRate
         float minZAngle = 0.f;
         float spawn_Y_offset_origo = -10.f;
     };

@@ -52,6 +52,14 @@ void Position_generator::generate_anchor_positions(Difficulity selectedDiff)
 
     for (int i = 1; i < this->elements; i++)
     {
+        stepMaxZ = this->AP_conf.stepMaxHeight;
+        stepMinZ = this->AP_conf.stepMinHeight;
+        
+        if( rand() % this->AP_conf.freFallRate == 0 ){ // Determine if next anchor is for freefall
+            stepMinZ += this->AP_conf.freeFallModifier;
+            stepMaxZ += this->AP_conf.freeFallModifier;
+        }
+
         dVect.y = randF(stepMinZ, stepMaxZ);
         dVect.y = fmin(dVect.y, stepMaxZ);
         dVect.y = fmax(dVect.y, this->AP_conf.lowest_Height);
