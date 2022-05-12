@@ -18,7 +18,7 @@ Powerups::~Powerups()
 void Powerups::update(float dt)
 {
 	UsePowerUp(dt);
-	std::cout << "player power: " << player->getPlayerPower() << std::endl;
+	//std::cout << "player power: " << player->getPlayerPower() << std::endl;
 }
 
 void Powerups::UsePowerUp(float dt)
