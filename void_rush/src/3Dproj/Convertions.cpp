@@ -27,15 +27,6 @@ vec4 assimpQuartToVec4(aiQuaternion quart)
 	return theReturn;
 };
 
-Quaternion assimpQuartToQuart(aiQuaternion quart)
-{
-	Quaternion theReturn;
-	theReturn.w = quart.w;
-	theReturn.x = quart.x;
-	theReturn.y = quart.y;
-	theReturn.z = quart.z;
-	return theReturn;
-};
 
 DirectX::XMMATRIX FlipDiagonal(DirectX::XMMATRIX oth) {
 	DirectX::XMFLOAT4 v2F[4];

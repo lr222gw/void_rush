@@ -76,12 +76,7 @@ void MeshObj::draw(ID3D11DeviceContext*& immediateContext)
 {
 	UINT offset = 0;
 	static UINT strid = sizeof(vertex);
-	if (def_rend) {
-		immediateContext->PSSetShaderResources(0, 4, this->matrial->texSRVPS);
-	}
-	else {
-		immediateContext->PSSetShaderResources(0, 1, &this->matrial->texSRVPS[0]);
-	}
+	immediateContext->PSSetShaderResources(0, 1, &this->matrial->texSRVPS[0]);
 	if (matrial->flags.Maps[3]) {
 		immediateContext->PSSetShaderResources(2, 1, &this->matrial->texSRVPS[3]);
 	}
