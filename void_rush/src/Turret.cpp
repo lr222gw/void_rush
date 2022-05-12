@@ -21,7 +21,7 @@ void Turret::update(float dt)
 	//if player is in range
 	if ((getPos() - player->getPos()).length() < range) {
 		//look at player
-		lookat();
+		lookat(player->getPos());
 		//check if we should fire (cd)
 		currentTimeTillShoot += dt;
 		if (currentTimeTillShoot > shootCD) {
@@ -49,18 +49,4 @@ void Turret::addProjectiles(TurrProjectile* projectile)
 void Turret::setSoundManager(SoundManager& sm)
 {
 	this->sm = &sm;
-}
-
-void Turret::lookat()
-{
-	vec3 forward(0, 0, 1);
-	vec3 up(0, 1, 0);
-	vec3 TurretToPlayer = player->getPos() - getPos();
-	float xrot = vec3(TurretToPlayer.x, 0, TurretToPlayer.z).angle(forward);
-
-	TurretToPlayer.Normalize();
-	float yrot = acos(TurretToPlayer.Normalize() * up);
-
-	this->setRot(vec3(yrot, -xrot, 0));
-
 }

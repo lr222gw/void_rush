@@ -132,6 +132,7 @@ private:
 	Mouse* mouse;
 	Keyboard* keyboard;
 	Camera* cam;
+	Graphics*& gfx;
 
 	ScoreManager scoreManager;
 	std::string name;
@@ -153,6 +154,10 @@ private:
 	vec3 fallCubeSize;
 	float fallBoxTimer;
 	bool scream;
+
+	float maxFOV;
+	float currentFOV;
+	float minFOV;
 
 	//running sound effect
 	void PlayRunSoundEffect(float dt);
