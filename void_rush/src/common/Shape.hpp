@@ -79,7 +79,7 @@ static Normals normals;
 struct LongestDist {
     vec3 startPos;
     vec3 endPos;
-    float distance;
+    float distance = 0;
 };
 
 struct vec3_pair {
@@ -106,7 +106,7 @@ struct Offset{
 struct Center_busy_pair {
     vec3 position;
     bool isBusy = false;
-    int index;
+    int index = -1;
     bool is_illegal = false;
 };
 

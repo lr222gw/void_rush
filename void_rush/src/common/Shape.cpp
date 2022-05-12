@@ -285,7 +285,7 @@ void Shape::setShape(vec3 center, int nrOfVoxels, Shape* prev)
         inOut.pos_far = center;
 
         //setShapeCube(center);
-        for (Center_Index_Pair voxel : this->previousVoxels) {
+        for (Center_Index_Pair &voxel : this->previousVoxels) {
             if(!voxel.is_illegal){
                 this->setShapeCube(voxel.current_center);
             }
@@ -342,7 +342,7 @@ void Shape::setShapeCube(vec3 center)
     }
 
     
-    if (top || bottom || sides) {
+    if (top && bottom && sides) {
         top->planes.push_back(new XZ_plane(temp_planes[0]));
         bottom->planes.push_back(new XZ_plane(temp_planes[1]));
         sides->planes.push_back(new XY_plane(temp_planes[2]));
@@ -361,7 +361,7 @@ void Shape::set_is_Illegal(bool status)
 void Shape::buildShape()
 {
     this->init_shape_bottomTopSides();
-    for(Center_Index_Pair voxel : this->previousVoxels){
+    for(Center_Index_Pair &voxel : this->previousVoxels){
         //if(!voxel.is_illegal){
             this->setShapeCube(voxel.current_center);
         //}
