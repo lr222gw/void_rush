@@ -73,6 +73,7 @@ public:
 	void setCanDoubleJump();
 	bool canDoubleJump();
 	void getShield();
+	void setPlayerSpeed(vec3 speed);
 
 	void SetDifficulity(Difficulity diff);
 	void SetStartPlatform(Platform*& start);

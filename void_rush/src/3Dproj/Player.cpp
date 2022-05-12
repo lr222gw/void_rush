@@ -58,6 +58,7 @@ Player::~Player()
 void Player::update(float dt)
 {
 	handleEvents(dt);
+	std::cout << speed.x << std::endl;
 	if (!noClip) {
 		scoreManager.Update(dt);
 		if (!grounded)
@@ -780,6 +781,15 @@ void Player::getShield()
 	if (this->hasShield == false)
 	{
 		this->hasShield = true;
+	}
+}
+
+void Player::setPlayerSpeed(vec3 speed)
+{
+	this->speed = speed;
+	if (speed.x == 2.7f)
+	{
+		HUD->TurnOffPassive(POTION_P);
 	}
 }
 

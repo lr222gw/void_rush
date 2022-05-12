@@ -8,7 +8,8 @@ Powerups::Powerups(ModelObj* file, Graphics*& gfx, Player* player, Ghost* ghost,
 	this->ghostFrozenTimer = 0.0f;
 	this->ghost = ghost;
 	this->featherActive = false;
-	this->shieldActive = false;
+	this->potionActive = false;
+	this->potionTimer = 0.0f;
 }
 
 Powerups::~Powerups()
@@ -101,21 +102,35 @@ void Powerups::UsePowerUp(float dt)
 			this->featherActive = false;
 		}
 	}
-	else if (player->getPlayerPower() == POTION)
+	else if (player->getPlayerPower() == POTION || potionActive == true)
 	{
 		////ADD HERE WHAT POTION DOES WHEN ACTIVATED////
-		//player->getSm()->playSound("Potion", player->getPos());
+		player->getSm()->playSound("Potion", player->getPos());
+		//std::cout << potionTimer << std::endl;
+		//std::cout << player->getPlayerPower() << std::endl;
+		if (potionActive == false)
+		{
+			potionActive = true;
+			player->setPlayerPower(EMPTY);
+			player->setPlayerSpeed(vec3(4.0f, 0.0f, 4.0f));
+		}
+		if (potionTimer >= 10.0f)
+		{
+			potionTimer = 0.0f;
+			player->setPlayerSpeed(vec3(2.7f, 0.0f, 2.7f));
+			potionActive = false;
+
+		}
+		potionTimer += dt;
 	}
 	else if (player->getPlayerPower() == SHIELD)
 	{
-		////ADD HERE WHAT SHEILD DOES WHEN ACTIVATED////
 		player->getSm()->playSound("Shield", player->getPos());
 		player->setPlayerPower(EMPTY);
 		
 	}
 	else if (player->getPlayerPower() == MONEY)
 	{
-		////ADD HERE WHAT MONEY DOES WHEN ACTIVATED////
 		player->getSm()->playSound("Money", player->getPos());
 		player->setPlayerPower(EMPTY);
 	}
