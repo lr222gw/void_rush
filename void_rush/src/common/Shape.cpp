@@ -291,7 +291,7 @@ void Shape::setShape(vec3 center, int nrOfVoxels, Shape* prev)
             }
         }
 
-        for (int i = 0; i < this->planes.size(); i++) {
+        /*for (int i = 0; i < this->planes.size(); i++) {
 
             for(vec3* point : this->planes[i]->get_all_points()){
 
@@ -302,6 +302,38 @@ void Shape::setShape(vec3 center, int nrOfVoxels, Shape* prev)
                 }
                 if ((inOut.pos_far - *point).length() < length) {
                     inOut.pos_far = *point;
+                }
+            }
+        }*/
+        for (int i = 0; i < this->planes.size(); i++) {
+
+            std::vector<vec3*> points = this->planes[i]->get_all_points();
+
+            for (int j = 0; j < this->planes[i]->get_all_points().size(); j++) {
+                vec3* point = points[j];
+
+                float length = (prev->outCorner.pos - *point).length();
+
+                if ((inOut.pos_close - *point).length() > length) {
+                    inOut.pos_close = *point;
+
+                    this->inCorner.points.clear();
+                    for(auto p : points){
+                        if(p != point){                            
+                            this->inCorner.points.push_back(*p);
+                        }
+                    }
+
+                }
+                if ((inOut.pos_far - *point).length() < length) {
+                    inOut.pos_far = *point;
+
+                    this->outCorner.points.clear();
+                    for (auto p : points) {
+                        if (p != point) {
+                            this->outCorner.points.push_back(*p);
+                        }
+                    }
                 }
             }
         }

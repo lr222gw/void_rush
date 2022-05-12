@@ -8,10 +8,12 @@
 class Shape_exporter;
 struct inCorner {
     vec3 pos;
+    std::vector<vec3> points;
 };
 
 struct outCorner {
     vec3 pos;
+    std::vector<vec3> points;
 };
 
 struct line
