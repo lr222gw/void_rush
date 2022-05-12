@@ -26,6 +26,5 @@ private:
 	Ghost* ghost;
 	float ghostFrozenTimer;
 	bool featherActive;
-	float featherTimer;
-	
+	bool shieldActive;
 };

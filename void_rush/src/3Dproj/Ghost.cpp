@@ -12,6 +12,7 @@ Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot,
 	this->player = player;
 	this->frozen = false;
 	this->active = false;
+	this->attackCD = 0.0f;
 	Reset();
 }
 
@@ -20,7 +21,7 @@ void Ghost::collidedWithPlayer()
 	if (readyToAttack) {
 		std::cout << "Player loses a life" << std::endl;
 		readyToAttack = false;
-		attackCD = 5.0f;
+		attackCD = 1.0f;
 		//player->TakeDmg();
 		vec3 ghostToPlayer = (player->getPos() - getPos()).Normalize();
 		vec2 shove = vec2(this->force.x * ghostToPlayer.x, this->force.z * ghostToPlayer.z);
@@ -38,7 +39,10 @@ void Ghost::update(float dt)
 			}
 		}
 		GainSpeed(dt);
-		followPlayer(dt);
+		if (attackCD <= 0)
+		{
+			followPlayer(dt);
+		}
 		if (player->ResetGhost()) {
 			this->Reset();
 		}
