@@ -166,7 +166,8 @@ public:
     std::vector<vec3_pair> bounding_boxes; //TODO: Handle memory here!
 
 private: 
-    friend Shape_exporter;
+    friend class Shape_exporter;
+    friend class ImguiManager;
 
     void init_shape_bottomTopSides();
     void updateBoundingBoxes();
