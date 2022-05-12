@@ -25,7 +25,6 @@ void Ghost::collidedWithPlayer()
 		std::cout << "Player loses a life" << std::endl;
 		readyToAttack = false;
 		attackCD = 1.0f;
-		//player->TakeDmg();
 		vec3 ghostToPlayer = (player->getPos() - getPos()).Normalize();
 		vec2 shove = vec2(this->force.x * ghostToPlayer.x, this->force.z * ghostToPlayer.z);
 		player->shovePlayer(shove, this->force.y);
@@ -133,8 +132,9 @@ bool Ghost::isFrozen()
 
 void Ghost::followPlayer(float dt)
 {
+	
 	if (!checkIfRangeOfPlayer()) {
-		setRot(vec3(1.57f, 0, 0));
+		
 		getPlayerPosCD -= dt;
 		if (getPlayerPosCD < 0) {
 			getPlayerPosCD = 3;
@@ -157,15 +157,16 @@ void Ghost::followPlayer(float dt)
 	if (!checkIfRangeOfPlayer() && !PlayerPositions.empty()) {
 		vec3 ghostToPoint = (PlayerPositions.front() - getPos()).Normalize();
 		this->movePos(ghostToPoint * dt * speed);
+		lookat(PlayerPositions.front());
 	}
 	else{
-		setRot(vec3(0, 0, 0));
 		if (!PlayerPositions.empty()) {
 			PlayerPositions.pop();
 		}
 		//go to player
 		vec3 ghostToPlayer = (player->getPos() - getPos()).Normalize();
 		this->movePos(ghostToPlayer * dt * speed);
+		lookat(player->getPos());
 	}
 	if (checkIfInRangeOfPoint()) {
 		PlayerPositions.pop();
