@@ -426,6 +426,9 @@
     <ClCompile Include="src\score\ScoreManager.cpp">
       <Filter>Engine\Source Files\Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="src\puzzle\puzzle_move.cpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -695,8 +698,8 @@
     <ClInclude Include="src\puzzle\puzzle_memory.hpp">
       <Filter>Protoypes\puzzle</Filter>
     </ClInclude>
-    <ClInclude Include="src\score\ScoreManager.hpp">
-      <Filter>Engine\Header Files\Handlers</Filter>
+    <ClInclude Include="src\puzzle\puzzle_move.hpp">
+      <Filter>Protoypes\puzzle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

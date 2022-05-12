@@ -7,8 +7,7 @@ Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, C
     this->shape_export = new Shape_exporter();
     this->position_gen = new Position_generator(this->seed);
     this->player_jump_checker = new Player_jump_checker();
-    position_gen->assignPlayer(player_jump_checker);
-    position_gen->setNrOfElements(3);
+    position_gen->assignPlayer(player_jump_checker);    
     
     this->collisionHandler = &collisionHandler;
     startSeed = -1;
@@ -122,7 +121,7 @@ void Generation_manager::place_anchorPoints()
     Platform* anchor = position_gen->getFirstAnchorpoint();
 
     while (anchor) {
-        if(!anchor->platformShape.is_illegal){
+        if(!anchor->platformShape.get_is_Illegal()){
             anchor->platformShape.buildShape();        
             collisionHandler->addPlatform(&anchor->platformShape);            
         }
@@ -141,7 +140,7 @@ void Generation_manager::place_anchorPoints_top()
 
     Platform* anchor = position_gen->getFirstAnchorpoint();
     while (anchor) {
-        if (!anchor->platformShape.is_illegal) {
+        if (!anchor->platformShape.get_is_Illegal()) {
             shape_export->build_shape_model(anchor->platformShape.top, "map_top");
         }
         anchor = anchor->next;
@@ -164,7 +163,7 @@ void Generation_manager::place_anchorPoints_bottom()
     Platform* anchor = position_gen->getFirstAnchorpoint();
 
     while (anchor) {
-        if (!anchor->platformShape.is_illegal) {
+        if (!anchor->platformShape.get_is_Illegal()) {
             shape_export->build_shape_model(anchor->platformShape.bottom, "map_bottom");
         }
         anchor = anchor->next;
@@ -186,7 +185,7 @@ void Generation_manager::place_anchorPoints_sides()
 
     Platform* anchor = position_gen->getFirstAnchorpoint();
     while (anchor) {
-        if (!anchor->platformShape.is_illegal) {
+        if (!anchor->platformShape.get_is_Illegal()) {
             shape_export->build_shape_model(anchor->platformShape.sides, "map_sides");
         }
         anchor = anchor->next;
@@ -207,7 +206,7 @@ void Generation_manager::place_jumpPoints()
 
     while (jumppoint) {
 
-        if (!jumppoint->platformShape.is_illegal) {
+        if (!jumppoint->platformShape.get_is_Illegal()) {
             jumppoint->platformShape.buildShape();
             collisionHandler->addPlatform(&jumppoint->platformShape);
         }
@@ -228,7 +227,7 @@ void Generation_manager::place_jumpPoints_top()
 
     while (jumppoint) {
 
-        if (!jumppoint->platformShape.is_illegal) {
+        if (!jumppoint->platformShape.get_is_Illegal()) {
             shape_export->build_shape_model(jumppoint->platformShape.top, "map_top");
         }
         jumppoint = jumppoint->next;
@@ -252,7 +251,7 @@ void Generation_manager::place_jumpPoints_bottom()
     Platform* jumppoint = position_gen->getFirstJumppoint();
     while (jumppoint) {
 
-        if (!jumppoint->platformShape.is_illegal) {
+        if (!jumppoint->platformShape.get_is_Illegal()) {
             shape_export->build_shape_model(jumppoint->platformShape.bottom, "map_bottom");
         }
         jumppoint = jumppoint->next;
@@ -275,7 +274,7 @@ void Generation_manager::place_jumpPoints_sides()
     Platform* jumppoint = position_gen->getFirstJumppoint();
     while (jumppoint) {
 
-        if (!jumppoint->platformShape.is_illegal) {
+        if (!jumppoint->platformShape.get_is_Illegal()) {
             shape_export->build_shape_model(jumppoint->platformShape.sides, "map_sides");
         }
         jumppoint = jumppoint->next;
@@ -289,6 +288,11 @@ void Generation_manager::place_jumpPoints_sides()
             vec3(1.0f, 1.0f, 1.0f))
     );
     gameObjManager->addGameObject(platformObjs[4], "map_sidesJP");
+}
+
+mapDimensions Generation_manager::getMapDimensions()
+{    
+    return this->position_gen->getCurrentMapDimensions();
 }
 
 void Generation_manager::setDifficulty(Difficulity diff)

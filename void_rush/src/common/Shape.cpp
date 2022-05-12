@@ -44,23 +44,59 @@ void Shape::setScale(vec3 scale)
     this->scale = scale;
 }
 
-void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
+void Shape::setAnchorShape(vec3 center, float distanceToEnd, Shape* prev)
+{
+    int max = shape_conf.maxNrOfVoxels_AP;
+    int min = shape_conf.minNrOfVoxels_AP;
+    int previousValueRandomOcc = shape_conf.randomOccurances; 
+    bool previousValueTryRandom = shape_conf.tryRandom;
+    int max_padding = std::clamp((int)(distanceToEnd + 1) + shape_conf.max_clamp_padding, min, (int)std::fmaxf((float)min, (distanceToEnd + 1) + shape_conf.max_clamp_padding));    
+    int nrOfVoxels = rand() % (max - min) + min; // random Number Of Voxels    
+
+    nrOfVoxels = std::clamp(nrOfVoxels, min, max_padding);
+
+    this->scale = this->scale * Shape::shape_conf.scaleAnchor_XY_Factor;
+    this->scale.y = 0.2f;
+
+    setShape(center, nrOfVoxels, prev);
+
+    shape_conf.randomOccurances = previousValueRandomOcc;
+    shape_conf.tryRandom = previousValueTryRandom;
+    
+}
+
+void Shape::setJumppointShape(vec3 center, float distanceToEnd, Shape* prev)
+{
+    int max = shape_conf.maxNrOfVoxels_JP;
+    int min = shape_conf.minNrOfVoxels_JP;
+
+    int max_padding = std::clamp((int)(distanceToEnd + 1) + shape_conf.max_clamp_padding, min, (int)std::fmaxf((float)min, (distanceToEnd + 1) + shape_conf.max_clamp_padding));
+
+    int nrOfVoxels = rand() % (max - min) + min; // random Number Of Voxels    
+
+    nrOfVoxels = std::clamp(nrOfVoxels, min, max_padding);
+
+    setShape(center, nrOfVoxels, prev);
+
+}
+
+void Shape::setShape(vec3 center, int nrOfVoxels, Shape* prev)
 {
     
-    vec3 offset_left {      -scale.x, 0,         0       };
-    vec3 offset_right {      scale.x, 0,         0       };
-    vec3 offset_forward {    0,       0,         scale.z };
-    vec3 offset_back {       0,       0,        -scale.z };
-    vec3 offset_down {       0,      -scale.y,   0       };
-    vec3 offset_up   {       0,      scale.y,    0       };
-    
+    offset_left    = vec3{      -scale.x,   0,          0        };
+    offset_right   = vec3{      scale.x,    0,          0        };
+    offset_forward = vec3{       0,         0,          scale.z  };
+    offset_back    = vec3{       0,         0,          -scale.z };
+    offset_down    = vec3{       0,         -scale.y,   0        };
+    offset_up      = vec3{       0,         scale.y,    0        };
+
     if(this->planes.size() > 0){
         this->planes.clear();
         static_assert (true);
         
     }
     
-    const int matrixSize = 11; //Should to be Odd...    
+    const int matrixSize = shape_conf.matrixSize; //Should to be Odd...    
 
     //Center_busy_pair busyMatrix[matrixSize][matrixSize] = { Center_busy_pair() };
     std::vector<std::vector<Center_busy_pair>> busyMatrix { std::vector<Center_busy_pair>() };
@@ -81,19 +117,7 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
     int first_index = (int)(matrixSize * matrixSize / 2.5f);
     //Sets middle (first ) to true
     busyMatrix[first_index / matrixSize][first_index % matrixSize] = Center_busy_pair{center, true, 0};
-
-    
-    int max = shape_conf.maxNrOfVoxels;
-    int min = shape_conf.minNrOfVoxels;
-    
-    int max_padding = std::clamp((int)(distanceToEnd+1) + shape_conf.max_clamp_padding, min, (int)std::fmaxf((float)min, (distanceToEnd + 1) + shape_conf.max_clamp_padding));
    
-    int nrOfVoxels = rand() % (max - min ) + min; // random Number Of Voxels    
-
-    
-
-    nrOfVoxels = std::clamp(nrOfVoxels, min, max_padding);
-
     int current_index = first_index;    
     int prev_index = first_index;
     vec3 current_center = center;
@@ -261,7 +285,7 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
         inOut.pos_far = center;
 
         //setShapeCube(center);
-        for (Center_Index_Pair voxel : this->previousVoxels) {
+        for (Center_Index_Pair &voxel : this->previousVoxels) {
             if(!voxel.is_illegal){
                 this->setShapeCube(voxel.current_center);
             }
@@ -283,6 +307,12 @@ void Shape::setShape(vec3 center, float distanceToEnd, Shape* prev)
         }
         this->inCorner.pos = inOut.pos_close;
         this->outCorner.pos = inOut.pos_far;
+
+        //Remove temporary planes, or else collision with invisible shape
+        for (int i = 0; i < planes.size(); i++) {
+            delete planes[i];
+        }
+        planes.clear();
     }
 
 }
@@ -312,7 +342,7 @@ void Shape::setShapeCube(vec3 center)
     }
 
     
-    if (top || bottom || sides) {
+    if (top && bottom && sides) {
         top->planes.push_back(new XZ_plane(temp_planes[0]));
         bottom->planes.push_back(new XZ_plane(temp_planes[1]));
         sides->planes.push_back(new XY_plane(temp_planes[2]));
@@ -323,15 +353,35 @@ void Shape::setShapeCube(vec3 center)
 
 }
 
+void Shape::set_is_Illegal(bool status)
+{
+    this->is_illegal = status;
+}
+
 void Shape::buildShape()
 {
     this->init_shape_bottomTopSides();
-    for(Center_Index_Pair voxel : this->previousVoxels){
+    for(Center_Index_Pair &voxel : this->previousVoxels){
         //if(!voxel.is_illegal){
             this->setShapeCube(voxel.current_center);
         //}
     }
     this->updateBoundingBoxes();
+}
+
+bool Shape::get_is_Illegal()
+{
+    return this->is_illegal;
+}
+
+vec3 Shape::get_midpoint()
+{
+    return this->shapeMidpoint;
+}
+
+vec3 Shape::get_scale()
+{
+    return this->scale;
 }
 
 void Shape::updateBoundingBoxes()
