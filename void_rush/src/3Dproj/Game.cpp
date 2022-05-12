@@ -538,6 +538,7 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Feather1.wav", 10, "Feather");
 	soundManager.loadSound("assets/audio/Potion1.wav", 10, "Potion");
 	soundManager.loadSound("assets/audio/Shield1.wav", 10, "Shield");
+	soundManager.loadSound("assets/audio/Shield2.wav", 10, "Shield2");
 	soundManager.loadSound("assets/audio/Coin1.wav", 10, "Money");
 	soundManager.loadSound("assets/audio/Hit2.wav", 70, "Hit");
 	soundManager.loadSound("assets/audio/German.wav", 40, "German");
@@ -562,7 +563,7 @@ void Game::setUpSound()
 //Decides which powerups are used this map.
 void Game::setUpPowerups(int chosenDiff, vec3 pos)
 {	
-		//int chosenPower = 15;
+		//int chosenPower = 32;
 		int chosenPower = 1 + (rand() % 100);
 		//Difficulty easy
 		if (chosenDiff == 1)

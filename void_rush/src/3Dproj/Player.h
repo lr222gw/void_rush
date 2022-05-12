@@ -69,8 +69,8 @@ public:
 	Powerup getPlayerPower();
 	void setPlayerPower(Powerup index);
 	void setCanDoubleJump();
-	void unsetDoublejump();
 	bool canDoubleJump();
+	void getShield();
 
 	void SetDifficulity(Difficulity diff);
 	void SetStartPlatform(Platform*& start);
@@ -121,6 +121,7 @@ private:
 	//Powerups
 	Powerup power_index;
 	bool canDoublejump;
+	bool hasShield;
 
 	vec2 startingJumpDir = vec2(0.0f, 0.0f);
 	char startingJumpKey = 'N';

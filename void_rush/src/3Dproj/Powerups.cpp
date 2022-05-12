@@ -106,15 +106,12 @@ void Powerups::UsePowerUp(float dt)
 		////ADD HERE WHAT POTION DOES WHEN ACTIVATED////
 		//player->getSm()->playSound("Potion", player->getPos());
 	}
-	else if (player->getPlayerPower() == SHIELD || shieldActive == true)
+	else if (player->getPlayerPower() == SHIELD)
 	{
 		////ADD HERE WHAT SHEILD DOES WHEN ACTIVATED////
-		//player->getSm()->playSound("Shield", player->getPos());
-		if (this->shieldActive == false)
-		{
-			player->setPlayerPower(EMPTY);
-		}
-
+		player->getSm()->playSound("Shield", player->getPos());
+		player->setPlayerPower(EMPTY);
+		
 	}
 	else if (player->getPlayerPower() == MONEY)
 	{
