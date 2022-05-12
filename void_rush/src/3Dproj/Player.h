@@ -92,6 +92,8 @@ public:
 
 	void setBpm(float bpm);
 	void setMusicVol(float vol);
+
+	bool isInvinc()const;
 	
 private:
 	friend class ImguiManager;

@@ -382,6 +382,11 @@ void Game::setUpObject()
 		((Turret*)GameObjManager->getGameObject("turr"))->addProjectiles((TurrProjectile*)GameObjManager->getGameObject("proj" + std::to_string(i)));
 	}	
 
+	GameObjManager->CreateEnemy(player, enemyType::SPIKES, soundManager, "Spikes.obj", "spikes", vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0001f, 0.0001f, 0.0001f), true);
+	collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("spikes"));
+	GameObjManager->CreateEnemy(player, enemyType::SNARE, soundManager, "DCube.obj", "snare", vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.3f, 0.2f, 0.3f));
+	collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("snare"));
+
 	GameObjManager->CreateGameObject("DCube.obj", "cam", vec3(5, -10, 0), vec3(0, 0, 0));
 	GameObjManager->CreateGameObject("DCube.obj", "cubetest", vec3(0, 0, 50), vec3(0, 0, 0));
 
@@ -438,6 +443,7 @@ void Game::setUpObject()
 	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), CARD));
 	GameObjManager->addGameObject(powers.back(), "Card");
 	collisionHandler.addPowerups(powers.back());
+
 
 	generationManager->initialize();
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget

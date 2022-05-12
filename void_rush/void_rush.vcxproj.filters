@@ -456,6 +456,12 @@
     <ClCompile Include="src\generation\Player_jump_checker.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Spikes.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Snare.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -753,6 +759,12 @@
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\3Dproj\Projectile.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Spikes.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Snare.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -900,6 +900,11 @@ void Player::setMusicVol(float vol)
 	musicVol = vol;
 }
 
+bool Player::isInvinc() const
+{
+	return invincible;
+}
+
 void Player::TakeDmg(int dmg)
 {
 	health-=dmg;

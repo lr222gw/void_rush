@@ -40,7 +40,7 @@ GameStateRet Menu::update(float dt)
 {
 	GameStateRet theReturn;
 	theReturn.gameState = GameStatesEnum::NO_CHANGE;
-	theReturn.seed = 0;
+	theReturn.seed = -1;
 
 	camera->updateCamera();
 	camera->addRotation(vec3(0.1f * dt, 0.3f * dt, 0));
@@ -174,6 +174,9 @@ void Menu::getSeedInput()
 
 int Menu::getSeedInt()
 {
+	if (!inputSeed) {
+		return -1;
+	}
 	std::string cleanSeed="";
 	for (int i = 0; i < seed.size(); i++) {
 		if (seed.at(i) == '_') {
