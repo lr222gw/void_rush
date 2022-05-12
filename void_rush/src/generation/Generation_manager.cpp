@@ -334,7 +334,7 @@ void Generation_manager::generateGraph()
     float abs_Y = 0;
     Player_jump_checker p;
     std::vector<Platform*>* platforms = this->position_gen->getAnchors();
-    int platforms_size = platforms->size();
+    int platforms_size = (int)(platforms->size());
     for (int i = 0; i < platforms_size; i++)
     {
 

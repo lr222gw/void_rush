@@ -67,7 +67,7 @@ void ScoreManager::AddScore(float points)
 	else {
 		score += points;
 	}
-	HUD->UpdateScore(score);
+	HUD->UpdateScore((int)score);
 }
 
 void ScoreManager::LevelDone()
@@ -87,7 +87,12 @@ void ScoreManager::LevelDone()
 		break;
 	}
 	float optimalTime = puzzleTime + (levelLength / playerSpeed);//Time it would take to go in a straight line (* some multiplyer)
+	if (levelTime == 0)
+		levelTime = 0.01f;
 	float scoreToGive = levelPoints * (optimalTime / levelTime);
+	if (scoreToGive > levelPoints * 10) {
+		scoreToGive = levelPoints * 10;
+	}
 	//score += (scoreToGive + puzzlePoints) * scoreMultiplyer;
 	AddScore((scoreToGive + puzzlePoints) * scoreMultiplyer);
 	//Reset timer
@@ -173,7 +178,7 @@ void ScoreManager::WriteScore(std::string name, std::string file)
 			newFile += numScoresS + "\n";
 			for (int i = 0; i < scores.size(); i++) {
 				if (std::stoi(scores[i]) < score && !scoreInserted) {
-					for (int j = scores.size() - 1; j > i; j--) {
+					for (int j = (int)scores.size() - 1; j > i; j--) {
 						scores[j] = scores[j - 1];
 						names[j] = names[j - 1];
 						seeds[j] = seeds[j - 1];
