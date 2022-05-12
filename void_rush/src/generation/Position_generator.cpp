@@ -2,7 +2,7 @@
 #include "Position_generator.hpp"
 #include <algorithm>
 Position_generator::Position_generator(int _seed)
-    : seed(_seed), elements(0), pl(nullptr), startPlat(nullptr), firstJumpPoint(nullptr)
+    : seed(_seed), pl(nullptr), startPlat(nullptr), firstJumpPoint(nullptr)
 {    
 }
 
@@ -50,12 +50,12 @@ void Position_generator::generate_anchor_positions(Difficulity selectedDiff)
     position = current->platformShape.outCorner.pos;
     pl->moveto(position);
 
-    for (int i = 1; i < this->elements; i++)
+    for (int i = 1; i < this->AP_conf.nrOfAnchors; i++)
     {
         stepMaxZ = this->AP_conf.stepMaxHeight;
         stepMinZ = this->AP_conf.stepMinHeight;
         
-        if( rand() % this->AP_conf.freFallRate == 0 ){ // Determine if next anchor is for freefall
+        if( rand() % this->AP_conf.freeFallRate == 0 ){ // Determine if next anchor is for freefall
             stepMinZ += this->AP_conf.freeFallModifier;
             stepMaxZ += this->AP_conf.freeFallModifier;
         }
@@ -281,9 +281,9 @@ std::vector<Platform*>* Position_generator::getJumpPoints()
     return &this->jumpPoints;
 }
 
-void Position_generator::setNrOfElements(int nrOfElements)
-{
-    this->elements = nrOfElements;
+void Position_generator::setNrOfAnchors(int nrOfElements)
+{    
+    this->AP_conf.nrOfAnchors = nrOfElements;
 }
 
 void Position_generator::assignPlayer (Player_jump_checker* player) { this->pl = player; }

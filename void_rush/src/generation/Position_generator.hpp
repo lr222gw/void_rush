@@ -15,8 +15,7 @@ struct FirstLast_between_Anchor{
 class Position_generator
 {
 private:
-    int seed;
-    int elements;
+    int seed;    
     Platform*startPlat;
     std::vector<Platform*> anchors;
     std::vector<Platform*> jumpPoints;
@@ -37,7 +36,7 @@ public:
     void set_seed(int _seed);
     std::vector<Platform*>* getAnchors ();
     std::vector<Platform*>* getJumpPoints ();
-    void setNrOfElements(int nrOfElements);
+    void setNrOfAnchors(int nrOfElements);
     void assignPlayer (Player_jump_checker* player);
     float randF (float min, float max);
 
@@ -52,13 +51,14 @@ public:
 
 private: // Magic Numbers
     struct Anchor_point_settings{        
+        int nrOfAnchors = 6; 
         float minStepMod = 2.f; //2 is half, recommended
         float stepMax = 100.f;    //Max distance between platforms
         float stepMaxHeight = 0.f;    //Max distance between platforms
         float stepMinHeight = -10.f;    //Max distance between platforms
         float lowest_Height = -100.f;   //Lowest point for generation
         float freeFallModifier = -50.f;
-        int freFallRate = 5; // Procentage chance would be 1 / freeFallRate
+        int freeFallRate = 3; // Procentage chance would be 1 / freeFallRate
         float minZAngle = 0.f;
         float spawn_Y_offset_origo = -10.f;
     };

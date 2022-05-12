@@ -123,7 +123,7 @@ void ImguiManager::render_generation_widgets()
 				ImGui::TreePop();
 			} 
 			if (ImGui::TreeNode("Anchors")) {
-				ImGui::InputInt("Number of Anchors", &owner->generationManager->position_gen->elements);
+				ImGui::InputInt("Number of Anchors", &owner->generationManager->position_gen->AP_conf.nrOfAnchors);
 				ImGui::InputFloat("minStepMod", &owner->generationManager->position_gen->AP_conf.minStepMod);
 				ImGui::InputFloat("stepMax", &owner->generationManager->position_gen->AP_conf.stepMax);
 				ImGui::InputFloat("stepMaxHeight", &owner->generationManager->position_gen->AP_conf.stepMaxHeight);
@@ -131,6 +131,8 @@ void ImguiManager::render_generation_widgets()
 				ImGui::InputFloat("lowest_Height", &owner->generationManager->position_gen->AP_conf.lowest_Height);
 				ImGui::InputFloat("minZAngle", &owner->generationManager->position_gen->AP_conf.minZAngle);				
 				ImGui::InputFloat("spawn_Y_offset_origo", &owner->generationManager->position_gen->AP_conf.spawn_Y_offset_origo);
+				ImGui::InputFloat("freeFallModifier", &owner->generationManager->position_gen->AP_conf.freeFallModifier);
+				ImGui::InputInt("freeFallRate", &owner->generationManager->position_gen->AP_conf.freeFallRate);
 				ImGui::TreePop(); 
 			}
 			if (ImGui::TreeNode("Platforms,Shape")) {
@@ -143,6 +145,7 @@ void ImguiManager::render_generation_widgets()
 				ImGui::InputInt("minNrOfVoxels_AP", &Shape::shape_conf.minNrOfVoxels_AP);
 				ImGui::InputInt("maxNrOfVoxels_JP", &Shape::shape_conf.maxNrOfVoxels_JP);
 				ImGui::InputInt("minNrOfVoxels_JP", &Shape::shape_conf.minNrOfVoxels_JP);
+				ImGui::InputFloat("scaleAnchor_XY_Factor", &Shape::shape_conf.scaleAnchor_XY_Factor);
 				ImGui::InputFloat("plattform_voxel_margin", &Shape::shape_conf.plattform_voxel_margin);
 				ImGui::SliderInt("distance_padding", &Shape::shape_conf.max_clamp_padding, -10,10);
 				ImGui::Checkbox("tryRandom", &Shape::shape_conf.tryRandom);
