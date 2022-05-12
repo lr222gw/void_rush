@@ -2,7 +2,7 @@
 #include <algorithm>
 
 Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, Hud* HUD, vec3 pos, vec3 rot, vec3 scale):
-	GameObject(file, gfx, pos, rot, scale), noClip(false), HUD(HUD)
+	GameObject(file, gfx, pos, rot, scale), noClip(false), HUD(HUD), gfx(gfx)
 {
 	this->mouse = mouse;
 	this->keyboard = keyboard;
@@ -48,6 +48,9 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->heartBeatTimer = 0.0f;
 	this->bpm = 60;
 	this->musicVol = 3.0f;
+
+	currentFOV = 45;
+	minFOV = 45;
 }
 
 Player::~Player()
@@ -87,6 +90,13 @@ void Player::update(float dt)
 		if (fallBoxTimer > 4) {
 			TakeDmg();
 		}
+		if (velocity.length() > 0) {
+			currentFOV = lerp(currentFOV, maxFOV, 1 * dt);
+		}
+		else {
+			currentFOV = lerp(currentFOV, minFOV, 1 * dt);
+		}
+		gfx->setFov(currentFOV);
 	}else{
 		this->movePos(vec3(velocity.x * dt, 0.0f, velocity.z * dt));
 	}
@@ -526,7 +536,7 @@ void Player::handleEvents(float dt)
 		else if (held && !released) {
 			//std::cout << "HELD \n";			
 		}
-
+		maxFOV = 49;
 	}
 	else {
 		//std::cout << "Released\n";
@@ -535,6 +545,7 @@ void Player::handleEvents(float dt)
 		}
 		held = false;
 		released = true;
+		maxFOV = 47;
 	}
 
 	jumpDir.Normalize();
