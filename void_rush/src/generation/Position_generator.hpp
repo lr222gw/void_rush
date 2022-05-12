@@ -4,6 +4,10 @@
 #include "3Dproj/Vec.h"
 #include <random>
 
+struct mapDimensions {
+    float x_width;
+    float z_width;
+};
 
 enum class Difficulity {
     easy = 1, medium = 2, hard = 3
@@ -15,8 +19,7 @@ struct FirstLast_between_Anchor{
 class Position_generator
 {
 private:
-    int seed;
-    int elements;
+    int seed;    
     Platform*startPlat;
     std::vector<Platform*> anchors;
     std::vector<Platform*> jumpPoints;
@@ -37,7 +40,7 @@ public:
     void set_seed(int _seed);
     std::vector<Platform*>* getAnchors ();
     std::vector<Platform*>* getJumpPoints ();
-    void setNrOfElements(int nrOfElements);
+    void setNrOfAnchors(int nrOfElements);
     void assignPlayer (Player_jump_checker* player);
     float randF (float min, float max);
 
@@ -45,6 +48,7 @@ public:
     Platform* getFirstAnchorpoint();
     int getNrOfValidJumppoints();
     int getNrOfValidAnchorpoints();
+    mapDimensions getCurrentMapDimensions();
 
     Platform*& GetStartPlatform();
 
@@ -52,11 +56,14 @@ public:
 
 private: // Magic Numbers
     struct Anchor_point_settings{        
+        int nrOfAnchors = 6; 
         float minStepMod = 2.f; //2 is half, recommended
-        float stepMax = 50.f;    //Max distance between platforms
-        float stepMaxHeight = 10.f;    //Max distance between platforms
+        float stepMax = 100.f;    //Max distance between platforms
+        float stepMaxHeight = 0.f;    //Max distance between platforms
         float stepMinHeight = -10.f;    //Max distance between platforms
-        float lowest_Height = -100.f;   //Lowest point for generation
+        float lowest_Height = -300.f;   //Lowest point for generation
+        float freeFallModifier = -50.f;
+        int freeFallRate = 3; // Procentage chance would be 1 / freeFallRate
         float minZAngle = 0.f;
         float spawn_Y_offset_origo = -10.f;
     };

@@ -7,10 +7,13 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->mouse = mouse;
 	this->keyboard = keyboard;
 	this->cam = cam;
-	this->gravity = vec3(0.0f, -9.82f, 0.0f);
-	this->speed = vec3(2.7f, 0.0f, 2.7f);
+	//this->gravity = vec3(0.0f, -9.82f, 0.0f);
+	this->gravity = vec3(0.0f, -15.f, 0.0f);
+	//this->speed = vec3(2.7f, 0.0f, 2.7f);
+	this->speed = vec3(5.3f, 0.0f, 5.3f);
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
-	this->jumpForce = 5.0f;
+	//this->jumpForce = 5.0f;
+	this->jumpForce = 8.0f;
 	this->midAirAdj = 2.0f;
 	this->mass = 1.f;
 	this->grounded = true;
@@ -547,6 +550,32 @@ void Player::handleEvents(float dt)
 		held = false;
 		released = true;
 		maxFOV = 47;
+	}
+
+	static vec3 rememberGrav = this->gravity;
+	static bool heldCtrl = false;
+	static bool releasedCtrl = false;
+	if (keyboard->isKeyPressed(VK_CONTROL)) {
+
+		if (!heldCtrl && releasedCtrl && !grounded) {
+			heldCtrl = true;
+			releasedCtrl = false;
+			rememberGrav = this->gravity;
+			//std::cout << "PRESSED \n";
+			this->gravity = this->gravity * 3;
+		}
+		else if (heldCtrl && !releasedCtrl) {
+			//std::cout << "HELD \n";			
+		}
+
+	}
+	else {
+		//std::cout << "Released\n";
+		if (!releasedCtrl) {
+			this->gravity = rememberGrav;
+		}
+		heldCtrl = false;
+		releasedCtrl = true;
 	}
 
 	jumpDir.Normalize();
