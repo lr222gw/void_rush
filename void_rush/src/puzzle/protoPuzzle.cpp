@@ -12,6 +12,7 @@ ProtoPuzzle::ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm, CollisionHandler&
 
     this->puzzleList.push_back(math);
     this->puzzleList.push_back(hidden);
+    this->puzzleList.push_back(memory);
 }
 
 int ProtoPuzzle::ChoosePuzzle()
@@ -23,6 +24,7 @@ ProtoPuzzle::~ProtoPuzzle()
 {
     delete this->math;
     delete this->hidden;
+    delete this->memory;
 }
 
 void ProtoPuzzle::Interact(vec3 playerPos, vec3 forwardVec)
@@ -33,6 +35,7 @@ void ProtoPuzzle::Interact(vec3 playerPos, vec3 forwardVec)
 void ProtoPuzzle::UpdatePlayerPosition(vec3 Pos)
 {
     math->UpdatePlayerPos(Pos);
+    memory->UpdatePlayerPos(Pos);
 }
 
 void ProtoPuzzle::Initiate(vec3 platformPosition)
