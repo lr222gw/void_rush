@@ -7,6 +7,7 @@ class MemoryPuzzle : public Puzzle
 {
 private:
     Letters3DHandler* letters;
+    Letters3DHandler* answerLetters;
     int answer[3] = {0, 0, 0};
     int currentAnswer[3] = { -1, -1, -1 };
     int currentNumber = 0;
