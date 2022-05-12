@@ -456,6 +456,9 @@
     <ClCompile Include="src\generation\Player_jump_checker.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\puzzle\puzzle_memory.cpp">
+      <Filter>Protoypes\puzzle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -754,6 +757,9 @@
     </ClInclude>
     <ClInclude Include="src\3Dproj\Projectile.h">
       <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\puzzle\puzzle_memory.hpp">
+      <Filter>Protoypes\puzzle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

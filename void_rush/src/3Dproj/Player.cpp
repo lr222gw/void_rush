@@ -19,6 +19,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 
 	this->power_index = EMPTY;
 	this->canDoublejump = false;
+	this->hasShield = false;
 
 	GOPTR = static_cast<GameObject*>(this);
 	setWeight(20);
@@ -704,14 +705,24 @@ bool Player::ResetGhost()
 //Used by enemies to move player on collision
 void Player::shovePlayer(vec2 shove, float forceY)
 {
-	this->groundedTimer = 0.001f;
-	this->grounded = false;
-	this->shoved = true;
-	this->shove = shove;
-	this->velocity.y = forceY;
-	sm->playSound("Hit", getPos());
-	shoveDelay = true;
-	ResetGhost();
+	std::cout << hasShield << std::endl;
+	if (hasShield != true)
+	{
+		this->groundedTimer = 0.001f;
+		this->grounded = false;
+		this->shoved = true;
+		this->shove = shove;
+		this->velocity.y = forceY;
+		sm->playSound("Hit", getPos());
+		shoveDelay = true;	
+		ResetGhost();
+	}
+	else
+	{
+		hasShield = false;
+		getSm()->playSound("Shield2", getPos());
+		this->HUD->TurnOffPassive(SHIELD_P);
+	}
 }
 
 //gets the powerup index from collission handler when one is picked up
@@ -733,6 +744,7 @@ void Player::pickedUpPower(Powerup index)
 	}
 	if (this->power_index == SHIELD)
 	{
+		this->hasShield = true;
 		this->HUD->TurnOnPassive(SHIELD_P);
 	}
 	else
@@ -747,10 +759,7 @@ void Player::pickedUpPower(Powerup index)
 	if (this->power_index == MONEY)
 	{
 		AddScore(100);
-		//HUD->UpdateScore(100);
-
 	}
-	
 }
 
 Powerup Player::getPlayerPower()
@@ -772,17 +781,17 @@ void Player::setCanDoubleJump()
 	}
 }
 
-void Player::unsetDoublejump()
-{
-	if (canDoublejump == true)
-	{
-		canDoublejump = false;
-	}
-}
-
 bool Player::canDoubleJump()
 {
 	return this->canDoublejump;
+}
+
+void Player::getShield()
+{
+	if (this->hasShield == false)
+	{
+		this->hasShield = true;
+	}
 }
 
 //void Player::SetPuzzlePos(vec3 puzzlePosition)
