@@ -73,10 +73,6 @@ void Game::handleEvents()
 		if (e.getType() == mouseEvent::EventType::RAW_MOVE && !pauseMenu) {
 			player->rotateWithMouse(e.getPosX(), e.getPosY());
 		}
-		if (e.getType() == mouseEvent::EventType::LPress) {
-
-			//soundManager.playSound("ah1", player->getPos());
-		}
 		if (e.getType() == mouseEvent::EventType::RPress) {
 
 			soundManager.playSound("German", player->getPos());
@@ -109,7 +105,7 @@ void Game::renderShadow()
 		camera->setRotation(light[i]->getRotation());
 		shadowMap->inUpdateShadow(i);
 		updateShaders(true, false);
-
+	
 		gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		gfx->get_IMctx()->GSSetShader(nullptr, nullptr, 0);
 		gfx->get_IMctx()->PSSetShader(nullptr, nullptr, 0);
@@ -190,6 +186,9 @@ GameStateRet Game::update(float dt)
 	gfx->Update(dt, camera->getPos());
 	HUD->UpdateGhostBar(player->getPos(), generationManager->getPuzzelPos(), ghost->getPos(), distanceFromStartPosToPuzzle);
 	//HUD->UpdateScore(player->GetScore());
+	light[0]->getPos().x = player->getPos().x;
+	light[0]->getPos().y = player->getPos().y;
+	light[0]->getPos().z = player->getPos().z;
 
 #pragma region camera_settings
 
@@ -403,7 +402,7 @@ void Game::setUpObject()
 	GameObjManager->addGameObject(powers.back(), "Potion");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), SHIELD));
+	powers.push_back(new Powerups(rm->get_Models("Shield.obj", gfx), gfx, player, ghost, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), SHIELD));
 	GameObjManager->addGameObject(powers.back(), "Shield");
 	collisionHandler.addPowerups(powers.back());
 
@@ -460,20 +459,20 @@ void Game::setUpObject()
 void Game::setUpLights()
 {
 	//current max number is set in graphics.cpp and transforms.hlsli
-	nrOfLight = 1;
+	nrOfLight = 2;
 	light = new Light * [nrOfLight];
 
 	//create the lights with 
 	//light[0] = new DirLight(vec3(0, 30, 8), vec3(0.1f, -PI / 2, 1.f), 100, 100);
-	light[0] = new PointLight(vec3(3, 25, 5), 20, vec3(1, 1, 1));
-	//light[1] = new SpotLight(vec3(0, 46, 45), vec3(0, -1.57, 1));
-	//light[1] = new SpotLight(vec3(0, 500, 0), vec3(0, -1.57, 1));
-	//light[2] = new SpotLight(vec3(8, 47.f, 0), vec3(0, -1, 1));
-	//light[3] = new SpotLight(vec3(30, 50, 0), vec3(-1, -1, 1));
+	light[0] = new PointLight(vec3(3, 25, 5), 0.5, vec3(1, 1, 1));
+	vec3 middle = generationManager->getPuzzelPos() / 2;
+	float mSize = middle.length() * 2 + 20;
+	light[1] = new DirLight(vec3(middle.x, middle.length() * 2, middle.z), vec3(0, -1.57, 1), mSize, mSize);
+	GameObjManager->CreateGameObject("DCube.obj", "t1", light[1]->getPos() + vec3(mSize, -middle.length() * 2, mSize));
 
 	//set color for lights (deafault white)
-	light[0]->getColor() = vec3(1, 1, 1);
-	//light[1]->getColor() = vec3(1, 0, 1);
+	light[0]->getColor() = vec3(1, 0, 0);
+	light[1]->getColor() = vec3(0.27/3, 0.97/3, 0.97/3);
 
 	for (int i = 0; i < nrOfLight; i++) {
 		LightVisualizers.push_back(new GameObject(rm->get_Models("Camera.obj"), gfx, light[i]->getPos(), light[i]->getRotation()));
@@ -531,6 +530,7 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Feather1.wav", 10, "Feather");
 	soundManager.loadSound("assets/audio/Potion1.wav", 10, "Potion");
 	soundManager.loadSound("assets/audio/Shield1.wav", 10, "Shield");
+	soundManager.loadSound("assets/audio/Shield2.wav", 10, "Shield2");
 	soundManager.loadSound("assets/audio/Coin1.wav", 10, "Money");
 	soundManager.loadSound("assets/audio/Hit2.wav", 70, "Hit");
 	soundManager.loadSound("assets/audio/German.wav", 40, "German");
@@ -555,7 +555,7 @@ void Game::setUpSound()
 //Decides which powerups are used this map.
 void Game::setUpPowerups(int chosenDiff, vec3 pos)
 {	
-		//int chosenPower = 15;
+		//int chosenPower = 32;
 		int chosenPower = 1 + (rand() % 100);
 		//Difficulty easy
 		if (chosenDiff == 1)
@@ -850,10 +850,12 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 		puzzleManager->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
 		if (puzzleManager->isCompleted())
 		{
-			//player->setPos(vec3(0.0f, 0.0f, 0.0f));
 			player->Reset(true);
 			generationManager->initialize();
 			soundManager.playSound("Portal", player->getPos());
+			vec3 middle = generationManager->getPuzzelPos() / 2;
+			float mSize = middle.length() * 2 + 20;
+			light[1]->setProjection(DirectX::XMMatrixOrthographicLH(mSize, mSize, 0.1f, 40000.f));
 		}
 	}
 }

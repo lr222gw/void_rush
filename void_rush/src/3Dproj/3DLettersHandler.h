@@ -11,6 +11,7 @@ public:
 	void createText(std::string str, vec3 pos, vec2 size, std::string name = "");
 	void removeText(std::string key);
 	void removeText(int index);
+	void editText(std::string key, std::string text);
 	void removeAllText();
 	Letters3D* getText(std::string key);
 	Letters3D* getText(int index);

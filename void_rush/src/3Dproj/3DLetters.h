@@ -18,7 +18,11 @@ public:
 	void move(vec3 pos);
 	void setPos(vec3 pos);
 	void setRotateWithPlayer(bool rotate);
+	void replaceText(std::string text);
 private:
+	ResourceManager* rm;
+	Graphics* gfx;
+	vec2 size;
 	bool rotateToPlayer;
 	std::vector<float> u;
 	std::vector<float> v;
