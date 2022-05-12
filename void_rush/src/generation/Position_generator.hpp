@@ -61,7 +61,7 @@ private: // Magic Numbers
         float stepMax = 100.f;    //Max distance between platforms
         float stepMaxHeight = 0.f;    //Max distance between platforms
         float stepMinHeight = -10.f;    //Max distance between platforms
-        float lowest_Height = -100.f;   //Lowest point for generation
+        float lowest_Height = -300.f;   //Lowest point for generation
         float freeFallModifier = -50.f;
         int freeFallRate = 3; // Procentage chance would be 1 / freeFallRate
         float minZAngle = 0.f;
