@@ -30,4 +30,5 @@ private:
 	bool SeedClicked;
 	std::string seed;
 	int currentNumber;
+	float heightObject;
 };

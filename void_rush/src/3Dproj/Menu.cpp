@@ -5,8 +5,8 @@ Menu::Menu(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mous
 	soundManager(1)//be able to change this later based on settings
 {
 	buttonSize = vec2(0.5f, 0.15f);
-
-	cam->setPosition(vec3(0, 0, 0));
+	camera->setPosition(vec3(0, 0, 0));
+	camera->setRotation(vec3(0, 0, 0));
 	setUpObject();
 	setUpUI();
 	
@@ -43,7 +43,8 @@ GameStateRet Menu::update(float dt)
 	theReturn.seed = 0;
 
 	camera->updateCamera();
-	camera->addRotation(vec3(0.1f * dt, 0.3f * dt, 0));
+	//camera->addRotation(vec3(0.1f * dt, 0.3f * dt, 0));
+	skybox->addRot(vec3(0, -0.08f * dt, 0.09 * dt));
 	UI->update();
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 
@@ -72,6 +73,12 @@ GameStateRet Menu::update(float dt)
 		}
 		SeedClicked = true;
 	}
+	heightObject += dt;
+	if (heightObject >= 2 * 3.14) {
+		heightObject = 0;
+	}
+	GameObjManager->getGameObject("Ghost")->setPos(vec3(5, sin(heightObject), 10));
+
 	checkHover();
 	if (inputSeed) {
 		getSeedInput();
@@ -94,6 +101,10 @@ void Menu::render()
 	skybox->draw(gfx);
 
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
+	gfx->get_IMctx()->PSSetShader(gfx->getPS()[0], nullptr, 0);
+	GameObjManager->updatePixel();
+	GameObjManager->updateVertex();
+	GameObjManager->draw();
 	UI->draw();
 
 	gfx->present(0);
@@ -129,7 +140,7 @@ void Menu::setUpObject()
 		"assets/textures/Skybox/posz.png",//z+
 		"assets/textures/Skybox/negz.png"//z-
 	};
-	GameObjManager->CreateGameObject("", "Ghost", vec3(0, 0, 4));
+	GameObjManager->CreateGameObject("stol.obj", "Ghost", vec3(0, 0, 20));
 	rm->getSpriteCube(skyboxTextures, gfx);
 	skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, vec3(0,0,0), rm->getSpriteCube(skyboxTextures,gfx));
 }
