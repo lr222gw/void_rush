@@ -385,7 +385,7 @@ void Game::setUpObject()
 	GameObjManager->CreateGameObject("DCube.obj", "cam", vec3(5, -10, 0), vec3(0, 0, 0));
 	GameObjManager->CreateGameObject("DCube.obj", "cubetest", vec3(0, 0, 50), vec3(0, 0, 0));
 
-	ghost = new Ghost(player, rm->get_Models("indoor_plant_02.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
+	ghost = new Ghost(player, rm->get_Models("ghost.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
 	ghost->getSoundManager(soundManager);
 	GameObjManager->addGameObject(ghost, "Ghost");
 	collisionHandler.addEnemies(ghost);
