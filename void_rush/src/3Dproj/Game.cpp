@@ -394,54 +394,57 @@ void Game::setUpObject()
 	collisionHandler.addEnemies(ghost);
 
 	///////POWERUPS///////
-	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), APPLE));
+	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, mouse, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), APPLE));
 	GameObjManager->addGameObject(powers.back(), "Apple");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("Feather.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), FEATHER));
+	powers.push_back(new Powerups(rm->get_Models("Feather.obj", gfx), gfx, player, ghost, mouse, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), FEATHER));
 	GameObjManager->addGameObject(powers.back(), "Feather");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("Potion.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), POTION));
+	powers.push_back(new Powerups(rm->get_Models("Potion.obj", gfx), gfx, player, ghost, mouse, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), POTION));
 	GameObjManager->addGameObject(powers.back(), "Potion");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("Shield.obj", gfx), gfx, player, ghost, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f), SHIELD));
+	powers.push_back(new Powerups(rm->get_Models("Shield.obj", gfx), gfx, player, ghost, mouse, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f), SHIELD));
 	GameObjManager->addGameObject(powers.back(), "Shield");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("Money.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), MONEY));
+	powers.push_back(new Powerups(rm->get_Models("Money.obj", gfx), gfx, player, ghost, mouse, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), MONEY));
 	GameObjManager->addGameObject(powers.back(), "Money");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("Snowflake.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), FREEZE));
+	powers.push_back(new Powerups(rm->get_Models("Snowflake.obj", gfx), gfx, player, ghost, mouse, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), FREEZE));
 	GameObjManager->addGameObject(powers.back(), "Freeze");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("Pearl.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), PEARL));
+	powers.push_back(new Powerups(rm->get_Models("Pearl.obj", gfx), gfx, player, ghost, mouse, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), PEARL));
 	GameObjManager->addGameObject(powers.back(), "Pearl");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("EMP.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), EMP));
+	powers.push_back(new Powerups(rm->get_Models("EMP.obj", gfx), gfx, player, ghost, mouse, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), EMP));
 	GameObjManager->addGameObject(powers.back(), "Emp");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), PAD));
+	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, mouse, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), PAD));
 	GameObjManager->addGameObject(powers.back(), "Pad");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("Skull.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), KILL));
+	powers.push_back(new Powerups(rm->get_Models("Skull.obj", gfx), gfx, player, ghost, mouse, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), KILL));
 	GameObjManager->addGameObject(powers.back(), "Kill");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("Rocket.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), ROCKET));
+	powers.push_back(new Powerups(rm->get_Models("Rocket.obj", gfx), gfx, player, ghost, mouse, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), ROCKET));
 	GameObjManager->addGameObject(powers.back(), "Rocket");
 	collisionHandler.addPowerups(powers.back());
 
-	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), CARD));
+	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, mouse, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.8f, 0.8f, 0.8f), CARD));
 	GameObjManager->addGameObject(powers.back(), "Card");
 	collisionHandler.addPowerups(powers.back());
 
+	GameObjManager->CreateGameObject("Pearl.obj", "playerPearl", vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.05f, 0.05f));
+	collisionHandler.addPearl(GameObjManager->getGameObject("playerPearl"));
+	player->SetPearl(GameObjManager->getGameObject("playerPearl"));
 
 	generationManager->initialize();
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget

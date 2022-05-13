@@ -784,6 +784,56 @@ bool Player::isInvinc() const
 	return invincible;
 }
 
+void Player::SetPearl(GameObject*& pearlObj)
+{
+	this->pearl = pearlObj;
+}
+
+void Player::MovePearl(vec3 pos)
+{
+	if (this->pearlActive == true)
+	{
+		this->pearl->movePos(pos);
+	}
+}
+
+void Player::SetPearlPos(vec3 pos)
+{
+	this->pearl->setPos(pos);
+	this->setPearlStatus(true);
+}
+
+void Player::PearlHit()
+{
+	this->setPos(this->pearl->getPos() + vec3(0.0f, 1.5f, 0.0f));
+	this->pearl->setPos(vec3(1000.0f, 1000.0f, 1000.0f));
+	this->setPearlStatus(false);
+}
+
+bool Player::getPearlStatus()
+{
+	return this->pearlActive;
+}
+
+void Player::setPearlStatus(bool trueOrFalse)
+{
+	this->pearlActive = trueOrFalse;
+}
+
+void Player::resetPearl()
+{
+	SetPearlPos(vec3(1000.0f, 1000.0f, 1000.0f));
+	setPearlStatus(false);
+}
+
+GameObject*& Player::GetPearl()
+{
+	if (pearl != nullptr)
+	{
+		return this->pearl;
+	}
+}
+
 void Player::TakeDmg(int dmg)
 {
 	health-=dmg;
@@ -818,6 +868,11 @@ int Player::GetHealth()
 float Player::GetScore()
 {
 	return scoreManager.GetScore();
+}
+
+vec3 Player::GetForwardVec()
+{
+	return vec3(cam->getForwardVec());
 }
 
 bool Player::IsAlive()

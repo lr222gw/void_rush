@@ -1,10 +1,15 @@
 #include "Powerups.h"
 
-Powerups::Powerups(ModelObj* file, Graphics*& gfx, Player* player, Ghost* ghost, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale, Powerup pow)
+Powerups::Powerups(ModelObj* file, Graphics*& gfx, Player* player, Ghost* ghost, Mouse* mouse, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale, Powerup pow)
 	: GameObject(file, gfx, pos, rot, scale), power_index(pow)
 {
+	if (scale == vec3(0.8f, 0.8f, 0.8f))
+	{
+		this->pearlActive = true;
+	}
 	this->player = player;
 	this->keyboard = keyboard;
+	this->mouse = mouse;
 	this->ghostFrozenTimer = 0.0f;
 	this->ghost = ghost;
 	this->featherActive = false;
@@ -72,10 +77,35 @@ void Powerups::UsePowerUp(float dt)
 			ghostFrozenTimer += dt;
 		}
 	}
-	else if (player->getPlayerPower() == PEARL)
+	else if (pearlActive == true)
 	{
 		////ADD HERE WHAT PEARL DOES WHEN ACTIVATED////
 		//player->getSm()->playSound("Pearl", player->getPos());
+		if (mouse->isRightDown() && pearlTime == 0.0f)
+		{
+			pearlTime += dt;
+			player->SetPearlPos(player->getPos());
+			this->pearlVec = player->GetForwardVec();
+		}
+		else if (pearlTime > 0.0f)
+		{
+			player->MovePearl(pearlVec / 3.0f);
+			pearlTime += dt;
+
+			if (pearlTime >= 3.0f)
+			{
+				this->pearlTime = 0;
+				this->pearlVec = vec3(0.0f, 0.0f, 0.0f);
+				player->resetPearl();
+				player->setPearlStatus(false);
+			}
+		}
+
+		if (!player->getPearlStatus() && pearlTime > 0.0f)
+		{
+			this->pearlTime = 0.0f;
+			this->pearlVec = vec3(0.0f, 0.0f, 0.0f);
+		}
 	}
 	else if (player->getPlayerPower() == EMP)
 	{

@@ -12,7 +12,7 @@
 class Powerups:public GameObject
 {
 public:
-	Powerups(ModelObj* file, Graphics*& gfx, Player* player, Ghost * ghost, Keyboard* keyboard, vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1), Powerup pow = EMPTY);
+	Powerups(ModelObj* file, Graphics*& gfx, Player* player, Ghost * ghost, Mouse* mouse, Keyboard* keyboard, vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1), Powerup pow = EMPTY);
 	virtual ~Powerups();
 	void update(float dt) override;
 	void UsePowerUp(float dt);
@@ -21,10 +21,14 @@ public:
 private:
 
 	Keyboard* keyboard;
+	Mouse* mouse;
 	Powerup power_index;
 	Player* player;
 	Ghost* ghost;
 	float ghostFrozenTimer;
 	bool featherActive;
 	bool shieldActive;
+	bool pearlActive = false;
+	float pearlTime = 0.0f;
+	vec3 pearlVec;
 };
