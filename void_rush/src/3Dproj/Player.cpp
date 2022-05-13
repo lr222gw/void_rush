@@ -417,7 +417,6 @@ void Player::handleEvents(float dt)
 				airDir = airDir / vec2(midAirAdj, midAirAdj);
 			}
 			airDir = airDir + startingJumpDir;
-			//std::cout << airDir.x << " " << airDir.y << std::endl;
 
 			velocity.x = speed.x * airDir.x;
 			velocity.z = speed.z * airDir.y;
