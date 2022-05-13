@@ -7,6 +7,8 @@
 struct mapDimensions {
     float x_width;
     float z_width;
+    vec2 lowPoint;
+    vec2 highPoint;
 };
 
 enum class Difficulity {
