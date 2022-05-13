@@ -18,6 +18,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->shoved = false;
 
 	this->power_index = EMPTY;
+	this->passive_powerup = EMPTY_P;
 	this->canDoublejump = false;
 	this->hasShield = false;
 
@@ -62,6 +63,7 @@ Player::~Player()
 
 void Player::update(float dt)
 {
+	std::cout << this->power_index << std::endl;
 	handleEvents(dt);
 	if (!noClip) {
 		scoreManager.Update(dt);
@@ -421,7 +423,11 @@ void Player::handleEvents(float dt)
 			velocity.z = speed.z * airDir.y;
 
 		}
-		else
+		else if (usingRocket)
+		{
+			this->velocity = vec3(cam->getForwardVec().x, cam->getForwardVec().y, cam->getForwardVec().z) * 10.f;
+		}
+		else if (shoved)
 		{
 			velocity.x = shove.x;
 			velocity.z = shove.y;
@@ -452,7 +458,7 @@ void Player::addRot(vec3 rot)
 
 void Player::setGrounded()
 {
-	if (!grounded)
+	if (!grounded && !usingRocket)
 	{
 
 		float volume = (this->velocity.length() / this->speed.length())*15;
@@ -584,36 +590,42 @@ void Player::shovePlayer(vec2 shove, float forceY)
 void Player::pickedUpPower(Powerup index)
 {
 	sm->playSound("Pickup", getPos());
-	this->power_index = index;
-	if (this->power_index == FEATHER)
+	 
+	if (index == FEATHER)
 	{
 		this->HUD->TurnOnPassive(FEATHER_P);
+		this->passive_powerup = FEATHER_P;
 	}
-	if (this->power_index == PEARL)
+	else if (index == PEARL)
 	{
 		this->HUD->TurnOnPassive(PEARL_P);
+		this->passive_powerup = PEARL_P;
 	}
-	if (this->power_index == POTION)
+	else if (index == POTION)
 	{
 		this->HUD->TurnOnPassive(POTION_P);
+		this->passive_powerup = POTION_P;
 	}
-	if (this->power_index == SHIELD)
+	else if (index == SHIELD)
 	{
 		this->hasShield = true;
 		this->HUD->TurnOnPassive(SHIELD_P);
+		this->passive_powerup = SHIELD_P;
+	}
+	else if (index == APPLE)
+	{
+		HUD->IncreaseHealth();
+		this->passive_powerup = APPLE_P;
+	}
+	else if (index == MONEY)
+	{
+		AddScore(100);
+		this->passive_powerup = MONEY_P;
 	}
 	else
 	{
+		this->power_index = index;
 		this->HUD->ChangeCurrentPowerUp(this->power_index);
-	}
-
-	if (this->power_index == APPLE)
-	{
-		HUD->IncreaseHealth();
-	}
-	if (this->power_index == MONEY)
-	{
-		AddScore(100);
 	}
 }
 
@@ -626,6 +638,11 @@ void Player::setPlayerPower(Powerup index)
 {
 	this->power_index = index;
 	this->HUD->ChangeCurrentPowerUp(index);
+}
+
+PowerUpPassiv Player::getPassivePower()
+{
+	return this->passive_powerup;
 }
 
 void Player::setCanDoubleJump()
@@ -641,12 +658,34 @@ bool Player::canDoubleJump()
 	return this->canDoublejump;
 }
 
+void Player::setPlayerPowerPassiv(PowerUpPassiv index)
+{
+	this->passive_powerup = index;
+}
+
 void Player::getShield()
 {
 	if (this->hasShield == false)
 	{
 		this->hasShield = true;
 	}
+}
+
+void Player::setPlayerSpeed(vec3 speed)
+{
+	this->speed = speed;
+	if (speed.x == 2.7f)
+	{
+		HUD->TurnOffPassive(POTION_P);
+	}
+}
+
+void Player::useRocket(bool trueOrFalse)
+{
+	this->usingRocket = trueOrFalse;
+	this->grounded = false;
+	this->groundedTimer = 0.01f;
+
 }
 
 //void Player::SetPuzzlePos(vec3 puzzlePosition)
