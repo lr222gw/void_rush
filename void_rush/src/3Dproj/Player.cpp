@@ -7,12 +7,9 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->mouse = mouse;
 	this->keyboard = keyboard;
 	this->cam = cam;
-	//this->gravity = vec3(0.0f, -9.82f, 0.0f);
 	this->gravity = vec3(0.0f, -15.f, 0.0f);
-	//this->speed = vec3(2.7f, 0.0f, 2.7f);
 	this->speed = vec3(5.3f, 0.0f, 5.3f);
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
-	//this->jumpForce = 5.0f;
 	this->jumpForce = 8.0f;
 	this->midAirAdj = 2.0f;
 	this->mass = 1.f;
@@ -564,10 +561,9 @@ bool Player::ResetGhost()
 //Used by enemies to move player on collision
 void Player::shovePlayer(vec2 shove, float forceY)
 {
-	std::cout << hasShield << std::endl;
 	if (hasShield != true)
 	{
-		this->groundedTimer = 0.001f;
+		this->groundedTimer = 0.11f;
 		this->grounded = false;
 		this->shoved = true;
 		this->shove = shove;
