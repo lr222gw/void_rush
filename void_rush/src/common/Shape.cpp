@@ -3,6 +3,7 @@
 
 Shape::Shape_settings Shape::shape_conf;
 int Shape::index_incrementor = 0;
+Normals normals;
 
 Shape::Shape():scale(shape_conf.default_scale), shapeRadius(0.f) {
     //static int index_incrementor = 0;
@@ -244,108 +245,78 @@ void Shape::setShape(vec3 center, int nrOfVoxels, Shape* prev)
     }
 
     static int c = 0; 
-    if( previousVoxels.size() == 1 && collided){
-        //previousVoxels.clear();        
+    if( previousVoxels.size() == 1 && collided){    
         busyMatrix[first_index / matrixSize][first_index % matrixSize].is_illegal = true;
         previousVoxels.back().is_illegal = true;
         this->is_illegal = true;
         c++;
     }
 
-    /*if (extra_iterations_counter > nrOfVoxels) {
-        std::cout << "Extra Iterations: " << extra_iterations_counter - nrOfVoxels << " \n";
-    }
-    std::cout << "nrOfVoxels: " << nrOfVoxels << " \n";
-    for (int i = 0; i < matrixSize; i++) {
+    // new way to determine in/out points...
 
-        for (int j = 0; j < matrixSize; j++) {
-            std::cout << busyMatrix[i][j].isBusy << " ";
+    for (Center_Index_Pair& voxel : this->previousVoxels) {
+        if (!voxel.is_illegal) {
+            this->setShapeCube(voxel.current_center);
         }
-        std::cout << " \n";
-
-    }*/
-    
-
-
-    //Find longest distance
-    this->set_InOut_longstDist(nrOfVoxels, center);    
+    }
+    this->set_InOut_longstDist(nrOfVoxels, center);
     this->set_InOut_firstLastDeclared(busyMatrix, matrixSize, center);
 
-
-    // new way to determine in/out points...
-    if(prev){
-
-        vec3 direction = center - prev->outCorner.pos;
-        struct InOut {
-            vec3 pos_close;
-            vec3 pos_far;
-
-        }inOut;
-        inOut.pos_close = center;
-        inOut.pos_far = center;
-
-        //setShapeCube(center);
-        for (Center_Index_Pair &voxel : this->previousVoxels) {
-            if(!voxel.is_illegal){
-                this->setShapeCube(voxel.current_center);
-            }
-        }
-
-        /*for (int i = 0; i < this->planes.size(); i++) {
-
-            for(vec3* point : this->planes[i]->get_all_points()){
-
-                float length = (prev->outCorner.pos - *point).length();
-
-                if((inOut.pos_close - *point).length() > length){
-                    inOut.pos_close = *point;
-                }
-                if ((inOut.pos_far - *point).length() < length) {
-                    inOut.pos_far = *point;
-                }
-            }
-        }*/
-        for (int i = 0; i < this->planes.size(); i++) {
-
-            std::vector<vec3*> points = this->planes[i]->get_all_points();
-
-            for (int j = 0; j < this->planes[i]->get_all_points().size(); j++) {
-                vec3* point = points[j];
-
-                float length = (prev->outCorner.pos - *point).length();
-
-                if ((inOut.pos_close - *point).length() > length) {
-                    inOut.pos_close = *point;
-
-                    this->inCorner.points.clear();
-                    for(auto p : points){
-                        if(p != point){                            
-                            this->inCorner.points.push_back(*p);
-                        }
-                    }
-
-                }
-                if ((inOut.pos_far - *point).length() < length) {
-                    inOut.pos_far = *point;
-
-                    this->outCorner.points.clear();
-                    for (auto p : points) {
-                        if (p != point) {
-                            this->outCorner.points.push_back(*p);
-                        }
-                    }
-                }
-            }
-        }
-        this->inCorner.pos = inOut.pos_close;
-        this->outCorner.pos = inOut.pos_far;
-
-        //Remove temporary planes, or else collision with invisible shape
-        for (int i = 0; i < planes.size(); i++) {
-            delete planes[i];
-        }
-        planes.clear();
+    this->setInOutPoints(center, prev);
+  
+    //Remove temporary planes, or else collision with invisible shape
+    for (int i = 0; i < planes.size(); i++) {
+        delete planes[i];
     }
+    planes.clear();
+}
+
+void Shape::setInOutPoints(vec3 center, Shape* prev)
+{
+
+    struct InOut {
+        vec3 pos_close;
+        vec3 pos_far;
+
+    } inOut;
+    inOut.pos_close = center;
+    inOut.pos_far = center;
+
+    for (int i = 0; i < this->planes.size(); i++) {
+
+        std::vector<vec3*> points = this->planes[i]->get_all_points();
+
+        for (int j = 0; j < this->planes[i]->get_all_points().size() && this->planes[i]->normal == vec3(0.f, 1.f, 0.f); j++) {
+            vec3* point = points[j];
+            float length = 0;
+
+            if (prev) {
+                length = (prev->outCorner.pos - *point).length();
+            }
+
+            if ((inOut.pos_close - *point).length() > length) {
+                inOut.pos_close = *point;
+
+
+            }
+
+            this->inCorner.points.clear();
+            for (auto p : points) {  
+                this->inCorner.points.push_back(*p);
+            }
+
+            if ((inOut.pos_far - *point).length() < length) {
+                inOut.pos_far = *point;
+            }
+            this->outCorner.points.clear();
+            for (auto p : points) {
+                this->outCorner.points.push_back(*p);
+            }
+        }
+    }
+    this->inCorner.pos = inOut.pos_close;
+    this->outCorner.pos = inOut.pos_far;
+
 
 }
 
@@ -517,9 +488,16 @@ void Shape::set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair
     this->inCorner.pos = last - offest;
     this->outCorner.pos = first + offest;
 
+    
+
     /*float off = .2f;
     START->y = START->y + off;
     END->y = END->y - off;*/
+}
+
+void Shape::update_InOut(Shape* prev)
+{
+    this->setInOutPoints(this->shapeMidpoint, prev);
 }
 
 
