@@ -92,6 +92,8 @@ public:
 
 	void setBpm(float bpm);
 	void setMusicVol(float vol);
+
+	bool isInvinc()const;
 	
 private:
 	friend class ImguiManager;
@@ -119,6 +121,9 @@ private:
 	float heartBeatTimer;
 	float bpm;
 	float musicVol;
+
+	//Shake
+	bool screenShake;
 
 	//Powerups
 	Powerup power_index;

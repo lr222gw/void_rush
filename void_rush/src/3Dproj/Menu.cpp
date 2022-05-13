@@ -47,12 +47,12 @@ GameStateRet Menu::update(float dt)
 {
 	GameStateRet theReturn;
 	theReturn.gameState = GameStatesEnum::NO_CHANGE;
-	theReturn.seed = 0;
+	theReturn.seed = -1;
 
 	camera->updateCamera();
 	gfx->Update(dt);
 	//camera->addRotation(vec3(0.1f * dt, 0.3f * dt, 0));
-	skybox->addRot(vec3(0, -0.08f * dt, 0.09 * dt));
+	skybox->addRot(vec3(0.0f, -0.08f * dt, 0.09f * dt));
 	UI->update();
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 
@@ -85,7 +85,7 @@ GameStateRet Menu::update(float dt)
 	if (heightObject >= 2 * 3.14) {
 		heightObject = 0;
 	}
-	GameObjManager->getGameObject("Ghost")->setPos(vec3(3, (sin(heightObject) * 0.5) - 3, 10));
+	GameObjManager->getGameObject("Ghost")->setPos(vec3(3, (sin(heightObject) * 0.5f) - 3.0f, 10.0f));
 
 	checkHover();
 	if (inputSeed) {
@@ -160,7 +160,7 @@ void Menu::setUpLights()
 	nrOfLights = 1;
 	lights = new Light * [nrOfLights];
 
-	lights[0] = new PointLight(vec3(0.f, 0.f, 0.f), 1.5, vec3(1, 0.3, 0.3));
+	lights[0] = new PointLight(vec3(0.f, 0.f, 0.f), 1.5, vec3(1.0f, 0.3f, 0.3f));
 
 	//say to graphics/shaders how many lights we have
 	gfx->getLightconstbufferforCS()->nrOfLights.element = nrOfLights;
@@ -208,6 +208,9 @@ void Menu::getSeedInput()
 
 int Menu::getSeedInt()
 {
+	if (!inputSeed) {
+		return -1;
+	}
 	std::string cleanSeed="";
 	for (int i = 0; i < seed.size(); i++) {
 		if (seed.at(i) == '_') {

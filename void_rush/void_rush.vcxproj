@@ -355,6 +355,8 @@
     <ClCompile Include="src\puzzle\puzzle_memory.cpp" />
     <ClCompile Include="src\puzzle\puzzle_move.cpp" />
     <ClCompile Include="src\score\ScoreManager.cpp" />
+    <ClCompile Include="src\Snare.cpp" />
+    <ClCompile Include="src\Spikes.cpp" />
     <ClCompile Include="src\Turret.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -445,6 +447,8 @@
     <ClInclude Include="src\puzzle\puzzle_memory.hpp" />
     <ClInclude Include="src\puzzle\puzzle_move.hpp" />
     <ClInclude Include="src\score\ScoreManager.hpp" />
+    <ClInclude Include="src\Snare.h" />
+    <ClInclude Include="src\Spikes.h" />
     <ClInclude Include="src\Turret.h" />
     <ClInclude Include="src\interact\interact.hpp" />
   </ItemGroup>

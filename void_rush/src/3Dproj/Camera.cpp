@@ -16,6 +16,9 @@ Camera::Camera(Graphics *&gfx, Mouse* mouse, vec3 pos, vec3 rot)
 	this->yCamRot = rot.y;
 	this->zCamRot = rot.z;
 	this->calcFURVectors();
+
+	this->shakeTimerOrig = 0.01f;
+	resetShake();
 }
 
 Camera::~Camera()
@@ -50,6 +53,11 @@ void Camera::updateCamera(float dt)
 	//just add it to the pixel shader
 	movement();
 	Vcbd->view.element = viewMatrix;
+
+	//ScreenShake
+	if (shake) {
+		shakeScreen(dt);
+	}
 
 }
 
@@ -147,6 +155,15 @@ void Camera::movePos(vec3 move)
 	zCamPos += move.z;
 }
 
+void Camera::screenShake(float magnitude)
+{
+	this->shake = true;
+	this->magnitude = magnitude/100;
+	this->randomShake = rand() % 2;
+	if (this->randomShake == 0)
+		this->randomShake = -1;
+}
+
 void Camera::setData(float FOVRadians, float viewRatio, float nearDist, float farDist)
 {
 	this->ratio = viewRatio;
@@ -216,6 +233,48 @@ void Camera::handleEvent(float dt)
 			yCamRot -= mouseSensitivity * (float)dt;
 		}
 	}
+}
+
+void Camera::shakeScreen(float dt)
+{
+	if (shakeTimer > 0) {
+		shakeTimer -= dt;
+		return;
+	}
+	resetShakeTimer();
+	if (this->shakeCounter > 0) {
+		switch (shakeCounter--)
+		{
+		case 1://Left
+			this->xCamRot -= this->magnitude * randomShake;
+			break;
+		case 2://Right
+			this->xCamRot += this->magnitude * randomShake;
+			break;
+		case 3://Up
+			this->yCamRot += this->magnitude * randomShake;
+			break;
+		case 4://Down
+			this->yCamRot -= this->magnitude * randomShake;
+			break;
+		}
+	}
+	else {
+		resetShake();
+	}
+}
+
+void Camera::resetShake()
+{
+	this->shakeCounter = 4;
+	resetShakeTimer();
+	this->magnitude = 1.0f;
+	this->shake = false;
+}
+
+void Camera::resetShakeTimer()
+{
+	this->shakeTimer = this->shakeTimerOrig;
 }
 
 void Camera::Translate(float dt)

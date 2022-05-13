@@ -55,6 +55,8 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 
 	currentFOV = 45;
 	minFOV = 45;
+
+	screenShake = true;
 }
 
 Player::~Player()
@@ -455,7 +457,10 @@ void Player::setGrounded()
 {
 	if (!grounded)
 	{
+
 		float volume = (this->velocity.length() / this->speed.length())*15;
+		if(screenShake)
+			this->cam->screenShake(volume /20.0f);
 
 		this->grounded = true;
 		this->shoved = false;
@@ -470,6 +475,7 @@ void Player::setGrounded()
 
 		sm->setSoundVolume("Land", volume);
 		sm->playSound("Land", this->getPos());
+		
 	}
 }
 
@@ -771,6 +777,11 @@ void Player::setBpm(float bpm)
 void Player::setMusicVol(float vol)
 {
 	musicVol = vol;
+}
+
+bool Player::isInvinc() const
+{
+	return invincible;
 }
 
 void Player::TakeDmg(int dmg)
