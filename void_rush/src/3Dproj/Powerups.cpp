@@ -44,7 +44,8 @@ void Powerups::UsePowerUp(float dt)
 		{
 			////ADD HERE WHAT ROCKET DOES WHEN ACTIVATED////
 			player->getSm()->playSound("Rocket", player->getPos());
-			std::cout << "Has Rocket" << std::endl;
+			player->useRocket();
+			player->setPlayerPower(EMPTY);
 		}
 	}
 	else if (player->getPlayerPower() == CARD)

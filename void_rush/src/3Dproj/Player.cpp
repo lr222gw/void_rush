@@ -58,7 +58,6 @@ Player::~Player()
 void Player::update(float dt)
 {
 	handleEvents(dt);
-	std::cout << speed.x << std::endl;
 	if (!noClip) {
 		scoreManager.Update(dt);
 		if (!grounded)
@@ -791,6 +790,15 @@ void Player::setPlayerSpeed(vec3 speed)
 	{
 		HUD->TurnOffPassive(POTION_P);
 	}
+}
+
+void Player::useRocket()
+{
+	this->grounded = false;
+	groundedTimer = 0.001f;
+	this->velocity = this->velocity + cam->getForwardVec() * 10.f;
+	std::cout << "V.x: " << velocity.x << " V.y: " << velocity.y << " V.z: " << velocity.z << std::endl;
+
 }
 
 //void Player::SetPuzzlePos(vec3 puzzlePosition)

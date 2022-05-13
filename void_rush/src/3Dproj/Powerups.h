@@ -28,4 +28,5 @@ private:
 	bool featherActive;
 	bool potionActive;
 	float potionTimer;
+	
 };
