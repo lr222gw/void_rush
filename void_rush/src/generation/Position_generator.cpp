@@ -192,7 +192,20 @@ FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platfor
 
     pl->moveto(midd_platform->platformShape.outCorner.pos);
     
-    this->jumpPoints.push_back(midd_platform);
+    this->jumpPoints.push_back(midd_platform);    
+
+    //////////////////////////
+
+
+  //  midd_platform->platformShape.outCorner.pos.x < end->platformShape.inCorner.pos.x &&
+
+        //if(abs(end->platformShape.inCorner.pos.x) - abs(midd_platform->platformShape.outCorner.pos.x) >= 0) {}
+        //for(){
+        
+//        }
+
+
+    //////////////////////////
 
     //Create jumppoint between new middle and end if jump not possible    
     if(!this->pl->isJumpPossible(end->platformShape.inCorner.pos)){
