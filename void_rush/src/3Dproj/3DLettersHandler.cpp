@@ -78,6 +78,13 @@ void Letters3DHandler::removeText(int index)
 	}
 }
 
+void Letters3DHandler::editText(std::string key, std::string text)
+{
+	std::map<std::string, Letters3D*>::iterator it;
+	it = mapOfLetters.find(key);
+	it->second->replaceText(text);
+}
+
 void Letters3DHandler::removeAllText()
 {
 	for (size_t i = 0; i < strings.size(); i++)

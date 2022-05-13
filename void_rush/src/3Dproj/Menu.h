@@ -1,6 +1,7 @@
 #pragma once
 #include "SoundManager.h"
 #include "GameState.h"
+#include "ShadowMap.h"
 
 class Menu : public GameState {
 public:
@@ -13,6 +14,7 @@ public:
 private:
 	void setUpUI();
 	void setUpObject();
+	void setUpLights();
 	void checkHover();
 	void getSeedInput();
 	int getSeedInt();
@@ -22,6 +24,10 @@ private:
 	SkyBox* skybox;
 	SoundManager soundManager;
 
+	ShadowMap* shadowMap;
+	Light** lights;
+	int nrOfLights;
+
 	vec2 buttonSize;
 	std::vector<std::string>buttonNames;
 	std::vector<vec2>buttonPos;
@@ -30,4 +36,5 @@ private:
 	bool SeedClicked;
 	std::string seed;
 	int currentNumber;
+	float heightObject;
 };

@@ -14,8 +14,9 @@ TurrProjectile::TurrProjectile(ModelObj* file, Graphics*& gfx, Player* player, v
 void TurrProjectile::collidedWithPlayer()
 {
 	if (active) {
-		vec3 shf = (getPos() - player->getPos()).Normalize() * 5;
+		vec3 shf = (player->getPos() - getPos()).Normalize() * 5;
 		player->shovePlayer(vec2(shf.x, shf.z), 5.f);
+		active = false;
 	}
 }
 
@@ -45,6 +46,7 @@ void TurrProjectile::setActive(bool active)
 void TurrProjectile::setDirection(vec3 dir)
 {
 	this->direction = dir.Normalize();
+	lookat(getPos() + direction);
 }
 
 void TurrProjectile::draw(Graphics*& gfx, bool sm)

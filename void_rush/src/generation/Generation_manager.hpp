@@ -27,6 +27,7 @@ private:
 
 
 
+
 class Generation_manager {
 public:
 	Generation_manager(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& collisionHandler, int seed);
@@ -43,6 +44,8 @@ public:
 	void place_jumpPoints_top();
 	void place_jumpPoints_bottom();
 	void place_jumpPoints_sides();
+
+	mapDimensions getMapDimensions();
 
 	void setDifficulty(Difficulity diff);
 	Difficulity getDifficulty()const;

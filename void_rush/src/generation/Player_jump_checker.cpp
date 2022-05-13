@@ -33,9 +33,13 @@ void Player_jump_checker::moveto (const vec3&pos)
 }
 float Player_jump_checker::getJumpDistance ()
 {
+    float angle = acos((speed * 1.0f + this->jumpvel * 0.0) /
+        (sqrtf(powf(this->speed, 2) + powf(this->jumpvel, 2))));
+
+
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
-    float time = (float)((vel * sin (this->launchangle)
-               + sqrtf (powf (vel * sinf (this->launchangle), 2.0f)
+    float time = (float)((vel * sin (angle)
+               + sqrtf (powf (vel * sinf (angle), 2.0f)
                         + 2 * this->gravity * this->pos.y))
               / this->gravity);
 
@@ -44,9 +48,16 @@ float Player_jump_checker::getJumpDistance ()
 
 float Player_jump_checker::getJumpDistance (float height)
 {
+
+    
+
+    float angle = acos((speed * 1.0f + this->jumpvel * 0.0 ) /
+        (sqrtf(powf(this->speed, 2) + powf(this->jumpvel, 2))));
+    
+
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
-    float time = (float)((vel * sin (this->launchangle)
-               + sqrtf (powf (vel * sinf (this->launchangle), 2.0f)
+    float time = (float)((vel * sin (angle)
+               + sqrtf (powf (vel * sinf (angle), 2.0f)
                         + 2 * this->gravity * (this->pos.y - height)))
               / this->gravity);
 
@@ -55,10 +66,13 @@ float Player_jump_checker::getJumpDistance (float height)
 
 float Player_jump_checker::jumpHeight ()
 {
+    float angle = acos((speed * 1.0f + this->jumpvel * 0.0) /
+        (sqrtf(powf(this->speed, 2) + powf(this->jumpvel, 2))));
+
     //float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
     float vel = this->jumpvel;
     return this->pos.y
-           + (powf (vel, 2.0f) * powf (sinf (this->launchangle), 2.0f)
+           + (powf (vel, 2.0f) * powf (sinf (angle), 2.0f)
               / (2 * this->gravity));
 }
 

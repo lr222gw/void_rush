@@ -72,7 +72,7 @@ void HiddenPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 pos
     }
 
     puzzleObjects.push_back(new GameObject(rm->get_Models("Key.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0, 0, -0.5f), vec3(0.2f, 0.2f, 0.2f)));
-    puzzleObjects.push_back(new GameObject(rm->get_Models("BigBush.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x + 0.7f, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z + 0.4f), vec3(0, 0, 0), vec3(0.3f, 0.3f, 0.3f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("BigBush.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0, 0, 0), vec3(0.3f, 0.3f, 0.3f)));
     randomizeValue(x, z);
     puzzleObjects.push_back(new GameObject(rm->get_Models("BigBush.obj", gfx), gfx, vec3(puzzlePlatform->getxPos() + x, puzzlePlatform->getyPos() + 5.0f, puzzlePlatform->getzPos() + z), vec3(0, 0, 0), vec3(0.3f, 0.3f, 0.3f)));
     randomizeValue(x, z);
