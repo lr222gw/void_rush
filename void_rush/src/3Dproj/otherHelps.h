@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
-#include "Bone.h"
 #include <vector>
 #include <fstream>
+#include "vertex.h"
 //git
 std::string* getDest(std::string destPath, char splitchar = '/');
 std::string getPathfrom(std::string fullpath, std::string breakword);

@@ -356,19 +356,13 @@ bool SetupPipeline(ID3D11Device* device, ID3D11VertexShader**& vShader,
 		)
 	{
 		//continoue
-		if (def_rend) {
-			loadPShader("PSSHNormal.cso", device, pShader[0]);
-			loadPShader("PSSH.cso", device, pShader[2]);
+		if (lightFlag) {
+			loadPShader("NormalForwardNMapPS.cso", device, pShader[0]);
+			loadPShader("NormalForwardPS.cso", device, pShader[2]);
 		}
 		else {
-			if (lightFlag) {
-				loadPShader("NormalForwardNMapPS.cso", device, pShader[0]);
-				loadPShader("NormalForwardPS.cso", device, pShader[2]);
-			}
-			else {
-				loadPShader("NoShadowPS.cso", device, pShader[0]);
-				loadPShader("NoShadowPS.cso", device, pShader[2]);
-			}
+			loadPShader("NoShadowPS.cso", device, pShader[0]);
+			loadPShader("NoShadowPS.cso", device, pShader[2]);
 		}
 	}
 	else {
