@@ -19,5 +19,4 @@ private:
 	float range;
 	float shootCD;
 	float currentTimeTillShoot;
-	void lookat();
 };

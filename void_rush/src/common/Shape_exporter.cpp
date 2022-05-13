@@ -77,11 +77,10 @@ void Shape_exporter::init(texturesEnum texture)
         | aiProcess_JoinIdenticalVertices;    
 
     std::vector<aiString> textures{ 
+        aiString("textures/SnowTexture.jpg"),
         aiString("textures/UnderTexture.png"),
-        aiString("textures/outline.png"),
-        aiString("textures/Cork.png"),
+        aiString("textures/SideTexture.png"),
     };
-    //nrOfMaterials = textures.size();
 
     mesh_index = 0; 
     material_index = 0; 
@@ -98,9 +97,7 @@ void Shape_exporter::init(texturesEnum texture)
     
 
     scene->mMaterials[0] = new aiMaterial(); //TODO: change this to have more materials!        
-    //aiString texture_test = textures[0];
 
-    //scene->mMaterials[0]->AddProperty(&texMaterial, AI_MATKEY_TEXTURE_DIFFUSE(0));
     scene->mMaterials[0]->AddProperty(&textures[(int)texture], AI_MATKEY_TEXTURE_DIFFUSE(0));
     aiColor3D diffuse(1.f);
     aiColor3D ambient(0.25f);
@@ -110,28 +107,6 @@ void Shape_exporter::init(texturesEnum texture)
     scene->mMaterials[0]->AddProperty<aiColor3D>(&ambient, 1, AI_MATKEY_COLOR_AMBIENT);
     scene->mMaterials[0]->AddProperty<aiColor3D>(&specular, 1, AI_MATKEY_COLOR_SPECULAR);
     scene->mMaterials[0]->AddProperty<float>(&shiny, 1, AI_MATKEY_SHININESS);
-    //c++;
-
-    //for (int i = 0; i < nrOfMaterials; i++) {
-
-        //int c = 0;
-        //for(aiString texMaterial : textures){            
-
-        //scene->mMaterials[c] = new aiMaterial(); //TODO: change this to have more materials!        
-        //aiString texture_test = textures[c];
-
-        //    scene->mMaterials[c]->AddProperty(&texMaterial, AI_MATKEY_TEXTURE_DIFFUSE(0));
-        //    aiColor3D diffuse(1.f);
-        //    aiColor3D ambient(0.25f);
-        //    aiColor3D specular(0.25f);
-        //    float shiny = 0.65f;
-        //    scene->mMaterials[c]->AddProperty<aiColor3D>(&diffuse, 1 , AI_MATKEY_COLOR_DIFFUSE);
-        //    scene->mMaterials[c]->AddProperty<aiColor3D>(&ambient, 1 , AI_MATKEY_COLOR_AMBIENT);
-        //    scene->mMaterials[c]->AddProperty<aiColor3D>(&specular, 1, AI_MATKEY_COLOR_SPECULAR);
-        //    scene->mMaterials[c]->AddProperty<float>(&shiny, 1, AI_MATKEY_SHININESS);
-        //    c++;
-        //}        
-    //}
     
 }
 

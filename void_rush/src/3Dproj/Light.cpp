@@ -5,7 +5,7 @@ Light(pos)
 {
 	this->rot = rot;
 	this->flag = wTofL::SPOT;
-	this->Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45), 16.f/9, 0.1f, 2000.f);
+	this->Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45), 16.f/9, 0.1f, 40000.f);
 	this->fallOff = 2000;
 }
 
@@ -101,13 +101,18 @@ int Light::getType() const
 	return this->flag;
 }
 
+void Light::setProjection(DirectX::XMMATRIX projectionsmatrix)
+{
+	this->Projection = projectionsmatrix;
+}
+
 
 DirLight::DirLight(vec3 pos, vec3 rot, float W, float H):
 	SpotLight(pos, rot)
 {
 	this->flag = wTofL::DIR;
-	this->Projection = DirectX::XMMatrixOrthographicLH(W, H, 0.1f, 2000.f);
-	this->fallOff = 2000;
+	this->Projection = DirectX::XMMatrixOrthographicLH(W, H, 0.1f, 40000.f);
+	this->fallOff = 20000;
 }
 
 PointLight::PointLight(vec3 pos, float falloff, vec3 Color):

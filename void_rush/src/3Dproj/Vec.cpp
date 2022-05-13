@@ -25,6 +25,14 @@ void arrayToVec(std::array<float, 2> arr[3], vec2 vec[3])
 		vec[i].y = arr[i][1];
 	}
 }
+float lerp(float a, float b, float t)
+{
+	return a + (b - a) * t;
+}
+vec3 lerp(vec3 a, vec3 b, float t)
+{
+	return a + (b - a) * t;
+}
 //git
 vec3 vec3::Normalize() //TODO: should not set and return... confusing
 {

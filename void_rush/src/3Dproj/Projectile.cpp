@@ -46,6 +46,7 @@ void TurrProjectile::setActive(bool active)
 void TurrProjectile::setDirection(vec3 dir)
 {
 	this->direction = dir.Normalize();
+	lookat(getPos() + direction);
 }
 
 void TurrProjectile::draw(Graphics*& gfx, bool sm)

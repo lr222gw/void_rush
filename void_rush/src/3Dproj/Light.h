@@ -18,6 +18,7 @@ public:
 	vec3& getPos();
 	vec3& getColor();
 	int getType() const;
+	void setProjection(DirectX::XMMATRIX projectionsmatrix);
 	DirectX::XMMATRIX getLightViewProj() const;
 	float getFallOff()const;
 	//get light and view matrix from light
