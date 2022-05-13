@@ -4,6 +4,7 @@
 #include "Ghost.h"
 #include "Spikes.h"
 #include "Snare.h"
+#include "Mushroom.h"
 #include <map>
 #include "ResourceManager.h"
 #include "Light.h"

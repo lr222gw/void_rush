@@ -34,6 +34,7 @@ void Snare::update(float dt)
 		catchTimer = 0.1f;
 		activated = false;
 		reset = true;
+		this->player->setPos(this->PlayerPos);
 	}
 }
 

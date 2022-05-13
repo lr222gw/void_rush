@@ -584,6 +584,16 @@ void Player::shovePlayer(vec2 shove, float forceY)
 	}
 }
 
+void Player::setVelocity(vec3 vel)
+{
+	this->velocity = vel;
+}
+
+vec3 Player::getVelocity() const
+{
+	return this->velocity;
+}
+
 //gets the powerup index from collission handler when one is picked up
 void Player::pickedUpPower(Powerup index)
 {

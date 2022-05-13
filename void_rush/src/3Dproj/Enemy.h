@@ -2,7 +2,7 @@
 #include "Player.h"
 
 enum enemyType {
-	TURRET, GHOST, PROJECTILE, SPIKES, SNARE
+	TURRET, GHOST, PROJECTILE, SPIKES, SNARE, MUSHROOM
 };
 
 class Enemy : public GameObject {

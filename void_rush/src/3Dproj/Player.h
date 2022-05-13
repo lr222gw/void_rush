@@ -65,6 +65,8 @@ public:
 	//Used when player falls of platform to rest ghost
 	bool ResetGhost();
 	void shovePlayer(vec2 shove, float forceY);
+	void setVelocity(vec3 vel);
+	vec3 getVelocity()const;
 
 	//Powerup function
 	void pickedUpPower(Powerup index);
