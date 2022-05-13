@@ -62,6 +62,8 @@ public:
 	void ResetFallBoxTimer();
 	void Reset(bool lvlClr = false);
 
+	void lookat(vec3 lookat, vec3 offset = vec3(0,0,0));
+
 	//Used when player falls of platform to rest ghost
 	bool ResetGhost();
 	void shovePlayer(vec2 shove, float forceY);
@@ -92,6 +94,8 @@ public:
 
 	void setBpm(float bpm);
 	void setMusicVol(float vol);
+
+	void set_resetLookat_dir(vec3 lookAt);
 	
 private:
 	friend class ImguiManager;
@@ -106,6 +110,7 @@ private:
 	vec3 resForce;
 	vec3 gravity;
 	vec2 jumpDir;
+	vec3 resetLookat_dir; 
 	float mass;
 	bool grounded;
 	float groundedTimer;
