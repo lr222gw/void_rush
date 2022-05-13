@@ -568,6 +568,9 @@ void Plane::swap_windingorder() {
     this->point2 = this->point4;
     this->point4 = temp;
     update_normal();
+    vec2 uvTemp = this->uv[1];
+    this->uv[1] = this->uv[3];
+    this->uv[3] = uvTemp;
 }
 
 const vec3 Plane::get_normal() { return normal; }
