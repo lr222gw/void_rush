@@ -59,6 +59,11 @@ void Generation_manager::set_GameObjManager(GameObjectManager* goMan)
     this->gameObjManager = goMan;
 }
 
+void Generation_manager::set_PowerupManager(PowerupManager* PowerupManager)
+{
+    this->powerupManager = PowerupManager;
+}
+
 void Generation_manager::initialize()
 {
     //Removes previous data and platforms if any
@@ -109,6 +114,12 @@ void Generation_manager::initialize()
     
     place_anchorPoints();  
     place_jumpPoints();  
+    position_gen->select_powerUp_positions();
+    powerupManager->reset();    
+
+    for (auto& p : position_gen->get_powerUp_positions()->positions) {
+        powerupManager->setUpPowerups((int)this->difficulity, p);
+    }
 
     this->player->set_resetLookat_dir(position_gen->firstJumpPoint->platformShape.get_midpoint());
     this->player->lookat(position_gen->firstJumpPoint->platformShape.get_midpoint(),

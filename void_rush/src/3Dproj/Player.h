@@ -6,32 +6,15 @@
 #include "common/Vector.hpp"
 #include "hud/Hud.h"
 
-
 #include "generation/Position_generator.hpp"//To use difficulty
 #include "score/ScoreManager.hpp"
 #include "Collision3D.h"
+#include "powerups/PowerUpDefs.hpp"
 
 #include <string>
 #include <fstream>
 
-enum Powerup
-{
-	EMPTY,
-	ROCKET,
-	CARD,
-	FREEZE,
-	DEATH,
-	EMP,
-	PAD,
-	APPLE,
-	FEATHER,
-	PEARL,
-	POTION,
-	SHIELD,
-	KILL,
-	MONEY
-
-};
+enum Powerup;
 
 //used with HUD
 enum PowerUpPassiv

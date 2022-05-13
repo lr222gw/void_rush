@@ -12,8 +12,9 @@
 #include "puzzle/protoPuzzle.hpp"
 #include "3Dproj/GameObjectManager.h"
 
-#include "common/Helper.hpp"
+#include "powerups/powerUpManager.hpp"
 
+#include "common/Helper.hpp"
 #include "common/Shape_exporter.hpp"
 
 class PlatformObj : public GameObject 
@@ -35,6 +36,7 @@ public:
 	void set_player(Player* player);
 	void set_PuzzleManager(ProtoPuzzle* puzzleManager);
 	void set_GameObjManager(GameObjectManager* goMan);
+	void set_PowerupManager(PowerupManager* PowerupManager);
 	void initialize();
 	void place_anchorPoints();
 	void place_anchorPoints_top();
@@ -58,6 +60,7 @@ public:
 	void draw();	
 private:
 	Player* player;
+	PowerupManager* powerupManager;
 	ProtoPuzzle* puzzleManager;
 	GameObjectManager* gameObjManager;
 	Shape_exporter* shape_export;

@@ -352,6 +352,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\physics\jump.cpp" />
     <ClCompile Include="src\physics\proto.cpp" />
+    <ClCompile Include="src\powerups\powerUpManager.cpp" />
     <ClCompile Include="src\puzzle\Portal.cpp" />
     <ClCompile Include="src\puzzle\protoPuzzle.cpp" />
     <ClCompile Include="src\puzzle\puzzle.cpp" />
@@ -451,6 +452,8 @@
     <ClInclude Include="src\physics\proto.hpp" />
     <ClInclude Include="src\Platform.h" />
     <ClInclude Include="src\playerGen.h" />
+    <ClInclude Include="src\powerups\PowerUpDefs.hpp" />
+    <ClInclude Include="src\powerups\powerUpManager.hpp" />
     <ClInclude Include="src\puzzle\Portal.h" />
     <ClInclude Include="src\puzzle\protoPuzzle.hpp" />
     <ClInclude Include="src\puzzle\puzzle.hpp" />

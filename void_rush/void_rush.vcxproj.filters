@@ -462,6 +462,9 @@
     <ClCompile Include="src\puzzle\puzzle_move.cpp">
       <Filter>Protoypes\puzzle</Filter>
     </ClCompile>
+    <ClCompile Include="src\powerups\powerUpManager.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -766,6 +769,12 @@
     </ClInclude>
     <ClInclude Include="src\puzzle\puzzle_move.hpp">
       <Filter>Protoypes\puzzle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\powerups\powerUpManager.hpp">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\powerups\PowerUpDefs.hpp">
+      <Filter>Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

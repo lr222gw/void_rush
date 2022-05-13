@@ -1,6 +1,15 @@
 #include <iostream>
 #include "Position_generator.hpp"
 #include <algorithm>
+std::vector<Platform*> Position_generator::getAllPlatforms()
+{
+    
+    std::vector<Platform*> allPlatforms;
+    allPlatforms.insert(allPlatforms.begin(), this->anchors.begin(), this->anchors.end());
+    allPlatforms.insert(allPlatforms.end(), this->jumpPoints.begin(), this->jumpPoints.end());
+
+    return allPlatforms;
+}
 Position_generator::Position_generator(int _seed)
     : seed(_seed), pl(nullptr), startPlat(nullptr), firstJumpPoint(nullptr)
 {    
@@ -168,6 +177,34 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
        delete plat;
     }
     trashBin.clear();
+}
+
+void Position_generator::select_powerUp_positions()
+{
+    this->powerup_positions.nrOfPositions = 0;
+    this->powerup_positions.positions.clear();
+    int nrOfJumpPoints = this->getNrOfValidJumppoints();
+    
+    //this->powerup_positions.positions
+
+    int nrOfPowerUp_Positions = nrOfJumpPoints / PU_conf.powerUp_occurance_rate;
+
+    for (int i = 0; i < nrOfPowerUp_Positions; i+=PU_conf.powerUp_occurance_rate) {
+        
+        if (!this->jumpPoints[i]->platformShape.get_is_Illegal()) {
+             
+            int pickVoxelPos = rand() % this->jumpPoints[i]->platformShape.previousVoxels.size();
+            this->powerup_positions.nrOfPositions++;
+            this->powerup_positions.positions.push_back(
+                this->jumpPoints[i]->platformShape.previousVoxels[pickVoxelPos].current_center + PU_conf.position_offset
+            );
+        }
+    }     
+}
+
+powerUp_positions* Position_generator::get_powerUp_positions()
+{
+    return &powerup_positions;
 }
 
 
@@ -349,13 +386,10 @@ mapDimensions Position_generator::getCurrentMapDimensions()
         0,
         0
     }; 
-
     vec2 min; 
     vec2 max;
 
-    std::vector<Platform*> allPlatforms;
-    allPlatforms.insert(allPlatforms.begin(), this->anchors.begin(), this->anchors.end());
-    allPlatforms.insert(allPlatforms.end(), this->jumpPoints.begin(), this->jumpPoints.end());
+    std::vector<Platform*> allPlatforms = getAllPlatforms();
 
     //Get height    
     for (size_t i = 0; i < allPlatforms.size(); i++)
