@@ -63,7 +63,6 @@ Player::~Player()
 
 void Player::update(float dt)
 {
-	std::cout << this->power_index << std::endl;
 	handleEvents(dt);
 	if (!noClip) {
 		scoreManager.Update(dt);
