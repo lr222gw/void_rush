@@ -458,7 +458,7 @@ void Game::setUpObject()
 void Game::setUpLights()
 {
 	//current max number is set in graphics.cpp and transforms.hlsli
-	nrOfLight = 2;
+	nrOfLight = 3;
 	light = new Light * [nrOfLight];
 
 	//create the lights with 
@@ -473,6 +473,7 @@ void Game::setUpLights()
 		generationManager->getMapDimensions().x_width + 20,
 		generationManager->getMapDimensions().z_width + 20
 	);
+	light[2] = new PointLight(generationManager->getPuzzelPos() + vec3(0, 10, 0), 10, vec3(0.5, 0.5, 0));
 
 	//set color for lights (deafault white)
 	light[0]->getColor() = vec3(1, 0, 0);

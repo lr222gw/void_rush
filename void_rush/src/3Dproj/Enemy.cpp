@@ -15,7 +15,7 @@ void Enemy::lookat(vec3 lookat, vec3 offset)
 	TurretToPlayer.Normalize();
 	float yrot = acos(TurretToPlayer.Normalize() * up);
 
-	this->setRot(vec3(yrot, -xrot, 0));
+	this->setRot(vec3(yrot + offset.y, -xrot + offset.x, 0));
 }
 
 
