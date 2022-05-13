@@ -122,6 +122,9 @@ private:
 	float bpm;
 	float musicVol;
 
+	//Shake
+	bool screenShake;
+
 	//Powerups
 	Powerup power_index;
 	bool canDoublejump;

@@ -9,7 +9,7 @@ Snare::Snare(ModelObj* file, Graphics*& gfx, Player* player, vec3 pos, vec3 rot,
 	this->reset = false;
 	this->timer = 3.0f;
 	this->resetTimer = 3.0f;
-	this->catchTimer = 0.2f;
+	this->catchTimer = 0.1f;
 }
 
 Snare::~Snare()
@@ -31,7 +31,7 @@ void Snare::update(float dt)
 	if (timer < 0) {
 		timer = 3.0f;
 		resetTimer = 3.0f;
-		catchTimer = 0.2f;
+		catchTimer = 0.1f;
 		activated = false;
 		reset = true;
 	}

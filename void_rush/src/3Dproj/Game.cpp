@@ -144,6 +144,9 @@ GameStateRet Game::update(float dt)
 			testTime -= dt;
 		}
 		/*Move things*/
+		if (getkey('H')) {
+			camera->screenShake(3.0f);
+		}
 		camera->updateCamera(dt);
 		if (getkey('N')) {
 			DirectX::XMMATRIX viewMatrix = DirectX::XMMATRIX(
