@@ -5,7 +5,8 @@
 class MovePuzzle : public Puzzle
 {
 private:
-    float speed = 3.0f;
+    float speed = 0.0f;
+    bool moving = false;
     vec3 startPos;
     vec2 speedDir = vec2(0.0f, 0.0f);
 public:
