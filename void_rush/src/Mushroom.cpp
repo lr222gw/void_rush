@@ -24,7 +24,7 @@ void Mushroom::collidedWithPlayer()
 
 	DirectX::XMFLOAT4 bb[2];
 	this->getBoundingBox(bb);
-	float length = (vec3(bb[0]) - vec3(bb[1])).length();
+	float length = fabs(bb[0].x - bb[1].x);//(vec3(bb[0]) - vec3(bb[1])).length();
 	float radius = length / 2;
 
 	float howMuch = objPlayerLen / radius;
@@ -36,6 +36,10 @@ void Mushroom::collidedWithPlayer()
 
 	float yPush = (1 - howMuch) * objPlayerLen * force;
 	horPush = horPush * force;
+
+	if (objPlayerLen > radius) {
+		return;
+	}
 
 	player->shovePlayer(vec2(horPush.x, horPush.z), yPush);
 	
