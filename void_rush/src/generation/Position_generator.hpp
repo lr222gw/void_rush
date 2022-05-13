@@ -16,15 +16,24 @@ struct FirstLast_between_Anchor{
     Platform* first = nullptr;
     Platform* last = nullptr;
 };
+
+struct powerUp_positions {
+    int nrOfPositions;
+    std::vector<vec3> positions;
+};
+
 class Position_generator
 {
 private:
+    friend class ImguiManager;
     int seed;    
     Platform*startPlat;
     std::vector<Platform*> anchors;
     std::vector<Platform*> jumpPoints;
     Player_jump_checker* pl;
-    friend class ImguiManager;
+    powerUp_positions powerup_positions;
+    
+    std::vector<Platform*> getAllPlatforms();
 public:
     Platform* firstJumpPoint;
 
@@ -33,6 +42,8 @@ public:
     bool start (Difficulity diff);
     void generate_anchor_positions(Difficulity selectedDiff);
     void generate_jumpPoints_positions(Difficulity selectedDiff);        
+    void select_powerUp_positions();
+    powerUp_positions* get_powerUp_positions();
 
     FirstLast_between_Anchor jumpPoint_generation_helper(Platform* start, Platform* end);    
     void jumpPoint_create_offset(Platform* plat, vec3& currentMiddle, vec3 start, vec3 end);
@@ -79,6 +90,12 @@ private: // Magic Numbers
 
     };
     Jump_point_settings JP_conf;
+
+    struct PowerUp_position_settings{        
+        int powerUp_occurance_rate = 2;
+        vec3 position_offset = vec3(0.f, 1.f,0.f);
+    };
+    PowerUp_position_settings PU_conf;
 
 private:  //Imgui stuff
     struct Imgui_data {

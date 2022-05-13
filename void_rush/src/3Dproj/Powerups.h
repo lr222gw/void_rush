@@ -7,6 +7,7 @@
 #include "hud/Hud.h"
 #include "Player.h"
 #include "Ghost.h"
+#include "powerups/PowerUpDefs.hpp"
 
 
 class Powerups:public GameObject

@@ -153,6 +153,18 @@ void ImguiManager::render_generation_widgets()
 
 				ImGui::TreePop();
 			}
+			if (ImGui::TreeNode("PowerUp_Positions")) {
+				float* offset[3] = { 
+					&owner->generationManager->position_gen->PU_conf.position_offset.x,
+					&owner->generationManager->position_gen->PU_conf.position_offset.y,
+					&owner->generationManager->position_gen->PU_conf.position_offset.z };
+
+				ImGui::InputFloat3("position_offset", *offset);
+				ImGui::InputInt("powerUp_occurance_rate", 
+					&owner->generationManager->position_gen->PU_conf.powerUp_occurance_rate);
+
+				ImGui::TreePop();
+			}
 			
 			ImGui::TreePop();
 		}		
