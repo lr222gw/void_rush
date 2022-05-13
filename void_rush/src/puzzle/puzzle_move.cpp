@@ -55,7 +55,7 @@ void MovePuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 posit
         x = rand() % 11 - 5.0f;
     }
 
-    puzzleObjects.push_back(new GameObject(rm->get_Models("BigRock.obj", gfx), gfx, this->puzzlePlatform->getPos() + vec3(x, 4.8f, y), vec3(0.0f, 0.0f, 0.0f), vec3(0.1f, 0.1f, 0.1f)));
+    puzzleObjects.push_back(new GameObject(rm->get_Models("Flag.obj", gfx), gfx, this->puzzlePlatform->getPos() + vec3(x, 5.0f, y), vec3(0.0f, 0.0f, 0.0f), vec3(0.1f, 0.1f, 0.1f)));
 
     this->GetColHandler()->addPlatform(puzzlePlatform);
 }
