@@ -558,6 +558,7 @@ void Position_generator::removeUnnecessaryPlatformsVoxels()
             iteration++;
             toCheck = toCheck->next;
         }
+        startPoint = toCheck;
     }
 
 }
