@@ -27,6 +27,7 @@ bool Position_generator::start (Difficulity selectedDiff)
     generate_anchor_positions(selectedDiff);
     generate_jumpPoints_positions(selectedDiff);
     removeOverlappingPlatformVoxels();
+    removeUnnecessaryPlatformsVoxels();
 
     return true;
 }
@@ -82,7 +83,7 @@ void Position_generator::generate_anchor_positions(Difficulity selectedDiff)
         if (dvect_magnitude > stepMin && dvect_magnitude < stepMax)
         {
             newPlat = new Platform(position);            
-            newPlat->platformShape.setAnchorShape(*newPlat->getPos(), dVect.length());
+            newPlat->platformShape.setAnchorShape(*newPlat->getPos(), dVect.length(), &current->platformShape);
 
             pl->moveto(newPlat->platformShape.outCorner.pos);
             position = newPlat->platformShape.outCorner.pos;
@@ -195,14 +196,33 @@ FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platfor
     this->jumpPoints.push_back(midd_platform);    
 
     //////////////////////////
+    outCorner* startOutCorner = &start->platformShape.outCorner;
+    inCorner* middInCorner = &midd_platform->platformShape.inCorner;
+    outCorner* middOutCorner = &midd_platform->platformShape.outCorner;
+    inCorner* endInCorner = &end->platformShape.inCorner;
+    float prev_StartMidd_Dist = (startOutCorner->pos - middInCorner->pos).length();
+    float prev_MiddEnd_Dist = (middOutCorner->pos - endInCorner->pos).length();
+    float startMidd_dist = -1;
+    float middEnd_dist = -1;
+    for(int i = 0; i < middOutCorner->points.size(); i++){
+        for(int j = 0; j < endInCorner->points.size(); j++){
+            middEnd_dist = (middOutCorner->points[i] - endInCorner->points[j]).length();
+            startMidd_dist = (startOutCorner->points[i] - middInCorner->points[j]).length();
+            if(middEnd_dist < prev_MiddEnd_Dist){
+                middOutCorner->pos = middOutCorner->points[i];
+                endInCorner->pos = endInCorner->points[j];
+                prev_MiddEnd_Dist = middEnd_dist;
+            }
+            if(startMidd_dist < prev_StartMidd_Dist){
+                startOutCorner->pos = startOutCorner->points[i];
+                middInCorner->pos = middInCorner->points[j];
+                prev_StartMidd_Dist = startMidd_dist;
+            }
+        }
+    }
 
+    pl->moveto(midd_platform->platformShape.outCorner.pos);
 
-  //  midd_platform->platformShape.outCorner.pos.x < end->platformShape.inCorner.pos.x &&
-
-        //if(abs(end->platformShape.inCorner.pos.x) - abs(midd_platform->platformShape.outCorner.pos.x) >= 0) {}
-        //for(){
-        
-//        }
 
 
     //////////////////////////
@@ -421,6 +441,7 @@ void Position_generator::removeOverlappingPlatformVoxels()
                         J_voxel--;
                     }
                 }
+                jumpPoints[j]->platformShape.update_InOut(&jumpPoints[j]->prev->platformShape);
             }
         }    
     }
@@ -457,11 +478,53 @@ void Position_generator::removeOverlappingPlatformVoxels()
                         J_voxel--;
                     }
                 }
+                jumpPoints[j]->platformShape.update_InOut(&jumpPoints[j]->prev->platformShape);
             }
         }
     }
 
     int breakME = 3;
+
+}
+
+void Position_generator::removeUnnecessaryPlatformsVoxels()
+{
+    int maxNrAhead = 5;
+    bool skipable = false; 
+    int iteration = 0;
+
+    Platform* startPoint = this->getFirstJumppoint();
+    Platform* toCheck = nullptr;
+
+    toCheck = startPoint->next;
+    while(toCheck && startPoint && toCheck->next && !startPoint->platformShape.get_is_Illegal()){
+        iteration = 0;
+        toCheck = startPoint->next;
+
+        while (iteration < maxNrAhead && toCheck->next) {
+
+            /*for (int j = 0; j < iteration && toCheck->next; j++) {
+                toCheck = toCheck->next;
+            }*/
+
+            this->pl->moveto(startPoint->platformShape.outCorner.pos);
+            float JumpDist = this->pl->getJumpDistance(toCheck->platformShape.inCorner.pos.y);
+            float distance = this->pl->distance(toCheck->platformShape.inCorner.pos);
+            float padding = JumpDist/4.f;
+            skipable = this->pl->isJumpPossible(toCheck->platformShape.inCorner.pos);
+
+            if (skipable && JumpDist > distance+padding) {
+                toCheck->platformShape.previousVoxels.clear();
+                toCheck->platformShape.set_is_Illegal(true);
+            }
+            else{
+                startPoint = toCheck;
+                break;
+            }
+            iteration++;
+            toCheck = toCheck->next;
+        }
+    }
 
 }
 

@@ -254,26 +254,20 @@ void Shape::setShape(vec3 center, int nrOfVoxels, Shape* prev)
 
     // new way to determine in/out points...
 
-    for (Center_Index_Pair& voxel : this->previousVoxels) {
-        if (!voxel.is_illegal) {
-            this->setShapeCube(voxel.current_center);
-        }
-    }
     this->set_InOut_longstDist(nrOfVoxels, center);
     this->set_InOut_firstLastDeclared(busyMatrix, matrixSize, center);
 
     this->setInOutPoints(center, prev);
   
-    //Remove temporary planes, or else collision with invisible shape
-    for (int i = 0; i < planes.size(); i++) {
-        delete planes[i];
-    }
-    planes.clear();
 }
 
 void Shape::setInOutPoints(vec3 center, Shape* prev)
 {
-
+    for (Center_Index_Pair& voxel : this->previousVoxels) {
+        if (!voxel.is_illegal) {
+            this->setShapeCube(voxel.current_center);
+        }
+    }
     struct InOut {
         vec3 pos_close;
         vec3 pos_far;
@@ -296,8 +290,6 @@ void Shape::setInOutPoints(vec3 center, Shape* prev)
 
             if ((inOut.pos_close - *point).length() > length) {
                 inOut.pos_close = *point;
-
-
             }
 
             this->inCorner.points.clear();
@@ -317,7 +309,10 @@ void Shape::setInOutPoints(vec3 center, Shape* prev)
     this->inCorner.pos = inOut.pos_close;
     this->outCorner.pos = inOut.pos_far;
 
-
+    for (int i = 0; i < planes.size(); i++) {
+        delete planes[i];
+    }
+    planes.clear();
 }
 
 void Shape::setShapeCube(vec3 center)

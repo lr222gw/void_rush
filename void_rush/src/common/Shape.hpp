@@ -135,7 +135,7 @@ public:
 
     void set_InOut_longstDist(int nrOfVoxels, vec3& given_center);
     void set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair>> busyMatrix, int matrixsize, vec3& given_center);
-    void update_InOut(Shape* prev);
+    void update_InOut(Shape* prev = nullptr);
 
     void export_as_obj();
     inCorner inCorner;

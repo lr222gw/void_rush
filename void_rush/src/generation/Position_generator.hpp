@@ -53,6 +53,7 @@ public:
     Platform*& GetStartPlatform();
 
     void removeOverlappingPlatformVoxels();
+    void removeUnnecessaryPlatformsVoxels();
 
 private: // Magic Numbers
     struct Anchor_point_settings{        
