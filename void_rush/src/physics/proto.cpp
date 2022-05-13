@@ -23,7 +23,7 @@ void physics_proto ()
 
     Vector2 startPos;
     Vector2 pos;
-    float h; //Not used?
+    //float h; //Not used?
     std::string content;
 
     std::ofstream csv_file ("../proto_outputs/whatever.csv");

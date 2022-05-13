@@ -1,3 +1,4 @@
+
 #pragma once
 #include "3Dproj/ResourceManager.h"
 #include "3Dproj/Graphics.h"
@@ -8,11 +9,12 @@
 #include "Position_generator.hpp"
 #include <vector>
 #include "3Dproj/CollisionHandler.h"
+#include "puzzle/protoPuzzle.hpp"
+#include "3Dproj/GameObjectManager.h"
 
-//struct Platform{
-//	GameObject obj;
-//	Platform info;	
-//};
+#include "common/Helper.hpp"
+
+#include "common/Shape_exporter.hpp"
 
 class PlatformObj : public GameObject 
 {
@@ -21,24 +23,47 @@ public:
 	~PlatformObj();
 private:
 	friend class ImguiManager;
-	//GameObject* GOPTR;
 };
+
 
 
 
 class Generation_manager {
 public:
-	Generation_manager(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& collisionHandler);
+	Generation_manager(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& collisionHandler, int seed);
 	~Generation_manager();
+	void set_player(Player* player);
+	void set_PuzzleManager(ProtoPuzzle* puzzleManager);
+	void set_GameObjManager(GameObjectManager* goMan);
 	void initialize();
+	void place_anchorPoints();
+	void place_anchorPoints_top();
+	void place_anchorPoints_bottom();
+	void place_anchorPoints_sides();
+	void place_jumpPoints();
+	void place_jumpPoints_top();
+	void place_jumpPoints_bottom();
+	void place_jumpPoints_sides();
+
+	mapDimensions getMapDimensions();
+
+	void setDifficulty(Difficulity diff);
+	Difficulity getDifficulty()const;
+	vec3 getPuzzelPos();
+	Platform*& GetStartPlatform();
 
 	void generateGraph();
+	int getStartSeed()const;
 
-	void draw();
-	void updatePlatfoms(Player* player);
+	void draw();	
 private:
+	Player* player;
+	ProtoPuzzle* puzzleManager;
+	GameObjectManager* gameObjManager;
+	Shape_exporter* shape_export;
 	friend class ImguiManager;
 	int seed; 
+	int startSeed;
 	Player_jump_checker* player_jump_checker;
 	Difficulity difficulity;
 	Position_generator* position_gen;

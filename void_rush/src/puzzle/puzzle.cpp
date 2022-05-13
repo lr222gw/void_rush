@@ -1,34 +1,50 @@
 #include "puzzle.hpp"
 
-Puzzle::Puzzle (const Vector3 &position, int seed, int width, int length, bool completed)
-    : seed (seed), position (position), width(width), length(length), completed (completed)
+Puzzle::Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler, SoundManager* soundManager)
+    : seed(seed), Portal(gfx, rm, colHandler), soundManager(soundManager)
 {
-    //Create door position based on width and length of the platform together with the origin point. 
-    //Example: if width is 500, then one of the corners is at half of width + origin coordinates.
 }
 
 Puzzle::~Puzzle()
 {
     for (size_t i = 0; i < puzzleObjects.size(); i++) {
+        this->GetColHandler()->deletePlatform(puzzleObjects[i]);
         delete puzzleObjects[i];
+    }
+    puzzleObjects.clear();
+    if (puzzlePlatform != nullptr)
+    {
+        this->GetColHandlerBase()->deletePlatform(puzzlePlatform);
+        delete puzzlePlatform;
     }
 }
 
-bool Puzzle::GetState () const { return completed; }
+bool Puzzle::GetState () const { return this->GetStatePortal(); }
+
+void Puzzle::SetPosition(vec3 pos)
+{
+    this->position = pos;
+}
 
 void Puzzle::ResetState()
 {
-    completed = false;
+    for (size_t i = 0; i < puzzleObjects.size(); i++) {
+        this->GetColHandler()->deletePlatform(puzzleObjects[i]);
+        delete puzzleObjects[i];
+    }
+    puzzleObjects.clear();
+    if (puzzlePlatform != nullptr)
+    {
+        this->GetColHandlerBase()->deletePlatform(puzzlePlatform);
+        delete puzzlePlatform;
+        puzzlePlatform = nullptr;
+    }
+    this->ResetPortal();
 }
 
-int Puzzle::GetWidth() const
+vec3 Puzzle::GetPosition() const
 {
-    return width;
-}
-
-int Puzzle::GetLength() const
-{
-    return length;
+    return this->position;
 }
 
 int Puzzle::GetSeed() const
@@ -36,8 +52,23 @@ int Puzzle::GetSeed() const
     return seed;
 }
 
-void Puzzle::SpawnDoor ()
+bool Puzzle::GetPortalCompleted() const
 {
-    completed = true;
+    return this->GetCompleted();
+}
+
+CollisionHandler* Puzzle::GetColHandler()
+{
+    return this->GetColHandlerBase();
+}
+
+void Puzzle::SpawnDoor (vec3 pos)
+{
     // Spawn the door after puzzle is completed.
+    this->Spawn(pos);
+}
+
+void Puzzle::UpdatePlayerPos(vec3 newPlayerPos)
+{
+    this->playerPos = newPlayerPos;
 }

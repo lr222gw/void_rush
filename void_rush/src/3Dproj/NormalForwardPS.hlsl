@@ -18,7 +18,6 @@ cbuffer CBuf
 };
 
 Texture2D diffuseTex : register(t0); // diffuse base color
-//Texture2D nMap : register(t1); // normal map
 Texture2DArray<float4> shadowMapping : register(t1);
 SamplerState testSampler;
 
@@ -52,7 +51,7 @@ float4 main(PixelShaderInput input) : SV_TARGET
         {
             attenuation = Attenuate(1, 1 / lightColor[i].w, 0.001f, dist);
         }
-        if (lightPos[i].w == 2 && dist < (lightColor[i].w * 2) ||
+        if (lightPos[i].w == 2 ||
             SM.r > shadowMapCoords.z - bias &&
             shadowMapCoords.z <= 1.0f && //E
             shadowMapCoords.x < 1 && shadowMapCoords.x > 0 &&
@@ -69,16 +68,14 @@ float4 main(PixelShaderInput input) : SV_TARGET
 
             //specular
             float3 reflectDir = reflect(-lightDir, input.normal.xyz);
-            float spec = pow(max(dot(viewDir, reflectDir), 0.0), ks.w);
+            float spec = pow(max(dot(viewDir, reflectDir), 0.0), ks.w + 0.000001);
             float3 specular = ks.xyz * spec;
-
-            //FinalPixel.xyz += saturate(ambient_light + defuse_light) + specular;
             FinalPixel.xyz += saturate(ambient_light * attenuation + defuse_light * attenuation) + specular * attenuation;
         }
         else
         {
             //we are in shadow
-            FinalPixel += float4((ka.xyz), 0);
+            FinalPixel += float4((ka.xyz) * attenuation, 0);
         }
     }
     //return float4(FinalPixel.xyz, 1);

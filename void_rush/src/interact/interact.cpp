@@ -1,20 +1,10 @@
 #include "interact.hpp"
 
+//Test
+
 bool CanInteract (vec3 camPos, vec3 camDir, vec3 itemPos,
-                  float itemRad, float maxDistance)
+                  float itemRad, float maxDistance, float& rayDist)
 {
-
-   /* if(get_distance(camPos, itemPos) > maxDistance){
-        return false;
-    }
-    Vector3 dir = camPos - itemPos;
-    dir.normalize();
-
-    if(dot(dir, camDir) > itemRad){
-        return false;
-    }
-    return true;*/
-
     camDir.Normalize();
 
     // l = distance from camPos to itemPos
@@ -24,8 +14,8 @@ bool CanInteract (vec3 camPos, vec3 camDir, vec3 itemPos,
     // ray
     //double s = dot(l, camDir);
     //double l2 = dot(l, l);
-    double s = l * camDir;
-    double l2 = l * l;
+    float s = l * camDir;
+    float l2 = l * l;
 
     // Item is behine camera, and not inside the items radius
     if (s < 0 && l2 > powf (itemRad, 2))
@@ -44,17 +34,52 @@ bool CanInteract (vec3 camPos, vec3 camDir, vec3 itemPos,
         return false;
     }
 
+    rayDist = (float)sqrt(m2);
+
     return true;
 }
 
-void TestIntersection(){
-    vec3 camPos = vec3(0.0f, 6.0f, -10.0f);
-    vec3 camDir = vec3(0.0f, 0.0f, 1.0f);
-    vec3 itemPos = vec3(0.0f, 6.0f, 0.0f);
-    float itemRad = 1.0f;
-    float maxDistance = 10.0f;
+vec3 GetMidPos(GameObject* object, float& size)
+{
+    DirectX::XMFLOAT4 bb[2];
+    DirectX::XMFLOAT3 objMidPos;
 
-    if(CanInteract(camPos,  camDir,  itemPos, itemRad, maxDistance)){
-        std::cout<<"Intersect!.\n";
-    }
+    object->getBoundingBox(bb);
+    float xSize = fabs(bb[1].x - bb[0].x);
+    float ySize = fabs(bb[1].y - bb[0].y);
+    float zSize = fabs(bb[1].z - bb[0].z);
+    if (xSize >= ySize && xSize >= zSize)
+        size = xSize;
+    else if (ySize >= xSize && ySize >= zSize)
+        size = ySize;
+    else
+        size = zSize;
+
+    objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
+
+    vec3 ret = vec3(objMidPos.x, objMidPos.y, objMidPos.z);
+    return ret;
+}
+
+vec3 GetMidPos(GameObject* object)
+{
+    DirectX::XMFLOAT4 bb[2];
+    DirectX::XMFLOAT3 objMidPos;
+
+    object->getBoundingBox(bb);
+    float size;
+    float xSize = fabs(bb[1].x - bb[0].x);
+    float ySize = fabs(bb[1].y - bb[0].y);
+    float zSize = fabs(bb[1].z - bb[0].z);
+    if (xSize >= ySize && xSize >= zSize)
+        size = xSize;
+    else if (ySize >= xSize && ySize >= zSize)
+        size = ySize;
+    else
+        size = zSize;
+
+    objMidPos = DirectX::XMFLOAT3(bb[0].x + xSize / 2, bb[0].y + ySize / 2, bb[0].z + zSize / 2);
+
+    vec3 ret = vec3(objMidPos.x, objMidPos.y, objMidPos.z);
+    return ret;
 }

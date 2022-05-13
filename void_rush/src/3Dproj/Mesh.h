@@ -1,7 +1,6 @@
 #pragma once
 #include "CreateBuffer.h"
 #include "Graphics.h"
-#include "Bone.h"
 #include "Material.h"
 
 #include <assimp/Importer.hpp>
@@ -23,6 +22,7 @@ public:
 	void getKdKaKsNs(float (&kd)[4], float (&ka)[4], float(&ks)[4]);
 	void draw(ID3D11DeviceContext*& immediateContext);
 	void draw2(ID3D11DeviceContext*& immediateContext);
+	void drawRaw(ID3D11DeviceContext*& immediateContext);
 	/*Set Shaders on this object*/
 	void SetShaders(ID3D11VertexShader* VS);
 	/*Set Shaders on this object*/
@@ -47,23 +47,3 @@ private:
 	std::vector<MeshObj> SubMeshes;
 };
 
-/*class Mesh {
-public:
-	Mesh(Graphics *& gfx, std::vector<vertex> vertecies, std::vector<DWORD>& indices);
-	Mesh(Graphics *& gfx, std::vector<BoneVertex> vertecies, std::vector<DWORD>& indices);
-	Mesh(const Mesh& mesh);
-	virtual ~Mesh();
-	void Draw(ID3D11DeviceContext*& immediateContext);
-	const int getNrOfVertexes();
-	//const int getNrOfIndecies(); will fix
-	int nrOfIndecies;
-private:
-	int nrOfTextures;
-	int nrOfVertexes;
-	
-	bool defTexture[3] = { false, false, false };
-	ID3D11ShaderResourceView** texSRV;
-	ID3D11Buffer* vertexBuffer;
-	ID3D11Buffer* indicesBuffer;
-	ID3D11DeviceContext* ctx;
-};*/

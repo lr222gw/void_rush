@@ -4,6 +4,7 @@
 
 
 
+
 std::vector<vec3> calcTangent(vertex* vex1, vertex* vex2, vertex* vex3)
 {
 	vertex vex[3]{ *vex1, *vex2, *vex3 };
@@ -305,7 +306,7 @@ bool readObjFile(std::vector<MeshObj>& Meshes, std::string fileName, std::vector
 		| aiProcess_GenNormals
 		| aiProcess_CalcTangentSpace
 		| aiProcess_JoinIdenticalVertices
-	);
+	);	
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 		return false;
@@ -371,3 +372,66 @@ bool readObjFile(std::vector<MeshObj>& Meshes, std::string fileName, std::vector
 	return true;
 }
 
+bool readObjFromScene(aiScene* scene,  std::vector<MeshObj>& Meshes, std::vector<Material*>& matrial, Graphics*& gfx, vec3 box[2])
+{	
+	unsigned int flags = 
+		aiProcess_Triangulate |
+		 aiProcess_GenNormals |
+		 aiProcess_CalcTangentSpace |
+		 aiProcess_JoinIdenticalVertices;
+
+	Assimp::Importer importer;
+	Assimp::Exporter exporter;
+	
+	auto blob = exporter.ExportToBlob(scene, "obj", flags);
+	const aiScene* new_scene = importer.ReadFileFromMemory(blob->data, blob->size, flags, "obj");
+			
+
+	if (!scene || new_scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !new_scene->mRootNode) {	
+		return false;
+	}
+	
+	//make a for loop here
+	for (UINT i = 0; i < new_scene->mNumMeshes; i++) {
+		std::vector<DWORD> indecies;
+		std::vector<vertex> vertecies;
+		aiMesh* mesh = new_scene->mMeshes[i];
+
+		for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+			vertex v;
+			v.pos[0] = mesh->mVertices[i].x;
+			v.pos[1] = mesh->mVertices[i].y;
+			v.pos[2] = mesh->mVertices[i].z;
+
+			v.norm[0] = mesh->mNormals[i].x;
+			v.norm[1] = mesh->mNormals[i].y;
+			v.norm[2] = mesh->mNormals[i].z;
+
+			v.uv[0] = mesh->mTextureCoords[0][i].x;
+			v.uv[1] = mesh->mTextureCoords[0][i].y;
+
+			v.bitang[0] = mesh->mBitangents[i].x;
+			v.bitang[1] = mesh->mBitangents[i].y;
+			v.bitang[2] = mesh->mBitangents[i].z;
+
+			v.tang[0] = mesh->mTangents[i].x;
+			v.tang[1] = mesh->mTangents[i].y;
+			v.tang[2] = mesh->mTangents[i].z;
+
+			vertecies.push_back(v);
+		}
+
+		for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
+			aiFace& face = mesh->mFaces[i];
+			for (unsigned int j = 0; j < face.mNumIndices; j++)
+				indecies.push_back(face.mIndices[j]);
+		}
+		if (mesh->mMaterialIndex == 0) {
+			mesh->mMaterialIndex = 1;
+		}
+		
+		createMesh(gfx, Meshes, vertecies, indecies, matrial[mesh->mMaterialIndex - 1]);
+	}
+
+	return true;
+}

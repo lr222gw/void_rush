@@ -1,17 +1,15 @@
 #include "skybox.h"
 
-SkyBox::SkyBox(ModelObj* file, Graphics*& gfx, vec3 pos, std::string textureFile[]) :
+SkyBox::SkyBox(ModelObj* file, Graphics*& gfx, vec3 pos, ID3D11ShaderResourceView* textureCube) :
 	GameObject(file, gfx, pos, vec3(0,0,0), vec3(10,10,10))
 {
-	if (!InitSkyBox(gfx, textureFile)) {
-		std::cout << "didn't work" << std::endl;
+	for (int i = 0; i < model->getMehses().size(); i++) {
+		model->getMehses()[i].getMatrial()->texSRVPS[0] = textureCube;
 	}
 }
 
 SkyBox::~SkyBox()
 {
-	RSV->Release();
-	cubeTexture->Release();
 }
 
 void SkyBox::draw(Graphics*& gfx)
@@ -32,19 +30,6 @@ void SkyBox::draw(Graphics*& gfx)
 void SkyBox::update(vec3 position)
 {
 	GameObject::setPos(position);
-}
-
-bool SkyBox::InitSkyBox(Graphics*& gfx, std::string textureFile[])
-{
-	if(!CreateTextureCube(textureFile, gfx->getDevice(), cubeTexture, RSV, 1024)) {
-		std::cout << "stop" << std::endl;
-	}
-	
-	for (int i = 0; i < model->getMehses().size(); i++) {
-		model->getMehses()[i].getMatrial()->texSRVPS[0] = RSV;
-	}
-	
-	return true;
 }
 
 

@@ -7,25 +7,32 @@
 #include "puzzle_math.hpp"
 #include "puzzle.hpp"
 #include "puzzle_hidden.hpp"
+#include "puzzle_memory.hpp"
+#include "puzzle_move.hpp"
+#include "3Dproj/SoundManager.h"
 #include <vector>
 
 class ProtoPuzzle
 {
 private:
 	std::vector<Puzzle*> puzzleList;
-	int chosenPuzzle;
+	int chosenPuzzle = -1;
 	int seed;
-	const int PUZZLES = 1; //Set to amount of puzzles done.
+	const int PUZZLES = 4; //Set to amount of puzzles done.
 	MathPuzzle* math;
 	HiddenPuzzle* hidden;
+	MemoryPuzzle* memory;
+	MovePuzzle* move;
 	Graphics*& gfxPuzzle;
 	ResourceManager*& rmPuzzle;
 
 public:
-	ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm);
+	ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler, SoundManager* soundManager);
 	~ProtoPuzzle();
-	void Initiate();
+	void Initiate(vec3 platformPosition);
 	int ChoosePuzzle();
-	void Interact(vec3 playerPos);
+	void Interact(vec3 playerPos, vec3 forwardVec);
+	void UpdatePlayerPosition(vec3 Pos);
 	void Update();
+	bool isCompleted();
 };

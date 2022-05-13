@@ -5,6 +5,7 @@
 #include "object.h"
 #include <DirectXCollision.h>
 #include "Model.h"
+#include "SoundManager.h"
 
 class GameObject : public object{
 public:
@@ -12,6 +13,7 @@ public:
 	virtual ~GameObject();
 	
 	void draw(Graphics*& gfx, bool sm = false);
+	void drawRaw(Graphics*& gfx);
 
 	vec3 getlastPosition();
 
@@ -34,11 +36,15 @@ public:
 
 	void setWeight(float newWeight);
 	float getWeight();
+	virtual void update(float dt);
+
+	void getSoundManager(SoundManager& sm);
 
 	//DEBUG
 	vec3 getWidthHeightDepth();
 protected:
 	ModelObj* model;
+	SoundManager* sm;
 private:
 	friend class ImguiManager;
 	bool tess;
@@ -47,12 +53,13 @@ private:
 	DirectX::XMFLOAT3 BBsizes;
 	void setHeightWidthDepth();
 	vec3 WHD;
-
-	/*Interaction Start*/
+	//Interaction Start
+private:
 	bool used;
 public:
 	void Use();
 	bool isUsed();
-	/*Interaction End*/
+	//Interaction End
+
 	float weight;//see what object should move in collision
 };

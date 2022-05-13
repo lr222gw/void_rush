@@ -8,42 +8,49 @@
 #include "3Dproj/GameObject.h"
 #include "3Dproj/ResourceManager.h"
 #include "3Dproj/Graphics.h"
+#include "3Dproj/SoundManager.h"
+#include "Portal.h"
 #include <vector>
 
-class Puzzle
+class Puzzle : public Portal
 {
 private:
 
 protected:
     int seed;
-    Vector3 position;
     std::vector<GameObject*> puzzleObjects;
-    int width;
-    int length;
-    Vector3 doorPosition;
-    bool completed;
+    GameObject* puzzlePlatform = nullptr;
+    vec3 position = vec3(0.0f, 0.0f, 0.0f);
+    SoundManager* soundManager;
+    vec3 playerPos = vec3(0.0f, 0.0f, 0.0f);
 
 public:
     //Create puzzle
-    Puzzle(const Vector3& position, int seed, int width, int length, bool completed = false);
+    Puzzle(int seed, Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler, SoundManager* soundManager);
     virtual ~Puzzle();
+
+    void SetPosition(vec3 pos);
+
+    vec3 GetPosition() const;
 
     bool GetState() const;
 
-    void ResetState();
+    CollisionHandler* GetColHandler();
 
-    int GetWidth() const;
-    
-    int GetLength() const;
+    void ResetState();
 
     int GetSeed() const;
 
-    void SpawnDoor();
+    bool GetPortalCompleted() const;
 
-    virtual void Interaction(vec3 playerPos) = 0;
+    void SpawnDoor(vec3 pos);
+
+    void UpdatePlayerPos(vec3 newPlayerPos);
+
+    virtual void Interaction(vec3 playerPos, vec3 forwardVec) = 0;
 
     //Pick the correct type of puzzle and initiate it.
-    virtual void InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm) = 0;
+    virtual void InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position) = 0;
 
     virtual void Update(Graphics*& gfx) = 0;
 };

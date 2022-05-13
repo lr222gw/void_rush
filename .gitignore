@@ -387,3 +387,19 @@ void_rush/build/
 shaders/*.cso
 
 imgui.ini
+
+void_rush/proto_outputs/debugoutput.txt
+
+void_rush/proto_outputs/graph.png
+
+void_rush_mainBeta.sln
+
+assets/obj/test.mtl
+
+assets/obj/test.obj
+
+assets/obj/map.mtl
+
+assets/obj/map.obj
+
+void_rush_cppcheck-cppcheck-build-dir/

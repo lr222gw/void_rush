@@ -16,7 +16,6 @@ public:
 	vec3 getScale();
 	const vec3 getPoint();
 
-	//TODO : change names on these
 	void setPos(vec3 pos);
 	void setRot(vec3 pos);
 	void setScale(vec3 pos);
@@ -28,7 +27,7 @@ public:
 	//current rotation + rot
 	void addRot(vec3 rot);
 	void addScale(vec3 scale);
-	void update();
+	void update(float dt);
 
 	ID3D11Buffer*& getVertexConstBuffer();
 	void getKdKa(float kd[4], float ka[4]);

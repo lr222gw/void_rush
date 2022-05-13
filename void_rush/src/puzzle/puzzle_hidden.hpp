@@ -5,19 +5,15 @@
 class HiddenPuzzle : public Puzzle
 {
 private:
-    struct Key
-    {
-        //Load the key 3D object 
-        Vector3 originPosition;
 
-
-    };
 public:
-    HiddenPuzzle(const Vector3& position, int seed, int width, int length);
+    HiddenPuzzle(int seed, Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler, SoundManager* soundManager);
 
-    void Interaction(vec3 playerPos) override;
+    void randomizeValue(float &value, float &value2);
 
-    void InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm) override;
+    void Interaction(vec3 playerPos, vec3 forwardVec) override;
+
+    void InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position) override;
 
     void Update(Graphics*& gfx) override;
 };

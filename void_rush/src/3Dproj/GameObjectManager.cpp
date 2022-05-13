@@ -14,10 +14,18 @@ GameObjectManager::~GameObjectManager()
 	}
 }
 
-void GameObjectManager::addGameObject(GameObject* obj, std::string name)
+void GameObjectManager::addGameObject(GameObject* obj, std::string name, bool interactable)
 {
 	gameObjects.insert({ name, obj });
 	VGameObj.push_back(obj);
+
+	if(interactable)
+		VInteractGameObj.push_back(obj);
+}
+
+void GameObjectManager::addInteractGameObject(GameObject* obj)
+{
+	VInteractGameObj.push_back(obj);
 }
 
 void GameObjectManager::removeGameObject(std::string name, bool del)
@@ -34,8 +42,10 @@ void GameObjectManager::removeGameObject(std::string name, bool del)
 	}
 	gameObjects.erase(it);
 	
+	CleanUpInteractables();
 
 }
+
 
 void GameObjectManager::CreateGameObject(std::string modelFile, std::string name, vec3 pos, vec3 rot, vec3 scale)
 {
@@ -47,10 +57,48 @@ void GameObjectManager::CreateGameObject(std::string modelFile, std::string name
 	VGameObj.push_back(objPtr);
 }
 
-void GameObjectManager::update()
+void GameObjectManager::CreateEnemy(Player* player, enemyType typeofEnemy, SoundManager& sm, std::string modelFile, std::string name, vec3 pos, vec3 rot, vec3 scale)
+{
+	if (name == "") {
+		name = "_model_id_name_" + std::to_string(++GameObjID);
+	}
+	GameObject* objPtr;
+	switch (typeofEnemy)
+	{
+	case enemyType::TURRET:
+		if (modelFile == "") {
+			modelFile = "Turret.obj";
+		}
+		objPtr = new Turret(rm->get_Models(modelFile, gfx), gfx, player, pos, rot, scale);
+		((Turret*)objPtr)->setSoundManager(sm);
+		break;
+	case enemyType::PROJECTILE:
+		if (modelFile == "") {
+			modelFile = "DCube.obj";
+		}
+		objPtr = new TurrProjectile(rm->get_Models(modelFile, gfx), gfx, player, pos, rot, scale);
+		break;
+	default:
+		break;
+	}
+	gameObjects.insert({ name, objPtr });
+	VGameObj.push_back(objPtr);
+}
+
+
+std::vector<GameObject*>& GameObjectManager::getAllGameObjects()
+{
+	return VGameObj;
+}
+
+std::vector<GameObject*>& GameObjectManager::getAllInteractGameObjects()
+{
+	return VInteractGameObj;
+}
+void GameObjectManager::update(float dt)
 {
 	for (auto const& [key, val] : gameObjects) {
-		val->update();
+		val->update(dt);
 	}
 }
 
@@ -104,4 +152,15 @@ GameObject*& GameObjectManager::getGameObject(std::string key)
 GameObject*& GameObjectManager::getGameObject(int index)
 {
 	return VGameObj[index];
+}
+
+void GameObjectManager::CleanUpInteractables()
+{
+	std::vector<GameObject*>temp;
+	for (int i = 0; i < VInteractGameObj.size(); i++) {
+		if (VInteractGameObj[i] != nullptr) {
+			temp.push_back(VInteractGameObj[i]);
+		}
+	}
+	VInteractGameObj = temp;
 }

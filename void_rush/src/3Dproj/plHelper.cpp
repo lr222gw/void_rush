@@ -198,14 +198,12 @@ bool CreateInputLayoutOwn(ID3D11Device* device, ID3D11InputLayout*& inputLayout,
 	return !FAILED(hr);
 }
 
-bool CreateTextureCube(std::string files[], ID3D11Device* device, ID3D11Texture2D*& tex, ID3D11ShaderResourceView*& texSRV, UINT wh)
+bool CreateTextureCube(std::string files[], ID3D11Device* device, ID3D11Texture2D*& tex, ID3D11ShaderResourceView*& texSRV)
 {
 	HRESULT hr;
 	const int nrOfRTV = 6;
 
 	D3D11_TEXTURE2D_DESC textureDesc;
-	textureDesc.Width = wh;
-	textureDesc.Height = wh;
 	textureDesc.MipLevels = 1;
 	textureDesc.ArraySize = nrOfRTV;
 	textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -234,7 +232,8 @@ bool CreateTextureCube(std::string files[], ID3D11Device* device, ID3D11Texture2
 		data[i].SysMemSlicePitch = textureWidth * textureHeight * 4;
 		
 	}
-
+	textureDesc.Width = textureWidth;
+	textureDesc.Height = textureHeight;
 	if (FAILED(device->CreateTexture2D(&textureDesc, data, &tex))) {
 		printf("doesn't work tex2d");
 		return false;
@@ -257,6 +256,7 @@ bool CreateTextureCube(std::string files[], ID3D11Device* device, ID3D11Texture2
 	for (int i = 0; i < 6; i++) {
 		delete[] textureData[i];
 	}
+	tex->Release();
 
 	return true;
 }
@@ -339,7 +339,6 @@ bool CreateSamplerState(ID3D11Device* device, ID3D11SamplerState*& sampler)
 
 bool SetupPipeline(ID3D11Device* device, ID3D11VertexShader**& vShader,
 	ID3D11PixelShader**& pShader, ID3D11GeometryShader**& gShader,
-	ID3D11HullShader**& hShader, ID3D11DomainShader**& dShader,
 	ID3D11InputLayout**& inputLayout,
 	ID3D11Texture2D*& tex, ID3D11SamplerState*& sampler)
 {
@@ -352,17 +351,18 @@ bool SetupPipeline(ID3D11Device* device, ID3D11VertexShader**& vShader,
 		loadGShader("GeometryShader.cso", device, gShader[0]) &&
 		loadGShader("Debugging_test.cso", device, gShader[1]) &&
 		loadPShader("PixelBillShader.cso", device, pShader[1]) &&
-		loadPShader("SkyBoxPS.cso", device, pShader[3]) 
+		loadPShader("SkyBoxPS.cso", device, pShader[3]) &&
+		loadPShader("NormalForwardNMapPS.cso", device, pShader[4])
 		)
 	{
 		//continoue
-		if (def_rend) {
-			loadPShader("PSSHNormal.cso", device, pShader[0]);
-			loadPShader("PSSH.cso", device, pShader[2]);
+		if (lightFlag) {
+			loadPShader("NormalForwardNMapPS.cso", device, pShader[0]);
+			loadPShader("NormalForwardPS.cso", device, pShader[2]);
 		}
 		else {
-			loadPShader("NormalForwardPS.cso", device, pShader[0]);
-			loadPShader("NormalForwardPS.cso", device, pShader[2]);
+			loadPShader("NoShadowPS.cso", device, pShader[0]);
+			loadPShader("NoShadowPS.cso", device, pShader[2]);
 		}
 	}
 	else {

@@ -115,8 +115,6 @@ private:
 	ID3D11VertexShader**	vShader;
 	ID3D11PixelShader**		pShader;
 	ID3D11GeometryShader**	gShader;
-	ID3D11HullShader**		hShader;
-	ID3D11DomainShader**	dShader;
 	////////////////////////
 
 	Vcb vcbd = {};//vertexConstBuffer
@@ -148,6 +146,7 @@ private:
 public:
 	/*0 = perspective, 1 = orthographic*/
 	void setProjection(int flag = 0, float fov = 45);
+	void setFov(float fov);
 	//get const Buffer
 	Vcb *getVertexconstbuffer();
 	Pcb *getPixelconstbuffer();
@@ -166,8 +165,6 @@ public:
 	ID3D11VertexShader** getVS();
 	ID3D11PixelShader** getPS();
 	ID3D11GeometryShader** getGS();
-	ID3D11HullShader** getHS();
-	ID3D11DomainShader** getDS();
 
 	ID3D11InputLayout** getInputLayout();
 	ID3D11RenderTargetView*& getRenderTarget();
@@ -178,6 +175,7 @@ public:
 	void setTransparant(bool transparance);
 	Light** getLight();
 	vec2 getWH();
+	vec2 getClientWH();
 	
 	/*make so gfx have lights*/
 	void takeLight(Light **light, int nrOfLights);

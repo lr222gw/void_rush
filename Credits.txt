@@ -1,0 +1,5 @@
+"Correct1" and "Wrong1"
+Sounds for interacting with puzzles
+Nick Bowler
+Taken from: https://opengameart.org/content/various-sound-effects-from-rubiks-race
+License (CC-BY 3.0): https://creativecommons.org/licenses/by/3.0/
