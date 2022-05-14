@@ -374,11 +374,11 @@ bool readObjFile(std::vector<MeshObj>& Meshes, std::string fileName, std::vector
 
 bool readObjFromScene(aiScene* scene,  std::vector<MeshObj>& Meshes, std::vector<Material*>& matrial, Graphics*& gfx, vec3 box[2])
 {	
-	unsigned int flags = aiProcess_Triangulate
-		//| aiProcess_ConvertToLeftHanded
-		| aiProcess_GenNormals
-		| aiProcess_CalcTangentSpace
-		| aiProcess_JoinIdenticalVertices;
+	unsigned int flags = 
+		aiProcess_Triangulate |
+		 aiProcess_GenNormals |
+		 aiProcess_CalcTangentSpace |
+		 aiProcess_JoinIdenticalVertices;
 
 	Assimp::Importer importer;
 	Assimp::Exporter exporter;
