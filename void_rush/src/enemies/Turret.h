@@ -1,5 +1,6 @@
 #pragma once
 #include "enemies/Projectile.h"
+#include "EnemySettings.hpp"
 #include <vector>
 
 class Turret : public Enemy {

@@ -20,6 +20,7 @@ public:
 	void render_ghost_widgets();
 	void render_player_widgets();
 	void render_physics_widgets();
+	void render_enemy_widgets();
 	void render_debuginfo_widgets();
 	void set_owner(Game* game);
 private:

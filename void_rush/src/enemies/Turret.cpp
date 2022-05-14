@@ -6,9 +6,9 @@ Turret::Turret(ModelObj* file, Graphics*& gfx, Player* player, vec3 pos, vec3 ro
 	this->player = player;
 	this->gfx = gfx;
 	//setting values
-	range = 40;
-	shootCD = 4;
-	currentTimeTillShoot = 0;
+	range = enemy_conf.Turret_range;
+	shootCD = enemy_conf.Turret_CD;
+	currentTimeTillShoot = 0.f;
 }
 
 void Turret::collidedWithPlayer()
@@ -18,6 +18,12 @@ void Turret::collidedWithPlayer()
 
 void Turret::update(float dt)
 {
+#ifdef DEBUG
+	//Debug we can change these value without restarting...
+	range = enemy_conf.Turret_range;
+	shootCD = enemy_conf.Turret_CD;
+#endif // DEBUG
+
 	//if player is in range
 	if ((getPos() - player->getPos()).length() < range) {
 		//look at player
@@ -25,7 +31,7 @@ void Turret::update(float dt)
 		//check if we should fire (cd)
 		currentTimeTillShoot += dt;
 		if (currentTimeTillShoot > shootCD) {
-			currentTimeTillShoot = 0;
+			currentTimeTillShoot = 0.f;
 			bool done = false;
 			for (size_t i = 0; i < projectiles.size() && !done; i++) {
 				if (!projectiles[i]->isActive()) {

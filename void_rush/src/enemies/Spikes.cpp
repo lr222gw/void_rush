@@ -8,7 +8,7 @@ Spikes::Spikes(ModelObj* file, Graphics*& gfx, Player* player, vec3 pos, vec3 ro
 	this->movingSpikes = moving;
 	this->moving = false;
 	this->up = true;
-	this->timer = 2.0f;
+	this->timer = enemy_conf.Spikes_timer;
 	this->normalScale = this->getScale();
 }
 
@@ -25,13 +25,15 @@ void Spikes::update(float dt)
 		move(dt);
 		return;
 	}
-	if (fabs((this->getPos() - player->getPos()).length()) > 10) {
+	//TODO: Tänker att spikarna rör sig hela tiden... 
+	//		Annars måste spelaren vänta på dem...
+	/*if (fabs((this->getPos() - player->getPos()).length()) > 10) {
 		return;
-	}
+	}*/
 	timer -= dt;
 	if (timer <= 0.0f) {
 		moving = true;
-		this->timer = 2.0f;
+		this->timer = enemy_conf.Spikes_timer;
 	}
 }
 

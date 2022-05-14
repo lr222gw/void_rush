@@ -2,6 +2,7 @@
 #include "enemies/Enemy.h"
 #include <iostream>
 #include "3Dproj/Vec.h"
+#include "enemies/EnemySettings.hpp"
 
 class Snare : public Enemy {
 public:

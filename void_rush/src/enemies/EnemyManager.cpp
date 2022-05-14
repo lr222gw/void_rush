@@ -8,7 +8,7 @@ void EnemyManager::createTurret()
 	this->nrOfActive.TURRET = this->nrOf.TURRET;
 
 	GameObjManager->CreateEnemy(player, enemyType::TURRET, *soundManager, "Turret.obj", name, FarFarFarAway);
-	const int MaxNrOfProjectiles = this->enemy_conf.Turret_maxNrOfProjectiles;
+	const int MaxNrOfProjectiles = enemy_conf.Turret_maxNrOfProjectiles;
 	for (int i = 0; i < MaxNrOfProjectiles; i++) {
 
 		std::string name_proj = name + "_proj" + std::to_string(i);
@@ -116,9 +116,11 @@ void EnemyManager::spawnEnemy(vec3 pos)
 			get_Turret()->setPos(pos);
 			break;
 		case (int)respawnable_enemyType::SPIKES:
+			pos.y = pos.y + enemy_conf.Spikes_y_Offset; 
 			get_Spikes()->setPos(pos);
 			break;
 		case (int)respawnable_enemyType::SNARE:
+			pos.y = pos.y + enemy_conf.Snare_y_Offset;
 			get_Snare()->setPos(pos);
 			break;		
 		default:

@@ -12,6 +12,7 @@
 #include "powerups/Powerups.h"
 #include "3Dproj/deltaTime.h"
 #include "3Dproj/SoundManager.h"
+#include "EnemySettings.hpp"
 
 class EnemyManager{
 private: 
@@ -52,9 +53,5 @@ public:
 
 	void spawnEnemy(vec3 pos);
 
-private: 
-	struct Enemy_settings {
-		int Turret_maxNrOfProjectiles = 5;
-		float Turret_y_Offset = 15.f;
-	}enemy_conf;
+
 };

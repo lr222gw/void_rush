@@ -105,7 +105,7 @@ private: // Magic Numbers
     struct PowerUp_position_settings{        
         int powerUp_occurance_rate = 5;
         vec3 position_offset = vec3(0.f, 1.f,0.f);
-        vec3 enemy_offset = vec3(0.f, 1.f,0.f);
+        vec3 enemy_offset = vec3(0.f, 0.f,0.f);
     };
     PowerUp_position_settings PU_conf;
 

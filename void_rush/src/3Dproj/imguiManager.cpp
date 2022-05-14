@@ -40,6 +40,7 @@ void ImguiManager::updateRender()
 		render_physics_widgets();
 		render_ghost_widgets();
 		render_debuginfo_widgets();
+		render_enemy_widgets();		
 	}
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -334,6 +335,35 @@ void ImguiManager::render_physics_widgets()
 		static float max_MidAdj = 10;
 		ImGui::SliderFloat("Air adjustment", &owner->player->midAirAdj, min_MidAdj, max_MidAdj);
 		ImGui::InputFloat("Lives", &owner->player->health);
+	}
+	ImGui::End();
+}
+
+void ImguiManager::render_enemy_widgets()
+{
+	if (ImGui::Begin("EnemyConfig")) {
+
+		if (ImGui::TreeNode("Turret")) {
+
+			ImGui::InputFloat("Turret_y_Offset", &enemy_conf.Turret_y_Offset);
+			ImGui::InputFloat("Turret_range", &enemy_conf.Turret_range);
+			ImGui::InputFloat("Turret_CD", &enemy_conf.Turret_CD);
+			ImGui::InputInt("Turret_maxNrOfProjectiles", &enemy_conf.Turret_maxNrOfProjectiles);
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("Spikes")) {
+		
+			ImGui::InputFloat("Spikes_y_Offset", &enemy_conf.Spikes_y_Offset);
+			ImGui::InputFloat("Spikes_timer", &enemy_conf.Spikes_timer);
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("Snare")) {
+			ImGui::InputFloat("Snare_y_Offset", &enemy_conf.Snare_y_Offset);
+			ImGui::InputFloat("Snare_timer", &enemy_conf.Snare_timer);
+			ImGui::InputFloat("Snare_catchTimer", &enemy_conf.Snare_catchTimer);		
+			ImGui::TreePop();
+		}
+				
 	}
 	ImGui::End();
 }

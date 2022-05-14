@@ -441,6 +441,9 @@
     <ClCompile Include="src\enemies\EnemyManager.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\enemies\EnemySettings.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -735,6 +738,9 @@
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\enemies\EnemyManager.hpp">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\enemies\EnemySettings.hpp">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

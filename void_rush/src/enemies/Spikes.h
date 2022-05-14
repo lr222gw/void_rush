@@ -1,5 +1,6 @@
 #pragma once
 #include "enemies/Enemy.h"
+#include "EnemySettings.hpp"
 #include <iostream>
 
 class Spikes : public Enemy {
