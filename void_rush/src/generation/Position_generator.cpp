@@ -184,22 +184,16 @@ void Position_generator::select_powerUp_positions()
 {
     this->powerup_positions.nrOfPositions = 0;
     this->powerup_positions.positions.clear();
-    int nrOfJumpPoints = this->getNrOfValidJumppoints();
-    
-    //this->powerup_positions.positions
+    std::vector<Platform*> validJumpPoints = getInOrderVector_ValidJumppoints();
 
-    int nrOfPowerUp_Positions = nrOfJumpPoints / PU_conf.powerUp_occurance_rate;
-
-    for (int i = 0; i < nrOfPowerUp_Positions; i+=PU_conf.powerUp_occurance_rate) {
+    for (int i = 0; i < validJumpPoints.size(); i+=PU_conf.powerUp_occurance_rate) {
+                    
+        int pickVoxelPos = rand() % validJumpPoints[i]->platformShape.previousVoxels.size();
+        this->powerup_positions.nrOfPositions++;
+        this->powerup_positions.positions.push_back(
+            validJumpPoints[i]->platformShape.previousVoxels[pickVoxelPos].current_center + PU_conf.position_offset
+        );
         
-        if (!this->jumpPoints[i]->platformShape.get_is_Illegal()) {
-             
-            int pickVoxelPos = rand() % this->jumpPoints[i]->platformShape.previousVoxels.size();
-            this->powerup_positions.nrOfPositions++;
-            this->powerup_positions.positions.push_back(
-                this->jumpPoints[i]->platformShape.previousVoxels[pickVoxelPos].current_center + PU_conf.position_offset
-            );
-        }
     }     
 }
 
@@ -376,7 +370,19 @@ int Position_generator::getNrOfValidJumppoints()
     }
     return validMeshes;
 }
-
+std::vector<Platform*> Position_generator::getInOrderVector_ValidJumppoints()
+{
+    Platform* currentJumppoint = this->firstJumpPoint;
+    std::vector<Platform*> validJPs;
+    while (currentJumppoint) {
+        if (!currentJumppoint->platformShape.get_is_Illegal()) {
+            validJPs.push_back(currentJumppoint);
+        }
+        currentJumppoint = currentJumppoint->next;
+    }
+    std::reverse(validJPs.begin(), validJPs.end());
+    return validJPs;
+}
 Platform* Position_generator::getFirstJumppoint()
 {
     return this->firstJumpPoint;

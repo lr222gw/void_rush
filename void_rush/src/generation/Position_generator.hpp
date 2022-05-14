@@ -36,6 +36,7 @@ private:
     powerUp_positions powerup_positions;
     
     std::vector<Platform*> getAllPlatforms();
+    std::vector<Platform*> getInOrderVector_ValidJumppoints();
 public:
     Platform* firstJumpPoint;
 
@@ -60,7 +61,7 @@ public:
     Platform* getFirstJumppoint();
     Platform* getFirstAnchorpoint();
     int getNrOfValidJumppoints();
-    int getNrOfValidAnchorpoints();
+    int getNrOfValidAnchorpoints();    
     mapDimensions getCurrentMapDimensions();
 
     Platform*& GetStartPlatform();
