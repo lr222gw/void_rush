@@ -129,6 +129,11 @@ void Generation_manager::initialize()
     puzzleManager->Initiate(this->getPuzzelPos());  
     this->player->SetDifficulity(this->difficulity);
     this->player->SetStartPlatform(this->GetStartPlatform());
+    
+    /////////////////////SPIKE TEST/////////////////////
+    gameObjManager->getGameObject("spikes")->setPos(this->getPuzzelPos() + vec3(0.0f, 5.01f, 0.0f));
+    /////////////////////SNARE TEST/////////////////////
+    gameObjManager->getGameObject("snare")->setPos(this->getPuzzelPos()+vec3(5.0f, 5.0f, 0.0f));
 }
 
 

@@ -420,6 +420,9 @@ void ImguiManager::render_player_widgets()
 		if(ImGui::InputFloat3("Scale", *scale)){
 			owner->player->setBoundingBox(DirectX::XMFLOAT3(0, -owner->player->scale.y - 0.01f, 0), DirectX::XMFLOAT3(owner->player->scale.x - 0.01f, 0.10f, owner->player->scale.z - 0.01f));
 		}
+
+		ImGui::SliderFloat("ShakeTimer", &owner->camera->shakeTimerOrig, 0.0f, 0.1f);
+		ImGui::Checkbox("ScreenShake", &owner->player->screenShake);
 	}
 	ImGui::End();
 }

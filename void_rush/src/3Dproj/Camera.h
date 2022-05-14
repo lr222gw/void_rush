@@ -29,6 +29,7 @@ public:
 	void addRotation(vec3 addRot);
 	void rotateCameraMouse(vec3 Rot, float dt);
 	void movePos(vec3 move);
+	void screenShake(float magnitude);
 	//void lookDir(vec3 lookdir); //don't know how to make these yet
 	//void lookAt(vec3 lookat);	  //don't know how to make these yet
 	void setData(float FOVRadians = 90, float viewRatio = 16/9, float nearDist = 0.001, float farDist = 2000);
@@ -41,6 +42,9 @@ private:
 	void rotaiton(DirectX::XMMATRIX& matrix, float xRot, float yRot);
 	void movement();
 	void handleEvent(float dt);
+	void shakeScreen(float dt);
+	void resetShake();
+	void resetShakeTimer();
 
 	vec3 FUL[3];//Forward, Up, Left
 	DirectX::XMFLOAT3 translation;
@@ -62,4 +66,12 @@ private:
 	float fov;
 	float nearDist;
 	float farDist;
+
+	//ScreenShake
+	int shakeCounter;
+	float shakeTimer;
+	float shakeTimerOrig;
+	float magnitude;
+	bool shake;
+	float randomShake;
 };

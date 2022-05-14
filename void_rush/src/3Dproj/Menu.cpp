@@ -5,9 +5,11 @@ Menu::Menu(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mous
 	soundManager(1)//be able to change this later based on settings
 {
 	buttonSize = vec2(0.5f, 0.15f);
-
-	cam->setPosition(vec3(0, 0, 0));
+	camera->setPosition(vec3(0, 0, 0));
+	camera->setRotation(vec3(0, 0, 0));
 	setUpObject();
+	setUpLights();
+	this->shadowMap = new ShadowMap((SpotLight**)lights, nrOfLights, gfx, (UINT)gfx->getClientWH().x, (UINT)gfx->getClientWH().y);
 	setUpUI();
 	
 	soundManager.playMusic("assets/audio/MenuMusic.wav", 15.0f);
@@ -25,6 +27,11 @@ Menu::~Menu()
 	delete GameObjManager;
 	delete UI;
 	delete skybox;
+	for (int i = 0; i < nrOfLights; i++) {
+		delete lights[i];
+	}
+	delete lights;
+	delete shadowMap;
 }
 
 void Menu::handleEvents()
@@ -40,10 +47,12 @@ GameStateRet Menu::update(float dt)
 {
 	GameStateRet theReturn;
 	theReturn.gameState = GameStatesEnum::NO_CHANGE;
-	theReturn.seed = 0;
+	theReturn.seed = -1;
 
 	camera->updateCamera();
-	camera->addRotation(vec3(0.1f * dt, 0.3f * dt, 0));
+	gfx->Update(dt);
+	//camera->addRotation(vec3(0.1f * dt, 0.3f * dt, 0));
+	skybox->addRot(vec3(0.0f, -0.08f * dt, 0.09f * dt));
 	UI->update();
 	soundManager.update(camera->getPos(), camera->getForwardVec());
 
@@ -72,6 +81,12 @@ GameStateRet Menu::update(float dt)
 		}
 		SeedClicked = true;
 	}
+	heightObject += dt;
+	if (heightObject >= 2 * 3.14) {
+		heightObject = 0;
+	}
+	GameObjManager->getGameObject("Ghost")->setPos(vec3(3, (sin(heightObject) * 0.5f) - 3.0f, 10.0f));
+
 	checkHover();
 	if (inputSeed) {
 		getSeedInput();
@@ -84,6 +99,7 @@ void Menu::render()
 {
 	gfx->setRenderTarget();
 	gfx->setTransparant(true);
+	gfx->get_IMctx()->PSSetShaderResources(1, 1, &shadowMap->GetshadowResV());
 	
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gfx->get_IMctx()->IASetInputLayout(gfx->getInputLayout()[0]);
@@ -94,6 +110,10 @@ void Menu::render()
 	skybox->draw(gfx);
 
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
+	gfx->get_IMctx()->PSSetShader(gfx->getPS()[0], nullptr, 0);
+	GameObjManager->updatePixel();
+	GameObjManager->updateVertex();
+	GameObjManager->draw();
 	UI->draw();
 
 	gfx->present(0);
@@ -129,8 +149,22 @@ void Menu::setUpObject()
 		"assets/textures/Skybox/posz.png",//z+
 		"assets/textures/Skybox/negz.png"//z-
 	};
+	GameObjManager->CreateGameObject("ghost.obj", "Ghost", vec3(0, 0, 20), vec3(0,0.7f,0));
 	rm->getSpriteCube(skyboxTextures, gfx);
 	skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, vec3(0,0,0), rm->getSpriteCube(skyboxTextures,gfx));
+}
+
+void Menu::setUpLights()
+{
+	//current max number is set in graphics.cpp and transforms.hlsli
+	nrOfLights = 1;
+	lights = new Light * [nrOfLights];
+
+	lights[0] = new PointLight(vec3(2.f, 0.f, 8.8f), 0.1, vec3(1, 0.3f, 0.3f));
+
+	//say to graphics/shaders how many lights we have
+	gfx->getLightconstbufferforCS()->nrOfLights.element = nrOfLights;
+	gfx->takeLight(lights, nrOfLights);
 }
 
 void Menu::checkHover()
@@ -174,6 +208,9 @@ void Menu::getSeedInput()
 
 int Menu::getSeedInt()
 {
+	if (!inputSeed) {
+		return -1;
+	}
 	std::string cleanSeed="";
 	for (int i = 0; i < seed.size(); i++) {
 		if (seed.at(i) == '_') {

@@ -404,7 +404,9 @@ mapDimensions Position_generator::getCurrentMapDimensions()
 {
     mapDimensions currentMapDimension{
         0,
-        0
+        0,
+        vec2(0,0),
+        vec2(0,0)
     }; 
     vec2 min; 
     vec2 max;
@@ -435,6 +437,8 @@ mapDimensions Position_generator::getCurrentMapDimensions()
 
     currentMapDimension.x_width = max.x - min.x;
     currentMapDimension.z_width = max.y - min.y;
+    currentMapDimension.highPoint = max;
+    currentMapDimension.lowPoint = min;
 
     return currentMapDimension;
 

@@ -34,7 +34,8 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	/*set ups*/
 	this->setUpObject();
 	this->setUpLights();
-	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, (UINT)gfx->getClientWH().x, (UINT)gfx->getClientWH().y);
+	//this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, (UINT)gfx->getClientWH().x, (UINT)gfx->getClientWH().y);
+	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, (UINT)1920, (UINT)1920);
 	this->setUpParticles();
 	this->setUpSound();
 	this->setUpUI();
@@ -150,6 +151,9 @@ GameStateRet Game::update(float dt)
 			testTime -= dt;
 		}
 		/*Move things*/
+		if (getkey('H')) {
+			camera->screenShake(3.0f);
+		}
 		camera->updateCamera(dt);
 		if (getkey('N')) {
 			DirectX::XMMATRIX viewMatrix = DirectX::XMMATRIX(
@@ -285,12 +289,8 @@ void Game::render()
 {
 	gfx->setRenderTarget();
 	gfx->setTransparant(true);
-
-	if (!def_rend) {//def rendering dosen't work anymore
-		gfx->get_IMctx()->PSSetShaderResources(1, 1, &shadowMap->GetshadowResV());//add ShadowMapping
-		this->DrawToBuffer();
-
-	}
+	gfx->get_IMctx()->PSSetShaderResources(1, 1, &shadowMap->GetshadowResV());//add ShadowMapping
+	this->DrawToBuffer();
 	this->ForwardDraw();
 	
 	gfx->present(this->lightNr);	
@@ -378,25 +378,29 @@ void Game::setUpObject()
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
 
+	GameObjManager->CreateGameObject("Bullet.obj", "bull", vec3(0, 10, 0));
 
 	//GameObjManager->CreateEnemy(player, enemyType::TURRET, soundManager, "Turret.obj", "turr", vec3(20, 1, 0));
 	/*const int MaxNrOfProjectiles = 5;
 	for (int i = 0; i < MaxNrOfProjectiles; i++) {
-		GameObjManager->CreateEnemy(player, enemyType::PROJECTILE, soundManager, "DCube.obj", "proj" + std::to_string(i), vec3(5, 0, 0), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
+		GameObjManager->CreateEnemy(player, enemyType::PROJECTILE, soundManager, "Bullet.obj", "proj" + std::to_string(i), vec3(5, 0, 0), vec3(0, 0, 0), vec3(0.4f, 0.4f, 0.4f));
 		collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("proj"+ std::to_string(i)));
 		((Turret*)GameObjManager->getGameObject("turr"))->addProjectiles((TurrProjectile*)GameObjManager->getGameObject("proj" + std::to_string(i)));
 	}	*/
 
+	GameObjManager->CreateEnemy(player, enemyType::SPIKES, soundManager, "Spikes.obj", "spikes", vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0001f, 0.0001f, 0.0001f), true);
+	collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("spikes"));
+	GameObjManager->CreateEnemy(player, enemyType::SNARE, soundManager, "DCube.obj", "snare", vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.3f, 0.2f, 0.3f));
+	collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("snare"));
+
 	GameObjManager->CreateGameObject("DCube.obj", "cam", vec3(5, -10, 0), vec3(0, 0, 0));
-	GameObjManager->CreateGameObject("DCube.obj", "cubetest", vec3(0, 0, 50), vec3(0, 0, 0));
-	
+
 	ghost = new Ghost(player, rm->get_Models("ghost.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
 	ghost->getSoundManager(soundManager);
 	GameObjManager->addGameObject(ghost, "Ghost");
 	collisionHandler.addEnemies(ghost);
 
 	powerupManager->init(player, ghost);
-
 	generationManager->initialize();
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 	distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
@@ -415,20 +419,26 @@ void Game::setUpObject()
 void Game::setUpLights()
 {
 	//current max number is set in graphics.cpp and transforms.hlsli
-	nrOfLight = 2;
+	nrOfLight = 3;
 	light = new Light * [nrOfLight];
 
 	//create the lights with 
 	//light[0] = new DirLight(vec3(0, 30, 8), vec3(0.1f, -PI / 2, 1.f), 100, 100);
 	light[0] = new PointLight(vec3(3, 25, 5), 0.5, vec3(1, 1, 1));
-	vec3 middle = generationManager->getPuzzelPos() / 2;
-	float mSize = middle.length() * 2 + 20;
-	light[1] = new DirLight(vec3(middle.x, middle.length() * 2, middle.z), vec3(0, -1.57, 1), mSize, mSize);
-	GameObjManager->CreateGameObject("DCube.obj", "t1", light[1]->getPos() + vec3(mSize, -middle.length() * 2, mSize));
+	vec2 Lpos = (generationManager->getMapDimensions().highPoint - generationManager->getMapDimensions().lowPoint)/2 + generationManager->getMapDimensions().lowPoint;
+	light[1] = new DirLight(vec3(
+		Lpos.x,
+		200, 
+		Lpos.y),
+		vec3(0, -1.57f, 1),
+		generationManager->getMapDimensions().x_width + 20,
+		generationManager->getMapDimensions().z_width + 20
+	);
+	light[2] = new PointLight(generationManager->getPuzzelPos() + vec3(0, 10, 0), 10, vec3(0.5, 0.5, 0));
 
 	//set color for lights (deafault white)
 	light[0]->getColor() = vec3(1, 0, 0);
-	light[1]->getColor() = vec3(0.27/3, 0.97/3, 0.97/3);
+	light[1]->getColor() = vec3(0.27f/3.f, 0.97f/3.f, 0.97f/3.f);
 
 	for (int i = 0; i < nrOfLight; i++) {
 		LightVisualizers.push_back(new GameObject(rm->get_Models("Camera.obj"), gfx, light[i]->getPos(), light[i]->getRotation()));
@@ -508,8 +518,6 @@ void Game::setUpSound()
 	soundManager.setLoopSound("Wind", true);
 }
 
-
-
 void Game::Interact(std::vector<GameObject*>& interactables)
 {
 	float rayDist;
@@ -571,9 +579,15 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			player->Reset(true);
 			generationManager->initialize();
 			soundManager.playSound("Portal", player->getPos());
-			vec3 middle = generationManager->getPuzzelPos() / 2;
-			float mSize = middle.length() * 2 + 20;
-			light[1]->setProjection(DirectX::XMMatrixOrthographicLH(mSize, mSize, 0.1f, 40000.f));
+			vec2 Lpos = (generationManager->getMapDimensions().highPoint - generationManager->getMapDimensions().lowPoint) / 2 + generationManager->getMapDimensions().lowPoint;
+			light[1]->getPos() = vec3(Lpos.x, 200, Lpos.y);
+			light[1]->setProjection(
+				DirectX::XMMatrixOrthographicLH(
+					generationManager->getMapDimensions().x_width + 30,
+					generationManager->getMapDimensions().z_width + 30,
+				0.1f, 
+				40000.f
+				));
 		}
 	}
 }
