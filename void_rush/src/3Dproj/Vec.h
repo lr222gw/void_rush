@@ -62,6 +62,7 @@ struct vec3 {
 	}
 
 	vec3 Normalize();
+	void Normalize_XZ();
 	static vec3 Normalize(const vec3& ref);
 	vec3 X(const vec3& other);
 	float operator*(vec3& other);//dot
@@ -73,6 +74,7 @@ struct vec3 {
 	vec3 operator+(vec3 other);
 	vec3 operator-(vec3 other);
 	float angle(vec3 other);
+	float angleNM(vec3 other);
 	//0 = x, 1 = y, 2 = z
 	float getWithNumber(int i);
 	vec3 mirror();
@@ -82,6 +84,7 @@ struct vec3 {
 	DirectX::XMVECTOR toXMvector();
 	DirectX::XMFLOAT3 toXMFloat3();
 	float length();
+	float length_XZ();
 	std::string to_string() {
 		//return "x: " + std::to_string(x) + " y: " + std::to_string(y) + " z: " + std::to_string(z);
 		return  std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z);
@@ -113,3 +116,6 @@ void arrayToVec(std::array<float, 3> arr[3], vec3 vec[3]);
 void arrayToVec(float arr[3], vec3 &vec);
 void arrayToVec(float arr[2], vec2 &vec);
 void arrayToVec(std::array<float, 2> arr[3], vec2 vec[3]);
+
+float lerp(float a, float b, float t);
+vec3 lerp(vec3 a, vec3 b, float t);

@@ -16,13 +16,15 @@ float ScoreManager::GetScore() const
 
 void ScoreManager::setDamageScore()
 {
-	score += deathPoints;
+	//score += deathPoints;
+	AddScore(deathPoints);
 }
 
 void ScoreManager::Update(float dt)
 {
 	levelTime += dt;
-	score += constPoints;
+	//score += constPoints;
+	AddScore(constPoints*dt);
 }
 
 void ScoreManager::SetPlayerSpeed(float speed)
@@ -58,7 +60,14 @@ void ScoreManager::SetScore(float points)
 
 void ScoreManager::AddScore(float points)
 {
-	score += points;
+
+	if (score + points < 0) {
+		score = 0;
+	}
+	else {
+		score += points;
+	}
+	HUD->UpdateScore((int)score);
 }
 
 void ScoreManager::LevelDone()
@@ -78,8 +87,14 @@ void ScoreManager::LevelDone()
 		break;
 	}
 	float optimalTime = puzzleTime + (levelLength / playerSpeed);//Time it would take to go in a straight line (* some multiplyer)
+	if (levelTime == 0)
+		levelTime = 0.01f;
 	float scoreToGive = levelPoints * (optimalTime / levelTime);
-	score += (scoreToGive + puzzlePoints) * scoreMultiplyer;
+	if (scoreToGive > levelPoints * 10) {
+		scoreToGive = levelPoints * 10;
+	}
+	//score += (scoreToGive + puzzlePoints) * scoreMultiplyer;
+	AddScore((scoreToGive + puzzlePoints) * scoreMultiplyer);
 	//Reset timer
 	levelTime = 0.0f;
 
@@ -163,7 +178,7 @@ void ScoreManager::WriteScore(std::string name, std::string file)
 			newFile += numScoresS + "\n";
 			for (int i = 0; i < scores.size(); i++) {
 				if (std::stoi(scores[i]) < score && !scoreInserted) {
-					for (int j = scores.size() - 1; j > i; j--) {
+					for (int j = (int)scores.size() - 1; j > i; j--) {
 						scores[j] = scores[j - 1];
 						names[j] = names[j - 1];
 						seeds[j] = seeds[j - 1];
@@ -223,4 +238,9 @@ void ScoreManager::SortScores(std::string file)
 	scoreFileWrite << newFile;
 	scoreFileWrite.close();
 
+}
+
+void ScoreManager::SetHUD(Hud*& hud)
+{
+	this->HUD = hud;
 }

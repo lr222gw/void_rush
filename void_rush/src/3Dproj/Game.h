@@ -11,12 +11,12 @@
 
 class Game : public GameState {
 public:
-	Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam);
+	Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam, int seed = -1);
 	virtual ~Game();
 	//very important that they are done in order
 	virtual void handleEvents();//this first
 	virtual void renderShadow();//then this
-	virtual GameStatesEnum update(float dt);//then this
+	virtual GameStateRet update(float dt);//then this
 	virtual void render();		//then this 
 private:
 	Letters3D* text;
@@ -24,7 +24,7 @@ private:
 	void updateShaders(bool vs = true, bool ps = true);
 	bool pauseMenu;
 	float testTime = 0.0f;
-	ProtoPuzzle* testPuzzle;
+	ProtoPuzzle* puzzleManager;
 	ShadowMap* shadowMap;
 	SkyBox* skybox;
 	SoundManager soundManager;

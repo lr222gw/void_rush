@@ -3,14 +3,17 @@
 #include "3Dproj/Vec.h"
 #include "Helper.hpp"
 #include <vector>
+#include <stack>
 
 class Shape_exporter;
 struct inCorner {
     vec3 pos;
+    std::vector<vec3> points;
 };
 
 struct outCorner {
     vec3 pos;
+    std::vector<vec3> points;
 };
 
 struct line
@@ -21,7 +24,8 @@ struct line
 
 struct Plane
 {   
-    Plane();
+    Plane();    
+    Plane(const Plane* ref);
     Plane(vec3 a, vec3 b, vec3 c, vec3 d);
     vec3 point1;
     vec3 point2;
@@ -49,15 +53,19 @@ struct Voxel_matrix {
 struct XZ_plane : public Plane
 {
     XZ_plane(vec3 scale);    
+    XZ_plane(const Plane* ref) : Plane(ref) {  };
 };
 
 struct XY_plane : public Plane
 {
     XY_plane(vec3 scale);
+    XY_plane(const Plane* ref) :Plane(ref) { };
+
 };
 struct YZ_plane : public Plane
 { 
     YZ_plane(vec3 scale);
+    YZ_plane(const Plane* ref) :Plane(ref) {  };
 };
 
 struct Normals{
@@ -73,7 +81,7 @@ static Normals normals;
 struct LongestDist {
     vec3 startPos;
     vec3 endPos;
-    float distance;
+    float distance = 0;
 };
 
 struct vec3_pair {
@@ -84,6 +92,7 @@ struct vec3_pair {
 struct Center_Index_Pair {
     vec3 current_center;
     int current_index;
+    bool is_illegal = false;
 };
 
 struct Offset{
@@ -99,7 +108,8 @@ struct Offset{
 struct Center_busy_pair {
     vec3 position;
     bool isBusy = false;
-    int index;
+    int index = -1;
+    bool is_illegal = false;
 };
 
 class Shape
@@ -108,40 +118,79 @@ public:
     Shape();
     ~Shape();
     void addPlane(vec3 a, vec3 b, vec3 c, vec3 d);
-    void setPosition(vec3 pos);
+    void setPosition(vec3 pos);    
     void move(vec3 pos);
     void setScale(vec3 scale);
-    void setShape(vec3 center, float distanceToEnd);
+    
+    void setAnchorShape(vec3 center, float distanceToEnd, Shape* prev = nullptr);
+    void setJumppointShape(vec3 center, float distanceToEnd, Shape* prev = nullptr);
     void setShapeCube(vec3 center);
-    void buildShape();
-    void updateBoundingBoxes();
+    void set_is_Illegal(bool status);
 
-    void set_InOut_longstDist(int nrOfVoxels);
+    void buildShape();
+
+    bool get_is_Illegal();
+    vec3 get_midpoint();
+    vec3 get_scale();
+
+    void set_InOut_longstDist(int nrOfVoxels, vec3& given_center);
     //template <size_t rows, size_t cols>
     //void set_InOut_firstLastDeclared(Center_busy_pair (&busyMatrix)[rows][cols], int matrixsize);
-    void set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair>> busyMatrix, int matrixsize);
+    void set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair>> busyMatrix, int matrixsize, vec3& given_center);
 
     void export_as_obj();
-
-    std::vector<Plane*> planes;
     inCorner inCorner;
     outCorner outCorner;
+
+    Shape* top = nullptr;
+    Shape* sides = nullptr;
+    Shape* bottom = nullptr;
+
+    std::vector<Center_Index_Pair> previousVoxels;    
+
+    struct Shape_settings{
+        vec3 default_scale = vec3(0.5f,0.2f,0.5f);
+        int maxNrOfVoxels_JP = 25;
+        int minNrOfVoxels_JP = 1;
+        int maxNrOfVoxels_AP = 6;
+        int minNrOfVoxels_AP = 4;
+        int max_clamp_padding = 0;
+        float plattform_voxel_margin = 2.f;
+        bool tryRandom = false;
+        float scaleAnchor_XY_Factor = 2;
+        int randomOccurances = 2; // use random everytime the random index is even nmbr
+        int matrixSize = 11; // use random everytime the random index is even nmbr
+    };
+    static struct Shape_settings shape_conf; //same for all instances...
+
+    //std::vector<DirectX::XMFLOAT4*> bounding_boxes; //TODO: Handle memory here!
+    //std::vector<vec3[2]> bounding_boxes; //TODO: Handle memory here!
+    std::vector<vec3_pair> bounding_boxes; //TODO: Handle memory here!
+
+private: 
+    friend class Shape_exporter;
+    friend class ImguiManager;
+
+    void init_shape_bottomTopSides();
+    void updateBoundingBoxes();
+    void setShape(vec3 center, int nrOfVoxels, Shape* prev = nullptr);
+
+    int index = 0;
+    static int index_incrementor;
+
+    std::vector<Plane*> planes;
     static Normals normals;
     vec3 scale;
     vec3 shapeMidpoint;
     float shapeRadius;
 
-    //std::vector<DirectX::XMFLOAT4*> bounding_boxes; //TODO: Handle memory here!
-    //std::vector<vec3[2]> bounding_boxes; //TODO: Handle memory here!
-    std::vector<vec3_pair> bounding_boxes; //TODO: Handle memory here!
-    std::vector<Center_Index_Pair> previousVoxels;
-
-    struct Shape_settings{
-        int maxNrOfVoxels = 25;
-        int minNrOfVoxels = 1;
-        int max_clamp_padding = 0;
-    };
-    static struct Shape_settings shape_conf; //same for all instances...
+    bool is_illegal = false;
     
+    vec3 offset_left   ;
+    vec3 offset_right  ;
+    vec3 offset_forward;
+    vec3 offset_back   ;
+    vec3 offset_down   ;
+    vec3 offset_up     ;
 
 };

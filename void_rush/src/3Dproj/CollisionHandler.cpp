@@ -1,6 +1,7 @@
 #include "CollisionHandler.h"
 
 CollisionHandler::CollisionHandler()
+	:lastCollided_ShapePlatform(nullptr)
 {
 }
 
@@ -93,7 +94,7 @@ void CollisionHandler::update()
 		{
 			done = true;
 
-			if (player->getGroundedTimer() > 0.5f)
+			if (player->getGroundedTimer() > 0.01f)
 			{
 				player->setGrounded();
 			}
@@ -137,8 +138,8 @@ void CollisionHandler::update()
 			if (!done && collision3D(player_bounding_box, min_max_bounds))
 			{
 				done = true;
-
-				if (player->getGroundedTimer() > 0.5f )
+				this->lastCollided_ShapePlatform = Generated_Platforms[i];
+				if (player->getGroundedTimer() > 0.01f )
 				{
 					player->setGrounded();
 				}

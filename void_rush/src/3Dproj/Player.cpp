@@ -2,15 +2,15 @@
 #include <algorithm>
 
 Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, Hud* HUD, vec3 pos, vec3 rot, vec3 scale):
-	GameObject(file, gfx, pos, rot, scale), noClip(false), HUD(HUD)
+	GameObject(file, gfx, pos, rot, scale), noClip(false), HUD(HUD), gfx(gfx)
 {
 	this->mouse = mouse;
 	this->keyboard = keyboard;
 	this->cam = cam;
-	this->gravity = vec3(0.0f, -9.82f, 0.0f);
-	this->speed = vec3(2.7f, 0.0f, 2.7f);
+	this->gravity = vec3(0.0f, -15.f, 0.0f);
+	this->speed = vec3(5.3f, 0.0f, 5.3f);
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
-	this->jumpForce = 5.0f;
+	this->jumpForce = 8.0f;
 	this->midAirAdj = 2.0f;
 	this->mass = 1.f;
 	this->grounded = true;
@@ -18,6 +18,9 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->shoved = false;
 
 	this->power_index = EMPTY;
+	this->passive_powerup = EMPTY_P;
+	this->canDoublejump = false;
+	this->hasShield = false;
 
 	GOPTR = static_cast<GameObject*>(this);
 	setWeight(20);
@@ -37,11 +40,21 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 		this->name += "_";
 	}
 	this->scoreManager.SetPlayerSpeed(speed.length());
+	this->scoreManager.SetHUD(HUD);
 	fallCubeSize = vec3(50.0f, 200.0f, 50.0f);
 	UpdateFallBox();
 	fallBoxTimer = 0.0f;
 	scream = false;
+	this->shoveDelay = false;
+	this->shoveTimer = 0.0f;
+	this->heartBeatTimer = 0.0f;
+	this->bpm = 60;
+	this->musicVol = 3.0f;
 
+	currentFOV = 45;
+	minFOV = 45;
+
+	screenShake = true;
 }
 
 Player::~Player()
@@ -51,7 +64,6 @@ Player::~Player()
 void Player::update(float dt)
 {
 	handleEvents(dt);
-
 	if (!noClip) {
 		scoreManager.Update(dt);
 		if (!grounded)
@@ -82,12 +94,19 @@ void Player::update(float dt)
 		if (fallBoxTimer > 4) {
 			TakeDmg();
 		}
+		if (velocity.length() > 0) {
+			currentFOV = lerp(currentFOV, maxFOV, 1 * dt);
+		}
+		else {
+			currentFOV = lerp(currentFOV, minFOV, 1 * dt);
+		}
+		gfx->setFov(currentFOV);
 	}else{
 		this->movePos(vec3(velocity.x * dt, 0.0f, velocity.z * dt));
 	}
 
 	fallBoxTimer+=dt;
-
+	heartBeatTimer += dt;
 
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
@@ -100,6 +119,20 @@ void Player::update(float dt)
 	else {
 		sm->setSoundVolume("Wind", 0);
 	}
+	if (shoveDelay) {
+		shoveTimer += dt;
+		if (shoveTimer > 0.1f) {
+			shoveDelay = false;
+			shoveTimer = 0.0f;
+			sm->playSound("Shoved", getPos());
+		}
+	}
+	if (heartBeatTimer >= 60/bpm) {
+		sm->setSoundVolume("HeartBeat", 30 + 30/(260 / bpm));
+		//sm->playSound("HeartBeat", getPos());
+		heartBeatTimer = 0.0f;
+	}
+	sm->setSoundVolume("MusicChange", musicVol);
 	
 	GameObject::update(dt);
 }
@@ -138,29 +171,7 @@ void Player::handleEvents(float dt)
 			}
 			else if (this->startingJumpKey == 'A')
 			{
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (0.5, 0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (-0.5, 0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (-0.5, -0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (0.5, -0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
+				airDir = airDir + vec2(startingJumpDir.y, -startingJumpDir.x);
 			}
 			else if (this->startingJumpKey == 'S')
 			{
@@ -168,29 +179,7 @@ void Player::handleEvents(float dt)
 			}
 			else if (this->startingJumpKey == 'D')
 			{
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (-0.5, -0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (0.5, -0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (0.5, 0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (-0.5, 0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
+				airDir = airDir + vec2(-startingJumpDir.y, startingJumpDir.x);
 			}
 		}
 		else
@@ -216,29 +205,7 @@ void Player::handleEvents(float dt)
 		{
 			if (this->startingJumpKey == 'W')
 			{
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (0.5, 0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (-0.5, 0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (-0.5, -0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (0.5, -0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
+				airDir = airDir + vec2(startingJumpDir.y, -startingJumpDir.x);
 			}
 			else if (this->startingJumpKey == 'A')
 			{
@@ -246,29 +213,7 @@ void Player::handleEvents(float dt)
 			}
 			else if (this->startingJumpKey == 'S')
 			{
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (-0.5, -0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (0.5, -0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (0.5, 0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (-0.5, 0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
+				airDir = airDir + vec2(-startingJumpDir.y, startingJumpDir.x);
 			}
 			else if (this->startingJumpKey == 'D')
 			{
@@ -281,7 +226,6 @@ void Player::handleEvents(float dt)
 			cam->calcFURVectors();
 			jumpDir = jumpDir + vec2(cam->getRightVector().x, cam->getRightVector().z);
 		}
-
 		if (this->startingJumpDir.legth() == 0.0f)
 		{
 			cam->calcFURVectors();
@@ -302,29 +246,7 @@ void Player::handleEvents(float dt)
 			}
 			else if (this->startingJumpKey == 'A')
 			{
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (-0.5, -0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (0.5, -0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (0.5, 0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (-0.5, 0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
+				airDir = airDir + vec2(-startingJumpDir.y, startingJumpDir.x);
 			}
 			else if (this->startingJumpKey == 'S')
 			{
@@ -332,29 +254,7 @@ void Player::handleEvents(float dt)
 			}
 			else if (this->startingJumpKey == 'D')
 			{
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (0.5, 0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (-0.5, 0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (-0.5, -0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (0.5, -0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
+				airDir = airDir + vec2(startingJumpDir.y, -startingJumpDir.x);
 			}
 		}
 		else
@@ -380,29 +280,7 @@ void Player::handleEvents(float dt)
 		{
 			if (this->startingJumpKey == 'W')
 			{
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (-0.5, -0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (0.5, -0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (0.5, 0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (-0.5, 0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
+				airDir = airDir + vec2(-startingJumpDir.y, startingJumpDir.x);
 			}
 			else if (this->startingJumpKey == 'A')
 			{
@@ -410,29 +288,7 @@ void Player::handleEvents(float dt)
 			}
 			else if (this->startingJumpKey == 'S')
 			{
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Upper left quadrant change to lower left quadrant. If (-0.5f, 0.5f) then change to (0.5, 0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x <= 0.0f && startingJumpDir.x >= -1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower left quadrant change to lower right quadrant. If (-0.5f, -0.5f) then change to (-0.5, 0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y <= 0.0f && startingJumpDir.y >= -1.0f)
-				{
-					//Lower right quadrant change to top right quadrant. If (0.5f, -0.5f) then change to (-0.5, -0.5f)
-					airDir = airDir + vec2(-startingJumpDir.x, startingJumpDir.y);
-				}
-
-				if (startingJumpDir.x >= 0.0f && startingJumpDir.x <= 1.0f && startingJumpDir.y >= 0.0f && startingJumpDir.y <= 1.0f)
-				{
-					//Top right quadrant change to top left quadrant. If (0.5f, 0.5f) then change to (0.5, -0.5f)
-					airDir = airDir + vec2(startingJumpDir.x, -startingJumpDir.y);
-				}
+				airDir = airDir + vec2(startingJumpDir.y, -startingJumpDir.x);
 			}
 			else if (this->startingJumpKey == 'D')
 			{
@@ -459,7 +315,7 @@ void Player::handleEvents(float dt)
 			jumpDir = vec2(0.0f, 0.0f);
 		}
 	}
-	if (keyboard->isKeyPressed(VK_SPACE) && grounded) {
+	if ((keyboard->isKeyPressed(VK_SPACE) && (grounded || canDoublejump))) {
 		if(!noClip){
 			grounded = false;
 			groundedTimer = 0.001f;
@@ -468,10 +324,16 @@ void Player::handleEvents(float dt)
 			{
 				startingJumpDir.Normalize();
 			}
-			
 			if (velocity.y > 0.0f)
 			{
-				velocity.y += jumpForce;
+				velocity.y = jumpForce;
+
+				if (canDoublejump == true)	//For doublejump powerup
+				{
+					sm->playSound("Feather");
+					this->canDoublejump = false;
+					this->HUD->TurnOffPassive(FEATHER_P);
+				}
 			}
 			else
 			{
@@ -502,7 +364,7 @@ void Player::handleEvents(float dt)
 		else if (held && !released) {
 			//std::cout << "HELD \n";			
 		}
-
+		maxFOV = 49;
 	}
 	else {
 		//std::cout << "Released\n";
@@ -511,6 +373,33 @@ void Player::handleEvents(float dt)
 		}
 		held = false;
 		released = true;
+		maxFOV = 47;
+	}
+
+	static vec3 rememberGrav = this->gravity;
+	static bool heldCtrl = false;
+	static bool releasedCtrl = false;
+	if (keyboard->isKeyPressed(VK_CONTROL)) {
+
+		if (!heldCtrl && releasedCtrl && !grounded) {
+			heldCtrl = true;
+			releasedCtrl = false;
+			rememberGrav = this->gravity;
+			//std::cout << "PRESSED \n";
+			this->gravity = this->gravity * 3;
+		}
+		else if (heldCtrl && !releasedCtrl) {
+			//std::cout << "HELD \n";			
+		}
+
+	}
+	else {
+		//std::cout << "Released\n";
+		if (!releasedCtrl) {
+			this->gravity = rememberGrav;
+		}
+		heldCtrl = false;
+		releasedCtrl = true;
 	}
 
 	jumpDir.Normalize();
@@ -533,7 +422,11 @@ void Player::handleEvents(float dt)
 			velocity.z = speed.z * airDir.y;
 
 		}
-		else
+		else if (usingRocket)
+		{
+			this->velocity = vec3(cam->getForwardVec().x, cam->getForwardVec().y, cam->getForwardVec().z) * 10.f;
+		}
+		else if (shoved)
 		{
 			velocity.x = shove.x;
 			velocity.z = shove.y;
@@ -544,13 +437,13 @@ void Player::handleEvents(float dt)
 
 void Player::rotateWithMouse(int x, int y)
 {
-	float ycr = cam->getRot().y + static_cast<float>(y) * -mouse->getSense() * 0.01;
+	float ycr = (float)(cam->getRot().y + static_cast<float>(y) * -mouse->getSense() * 0.01);
 	ycr = std::clamp(ycr, -1.5f, 1.57f);
 
 	cam->setRotation(vec3(
-		cam->getRot().x + static_cast<float>(x) * mouse->getSense() * 0.01,
-		ycr,
-		0
+		(float)(cam->getRot().x + static_cast<float>(x) * mouse->getSense() * 0.01),
+		(float)ycr,
+		0.0f
 	));
 }
 
@@ -564,9 +457,12 @@ void Player::addRot(vec3 rot)
 
 void Player::setGrounded()
 {
-	if (!grounded)
+	if (!grounded && !usingRocket)
 	{
+
 		float volume = (this->velocity.length() / this->speed.length())*15;
+		if(screenShake)
+			this->cam->screenShake(volume /20.0f);
 
 		this->grounded = true;
 		this->shoved = false;
@@ -581,6 +477,7 @@ void Player::setGrounded()
 
 		sm->setSoundVolume("Land", volume);
 		sm->playSound("Land", this->getPos());
+		
 	}
 }
 
@@ -589,7 +486,7 @@ void Player::setUngrounded()
 	if (grounded && !noClip)
 	{
 		this->grounded = false;
-		this->startingJumpDir = jumpDir;
+		this->startingJumpDir = jumpDir / 2;
 		groundedTimer = 0.001f;
 	}
 }
@@ -597,6 +494,21 @@ void Player::setUngrounded()
 float Player::getSpeed()
 {
 	return this->speed.x;
+}
+
+bool Player::isGrounded()
+{
+	return this->grounded;
+}
+
+float Player::getJumpForce()
+{
+	return this->jumpForce;
+}
+
+float Player::getGravity()
+{
+	return this->gravity.y;
 }
 
 float Player::getGroundedTimer()
@@ -654,47 +566,66 @@ bool Player::ResetGhost()
 //Used by enemies to move player on collision
 void Player::shovePlayer(vec2 shove, float forceY)
 {
-	this->groundedTimer = 0.001f;
-	this->grounded = false;
-	this->shoved = true;
-	this->shove = shove;
-	this->velocity.y = forceY;
-	sm->playSound("Hit", getPos());
-	sm->playSound("Shoved", getPos());
-	ResetGhost();
+	if (hasShield != true)
+	{
+		this->groundedTimer = 0.11f;
+		this->grounded = false;
+		this->shoved = true;
+		this->shove = shove;
+		this->velocity.y = forceY;
+		sm->playSound("Hit", getPos());
+		shoveDelay = true;	
+		ResetGhost();
+	}
+	else
+	{
+		hasShield = false;
+		getSm()->playSound("Shield2", getPos());
+		this->HUD->TurnOffPassive(SHIELD_P);
+	}
 }
 
 //gets the powerup index from collission handler when one is picked up
 void Player::pickedUpPower(Powerup index)
 {
 	sm->playSound("Pickup", getPos());
-	this->power_index = index;
-	if (this->power_index == FEATHER)
+	 
+	if (index == FEATHER)
 	{
 		this->HUD->TurnOnPassive(FEATHER_P);
+		this->passive_powerup = FEATHER_P;
 	}
-	if (this->power_index == PEARL)
+	else if (index == PEARL)
 	{
 		this->HUD->TurnOnPassive(PEARL_P);
+		this->passive_powerup = PEARL_P;
 	}
-	if (this->power_index == POTION)
+	else if (index == POTION)
 	{
 		this->HUD->TurnOnPassive(POTION_P);
+		this->passive_powerup = POTION_P;
 	}
-	if (this->power_index == SHIELD)
+	else if (index == SHIELD)
 	{
+		this->hasShield = true;
 		this->HUD->TurnOnPassive(SHIELD_P);
+		this->passive_powerup = SHIELD_P;
+	}
+	else if (index == APPLE)
+	{
+		HUD->IncreaseHealth();
+		this->passive_powerup = APPLE_P;
+	}
+	else if (index == MONEY)
+	{
+		AddScore(100);
+		this->passive_powerup = MONEY_P;
 	}
 	else
 	{
+		this->power_index = index;
 		this->HUD->ChangeCurrentPowerUp(this->power_index);
 	}
-
-	if (this->power_index == APPLE)
-	{
-		HUD->IncreaseHealth();
-	}
-	
 }
 
 Powerup Player::getPlayerPower()
@@ -705,8 +636,56 @@ Powerup Player::getPlayerPower()
 void Player::setPlayerPower(Powerup index)
 {
 	this->power_index = index;
+	this->HUD->ChangeCurrentPowerUp(index);
 }
 
+PowerUpPassiv Player::getPassivePower()
+{
+	return this->passive_powerup;
+}
+
+void Player::setCanDoubleJump()
+{
+	if (canDoublejump == false)
+	{
+		canDoublejump = true;
+	}
+}
+
+bool Player::canDoubleJump()
+{
+	return this->canDoublejump;
+}
+
+void Player::setPlayerPowerPassiv(PowerUpPassiv index)
+{
+	this->passive_powerup = index;
+}
+
+void Player::getShield()
+{
+	if (this->hasShield == false)
+	{
+		this->hasShield = true;
+	}
+}
+
+void Player::setPlayerSpeed(vec3 speed)
+{
+	this->speed = speed;
+	if (speed.x == 2.7f)
+	{
+		HUD->TurnOffPassive(POTION_P);
+	}
+}
+
+void Player::useRocket(bool trueOrFalse)
+{
+	this->usingRocket = trueOrFalse;
+	this->grounded = false;
+	this->groundedTimer = 0.01f;
+
+}
 
 //void Player::SetPuzzlePos(vec3 puzzlePosition)
 void Player::SetDifficulity(Difficulity diff)
@@ -802,7 +781,6 @@ void Player::PlayRunSoundEffect(float dt)
 		currentSoundEffectCD = soundEffectCD;
 		sm->playSound(stepSounds[a % 4], getPos());
 		a++;
-		//sm->playSound("Goat", getPos());
 	}
 }
 
@@ -825,6 +803,21 @@ SoundManager* Player::getSm() const
 	return sm;
 }
 
+void Player::setBpm(float bpm)
+{
+	this->bpm = bpm;
+}
+
+void Player::setMusicVol(float vol)
+{
+	musicVol = vol;
+}
+
+bool Player::isInvinc() const
+{
+	return invincible;
+}
+
 void Player::TakeDmg(int dmg)
 {
 	health-=dmg;
@@ -834,9 +827,9 @@ void Player::TakeDmg(int dmg)
 		sm->playSound("GameOver", getPos());
 	}
 	else if(!scream) {
-		scoreManager.setDamageScore();
 		sm->playSound("Scream", getPos());
 	}
+	scoreManager.setDamageScore();
 	scream = false;
 	this->HUD->LowerHealth();
 }
@@ -853,7 +846,7 @@ void Player::AddScore(float scr)
 
 int Player::GetHealth()
 {
-	return health;
+	return (int)health;
 }
 
 float Player::GetScore()

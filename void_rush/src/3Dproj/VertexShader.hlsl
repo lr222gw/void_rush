@@ -24,6 +24,9 @@ cbuffer CBuf
 	row_major matrix projection;
 };
 
+Texture2D nMap : register(t0); // normal map
+SamplerState testSampler;
+
 VertexShaderOutput main(VertexShaderInput input) {
 	VertexShaderOutput output;
 

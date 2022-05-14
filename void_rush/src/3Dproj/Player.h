@@ -36,10 +36,13 @@ enum Powerup
 //used with HUD
 enum PowerUpPassiv
 {
-	FEATHER_P = 1,
-	PEARL_P = 2,
-	POTION_P = 3,
-	SHIELD_P = 4
+	EMPTY_P,
+	FEATHER_P,
+	PEARL_P,
+	POTION_P,
+	SHIELD_P,
+	APPLE_P,
+	MONEY_P
 };
 
 class Player : public GameObject {
@@ -53,6 +56,9 @@ public:
 	void setGrounded();
 	void setUngrounded();
 	float getSpeed();
+	bool isGrounded();
+	float getJumpForce();
+	float getGravity();
 	float getGroundedTimer();
 	GameObject*& getPlayerObjPointer();
 	ColCube getFallCube()const;
@@ -66,7 +72,14 @@ public:
 	//Powerup function
 	void pickedUpPower(Powerup index);
 	Powerup getPlayerPower();
+	PowerUpPassiv getPassivePower();
 	void setPlayerPower(Powerup index);
+	void setPlayerPowerPassiv(PowerUpPassiv index);
+	void setCanDoubleJump();
+	bool canDoubleJump();
+	void getShield();
+	void setPlayerSpeed(vec3 speed);
+	void useRocket(bool trueOrFalse);
 
 	void SetDifficulity(Difficulity diff);
 	void SetStartPlatform(Platform*& start);
@@ -83,6 +96,11 @@ public:
 	void SetCurrentSeed(int seed);
 	void getSoundManager(SoundManager& sm);
 	SoundManager* getSm()const;
+
+	void setBpm(float bpm);
+	void setMusicVol(float vol);
+
+	bool isInvinc()const;
 	
 private:
 	friend class ImguiManager;
@@ -104,9 +122,22 @@ private:
 	//For being shoved
 	bool shoved;
 	vec2 shove;
+	bool shoveDelay;
+	float shoveTimer;
+	//Beat
+	float heartBeatTimer;
+	float bpm;
+	float musicVol;
+
+	//Shake
+	bool screenShake;
 
 	//Powerups
 	Powerup power_index;
+	PowerUpPassiv passive_powerup;
+	bool canDoublejump;
+	bool hasShield;
+	bool usingRocket;
 
 	vec2 startingJumpDir = vec2(0.0f, 0.0f);
 	char startingJumpKey = 'N';
@@ -115,6 +146,7 @@ private:
 	Mouse* mouse;
 	Keyboard* keyboard;
 	Camera* cam;
+	Graphics*& gfx;
 
 	ScoreManager scoreManager;
 	std::string name;
@@ -136,6 +168,10 @@ private:
 	vec3 fallCubeSize;
 	float fallBoxTimer;
 	bool scream;
+
+	float maxFOV;
+	float currentFOV;
+	float minFOV;
 
 	//running sound effect
 	void PlayRunSoundEffect(float dt);

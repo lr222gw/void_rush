@@ -13,7 +13,7 @@ BillBoardGroup::BillBoardGroup(Graphics*& gfx, ID3D11ShaderResourceView* SRV, in
 	if (maxNumberOfParticles == 0) {
 		maxNumberOfParticles = nrOfParticles;
 	}
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	//load a Computeshader
 	loadCShader("BillBoardUpdate.cso", gfx->getDevice(), cUpdate);
 	CompConstBuff.time.element = 0;

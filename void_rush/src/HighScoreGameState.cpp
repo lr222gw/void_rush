@@ -5,9 +5,10 @@ HighScoreGameState::HighScoreGameState(Graphics*& gfx, ResourceManager*& rm, Img
 {
 	readHighScoreFile();
 	UI = new UIManager(rm, gfx);
-	UI->createUIButton("assets/textures/buttonBack.png", "back", mouse, vec2(-1, 0.8), vec2(0.2, 0.2), "back", vec2(0,0.1));
+	UI->createUIButton("assets/textures/buttonBack.png", "back", mouse, vec2(-1, 0.8f), vec2(0.2f, 0.2f), "back", vec2(0,0.1f));
 	for (int i = 0; i < 5; i++) {
-		UI->createUIString(scores[i], vec2(-0.75, 0.5 - i * 0.2),vec2(0.1,0.1));
+		UI->createUIString(scores[i], vec2(-0.9f, 0.5f - i * 0.2f),vec2(0.09f,0.1f));
+		UI->createUIString(seeds[i], vec2(-0.9f, 0.45f - i * 0.2f), vec2(0.03f, 0.03f));
 	}
 	std::string skyboxTextures[6] = {
 	"assets/textures/Skybox/posx.png",//x+
@@ -35,15 +36,17 @@ void HighScoreGameState::renderShadow()
 	//Nothing in here
 }
 
-GameStatesEnum HighScoreGameState::update(float dt)
+GameStateRet HighScoreGameState::update(float dt)
 {
-	GameStatesEnum theReturn = GameStatesEnum::NO_CHANGE;
+	GameStateRet theReturn;
+	theReturn.gameState = GameStatesEnum::NO_CHANGE;
+	theReturn.seed = 0;
 	UI->update();
 	if (UI->getButton("back")->clicked()) {
-		theReturn = GameStatesEnum::TO_MENU;
+		theReturn.gameState = GameStatesEnum::TO_MENU;
 	}
 	camera->updateCamera();
-	camera->addRotation(vec3(0.1 * dt, 0.3 * dt, 0));
+	camera->addRotation(vec3(0.1f * dt, 0.3f * dt, 0));
 	return theReturn;
 }
 
@@ -82,8 +85,13 @@ void HighScoreGameState::readHighScoreFile()
 		}
 		while (std::getline(highscoreFile, line) && i < numberOfScores)
 		{
+			std::istringstream a;
+			a.str(line);
+			std::string name;
+			std::string score;
+			a >> name >> score >> seeds[i];
 			//need seperate these later
-			scores[i] = line;
+			scores[i] = name + " " + score;
 			i++;
 		}
 		highscoreFile.close();

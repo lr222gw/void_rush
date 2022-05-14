@@ -25,6 +25,14 @@ void arrayToVec(std::array<float, 2> arr[3], vec2 vec[3])
 		vec[i].y = arr[i][1];
 	}
 }
+float lerp(float a, float b, float t)
+{
+	return a + (b - a) * t;
+}
+vec3 lerp(vec3 a, vec3 b, float t)
+{
+	return a + (b - a) * t;
+}
 //git
 vec3 vec3::Normalize() //TODO: should not set and return... confusing
 {
@@ -41,6 +49,12 @@ vec3 vec3::Normalize() //TODO: should not set and return... confusing
 	this->z = (float)(z / i);
 	return vec3(x, y, z);
 }
+void vec3::Normalize_XZ()
+{
+	float magnitude_2D = sqrtf(this->x * this->x +this->z * this->z);
+	this->x = this->x / magnitude_2D;
+	this->z = this->z / magnitude_2D;
+}
 vec3 vec3::Normalize(const vec3& ref)
 {
 	vec3 ret;
@@ -50,9 +64,7 @@ vec3 vec3::Normalize(const vec3& ref)
 		(double)ref.z * (double)ref.z);
 	if (i == 0)
 	{
-		ret.x = 0.f;
-		ret.y = 0.f;
-		ret.z = 0.f;
+		return vec3(0, 0, 0);
 	}
 	ret.x = (float)(ref.x / i);
 	ret.y = (float)(ref.y / i);
@@ -116,9 +128,16 @@ float vec3::angle(vec3 other)
 	float min = Vmin.x < Vmin.y ? Vmin.x : Vmin.y;
 	min = min < Vmin.z ? min : Vmin.z;
 	if (min < 0.0) {
-		return -acos(a * b);
+		return (float)(- acos(a * b));
 	}
-	return acos(a * b);
+	return (float)acos(a * b);
+}
+
+float vec3::angleNM(vec3 other)
+{
+	vec3 a = Normalize(*this);
+	vec3 b = Normalize(other);
+	return (float)acos(a * b);
 }
 
 float vec3::getWithNumber(int i)
@@ -176,6 +195,11 @@ DirectX::XMFLOAT3 vec3::toXMFloat3()
 float vec3::length()
 {
 	return (float)sqrt((double)(x * x + y * y + z * z));
+}
+
+float vec3::length_XZ()
+{
+	return sqrtf(this->x * this->x + this->z * this->z);
 }
 
 void vec4::Normalize()

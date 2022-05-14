@@ -8,7 +8,7 @@ public:
 	//very important that they are done in order
 	virtual void handleEvents();//this first
 	virtual void renderShadow();//then this
-	virtual GameStatesEnum update(float dt);//then this
+	virtual GameStateRet update(float dt);//then this
 	virtual void render();		//then this 
 private:
 	void readHighScoreFile();
@@ -16,5 +16,6 @@ private:
 	SkyBox* skybox;
 	static const int numberOfHighScore = 5;
 	std::string scores[numberOfHighScore];
+	std::string seeds[numberOfHighScore];
 
 };

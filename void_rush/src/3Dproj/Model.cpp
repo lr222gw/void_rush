@@ -36,12 +36,17 @@ void ModelObj::init(aiScene* scene, Graphics*& gfx, ID3D11ShaderResourceView** d
 	for (int i = 0; i < (int)scene->mNumMaterials; i++) {
 		matrial[i] = new Material(def);
 		const aiMaterial* pMaterial = scene->mMaterials[i];
+
+		
+
 		if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
 			aiString Path;
+			
 			if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
 				std::string thePath = getPathfrom(Path.data, "textures");
 				matrial[i]->loadTexture(thePath, gfx, 0, def);
 			}
+			
 		}
 		if (pMaterial->GetTextureCount(aiTextureType_NORMALS) > 0) {
 			aiString Path;
@@ -67,7 +72,9 @@ void ModelObj::init(aiScene* scene, Graphics*& gfx, ID3D11ShaderResourceView** d
 		matrial[i]->Ks[0] = ks.r;
 		matrial[i]->Ks[1] = ks.g;
 		matrial[i]->Ks[2] = ks.b;
-		matrial[i]->Ns = 0;
+		matrial[i]->Ns = ns; //<-- does not work yet... it seems
+		//matrial[i]->Ns = 0;
+
 
 	}
 
@@ -94,7 +101,6 @@ void ModelObj::draw(Graphics*& gfx, bool shadowmap)
 		else{
 			gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 			gfx->get_IMctx()->IASetInputLayout(gfx->getInputLayout()[1]);
-			gfx->get_IMctx()->VSSetShader(gfx->getVS()[3], nullptr, 0);
 		}
 		mMeshes[i].draw(gfx->get_IMctx());
 	}

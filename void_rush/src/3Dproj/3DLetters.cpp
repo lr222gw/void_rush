@@ -1,6 +1,6 @@
 #include "3DLetters.h"
 
-Letters3D::Letters3D(std::string str, vec3 pos, ResourceManager* rm, Graphics*& gfx, vec2 size)
+Letters3D::Letters3D(std::string str, vec3 pos, ResourceManager* rm, Graphics*& gfx, vec2 size) : rm(rm), gfx(gfx), size(size)
 {
 	this->pos = pos;
 	for (size_t i = 0; i < str.size(); i++) {
@@ -55,8 +55,7 @@ void Letters3D::update(Graphics*& gfx, vec3 camPos)
 	for (size_t i = 0; i < letters.size(); i++) {
 		letters[i]->Updateshaders(gfx);
 		if (rotateToPlayer) {
-			//letters[i]->addRot(vec3(0, 0.01,0));
-			letters[i]->setRot(vec3(0, -rot,0)+ vec3(0,-1.57,0));
+			letters[i]->setRot(vec3(0, -rot,0)+ vec3(0,-1.57f,0));
 		}
 	}
 }
@@ -82,6 +81,27 @@ void Letters3D::setRotateWithPlayer(bool rotate)
 	this->rotateToPlayer = rotate;
 }
 
+void Letters3D::replaceText(std::string text)
+{
+	for (int i = 0; i < letters.size(); i++) {
+		delete letters[i];
+	}
+	letters.clear();
+	u.clear();
+	v.clear();
+
+	for (size_t i = 0; i < text.size(); i++) {
+		letters.push_back(new GameObject(rm->get_Models("3DText.obj", gfx), gfx, pos, vec3(0, 0, 0), vec3(1, size.y, size.x)));
+		float a = text.size() * size.x - text.size() / 2;
+		letters[i]->setPoint(vec3(0, 0,
+			//i * 2.f * size.x - (str.size() / 2.f)
+
+			(i * 2) + 1 - (float)text.size()
+		));
+		symbol_to_uv(text[i]);
+	}
+}
+
 void Letters3D::symbol_to_uv(char symbol)
 {
 	int intSymbol = (int)symbol - 32;
@@ -91,6 +111,6 @@ void Letters3D::symbol_to_uv(char symbol)
 	int xSymbol, ySymbol;
 	xSymbol = intSymbol % 8;
 	ySymbol = intSymbol / 8;
-	u.push_back(xSymbol);
-	v.push_back(ySymbol);
+	u.push_back((float)xSymbol);
+	v.push_back((float)ySymbol);
 }

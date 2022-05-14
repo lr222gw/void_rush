@@ -339,7 +339,6 @@ bool CreateSamplerState(ID3D11Device* device, ID3D11SamplerState*& sampler)
 
 bool SetupPipeline(ID3D11Device* device, ID3D11VertexShader**& vShader,
 	ID3D11PixelShader**& pShader, ID3D11GeometryShader**& gShader,
-	ID3D11HullShader**& hShader, ID3D11DomainShader**& dShader,
 	ID3D11InputLayout**& inputLayout,
 	ID3D11Texture2D*& tex, ID3D11SamplerState*& sampler)
 {
@@ -352,23 +351,18 @@ bool SetupPipeline(ID3D11Device* device, ID3D11VertexShader**& vShader,
 		loadGShader("GeometryShader.cso", device, gShader[0]) &&
 		loadGShader("Debugging_test.cso", device, gShader[1]) &&
 		loadPShader("PixelBillShader.cso", device, pShader[1]) &&
-		loadPShader("SkyBoxPS.cso", device, pShader[3]) 
+		loadPShader("SkyBoxPS.cso", device, pShader[3]) &&
+		loadPShader("NormalForwardNMapPS.cso", device, pShader[4])
 		)
 	{
 		//continoue
-		if (def_rend) {
-			loadPShader("PSSHNormal.cso", device, pShader[0]);
-			loadPShader("PSSH.cso", device, pShader[2]);
+		if (lightFlag) {
+			loadPShader("NormalForwardNMapPS.cso", device, pShader[0]);
+			loadPShader("NormalForwardPS.cso", device, pShader[2]);
 		}
 		else {
-			if (lightFlag) {
-				loadPShader("NormalForwardPS.cso", device, pShader[0]);
-				loadPShader("NormalForwardPS.cso", device, pShader[2]);
-			}
-			else {
-				loadPShader("NoShadowPS.cso", device, pShader[0]);
-				loadPShader("NoShadowPS.cso", device, pShader[2]);
-			}
+			loadPShader("NoShadowPS.cso", device, pShader[0]);
+			loadPShader("NoShadowPS.cso", device, pShader[2]);
 		}
 	}
 	else {

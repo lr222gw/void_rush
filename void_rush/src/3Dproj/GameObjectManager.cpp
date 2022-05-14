@@ -57,6 +57,46 @@ void GameObjectManager::CreateGameObject(std::string modelFile, std::string name
 	VGameObj.push_back(objPtr);
 }
 
+void GameObjectManager::CreateEnemy(Player* player, enemyType typeofEnemy, SoundManager& sm, std::string modelFile, std::string name, vec3 pos, vec3 rot, vec3 scale, bool moving)
+{
+	if (name == "") {
+		name = "_model_id_name_" + std::to_string(++GameObjID);
+	}
+	GameObject* objPtr;
+	switch (typeofEnemy)
+	{
+	case enemyType::TURRET:
+		if (modelFile == "") {
+			modelFile = "Turret.obj";
+		}
+		objPtr = new Turret(rm->get_Models(modelFile, gfx), gfx, player, pos, rot, scale);
+		((Turret*)objPtr)->setSoundManager(sm);
+		break;
+	case enemyType::PROJECTILE:
+		if (modelFile == "") {
+			modelFile = "DCube.obj";
+		}
+		objPtr = new TurrProjectile(rm->get_Models(modelFile, gfx), gfx, player, pos, rot, scale);
+		break;
+	case enemyType::SPIKES:
+		if (modelFile == "") {
+			modelFile = "Spikes.obj";
+		}
+		objPtr = new Spikes(rm->get_Models(modelFile, gfx), gfx, player, pos, rot, scale, moving);
+		break;
+	case enemyType::SNARE:
+		if (modelFile == "") {
+			modelFile = "DCube.obj";
+		}
+		objPtr = new Snare(rm->get_Models(modelFile, gfx), gfx, player, pos, rot, scale);
+		break;
+	default:
+		break;
+	}
+	gameObjects.insert({ name, objPtr });
+	VGameObj.push_back(objPtr);
+}
+
 
 std::vector<GameObject*>& GameObjectManager::getAllGameObjects()
 {

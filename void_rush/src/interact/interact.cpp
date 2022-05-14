@@ -34,7 +34,7 @@ bool CanInteract (vec3 camPos, vec3 camDir, vec3 itemPos,
         return false;
     }
 
-    rayDist = sqrt(m2);
+    rayDist = (float)sqrt(m2);
 
     return true;
 }

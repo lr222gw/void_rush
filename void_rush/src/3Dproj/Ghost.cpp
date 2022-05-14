@@ -1,4 +1,5 @@
 #include "Ghost.h"
+#include "flags.h"
 
 Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale):
 	Enemy(file, gfx, pos, rot, scale)
@@ -10,8 +11,12 @@ Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot,
 	this->speed_increase = 0.1f;
 	this->force = vec3(10.0f, 3.0f, 10.f);
 	this->player = player;
-	Reset();
+	this->frozen = false;
 	this->active = false;
+	this->attackCD = 0.0f;
+	Reset();
+	if (!(DEVMODE_ || DEBUGMODE))
+		active = true;
 }
 
 void Ghost::collidedWithPlayer()
@@ -19,8 +24,7 @@ void Ghost::collidedWithPlayer()
 	if (readyToAttack) {
 		std::cout << "Player loses a life" << std::endl;
 		readyToAttack = false;
-		attackCD = 5.0f;
-		//player->TakeDmg();
+		attackCD = 1.0f;
 		vec3 ghostToPlayer = (player->getPos() - getPos()).Normalize();
 		vec2 shove = vec2(this->force.x * ghostToPlayer.x, this->force.z * ghostToPlayer.z);
 		player->shovePlayer(shove, this->force.y);
@@ -29,7 +33,7 @@ void Ghost::collidedWithPlayer()
 
 void Ghost::update(float dt)
 {
-	if (active) {
+	if (active && !this->frozen) {
 		if (!readyToAttack) {
 			attackCD -= dt;
 			if (attackCD < 0) {
@@ -37,7 +41,10 @@ void Ghost::update(float dt)
 			}
 		}
 		GainSpeed(dt);
-		followPlayer(dt);
+		if (attackCD <= 0)
+		{
+			followPlayer(dt);
+		}
 		if (player->ResetGhost()) {
 			this->Reset();
 		}
@@ -51,6 +58,28 @@ void Ghost::update(float dt)
 		for (int i = 0; i < 3; i++) {
 			sm->updatePositionOfSound(getPos(), sounds[i]);
 		}
+		//Adjusting players bpm and game music based on distance
+		float bpm = 60;
+		float musicVol = 3.0f;
+		float len = fabs((this->getPos() - player->getPos()).length());
+		if (len < 20.0f) {
+			if (len < 1.0f) {
+				len = 1.0f;
+			}
+			bpm = 60 + ((20 / len) * 10);
+			if (len > 10 && len < 15) {
+				musicVol = 2 + (20 / len)*2;
+			}
+			else if (len < 10) {
+				musicVol = 2 + (20 / len)*4;
+			}
+		}
+		player->setBpm(bpm);
+		player->setMusicVol(musicVol);
+	}
+	else {
+		player->setBpm(60.0f);
+		player->setMusicVol(3.0f);
 	}
 }
 
@@ -64,13 +93,12 @@ void Ghost::Reset()
 	setPos(vec3(player->getPos().x, player->getPos().y, player->getPos().z - 10.f));
 	readyToAttack = true;
 	speed = 1;
-	getPlayerPosCD = 0;
+	getPlayerPosCD = 1;
 	if (!PlayerPositions.empty())
 	{
 		std::queue<vec3> empty;
 		PlayerPositions.swap(empty);
 	}
-	this->active = false;
 }
 
 void Ghost::getSoundManager(SoundManager& sm)
@@ -85,10 +113,28 @@ void Ghost::getSoundManager(SoundManager& sm)
 	GameObject::getSoundManager(sm);
 }
 
+void Ghost::freezeGhost()
+{
+	if (this->frozen == false)
+	{
+		this->frozen = true;
+	}
+	else
+	{
+		this->frozen = false;
+	}
+}
+
+bool Ghost::isFrozen()
+{
+	return this->frozen;
+}
+
 void Ghost::followPlayer(float dt)
 {
+	
 	if (!checkIfRangeOfPlayer()) {
-		setRot(vec3(1.57f, 0, 0));
+		
 		getPlayerPosCD -= dt;
 		if (getPlayerPosCD < 0) {
 			getPlayerPosCD = 3;
@@ -111,15 +157,16 @@ void Ghost::followPlayer(float dt)
 	if (!checkIfRangeOfPlayer() && !PlayerPositions.empty()) {
 		vec3 ghostToPoint = (PlayerPositions.front() - getPos()).Normalize();
 		this->movePos(ghostToPoint * dt * speed);
+		lookat(PlayerPositions.front(), vec3(3.14f, -1.57f,0));
 	}
 	else{
-		setRot(vec3(0, 0, 0));
 		if (!PlayerPositions.empty()) {
 			PlayerPositions.pop();
 		}
 		//go to player
 		vec3 ghostToPlayer = (player->getPos() - getPos()).Normalize();
 		this->movePos(ghostToPlayer * dt * speed);
+		lookat(player->getPos(), vec3(3.14f, -1.57f, 0));
 	}
 	if (checkIfInRangeOfPoint()) {
 		PlayerPositions.pop();
