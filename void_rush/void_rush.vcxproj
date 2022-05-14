@@ -322,7 +322,6 @@
     <ClCompile Include="src\3Dproj\Enemy.cpp" />
     <ClCompile Include="src\3Dproj\GameObjectManager.cpp" />
     <ClCompile Include="src\enemies\EnemyManager.cpp" />
-    <ClCompile Include="src\enemies\EnemySettings.cpp" />
     <ClCompile Include="src\enemies\Ghost.cpp" />
     <ClCompile Include="src\3Dproj\GameState.cpp" />
     <ClCompile Include="src\3Dproj\Menu.cpp" />

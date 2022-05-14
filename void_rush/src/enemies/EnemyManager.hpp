@@ -16,6 +16,7 @@
 
 class EnemyManager{
 private: 
+	friend class ImguiManager;
 	GameObjectManager* GameObjManager;
 	CollisionHandler* collisionHandler;
 	SoundManager* soundManager;

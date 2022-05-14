@@ -156,7 +156,7 @@ public:
         int max_clamp_padding = 0;
         float plattform_voxel_margin = 2.f;
         bool tryRandom = false;
-        float scaleAnchor_XY_Factor = 2;
+        float scaleAnchor_XY_Factor = 3;
         int randomOccurances = 2; // use random everytime the random index is even nmbr
         int matrixSize = 11; // use random everytime the random index is even nmbr
     };

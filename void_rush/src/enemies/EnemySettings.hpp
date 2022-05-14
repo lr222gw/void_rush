@@ -9,7 +9,7 @@ struct Enemy_settings {
 	float Spikes_y_Offset = 0.2f;
 	float Spikes_timer = 2.f;
 	
-	float Snare_y_Offset = 0.0f;
+	float Snare_y_Offset = .5f;
 	float Snare_timer = 3.f;
 	float Snare_catchTimer = 0.1f;	
 };
