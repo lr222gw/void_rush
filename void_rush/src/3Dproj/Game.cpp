@@ -17,12 +17,14 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	lightNr = 0;
 	puzzleManager = new ProtoPuzzle(gfx, rm, collisionHandler, &soundManager); //TODO: REMOVE COMMENT
 
-	powerupManager = new PowerupManager(GameObjManager, gfx, rm, &this->collisionHandler, mouse, keyboard);
+	powerupManager	= new PowerupManager(GameObjManager, gfx, rm, &this->collisionHandler, mouse, keyboard);
+	enemyManager	= new EnemyManager(GameObjManager, gfx, rm, &this->collisionHandler, &soundManager, mouse, keyboard);
 	
 	generationManager = new Generation_manager(gfx, rm, collisionHandler, seed);
 	generationManager->set_PuzzleManager(puzzleManager); //TODO: REMOVE COMMENT
 	generationManager->set_GameObjManager(GameObjManager);
 	generationManager->set_PowerupManager(powerupManager);
+	generationManager->set_EnemyManager(enemyManager);
 	
 	camera->setRotation(vec3(0, 0, 0));
 	pauseMenu = false;
@@ -70,6 +72,7 @@ Game::~Game()
 	delete GameObjManager;
 	delete letter3DHandler;
 	delete powerupManager;
+	delete enemyManager;
 }
 
 void Game::handleEvents()
@@ -379,7 +382,7 @@ void Game::setUpObject()
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
 
-	GameObjManager->CreateGameObject("Bullet.obj", "bull", vec3(0, 10, 0));
+	/*GameObjManager->CreateGameObject("Bullet.obj", "bull", vec3(0, 10, 0));*/
 
 	//GameObjManager->CreateEnemy(player, enemyType::TURRET, soundManager, "Turret.obj", "turr", vec3(20, 1, 0));
 	/*const int MaxNrOfProjectiles = 5;
@@ -389,10 +392,8 @@ void Game::setUpObject()
 		((Turret*)GameObjManager->getGameObject("turr"))->addProjectiles((TurrProjectile*)GameObjManager->getGameObject("proj" + std::to_string(i)));
 	}	*/
 
-	GameObjManager->CreateEnemy(player, enemyType::SPIKES, soundManager, "Spikes.obj", "spikes", vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0001f, 0.0001f, 0.0001f), true);
-	collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("spikes"));
-	GameObjManager->CreateEnemy(player, enemyType::SNARE, soundManager, "DCube.obj", "snare", vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.3f, 0.2f, 0.3f));
-	collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("snare"));
+	
+	
 
 	GameObjManager->CreateGameObject("DCube.obj", "cam", vec3(5, -10, 0), vec3(0, 0, 0));
 
@@ -402,6 +403,7 @@ void Game::setUpObject()
 	collisionHandler.addEnemies(ghost);
 
 	powerupManager->init(player, ghost);
+	enemyManager->init(player, ghost);
 	generationManager->initialize();
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 	distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();

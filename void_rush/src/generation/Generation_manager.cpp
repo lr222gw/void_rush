@@ -63,7 +63,10 @@ void Generation_manager::set_PowerupManager(PowerupManager* PowerupManager)
 {
     this->powerupManager = PowerupManager;
 }
-
+void Generation_manager::set_EnemyManager(EnemyManager* EnemyManager)
+{
+    this->enemyManager = EnemyManager;
+}
 void Generation_manager::initialize()
 {
     //Removes previous data and platforms if any
@@ -117,9 +120,13 @@ void Generation_manager::initialize()
     position_gen->select_powerUp_positions();
     position_gen->select_enemy_positions();
     powerupManager->reset();    
+    enemyManager->reset();
 
     for (auto& p : position_gen->get_powerUp_positions()->positions) {
         powerupManager->setUpPowerups((int)this->difficulity, p);
+    }
+    for (auto& p : position_gen->get_enemy_positions()->positions) {
+        enemyManager->spawnEnemy(p);
     }
 
     this->player->set_resetLookat_dir(position_gen->firstJumpPoint->platformShape.get_midpoint());
@@ -131,10 +138,12 @@ void Generation_manager::initialize()
     this->player->SetDifficulity(this->difficulity);
     this->player->SetStartPlatform(this->GetStartPlatform());
     
+
+
     /////////////////////SPIKE TEST/////////////////////
-    gameObjManager->getGameObject("spikes")->setPos(this->getPuzzelPos() + vec3(0.0f, 5.01f, 0.0f));
+    //gameObjManager->getGameObject("spikes")->setPos(this->getPuzzelPos() + vec3(0.0f, 5.01f, 0.0f));
     /////////////////////SNARE TEST/////////////////////
-    gameObjManager->getGameObject("snare")->setPos(this->getPuzzelPos()+vec3(5.0f, 5.0f, 0.0f));
+    //gameObjManager->getGameObject("snare")->setPos(this->getPuzzelPos()+vec3(5.0f, 5.0f, 0.0f));
 }
 
 

@@ -1,7 +1,8 @@
 #include "powerUpManager.hpp"
 
 PowerupManager::PowerupManager(GameObjectManager* GameObjManager, Graphics* gfx, ResourceManager* rm, CollisionHandler* collisionHandler, Mouse* mouse, Keyboard* keyboard )
-	: GameObjManager(GameObjManager), gfx(gfx), rm(rm), collisionHandler(collisionHandler), keyboard(keyboard), mouse(mouse)
+	: GameObjManager(GameObjManager), gfx(gfx), rm(rm), collisionHandler(collisionHandler), keyboard(keyboard), mouse(mouse),
+	player(nullptr), ghost(nullptr)
 {	
 }
 
@@ -48,18 +49,7 @@ void PowerupManager::update()
 
 void PowerupManager::reset()
 {
-	nrOfActive.GoldenApples = 0;
-	nrOfActive.Potions = 0;
-	nrOfActive.Feathers = 0;
-	nrOfActive.Shields = 0;
-	nrOfActive.Money = 0;
-	nrOfActive.Snowflakes = 0;
-	nrOfActive.Pearls = 0;
-	nrOfActive.EMPs = 0;
-	nrOfActive.Kills = 0;
-	nrOfActive.Pads = 0;
-	nrOfActive.Rockets = 0;
-	nrOfActive.Cards = 0;
+	nrOfActive = nrOfPowerups();
 
 	for (auto& p : this->powers ) {
 		p->setPos(vec3(1000.0f, 1000.0f, 1000.0f));
@@ -372,7 +362,7 @@ void PowerupManager::create_Card()
 			 vec3(1000.0f, 1000.0f, 1000.0f),
 			 vec3(0.0f, deg_to_rad(30.f), deg_to_rad(-30.f)),
 			 vec3(0.1f, 0.1f, 0.1f),
-			 ROCKET));
+			 CARD));
 	
 	GameObjManager->addGameObject(powers.back(), name);
 	collisionHandler->addPowerups(powers.back());

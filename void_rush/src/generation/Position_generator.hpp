@@ -54,7 +54,7 @@ public:
     void select_powerUp_positions();
     void select_enemy_positions();
     powerUp_positions* get_powerUp_positions();
-    powerUp_positions* get_enemy_positions();
+    Enemy_positions* get_enemy_positions();
 
     FirstLast_between_Anchor jumpPoint_generation_helper(Platform* start, Platform* end);    
     void jumpPoint_create_offset(Platform* plat, vec3& currentMiddle, vec3 start, vec3 end);

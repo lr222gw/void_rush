@@ -37,9 +37,7 @@ private:
 		int Rockets	= 0;
 		int Cards	= 0;
 	}nrOf,nrOfActive;
-
 	
-
 	void create_GoldenApple();
 	void create_Feather();
 	void create_Potion();
@@ -53,13 +51,6 @@ private:
 	void create_Rocket();
 	void create_Card();
 
-public: 
-	PowerupManager(GameObjectManager* GameObjManager, Graphics* gfx, ResourceManager* rm, CollisionHandler* collisionHandler, Mouse* mouse, Keyboard* keyboard);
-	void init(Player* player, Ghost* ghost);
-	void update();
-	//Decides which powerups are used this map.
-	void reset();
-
 	GameObject*& get_GoldenApple();
 	GameObject*& get_Feather();
 	GameObject*& get_Potion();
@@ -72,10 +63,14 @@ public:
 	GameObject*& get_Kill();
 	GameObject*& get_Rocket();
 	GameObject*& get_Card();
-	
 
+public: 
+	PowerupManager(GameObjectManager* GameObjManager, Graphics* gfx, ResourceManager* rm, CollisionHandler* collisionHandler, Mouse* mouse, Keyboard* keyboard);
+	void init(Player* player, Ghost* ghost);
+	void update();
+	//Decides which powerups are used this map.
+	void reset();
 
 	void setUpPowerups(int chosenDiff, vec3 pos);
-
 
 };

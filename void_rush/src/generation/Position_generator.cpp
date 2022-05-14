@@ -220,7 +220,10 @@ powerUp_positions* Position_generator::get_powerUp_positions()
     return &powerup_positions;
 }
 
-
+Enemy_positions* Position_generator::get_enemy_positions()
+{
+    return &enemy_positions;
+}
 
 FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platform* start, Platform* end)
 { 
@@ -411,7 +414,7 @@ std::vector<Platform*> Position_generator::getInOrderVector_ValidAnchors()
         }
         currentAnchor = currentAnchor->next;
     }
-    std::reverse(validAPs.begin(), validAPs.end());
+    //std::reverse(validAPs.begin(), validAPs.end());
     return validAPs;
 }
 

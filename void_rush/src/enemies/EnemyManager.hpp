@@ -11,8 +11,50 @@
 #include "powerups/PowerUpDefs.hpp"
 #include "powerups/Powerups.h"
 #include "3Dproj/deltaTime.h"
+#include "3Dproj/SoundManager.h"
 
 class EnemyManager{
+private: 
+	GameObjectManager* GameObjManager;
+	CollisionHandler* collisionHandler;
+	SoundManager* soundManager;
+	ResourceManager* rm;
+	Graphics* gfx;
+	Player* player;
+	Ghost* ghost;
+	Keyboard* keyboard;
+	Mouse* mouse;
+	static vec3 FarFarFarAway;
+	struct nrOfEnemies {
+		int TURRET = 0;
+		int SPIKES = 0;
+		int SNARE = 0;
+		
+	}nrOf, nrOfActive;
 
+	void createTurret();
+	void createSpikes();
+	void createSnare();
 
+	Enemy* get_Turret();
+	Enemy* get_Spikes();
+	Enemy* get_Snare();
+
+	std::vector<Enemy*> enemies;
+	
+public:
+	EnemyManager(GameObjectManager* GameObjManager, Graphics* gfx, 
+		ResourceManager* rm, CollisionHandler* collisionHandler, SoundManager* soundManager,
+		Mouse* mouse, Keyboard* keyboard);
+
+	void init(Player* player, Ghost* ghost);
+	void reset();
+
+	void spawnEnemy(vec3 pos);
+
+private: 
+	struct Enemy_settings {
+		int Turret_maxNrOfProjectiles = 5;
+		float Turret_y_Offset = 15.f;
+	}enemy_conf;
 };
