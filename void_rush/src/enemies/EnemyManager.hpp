@@ -52,7 +52,7 @@ public:
 	void init(Player* player, Ghost* ghost);
 	void reset();
 
-	void spawnEnemy(vec3 pos);
+	void spawnEnemy(std::vector<vec3> pos);
 
 
 };

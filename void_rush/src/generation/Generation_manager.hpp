@@ -70,6 +70,7 @@ private:
 	friend class ImguiManager;
 	int seed; 
 	int startSeed;
+	bool incrementSeed;
 	Player_jump_checker* player_jump_checker;
 	Difficulity difficulity;
 	Position_generator* position_gen;

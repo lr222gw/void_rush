@@ -18,7 +18,7 @@ void Turret::collidedWithPlayer()
 
 void Turret::update(float dt)
 {
-#ifdef DEBUG
+#ifdef _DEBUG
 	//Debug we can change these value without restarting...
 	range = enemy_conf.Turret_range;
 	shootCD = enemy_conf.Turret_CD;

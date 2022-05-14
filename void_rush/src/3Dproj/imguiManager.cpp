@@ -254,7 +254,9 @@ void ImguiManager::render_generation_widgets()
 		}
 
 		ImGui::Checkbox("init from Origo", &owner->generationManager->position_gen->imgui_conf.useOrigo);
-				
+		ImGui::SameLine();
+		ImGui::Checkbox("IncrementSeed", &owner->generationManager->incrementSeed);
+
 		if(ImGui::Button("initialize")){
 			auto temp = owner->player->speed;	//Fix to use initialize while noclipping
 			static vec3 empty;
@@ -345,7 +347,18 @@ void ImguiManager::render_enemy_widgets()
 
 		if (ImGui::TreeNode("Turret")) {
 
-			ImGui::InputFloat("Turret_y_Offset", &enemy_conf.Turret_y_Offset);
+			static float prev_offset = enemy_conf.Turret_y_Offset;
+			prev_offset = enemy_conf.Turret_y_Offset;
+			if(ImGui::InputFloat("Turret_y_Offset", &enemy_conf.Turret_y_Offset)){
+				for (auto& e : owner->enemyManager->enemies) {
+					if (auto turret = static_cast<Turret*>(e)) {
+
+						vec3 offset(0.f, -prev_offset, 0.f);
+						offset.y += enemy_conf.Turret_y_Offset;
+						turret->setPos(turret->getPos() + offset);
+					}
+				}
+			}
 			ImGui::InputFloat("Turret_range", &enemy_conf.Turret_range);
 			ImGui::InputFloat("Turret_CD", &enemy_conf.Turret_CD);
 			ImGui::InputInt("Turret_maxNrOfProjectiles", &enemy_conf.Turret_maxNrOfProjectiles);

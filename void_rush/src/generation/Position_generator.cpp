@@ -205,11 +205,22 @@ void Position_generator::select_enemy_positions()
 
     //Note: we skip the first anchor since it's the startplatform...
     for (int i = 1; i < validAnchors.size(); i++) { 
+        std::vector <vec3> EnemyPositions;
+        std::vector <int> busyIndex;
+        for (int b = 0; b < validAnchors[i]->platformShape.previousVoxels.size(); b++) { busyIndex.push_back(b); }
 
-        int pickVoxelPos = rand() % validAnchors[i]->platformShape.previousVoxels.size();
-        this->enemy_positions.nrOfPositions++;
+        int nrOfEnemyPositions = rand() % validAnchors[i]->platformShape.previousVoxels.size();
+        for (int j = 0; j < nrOfEnemyPositions; j++) {
+
+            int pickVoxelPos = rand() % busyIndex.size();
+            this->enemy_positions.nrOfPositions++;
+            
+            EnemyPositions.push_back(validAnchors[i]->platformShape.previousVoxels[busyIndex[pickVoxelPos]].current_center + PU_conf.enemy_offset);
+            busyIndex.erase(busyIndex.begin() + pickVoxelPos);
+            
+        }
         this->enemy_positions.positions.push_back(
-            validAnchors[i]->platformShape.previousVoxels[pickVoxelPos].current_center + PU_conf.enemy_offset
+            EnemyPositions
         );
 
     }

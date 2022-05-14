@@ -2,8 +2,15 @@
 #include "3Dproj/flags.h"
 
 Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, CollisionHandler& collisionHandler, int seed)
-	: gfx(_gfx), rm(_rm), seed(seed), difficulity(Difficulity::easy), player(nullptr), puzzleManager(nullptr), gameObjManager(nullptr)
+	: gfx(_gfx), rm(_rm), seed(seed), difficulity(Difficulity::easy), 
+    player(nullptr), puzzleManager(nullptr), gameObjManager(nullptr), 
+    incrementSeed(true)
 {            
+
+#ifdef _DEBUG
+    this->incrementSeed = false;
+#endif // DEBUG
+    
     this->shape_export = new Shape_exporter();
     this->position_gen = new Position_generator(this->seed);
     this->player_jump_checker = new Player_jump_checker();
@@ -106,12 +113,17 @@ void Generation_manager::initialize()
         startSeed = seed;
         this->player->SetCurrentSeed(this->seed);
     }
-    if (DEVMODE_ || DEBUGMODE) {
-        position_gen->set_seed(this->seed);
+    if (DEVMODE_ || DEBUGMODE) {        
+        if (this->incrementSeed) {
+            position_gen->set_seed(this->seed++);
+        }else{
+            position_gen->set_seed(this->seed);
+        }
     }
     else {
         position_gen->set_seed(this->seed++);
     }
+    
     
     position_gen->start(difficulity);
     
