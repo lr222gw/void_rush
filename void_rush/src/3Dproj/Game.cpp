@@ -124,7 +124,7 @@ GameStateRet Game::update(float dt)
 {
 	GameStateRet theReturn;
 	theReturn.gameState = GameStatesEnum::NO_CHANGE;
-	theReturn.seed = 0;
+	theReturn.seed = 0;	
 	if (pauseMenu) {
 		pauseUI->update();
 		gfx->Update(dt, camera->getPos());
@@ -189,73 +189,74 @@ GameStateRet Game::update(float dt)
 		gfx->Update(dt, camera->getPos());
 
 		GameObjManager->update(dt);
-		
 
-	/*update things*/
-	soundManager.update(camera->getPos(), camera->getForwardVec());
-	gfx->Update(dt, camera->getPos());
-	HUD->UpdateGhostBar(player->getPos(), generationManager->getPuzzelPos(), ghost->getPos(), distanceFromStartPosToPuzzle);
-	//HUD->UpdateScore(player->GetScore());
-	light[0]->getPos().x = player->getPos().x;
-	light[0]->getPos().y = player->getPos().y;
-	light[0]->getPos().z = player->getPos().z;
+		this->powerupManager->update();
+
+		/*update things*/
+		soundManager.update(camera->getPos(), camera->getForwardVec());
+		gfx->Update(dt, camera->getPos());
+		HUD->UpdateGhostBar(player->getPos(), generationManager->getPuzzelPos(), ghost->getPos(), distanceFromStartPosToPuzzle);
+		//HUD->UpdateScore(player->GetScore());
+		light[0]->getPos().x = player->getPos().x;
+		light[0]->getPos().y = player->getPos().y;
+		light[0]->getPos().z = player->getPos().z;
 
 #pragma region camera_settings
 
-	if (getkey('C')) {
-		camera->setPosition(light[lightNr]->getPos());
-		camera->setRotation(light[lightNr]->getRotation());
-	}
-	if (getkey('1') && getkey(VK_F1)) {
-		lightNr = 0;
-	}
-	if (getkey('2') && getkey(VK_F1)) {
-		lightNr = 1;
-	}
-	if (getkey('3') && getkey(VK_F1)) {
-		lightNr = 2;
-	}
-	if (getkey('4') && getkey(VK_F1)) {
-		lightNr = 3;
-	}
+		if (getkey('C')) {
+			camera->setPosition(light[lightNr]->getPos());
+			camera->setRotation(light[lightNr]->getRotation());
+		}
+		if (getkey('1') && getkey(VK_F1)) {
+			lightNr = 0;
+		}
+		if (getkey('2') && getkey(VK_F1)) {
+			lightNr = 1;
+		}
+		if (getkey('3') && getkey(VK_F1)) {
+			lightNr = 2;
+		}
+		if (getkey('4') && getkey(VK_F1)) {
+			lightNr = 3;
+		}
 
 #pragma endregion camera_settings
 
 	
-	if (getkey('L'))
-	{
-		HUD->UpdateScore(100);
-	}
+		if (getkey('L'))
+		{
+			HUD->UpdateScore(100);
+		}
 
-	if (getkey('V') && testTime <= 0.0f)
-	{
-		testInt++;
-		if (testInt == 7)
+		if (getkey('V') && testTime <= 0.0f)
 		{
-			testInt = 0;
+			testInt++;
+			if (testInt == 7)
+			{
+				testInt = 0;
+			}
+			testTime = 0.2f;
+			HUD->ChangeCurrentPowerUp(testInt);
 		}
-		testTime = 0.2f;
-		HUD->ChangeCurrentPowerUp(testInt);
-	}
 
-	if (getkey('B') && testTime <= 0.0f)
-	{
-		testTime = 0.2f;
-		if (HUD->GetStatusOfPassive(1))
+		if (getkey('B') && testTime <= 0.0f)
 		{
-			HUD->TurnOffPassive(1);
-			HUD->TurnOffPassive(2);
-			HUD->TurnOffPassive(3);
-			HUD->TurnOffPassive(4);
+			testTime = 0.2f;
+			if (HUD->GetStatusOfPassive(1))
+			{
+				HUD->TurnOffPassive(1);
+				HUD->TurnOffPassive(2);
+				HUD->TurnOffPassive(3);
+				HUD->TurnOffPassive(4);
+			}
+			else
+			{
+				HUD->TurnOnPassive(1);
+				HUD->TurnOnPassive(2);
+				HUD->TurnOnPassive(3);
+				HUD->TurnOnPassive(4);
+			}
 		}
-		else
-		{
-			HUD->TurnOnPassive(1);
-			HUD->TurnOnPassive(2);
-			HUD->TurnOnPassive(3);
-			HUD->TurnOnPassive(4);
-		}
-	}
 	
 
 		puzzleManager->UpdatePlayerPosition(this->player->getPos());

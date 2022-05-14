@@ -9,6 +9,7 @@
 #include "3Dproj/Keyboard.h"
 #include "powerups/PowerUpDefs.hpp"
 #include "3Dproj/Powerups.h"
+#include "3Dproj/deltaTime.h"
 
 class PowerupManager {
 
@@ -55,6 +56,7 @@ private:
 public: 
 	PowerupManager(GameObjectManager* GameObjManager, Graphics* gfx, ResourceManager* rm, CollisionHandler* collisionHandler, Mouse* mouse, Keyboard* keyboard);
 	void init(Player* player, Ghost* ghost);
+	void update();
 	//Decides which powerups are used this map.
 	void reset();
 

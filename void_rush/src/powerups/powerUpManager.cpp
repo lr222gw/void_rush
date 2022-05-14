@@ -25,6 +25,27 @@ void PowerupManager::init(Player* player, Ghost* ghost)
 
 }
 
+void PowerupManager::update()
+{
+	static float invert = 1;
+	float amount = 0.001f;
+	float randomOffset = 0.f;
+	static DeltaTime timer;	
+	static double time = 0.0;	
+	timer.restartClock();
+	time += timer.dt();
+	if(time > 1.0){
+		time = 0.0;
+		invert *= -1;
+	}
+	
+	for (int i = 0; i < this->powers.size(); i++) { 
+		randomOffset = 0.1f / (rand() % 10 + 1);
+		this->powers[i]->addRot(vec3(0.f, deg_to_rad(1.f+ randomOffset), 0.f));
+		this->powers[i]->movePos(vec3(0.f, amount*invert ,0.f));
+	}
+}
+
 void PowerupManager::reset()
 {
 	nrOfActive.GoldenApples = 0;
@@ -193,7 +214,12 @@ void PowerupManager::create_GoldenApple()
 {
 	std::string name = "Apple" + std::to_string(nrOf.GoldenApples++);
 	nrOfActive.GoldenApples = nrOf.GoldenApples;
-	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), APPLE));
+	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard,
+			 vec3(1000.0f, 1000.0f, 1000.0f),
+			 vec3(0.0f, 0.0f, 0.0f),
+			 vec3(0.1f, 0.1f, 0.1f),
+			 APPLE));
+	
 	GameObjManager->addGameObject(powers.back(), name);
 	collisionHandler->addPowerups(powers.back());
 }
@@ -202,7 +228,12 @@ void PowerupManager::create_Feather()
 {
 	std::string name = "Feather" + std::to_string(nrOf.Feathers++);
 	nrOfActive.Feathers = nrOf.Feathers;
-	powers.push_back(new Powerups(rm->get_Models("Feather.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), FEATHER));
+	powers.push_back(new Powerups(rm->get_Models("Feather.obj", gfx), gfx, player, ghost, keyboard,
+			 vec3(1000.0f, 1000.0f, 1000.0f),
+			 vec3(30.0f, 40.0f, 30.0f),
+			 vec3(0.17f, 0.17f, 0.17f),
+			 FEATHER));
+	
 	GameObjManager->addGameObject(powers.back(), name);
 	collisionHandler->addPowerups(powers.back());
 }
@@ -211,7 +242,12 @@ void PowerupManager::create_Potion()
 {
 	std::string name = "Potion" + std::to_string(nrOf.Potions++);
 	nrOfActive.Potions = nrOf.Potions;
-	powers.push_back(new Powerups(rm->get_Models("Potion.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), POTION));
+	powers.push_back(new Powerups(rm->get_Models("Potion.obj", gfx), gfx, player, ghost, keyboard,
+			 vec3(1000.0f, 1000.0f, 1000.0f),
+			 vec3(0.0f, deg_to_rad(30.f), deg_to_rad(10.f)),
+			 vec3(0.2f, 0.2f, 0.2f),
+			 POTION));
+	
 	GameObjManager->addGameObject(powers.back(), name);
 	collisionHandler->addPowerups(powers.back());
 }
@@ -220,7 +256,12 @@ void PowerupManager::create_Shield()
 {
 	std::string name = "Shield" + std::to_string(nrOf.Shields++);
 	nrOfActive.Shields = nrOf.Shields;
-	powers.push_back(new Powerups(rm->get_Models("Shield.obj", gfx), gfx, player, ghost, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2, 0.2, 0.2), SHIELD));
+	powers.push_back(new Powerups(rm->get_Models("Shield.obj", gfx), gfx, player, ghost, keyboard,
+			 vec3(1000, 1000, 1000),
+			 vec3(0, 0, 0),
+			 vec3(0.25, 0.25, 0.25),
+			 SHIELD));
+	
 	GameObjManager->addGameObject(powers.back(), name);
 	collisionHandler->addPowerups(powers.back());
 }
@@ -229,7 +270,12 @@ void PowerupManager::create_Money()
 {
 	std::string name = "Money" + std::to_string(nrOf.Money++);
 	nrOfActive.Money = nrOf.Money;
-	powers.push_back(new Powerups(rm->get_Models("Money.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), MONEY));
+	powers.push_back(new Powerups(rm->get_Models("Money.obj", gfx), gfx, player, ghost, keyboard,
+			 vec3(1000.0f, 1000.0f, 1000.0f),
+			 vec3(0.0f, 90.0f, 90.0f),
+			 vec3(0.1f, 0.1f, 0.1f),
+			 MONEY));
+	
 	GameObjManager->addGameObject(powers.back(), name);
 	collisionHandler->addPowerups(powers.back());
 }
@@ -238,8 +284,13 @@ void PowerupManager::create_Snowflake()
 {
 	std::string name = "Snowflake" + std::to_string(nrOf.Snowflakes++);
 	nrOfActive.Snowflakes = nrOf.Snowflakes;
-	powers.push_back(new Powerups(rm->get_Models("Snowflake.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), FREEZE)); {
-		GameObjManager->addGameObject(powers.back(), name);
+	powers.push_back(new Powerups(rm->get_Models("Snowflake.obj", gfx), gfx, player, ghost, keyboard,
+			 vec3(1000.0f, 1000.0f, 1000.0f),
+			 vec3(0.0f, 0.0f, 90.0f),
+			 vec3(0.3f, 0.3f, 0.3f),
+			 FREEZE)); {
+		
+	GameObjManager->addGameObject(powers.back(), name);
 		collisionHandler->addPowerups(powers.back());
 	}
 }
@@ -247,7 +298,12 @@ void PowerupManager::create_Pearl()
 {
 	std::string name = "Pearl" + std::to_string(nrOf.Pearls++);
 	nrOfActive.Pearls = nrOf.Pearls;
-	powers.push_back(new Powerups(rm->get_Models("Pearl.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), PEARL));
+	powers.push_back(new Powerups(rm->get_Models("Pearl.obj", gfx), gfx, player, ghost, keyboard,
+			 vec3(1000.0f, 1000.0f, 1000.0f),
+			 vec3(0.0f, 0.0f, 0.0f),
+			 vec3(0.075f, 0.075f, 0.075f),
+			 PEARL));
+	
 	GameObjManager->addGameObject(powers.back(), name);
 	collisionHandler->addPowerups(powers.back());
 }
@@ -256,7 +312,12 @@ void PowerupManager::create_EMP()
 {
 	std::string name = "EMP" + std::to_string(nrOf.EMPs++);
 	nrOfActive.EMPs = nrOf.EMPs;
-	powers.push_back(new Powerups(rm->get_Models("EMP.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), EMP));
+	powers.push_back(new Powerups(rm->get_Models("EMP.obj", gfx), gfx, player, ghost, keyboard,
+			 vec3(1000.0f, 1000.0f, 1000.0f),
+			 vec3(0.0f, 0.0f, 0.0f),
+			 vec3(0.2f, 0.2f, 0.2f),
+			 EMP));
+	
 	GameObjManager->addGameObject(powers.back(), name);
 	collisionHandler->addPowerups(powers.back());
 }
@@ -265,7 +326,12 @@ void PowerupManager::create_Pad()
 {
 	std::string name = "Pad" + std::to_string(nrOf.Pads++);
 	nrOfActive.Pads = nrOf.Pads;
-	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), PAD));
+	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard,
+			 vec3(1000.0f, 1000.0f, 1000.0f),
+			 vec3(0.0f, 0.0f, 0.0f),
+			 vec3(0.1f, 0.1f, 0.1f),
+			 PAD));
+	
 	GameObjManager->addGameObject(powers.back(), name);
 	collisionHandler->addPowerups(powers.back());
 }
@@ -274,7 +340,12 @@ void PowerupManager::create_Kill()
 {
 	std::string name = "Kill" + std::to_string(nrOf.Kills++);
 	nrOfActive.Kills = nrOf.Kills;
-	powers.push_back(new Powerups(rm->get_Models("Skull.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), KILL));
+	powers.push_back(new Powerups(rm->get_Models("Skull.obj", gfx), gfx, player, ghost, keyboard,
+			 vec3(1000.0f, 1000.0f, 1000.0f),
+			 vec3(0.0f, 0.0f, 0.0f),
+			 vec3(0.1f, 0.1f, 0.1f),
+			 KILL));
+	
 	GameObjManager->addGameObject(powers.back(), name);
 	collisionHandler->addPowerups(powers.back());
 }
@@ -283,7 +354,12 @@ void PowerupManager::create_Rocket()
 {
 	std::string name = "Rocket" + std::to_string(nrOf.Rockets++);
 	nrOfActive.Rockets = nrOf.Rockets;
-	powers.push_back(new Powerups(rm->get_Models("Rocket.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), ROCKET));
+	powers.push_back(new Powerups(rm->get_Models("Rocket.obj", gfx), gfx, player, ghost, keyboard,
+			 vec3(1000.0f, 1000.0f, 1000.0f),
+			 vec3(0.0f, deg_to_rad(30.f), deg_to_rad(-45.f)),
+			 vec3(0.085f, 0.085f, 0.085f),
+			 ROCKET));
+	
 	GameObjManager->addGameObject(powers.back(), name);
 	collisionHandler->addPowerups(powers.back());
 }
@@ -292,7 +368,12 @@ void PowerupManager::create_Card()
 {
 	std::string name = "Card" + std::to_string(nrOf.Cards++);
 	nrOfActive.Cards = nrOf.Cards;
-	powers.push_back(new Powerups(rm->get_Models("Rocket.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), ROCKET));
+	powers.push_back(new Powerups(rm->get_Models("Rocket.obj", gfx), gfx, player, ghost, keyboard,
+			 vec3(1000.0f, 1000.0f, 1000.0f),
+			 vec3(0.0f, deg_to_rad(30.f), deg_to_rad(-30.f)),
+			 vec3(0.1f, 0.1f, 0.1f),
+			 ROCKET));
+	
 	GameObjManager->addGameObject(powers.back(), name);
 	collisionHandler->addPowerups(powers.back());
 }
