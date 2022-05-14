@@ -1,5 +1,5 @@
 #include "Ghost.h"
-#include "flags.h"
+#include "3Dproj/flags.h"
 
 Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale):
 	Enemy(file, gfx, pos, rot, scale)

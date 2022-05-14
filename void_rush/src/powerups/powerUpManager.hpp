@@ -4,11 +4,11 @@
 #include "3Dproj/Graphics.h"
 #include "3Dproj/vec.h"
 #include "3Dproj/Player.h"
-#include "3Dproj/Ghost.h"
+#include "enemies/Ghost.h"
 #include "3Dproj/Mouse.h"
 #include "3Dproj/Keyboard.h"
 #include "powerups/PowerUpDefs.hpp"
-#include "3Dproj/Powerups.h"
+#include "Powerups.h"
 #include "3Dproj/deltaTime.h"
 
 class PowerupManager {

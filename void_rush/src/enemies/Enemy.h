@@ -1,5 +1,5 @@
 #pragma once
-#include "Player.h"
+#include "3Dproj/Player.h"
 
 enum enemyType {
 	TURRET, GHOST, PROJECTILE, SPIKES, SNARE

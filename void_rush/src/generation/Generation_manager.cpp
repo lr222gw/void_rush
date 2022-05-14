@@ -115,6 +115,7 @@ void Generation_manager::initialize()
     place_anchorPoints();  
     place_jumpPoints();  
     position_gen->select_powerUp_positions();
+    position_gen->select_enemy_positions();
     powerupManager->reset();    
 
     for (auto& p : position_gen->get_powerUp_positions()->positions) {

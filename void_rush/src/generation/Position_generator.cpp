@@ -197,6 +197,24 @@ void Position_generator::select_powerUp_positions()
     }     
 }
 
+void Position_generator::select_enemy_positions()
+{
+    this->enemy_positions.nrOfPositions = 0;
+    this->enemy_positions.positions.clear();
+    std::vector<Platform*> validAnchors = this->getInOrderVector_ValidAnchors();
+
+    //Note: we skip the first anchor since it's the startplatform...
+    for (int i = 1; i < validAnchors.size(); i++) { 
+
+        int pickVoxelPos = rand() % validAnchors[i]->platformShape.previousVoxels.size();
+        this->enemy_positions.nrOfPositions++;
+        this->enemy_positions.positions.push_back(
+            validAnchors[i]->platformShape.previousVoxels[pickVoxelPos].current_center + PU_conf.enemy_offset
+        );
+
+    }
+}
+
 powerUp_positions* Position_generator::get_powerUp_positions()
 {
     return &powerup_positions;
@@ -383,6 +401,20 @@ std::vector<Platform*> Position_generator::getInOrderVector_ValidJumppoints()
     std::reverse(validJPs.begin(), validJPs.end());
     return validJPs;
 }
+std::vector<Platform*> Position_generator::getInOrderVector_ValidAnchors()
+{
+    Platform* currentAnchor = this->anchors.front();
+    std::vector<Platform*> validAPs;
+    while (currentAnchor) {
+        if (!currentAnchor->platformShape.get_is_Illegal()) {
+            validAPs.push_back(currentAnchor);
+        }
+        currentAnchor = currentAnchor->next;
+    }
+    std::reverse(validAPs.begin(), validAPs.end());
+    return validAPs;
+}
+
 Platform* Position_generator::getFirstJumppoint()
 {
     return this->firstJumpPoint;

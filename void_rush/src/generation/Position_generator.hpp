@@ -23,6 +23,10 @@ struct powerUp_positions {
     int nrOfPositions;
     std::vector<vec3> positions;
 };
+struct Enemy_positions {
+    int nrOfPositions;
+    std::vector<vec3> positions;
+};
 
 class Position_generator
 {
@@ -34,9 +38,11 @@ private:
     std::vector<Platform*> jumpPoints;
     Player_jump_checker* pl;
     powerUp_positions powerup_positions;
+    Enemy_positions enemy_positions;
     
     std::vector<Platform*> getAllPlatforms();
     std::vector<Platform*> getInOrderVector_ValidJumppoints();
+    std::vector<Platform*> getInOrderVector_ValidAnchors();
 public:
     Platform* firstJumpPoint;
 
@@ -46,7 +52,9 @@ public:
     void generate_anchor_positions(Difficulity selectedDiff);
     void generate_jumpPoints_positions(Difficulity selectedDiff);        
     void select_powerUp_positions();
+    void select_enemy_positions();
     powerUp_positions* get_powerUp_positions();
+    powerUp_positions* get_enemy_positions();
 
     FirstLast_between_Anchor jumpPoint_generation_helper(Platform* start, Platform* end);    
     void jumpPoint_create_offset(Platform* plat, vec3& currentMiddle, vec3 start, vec3 end);
@@ -95,8 +103,9 @@ private: // Magic Numbers
     Jump_point_settings JP_conf;
 
     struct PowerUp_position_settings{        
-        int powerUp_occurance_rate = 2;
+        int powerUp_occurance_rate = 5;
         vec3 position_offset = vec3(0.f, 1.f,0.f);
+        vec3 enemy_offset = vec3(0.f, 1.f,0.f);
     };
     PowerUp_position_settings PU_conf;
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "3Dproj/Enemy.h"
+#include "enemies/Enemy.h"
 #include <iostream>
 
 class Spikes : public Enemy {

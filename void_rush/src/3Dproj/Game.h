@@ -9,6 +9,8 @@
 #include "hud/Hud.h"
 #include "3DLettersHandler.h"
 #include "powerups/powerUpManager.hpp"
+#include "enemies/EnemyManager.hpp"
+
 
 class Game : public GameState {
 public:
@@ -38,6 +40,7 @@ private:
 	Generation_manager* generationManager;
 	CollisionHandler collisionHandler;
 	PowerupManager* powerupManager;
+	EnemyManager* enemyManager;
 	Hud* HUD;
 	int testInt = 0;
 	float distanceFromStartPosToPuzzle = 0.0f;
