@@ -200,7 +200,7 @@ void Position_generator::select_powerUp_positions()
 void Position_generator::select_enemy_positions()
 {
     this->enemy_positions.nrOfPositions = 0;
-    this->enemy_positions.positions.clear();
+    this->enemy_positions.ranmdomPositions.clear();
     std::vector<Platform*> validAnchors = this->getInOrderVector_ValidAnchors();
 
     //Note: we skip the first anchor since it's the startplatform...
@@ -213,13 +213,22 @@ void Position_generator::select_enemy_positions()
         for (int j = 0; j < nrOfEnemyPositions; j++) {
 
             int pickVoxelPos = rand() % busyIndex.size();
+
+            int poses_x = (validAnchors[i]->platformShape.get_scale().x / 0.5f) - 1; // if poses_x is 1, then mult with 0...
+            int poses_z = (validAnchors[i]->platformShape.get_scale().z / 0.5f) - 1; // if poses_z is 1, then mult with 0...
+
+            vec3 final_pos =
+                validAnchors[i]->platformShape.previousVoxels[busyIndex[pickVoxelPos]].current_center;
+            final_pos.x += static_cast<float>(poses_x) * 0.5f;
+            final_pos.z += static_cast<float>(poses_z) * 0.5f;
+
             this->enemy_positions.nrOfPositions++;
             
-            EnemyPositions.push_back(validAnchors[i]->platformShape.previousVoxels[busyIndex[pickVoxelPos]].current_center + PU_conf.enemy_offset);
+            EnemyPositions.push_back(final_pos + PU_conf.enemy_offset);
             busyIndex.erase(busyIndex.begin() + pickVoxelPos);
             
         }
-        this->enemy_positions.positions.push_back(
+        this->enemy_positions.ranmdomPositions.push_back(
             EnemyPositions
         );
 

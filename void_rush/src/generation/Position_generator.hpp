@@ -25,7 +25,9 @@ struct powerUp_positions {
 };
 struct Enemy_positions {
     int nrOfPositions;
-    std::vector<std::vector<vec3>> positions;
+    std::vector<std::vector<vec3>> ranmdomPositions;
+    std::vector<std::vector<vec3>> outsidePositions;
+    std::vector<std::vector<vec3>> patternPositions;
 };
 
 class Position_generator

@@ -137,7 +137,7 @@ void Generation_manager::initialize()
     for (auto& p : position_gen->get_powerUp_positions()->positions) {
         powerupManager->setUpPowerups((int)this->difficulity, p);
     }
-    for (auto& p : position_gen->get_enemy_positions()->positions) {
+    for (auto& p : position_gen->get_enemy_positions()->ranmdomPositions) {
         enemyManager->spawnEnemy(p);
     }
 
