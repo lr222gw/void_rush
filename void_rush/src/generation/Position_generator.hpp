@@ -25,9 +25,12 @@ struct powerUp_positions {
 };
 struct Enemy_positions {
     int nrOfPositions;
-    std::vector<std::vector<vec3>> ranmdomPositions;
-    std::vector<std::vector<vec3>> outsidePositions;
-    std::vector<std::vector<vec3>> patternPositions;
+    struct PositionGroup {
+        std::vector<vec3> ranmdomPositions;
+        std::vector<vec3> outsidePositions;
+        std::vector<vec3> patternPositions;
+    };
+    std::vector<PositionGroup> positions;        
 };
 
 class Position_generator
@@ -104,12 +107,16 @@ private: // Magic Numbers
     };
     Jump_point_settings JP_conf;
 
-    struct PowerUp_position_settings{        
+    static struct PowerUp_position_settings{        
         int powerUp_occurance_rate = 5;
         vec3 position_offset = vec3(0.f, 1.f,0.f);
-        vec3 enemy_offset = vec3(0.f, 0.f,0.f);
-    };
-    PowerUp_position_settings PU_conf;
+        
+    }PU_conf;
+
+    static struct enemy_Position_settings {
+        vec3 enemy_offset = vec3(0.f, 0.f, 0.f);
+        float outsideOffset = 5.f;
+    }enemyPos_conf;
 
 private:  //Imgui stuff
     struct Imgui_data {

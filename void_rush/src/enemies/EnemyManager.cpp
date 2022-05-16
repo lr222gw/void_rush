@@ -1,5 +1,6 @@
 #include "EnemyManager.hpp"
 vec3 EnemyManager::FarFarFarAway = vec3(1000.f, 1000.f, 1000.f);
+
 void EnemyManager::createTurret()
 {
 	//GameObjManager->CreateGameObject("Bullet.obj", "bull", FarFarFarAway);
@@ -10,8 +11,8 @@ void EnemyManager::createTurret()
 	GameObjManager->CreateEnemy(player, enemyType::TURRET, *soundManager, "Turret.obj", name, 
 		FarFarFarAway,
 		vec3(0.f,0.f,0.f), 
-		vec3(enemy_conf.Turret_scale, enemy_conf.Turret_scale, enemy_conf.Turret_scale));
-	const int MaxNrOfProjectiles = enemy_conf.Turret_maxNrOfProjectiles;
+		vec3(Turret::turret_conf.Turret_scale, Turret::turret_conf.Turret_scale, Turret::turret_conf.Turret_scale));
+	const int MaxNrOfProjectiles = Turret::turret_conf.Turret_maxNrOfProjectiles;
 	for (int i = 0; i < MaxNrOfProjectiles; i++) {
 
 		std::string name_proj = name + "_proj" + std::to_string(i);
@@ -19,7 +20,9 @@ void EnemyManager::createTurret()
 			"Bullet.obj", name_proj,
 			FarFarFarAway,
 			vec3(0, 0, 0), 
-			vec3(enemy_conf.Projectile_scale, enemy_conf.Projectile_scale, enemy_conf.Projectile_scale));
+			vec3(Turret::turret_conf.Projectile_scale, 
+				Turret::turret_conf.Projectile_scale, 
+				Turret::turret_conf.Projectile_scale));
 
 		collisionHandler->addEnemies((Enemy*)GameObjManager->getGameObject(name_proj));
 		((Turret*)GameObjManager->getGameObject(name))->addProjectiles((TurrProjectile*)GameObjManager->getGameObject(name_proj));
@@ -35,7 +38,9 @@ void EnemyManager::createSpikes()
 	GameObjManager->CreateEnemy(player, enemyType::SPIKES, *soundManager, "Spikes.obj", name,
 		FarFarFarAway,
 		vec3(0.0f, 0.0f, 0.0f), 
-		vec3(enemy_conf.Spikes_scale, enemy_conf.Spikes_scale, enemy_conf.Spikes_scale),
+		vec3(Spikes::spikes_conf.Spikes_scale, 
+			Spikes::spikes_conf.Spikes_scale, 
+			Spikes::spikes_conf.Spikes_scale),
 		true);
 	collisionHandler->addEnemies((Enemy*)GameObjManager->getGameObject(name));
 	enemies.push_back(static_cast<Enemy*>(this->GameObjManager->getGameObject(name)));
@@ -48,7 +53,9 @@ void EnemyManager::createSnare()
 	GameObjManager->CreateEnemy(player, enemyType::SNARE, *soundManager, "DCube.obj", name,
 		FarFarFarAway,
 		vec3(0.0f, 0.0f, 0.0f), 
-		vec3(enemy_conf.Snare_scale, enemy_conf.Snare_scale_y, enemy_conf.Snare_scale));
+		vec3(Snare::snare_conf.Snare_scale, 
+			Snare::snare_conf.Snare_scale_y, 
+			Snare::snare_conf.Snare_scale));
 	collisionHandler->addEnemies((Enemy*)GameObjManager->getGameObject(name));
 	enemies.push_back(static_cast<Enemy*>(this->GameObjManager->getGameObject(name)));
 }
@@ -109,28 +116,35 @@ void EnemyManager::reset()
 	}
 }
 
-void EnemyManager::spawnEnemy(std::vector<vec3> pos)
+
+void EnemyManager::spawnEnemies(Enemy_positions*  enemyPoses){
+	for (auto& p : enemyPoses->positions) {
+		spawnEnemy(p);
+	}
+}
+//void EnemyManager::spawnEnemy(std::vector<vec3> pos)
+void EnemyManager::spawnEnemy(Enemy_positions::PositionGroup poses)
 {
 	int enemyType = rand() % (int)respawnable_enemyType::_COUNT ;
 
 	switch(enemyType){
 		case (int)respawnable_enemyType::TURRET:
 
-			for(auto p : pos){
-				p.y = p.y + enemy_conf.Turret_y_Offset;
+			for(auto p : poses.outsidePositions){
+				p.y = p.y + Turret::turret_conf.Turret_y_Offset;
 				get_Turret()->setPos(p);
 			}
 			
 			break;
 		case (int)respawnable_enemyType::SPIKES:
-			for (auto p : pos) {
-				p.y = p.y + enemy_conf.Spikes_y_Offset;
+			for (auto p : poses.patternPositions) {
+				p.y = p.y + Spikes::spikes_conf.Spikes_y_Offset;
 				get_Spikes()->setPos(p);
 			}
 			break;
 		case (int)respawnable_enemyType::SNARE:
-			for (auto p : pos) {
-				p.y = p.y + enemy_conf.Snare_y_Offset;
+			for (auto p : poses.ranmdomPositions) {
+				p.y = p.y + Snare::snare_conf.Snare_y_Offset;
 				get_Snare()->setPos(p);
 			}
 			break;		

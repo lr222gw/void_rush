@@ -11,6 +11,8 @@ public:
 	void update(float dt);
 	void collidedWithPlayer();
 private:
+	friend class ImguiManager;
+	friend class EnemyManager;
 	void Reset(float dt);
 	Player* player;
 	Graphics* gfx;
@@ -21,4 +23,13 @@ private:
 	bool activated;
 	vec3 PlayerPos;
 	float tempDt;
+
+	static struct Snare_settings { 
+
+		float Snare_y_Offset = .5f;
+		float Snare_timer = 3.f;
+		float Snare_catchTimer = 0.1f;
+		float Snare_scale = 0.3f;
+		float Snare_scale_y = 0.2f;
+	}snare_conf;
 };

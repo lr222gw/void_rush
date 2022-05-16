@@ -1,5 +1,5 @@
 #include "Spikes.h"
-
+Spikes::Spikes_settings Spikes::spikes_conf;
 Spikes::Spikes(ModelObj* file, Graphics*& gfx, Player* player, vec3 pos, vec3 rot, vec3 scale, bool moving)
 	:Enemy(file, gfx, pos, rot, scale)
 {
@@ -8,7 +8,7 @@ Spikes::Spikes(ModelObj* file, Graphics*& gfx, Player* player, vec3 pos, vec3 ro
 	this->movingSpikes = moving;
 	this->moving = false;
 	this->up = true;
-	this->timer = enemy_conf.Spikes_timer;
+	this->timer = Spikes::spikes_conf.Spikes_timer;
 	this->normalScale = this->getScale();
 }
 
@@ -33,7 +33,7 @@ void Spikes::update(float dt)
 	timer -= dt;
 	if (timer <= 0.0f) {
 		moving = true;
-		this->timer = enemy_conf.Spikes_timer;
+  		this->timer = Spikes::spikes_conf.Spikes_timer;
 	}
 }
 

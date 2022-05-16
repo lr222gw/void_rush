@@ -1,5 +1,5 @@
 #include "Snare.h"
-
+Snare::Snare_settings Snare::snare_conf;
 Snare::Snare(ModelObj* file, Graphics*& gfx, Player* player, vec3 pos, vec3 rot, vec3 scale)
 	:Enemy(file, gfx, pos, rot, scale)
 {
@@ -7,9 +7,9 @@ Snare::Snare(ModelObj* file, Graphics*& gfx, Player* player, vec3 pos, vec3 rot,
 	this->gfx = gfx;
 	this->activated = false;
 	this->reset = false;
-	this->timer = enemy_conf.Snare_timer;
-	this->resetTimer = enemy_conf.Snare_timer;
-	this->catchTimer = enemy_conf.Snare_catchTimer;
+	this->timer = Snare::snare_conf.Snare_timer;
+	this->resetTimer = Snare::snare_conf.Snare_timer;
+	this->catchTimer = Snare::snare_conf.Snare_catchTimer;
 }
 
 Snare::~Snare()
@@ -29,9 +29,9 @@ void Snare::update(float dt)
 	this->player->setPos(this->PlayerPos);
 	timer -= dt;
 	if (timer < 0) {
-		timer = enemy_conf.Snare_timer;
-		resetTimer = enemy_conf.Snare_timer;		
-		catchTimer = enemy_conf.Snare_catchTimer;
+		timer = Snare::snare_conf.Snare_timer;
+		resetTimer = Snare::snare_conf.Snare_timer;
+		catchTimer = Snare::snare_conf.Snare_catchTimer;
 		activated = false;
 		reset = true;
 	}

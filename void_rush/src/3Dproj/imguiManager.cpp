@@ -166,6 +166,18 @@ void ImguiManager::render_generation_widgets()
 
 				ImGui::TreePop();
 			}
+			if (ImGui::TreeNode("Enemy_Positions")) {
+				float* offset[3] = {
+					&owner->generationManager->position_gen->enemyPos_conf.enemy_offset.x,
+					&owner->generationManager->position_gen->enemyPos_conf.enemy_offset.y,
+					&owner->generationManager->position_gen->enemyPos_conf.enemy_offset.z };
+
+				ImGui::InputFloat3("enemy_offset", *offset);
+				ImGui::InputFloat("outsideOffset",
+					&owner->generationManager->position_gen->enemyPos_conf.outsideOffset);
+
+				ImGui::TreePop();
+			}
 			
 			ImGui::TreePop();
 		}		
@@ -178,8 +190,6 @@ void ImguiManager::render_generation_widgets()
 			}
 
 			if (ImGui::TreeNode("Platforms")) {
-
-				
 
 				auto anchors = owner->generationManager->position_gen->getAnchors();
 				auto jumpPoints = owner->generationManager->position_gen->getJumpPoints();
@@ -347,58 +357,76 @@ void ImguiManager::render_enemy_widgets()
 
 		if (ImGui::TreeNode("Turret")) {
 
-			static float prev_offset = enemy_conf.Turret_y_Offset;
-			prev_offset = enemy_conf.Turret_y_Offset;
-			if(ImGui::InputFloat("Turret_y_Offset", &enemy_conf.Turret_y_Offset)){
+			static float prev_offset = Turret::turret_conf.Turret_y_Offset;
+			prev_offset = Turret::turret_conf.Turret_y_Offset;
+			if(ImGui::InputFloat("Turret_y_Offset", &Turret::turret_conf.Turret_y_Offset)){
 				for (auto& e : owner->enemyManager->enemies) {
 					if (auto turret = static_cast<Turret*>(e)) {
 
 						vec3 offset(0.f, -prev_offset, 0.f);
-						offset.y += enemy_conf.Turret_y_Offset;
+						offset.y += Turret::turret_conf.Turret_y_Offset;
 						turret->setPos(turret->getPos() + offset);
 					}
 				}
 			}
-			ImGui::InputFloat("Turret_range", &enemy_conf.Turret_range);
-			ImGui::InputFloat("Turret_CD", &enemy_conf.Turret_CD);
-			ImGui::InputInt("Turret_maxNrOfProjectiles", &enemy_conf.Turret_maxNrOfProjectiles);
+			ImGui::InputFloat("Turret_range", &Turret::turret_conf.Turret_range);
+			ImGui::InputFloat("Turret_CD", &Turret::turret_conf.Turret_CD);
+			ImGui::InputInt("Turret_maxNrOfProjectiles", &Turret::turret_conf.Turret_maxNrOfProjectiles);
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("Spikes")) {
-			static float prev_offset = enemy_conf.Spikes_y_Offset;
-			prev_offset = enemy_conf.Spikes_y_Offset;
-			if(ImGui::InputFloat("Spikes_y_Offset", &enemy_conf.Spikes_y_Offset)){
+			static float prev_offset = Spikes::spikes_conf.Spikes_y_Offset;
+			prev_offset = Spikes::spikes_conf.Spikes_y_Offset;
+			if(ImGui::InputFloat("Spikes_y_Offset", &Spikes::spikes_conf.Spikes_y_Offset)){
 				
 				for(auto& e : owner->enemyManager->enemies){
-					if(auto spike = static_cast<Spikes*>(e)){
-						
+					if(auto spike = static_cast<Spikes*>(e)){						
 						vec3 offset(0.f, -prev_offset, 0.f);
-						offset.y += enemy_conf.Spikes_y_Offset;
+						offset.y += Spikes::spikes_conf.Spikes_y_Offset;
 						spike->setPos(spike->getPos() + offset);
 					}
 				}
 			}
-			ImGui::InputFloat("Spikes_timer", &enemy_conf.Spikes_timer);
+			if(ImGui::InputFloat("Spikes_timer", &Spikes::spikes_conf.Spikes_timer)){
+				for (auto& e : owner->enemyManager->enemies) {
+					if (auto spike = static_cast<Spikes*>(e)) {
+						spike->timer = Spikes::spikes_conf.Spikes_timer;
+					}
+				}
+			}
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("Snare")) {
 			
-			static float prev_offset = enemy_conf.Snare_y_Offset;
-			prev_offset = enemy_conf.Snare_y_Offset;
-			if(ImGui::InputFloat("Snare_y_Offset", &enemy_conf.Snare_y_Offset)){
+			static float prev_offset = Snare::snare_conf.Snare_y_Offset;
+			prev_offset = Snare::snare_conf.Snare_y_Offset;
+			if(ImGui::InputFloat("Snare_y_Offset", &Snare::snare_conf.Snare_y_Offset)){
 			
 				for (auto& e : owner->enemyManager->enemies) {
 					if (auto snare = static_cast<Snare*>(e)) {
 
 						vec3 offset(0.f, -prev_offset, 0.f);
-						offset.y += enemy_conf.Snare_y_Offset;
+						offset.y += Snare::snare_conf.Snare_y_Offset;
 						snare->setPos(snare->getPos() + offset);
 					}
 				}				
 			}
 			
-			ImGui::InputFloat("Snare_timer", &enemy_conf.Snare_timer);
-			ImGui::InputFloat("Snare_catchTimer", &enemy_conf.Snare_catchTimer);		
+			if(ImGui::InputFloat("Snare_timer", &Snare::snare_conf.Snare_timer)){
+				for (auto& e : owner->enemyManager->enemies) {
+					if (auto snare = static_cast<Snare*>(e)) {
+						snare->timer = Snare::snare_conf.Snare_timer;
+					}
+				}
+			}
+			if(ImGui::InputFloat("Snare_catchTimer", &Snare::snare_conf.Snare_catchTimer)){
+				for (auto& e : owner->enemyManager->enemies) {
+					if (auto snare = static_cast<Snare*>(e)) {
+						snare->catchTimer = Snare::snare_conf.Snare_catchTimer;
+					}
+				}
+			
+			}
 			ImGui::TreePop();
 		}
 				

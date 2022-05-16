@@ -6,6 +6,7 @@
 #include "object.h"
 #include "Light.h"
 #include <string>
+#include "enemies/EnemySettings.hpp"
 
 class Game;
 class ImguiManager {

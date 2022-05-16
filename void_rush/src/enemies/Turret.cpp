@@ -1,13 +1,13 @@
 #include "Turret.h"
-
+Turret::Turret_settings Turret::turret_conf;
 Turret::Turret(ModelObj* file, Graphics*& gfx, Player* player, vec3 pos, vec3 rot, vec3 scale):
 	Enemy(file, gfx, pos, rot, scale)
 {
 	this->player = player;
 	this->gfx = gfx;
 	//setting values
-	range = enemy_conf.Turret_range;
-	shootCD = enemy_conf.Turret_CD;
+	range = Turret::turret_conf.Turret_range;
+	shootCD = Turret::turret_conf.Turret_CD;
 	currentTimeTillShoot = 0.f;
 }
 
@@ -20,8 +20,8 @@ void Turret::update(float dt)
 {
 #ifdef _DEBUG
 	//Debug we can change these value without restarting...
-	range = enemy_conf.Turret_range;
-	shootCD = enemy_conf.Turret_CD;
+	range = Turret::turret_conf.Turret_range;
+	shootCD = Turret::turret_conf.Turret_CD;
 #endif // DEBUG
 
 	//if player is in range

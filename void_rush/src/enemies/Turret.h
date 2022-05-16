@@ -11,6 +11,8 @@ public:
 	void addProjectiles(TurrProjectile* projectile);
 	void setSoundManager(SoundManager& sm);
 private:
+	friend class ImguiManager;
+	friend class EnemyManager;
 	Player* player;
 	Graphics* gfx;
 	std::vector<TurrProjectile*> projectiles;
@@ -20,4 +22,14 @@ private:
 	float range;
 	float shootCD;
 	float currentTimeTillShoot;
+
+	static struct Turret_settings {
+		int Turret_maxNrOfProjectiles = 5;
+		float Turret_y_Offset = 1.f;
+		float Turret_CD = 3.f;
+		float Turret_range = 40.f;
+		float Turret_scale = 0.5f;
+
+		float Projectile_scale = 0.4f;
+	}turret_conf;
 };

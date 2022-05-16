@@ -13,6 +13,8 @@ public:
 private:
 	void move(float dt);
 private:
+	friend class ImguiManager;
+	friend class EnemyManager;
 	Player* player;
 	Graphics* gfx;
 	bool movingSpikes;
@@ -20,4 +22,12 @@ private:
 	bool up;
 	float timer;
 	vec3 normalScale;
+
+	static struct Spikes_settings {
+
+		float Spikes_y_Offset = 0.2f;
+		float Spikes_timer = 2.f;
+		float Spikes_scale = 0.0001f;
+
+	}spikes_conf;
 };

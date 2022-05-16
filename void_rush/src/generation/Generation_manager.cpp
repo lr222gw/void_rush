@@ -137,9 +137,11 @@ void Generation_manager::initialize()
     for (auto& p : position_gen->get_powerUp_positions()->positions) {
         powerupManager->setUpPowerups((int)this->difficulity, p);
     }
-    for (auto& p : position_gen->get_enemy_positions()->ranmdomPositions) {
+
+    enemyManager->spawnEnemies(position_gen->get_enemy_positions());
+    /*for (auto& p : position_gen->get_enemy_positions()->ranmdomPositions) {
         enemyManager->spawnEnemy(p);
-    }
+    }*/
 
     this->player->set_resetLookat_dir(position_gen->firstJumpPoint->platformShape.get_midpoint());
     this->player->lookat(position_gen->firstJumpPoint->platformShape.get_midpoint(),

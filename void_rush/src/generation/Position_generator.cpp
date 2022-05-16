@@ -1,6 +1,9 @@
 #include <iostream>
 #include "Position_generator.hpp"
 #include <algorithm>
+
+Position_generator::PowerUp_position_settings Position_generator::PU_conf;
+Position_generator::enemy_Position_settings Position_generator::enemyPos_conf;
 std::vector<Platform*> Position_generator::getAllPlatforms()
 {
     
@@ -200,39 +203,130 @@ void Position_generator::select_powerUp_positions()
 void Position_generator::select_enemy_positions()
 {
     this->enemy_positions.nrOfPositions = 0;
-    this->enemy_positions.ranmdomPositions.clear();
+    this->enemy_positions.positions.clear();
     std::vector<Platform*> validAnchors = this->getInOrderVector_ValidAnchors();
+    this->enemy_positions.positions.resize(validAnchors.size());
 
     //Note: we skip the first anchor since it's the startplatform...
+    //Random Positions
     for (int i = 1; i < validAnchors.size(); i++) { 
         std::vector <vec3> EnemyPositions;
         std::vector <int> busyIndex;
         for (int b = 0; b < validAnchors[i]->platformShape.previousVoxels.size(); b++) { busyIndex.push_back(b); }
-
         int nrOfEnemyPositions = rand() % validAnchors[i]->platformShape.previousVoxels.size();
+        nrOfEnemyPositions = std::clamp(
+            nrOfEnemyPositions,
+            1,
+            static_cast<int>(validAnchors[i]->platformShape.previousVoxels.size() / 1.65f));
+
         for (int j = 0; j < nrOfEnemyPositions; j++) {
 
             int pickVoxelPos = rand() % busyIndex.size();
+            
+            int poses_x = (validAnchors[i]->platformShape.get_scale().x / Shape::shape_conf.default_scale.x) ; 
+            int poses_z = (validAnchors[i]->platformShape.get_scale().z / Shape::shape_conf.default_scale.z) ; 
 
-            int poses_x = (validAnchors[i]->platformShape.get_scale().x / 0.5f) - 1; // if poses_x is 1, then mult with 0...
-            int poses_z = (validAnchors[i]->platformShape.get_scale().z / 0.5f) - 1; // if poses_z is 1, then mult with 0...
-
-            vec3 final_pos =
+            vec3 final_random_pos =
                 validAnchors[i]->platformShape.previousVoxels[busyIndex[pickVoxelPos]].current_center;
-            final_pos.x += static_cast<float>(poses_x) * 0.5f;
-            final_pos.z += static_cast<float>(poses_z) * 0.5f;
+            final_random_pos.x += static_cast<float>( rand() % poses_x) * Shape::shape_conf.default_scale.x;
+            final_random_pos.z += static_cast<float>( rand() % poses_z) * Shape::shape_conf.default_scale.z;
 
             this->enemy_positions.nrOfPositions++;
             
-            EnemyPositions.push_back(final_pos + PU_conf.enemy_offset);
+            EnemyPositions.push_back(final_random_pos + enemyPos_conf.enemy_offset);
             busyIndex.erase(busyIndex.begin() + pickVoxelPos);
             
         }
-        this->enemy_positions.ranmdomPositions.push_back(
-            EnemyPositions
-        );
-
+        this->enemy_positions.positions[i].ranmdomPositions = EnemyPositions;
+        
     }
+
+    //Outside Positions
+    for (int i = 1; i < validAnchors.size(); i++) {
+        std::vector <vec3> EnemyPositions;
+        std::vector <vec3> positionsAlongZ;
+        
+        int nrOf = validAnchors[i]->platformShape.previousVoxels.size();
+        
+        for(auto p : validAnchors[i]->platformShape.previousVoxels){
+            
+            bool wasFound = false;
+            for(auto& v : positionsAlongZ){
+
+                if (p.current_center.x > v.x) {
+                    v.x = p.current_center.x;
+                }
+                if (p.current_center.z == v.z) {                    
+                    wasFound = true;
+                    break;
+                }
+            }
+            if (!wasFound) { positionsAlongZ.push_back(p.current_center); }
+        }
+
+        for (int j = 0; j < positionsAlongZ.size(); j++) {
+            
+            positionsAlongZ[j].x += 
+                Shape::shape_conf.default_scale.x * 
+                Shape::shape_conf.scaleAnchor_XY_Factor * 
+                enemyPos_conf.outsideOffset;
+            
+                
+            this->enemy_positions.nrOfPositions++;
+
+            EnemyPositions.push_back(positionsAlongZ[j] + enemyPos_conf.enemy_offset);
+        }
+        this->enemy_positions.positions[i].outsidePositions = EnemyPositions;
+    }    
+    struct vector_z_pair{
+        float z;
+        std::vector <vec3 > alongX_per_Z;
+    };
+    //Pattern Positions
+    for (int i = 1; i < validAnchors.size(); i++) {
+        std::vector <vec3> EnemyPositions;
+
+        std::vector<vector_z_pair> positionsAlongZ;
+        
+        int nrOf = validAnchors[i]->platformShape.previousVoxels.size();
+
+        for (auto& p : validAnchors[i]->platformShape.previousVoxels) {
+
+            bool wasFound = false;
+            for (auto& v : positionsAlongZ) {
+
+                if (p.current_center.z == v.z) {
+                    wasFound = true;                    
+                    break;
+                }
+            }
+            if (!wasFound) { positionsAlongZ.push_back(vector_z_pair{p.current_center.z}); }
+        }
+
+        for (auto& p : validAnchors[i]->platformShape.previousVoxels) {
+
+            bool wasFound = false;
+            for (auto& v : positionsAlongZ) {
+
+                if (p.current_center.z == v.z) {
+                    v.alongX_per_Z.push_back(p.current_center);
+                }
+            }           
+        }
+
+        for (int j = 0; j < positionsAlongZ.size(); j += 2) {
+
+            for(auto &row : positionsAlongZ[j].alongX_per_Z){
+
+                this->enemy_positions.nrOfPositions++;
+
+                EnemyPositions.push_back(row + enemyPos_conf.enemy_offset);
+            }
+            
+        }
+        this->enemy_positions.positions[i].patternPositions = EnemyPositions;
+    }
+
 }
 
 powerUp_positions* Position_generator::get_powerUp_positions()

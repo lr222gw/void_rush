@@ -1,6 +1,6 @@
 #pragma once
 #include "3Dproj/Player.h"
-
+#include "enemies/EnemySettings.hpp"
 
 enum class enemyType {
 	GHOST, TURRET, PROJECTILE, SPIKES, SNARE, _COUNT
@@ -18,5 +18,8 @@ public:
 	virtual void update(float dt) = 0;
 	void lookat(vec3 lookat, vec3 offset = vec3(0,0,0));
 private:
+	friend class ImguiManager;
+	friend class EnemyManager;
+
 
 };
