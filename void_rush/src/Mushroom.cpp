@@ -25,15 +25,15 @@ void Mushroom::collidedWithPlayer()
 	DirectX::XMFLOAT4 bb[2];
 	this->getBoundingBox(bb);
 	float length = fabs(bb[0].x - bb[1].x);
-	float radius = length / 2;
+	float radius = length / 2.0f;
 
 	if (objPlayerLen > radius) {
 		return;
 	}
 
 	float howMuch = objPlayerLen / radius;
-	if (howMuch > 1) {
-		howMuch = 1;
+	if (howMuch > 1.0f) {
+		howMuch = 1.0f;
 	}
 
 	float forceY = 20.0f;

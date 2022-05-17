@@ -119,7 +119,7 @@ void Generation_manager::initialize()
     /////////////////////SNARE TEST/////////////////////
     gameObjManager->getGameObject("snare")->setPos(this->getPuzzelPos()+vec3(5.0f, 5.0f, 0.0f));
     ////////////////////MUSHROOM TEST///////////////////
-    gameObjManager->getGameObject("mushroom")->setPos(this->getPuzzelPos() + vec3(-5.0f, 5.0f, 0.0f));
+    gameObjManager->getGameObject("mushroom")->setPos(this->getPuzzelPos() + vec3(-10.0f, 5.0f, 0.0f));
 }
 
 

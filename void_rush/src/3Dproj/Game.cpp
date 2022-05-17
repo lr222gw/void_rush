@@ -385,7 +385,7 @@ void Game::setUpObject()
 	collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("spikes"));
 	GameObjManager->CreateEnemy(player, enemyType::SNARE, soundManager, "DCube.obj", "snare", vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.3f, 0.2f, 0.3f));
 	collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("snare"));
-	GameObjManager->CreateEnemy(player, enemyType::MUSHROOM, soundManager, "DCube.obj", "mushroom", vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 0.2f, 1.0f));
+	GameObjManager->CreateEnemy(player, enemyType::MUSHROOM, soundManager, "golden-mushroom.obj", "mushroom", vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 0.2f, 1.0f));
 	collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("mushroom"));
 
 	GameObjManager->CreateGameObject("DCube.obj", "cam", vec3(5, -10, 0), vec3(0, 0, 0));
