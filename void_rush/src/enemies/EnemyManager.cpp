@@ -141,7 +141,7 @@ void EnemyManager::reset()
 	for (auto& e : this->enemies) {
 		e->setPos(FarFarFarAway);
 	}
-	get_Mushroom()->setPos(vec3(0.f,0.f,0.f));
+	get_Mushroom()->setPos(vec3(10.f,0.f,10.f));
 }
 
 
