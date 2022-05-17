@@ -257,17 +257,19 @@ void Shape::setShape(vec3 center, int nrOfVoxels, Shape* prev)
     this->set_InOut_longstDist(nrOfVoxels, center);
     this->set_InOut_firstLastDeclared(busyMatrix, matrixSize, center);
 
+    for (Center_Index_Pair& voxel : this->previousVoxels) {
+        if (!voxel.is_illegal) {
+            this->setShapeCube(voxel.current_center);
+        }
+    }
+
     this->setInOutPoints(center, prev);
   
 }
 
 void Shape::setInOutPoints(vec3 center, Shape* prev)
 {
-    for (Center_Index_Pair& voxel : this->previousVoxels) {
-        if (!voxel.is_illegal) {
-            this->setShapeCube(voxel.current_center);
-        }
-    }
+   
     struct InOut {
         vec3 pos_close;
         vec3 pos_far;

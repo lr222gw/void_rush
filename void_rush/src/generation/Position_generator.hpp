@@ -89,7 +89,7 @@ public:
     Platform*& GetStartPlatform();
 
     void removeOverlappingPlatformVoxels();
-    void removeUnnecessaryPlatformsVoxels();
+    void removeUnnecessaryPlatforms();
 
 private: // Magic Numbers
     struct Anchor_point_settings{        
@@ -101,7 +101,7 @@ private: // Magic Numbers
         float lowest_Height = -300.f;   //Lowest point for generation
         float freeFallModifier = -50.f;
         int freeFallRate = 3; // Procentage chance would be 1 / freeFallRate
-        float minZAngle = 0.f;
+        float minZAngle = 0.2f;
         float spawn_Y_offset_origo = -10.f;
     };
     Anchor_point_settings AP_conf;

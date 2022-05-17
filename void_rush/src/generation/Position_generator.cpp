@@ -39,7 +39,7 @@ bool Position_generator::start (Difficulity selectedDiff)
     generate_anchor_positions(selectedDiff);
     generate_jumpPoints_positions(selectedDiff);
     //removeOverlappingPlatformVoxels();
-    removeUnnecessaryPlatformsVoxels();
+    removeUnnecessaryPlatforms();
 
     return true;
 }
@@ -520,7 +520,7 @@ std::vector<Platform*> Position_generator::getInOrderVector_ValidJumppoints()
         }
         currentJumppoint = currentJumppoint->next;
     }
-    std::reverse(validJPs.begin(), validJPs.end());
+    //std::reverse(validJPs.begin(), validJPs.end());
     return validJPs;
 }
 std::vector<Platform*> Position_generator::getInOrderVector_ValidAnchors()
@@ -765,49 +765,87 @@ void Position_generator::removeOverlappingPlatformVoxels()
 
 }
 
-void Position_generator::removeUnnecessaryPlatformsVoxels()
+void Position_generator::removeUnnecessaryPlatforms()
 {
     int maxNrAhead = 5;
     bool skipable = false; 
     int iteration = 0;
 
-    Platform* startPoint = this->getFirstJumppoint();
-    Platform* toCheck = nullptr;
+    //Platform* startPoint = this->getFirstJumppoint();
+    //Platform* toCheck = nullptr;
 
-    toCheck = startPoint->next;
-    while(toCheck && startPoint && toCheck->next && !startPoint->platformShape.get_is_Illegal()){
+    //toCheck = startPoint->next;
+    //while(toCheck && startPoint && toCheck->next && !startPoint->platformShape.get_is_Illegal()){
+    //    iteration = 0;
+    //    toCheck = startPoint->next;
+
+    //    while (iteration < maxNrAhead && toCheck->next) {
+
+    //        /*for (int j = 0; j < iteration && toCheck->next; j++) {
+    //            toCheck = toCheck->next;
+    //        }*/
+
+    //        this->pl->moveto(startPoint->platformShape.outCorner.pos);
+    //        float JumpDist = this->pl->getJumpDistance(toCheck->platformShape.inCorner.pos.y);
+    //        float distance = this->pl->distance(toCheck->platformShape.inCorner.pos);
+    //        float padding = JumpDist/4.f;
+    //        skipable = this->pl->isJumpPossible(toCheck->platformShape.inCorner.pos);
+
+    //        if (skipable && JumpDist > distance+padding) {
+    //            toCheck->platformShape.previousVoxels.clear();
+    //            toCheck->platformShape.set_is_Illegal(true);
+    //        }
+    //        else{
+    //            startPoint = toCheck;
+    //            break;
+    //        }
+    //        iteration++;
+    //        toCheck = toCheck->next;
+    //    }
+    //    startPoint = toCheck;
+    //}
+
+    std::vector<Platform*> inOrderJumpPoints = this->getInOrderVector_ValidJumppoints();
+    float jumpDist = 0;
+    float distance = 0;
+    float padding = 0;
+    int j = 0;
+    this->pl->moveto(this->anchors[0]->platformShape.outCorner.pos);
+    for (int i = 1; i < this->anchors.size(); i++) {
         iteration = 0;
-        toCheck = startPoint->next;
-
-        while (iteration < maxNrAhead && toCheck->next) {
-
-            /*for (int j = 0; j < iteration && toCheck->next; j++) {
-                toCheck = toCheck->next;
-            }*/
-
-            this->pl->moveto(startPoint->platformShape.outCorner.pos);
-            float JumpDist = this->pl->getJumpDistance(toCheck->platformShape.inCorner.pos.y);
-            float distance = this->pl->distance(toCheck->platformShape.inCorner.pos);
-            float padding = JumpDist/4.f;
-            skipable = this->pl->isJumpPossible(toCheck->platformShape.inCorner.pos);
-
-            if (skipable && JumpDist > distance+padding) {
-                toCheck->platformShape.previousVoxels.clear();
-                toCheck->platformShape.set_is_Illegal(true);
-            }
-            else{
-                startPoint = toCheck;
+        for (j;j < inOrderJumpPoints.size(); j++) {
+            jumpDist = this->pl->getJumpDistance(anchors[i]->platformShape.inCorner.pos.y);
+            distance = this->pl->distance(anchors[i]->platformShape.inCorner.pos);
+            //padding = jumpDist / jumpDist;
+            padding = jumpDist/10.0f;
+            if(jumpDist > distance+padding && this->pl->isJumpPossible(anchors[i]->platformShape.inCorner.pos)){
+                inOrderJumpPoints[j]->next->platformShape.previousVoxels.clear();
+                inOrderJumpPoints[j]->next->platformShape.set_is_Illegal(true);
+                this->pl->moveto(this->anchors[i]->platformShape.outCorner.pos);
                 break;
             }
-            iteration++;
-            toCheck = toCheck->next;
+            else {
+                iteration = 0;
+                while (iteration < maxNrAhead && inOrderJumpPoints[j + iteration]->next && j+iteration < inOrderJumpPoints.size()) {
+                    jumpDist = this->pl->getJumpDistance(inOrderJumpPoints[j+iteration]->platformShape.inCorner.pos.y);
+                    distance = this->pl->distance(inOrderJumpPoints[j+iteration]->platformShape.inCorner.pos);
+                    padding = jumpDist / 10.f;
+                    skipable = this->pl->isJumpPossible(inOrderJumpPoints[j+iteration]->platformShape.inCorner.pos);
+                    if (skipable && jumpDist > distance + padding) {
+                        inOrderJumpPoints[j+iteration]->platformShape.previousVoxels.clear();
+                        inOrderJumpPoints[j+iteration]->platformShape.set_is_Illegal(true);
+                        iteration++;
+                    }
+                    else {
+                        j += iteration;
+                        this->pl->moveto(inOrderJumpPoints[j]->platformShape.outCorner.pos);
+                        break;
+                    }
+                }
+            }
         }
-        startPoint = toCheck;
-    }
-   /* for(int i = 0; i < this->anchors.size(); i++){
-        this->pl->moveto(this->anchors[i]->platformShape.outCorner.pos);
 
-    }*/
+    }
 }
 
 
