@@ -60,6 +60,21 @@ void EnemyManager::createSnare()
 	enemies.push_back(static_cast<Enemy*>(this->GameObjManager->getGameObject(name)));
 }
 
+void EnemyManager::createMushroom()
+{
+
+	std::string name = "mushroom" + std::to_string(nrOf.MUSHROOM++);
+	this->nrOfActive.MUSHROOM = this->nrOf.MUSHROOM;
+
+	GameObjManager->CreateEnemy(player, enemyType::MUSHROOM, *soundManager, "golden-mushroom.obj", name,
+		vec3(0.0f, 1.0f, 0.0f), 
+		vec3(0.0f, 0.0f, 0.0f), 
+		vec3(1.0f, 0.2f, 1.0f));
+
+	collisionHandler->addEnemies((Enemy*)GameObjManager->getGameObject(name));
+	enemies.push_back(static_cast<Enemy*>(this->GameObjManager->getGameObject(name)));
+}
+
 Enemy* EnemyManager::get_Turret()
 {
 	int index = this->nrOfActive.TURRET;
@@ -96,6 +111,18 @@ Enemy* EnemyManager::get_Snare()
 	return static_cast<Enemy*>(this->GameObjManager->getGameObject("snare" + std::to_string(index)));
 }
 
+Enemy* EnemyManager::get_Mushroom()
+{
+	int index = this->nrOfActive.MUSHROOM;
+	if (this->nrOfActive.MUSHROOM >= this->nrOf.MUSHROOM) {
+		createMushroom();
+	}
+	else {
+		this->nrOfActive.MUSHROOM++;
+	}
+	return static_cast<Enemy*>(this->GameObjManager->getGameObject("mushroom" + std::to_string(index)));
+}
+
 EnemyManager::EnemyManager(GameObjectManager* GameObjManager, Graphics* gfx, ResourceManager* rm, CollisionHandler* collisionHandler, SoundManager* soundManager, Mouse* mouse, Keyboard* keyboard)
 	:  GameObjManager(GameObjManager), gfx(gfx), rm(rm), collisionHandler(collisionHandler), keyboard(keyboard), mouse(mouse), soundManager(soundManager),
 	player(nullptr), ghost(nullptr)
@@ -114,6 +141,7 @@ void EnemyManager::reset()
 	for (auto& e : this->enemies) {
 		e->setPos(FarFarFarAway);
 	}
+	get_Mushroom()->setPos(vec3(0.f,0.f,0.f));
 }
 
 

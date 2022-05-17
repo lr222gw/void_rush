@@ -361,7 +361,7 @@ void ImguiManager::render_enemy_widgets()
 			prev_offset = Turret::turret_conf.Turret_y_Offset;
 			if(ImGui::InputFloat("Turret_y_Offset", &Turret::turret_conf.Turret_y_Offset)){
 				for (auto& e : owner->enemyManager->enemies) {
-					if (auto turret = static_cast<Turret*>(e)) {
+					if (auto turret = dynamic_cast<Turret*>(e)) {
 
 						vec3 offset(0.f, -prev_offset, 0.f);
 						offset.y += Turret::turret_conf.Turret_y_Offset;
@@ -380,7 +380,7 @@ void ImguiManager::render_enemy_widgets()
 			if(ImGui::InputFloat("Spikes_y_Offset", &Spikes::spikes_conf.Spikes_y_Offset)){
 				
 				for(auto& e : owner->enemyManager->enemies){
-					if(auto spike = static_cast<Spikes*>(e)){						
+					if(auto spike = dynamic_cast<Spikes*>(e)){
 						vec3 offset(0.f, -prev_offset, 0.f);
 						offset.y += Spikes::spikes_conf.Spikes_y_Offset;
 						spike->setPos(spike->getPos() + offset);
@@ -389,7 +389,7 @@ void ImguiManager::render_enemy_widgets()
 			}
 			if(ImGui::InputFloat("Spikes_timer", &Spikes::spikes_conf.Spikes_timer)){
 				for (auto& e : owner->enemyManager->enemies) {
-					if (auto spike = static_cast<Spikes*>(e)) {
+					if (auto spike = dynamic_cast<Spikes*>(e)) {
 						spike->timer = Spikes::spikes_conf.Spikes_timer;
 					}
 				}
@@ -403,7 +403,7 @@ void ImguiManager::render_enemy_widgets()
 			if(ImGui::InputFloat("Snare_y_Offset", &Snare::snare_conf.Snare_y_Offset)){
 			
 				for (auto& e : owner->enemyManager->enemies) {
-					if (auto snare = static_cast<Snare*>(e)) {
+					if (auto snare = dynamic_cast<Snare*>(e)) {
 
 						vec3 offset(0.f, -prev_offset, 0.f);
 						offset.y += Snare::snare_conf.Snare_y_Offset;
@@ -414,19 +414,47 @@ void ImguiManager::render_enemy_widgets()
 			
 			if(ImGui::InputFloat("Snare_timer", &Snare::snare_conf.Snare_timer)){
 				for (auto& e : owner->enemyManager->enemies) {
-					if (auto snare = static_cast<Snare*>(e)) {
+					if (auto snare = dynamic_cast<Snare*>(e)) {
 						snare->timer = Snare::snare_conf.Snare_timer;
 					}
 				}
 			}
 			if(ImGui::InputFloat("Snare_catchTimer", &Snare::snare_conf.Snare_catchTimer)){
 				for (auto& e : owner->enemyManager->enemies) {
-					if (auto snare = static_cast<Snare*>(e)) {
+					if (auto snare = dynamic_cast<Snare*>(e)) {
 						snare->catchTimer = Snare::snare_conf.Snare_catchTimer;
 					}
 				}
 			
 			}
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("Mushroom")) {
+
+			
+			static float mushroom_force = 10.f;
+			static float mushroom_forceY = 20.f;
+			if (ImGui::InputFloat("force", &mushroom_force)) {
+
+				for (auto& e : owner->enemyManager->enemies) {
+
+					if (auto mushroom = dynamic_cast<Mushroom*>(e)) {
+						
+						mushroom->force = mushroom_force;
+					}
+				}
+			}
+			if (ImGui::InputFloat("force_y", &mushroom_forceY)) {
+
+				for (auto& e : owner->enemyManager->enemies) {
+					if (auto mushroom = dynamic_cast<Mushroom*>(e)) {
+
+						mushroom->forceY = mushroom_forceY;
+					}
+				}
+			}
+
+			
 			ImGui::TreePop();
 		}
 				

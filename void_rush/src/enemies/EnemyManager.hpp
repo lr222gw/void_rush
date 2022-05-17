@@ -31,16 +31,19 @@ private:
 		int TURRET = 0;
 		int SPIKES = 0;
 		int SNARE = 0;
+		int MUSHROOM = 0;
 		
 	}nrOf, nrOfActive;
 
 	void createTurret();
 	void createSpikes();
 	void createSnare();
+	void createMushroom();
 
 	Enemy* get_Turret();
 	Enemy* get_Spikes();
 	Enemy* get_Snare();
+	Enemy* get_Mushroom();
 
 	std::vector<Enemy*> enemies;
 	

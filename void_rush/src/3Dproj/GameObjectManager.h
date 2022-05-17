@@ -4,6 +4,7 @@
 #include "enemies/Ghost.h"
 #include "enemies/Spikes.h"
 #include "enemies/Snare.h"
+#include "enemies/Mushroom.h"
 #include <map>
 #include "ResourceManager.h"
 #include "Light.h"

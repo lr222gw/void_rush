@@ -90,6 +90,12 @@ void GameObjectManager::CreateEnemy(Player* player, enemyType typeofEnemy, Sound
 		}
 		objPtr = new Snare(rm->get_Models(modelFile, gfx), gfx, player, pos, rot, scale);
 		break;
+	case enemyType::MUSHROOM:
+		if (modelFile == "") {
+			modelFile = "DCube.obj";
+		}
+		objPtr = new Mushroom(rm->get_Models(modelFile, gfx), gfx, player, pos, rot, scale);
+		break;
 	default:
 		break;
 	}
