@@ -7,12 +7,9 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->mouse = mouse;
 	this->keyboard = keyboard;
 	this->cam = cam;
-	//this->gravity = vec3(0.0f, -9.82f, 0.0f);
 	this->gravity = vec3(0.0f, -15.f, 0.0f);
-	//this->speed = vec3(2.7f, 0.0f, 2.7f);
 	this->speed = vec3(5.3f, 0.0f, 5.3f);
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
-	//this->jumpForce = 5.0f;
 	this->jumpForce = 8.0f;
 	this->midAirAdj = 2.0f;
 	this->mass = 1.f;
@@ -21,6 +18,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->shoved = false;
 
 	this->power_index = EMPTY;
+	this->passive_powerup = EMPTY_P;
 	this->canDoublejump = false;
 	this->hasShield = false;
 
@@ -424,7 +422,11 @@ void Player::handleEvents(float dt)
 			velocity.z = speed.z * airDir.y;
 
 		}
-		else
+		else if (usingRocket)
+		{
+			this->velocity = vec3(cam->getForwardVec().x, cam->getForwardVec().y, cam->getForwardVec().z) * 10.f;
+		}
+		else if (shoved)
 		{
 			velocity.x = shove.x;
 			velocity.z = shove.y;
@@ -455,7 +457,7 @@ void Player::addRot(vec3 rot)
 
 void Player::setGrounded()
 {
-	if (!grounded)
+	if (!grounded && !usingRocket)
 	{
 
 		float volume = (this->velocity.length() / this->speed.length())*15;
@@ -545,11 +547,25 @@ void Player::Reset(bool lvlClr)
 	this->jumpDir = vec2(0.0f, 0.0f);
 	this->startingJumpDir = vec2(0.0f, 0.0f);
 	this->fallBoxTimer = 0.0f;
+	this->lookat(this->resetLookat_dir);
 
 	if (lvlClr) {
 		//Add points
 		scoreManager.LevelDone();
 	}
+}
+
+void Player::lookat(vec3 lookat, vec3 offset)
+{
+	vec3 forward(0, 0, 1);
+	vec3 up(0, 1, 0);
+	vec3 playerLookAtVec = lookat - getPos();
+	float xrot = vec3(playerLookAtVec.x, 0, playerLookAtVec.z).angle(forward);
+
+	playerLookAtVec.Normalize();
+	float yrot = acos(playerLookAtVec.Normalize() * up);
+
+	this->cam->setRotation(vec3(-xrot + offset.x, 0, 0));
 }
 
 bool Player::ResetGhost()
@@ -564,10 +580,9 @@ bool Player::ResetGhost()
 //Used by enemies to move player on collision
 void Player::shovePlayer(vec2 shove, float forceY)
 {
-	std::cout << hasShield << std::endl;
 	if (hasShield != true)
 	{
-		this->groundedTimer = 0.001f;
+		this->groundedTimer = 0.11f;
 		this->grounded = false;
 		this->shoved = true;
 		this->shove = shove;
@@ -598,36 +613,42 @@ vec3 Player::getVelocity() const
 void Player::pickedUpPower(Powerup index)
 {
 	sm->playSound("Pickup", getPos());
-	this->power_index = index;
-	if (this->power_index == FEATHER)
+	 
+	if (index == FEATHER)
 	{
 		this->HUD->TurnOnPassive(FEATHER_P);
+		this->passive_powerup = FEATHER_P;
 	}
-	if (this->power_index == PEARL)
+	else if (index == PEARL)
 	{
 		this->HUD->TurnOnPassive(PEARL_P);
+		this->passive_powerup = PEARL_P;
 	}
-	if (this->power_index == POTION)
+	else if (index == POTION)
 	{
 		this->HUD->TurnOnPassive(POTION_P);
+		this->passive_powerup = POTION_P;
 	}
-	if (this->power_index == SHIELD)
+	else if (index == SHIELD)
 	{
 		this->hasShield = true;
 		this->HUD->TurnOnPassive(SHIELD_P);
+		this->passive_powerup = SHIELD_P;
+	}
+	else if (index == APPLE)
+	{
+		HUD->IncreaseHealth();
+		this->passive_powerup = APPLE_P;
+	}
+	else if (index == MONEY)
+	{
+		AddScore(100);
+		this->passive_powerup = MONEY_P;
 	}
 	else
 	{
+		this->power_index = index;
 		this->HUD->ChangeCurrentPowerUp(this->power_index);
-	}
-
-	if (this->power_index == APPLE)
-	{
-		HUD->IncreaseHealth();
-	}
-	if (this->power_index == MONEY)
-	{
-		AddScore(100);
 	}
 }
 
@@ -640,6 +661,11 @@ void Player::setPlayerPower(Powerup index)
 {
 	this->power_index = index;
 	this->HUD->ChangeCurrentPowerUp(index);
+}
+
+PowerUpPassiv Player::getPassivePower()
+{
+	return this->passive_powerup;
 }
 
 void Player::setCanDoubleJump()
@@ -655,12 +681,34 @@ bool Player::canDoubleJump()
 	return this->canDoublejump;
 }
 
+void Player::setPlayerPowerPassiv(PowerUpPassiv index)
+{
+	this->passive_powerup = index;
+}
+
 void Player::getShield()
 {
 	if (this->hasShield == false)
 	{
 		this->hasShield = true;
 	}
+}
+
+void Player::setPlayerSpeed(vec3 speed)
+{
+	this->speed = speed;
+	if (speed.x == 2.7f)
+	{
+		HUD->TurnOffPassive(POTION_P);
+	}
+}
+
+void Player::useRocket(bool trueOrFalse)
+{
+	this->usingRocket = trueOrFalse;
+	this->grounded = false;
+	this->groundedTimer = 0.01f;
+
 }
 
 //void Player::SetPuzzlePos(vec3 puzzlePosition)
@@ -792,6 +840,11 @@ void Player::setMusicVol(float vol)
 bool Player::isInvinc() const
 {
 	return invincible;
+}
+
+void Player::set_resetLookat_dir(vec3 lookAt)
+{
+	this->resetLookat_dir = lookAt;
 }
 
 void Player::TakeDmg(int dmg)

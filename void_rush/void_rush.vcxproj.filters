@@ -309,7 +309,7 @@
     <ClCompile Include="src\common\Vector.cpp">
       <Filter>Protoypes\common</Filter>
     </ClCompile>
-    <ClCompile Include="src\3Dproj\Ghost.cpp">
+    <ClCompile Include="src\enemies\Ghost.cpp">
       <Filter>Void_Rush\Objects</Filter>
     </ClCompile>
     <ClCompile Include="src\3Dproj\Enemy.cpp">
@@ -393,10 +393,10 @@
     <ClCompile Include="src/3Dproj/Game.cpp">
       <Filter>Void_Rush\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="src\Turret.cpp">
+    <ClCompile Include="src\enemies\Turret.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\3Dproj\Projectile.cpp">
+    <ClCompile Include="src\enemies\Projectile.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\3Dproj\Menu.cpp">
@@ -411,7 +411,7 @@
     <ClCompile Include="src\3Dproj\Projectile.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\3Dproj\Powerups.cpp">
+    <ClCompile Include="src\powerups\Powerups.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\generation\Player_jump_checker.cpp">
@@ -429,10 +429,16 @@
     <ClCompile Include="src\puzzle\puzzle_move.cpp">
       <Filter>Protoypes\puzzle</Filter>
     </ClCompile>
-    <ClCompile Include="src\Spikes.cpp">
+    <ClCompile Include="src\enemies\Spikes.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Snare.cpp">
+    <ClCompile Include="src\enemies\Snare.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\powerups\powerUpManager.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enemies\EnemyManager.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Mushroom.cpp">
@@ -632,10 +638,10 @@
     <ClInclude Include="src\common\Shape.hpp">
       <Filter>Protoypes\common</Filter>
     </ClInclude>
-    <ClInclude Include="src\3Dproj\Ghost.h">
+    <ClInclude Include="src\enemies\Ghost.h">
       <Filter>Void_Rush\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="src\3Dproj\Enemy.h">
+    <ClInclude Include="src\enemies\Enemy.h">
       <Filter>Void_Rush\Objects</Filter>
     </ClInclude>
     <ClInclude Include="src\3Dproj\UIButton.h">
@@ -689,7 +695,7 @@
     <ClInclude Include="src\HighScoreGameState.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\3Dproj\Powerups.h">
+    <ClInclude Include="src\powerups\Powerups.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\3Dproj\Menu.h">
@@ -698,10 +704,10 @@
     <ClInclude Include="src/3Dproj/Game.h">
       <Filter>Void_Rush\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="src\Turret.h">
+    <ClInclude Include="src\enemies\Turret.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\3Dproj\Projectile.h">
+    <ClInclude Include="src\enemies\Projectile.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\puzzle\puzzle_memory.hpp">
@@ -710,10 +716,31 @@
     <ClInclude Include="src\puzzle\puzzle_move.hpp">
       <Filter>Protoypes\puzzle</Filter>
     </ClInclude>
-    <ClInclude Include="src\Spikes.h">
+    <ClInclude Include="src\enemies\Spikes.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Snare.h">
+    <ClInclude Include="src\enemies\Snare.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\powerups\powerUpManager.hpp">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\powerups\PowerUpDefs.hpp">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\playerGen.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\score\ScoreManager.hpp">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\enemies\EnemyManager.hpp">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\enemies\EnemySettings.hpp">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\score\ScoreManager.hpp">

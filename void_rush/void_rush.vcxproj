@@ -321,11 +321,12 @@
     <ClCompile Include="src\3Dproj\CollisionHandler.cpp" />
     <ClCompile Include="src\3Dproj\Enemy.cpp" />
     <ClCompile Include="src\3Dproj\GameObjectManager.cpp" />
-    <ClCompile Include="src\3Dproj\Ghost.cpp" />
+    <ClCompile Include="src\enemies\EnemyManager.cpp" />
+    <ClCompile Include="src\enemies\Ghost.cpp" />
     <ClCompile Include="src\3Dproj\GameState.cpp" />
     <ClCompile Include="src\3Dproj\Menu.cpp" />
-    <ClCompile Include="src\3Dproj\Powerups.cpp" />
-    <ClCompile Include="src\3Dproj\Projectile.cpp" />
+    <ClCompile Include="src\powerups\Powerups.cpp" />
+    <ClCompile Include="src\enemies\Projectile.cpp" />
     <ClCompile Include="src\3Dproj\UIButton.cpp" />
     <ClCompile Include="src\3Dproj\UIElements.cpp" />
     <ClCompile Include="src\3Dproj\UIManager.cpp" />
@@ -348,6 +349,7 @@
     <ClCompile Include="src\Mushroom.cpp" />
     <ClCompile Include="src\physics\jump.cpp" />
     <ClCompile Include="src\physics\proto.cpp" />
+    <ClCompile Include="src\powerups\powerUpManager.cpp" />
     <ClCompile Include="src\puzzle\Portal.cpp" />
     <ClCompile Include="src\puzzle\protoPuzzle.cpp" />
     <ClCompile Include="src\puzzle\puzzle.cpp" />
@@ -356,13 +358,14 @@
     <ClCompile Include="src\puzzle\puzzle_memory.cpp" />
     <ClCompile Include="src\puzzle\puzzle_move.cpp" />
     <ClCompile Include="src\score\ScoreManager.cpp" />
-    <ClCompile Include="src\Snare.cpp" />
-    <ClCompile Include="src\Spikes.cpp" />
-    <ClCompile Include="src\Turret.cpp" />
+    <ClCompile Include="src\enemies\Snare.cpp" />
+    <ClCompile Include="src\enemies\Spikes.cpp" />
+    <ClCompile Include="src\enemies\Turret.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\3Dproj\Powerups.h" />
-    <ClInclude Include="src\3Dproj\Projectile.h" />
+    <ClInclude Include="src\enemies\EnemySettings.hpp" />
+    <ClInclude Include="src\powerups\Powerups.h" />
+    <ClInclude Include="src\enemies\Projectile.h" />
     <ClInclude Include="src\common\Shape_exporter.hpp" />
     <ClInclude Include="src/3Dproj/BillBoard.h" />
     <ClInclude Include="src/3Dproj/BillBoardManager.h" />
@@ -416,9 +419,9 @@
     <ClInclude Include="src\3Dproj\App.h" />
     <ClInclude Include="src\3Dproj\Collision3D.h" />
     <ClInclude Include="src\3Dproj\CollisionHandler.h" />
-    <ClInclude Include="src\3Dproj\Enemy.h" />
+    <ClInclude Include="src\enemies\Enemy.h" />
     <ClInclude Include="src\3Dproj\GameObjectManager.h" />
-    <ClInclude Include="src\3Dproj\Ghost.h" />
+    <ClInclude Include="src\enemies\Ghost.h" />
     <ClInclude Include="src\3Dproj\Menu.h" />
     <ClInclude Include="src\3Dproj\Player.h" />
     <ClInclude Include="src\3Dproj\GameState.h" />
@@ -432,6 +435,7 @@
     <ClInclude Include="src\common\Matrix.hpp" />
     <ClInclude Include="src\common\Shape.hpp" />
     <ClInclude Include="src\common\Vector.hpp" />
+    <ClInclude Include="src\enemies\EnemyManager.hpp" />
     <ClInclude Include="src\generation\Position_generator.hpp" />
     <ClInclude Include="src\generation\Generation_manager.hpp" />
     <ClInclude Include="src\generation\Platform.hpp" />
@@ -441,6 +445,10 @@
     <ClInclude Include="src\Mushroom.h" />
     <ClInclude Include="src\physics\Jump.hpp" />
     <ClInclude Include="src\physics\proto.hpp" />
+    <ClInclude Include="src\Platform.h" />
+    <ClInclude Include="src\playerGen.h" />
+    <ClInclude Include="src\powerups\PowerUpDefs.hpp" />
+    <ClInclude Include="src\powerups\powerUpManager.hpp" />
     <ClInclude Include="src\puzzle\Portal.h" />
     <ClInclude Include="src\puzzle\protoPuzzle.hpp" />
     <ClInclude Include="src\puzzle\puzzle.hpp" />
@@ -449,9 +457,9 @@
     <ClInclude Include="src\puzzle\puzzle_memory.hpp" />
     <ClInclude Include="src\puzzle\puzzle_move.hpp" />
     <ClInclude Include="src\score\ScoreManager.hpp" />
-    <ClInclude Include="src\Snare.h" />
-    <ClInclude Include="src\Spikes.h" />
-    <ClInclude Include="src\Turret.h" />
+    <ClInclude Include="src\enemies\Snare.h" />
+    <ClInclude Include="src\enemies\Spikes.h" />
+    <ClInclude Include="src\enemies\Turret.h" />
     <ClInclude Include="src\interact\interact.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -6,8 +6,8 @@
 #include "Light.h"
 #include "skybox.h"
 #include "UIManager.h"
-#include "Ghost.h"
-#include "Powerups.h"
+#include "enemies/Ghost.h"
+#include "powerups/Powerups.h"
 #include "imguiManager.h"
 #include "flags.h"
 
