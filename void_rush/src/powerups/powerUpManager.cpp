@@ -267,55 +267,55 @@ void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 	//Difficulty easy
 	if (chosenDiff == 1)
 	{
-		if (chosenPower <= 60)
+		if (chosenPower <= 48)
 		{
 			//Got F-tier
-			if (chosenPower <= 15)
+			if (chosenPower <= 12)
 			{
 				//choose feather and moved into position
 				get_Feather()->setPos(pos);
 
 			}
-			else if (chosenPower > 15 && chosenPower <= 30)
+			else if (chosenPower > 12 && chosenPower <= 24)
 			{
 				//choose speed and moved into position
 				get_Potion()->setPos(pos);
 
 			}
-			else if (chosenPower > 30 && chosenPower <= 45)
+			else if (chosenPower > 24 && chosenPower <= 36)
 			{
 				//choose shield and moved into position
 				get_Shield()->setPos(pos);
 			}
-			else if (chosenPower > 45 && chosenPower <= 60)
+			else if (chosenPower > 36 && chosenPower <= 48)
 			{
 				// choose Money and moved into position
 				get_Money()->setPos(pos);
 			}
 		}
-		else if (chosenPower > 60 && chosenPower <= 92)
+		else if (chosenPower > 48 && chosenPower <= 84)
 		{
 			//Got C-tier
-			if (chosenPower > 60 && chosenPower <= 76)
+			if (chosenPower > 48 && chosenPower <= 66)
 			{
 				//Freeze
 				get_Snowflake()->setPos(pos);
 			}
-			else if (chosenPower > 76 && chosenPower <= 92)
+			else if (chosenPower > 66 && chosenPower <= 84)
 			{
 				//Pearl
 				get_Pearl()->setPos(pos);
 			}
 		}
-		else if (chosenPower >= 93)
+		else if (chosenPower > 84)
 		{
 			//Got S-tier
-			if (chosenPower >= 93 && chosenPower <= 96)
+			if (chosenPower > 84 && chosenPower <= 92)
 			{
 				//Apple
 				get_GoldenApple()->setPos(pos);
 			}
-			else if (chosenPower > 96 && chosenPower <= 100)
+			else if (chosenPower > 92 && chosenPower <= 100)
 			{
 				// Rocket
 				get_Rocket()->setPos(pos);
