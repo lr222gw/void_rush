@@ -20,4 +20,6 @@ private:
 	float fallSpeed;
 	bool trigger;
 	bool holdPlayer;
+	bool playSound;
+	SoundManager* sm;
 };

@@ -485,11 +485,10 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Coin1.wav", 10, "Money");
 	soundManager.loadSound("assets/audio/Hit2.wav", 70, "Hit");
 	soundManager.loadSound("assets/audio/German.wav", 40, "German");
+	soundManager.loadSound("assets/audio/RumbleFade.wav", 20, "Rumble");
 	soundManager.loadSound("assets/audio/wind1.wav", 0, "Wind");
 	soundManager.loadSound("assets/audio/sci-fi-gun-shot.wav", 10, "TurrShot");
 	soundManager.loadSound("assets/audio/HeartBeat.wav", 30, "HeartBeat");
-	//soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
-	//soundManager.setMusicLoop(true);
 	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicBase");
 	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicChange");
 	soundManager.playSound("MusicBase", player->getPos());

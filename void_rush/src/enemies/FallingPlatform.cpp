@@ -6,6 +6,8 @@ FallingPlatform::FallingPlatform(ModelObj* file, Graphics*& gfx, Player* player,
 	this->player = player;
 	this->gfx = gfx;
 
+	this->sm = this->player->getSm();
+
 
 	this->OrigPos = pos;
 	this->fallSpeed = 0.04f;
@@ -13,6 +15,7 @@ FallingPlatform::FallingPlatform(ModelObj* file, Graphics*& gfx, Player* player,
 	this->fallTimer = this->fallTimerOrig;
 	this->trigger = false;
 	this->holdPlayer = false;
+	this->playSound = false;
 }
 
 FallingPlatform::~FallingPlatform()
@@ -29,6 +32,11 @@ void FallingPlatform::update(float dt)
 		else {
 			fallTimer -= dt;
 			this->movePos(vec3(0.0f, -fallSpeed, 0.0f));
+		}
+		if (this->playSound) {
+			//PLaySound
+			sm->playSound("Rumble");
+			this->playSound = false;
 		}
 	}
 	else {
@@ -48,6 +56,7 @@ void FallingPlatform::collidedWithPlayer()
 	if (!this->trigger) {
 		this->trigger = true;
 		this->holdPlayer = true;
+		this->playSound = true;
 	}
 }
 
