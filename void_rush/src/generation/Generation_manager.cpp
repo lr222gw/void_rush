@@ -139,9 +139,9 @@ void Generation_manager::initialize()
     }
 
     enemyManager->spawnEnemies(position_gen->get_enemy_positions());
-    /*for (auto& p : position_gen->get_enemy_positions()->ranmdomPositions) {
-        enemyManager->spawnEnemy(p);
-    }*/
+    
+    position_gen->generate_shortcut();
+    enemyManager->spawnObstacles(position_gen->get_shortcut_positions());
 
     this->player->set_resetLookat_dir(position_gen->firstJumpPoint->platformShape.get_midpoint());
     this->player->lookat(position_gen->firstJumpPoint->platformShape.get_midpoint(),
@@ -153,13 +153,6 @@ void Generation_manager::initialize()
     this->player->SetStartPlatform(this->GetStartPlatform());
     
 
-
-    /////////////////////SPIKE TEST/////////////////////
-    //gameObjManager->getGameObject("spikes")->setPos(this->getPuzzelPos() + vec3(0.0f, 5.01f, 0.0f));
-    /////////////////////SNARE TEST/////////////////////
-    //gameObjManager->getGameObject("snare")->setPos(this->getPuzzelPos()+vec3(5.0f, 5.0f, 0.0f));
-    ////////////////////MUSHROOM TEST///////////////////
-    //gameObjManager->getGameObject("mushroom")->setPos(this->getPuzzelPos() + vec3(0.0f, 5.0f, 0.0f));
 }
 
 

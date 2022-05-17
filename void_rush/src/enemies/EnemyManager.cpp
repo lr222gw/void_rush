@@ -72,6 +72,7 @@ void EnemyManager::createMushroom()
 		vec3(1.0f, 0.2f, 1.0f));
 
 	collisionHandler->addEnemies((Enemy*)GameObjManager->getGameObject(name));
+	//collisionHandler->addPlatform(GameObjManager->getGameObject(name));
 	enemies.push_back(static_cast<Enemy*>(this->GameObjManager->getGameObject(name)));
 }
 
@@ -150,6 +151,12 @@ void EnemyManager::spawnEnemies(Enemy_positions*  enemyPoses){
 		spawnEnemy(p);
 	}
 }
+void EnemyManager::spawnObstacles(ShortCut_positions* shortcutPoses)
+{
+	for (auto& p : shortcutPoses->positions) {
+		spawnObstacle(p);
+	}
+}
 //void EnemyManager::spawnEnemy(std::vector<vec3> pos)
 void EnemyManager::spawnEnemy(Enemy_positions::PositionGroup poses)
 {
@@ -178,6 +185,20 @@ void EnemyManager::spawnEnemy(Enemy_positions::PositionGroup poses)
 			break;		
 		default:
 			std::cout << "Shit" << std::endl;
+	}
+
+}
+void EnemyManager::spawnObstacle(vec3 pos)
+{
+	int obstacleType = rand() % (int)obstacle_enemyType::_COUNT ;
+
+	switch(obstacleType){
+	case (int)obstacle_enemyType::MUSHROOM:
+		get_Mushroom()->setPos(pos);
+		break;
+
+	default:
+		std::cout << "Shit" << std::endl;
 	}
 
 }

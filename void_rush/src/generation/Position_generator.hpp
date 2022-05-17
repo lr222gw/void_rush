@@ -33,6 +33,11 @@ struct Enemy_positions {
     std::vector<PositionGroup> positions;        
 };
 
+struct ShortCut_positions {
+    int nrOfPositions;
+    std::vector<vec3> positions;
+};
+
 class Position_generator
 {
 private:
@@ -44,6 +49,7 @@ private:
     Player_jump_checker* pl;
     powerUp_positions powerup_positions;
     Enemy_positions enemy_positions;
+    ShortCut_positions shortcut_positions;
     
     std::vector<Platform*> getAllPlatforms();
     std::vector<Platform*> getInOrderVector_ValidJumppoints();
@@ -55,11 +61,14 @@ public:
     ~Position_generator();
     bool start (Difficulity diff);
     void generate_anchor_positions(Difficulity selectedDiff);
-    void generate_jumpPoints_positions(Difficulity selectedDiff);        
+    void generate_jumpPoints_positions(Difficulity selectedDiff);   
+
+    void generate_shortcut();
     void select_powerUp_positions();
     void select_enemy_positions();
     powerUp_positions* get_powerUp_positions();
     Enemy_positions* get_enemy_positions();
+    ShortCut_positions* get_shortcut_positions();
 
     FirstLast_between_Anchor jumpPoint_generation_helper(Platform* start, Platform* end);    
     void jumpPoint_create_offset(Platform* plat, vec3& currentMiddle, vec3 start, vec3 end);
@@ -103,6 +112,7 @@ private: // Magic Numbers
         float y_max_clamp = 0.1f;     //between -1 and 1
         float rand_dir_min_angle_percent = -1.f;    
         float rand_dir_max_angle_percent = 1.f;
+        float minimumShortcutDotAngle = 0.75f;
 
     };
     Jump_point_settings JP_conf;

@@ -20,12 +20,14 @@ Mushroom::~Mushroom()
 
 void Mushroom::update(float dt)
 {
+	resetScoreTime += dt;
 	if (scaleTimer > 0.0f) {
 		scaleTimer -= dt;
 	}
 	else {
 		this->setScale(this->origScale + vec3(-0.1f, 0.0f, -0.1f));
 	}
+
 }
 
 void Mushroom::collidedWithPlayer()
@@ -57,6 +59,14 @@ void Mushroom::collidedWithPlayer()
 
 	//player->shovePlayer(vec2(horPush.x, horPush.z), yPush);
 	player->bouncePlayer(vec2(horPush.x, horPush.z), yPush);
+	player->ResetFallBoxTimer();
+
+	
+	if (resetScoreTime > 1.f) {
+
+		player->AddScore(100);
+		resetScoreTime = 0.f;
+	}
 
 	this->setScale(this->origScale + vec3(0.1f, 0.0f, 0.1f));
 	this->scaleTimer = 0.2f;

@@ -171,7 +171,7 @@ void CollisionHandler::update()
 	//check player with enemies // different things happens based on what enemy it is
 	for (size_t i = 0; i < Enemies.size(); i++) {
 		if (collision3D(player->getPlayerObjPointer(), Enemies[i])) {
-			Enemies[i]->collidedWithPlayer();
+			Enemies[i]->collidedWithPlayer();			
 		}
 	}
 	

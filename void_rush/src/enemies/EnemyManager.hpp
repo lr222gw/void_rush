@@ -59,4 +59,7 @@ public:
 	void spawnEnemy(Enemy_positions::PositionGroup poses);
 	void spawnEnemies(Enemy_positions* enemyPoses);
 
+	void spawnObstacle(vec3 pos);
+	void spawnObstacles(ShortCut_positions* shortcutPoses);
+
 };

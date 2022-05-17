@@ -448,8 +448,8 @@ void Player::handleEvents(float dt)
 			velocity.x = speed.x * airDir.x;
 			velocity.z = speed.z * airDir.y;
 
-			velocity.x += bounceVec.x;
-			velocity.z += bounceVec.y;
+			velocity.x += bounceVec.x / velocity.length();
+			velocity.z += bounceVec.y / velocity.length();
 
 		}
 	}
@@ -629,7 +629,7 @@ void Player::bouncePlayer(vec2 bounceVec, float forceY)
 	this->bounced = true;
 	this->bounceVec = bounceVec;
 	sm->playSound("Hit", getPos());
-	shoveDelay = true;
+	//shoveDelay = true;
 	ResetGhost();
 
 }

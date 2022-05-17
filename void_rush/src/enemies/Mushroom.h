@@ -2,6 +2,7 @@
 #include "enemies/Enemy.h"
 #include <iostream>
 #include "3Dproj/Vec.h"
+#include "3Dproj/deltaTime.h"
 #include "interact/interact.hpp"
 
 class Mushroom : public Enemy {
@@ -15,6 +16,8 @@ private:
 	float forceY;
 	float force;
 	float scaleTimer;
+	float resetScoreTime;
+	//DeltaTime timer; 
 	vec3 origScale;
 	Player* player;
 	Graphics* gfx;

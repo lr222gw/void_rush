@@ -339,6 +339,11 @@ Enemy_positions* Position_generator::get_enemy_positions()
     return &enemy_positions;
 }
 
+ShortCut_positions* Position_generator::get_shortcut_positions()
+{
+    return &shortcut_positions;
+}
+
 FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platform* start, Platform* end)
 { 
 
@@ -553,6 +558,86 @@ int Position_generator::getNrOfValidAnchorpoints()
         currentAnchor = currentAnchor->next;
     }
     return validMeshes;
+}
+
+void Position_generator::generate_shortcut()
+{
+    shortcut_positions.nrOfPositions = 0; 
+    shortcut_positions.positions.clear();
+
+    std::vector<Platform*> valid_anchors = getInOrderVector_ValidAnchors();
+
+    int randomAnchor = rand() % valid_anchors.size();
+    int nextRandomAnchor = randomAnchor + 2;
+
+    if(nextRandomAnchor >= (int)valid_anchors.size()) {
+        randomAnchor -= 2;
+        nextRandomAnchor -= 2;
+    }
+
+    //shortcut_positions.positions.push_back(valid_anchors[randomAnchor]->platformShape.outCorner.pos);
+    
+    Player_jump_checker mushroomJump;
+    
+    mushroomJump.set_physics_params(20.f,5.f, -15.f);//TODO: do not hardcode
+    
+    vec3 direction = 
+        valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos - 
+        valid_anchors[randomAnchor]->platformShape.outCorner.pos;
+
+    vec3 dir_unitvec = vec3::Normalize(direction);
+
+    vec3 controlDir = 
+        valid_anchors[nextRandomAnchor - 1]->platformShape.inCorner.pos - 
+        valid_anchors[randomAnchor]->platformShape.outCorner.pos;
+
+    
+
+    vec3 normalized_controlDir = vec3::Normalize(controlDir);
+    float dot_angle =  dir_unitvec * normalized_controlDir ;
+
+    int triedCounter = 0;
+    
+    while (dot_angle < -this->JP_conf.minimumShortcutDotAngle || dot_angle > this->JP_conf.minimumShortcutDotAngle  && triedCounter < valid_anchors.size()) {
+
+        randomAnchor     =  randomAnchor++ % (valid_anchors.size() - 2);
+        nextRandomAnchor =  randomAnchor + 2;
+
+        controlDir = 
+            valid_anchors[nextRandomAnchor - 1]->platformShape.inCorner.pos - 
+            valid_anchors[randomAnchor]->platformShape.outCorner.pos;
+
+        direction = 
+            valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos - 
+            valid_anchors[randomAnchor]->platformShape.outCorner.pos;
+
+        dir_unitvec = vec3::Normalize(direction);
+
+        normalized_controlDir = vec3::Normalize(controlDir);
+        dot_angle =  dir_unitvec * normalized_controlDir ;
+        triedCounter++;
+    }
+
+    if (triedCounter < valid_anchors.size()) {
+
+    
+        mushroomJump.moveto(valid_anchors[randomAnchor]->platformShape.outCorner.pos);
+        while (!mushroomJump.isJumpPossible(valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos)) {
+
+            //vec3 offset = dir_unitvec * mushroomJump.getJumpDistance(); // TODO: Look if we want to modify the distance betweeen ...
+            vec3 offset = dir_unitvec * mushroomJump.getJumpDistance(); // TODO: Look if we want to modify the distance betweeen ...
+            vec3 newPos = mushroomJump.getPos() + offset;
+            this->shortcut_positions.positions.push_back(newPos);
+
+            vec3 currentPlayerPos = this->shortcut_positions.positions.back();
+            mushroomJump.moveto(currentPlayerPos);
+
+        }
+    }
+
+
+
+    
 }
 
 mapDimensions Position_generator::getCurrentMapDimensions()
