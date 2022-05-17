@@ -6,6 +6,8 @@ FallingPlatform::FallingPlatform(ModelObj* file, Graphics*& gfx, Player* player,
 	this->player = player;
 	this->gfx = gfx;
 
+	this->sm = this->player->getSm();
+
 
 	this->OrigPos = pos;
 	this->fallSpeed = 0.04f;
@@ -14,7 +16,6 @@ FallingPlatform::FallingPlatform(ModelObj* file, Graphics*& gfx, Player* player,
 	this->trigger = false;
 	this->holdPlayer = false;
 	this->playSound = false;
-	this->getSoundManager(*this->sm);
 }
 
 FallingPlatform::~FallingPlatform()
