@@ -235,5 +235,12 @@ void CollisionHandler::update()
 				}
 			}
 		}
+		for (size_t i = 0; i < Custom_platforms.size(); i++) {
+			if (!done && collision3D(player->GetPearl(), Custom_platforms[i], true, false))
+			{
+				done = true;
+				player->PearlHit();
+			}
+		}
 	}
 }
