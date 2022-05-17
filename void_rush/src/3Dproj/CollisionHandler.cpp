@@ -30,6 +30,11 @@ void CollisionHandler::addObstacle(GameObject* Obstacle)
 	this->Obstacle.push_back(Obstacle);
 }
 
+void CollisionHandler::addPearl(GameObject* pearl)
+{
+	this->Pearl = pearl;
+}
+
 void CollisionHandler::addPowerups(Powerups* powerups)
 {
 	this->powerups.push_back(powerups);
@@ -195,6 +200,47 @@ void CollisionHandler::update()
 		{
 			player->pickedUpPower(powerups[i]->getPowerUpIndex());
 			powerups[i]->setPos(vec3(1000.f, 1000.f, 1000.f));
+		}
+	}
+
+	if (player->getPearlStatus())
+	{
+		done = false;
+		DirectX::XMFLOAT4 pearl_bounding_box[2];
+		player->GetPearl()->getBoundingBoxFromObject(pearl_bounding_box);
+		for (size_t i = 0; i < Generated_Platforms.size() && !done; i++) {
+
+			for (size_t j = 0; j < Generated_Platforms[i]->bounding_boxes.size() && !done; j++) {
+
+				DirectX::XMVECTOR min_max_vec[2] = {
+					{Generated_Platforms[i]->bounding_boxes[j].first.x,
+					Generated_Platforms[i]->bounding_boxes[j].first.y,
+					Generated_Platforms[i]->bounding_boxes[j].first.z,
+					1.f},
+					{Generated_Platforms[i]->bounding_boxes[j].second.x,
+					Generated_Platforms[i]->bounding_boxes[j].second.y,
+					Generated_Platforms[i]->bounding_boxes[j].second.z,
+					1.f}
+				};
+
+				DirectX::XMFLOAT4 min_max_bounds[2]{};
+
+				DirectX::XMStoreFloat4(&min_max_bounds[0], min_max_vec[0]);
+				DirectX::XMStoreFloat4(&min_max_bounds[1], min_max_vec[1]);
+
+				if (!done && collision3D(pearl_bounding_box, min_max_bounds))
+				{
+					done = true;
+					player->PearlHit();
+				}
+			}
+		}
+		for (size_t i = 0; i < Custom_platforms.size(); i++) {
+			if (!done && collision3D(player->GetPearl(), Custom_platforms[i], true, false))
+			{
+				done = true;
+				player->PearlHit();
+			}
 		}
 	}
 }

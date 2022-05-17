@@ -395,8 +395,7 @@ void Game::setUpObject()
 		((Turret*)GameObjManager->getGameObject("turr"))->addProjectiles((TurrProjectile*)GameObjManager->getGameObject("proj" + std::to_string(i)));
 	}	*/
 
-	
-	
+		
 
 	ghost = new Ghost(player, rm->get_Models("ghost.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
 	ghost->getSoundManager(soundManager);
@@ -405,6 +404,11 @@ void Game::setUpObject()
 
 	powerupManager->init(player, ghost);
 	enemyManager->init(player, ghost);
+
+	GameObjManager->CreateGameObject("Pearl.obj", "playerPearl", vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.05f, 0.05f));
+	collisionHandler.addPearl(GameObjManager->getGameObject("playerPearl"));
+	player->SetPearl(GameObjManager->getGameObject("playerPearl"));
+
 	generationManager->initialize();
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 	distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();

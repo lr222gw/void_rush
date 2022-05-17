@@ -1,10 +1,11 @@
 #include "Powerups.h"
 
-Powerups::Powerups(ModelObj* file, Graphics*& gfx, Player* player, Ghost* ghost, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale, Powerup pow)
+Powerups::Powerups(ModelObj* file, Graphics*& gfx, Player* player, Ghost* ghost, Mouse* mouse, Keyboard* keyboard, vec3 pos, vec3 rot, vec3 scale, Powerup pow)
 	: GameObject(file, gfx, pos, rot, scale), power_index(pow)
 {
 	this->player = player;
 	this->keyboard = keyboard;
+	this->mouse = mouse;
 	this->ghostFrozenTimer = 0.0f;
 	this->ghost = ghost;
 	this->featherActive = false;
@@ -81,8 +82,7 @@ void Powerups::UsePowerUp(float dt)
 		if (ghostFrozenTimer >= 10.0f)
 		{
 			ghost->freezeGhost();
-			ghostFrozenTimer = 0.0f;
-			std::cout << "unfrozen" << std::endl;
+			ghostFrozenTimer = 0.0f;			std::cout << "unfrozen" << std::endl;
 		}
 		if (ghostFrozenTimer != 0.0f)
 		{
@@ -93,6 +93,32 @@ void Powerups::UsePowerUp(float dt)
 	{
 		////ADD HERE WHAT PEARL DOES WHEN ACTIVATED////
 		//player->getSm()->playSound("Pearl", player->getPos());
+		if (mouse->isRightDown() && pearlTime == 0.0f)
+		{
+			pearlTime += dt;
+			player->SetPearlPos(player->getPos());
+			this->pearlVec = player->GetForwardVec();
+		}
+		else if (pearlTime > 0.0f)
+		{
+			player->MovePearl(pearlVec / 3.0f);
+			pearlTime += dt;
+
+			if (pearlTime >= 3.0f)
+			{
+				this->pearlTime = 0;
+				this->pearlVec = vec3(0.0f, 0.0f, 0.0f);
+				player->resetPearl();
+				player->setPearlStatus(false);
+			}
+		}
+
+		if (!player->getPearlStatus() && pearlTime > 0.0f)
+		{
+			this->pearlTime = 0.0f;
+			this->pearlVec = vec3(0.0f, 0.0f, 0.0f);
+		}
+
 	}
 	else if (player->getPlayerPower() == EMP)
 	{
@@ -104,26 +130,39 @@ void Powerups::UsePowerUp(float dt)
 		////ADD HERE WHAT TRAMPOLINE DOES WHEN ACTIVATED////
 		//player->getSm()->playSound("Pad", player->getPos());
 	}
-	if (player->getPassivePower() == FEATHER_P || featherActive == true)
+	if (auto p = player->getPassivePower() == FEATHER_P || featherActive == true)
 	{
-		if (this->featherActive == false)
+		if (p)
 		{
 			player->setPlayerPowerPassiv(EMPTY_P);
 		}
-		this->featherActive = true;
+		if (this->featherActive == false)
+		{
+			player->setPlayerPowerPassiv(EMPTY_P);
+			this->featherActive = true;
+		}
 		if (keyboard->onceisKeyReleased(VK_SPACE) && !player->isGrounded())
 		{
 			player->setCanDoubleJump();
-			
-			this->featherActive = false;
+			this->featherbooltest = true;
+		}
+
+		if (keyboard->isKeyPressed(VK_SPACE) && player->canDoubleJump() && featherbooltest)
+		{
+			featherActive = false;
+		}
+		else if(player->isGrounded())
+		{
+			featherbooltest = false;
 		}
 	}
-	else if (player->getPassivePower() == POTION_P || potionActive == true)
+	else if (auto p = player->getPassivePower() == POTION_P || potionActive == true)
 	{
-		////ADD HERE WHAT POTION DOES WHEN ACTIVATED////
+		if (p)
+		{
+			player->setPlayerPowerPassiv(EMPTY_P);
+		}
 		player->getSm()->playSound("Potion", player->getPos());
-		//std::cout << potionTimer << std::endl;
-		//std::cout << player->getPlayerPower() << std::endl;
 		if (potionActive == false)
 		{
 			potionActive = true;
