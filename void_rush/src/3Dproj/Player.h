@@ -30,7 +30,7 @@ enum PowerUpPassiv
 
 class Player : public GameObject {
 public:
-	Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard* keyboard, Hud* HUD, vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
+	Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keyboard * keyboard, Hud* HUD, vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
 	virtual ~Player();
 	void update(float dt) override;
 	void handleEvents(float dt);
