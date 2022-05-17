@@ -37,7 +37,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	this->setUpObject();
 	this->setUpLights();
 	//this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, (UINT)gfx->getClientWH().x, (UINT)gfx->getClientWH().y);
-	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, (UINT)1920, (UINT)1920);
+	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, (UINT)3000, (UINT)3000);
 	this->setUpParticles();
 	this->setUpSound();
 	this->setUpUI();
@@ -203,6 +203,9 @@ GameStateRet Game::update(float dt)
 		light[0]->getPos().x = player->getPos().x;
 		light[0]->getPos().y = player->getPos().y;
 		light[0]->getPos().z = player->getPos().z;
+
+		light[1]->getPos().x = player->getPos().x;
+		light[1]->getPos().z = player->getPos().z;
 
 #pragma region camera_settings
 
@@ -426,15 +429,15 @@ void Game::setUpLights()
 	//create the lights with 
 	//light[0] = new DirLight(vec3(0, 30, 8), vec3(0.1f, -PI / 2, 1.f), 100, 100);
 	light[0] = new PointLight(vec3(3, 25, 5), 0.5, vec3(1, 1, 1));
-	vec2 Lpos = (generationManager->getMapDimensions().highPoint - generationManager->getMapDimensions().lowPoint)/2 + generationManager->getMapDimensions().lowPoint;
 	light[1] = new DirLight(vec3(
-		Lpos.x,
-		200, 
-		Lpos.y),
+		0,
+		200,
+		0),
 		vec3(0, -1.57f, 1),
-		generationManager->getMapDimensions().x_width + 20,
-		generationManager->getMapDimensions().z_width + 20
+		75,
+		75
 	);
+	
 	light[2] = new PointLight(generationManager->getPuzzelPos() + vec3(0, 10, 0), 10, vec3(0.5, 0.5, 0));
 
 	//set color for lights (deafault white)
@@ -581,14 +584,14 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			generationManager->initialize();
 			soundManager.playSound("Portal", player->getPos());
 			vec2 Lpos = (generationManager->getMapDimensions().highPoint - generationManager->getMapDimensions().lowPoint) / 2 + generationManager->getMapDimensions().lowPoint;
-			light[1]->getPos() = vec3(Lpos.x, 200, Lpos.y);
-			light[1]->setProjection(
-				DirectX::XMMatrixOrthographicLH(
-					generationManager->getMapDimensions().x_width + 30,
-					generationManager->getMapDimensions().z_width + 30,
-				0.1f, 
-				40000.f
-				));
+			//light[1]->getPos() = vec3(Lpos.x, 200, Lpos.y);
+			//light[1]->setProjection(
+			//	DirectX::XMMatrixOrthographicLH(
+			//		generationManager->getMapDimensions().x_width + 30,
+			//		generationManager->getMapDimensions().z_width + 30,
+			//	0.1f, 
+			//	40000.f
+			//	));
 		}
 	}
 }
