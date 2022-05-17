@@ -38,7 +38,7 @@ bool Position_generator::start (Difficulity selectedDiff)
     
     generate_anchor_positions(selectedDiff);
     generate_jumpPoints_positions(selectedDiff);
-    removeOverlappingPlatformVoxels();
+    //removeOverlappingPlatformVoxels();
     removeUnnecessaryPlatformsVoxels();
 
     return true;
@@ -634,7 +634,7 @@ void Position_generator::removeOverlappingPlatformVoxels()
                         J_voxel--;
                     }
                 }
-                jumpPoints[j]->platformShape.update_InOut(&jumpPoints[j]->prev->platformShape);
+                //jumpPoints[j]->platformShape.update_InOut(&jumpPoints[j]->prev->platformShape);
             }
         }    
     }
@@ -719,7 +719,10 @@ void Position_generator::removeUnnecessaryPlatformsVoxels()
         }
         startPoint = toCheck;
     }
+   /* for(int i = 0; i < this->anchors.size(); i++){
+        this->pl->moveto(this->anchors[i]->platformShape.outCorner.pos);
 
+    }*/
 }
 
 
