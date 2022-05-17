@@ -372,24 +372,10 @@ void Game::setUpObject()
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
 
-	GameObjManager->CreateGameObject("Bullet.obj", "bull", vec3(0, 10, 0));
-
-	//GameObjManager->CreateEnemy(player, enemyType::TURRET, soundManager, "Turret.obj", "turr", vec3(20, 1, 0));
-	/*const int MaxNrOfProjectiles = 5;
-	for (int i = 0; i < MaxNrOfProjectiles; i++) {
-		GameObjManager->CreateEnemy(player, enemyType::PROJECTILE, soundManager, "Bullet.obj", "proj" + std::to_string(i), vec3(5, 0, 0), vec3(0, 0, 0), vec3(0.4f, 0.4f, 0.4f));
-		collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("proj"+ std::to_string(i)));
-		((Turret*)GameObjManager->getGameObject("turr"))->addProjectiles((TurrProjectile*)GameObjManager->getGameObject("proj" + std::to_string(i)));
-	}	*/
-
 	GameObjManager->CreateEnemy(player, enemyType::SPIKES, soundManager, "Spikes.obj", "spikes", vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0001f, 0.0001f, 0.0001f), true);
 	collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("spikes"));
 	GameObjManager->CreateEnemy(player, enemyType::SNARE, soundManager, "DCube.obj", "snare", vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.3f, 0.2f, 0.3f));
 	collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("snare"));
-
-	GameObjManager->CreateGameObject("DCube.obj", "cam", vec3(5, -10, 0), vec3(0, 0, 0));
-
-
 
 	ghost = new Ghost(player, rm->get_Models("ghost.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
 	ghost->getSoundManager(soundManager);
