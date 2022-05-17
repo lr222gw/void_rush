@@ -370,7 +370,6 @@ void PowerupManager::create_Card()
 
 void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 {
-	//int chosenPower = 32;
 	int chosenPower = 1 + (rand() % 100);
 	//Difficulty easy
 	if (chosenDiff == 1)
@@ -604,5 +603,4 @@ void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 			}
 		}
 	}
-	std::cout << chosenPower << std::endl;
 }

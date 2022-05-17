@@ -474,7 +474,7 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Wrong4.wav", 15, "Wrong");
 	soundManager.loadSound("assets/audio/Powerup7.wav", 10, "GoldApple");
 	soundManager.loadSound("assets/audio/Freeze1.wav", 10, "Freeze");
-	soundManager.loadSound("assets/audio/Portal1.wav", 10, "Rocket");
+	soundManager.loadSound("assets/audio/Farts.wav", 30, "Rocket");
 	soundManager.loadSound("assets/audio/EMP2.wav", 10, "EMP");
 	soundManager.loadSound("assets/audio/Pearl2.wav", 10, "Pearl");
 	soundManager.loadSound("assets/audio/Jump2.wav", 10, "Pad");
