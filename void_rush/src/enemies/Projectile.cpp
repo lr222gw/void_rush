@@ -15,7 +15,7 @@ void TurrProjectile::collidedWithPlayer()
 {
 	if (active) {
 		vec3 shf = (player->getPos() - getPos()).Normalize() * 5;
-		player->shovePlayer(vec2(shf.x, shf.z), 5.f);
+		player->shovePlayer(vec2(shf.x, shf.z), 10.f);
 		active = false;
 	}
 }
