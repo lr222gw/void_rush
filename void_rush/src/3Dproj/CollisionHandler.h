@@ -14,6 +14,7 @@ public:
 	void addPlayer(Player* player);
 	void addEnemies(Enemy* enemies);
 	void addObstacle(GameObject* Obstacle);
+	void addPearl(GameObject* pearl);
 	void addPowerups(Powerups* powerups);
 	void deletePlatform(GameObject* ptr);
 	void deletePlatform(Shape* ptr);
@@ -28,6 +29,7 @@ private:
 	std::vector<Enemy*> Enemies;
 	std::vector<GameObject*> Obstacle;
 	std::vector<Powerups*> powerups;
+	GameObject* Pearl;
 	Player* player;
 
 private:
