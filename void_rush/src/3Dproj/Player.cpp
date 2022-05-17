@@ -9,6 +9,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->cam = cam;
 	this->gravity = vec3(0.0f, -15.f, 0.0f);
 	this->speed = vec3(5.3f, 0.0f, 5.3f);
+	this->storeSpeed = this->speed.x;
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
 	this->jumpForce = 8.0f;
 	this->midAirAdj = 2.0f;
@@ -686,8 +687,9 @@ void Player::getShield()
 
 void Player::setPlayerSpeed(vec3 speed)
 {
-	this->speed = speed;
-	if (speed.x == 2.7f)
+	this->speed.x += speed.x;
+	this->speed.z += speed.z;
+	if (this->speed.x == this->storeSpeed)
 	{
 		HUD->TurnOffPassive(POTION_P);
 	}

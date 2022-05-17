@@ -126,6 +126,7 @@ private:
 	bool canDoublejump;
 	bool hasShield;
 	bool usingRocket;
+	float storeSpeed;
 
 	vec2 startingJumpDir = vec2(0.0f, 0.0f);
 	char startingJumpKey = 'N';
