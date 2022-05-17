@@ -19,9 +19,6 @@ void PowerupManager::init(Player* player, Ghost* ghost)
 	create_Money();
 	create_Snowflake();
 	create_Pearl();
-	create_EMP();
-	create_Pad();
-	create_Kill();
 	create_Rocket();
 
 }
@@ -140,42 +137,6 @@ GameObject*& PowerupManager::get_Pearl()
 	return this->GameObjManager->getGameObject("Pearl"+std::to_string(index));
 }
 
-GameObject*& PowerupManager::get_EMP()
-{
-	int index = this->nrOfActive.EMPs;
-	if (this->nrOfActive.EMPs >= this->nrOf.EMPs ) {
-		create_EMP();
-	}
-	else {
-		this->nrOfActive.EMPs++;
-	}	
-	return this->GameObjManager->getGameObject("EMP"+std::to_string(index));
-}
-
-GameObject*& PowerupManager::get_Pad()
-{
-	int index = this->nrOfActive.Pads;
-	if (this->nrOfActive.Pads >= this->nrOf.Pads ) {
-		create_Pad();
-	}
-	else {
-		this->nrOfActive.Pads++;
-	}	
-	return this->GameObjManager->getGameObject("Pad"+std::to_string(index));
-}
-
-GameObject*& PowerupManager::get_Kill()
-{
-	int index = this->nrOfActive.Kills;
-	if (this->nrOfActive.Kills >= this->nrOf.Kills ) {
-		create_Kill();
-	}
-	else {
-		this->nrOfActive.Kills++;
-	}	
-	return this->GameObjManager->getGameObject("Kill"+std::to_string(index));
-}
-
 GameObject*& PowerupManager::get_Rocket()
 {
 	int index = this->nrOfActive.Rockets;
@@ -186,18 +147,6 @@ GameObject*& PowerupManager::get_Rocket()
 		this->nrOfActive.Rockets++;
 	}	
 	return this->GameObjManager->getGameObject("Rocket"+std::to_string(index));
-}
-
-GameObject*& PowerupManager::get_Card()
-{
-	int index = this->nrOfActive.Cards;
-	if (this->nrOfActive.Cards >= this->nrOf.Cards ) {
-		create_Card();
-	}
-	else {
-		this->nrOfActive.Cards++;
-	}	
-	return this->GameObjManager->getGameObject("Card"+std::to_string(index));
 }
 
 void PowerupManager::create_GoldenApple()
@@ -298,48 +247,6 @@ void PowerupManager::create_Pearl()
 	collisionHandler->addPowerups(powers.back());
 }
 
-void PowerupManager::create_EMP()
-{
-	std::string name = "EMP" + std::to_string(nrOf.EMPs++);
-	nrOfActive.EMPs = nrOf.EMPs;
-	powers.push_back(new Powerups(rm->get_Models("EMP.obj", gfx), gfx, player, ghost, mouse, keyboard,
-			 vec3(1000.0f, 1000.0f, 1000.0f),
-			 vec3(0.0f, 0.0f, 0.0f),
-			 vec3(0.2f, 0.2f, 0.2f),
-			 EMP));
-	
-	GameObjManager->addGameObject(powers.back(), name);
-	collisionHandler->addPowerups(powers.back());
-}
-
-void PowerupManager::create_Pad()
-{
-	std::string name = "Pad" + std::to_string(nrOf.Pads++);
-	nrOfActive.Pads = nrOf.Pads;
-	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, mouse, keyboard,
-			 vec3(1000.0f, 1000.0f, 1000.0f),
-			 vec3(0.0f, 0.0f, 0.0f),
-			 vec3(0.1f, 0.1f, 0.1f),
-			 PAD));
-	
-	GameObjManager->addGameObject(powers.back(), name);
-	collisionHandler->addPowerups(powers.back());
-}
-
-void PowerupManager::create_Kill()
-{
-	std::string name = "Kill" + std::to_string(nrOf.Kills++);
-	nrOfActive.Kills = nrOf.Kills;
-	powers.push_back(new Powerups(rm->get_Models("Skull.obj", gfx), gfx, player, ghost, mouse, keyboard,
-			 vec3(1000.0f, 1000.0f, 1000.0f),
-			 vec3(0.0f, 0.0f, 0.0f),
-			 vec3(0.1f, 0.1f, 0.1f),
-			 KILL));
-	
-	GameObjManager->addGameObject(powers.back(), name);
-	collisionHandler->addPowerups(powers.back());
-}
-
 void PowerupManager::create_Rocket()
 {
 	std::string name = "Rocket" + std::to_string(nrOf.Rockets++);
@@ -349,20 +256,6 @@ void PowerupManager::create_Rocket()
 			 vec3(0.0f, deg_to_rad(30.f), deg_to_rad(-45.f)),
 			 vec3(0.085f, 0.085f, 0.085f),
 			 ROCKET));
-	
-	GameObjManager->addGameObject(powers.back(), name);
-	collisionHandler->addPowerups(powers.back());
-}
-
-void PowerupManager::create_Card()
-{
-	std::string name = "Card" + std::to_string(nrOf.Cards++);
-	nrOfActive.Cards = nrOf.Cards;
-	powers.push_back(new Powerups(rm->get_Models("Rocket.obj", gfx), gfx, player, ghost, mouse, keyboard,
-			 vec3(1000.0f, 1000.0f, 1000.0f),
-			 vec3(0.0f, deg_to_rad(30.f), deg_to_rad(-30.f)),
-			 vec3(0.1f, 0.1f, 0.1f),
-			 CARD));
 	
 	GameObjManager->addGameObject(powers.back(), name);
 	collisionHandler->addPowerups(powers.back());
@@ -414,16 +307,6 @@ void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 				//Pearl
 				get_Pearl()->setPos(pos);
 			}
-			else if (chosenPower > 76 && chosenPower <= 84)
-			{
-				// EMP
-				get_EMP()->setPos(pos);
-			}
-			else if (chosenPower > 84 && chosenPower <= 92)
-			{
-				// PAD
-				get_Pad()->setPos(pos);
-			}
 		}
 		else if (chosenPower >= 93)
 		{
@@ -433,20 +316,10 @@ void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 				//Apple
 				get_GoldenApple()->setPos(pos);
 			}
-			else if (chosenPower > 94 && chosenPower <= 96)
-			{
-				//Kill
-				get_Kill()->setPos(pos);
-			}
 			else if (chosenPower > 96 && chosenPower <= 98)
 			{
 				// Rocket
 				get_Rocket()->setPos(pos);
-			}
-			else if (chosenPower > 98 && chosenPower <= 100)
-			{
-				// Card
-				//get_Card()->setPos(pos);
 			}
 		}
 	}
@@ -491,16 +364,6 @@ void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 				//Pearl
 				get_Pearl()->setPos(pos);
 			}
-			else if (chosenPower > 60 && chosenPower <= 72)
-			{
-				// EMP
-				get_EMP()->setPos(pos);
-			}
-			else if (chosenPower > 72 && chosenPower <= 84)
-			{
-				// PAD
-				get_Pad()->setPos(pos);
-			}
 		}
 		else if (chosenPower >= 85)
 		{
@@ -510,20 +373,10 @@ void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 				//Freeze
 				get_GoldenApple()->setPos(pos);
 			}
-			else if (chosenPower > 88 && chosenPower <= 92)
-			{
-				//Pearl
-				get_Kill()->setPos(pos);
-			}
 			else if (chosenPower > 92 && chosenPower <= 96)
 			{
 				// EMP
 				get_Rocket()->setPos(pos);
-			}
-			else if (chosenPower > 96 && chosenPower <= 100)
-			{
-				// PAD
-				//get_Pad()->setPos(pos);
 			}
 		}
 	}
@@ -568,16 +421,6 @@ void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 				//Pearl
 				get_Pearl()->setPos(pos);
 			}
-			else if (chosenPower > 42 && chosenPower <= 51)
-			{
-				// EMP
-				get_EMP()->setPos(pos);
-			}
-			else if (chosenPower > 51 && chosenPower <= 60)
-			{
-				// PAD
-				get_Pad()->setPos(pos);
-			}
 		}
 		else if (chosenPower > 61)
 		{
@@ -587,20 +430,10 @@ void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 				//GoldenApple
 				get_GoldenApple()->setPos(pos);
 			}
-			else if (chosenPower > 70 && chosenPower <= 80)
-			{
-				//Kill
-				get_Kill()->setPos(pos);
-			}
 			else if (chosenPower > 80 && chosenPower <= 90)
 			{
 				// Rocket
 				get_Rocket()->setPos(pos);
-			}
-			else if (chosenPower > 90 && chosenPower <= 100)
-			{
-				// Card
-				get_Card()->setPos(pos);
 			}
 		}
 	}
