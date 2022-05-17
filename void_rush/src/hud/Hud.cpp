@@ -141,24 +141,8 @@ void Hud::ChangeCurrentPowerUp(int index)
 		currentPowerUp = ROCKET;
 		break;
 	case 2:
-		UI->getElements(POWERUP)->replaceSprite(rm->getSprite("assets/textures/PowerUpCard.png", gfx));
-		currentPowerUp = CARD;
-		break;
-	case 3:
 		UI->getElements(POWERUP)->replaceSprite(rm->getSprite("assets/textures/PowerUpFreeze.png", gfx));
 		currentPowerUp = FREEZE;
-		break;
-	case 4:
-		UI->getElements(POWERUP)->replaceSprite(rm->getSprite("assets/textures/PowerUpDeath.png", gfx));
-		currentPowerUp = DEATH;
-		break;
-	case 5:
-		UI->getElements(POWERUP)->replaceSprite(rm->getSprite("assets/textures/PowerUpEMP.png", gfx));
-		currentPowerUp = EMP;
-		break;
-	case 6:
-		UI->getElements(POWERUP)->replaceSprite(rm->getSprite("assets/textures/PowerUpPad.png", gfx));
-		currentPowerUp = PAD;
 		break;
 	}
 }
