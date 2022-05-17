@@ -5,12 +5,34 @@ SettingsScene::SettingsScene(Graphics*& gfx, ResourceManager*& rm, ImguiManager*
 {
 	UI = new UIManager(rm, gfx);
 
-	UI->createUIButton("buttonBack.png", "Back", mouse, vec2(-1, 0), vec2(0.2, 0.2), "Back");
-	UI->createUIString("0", vec2(1, 0), vec2(0.2, 0.2), "VolumeFloat");
-	UI->createUIButton("buttonBack.png", "+", mouse, vec2(-0.5, 0), vec2(0.2, 0.2), "HVol");
-	UI->createUIButton("buttonBack.png", "-", mouse, vec2(0.5, 0), vec2(0.2, 0.2), "LVol");
-
 	readSettings();
+
+	UI->createUIButton("assets/textures/buttonBack.png", "Back", mouse, vec2(-1, 0.8f), vec2(0.2f, 0.2f), "Back");
+
+
+	UI->createUIString("Volume", vec2(-1.0f, 0.51f), vec2(0.04f, 0.1f), "Volume");
+	UI->createUIString("00", vec2(-0.1f, 0.51f), vec2(0.2f, 0.2f), "VolumeFloat");
+	UI->getStringElement("VolumeFloat")->setText(VolumeToString());
+	UI->createUIButton("assets/textures/buttonBack.png", "-", mouse, vec2(-0.5f, 0.5f), vec2(0.1f, 0.1f), "LVol");
+	UI->createUIButton("assets/textures/buttonBack.png", "+", mouse, vec2(0.5f, 0.5f), vec2(0.1f, 0.1f), "HVol");
+
+	UI->createUIString("Mouse", vec2(-1.0f, 0.251f), vec2(0.05f, 0.1f), "Mouse");
+	UI->createUIString("0.0", vec2(-0.1f, 0.25f), vec2(0.2f, 0.2f), "SenceFloat");
+	UI->getStringElement("SenceFloat")->setText(std::to_string(sett.mouseSence));
+	UI->createUIButton("assets/textures/buttonBack.png", "-", mouse, vec2(-0.5f, 0.25f), vec2(0.1f, 0.1f), "LSence");
+	UI->createUIButton("assets/textures/buttonBack.png", "+", mouse, vec2(0.5f, 0.25f), vec2(0.1f, 0.1f), "HSence");
+
+	UI->createUIString("Resolution", vec2(-1.0f, 0.01f), vec2(0.04f, 0.1f), "ResolutionString");
+	UI->createUIString("0000x0000", vec2(-0.25f, 0.01f), vec2(0.06f, 0.1f), "Resolution");
+	UI->getStringElement("Resolution")->setText(ResolutionToString());
+	UI->createUIButton("assets/textures/buttonBack.png", "<", mouse, vec2(-0.5f, 0.0f), vec2(0.1f, 0.1f), "LRes");
+	UI->createUIButton("assets/textures/buttonBack.png", ">", mouse, vec2(0.5f, 0.0f), vec2(0.1f, 0.1f), "HRes");
+
+	UI->createUIString("FullScreen", vec2(-1.0, -0.25f), vec2(0.04, 0.1), "FullScreen");
+	UI->createUIButton("assets/textures/buttonBack.png", "Y", mouse, vec2(0.f, -0.25f), vec2(0.2f, 0.2f), "FullScreenButton");
+	UI->getStringElement("FullScreenButton")->setText(FullScreenToString());
+
+	UI->createUIButton("assets/textures/buttonBack.png", "Save", mouse, vec2(0.75f, -0.75f), vec2(0.25f, 0.2f), "Save");
 
 	std::string skyboxTextures[6] = {
 		"assets/textures/Skybox/posx.png",//x+
@@ -48,11 +70,43 @@ GameStateRet SettingsScene::update(float dt)
 	if (UI->getButton("Back")->clicked()) {
 		theReturn.gameState = GameStatesEnum::TO_MENU;
 	}
-	if (UI->getButton("HVol")->clicked()) {
-		//add more to volume
+	else if (UI->getButton("HVol")->clicked()) {
+		++sett.volume;
+		UI->getStringElement("VolumeFloat")->setText(VolumeToString());
 	}
-	if (UI->getButton("LVol")->clicked()) {
-		//volume--;
+	else if (UI->getButton("LVol")->clicked()) {
+		--sett.volume;
+		UI->getStringElement("VolumeFloat")->setText(VolumeToString());
+	}
+	else if (UI->getButton("HSence")->clicked()) {
+		sett.mouseSence += 0.1f;
+		UI->getStringElement("SenceFloat")->setText(std::to_string(sett.mouseSence));
+	}
+	else if (UI->getButton("LSence")->clicked()) {
+		sett.mouseSence -= 0.1f;
+		UI->getStringElement("SenceFloat")->setText(std::to_string(sett.mouseSence));
+	}
+	else if (UI->getButton("HRes")->clicked()) {
+		++sett.resolution;
+		UI->getStringElement("Resolution")->setText(ResolutionToString());
+	}
+	else if (UI->getButton("LRes")->clicked()) {
+		--sett.resolution;
+		UI->getStringElement("Resolution")->setText(ResolutionToString());
+	}
+	else if (UI->getButton("FullScreenButton")->clicked()) {
+		sett.fullscreen = !sett.fullscreen;
+		UI->getStringElement("FullScreenButton")->setText(FullScreenToString());
+	}
+	else if (UI->getButton("Save")->clicked()) {
+		saveSettings();
+	}
+	if (savedTime > 0 && exist) {
+		savedTime -= dt;
+	}
+	if (savedTime < 0 && exist) {
+		UI->deleteString("saved");
+		exist = false;
 	}
 
 	camera->updateCamera();
@@ -83,8 +137,72 @@ void SettingsScene::render()
 
 void SettingsScene::readSettings()
 {
+	std::ifstream input("Setting.data", std::ios::out | std::ios::binary);
+	if (!input) {
+		sett.volume = 1;
+		sett.resolution = 4;
+		sett.mouseSence = 0.6;
+	}
+	input.read((char*)&sett, sizeof(sett));
+	input.close();
+	settingsSingleTon::GetInst().setSettings(sett);
 }
 
 void SettingsScene::saveSettings()
 {
+	UI->deleteString("saved");
+	UI->createUIString("saved", vec2(-0.5f, -0.5f), vec2(0.1f, 0.1f), "saved");
+	exist = true;
+	savedTime = 2.f;
+	std::ofstream output("Setting.data", std::ios::out | std::ios::binary);
+	output.write((char*)&sett, sizeof(sett));
+	output.close();
+	settingsSingleTon::GetInst().setSettings(sett);
+}
+
+std::string SettingsScene::VolumeToString()
+{
+	if (sett.volume < 0) {
+		sett.volume = 0;
+	}
+	else if (sett.volume > 99) {
+		sett.volume = 99;
+	}
+	if (sett.volume < 10) {
+		return " " + std::to_string(sett.volume);
+	}
+	else {
+		return std::to_string(sett.volume);
+	}
+}
+
+std::string SettingsScene::ResolutionToString()
+{
+	if (sett.resolution > 4) {
+		sett.resolution = 4;
+	}
+	else if (sett.resolution < 0) {
+		sett.resolution = 0;
+	}
+	std::string width;
+	std::string height;
+	width = std::to_string(resolutions[sett.resolution][0]);
+	if (width.size() < 4) {
+		width = ' ' + width;
+	}
+	height = std::to_string(resolutions[sett.resolution][1]);
+	if (height.size() < 4) {
+		height += ' ';
+	}
+	return width + "x" + height;
+}
+
+std::string SettingsScene::FullScreenToString()
+{
+	if (sett.fullscreen) {
+		return "Y";
+	}
+	else {
+		return "N";
+	}
 }

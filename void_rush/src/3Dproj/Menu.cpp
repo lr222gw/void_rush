@@ -2,9 +2,10 @@
 
 Menu::Menu(Graphics*& gfx, ResourceManager* rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam):
 	GameState(gfx, rm, imguimanager, mouse, keyboard, cam),
-	soundManager(1)//be able to change this later based on settings
+	soundManager()//be able to change this later based on settings
 {
 	buttonSize = vec2(0.5f, 0.15f);
+	mouse->changeSense(settingsSingleTon::GetInst().getSettings().mouseSence);
 	camera->setPosition(vec3(0, 0, 0));
 	camera->setRotation(vec3(0, 0, 0));
 	setUpObject();
@@ -81,6 +82,9 @@ GameStateRet Menu::update(float dt)
 		}
 		SeedClicked = true;
 	}
+	else if (UI->getButton("settings")->clicked()) {
+		theReturn.gameState = GameStatesEnum::TO_SETTINGS;
+	}
 	heightObject += dt;
 	if (heightObject >= 2 * 3.14) {
 		heightObject = 0;
@@ -91,7 +95,6 @@ GameStateRet Menu::update(float dt)
 	if (inputSeed) {
 		getSeedInput();
 	}
-
 	return theReturn;
 }
 
@@ -128,7 +131,7 @@ void Menu::setUpUI()
 	UI->createUIButton("assets/textures/buttonBack.png", "HighScores", mouse, vec2(-0.9f, 0.0f), buttonSize, "HighScores", vec2(0.0f, -0.025f), vec2(0.0f, 0.1f));
 	UI->createUIButton("assets/textures/buttonBack.png", "InputSeed", mouse, vec2(0.0f, 0.4f), buttonSize, "InputSeed", vec2(0.0f, -0.025f), vec2(0.0f, 0.1f));
 	UI->createUIString("__________", vec2(-0.2f, 10.0f), vec2(0.1f, 0.1f), "Seed");
-	UI->createUIButton("assets/textures/Gear.png", mouse, vec2(0.75, 0.0), vec2(0.25, 0.25), "settings");
+	UI->createUIButton("assets/textures/Gear.png", mouse, vec2(-1.0f, -1.0f), vec2(0.15f, 0.2f), "settings");
 	//Used for scaling buttons
 	buttonNames.push_back("Start");
 	buttonNames.push_back("Quit");

@@ -55,7 +55,7 @@ SoundManager::SoundManager()
 	if (!AnyAudio()) {
 		soundManagerActive = false;
 	}
-	this->volume = 1;
+	this->volume = (float)settingsSingleTon::GetInst().getSettings().volume;
 	musicLoop = false;
 	changingMusic = false;
 	activeMusic = 0;

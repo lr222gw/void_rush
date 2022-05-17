@@ -361,6 +361,7 @@
     <ClCompile Include="src\enemies\Snare.cpp" />
     <ClCompile Include="src\enemies\Spikes.cpp" />
     <ClCompile Include="src\enemies\Turret.cpp" />
+    <ClCompile Include="src\settings.cpp" />
     <ClCompile Include="src\SettingsScene.cpp" />
   </ItemGroup>
   <ItemGroup>

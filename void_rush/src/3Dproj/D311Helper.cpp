@@ -1,5 +1,6 @@
 #include "D311Helper.h"
 #include <DirectXMath.h>
+#include "settings.h"
 
 bool CreateInsterface(UINT width, UINT height, HWND wnd, ID3D11Device*& device, ID3D11DeviceContext*& immediateContext, IDXGISwapChain*& swapChain)
 {
@@ -22,7 +23,7 @@ bool CreateInsterface(UINT width, UINT height, HWND wnd, ID3D11Device*& device, 
     swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_UNORDERED_ACCESS;
     swapChainDesc.BufferCount = 1;
     swapChainDesc.OutputWindow = wnd;
-    swapChainDesc.Windowed = true;
+    swapChainDesc.Windowed = !settingsSingleTon::GetInst().getSettings().fullscreen;
     swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
     swapChainDesc.Flags = 0;
 
