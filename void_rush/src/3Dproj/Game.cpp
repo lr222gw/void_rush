@@ -509,6 +509,7 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Coin1.wav", 10, "Money");
 	soundManager.loadSound("assets/audio/Hit2.wav", 70, "Hit");
 	soundManager.loadSound("assets/audio/German.wav", 40, "German");
+	soundManager.loadSound("assets/audio/Rumble.wav", 40, "Rumble");
 	soundManager.loadSound("assets/audio/wind1.wav", 0, "Wind");
 	soundManager.loadSound("assets/audio/sci-fi-gun-shot.wav", 10, "TurrShot");
 	soundManager.loadSound("assets/audio/HeartBeat.wav", 30, "HeartBeat");

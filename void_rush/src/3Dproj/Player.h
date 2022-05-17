@@ -186,8 +186,6 @@ private:
 	float currentSoundEffectCD = 0.f;
 	std::string stepSounds[4];
 
-	//Used for falling platforms
-	bool hold;
 	
 public:
 	void TakeDmg(int dmg = 1);

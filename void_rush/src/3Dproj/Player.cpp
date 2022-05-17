@@ -56,8 +56,6 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	minFOV = 45;
 
 	screenShake = true;
-
-	this->hold = false;
 }
 
 Player::~Player()
