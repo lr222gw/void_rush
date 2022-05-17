@@ -53,6 +53,9 @@ public:
 	//Used when player falls of platform to rest ghost
 	bool ResetGhost();
 	void shovePlayer(vec2 shove, float forceY);
+	void bouncePlayer(vec2 bounceVec, float forceY);
+	void setVelocity(vec3 vel);
+	vec3 getVelocity()const;
 
 	//Powerup function
 	void pickedUpPower(Powerup index);
@@ -89,6 +92,15 @@ public:
 
 	void set_resetLookat_dir(vec3 lookAt);
 	
+	void SetPearl(GameObject*& pearlObj);
+	void MovePearl(vec3 pos);
+	void SetPearlPos(vec3 pos);
+	void PearlHit();
+	bool getPearlStatus();
+	void setPearlStatus(bool trueOrFalse);
+	void resetPearl();
+	GameObject*& GetPearl();
+
 private:
 	friend class ImguiManager;
 	bool noClip;
@@ -106,12 +118,17 @@ private:
 	float mass;
 	bool grounded;
 	float groundedTimer;
+	GameObject* pearl;
+	bool pearlActive = false;
 
 	//For being shoved
 	bool shoved;
 	vec2 shove;
 	bool shoveDelay;
 	float shoveTimer;
+	//For being bounced
+	bool bounced;
+	vec2 bounceVec;
 	//Beat
 	float heartBeatTimer;
 	float bpm;
@@ -174,6 +191,7 @@ public:
 	void AddScore(float scr = 1.0f);
 	int GetHealth();
 	float GetScore();
+	vec3 GetForwardVec();
 	bool IsAlive();
 	void UpdateFallBox();
 	GameObject* GOPTR; //GameObjectPlayerPointer//should not be here
