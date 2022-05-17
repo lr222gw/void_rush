@@ -415,7 +415,7 @@ void Player::handleEvents(float dt)
 	}
 	else
 	{
-		if (!shoved && !bounced)
+		if (!shoved && !bounced && !usingRocket)
 		{
 			if (!airDir.legth() == 0.0f)
 			{
@@ -429,7 +429,7 @@ void Player::handleEvents(float dt)
 		}
 		else if (usingRocket)
 		{
-			this->velocity = vec3(cam->getForwardVec().x, cam->getForwardVec().y, cam->getForwardVec().z) * 10.f;
+			this->velocity = vec3(cam->getForwardVec().x, cam->getForwardVec().y, cam->getForwardVec().z) * 15.f;
 		}
 		else if (shoved)
 		{
@@ -741,9 +741,11 @@ void Player::setPlayerSpeed(vec3 speed)
 void Player::useRocket(bool trueOrFalse)
 {
 	this->usingRocket = trueOrFalse;
-	this->grounded = false;
-	this->groundedTimer = 0.01f;
-
+	if (trueOrFalse)
+	{
+		this->grounded = false;
+		this->groundedTimer = 0.01f;
+	}
 }
 
 //void Player::SetPuzzlePos(vec3 puzzlePosition)
@@ -899,6 +901,7 @@ void Player::SetPearlPos(vec3 pos)
 {
 	this->pearl->setPos(pos);
 	this->setPearlStatus(true);
+	this->HUD->TurnOffPassive(PEARL_P);
 }
 
 void Player::PearlHit()
@@ -930,6 +933,8 @@ GameObject*& Player::GetPearl()
 	{
 		return this->pearl;
 	}
+	//what to do here
+	return pearl;
 }
 
 Keyboard* Player::GetKB()

@@ -438,6 +438,9 @@
     <ClCompile Include="src\enemies\Mushroom.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\SettingsScene.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\enemies\FallingPlatform.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
@@ -744,6 +747,12 @@
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\enemies\Mushroom.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SettingsScene.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\settings.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\enemies\FallingPlatform.h">

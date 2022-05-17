@@ -128,6 +128,7 @@ void Menu::setUpUI()
 	UI->createUIButton("assets/textures/buttonBack.png", "HighScores", mouse, vec2(-0.9f, 0.0f), buttonSize, "HighScores", vec2(0.0f, -0.025f), vec2(0.0f, 0.1f));
 	UI->createUIButton("assets/textures/buttonBack.png", "InputSeed", mouse, vec2(0.0f, 0.4f), buttonSize, "InputSeed", vec2(0.0f, -0.025f), vec2(0.0f, 0.1f));
 	UI->createUIString("__________", vec2(-0.2f, 10.0f), vec2(0.1f, 0.1f), "Seed");
+	UI->createUIButton("assets/textures/Gear.png", mouse, vec2(0.75, 0.0), vec2(0.25, 0.25), "settings");
 	//Used for scaling buttons
 	buttonNames.push_back("Start");
 	buttonNames.push_back("Quit");

@@ -370,7 +370,6 @@ void PowerupManager::create_Card()
 
 void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 {
-	//int chosenPower = 32;
 	int chosenPower = 1 + (rand() % 100);
 	//Difficulty easy
 	if (chosenDiff == 1)
@@ -404,205 +403,204 @@ void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 		else if (chosenPower > 60 && chosenPower <= 92)
 		{
 			//Got C-tier
-			if (chosenPower > 60 && chosenPower <= 68)
+			if (chosenPower > 60 && chosenPower <= 76)
 			{
 				//Freeze
 				get_Snowflake()->setPos(pos);
 			}
-			else if (chosenPower > 68 && chosenPower <= 76)
+			else if (chosenPower > 76 && chosenPower <= 92)
 			{
 				//Pearl
 				get_Pearl()->setPos(pos);
 			}
-			else if (chosenPower > 76 && chosenPower <= 84)
-			{
-				// EMP
-				get_EMP()->setPos(pos);
-			}
-			else if (chosenPower > 84 && chosenPower <= 92)
-			{
-				// PAD
-				get_Pad()->setPos(pos);
-			}
+			//else if (chosenPower > 76 && chosenPower <= 84)
+			//{
+			//	// EMP
+			//	get_EMP()->setPos(pos);
+			//}
+			//else if (chosenPower > 84 && chosenPower <= 92)
+			//{
+			//	// PAD
+			//	get_Pad()->setPos(pos);
+			//}
 		}
 		else if (chosenPower >= 93)
 		{
 			//Got S-tier
-			if (chosenPower >= 93 && chosenPower <= 94)
+			if (chosenPower >= 93 && chosenPower <= 96)
 			{
 				//Apple
 				get_GoldenApple()->setPos(pos);
 			}
-			else if (chosenPower > 94 && chosenPower <= 96)
-			{
-				//Kill
-				get_Kill()->setPos(pos);
-			}
-			else if (chosenPower > 96 && chosenPower <= 98)
-			{
-				// Rocket
-				get_Rocket()->setPos(pos);
-			}
-			else if (chosenPower > 98 && chosenPower <= 100)
-			{
-				// Card
-				//get_Card()->setPos(pos);
-			}
-		}
-	}
-	else if (chosenDiff == 2) //Difficult medium
-	{
-		if (chosenPower <= 36)
-		{
-			//Got F-tier
-			if (chosenPower <= 9)
-			{
-				//choose feather and moved into position
-				get_Feather()->setPos(pos);
-
-			}
-			else if (chosenPower > 9 && chosenPower <= 18)
-			{
-				//choose speed and moved into position
-				get_Potion()->setPos(pos);
-
-			}
-			else if (chosenPower > 18 && chosenPower <= 27)
-			{
-				//choose shield and moved into position
-				get_Shield()->setPos(pos);
-			}
-			else if (chosenPower > 27 && chosenPower <= 36)
-			{
-				// choose Money and moved into position
-				get_Money()->setPos(pos);
-			}
-		}
-		else if (chosenPower > 36 && chosenPower <= 84)
-		{
-			//Got C-tier
-			if (chosenPower >= 37 && chosenPower <= 48)
-			{
-				//Freeze
-				get_Snowflake()->setPos(pos);
-			}
-			else if (chosenPower > 48 && chosenPower <= 60)
-			{
-				//Pearl
-				get_Pearl()->setPos(pos);
-			}
-			else if (chosenPower > 60 && chosenPower <= 72)
-			{
-				// EMP
-				get_EMP()->setPos(pos);
-			}
-			else if (chosenPower > 72 && chosenPower <= 84)
-			{
-				// PAD
-				get_Pad()->setPos(pos);
-			}
-		}
-		else if (chosenPower >= 85)
-		{
-			//Got S-tier
-			if (chosenPower >= 85 && chosenPower <= 88)
-			{
-				//Freeze
-				get_GoldenApple()->setPos(pos);
-			}
-			else if (chosenPower > 88 && chosenPower <= 92)
-			{
-				//Pearl
-				get_Kill()->setPos(pos);
-			}
-			else if (chosenPower > 92 && chosenPower <= 96)
-			{
-				// EMP
-				get_Rocket()->setPos(pos);
-			}
+			//else if (chosenPower > 94 && chosenPower <= 96)
+			//{
+			//	//Kill
+			//	get_Kill()->setPos(pos);
+			//}
 			else if (chosenPower > 96 && chosenPower <= 100)
 			{
-				// PAD
-				//get_Pad()->setPos(pos);
-			}
-		}
-	}
-	else if (chosenDiff == 3)
-	{
-		if (chosenPower <= 24)
-		{
-			//Got F-tier
-			if (chosenPower <= 6)
-			{
-				//choose feather and moved into position
-				get_Feather()->setPos(pos);
-
-			}
-			else if (chosenPower > 6 && chosenPower <= 12)
-			{
-				//choose speed and moved into position
-				get_Potion()->setPos(pos);
-
-			}
-			else if (chosenPower > 12 && chosenPower <= 18)
-			{
-				//choose shield and moved into position
-				get_Shield()->setPos(pos);
-			}
-			else if (chosenPower > 18 && chosenPower <= 24)
-			{
-				// choose Money and moved into position
-				get_Money()->setPos(pos);
-			}
-		}
-		else if (chosenPower > 24 && chosenPower <= 60)
-		{
-			//Got C-tier
-			if (chosenPower >= 24 && chosenPower <= 33)
-			{
-				//Freeze
-				get_Snowflake()->setPos(pos);
-			}
-			else if (chosenPower > 33 && chosenPower <= 42)
-			{
-				//Pearl
-				get_Pearl()->setPos(pos);
-			}
-			else if (chosenPower > 42 && chosenPower <= 51)
-			{
-				// EMP
-				get_EMP()->setPos(pos);
-			}
-			else if (chosenPower > 51 && chosenPower <= 60)
-			{
-				// PAD
-				get_Pad()->setPos(pos);
-			}
-		}
-		else if (chosenPower > 61)
-		{
-			//Got S-tier
-			if (chosenPower >= 61 && chosenPower <= 70)
-			{
-				//GoldenApple
-				get_GoldenApple()->setPos(pos);
-			}
-			else if (chosenPower > 70 && chosenPower <= 80)
-			{
-				//Kill
-				get_Kill()->setPos(pos);
-			}
-			else if (chosenPower > 80 && chosenPower <= 90)
-			{
 				// Rocket
 				get_Rocket()->setPos(pos);
 			}
-			else if (chosenPower > 90 && chosenPower <= 100)
-			{
-				// Card
-				get_Card()->setPos(pos);
-			}
+			//else if (chosenPower > 98 && chosenPower <= 100)
+			//{
+			//	// Card
+			//	//get_Card()->setPos(pos);
+			//}
 		}
 	}
-	std::cout << chosenPower << std::endl;
+	//else if (chosenDiff == 2) //Difficult medium
+	//{
+	//	if (chosenPower <= 36)
+	//	{
+	//		//Got F-tier
+	//		if (chosenPower <= 9)
+	//		{
+	//			//choose feather and moved into position
+	//			get_Feather()->setPos(pos);
+
+	//		}
+	//		else if (chosenPower > 9 && chosenPower <= 18)
+	//		{
+	//			//choose speed and moved into position
+	//			get_Potion()->setPos(pos);
+
+	//		}
+	//		else if (chosenPower > 18 && chosenPower <= 27)
+	//		{
+	//			//choose shield and moved into position
+	//			get_Shield()->setPos(pos);
+	//		}
+	//		else if (chosenPower > 27 && chosenPower <= 36)
+	//		{
+	//			// choose Money and moved into position
+	//			get_Money()->setPos(pos);
+	//		}
+	//	}
+	//	else if (chosenPower > 36 && chosenPower <= 84)
+	//	{
+	//		//Got C-tier
+	//		if (chosenPower >= 37 && chosenPower <= 48)
+	//		{
+	//			//Freeze
+	//			get_Snowflake()->setPos(pos);
+	//		}
+	//		else if (chosenPower > 48 && chosenPower <= 60)
+	//		{
+	//			//Pearl
+	//			get_Pearl()->setPos(pos);
+	//		}
+	//		else if (chosenPower > 60 && chosenPower <= 72)
+	//		{
+	//			// EMP
+	//			get_EMP()->setPos(pos);
+	//		}
+	//		else if (chosenPower > 72 && chosenPower <= 84)
+	//		{
+	//			// PAD
+	//			get_Pad()->setPos(pos);
+	//		}
+	//	}
+	//	else if (chosenPower >= 85)
+	//	{
+	//		//Got S-tier
+	//		if (chosenPower >= 85 && chosenPower <= 88)
+	//		{
+	//			//Freeze
+	//			get_GoldenApple()->setPos(pos);
+	//		}
+	//		else if (chosenPower > 88 && chosenPower <= 92)
+	//		{
+	//			//Pearl
+	//			get_Kill()->setPos(pos);
+	//		}
+	//		else if (chosenPower > 92 && chosenPower <= 96)
+	//		{
+	//			// EMP
+	//			get_Rocket()->setPos(pos);
+	//		}
+	//		else if (chosenPower > 96 && chosenPower <= 100)
+	//		{
+	//			// PAD
+	//			//get_Pad()->setPos(pos);
+	//		}
+	//	}
+	//}
+	//else if (chosenDiff == 3)
+	//{
+	//	if (chosenPower <= 24)
+	//	{
+	//		//Got F-tier
+	//		if (chosenPower <= 6)
+	//		{
+	//			//choose feather and moved into position
+	//			get_Feather()->setPos(pos);
+
+	//		}
+	//		else if (chosenPower > 6 && chosenPower <= 12)
+	//		{
+	//			//choose speed and moved into position
+	//			get_Potion()->setPos(pos);
+
+	//		}
+	//		else if (chosenPower > 12 && chosenPower <= 18)
+	//		{
+	//			//choose shield and moved into position
+	//			get_Shield()->setPos(pos);
+	//		}
+	//		else if (chosenPower > 18 && chosenPower <= 24)
+	//		{
+	//			// choose Money and moved into position
+	//			get_Money()->setPos(pos);
+	//		}
+	//	}
+	//	else if (chosenPower > 24 && chosenPower <= 60)
+	//	{
+	//		//Got C-tier
+	//		if (chosenPower >= 24 && chosenPower <= 33)
+	//		{
+	//			//Freeze
+	//			get_Snowflake()->setPos(pos);
+	//		}
+	//		else if (chosenPower > 33 && chosenPower <= 42)
+	//		{
+	//			//Pearl
+	//			get_Pearl()->setPos(pos);
+	//		}
+	//		else if (chosenPower > 42 && chosenPower <= 51)
+	//		{
+	//			// EMP
+	//			get_EMP()->setPos(pos);
+	//		}
+	//		else if (chosenPower > 51 && chosenPower <= 60)
+	//		{
+	//			// PAD
+	//			get_Pad()->setPos(pos);
+	//		}
+	//	}
+	//	else if (chosenPower > 61)
+	//	{
+	//		//Got S-tier
+	//		if (chosenPower >= 61 && chosenPower <= 70)
+	//		{
+	//			//GoldenApple
+	//			get_GoldenApple()->setPos(pos);
+	//		}
+	//		else if (chosenPower > 70 && chosenPower <= 80)
+	//		{
+	//			//Kill
+	//			get_Kill()->setPos(pos);
+	//		}
+	//		else if (chosenPower > 80 && chosenPower <= 90)
+	//		{
+	//			// Rocket
+	//			get_Rocket()->setPos(pos);
+	//		}
+	//		else if (chosenPower > 90 && chosenPower <= 100)
+	//		{
+	//			// Card
+	//			get_Card()->setPos(pos);
+	//		}
+	//	}
+	//}
 }

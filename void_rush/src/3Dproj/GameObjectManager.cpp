@@ -86,7 +86,7 @@ void GameObjectManager::CreateEnemy(Player* player, enemyType typeofEnemy, Sound
 		break;
 	case enemyType::SNARE:
 		if (modelFile == "") {
-			modelFile = "DCube.obj";
+			modelFile = "snareTest.obj";
 		}
 		objPtr = new Snare(rm->get_Models(modelFile, gfx), gfx, player, pos, rot, scale);
 		break;

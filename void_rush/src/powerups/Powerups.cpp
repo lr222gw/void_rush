@@ -50,15 +50,16 @@ void Powerups::UsePowerUp(float dt)
 				this->rocketActive = true;
 				player->setPlayerPower(EMPTY);
 				player->useRocket(true);
+				player->getSm()->playSound("Rocket", player->getPos());
 			}
 		}
 		if (this->rocketActive == true)
 		{
-			player->getSm()->playSound("Rocket", player->getPos());
 			rocketTimer += dt;
 		}
-		if (rocketTimer >= 2.0f)
+		if (rocketTimer >= 5.0f)
 		{
+			player->getSm()->stopSound("Rocket");
 			rocketTimer = 0.0f;
 			player->useRocket(false);
 			rocketActive = false;
@@ -82,17 +83,24 @@ void Powerups::UsePowerUp(float dt)
 		if (ghostFrozenTimer >= 10.0f)
 		{
 			ghost->freezeGhost();
-			ghostFrozenTimer = 0.0f;			std::cout << "unfrozen" << std::endl;
+			ghostFrozenTimer = 0.0f;
+			std::cout << "unfrozen" << std::endl;
 		}
 		if (ghostFrozenTimer != 0.0f)
 		{
 			ghostFrozenTimer += dt;
 		}
 	}
-	else if (player->getPassivePower() == PEARL_P)
+	else if (auto p = player->getPassivePower() == PEARL_P || pearlActive == true)
 	{
 		////ADD HERE WHAT PEARL DOES WHEN ACTIVATED////
 		//player->getSm()->playSound("Pearl", player->getPos());
+		if (p)
+		{
+			player->setPlayerPowerPassiv(EMPTY_P);
+			this->pearlActive = true;
+		}
+
 		if (mouse->isRightDown() && pearlTime == 0.0f)
 		{
 			pearlTime += dt;
@@ -101,11 +109,19 @@ void Powerups::UsePowerUp(float dt)
 		}
 		else if (pearlTime > 0.0f)
 		{
-			player->MovePearl(pearlVec / 3.0f);
-			pearlTime += dt;
+			if (!player->getPearlStatus())
+			{
+				this->pearlActive = false;
+			}
+			else
+			{
+				player->MovePearl(pearlVec / 3.0f);
+				pearlTime += dt;
+			}
 
 			if (pearlTime >= 3.0f)
 			{
+				this->pearlActive = false;
 				this->pearlTime = 0;
 				this->pearlVec = vec3(0.0f, 0.0f, 0.0f);
 				player->resetPearl();
