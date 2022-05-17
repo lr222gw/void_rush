@@ -1,11 +1,17 @@
 #include "Mushroom.h"
 
+//Mushroom::Mushroom_settings Mushroom::mushroom_conf;
+
 Mushroom::Mushroom(ModelObj* file, Graphics*& gfx, Player* player, vec3 pos, vec3 rot, vec3 scale)
 	:Enemy(file, gfx, pos, rot, scale)
 {
 	this->player = player;
 	this->gfx = gfx;
 	this->pushVec = vec3(0.0f, 0.0f, 0.0f);
+	this->force = 10.f;//Mushroom::mushroom_conf.force;
+	this->forceY = 20.f;//Mushroom::mushroom_conf.forceY;
+	this->scaleTimer = 0.0f;
+	this->origScale = this->getScale();
 }
 
 Mushroom::~Mushroom()
@@ -14,6 +20,12 @@ Mushroom::~Mushroom()
 
 void Mushroom::update(float dt)
 {
+	if (scaleTimer > 0.0f) {
+		scaleTimer -= dt;
+	}
+	else {
+		this->setScale(this->origScale + vec3(-0.1f, 0.0f, -0.1f));
+	}
 }
 
 void Mushroom::collidedWithPlayer()
@@ -36,14 +48,17 @@ void Mushroom::collidedWithPlayer()
 		howMuch = 1.0f;
 	}
 
-	float forceY = 20.0f;
-	float force = 10.0f;
+	
 
 	float yPush = (1 - howMuch) * forceY;
 	horPush = horPush * force;
 
 	
 
-	player->shovePlayer(vec2(horPush.x, horPush.z), yPush);
+	//player->shovePlayer(vec2(horPush.x, horPush.z), yPush);
+	player->bouncePlayer(vec2(horPush.x, horPush.z), yPush);
+
+	this->setScale(this->origScale + vec3(0.1f, 0.0f, 0.1f));
+	this->scaleTimer = 0.2f;
 	
 }

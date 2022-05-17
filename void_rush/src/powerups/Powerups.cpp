@@ -128,12 +128,12 @@ void Powerups::UsePowerUp(float dt)
 		{
 			potionActive = true;
 			player->setPlayerPowerPassiv(EMPTY_P);
-			player->setPlayerSpeed(vec3(4.0f, 0.0f, 4.0f));
+			player->setPlayerSpeed(vec3(5.0f, 0.0f, 5.0f));
 		}
 		if (potionTimer >= 10.0f)
 		{
 			potionTimer = 0.0f;
-			player->setPlayerSpeed(vec3(2.7f, 0.0f, 2.7f));
+			player->setPlayerSpeed(vec3(-5.f, 0.0f, -5.f));
 			potionActive = false;
 
 		}

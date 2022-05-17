@@ -11,7 +11,18 @@ public:
 	void update(float dt);
 	void collidedWithPlayer();
 private:
+	friend class ImguiManager;
+	float forceY;
+	float force;
+	float scaleTimer;
+	vec3 origScale;
 	Player* player;
 	Graphics* gfx;
 	vec3 pushVec;
+	
+
+	/*static struct Mushroom_settings {
+		float forceY = 20.0f;
+		float force = 10.0f;
+	}mushroom_conf;*/
 };
