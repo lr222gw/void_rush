@@ -900,6 +900,7 @@ void Player::SetPearlPos(vec3 pos)
 {
 	this->pearl->setPos(pos);
 	this->setPearlStatus(true);
+	this->HUD->TurnOffPassive(PEARL_P);
 }
 
 void Player::PearlHit()
