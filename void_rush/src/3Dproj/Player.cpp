@@ -9,6 +9,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->cam = cam;
 	this->gravity = vec3(0.0f, -15.f, 0.0f);
 	this->speed = vec3(5.3f, 0.0f, 5.3f);
+	this->storeSpeed = this->speed.x;
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
 	this->jumpForce = 8.0f;
 	this->midAirAdj = 2.0f;
@@ -317,6 +318,10 @@ void Player::handleEvents(float dt)
 	}
 	if ((keyboard->isKeyPressed(VK_SPACE) && (grounded || canDoublejump))) {
 		if(!noClip){
+			if (canDoublejump == true && grounded)
+			{
+				this->canDoublejump = false;
+			}
 			grounded = false;
 			groundedTimer = 0.001f;
 			startingJumpDir = jumpDir;
@@ -328,7 +333,7 @@ void Player::handleEvents(float dt)
 			{
 				velocity.y = jumpForce;
 
-				if (canDoublejump == true)	//For doublejump powerup
+				if(canDoublejump == true)
 				{
 					sm->playSound("Feather");
 					this->canDoublejump = false;
@@ -410,7 +415,7 @@ void Player::handleEvents(float dt)
 	}
 	else
 	{
-		if (!shoved)
+		if (!shoved && !bounced)
 		{
 			if (!airDir.legth() == 0.0f)
 			{
@@ -431,6 +436,21 @@ void Player::handleEvents(float dt)
 			velocity.x = shove.x;
 			velocity.z = shove.y;
 			
+		}
+		else if (bounced)
+		{
+			if (!airDir.legth() == 0.0f)
+			{
+				airDir = airDir / vec2(midAirAdj, midAirAdj);
+			}
+			airDir = airDir + startingJumpDir;
+
+			velocity.x = speed.x * airDir.x;
+			velocity.z = speed.z * airDir.y;
+
+			velocity.x += bounceVec.x;
+			velocity.z += bounceVec.y;
+
 		}
 	}
 }
@@ -465,6 +485,7 @@ void Player::setGrounded()
 			this->cam->screenShake(volume /20.0f);
 
 		this->grounded = true;
+		this->bounced = false;
 		this->shoved = false;
 		this->velocity = vec3(0.0f, 0.0f, 0.0f);
 		this->acceleration.y = 0.0f;
@@ -537,6 +558,7 @@ void Player::Reset(bool lvlClr)
 	resetGhost = true;
 
 	this->shoved = false;
+	this->bounced = false;
 	this->grounded = true;
 	this->resForce = vec3(0.0f, 0.0f, 0.0f);
 	this->jumpDir = vec2(0.0f, 0.0f);
@@ -597,6 +619,29 @@ void Player::shovePlayer(vec2 shove, float forceY)
 		getSm()->playSound("Shield2", getPos());
 		this->HUD->TurnOffPassive(SHIELD_P);
 	}
+}
+void Player::bouncePlayer(vec2 bounceVec, float forceY)
+{
+
+	this->groundedTimer = 0.11f;
+	this->grounded = false;	
+	this->velocity.y = forceY;
+	this->bounced = true;
+	this->bounceVec = bounceVec;
+	sm->playSound("Hit", getPos());
+	shoveDelay = true;
+	ResetGhost();
+
+}
+
+void Player::setVelocity(vec3 vel)
+{
+	this->velocity = vel;
+}
+
+vec3 Player::getVelocity() const
+{
+	return this->velocity;
 }
 
 //gets the powerup index from collission handler when one is picked up
@@ -686,8 +731,9 @@ void Player::getShield()
 
 void Player::setPlayerSpeed(vec3 speed)
 {
-	this->speed = speed;
-	if (speed.x == 2.7f)
+	this->speed.x += speed.x;
+	this->speed.z += speed.z;
+	if (this->speed.x == this->storeSpeed)
 	{
 		HUD->TurnOffPassive(POTION_P);
 	}
@@ -837,6 +883,56 @@ void Player::set_resetLookat_dir(vec3 lookAt)
 	this->resetLookat_dir = lookAt;
 }
 
+void Player::SetPearl(GameObject*& pearlObj)
+{
+	this->pearl = pearlObj;
+}
+
+void Player::MovePearl(vec3 pos)
+{
+	if (this->pearlActive == true)
+	{
+		this->pearl->movePos(pos);
+	}
+}
+
+void Player::SetPearlPos(vec3 pos)
+{
+	this->pearl->setPos(pos);
+	this->setPearlStatus(true);
+}
+
+void Player::PearlHit()
+{
+	this->setPos(this->pearl->getPos() + vec3(0.0f, 1.5f, 0.0f));
+	this->pearl->setPos(vec3(1000.0f, 1000.0f, 1000.0f));
+	this->setPearlStatus(false);
+}
+
+bool Player::getPearlStatus()
+{
+	return this->pearlActive;
+}
+
+void Player::setPearlStatus(bool trueOrFalse)
+{
+	this->pearlActive = trueOrFalse;
+}
+
+void Player::resetPearl()
+{
+	SetPearlPos(vec3(1000.0f, 1000.0f, 1000.0f));
+	setPearlStatus(false);
+}
+
+GameObject*& Player::GetPearl()
+{
+	if (pearl != nullptr)
+	{
+		return this->pearl;
+	}
+}
+
 void Player::TakeDmg(int dmg)
 {
 	health-=dmg;
@@ -871,6 +967,11 @@ int Player::GetHealth()
 float Player::GetScore()
 {
 	return scoreManager.GetScore();
+}
+
+vec3 Player::GetForwardVec()
+{
+	return vec3(cam->getForwardVec());
 }
 
 bool Player::IsAlive()

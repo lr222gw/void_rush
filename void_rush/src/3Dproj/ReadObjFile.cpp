@@ -97,14 +97,12 @@ bool getMatrialFromFileObj(std::string fileName, std::vector<Material*> &matrial
 				CTR++;
 				matrial.resize(CTR + 1, new Material(def));
 				std::istringstream a;
-				std::string b;
 				a.str(readWord);
 				a >> trash >> matrial[CTR]->name;
 			}
 			else if (readWord.substr(0, 2) == "Ns") {
 				//do something
 				std::istringstream a;
-				std::string b;
 				a.str(readWord);
 				a >> trash >> matrial[CTR]->Ns;
 			}
@@ -240,6 +238,7 @@ void createMesh(Graphics*& gfx, std::vector<MeshObj> &Meshes, std::vector<vertex
 	vertecies.clear();
 }
 
+//isn't ran in this game
 void readFace(std::string readWord, std::vector<vertex> &vertecies, std::vector<std::array<float, 3>> vPos, std::vector<std::array<float, 2>> vUv, std::vector<std::array<float, 4>> vNorm) {
 	std::string* sTemp;
 	std::string sTemp2[4];
@@ -249,7 +248,6 @@ void readFace(std::string readWord, std::vector<vertex> &vertecies, std::vector<
 		a >> trash >> sTemp2[0] >> sTemp2[1] >> sTemp2[2] >> sTemp2[3];
 		if (sTemp2[3] != "") {
 			for (int i = 0; i < 3; i++) {
-				//nrOfVertexes++;
 				sTemp = getDest(sTemp2[i]);
 				//när jag läser in faces så får dem första sex alltid samma p.g.a det är så dem har skrivit det på obj filen
 				vertecies.push_back(vertex(vPos[std::stoi(sTemp[0]) - 1], vUv[std::stoi(sTemp[1]) - 1], vNorm[std::stoi(sTemp[2]) - 1]));
@@ -311,13 +309,6 @@ bool readObjFile(std::vector<MeshObj>& Meshes, std::string fileName, std::vector
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 		return false;
 	}
-	/*This is for boneanimaiton (not added yet)
-	uint boneCount = 0;
-	Animation animation;
-	uint vao = 0;
-	Bone skeleton;
-	uint diffuseTexture;
-	*/
 
 	//make a for loop here
 	for (UINT i = 0; i < scene->mNumMeshes; i++) {
@@ -331,8 +322,6 @@ bool readObjFile(std::vector<MeshObj>& Meshes, std::string fileName, std::vector
 			v.pos[1] = mesh->mVertices[i].y;
 			v.pos[2] = mesh->mVertices[i].z;
 			getLowest(box, v.pos);
-			//std::cout << "small box:" << box[0].x << box[0].y << box[0].z << std::endl;
-			//std::cout << "big box:" << box[1].x << box[1].y << box[1].z << std::endl;
 
 			v.norm[0] = mesh->mNormals[i].x;
 			v.norm[1] = mesh->mNormals[i].y;
@@ -362,12 +351,6 @@ bool readObjFile(std::vector<MeshObj>& Meshes, std::string fileName, std::vector
 		}
 		createMesh(gfx, Meshes, vertecies, indecies, matrial[mesh->mMaterialIndex - 1]);
 	}
-	//read mid width, height, depth
-	//vec3 mid = box[0] + (vec3(box[1].x - box[0].x, box[1].y - box[0].y, box[1].z - box[0].z) * 0.5f);
-	//vec3 whd = vec3(box[1].x - box[0].x, box[1].y - box[0].y, box[1].z - box[0].z) * 0.5f;
-	//box[0] = mid;
-	//box[1] = whd;
-
 
 	return true;
 }

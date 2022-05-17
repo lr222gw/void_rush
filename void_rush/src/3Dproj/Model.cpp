@@ -16,7 +16,6 @@ ModelObj::ModelObj()
 
 void ModelObj::init(const std::string& ModelFile, Graphics*& gfx, ID3D11ShaderResourceView** def)
 {
-	std::cout << ModelFile.substr(ModelFile.length() - 3,3) << std::endl;
 	if (ModelFile.substr(ModelFile.length() - 3, 3) == "obj") {
 		getMatrialFromFileObj(ModelFile, matrial, gfx, def);
 	}
@@ -31,13 +30,10 @@ void ModelObj::init(const std::string& ModelFile, Graphics*& gfx, ID3D11ShaderRe
 void ModelObj::init(aiScene* scene, Graphics*& gfx, ID3D11ShaderResourceView** def)
 {
 
-	bool oneTex = false;
 	matrial.resize(scene->mNumMaterials);	
 	for (int i = 0; i < (int)scene->mNumMaterials; i++) {
 		matrial[i] = new Material(def);
 		const aiMaterial* pMaterial = scene->mMaterials[i];
-
-		
 
 		if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
 			aiString Path;
