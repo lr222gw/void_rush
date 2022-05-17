@@ -488,6 +488,7 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Portal7.wav", 10, "Portal");
 	soundManager.loadSound("assets/audio/Powerup6.wav", 10, "Pickup");
 	soundManager.loadSound("assets/audio/Jump4.wav", 3, "Jump");
+	soundManager.loadSound("assets/audio/Jump2.wav", 60, "Bounce");
 	soundManager.loadSound("assets/audio/Land4.wav", 30, "Land");
 	soundManager.loadSound("assets/audio/Fall1.wav", 30, "Scream");
 	soundManager.loadSound("assets/audio/Shoved2.wav", 30, "Shoved");

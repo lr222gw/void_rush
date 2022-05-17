@@ -100,6 +100,7 @@ public:
 	void setPearlStatus(bool trueOrFalse);
 	void resetPearl();
 	GameObject*& GetPearl();
+	Keyboard* GetKB();
 
 private:
 	friend class ImguiManager;
@@ -184,6 +185,9 @@ private:
 	float soundEffectCD = 0.4f;
 	float currentSoundEffectCD = 0.f;
 	std::string stepSounds[4];
+
+	//Used for falling platforms
+	bool hold;
 	
 public:
 	void TakeDmg(int dmg = 1);

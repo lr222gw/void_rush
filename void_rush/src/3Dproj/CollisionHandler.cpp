@@ -170,9 +170,14 @@ void CollisionHandler::update()
 
 	//check player with enemies // different things happens based on what enemy it is
 	for (size_t i = 0; i < Enemies.size(); i++) {
+		
 		if (collision3D(player->getPlayerObjPointer(), Enemies[i])) {
 			Enemies[i]->collidedWithPlayer();
 		}
+		else if (collision3D(player->getPlayerObjPointer(), Enemies[i], true, false)) {
+			Enemies[i]->collidedWithPlayer();
+		}
+		
 	}
 	
 	//check player with Obstacle // different things happens based on what Obstacle it is
