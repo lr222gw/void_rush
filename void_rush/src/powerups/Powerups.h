@@ -31,5 +31,6 @@ private:
 	float potionTimer;
 	bool rocketActive;
 	float rocketTimer;
+	bool featherbooltest = false;
 
 };

@@ -318,6 +318,10 @@ void Player::handleEvents(float dt)
 	}
 	if ((keyboard->isKeyPressed(VK_SPACE) && (grounded || canDoublejump))) {
 		if(!noClip){
+			if (canDoublejump == true && grounded)
+			{
+				this->canDoublejump = false;
+			}
 			grounded = false;
 			groundedTimer = 0.001f;
 			startingJumpDir = jumpDir;
@@ -329,7 +333,7 @@ void Player::handleEvents(float dt)
 			{
 				velocity.y = jumpForce;
 
-				if (canDoublejump == true)	//For doublejump powerup
+				if(canDoublejump == true)
 				{
 					sm->playSound("Feather");
 					this->canDoublejump = false;

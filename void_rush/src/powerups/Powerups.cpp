@@ -104,26 +104,39 @@ void Powerups::UsePowerUp(float dt)
 		////ADD HERE WHAT TRAMPOLINE DOES WHEN ACTIVATED////
 		//player->getSm()->playSound("Pad", player->getPos());
 	}
-	if (player->getPassivePower() == FEATHER_P || featherActive == true)
+	if (auto p = player->getPassivePower() == FEATHER_P || featherActive == true)
 	{
-		if (this->featherActive == false)
+		if (p)
 		{
 			player->setPlayerPowerPassiv(EMPTY_P);
 		}
-		this->featherActive = true;
+		if (this->featherActive == false)
+		{
+			player->setPlayerPowerPassiv(EMPTY_P);
+			this->featherActive = true;
+		}
 		if (keyboard->onceisKeyReleased(VK_SPACE) && !player->isGrounded())
 		{
 			player->setCanDoubleJump();
-			
-			this->featherActive = false;
+			this->featherbooltest = true;
+		}
+
+		if (keyboard->isKeyPressed(VK_SPACE) && player->canDoubleJump() && featherbooltest)
+		{
+			featherActive = false;
+		}
+		else if(player->isGrounded())
+		{
+			featherbooltest = false;
 		}
 	}
-	else if (player->getPassivePower() == POTION_P || potionActive == true)
+	else if (auto p = player->getPassivePower() == POTION_P || potionActive == true)
 	{
-		////ADD HERE WHAT POTION DOES WHEN ACTIVATED////
+		if (p)
+		{
+			player->setPlayerPowerPassiv(EMPTY_P);
+		}
 		player->getSm()->playSound("Potion", player->getPos());
-		//std::cout << potionTimer << std::endl;
-		//std::cout << player->getPlayerPower() << std::endl;
 		if (potionActive == false)
 		{
 			potionActive = true;
