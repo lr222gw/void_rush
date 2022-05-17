@@ -38,7 +38,7 @@ float Player_jump_checker::getJumpDistance ()
 
 
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
-    float time = (float)((vel * sin (angle)
+    float time = (float)((vel * sinf (angle)
                + sqrtf (powf (vel * sinf (angle), 2.0f)
                         + 2 * this->gravity * this->pos.y))
               / this->gravity);
@@ -56,8 +56,8 @@ float Player_jump_checker::getJumpDistance (float height)
     
 
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
-    float time = (float)((vel * sin (angle)
-               + sqrtf (powf (vel * sinf (angle), 2.0f)
+    float time = (float)((vel * sinf (angle)
+               + sqrtf (powf ((vel * sinf (angle)), 2.0f)
                         + 2 * this->gravity * (this->pos.y - height)))
               / this->gravity);
 

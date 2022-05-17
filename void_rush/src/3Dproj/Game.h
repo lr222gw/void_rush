@@ -8,6 +8,9 @@
 #include "BillBoardManager.h"
 #include "hud/Hud.h"
 #include "3DLettersHandler.h"
+#include "powerups/powerUpManager.hpp"
+#include "enemies/EnemyManager.hpp"
+
 
 class Game : public GameState {
 public:
@@ -31,11 +34,13 @@ private:
 	UIManager* UI;
 	UIManager* pauseUI;
 	Player* player;
-	std::vector<Powerups*> powers;
-	Ghost* ghost;
+
+	Ghost* ghost;	
 	GameObjectManager* GameObjManager;
 	Generation_manager* generationManager;
 	CollisionHandler collisionHandler;
+	PowerupManager* powerupManager;
+	EnemyManager* enemyManager;
 	Hud* HUD;
 	int testInt = 0;
 	float distanceFromStartPosToPuzzle = 0.0f;
@@ -51,7 +56,6 @@ private:
 	void setUpParticles();
 	void setUpUI();
 	void setUpSound();
-	void setUpPowerups(int chosenDiff, vec3 pos);
 	void Interact(std::vector<GameObject*>& interactables);
 	void SetName();
 

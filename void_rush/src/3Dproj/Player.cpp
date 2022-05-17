@@ -547,11 +547,25 @@ void Player::Reset(bool lvlClr)
 	this->jumpDir = vec2(0.0f, 0.0f);
 	this->startingJumpDir = vec2(0.0f, 0.0f);
 	this->fallBoxTimer = 0.0f;
+	this->lookat(this->resetLookat_dir);
 
 	if (lvlClr) {
 		//Add points
 		scoreManager.LevelDone();
 	}
+}
+
+void Player::lookat(vec3 lookat, vec3 offset)
+{
+	vec3 forward(0, 0, 1);
+	vec3 up(0, 1, 0);
+	vec3 playerLookAtVec = lookat - getPos();
+	float xrot = vec3(playerLookAtVec.x, 0, playerLookAtVec.z).angle(forward);
+
+	playerLookAtVec.Normalize();
+	float yrot = acos(playerLookAtVec.Normalize() * up);
+
+	this->cam->setRotation(vec3(-xrot + offset.x, 0, 0));
 }
 
 bool Player::ResetGhost()
@@ -816,6 +830,11 @@ void Player::setMusicVol(float vol)
 bool Player::isInvinc() const
 {
 	return invincible;
+}
+
+void Player::set_resetLookat_dir(vec3 lookAt)
+{
+	this->resetLookat_dir = lookAt;
 }
 
 void Player::TakeDmg(int dmg)
