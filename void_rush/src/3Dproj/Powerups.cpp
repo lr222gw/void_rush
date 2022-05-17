@@ -8,7 +8,10 @@ Powerups::Powerups(ModelObj* file, Graphics*& gfx, Player* player, Ghost* ghost,
 	this->ghostFrozenTimer = 0.0f;
 	this->ghost = ghost;
 	this->featherActive = false;
-	this->shieldActive = false;
+	this->potionActive = false;
+	this->potionTimer = 0.0f;
+	this->rocketActive = false;
+	this->rocketTimer = 0.0f;
 }
 
 Powerups::~Powerups()
@@ -26,24 +29,38 @@ void Powerups::UsePowerUp(float dt)
 	{
 		//Do nothing
 	}
-	else if (player->getPlayerPower() == APPLE)
+	else if (player->getPassivePower() == APPLE_P)
 	{
 		std::cout << "picked apple" << std::endl;
 		player->getSm()->playSound("GoldApple", player->getPos());
 		player->AddHealth();
-		player->setPlayerPower(EMPTY);
+		player->setPlayerPowerPassiv(EMPTY_P);
 	}
 	else if (player->getPlayerPower() == KILL)
 	{
 		////ADD HERE WHAT KILL DOES WHEN ACTIVATED////
 	}
-	else if (player->getPlayerPower() == ROCKET)
+	else if (player->getPlayerPower() == ROCKET || this->rocketActive == true)
 	{
 		if (this->keyboard->isKeyPressed('E'))
 		{
-			////ADD HERE WHAT ROCKET DOES WHEN ACTIVATED////
+			if (rocketActive == false)
+			{
+				this->rocketActive = true;
+				player->setPlayerPower(EMPTY);
+				player->useRocket(true);
+			}
+		}
+		if (this->rocketActive == true)
+		{
 			player->getSm()->playSound("Rocket", player->getPos());
-			std::cout << "Has Rocket" << std::endl;
+			rocketTimer += dt;
+		}
+		if (rocketTimer >= 2.0f)
+		{
+			rocketTimer = 0.0f;
+			player->useRocket(false);
+			rocketActive = false;
 		}
 	}
 	else if (player->getPlayerPower() == CARD)
@@ -72,7 +89,7 @@ void Powerups::UsePowerUp(float dt)
 			ghostFrozenTimer += dt;
 		}
 	}
-	else if (player->getPlayerPower() == PEARL)
+	else if (player->getPassivePower() == PEARL_P)
 	{
 		////ADD HERE WHAT PEARL DOES WHEN ACTIVATED////
 		//player->getSm()->playSound("Pearl", player->getPos());
@@ -87,11 +104,11 @@ void Powerups::UsePowerUp(float dt)
 		////ADD HERE WHAT TRAMPOLINE DOES WHEN ACTIVATED////
 		//player->getSm()->playSound("Pad", player->getPos());
 	}
-	if (player->getPlayerPower() == FEATHER || featherActive == true)
+	if (player->getPassivePower() == FEATHER_P || featherActive == true)
 	{
 		if (this->featherActive == false)
 		{
-			player->setPlayerPower(EMPTY);
+			player->setPlayerPowerPassiv(EMPTY_P);
 		}
 		this->featherActive = true;
 		if (keyboard->onceisKeyReleased(VK_SPACE) && !player->isGrounded())
@@ -101,23 +118,37 @@ void Powerups::UsePowerUp(float dt)
 			this->featherActive = false;
 		}
 	}
-	else if (player->getPlayerPower() == POTION)
+	else if (player->getPassivePower() == POTION_P || potionActive == true)
 	{
 		////ADD HERE WHAT POTION DOES WHEN ACTIVATED////
-		//player->getSm()->playSound("Potion", player->getPos());
+		player->getSm()->playSound("Potion", player->getPos());
+		//std::cout << potionTimer << std::endl;
+		//std::cout << player->getPlayerPower() << std::endl;
+		if (potionActive == false)
+		{
+			potionActive = true;
+			player->setPlayerPowerPassiv(EMPTY_P);
+			player->setPlayerSpeed(vec3(4.0f, 0.0f, 4.0f));
+		}
+		if (potionTimer >= 10.0f)
+		{
+			potionTimer = 0.0f;
+			player->setPlayerSpeed(vec3(2.7f, 0.0f, 2.7f));
+			potionActive = false;
+
+		}
+		potionTimer += dt;
 	}
-	else if (player->getPlayerPower() == SHIELD)
+	else if (player->getPassivePower() == SHIELD_P)
 	{
-		////ADD HERE WHAT SHEILD DOES WHEN ACTIVATED////
 		player->getSm()->playSound("Shield", player->getPos());
-		player->setPlayerPower(EMPTY);
+		player->setPlayerPowerPassiv(EMPTY_P);
 		
 	}
-	else if (player->getPlayerPower() == MONEY)
+	else if (player->getPassivePower() == MONEY_P)
 	{
-		////ADD HERE WHAT MONEY DOES WHEN ACTIVATED////
 		player->getSm()->playSound("Money", player->getPos());
-		player->setPlayerPower(EMPTY);
+		player->setPlayerPowerPassiv(EMPTY_P);
 	}
 }
 

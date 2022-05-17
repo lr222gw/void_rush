@@ -449,7 +449,7 @@ void Game::setUpObject()
 	generationManager->initialize();
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 	distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
-	setUpPowerups(1, vec3(10, 10, 10));
+	setUpPowerups(1, vec3(10,10,10));
 	setUpPowerups(1, vec3(15, 10, 15));
 	setUpPowerups(1, vec3(20, 10, 20));
 
@@ -569,7 +569,7 @@ void Game::setUpSound()
 //Decides which powerups are used this map.
 void Game::setUpPowerups(int chosenDiff, vec3 pos)
 {	
-		//int chosenPower = 32;
+		//int chosenPower = 14;
 		int chosenPower = 1 + (rand() % 100);
 		//Difficulty easy
 		if (chosenDiff == 1)
@@ -629,12 +629,12 @@ void Game::setUpPowerups(int chosenDiff, vec3 pos)
 				//Got S-tier
 				if (chosenPower >= 93 && chosenPower <= 94)
 				{
-					//Freeze
+					//Apple
 					GameObjManager->getGameObject("Apple")->setPos(pos);
 				}
 				else if (chosenPower > 94 && chosenPower <= 96)
 				{
-					//Pearl
+					//Skulle
 					GameObjManager->getGameObject("Kill")->setPos(pos);
 				}
 				else if (chosenPower > 96 && chosenPower <= 98)
