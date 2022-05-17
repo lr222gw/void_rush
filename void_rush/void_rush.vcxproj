@@ -361,6 +361,7 @@
     <ClCompile Include="src\enemies\Snare.cpp" />
     <ClCompile Include="src\enemies\Spikes.cpp" />
     <ClCompile Include="src\enemies\Turret.cpp" />
+    <ClCompile Include="src\SettingsScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\enemies\EnemySettings.hpp" />
@@ -461,6 +462,8 @@
     <ClInclude Include="src\enemies\Spikes.h" />
     <ClInclude Include="src\enemies\Turret.h" />
     <ClInclude Include="src\interact\interact.hpp" />
+    <ClInclude Include="src\settings.h" />
+    <ClInclude Include="src\SettingsScene.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="NoShadowPS.hlsl">

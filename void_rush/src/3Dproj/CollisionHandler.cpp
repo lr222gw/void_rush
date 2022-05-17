@@ -123,21 +123,29 @@ void CollisionHandler::update()
 		
 		for (size_t j = 0; j < Generated_Platforms[i]->bounding_boxes.size()&& !done; j++ ) {
 
-			DirectX::XMVECTOR min_max_vec[2] = {
-				{Generated_Platforms[i]->bounding_boxes[j].first.x,
-				Generated_Platforms[i]->bounding_boxes[j].first.y,
-				Generated_Platforms[i]->bounding_boxes[j].first.z,
-				1.f},
-				{Generated_Platforms[i]->bounding_boxes[j].second.x,
-				Generated_Platforms[i]->bounding_boxes[j].second.y,
-				Generated_Platforms[i]->bounding_boxes[j].second.z,
-				1.f}
-			};
+			//DirectX::XMVECTOR min_max_vec[2] = {
+			//	{Generated_Platforms[i]->bounding_boxes[j].first.x,
+			//	Generated_Platforms[i]->bounding_boxes[j].first.y,
+			//	Generated_Platforms[i]->bounding_boxes[j].first.z,
+			//	1.f},
+			//	{Generated_Platforms[i]->bounding_boxes[j].second.x,
+			//	Generated_Platforms[i]->bounding_boxes[j].second.y,
+			//	Generated_Platforms[i]->bounding_boxes[j].second.z,
+			//	1.f}
+			//};
 
 			DirectX::XMFLOAT4 min_max_bounds[2]{};
 			
-			DirectX::XMStoreFloat4(&min_max_bounds[0], min_max_vec[0]);
-			DirectX::XMStoreFloat4(&min_max_bounds[1], min_max_vec[1]);
+			//DirectX::XMStoreFloat4(&min_max_bounds[0], min_max_vec[0]);
+			//DirectX::XMStoreFloat4(&min_max_bounds[1], min_max_vec[1]);
+			min_max_bounds[0] = {Generated_Platforms[i]->bounding_boxes[j].first.x,
+				Generated_Platforms[i]->bounding_boxes[j].first.y,
+				Generated_Platforms[i]->bounding_boxes[j].first.z,
+				1.f};
+			min_max_bounds[1] = { Generated_Platforms[i]->bounding_boxes[j].second.x,
+				Generated_Platforms[i]->bounding_boxes[j].second.y,
+				Generated_Platforms[i]->bounding_boxes[j].second.z,
+				1.f };
 
 			
 			if (!done && collision3D(player_bounding_box, min_max_bounds))

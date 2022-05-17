@@ -140,6 +140,15 @@ void App::handleGamestateChanges(GameStateRet handle)
 		this->IMGUIManager.set_owner(nullptr);
 		gamestate = new HighScoreGameState(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
 		break;
+	case GameStatesEnum::TO_SETTINGS:
+		mouse->activateMouse(true);
+		gfx->getWindosClass().ShowCoursor();
+		//delete current gamestate
+		delete gamestate;
+		//set gamestate to Menu
+		this->IMGUIManager.set_owner(nullptr);
+		gamestate = new SettingsScene(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
+		break;
 	}
 	
 }

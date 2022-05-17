@@ -37,7 +37,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	this->setUpObject();
 	this->setUpLights();
 	//this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, (UINT)gfx->getClientWH().x, (UINT)gfx->getClientWH().y);
-	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, (UINT)3000, (UINT)3000);
+	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, (UINT)1920, (UINT)1920);
 	this->setUpParticles();
 	this->setUpSound();
 	this->setUpUI();
@@ -52,9 +52,6 @@ Game::~Game()
 	}
 
 	//objects
-	for (int i = 0; i < LightVisualizers.size(); i++) {
-		delete LightVisualizers[i];
-	}
 	for (int i = 0; i < nrOfLight; i++) {
 		delete light[i];
 	}
@@ -172,10 +169,6 @@ GameStateRet Game::update(float dt)
 		for (int i = 0; i < billboardGroups.size(); i++) {
 			billboardGroups[i]->update(dt, gfx);
 		}
-		for (int i = 0; i < LightVisualizers.size(); i++) {
-			LightVisualizers[i]->setPos(light[i]->getPos());
-			LightVisualizers[i]->setRot(vec3(0, light[i]->getRotation().x, -light[i]->getRotation().y) + vec3(0, 1.57f, 0));
-		}
 		camera->calcFURVectors();
 		skybox->update(camera->getPos());
 
@@ -189,7 +182,6 @@ GameStateRet Game::update(float dt)
 
 		/*update things*/
 		soundManager.update(camera->getPos(), camera->getForwardVec(), dt);
-		gfx->Update(dt, camera->getPos());
 
 		GameObjManager->update(dt);
 
@@ -312,17 +304,11 @@ void Game::updateShaders(bool vs, bool ps)
 	if (vs)
 	{
 		GameObjManager->updateVertex();
-		for (int i = 0; i < LightVisualizers.size(); i++) {
-			LightVisualizers[i]->updateVertexShader(gfx);
-		}
 		skybox->updateVertexShader(gfx);
 		player->updateVertexShader(gfx);
 	}
 	if (ps) {
 		GameObjManager->updatePixel();
-		for (int i = 0; i < LightVisualizers.size(); i++) {
-			LightVisualizers[i]->updatePixelShader(gfx);
-		}
 		skybox->updatePixelShader(gfx);
 		player->updatePixelShader(gfx);
 	}
@@ -357,12 +343,6 @@ void Game::DrawToBuffer()
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
 	gfx->get_IMctx()->PSSetShader(gfx->getPS()[0], nullptr, 0);
-
-	if (getkey('F')) {
-		for (int i = 0; i < LightVisualizers.size(); i++) {
-			LightVisualizers[i]->draw(gfx, false);
-		}
-	}
 	letter3DHandler->draw();
 	if (pauseMenu && player->IsAlive()) {
 		pauseUI->draw();
@@ -447,10 +427,6 @@ void Game::setUpLights()
 	//set color for lights (deafault white)
 	light[0]->getColor() = vec3(1, 0, 0);
 	light[1]->getColor() = vec3(0.27f/3.f, 0.97f/3.f, 0.97f/3.f);
-
-	for (int i = 0; i < nrOfLight; i++) {
-		LightVisualizers.push_back(new GameObject(rm->get_Models("Camera.obj"), gfx, light[i]->getPos(), light[i]->getRotation()));
-	}
 	//say to graphics/shaders how many lights we have
 	gfx->getLightconstbufferforCS()->nrOfLights.element = nrOfLight;
 	gfx->takeLight(light, nrOfLight);

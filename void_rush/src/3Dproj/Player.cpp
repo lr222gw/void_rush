@@ -931,6 +931,8 @@ GameObject*& Player::GetPearl()
 	{
 		return this->pearl;
 	}
+	//what to do here
+	return pearl;
 }
 
 void Player::TakeDmg(int dmg)

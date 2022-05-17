@@ -11,7 +11,7 @@
 #include "imguiManager.h"
 #include "flags.h"
 
-enum class GameStatesEnum { NO_CHANGE, QUIT, TO_MENU, TO_GAME, TO_HIGHSCORE };
+enum class GameStatesEnum { NO_CHANGE, QUIT, TO_MENU, TO_GAME, TO_HIGHSCORE, TO_SETTINGS };
 
 //Return struct
 struct GameStateRet {
