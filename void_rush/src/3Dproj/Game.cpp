@@ -489,8 +489,6 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/wind1.wav", 0, "Wind");
 	soundManager.loadSound("assets/audio/sci-fi-gun-shot.wav", 10, "TurrShot");
 	soundManager.loadSound("assets/audio/HeartBeat.wav", 30, "HeartBeat");
-	//soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
-	//soundManager.setMusicLoop(true);
 	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicBase");
 	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicChange");
 	soundManager.playSound("MusicBase", player->getPos());
