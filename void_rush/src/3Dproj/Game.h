@@ -61,7 +61,6 @@ private:
 
 	//game objects
 	Light** light;
-	std::vector<GameObject*> LightVisualizers;
 	std::vector<BillBoardGroup*> billboardGroups;
 
 

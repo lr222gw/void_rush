@@ -46,15 +46,16 @@ void Powerups::UsePowerUp(float dt)
 				this->rocketActive = true;
 				player->setPlayerPower(EMPTY);
 				player->useRocket(true);
+				player->getSm()->playSound("Rocket", player->getPos());
 			}
 		}
 		if (this->rocketActive == true)
 		{
-			player->getSm()->playSound("Rocket", player->getPos());
 			rocketTimer += dt;
 		}
-		if (rocketTimer >= 2.0f)
+		if (rocketTimer >= 5.0f)
 		{
+			player->getSm()->stopSound("Rocket");
 			rocketTimer = 0.0f;
 			player->useRocket(false);
 			rocketActive = false;
