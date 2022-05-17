@@ -1,12 +1,13 @@
 #pragma once
-#include "GameObject.h"
-#include "Mouse.h"
-#include "Keyboard.h"
-#include "Camera.h"
+#include "3Dproj/GameObject.h"
+#include "3Dproj/Mouse.h"
+#include "3Dproj/Keyboard.h"
+#include "3Dproj/Camera.h"
 #include "common/Vector.hpp"
 #include "hud/Hud.h"
-#include "Player.h"
-#include "Ghost.h"
+#include "3Dproj/Player.h"
+#include "enemies/Ghost.h"
+#include "powerups/PowerUpDefs.hpp"
 
 
 class Powerups:public GameObject

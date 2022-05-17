@@ -1,9 +1,9 @@
 #pragma once
 #include "Player.h"
-#include "Turret.h"
-#include "Ghost.h"
-#include "Spikes.h"
-#include "Snare.h"
+#include "enemies/Turret.h"
+#include "enemies/Ghost.h"
+#include "enemies/Spikes.h"
+#include "enemies/Snare.h"
 #include <map>
 #include "ResourceManager.h"
 #include "Light.h"

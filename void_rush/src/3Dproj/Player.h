@@ -6,32 +6,15 @@
 #include "common/Vector.hpp"
 #include "hud/Hud.h"
 
-
 #include "generation/Position_generator.hpp"//To use difficulty
 #include "score/ScoreManager.hpp"
 #include "Collision3D.h"
+#include "powerups/PowerUpDefs.hpp"
 
 #include <string>
 #include <fstream>
 
-enum Powerup
-{
-	EMPTY,
-	ROCKET,
-	CARD,
-	FREEZE,
-	DEATH,
-	EMP,
-	PAD,
-	APPLE,
-	FEATHER,
-	PEARL,
-	POTION,
-	SHIELD,
-	KILL,
-	MONEY
-
-};
+enum Powerup;
 
 //used with HUD
 enum PowerUpPassiv
@@ -64,6 +47,8 @@ public:
 	ColCube getFallCube()const;
 	void ResetFallBoxTimer();
 	void Reset(bool lvlClr = false);
+
+	void lookat(vec3 lookat, vec3 offset = vec3(0,0,0));
 
 	//Used when player falls of platform to rest ghost
 	bool ResetGhost();
@@ -101,6 +86,8 @@ public:
 	void setMusicVol(float vol);
 
 	bool isInvinc()const;
+
+	void set_resetLookat_dir(vec3 lookAt);
 	
 private:
 	friend class ImguiManager;
@@ -115,6 +102,7 @@ private:
 	vec3 resForce;
 	vec3 gravity;
 	vec2 jumpDir;
+	vec3 resetLookat_dir; 
 	float mass;
 	bool grounded;
 	float groundedTimer;
