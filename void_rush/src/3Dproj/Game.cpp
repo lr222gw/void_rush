@@ -89,12 +89,12 @@ void Game::handleEvents()
 			gfx->getWindosClass().HideCoursor();
 		}
 	}
-	if (keyboard->onceisKeyReleased('N')) {
-		soundManager.changeMusic("assets/audio/More_Plastic-Rewind.wav", 7, 4);
-	}
-	if (keyboard->onceisKeyReleased('M')) {
-		soundManager.changeMusic("assets/audio/EpicBeat.wav", 7.0f, 4);
-	}
+	//if (keyboard->onceisKeyReleased('N')) {
+	//	soundManager.changeMusic("assets/audio/More_Plastic-Rewind.wav", 7, 4);
+	//}
+	//if (keyboard->onceisKeyReleased('M')) {
+	//	soundManager.changeMusic("assets/audio/EpicBeat.wav", 7.0f, 4);
+	//}
 }
 
 void Game::renderShadow()
@@ -368,19 +368,15 @@ void Game::setUpObject()
 
 	player = new Player(rm->get_Models("DCube.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f),vec3(0,0,0), vec3(0.2f,0.8f,0.2f));
 	player->getSoundManager(soundManager);
+	player->setPoint(vec3(0, 0.75, 0));
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
+	player->noClip = true;
 
-	GameObjManager->CreateGameObject("Bullet.obj", "bull", vec3(0, 10, 0));
+	GameObjManager->CreateGameObject("DCube.obj", "camera2", vec3(12, 3, 5), vec3(-1.57,0,0));
 
-	//GameObjManager->CreateEnemy(player, enemyType::TURRET, soundManager, "Turret.obj", "turr", vec3(20, 1, 0));
-	/*const int MaxNrOfProjectiles = 5;
-	for (int i = 0; i < MaxNrOfProjectiles; i++) {
-		GameObjManager->CreateEnemy(player, enemyType::PROJECTILE, soundManager, "Bullet.obj", "proj" + std::to_string(i), vec3(5, 0, 0), vec3(0, 0, 0), vec3(0.4f, 0.4f, 0.4f));
-		collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("proj"+ std::to_string(i)));
-		((Turret*)GameObjManager->getGameObject("turr"))->addProjectiles((TurrProjectile*)GameObjManager->getGameObject("proj" + std::to_string(i)));
-	}	*/
+	GameObjManager->CreateGameObject("NewsTable2.obj", "table", vec3(0,0,5));
 
 	GameObjManager->CreateEnemy(player, enemyType::SPIKES, soundManager, "Spikes.obj", "spikes", vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0001f, 0.0001f, 0.0001f), true);
 	collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("spikes"));
@@ -400,47 +396,47 @@ void Game::setUpObject()
 	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), APPLE));
 	GameObjManager->addGameObject(powers.back(), "Apple");
 	collisionHandler.addPowerups(powers.back());
-
+	
 	powers.push_back(new Powerups(rm->get_Models("Feather.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), FEATHER));
 	GameObjManager->addGameObject(powers.back(), "Feather");
 	collisionHandler.addPowerups(powers.back());
-
+	
 	powers.push_back(new Powerups(rm->get_Models("Potion.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), POTION));
 	GameObjManager->addGameObject(powers.back(), "Potion");
 	collisionHandler.addPowerups(powers.back());
-
+	
 	powers.push_back(new Powerups(rm->get_Models("Shield.obj", gfx), gfx, player, ghost, keyboard, vec3(1000, 1000, 1000), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f), SHIELD));
 	GameObjManager->addGameObject(powers.back(), "Shield");
 	collisionHandler.addPowerups(powers.back());
-
+	
 	powers.push_back(new Powerups(rm->get_Models("Money.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), MONEY));
 	GameObjManager->addGameObject(powers.back(), "Money");
 	collisionHandler.addPowerups(powers.back());
-
+	
 	powers.push_back(new Powerups(rm->get_Models("Snowflake.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), FREEZE));
 	GameObjManager->addGameObject(powers.back(), "Freeze");
 	collisionHandler.addPowerups(powers.back());
-
+	
 	powers.push_back(new Powerups(rm->get_Models("Pearl.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), PEARL));
 	GameObjManager->addGameObject(powers.back(), "Pearl");
 	collisionHandler.addPowerups(powers.back());
-
+	
 	powers.push_back(new Powerups(rm->get_Models("EMP.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), EMP));
 	GameObjManager->addGameObject(powers.back(), "Emp");
 	collisionHandler.addPowerups(powers.back());
-
+	
 	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), PAD));
 	GameObjManager->addGameObject(powers.back(), "Pad");
 	collisionHandler.addPowerups(powers.back());
-
+	
 	powers.push_back(new Powerups(rm->get_Models("Skull.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), KILL));
 	GameObjManager->addGameObject(powers.back(), "Kill");
 	collisionHandler.addPowerups(powers.back());
-
+	
 	powers.push_back(new Powerups(rm->get_Models("Rocket.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), ROCKET));
 	GameObjManager->addGameObject(powers.back(), "Rocket");
 	collisionHandler.addPowerups(powers.back());
-
+	
 	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, keyboard, vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), CARD));
 	GameObjManager->addGameObject(powers.back(), "Card");
 	collisionHandler.addPowerups(powers.back());
@@ -449,9 +445,9 @@ void Game::setUpObject()
 	generationManager->initialize();
 	//generationManager->initialize(); //NOTE: this should be done later, but is currently activated through IMGUI widget
 	distanceFromStartPosToPuzzle = generationManager->getPuzzelPos().length();
-	setUpPowerups(1, vec3(10,10,10));
-	setUpPowerups(1, vec3(15, 10, 15));
-	setUpPowerups(1, vec3(20, 10, 20));
+	//setUpPowerups(1, vec3(10,10,10));
+	//setUpPowerups(1, vec3(15, 10, 15));
+	//setUpPowerups(1, vec3(20, 10, 20));
 
 	std::string skyboxTextures[6] = {
 		"assets/textures/Skybox/posx.png",//x+
@@ -474,19 +470,13 @@ void Game::setUpLights()
 	//light[0] = new DirLight(vec3(0, 30, 8), vec3(0.1f, -PI / 2, 1.f), 100, 100);
 	light[0] = new PointLight(vec3(3, 25, 5), 0.5, vec3(1, 1, 1));
 	vec2 Lpos = (generationManager->getMapDimensions().highPoint - generationManager->getMapDimensions().lowPoint)/2 + generationManager->getMapDimensions().lowPoint;
-	light[1] = new DirLight(vec3(
-		Lpos.x,
-		200, 
-		Lpos.y),
-		vec3(0, -1.57f, 1),
-		generationManager->getMapDimensions().x_width + 20,
-		generationManager->getMapDimensions().z_width + 20
-	);
-	light[2] = new PointLight(generationManager->getPuzzelPos() + vec3(0, 10, 0), 10, vec3(0.5, 0.5, 0));
+	light[1] = new SpotLight(vec3(20, 20, -25), vec3(-1.0, -0.6, 1));
+	light[2] = new SpotLight(vec3(20, 20, 20), vec3(-2.0, -0.6, 1));
 
 	//set color for lights (deafault white)
 	light[0]->getColor() = vec3(1, 0, 0);
-	light[1]->getColor() = vec3(0.27f/3.f, 0.97f/3.f, 0.97f/3.f);
+	light[1]->getColor() = vec3(1, 1, 1);
+	light[2]->getColor() = vec3(1, 1, 1);
 
 	for (int i = 0; i < nrOfLight; i++) {
 		LightVisualizers.push_back(new GameObject(rm->get_Models("Camera.obj"), gfx, light[i]->getPos(), light[i]->getRotation()));

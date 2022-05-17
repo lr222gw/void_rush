@@ -108,7 +108,7 @@ void Player::update(float dt)
 	fallBoxTimer+=dt;
 	heartBeatTimer += dt;
 
-	this->setRot(vec3(0, cam->getRot().x, 0));
+	this->setRot(vec3(-cam->getRot().y, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
 	UpdateFallBox();
 

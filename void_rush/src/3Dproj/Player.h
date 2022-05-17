@@ -101,10 +101,10 @@ public:
 	void setMusicVol(float vol);
 
 	bool isInvinc()const;
-	
+	bool noClip;
 private:
 	friend class ImguiManager;
-	bool noClip;
+	
 	bool invincible;
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
 	vec3 speed;
