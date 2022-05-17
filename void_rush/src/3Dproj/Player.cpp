@@ -56,6 +56,8 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	minFOV = 45;
 
 	screenShake = true;
+
+	this->hold = false;
 }
 
 Player::~Player()
@@ -628,8 +630,7 @@ void Player::bouncePlayer(vec2 bounceVec, float forceY)
 	this->velocity.y = forceY;
 	this->bounced = true;
 	this->bounceVec = bounceVec;
-	sm->playSound("Hit", getPos());
-	shoveDelay = true;
+	sm->playSound("Bounce", getPos());
 	ResetGhost();
 
 }
@@ -934,6 +935,13 @@ GameObject*& Player::GetPearl()
 	{
 		return this->pearl;
 	}
+	//what to do here
+	return pearl;
+}
+
+Keyboard* Player::GetKB()
+{
+	return this->keyboard;
 }
 
 void Player::TakeDmg(int dmg)

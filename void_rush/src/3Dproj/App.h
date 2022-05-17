@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "Menu.h"
 #include "HighScoreGameState.h"
+#include "SettingsScene.h"
 
 
 
