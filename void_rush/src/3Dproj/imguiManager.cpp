@@ -457,6 +457,34 @@ void ImguiManager::render_enemy_widgets()
 			
 			ImGui::TreePop();
 		}
+		if (ImGui::TreeNode("FallingPLatform")) {
+
+
+			static float Fall_Speed = 0.1f;
+			static float Fall_Timer = 3.0f;
+			if (ImGui::InputFloat("fall speed", &Fall_Speed)) {
+
+				for (auto& e : owner->enemyManager->enemies) {
+
+					if (auto platform = dynamic_cast<FallingPlatform*>(e)) {
+
+						platform->fallSpeed = Fall_Speed;
+					}
+				}
+			}
+			if (ImGui::InputFloat("fall timer", &Fall_Timer)) {
+
+				for (auto& e : owner->enemyManager->enemies) {
+					if (auto platform = dynamic_cast<FallingPlatform*>(e)) {
+
+						platform->fallTimerOrig = Fall_Timer;
+					}
+				}
+			}
+
+
+			ImGui::TreePop();
+		}
 				
 	}
 	ImGui::End();

@@ -3,12 +3,12 @@
 #include "enemies/EnemySettings.hpp"
 
 enum class enemyType {
-	GHOST, TURRET, PROJECTILE, SPIKES, SNARE, MUSHROOM, _COUNT
+	GHOST, TURRET, PROJECTILE, SPIKES, SNARE, MUSHROOM, FALLPLAT, _COUNT
 }; 
 
 //NOTE: _COUNT is used to determine how many types of enemies there are...
 enum class respawnable_enemyType {
-	TURRET, SPIKES, SNARE, MUSHROOM, _COUNT
+	TURRET, SPIKES, SNARE, MUSHROOM, FALLPLAT, _COUNT
 }; 
 
 class Enemy : public GameObject {

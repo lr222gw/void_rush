@@ -441,6 +441,9 @@
     <ClCompile Include="src\SettingsScene.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\enemies\FallingPlatform.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -750,6 +753,9 @@
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\settings.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\enemies\FallingPlatform.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -96,6 +96,12 @@ void GameObjectManager::CreateEnemy(Player* player, enemyType typeofEnemy, Sound
 		}
 		objPtr = new Mushroom(rm->get_Models(modelFile, gfx), gfx, player, pos, rot, scale);
 		break;
+	case enemyType::FALLPLAT:
+		if (modelFile == "") {
+			modelFile = "DCube.obj";
+		}
+		objPtr = new FallingPlatform(rm->get_Models(modelFile, gfx), gfx, player, pos, rot, scale);
+		break;
 	default:
 		break;
 	}

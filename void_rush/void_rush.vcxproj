@@ -322,6 +322,7 @@
     <ClCompile Include="src\3Dproj\Enemy.cpp" />
     <ClCompile Include="src\3Dproj\GameObjectManager.cpp" />
     <ClCompile Include="src\enemies\EnemyManager.cpp" />
+    <ClCompile Include="src\enemies\FallingPlatform.cpp" />
     <ClCompile Include="src\enemies\Ghost.cpp" />
     <ClCompile Include="src\3Dproj\GameState.cpp" />
     <ClCompile Include="src\3Dproj\Menu.cpp" />
@@ -365,6 +366,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\enemies\EnemySettings.hpp" />
+    <ClInclude Include="src\enemies\FallingPlatform.h" />
     <ClInclude Include="src\powerups\Powerups.h" />
     <ClInclude Include="src\enemies\Projectile.h" />
     <ClInclude Include="src\common\Shape_exporter.hpp" />
