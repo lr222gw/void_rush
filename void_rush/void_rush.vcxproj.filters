@@ -405,12 +405,6 @@
     <ClCompile Include="src/3Dproj/Game.cpp">
       <Filter>Void_Rush\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="src\Turret.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\3Dproj\Projectile.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\powerups\Powerups.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
@@ -441,7 +435,7 @@
     <ClCompile Include="src\enemies\EnemyManager.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Mushroom.cpp">
+    <ClCompile Include="src\enemies\Mushroom.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -746,7 +740,7 @@
     <ClInclude Include="src\score\ScoreManager.hpp">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mushroom.h">
+    <ClInclude Include="src\enemies\Mushroom.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
