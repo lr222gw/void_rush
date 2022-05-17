@@ -53,6 +53,7 @@ public:
 	//Used when player falls of platform to rest ghost
 	bool ResetGhost();
 	void shovePlayer(vec2 shove, float forceY);
+	void bouncePlayer(vec2 bounceVec, float forceY);
 	void setVelocity(vec3 vel);
 	vec3 getVelocity()const;
 
@@ -114,6 +115,9 @@ private:
 	vec2 shove;
 	bool shoveDelay;
 	float shoveTimer;
+	//For being bounced
+	bool bounced;
+	vec2 bounceVec;
 	//Beat
 	float heartBeatTimer;
 	float bpm;

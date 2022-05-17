@@ -395,10 +395,7 @@ void Game::setUpObject()
 		((Turret*)GameObjManager->getGameObject("turr"))->addProjectiles((TurrProjectile*)GameObjManager->getGameObject("proj" + std::to_string(i)));
 	}	*/
 
-	
-	
-	GameObjManager->CreateEnemy(player, enemyType::MUSHROOM, soundManager, "golden-mushroom.obj", "mushroom", vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 0.2f, 1.0f));
-	collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("mushroom"));
+		
 
 	ghost = new Ghost(player, rm->get_Models("ghost.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
 	ghost->getSoundManager(soundManager);
