@@ -6,40 +6,26 @@
 #include "common/Vector.hpp"
 #include "hud/Hud.h"
 
-
 #include "generation/Position_generator.hpp"//To use difficulty
 #include "score/ScoreManager.hpp"
 #include "Collision3D.h"
+#include "powerups/PowerUpDefs.hpp"
 
 #include <string>
 #include <fstream>
 
-enum Powerup
-{
-	EMPTY,
-	ROCKET,
-	CARD,
-	FREEZE,
-	DEATH,
-	EMP,
-	PAD,
-	APPLE,
-	FEATHER,
-	PEARL,
-	POTION,
-	SHIELD,
-	KILL,
-	MONEY
-
-};
+enum Powerup;
 
 //used with HUD
 enum PowerUpPassiv
 {
-	FEATHER_P = 1,
-	PEARL_P = 2,
-	POTION_P = 3,
-	SHIELD_P = 4
+	EMPTY_P,
+	FEATHER_P,
+	PEARL_P,
+	POTION_P,
+	SHIELD_P,
+	APPLE_P,
+	MONEY_P
 };
 
 class Player : public GameObject {
@@ -62,6 +48,8 @@ public:
 	void ResetFallBoxTimer();
 	void Reset(bool lvlClr = false);
 
+	void lookat(vec3 lookat, vec3 offset = vec3(0,0,0));
+
 	//Used when player falls of platform to rest ghost
 	bool ResetGhost();
 	void shovePlayer(vec2 shove, float forceY);
@@ -69,10 +57,14 @@ public:
 	//Powerup function
 	void pickedUpPower(Powerup index);
 	Powerup getPlayerPower();
+	PowerUpPassiv getPassivePower();
 	void setPlayerPower(Powerup index);
+	void setPlayerPowerPassiv(PowerUpPassiv index);
 	void setCanDoubleJump();
 	bool canDoubleJump();
 	void getShield();
+	void setPlayerSpeed(vec3 speed);
+	void useRocket(bool trueOrFalse);
 
 	void SetDifficulity(Difficulity diff);
 	void SetStartPlatform(Platform*& start);
@@ -95,6 +87,8 @@ public:
 
 	bool isInvinc()const;
 
+	void set_resetLookat_dir(vec3 lookAt);
+	
 	void SetPearl(GameObject*& pearlObj);
 	void MovePearl(vec3 pos);
 	void SetPearlPos(vec3 pos);
@@ -117,6 +111,7 @@ private:
 	vec3 resForce;
 	vec3 gravity;
 	vec2 jumpDir;
+	vec3 resetLookat_dir; 
 	float mass;
 	bool grounded;
 	float groundedTimer;
@@ -138,8 +133,10 @@ private:
 
 	//Powerups
 	Powerup power_index;
+	PowerUpPassiv passive_powerup;
 	bool canDoublejump;
 	bool hasShield;
+	bool usingRocket;
 
 	vec2 startingJumpDir = vec2(0.0f, 0.0f);
 	char startingJumpKey = 'N';

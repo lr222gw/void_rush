@@ -12,8 +12,10 @@
 #include "puzzle/protoPuzzle.hpp"
 #include "3Dproj/GameObjectManager.h"
 
-#include "common/Helper.hpp"
+#include "powerups/powerUpManager.hpp"
+#include "enemies/EnemyManager.hpp"
 
+#include "common/Helper.hpp"
 #include "common/Shape_exporter.hpp"
 
 class PlatformObj : public GameObject 
@@ -35,6 +37,8 @@ public:
 	void set_player(Player* player);
 	void set_PuzzleManager(ProtoPuzzle* puzzleManager);
 	void set_GameObjManager(GameObjectManager* goMan);
+	void set_PowerupManager(PowerupManager* PowerupManager);
+	void set_EnemyManager(EnemyManager* EnemyManager);
 	void initialize();
 	void place_anchorPoints();
 	void place_anchorPoints_top();
@@ -58,12 +62,15 @@ public:
 	void draw();	
 private:
 	Player* player;
+	EnemyManager* enemyManager;
+	PowerupManager* powerupManager;
 	ProtoPuzzle* puzzleManager;
 	GameObjectManager* gameObjManager;
 	Shape_exporter* shape_export;
 	friend class ImguiManager;
 	int seed; 
 	int startSeed;
+	bool incrementSeed;
 	Player_jump_checker* player_jump_checker;
 	Difficulity difficulity;
 	Position_generator* position_gen;

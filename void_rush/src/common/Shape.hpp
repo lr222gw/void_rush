@@ -76,7 +76,7 @@ struct Normals{
      vec3 front = vec3(1, 0, 0);
      vec3 back = vec3(-1, 0, 0);
 };
-static Normals normals;
+
 
 struct LongestDist {
     vec3 startPos;
@@ -121,7 +121,7 @@ public:
     void setPosition(vec3 pos);    
     void move(vec3 pos);
     void setScale(vec3 scale);
-    
+
     void setAnchorShape(vec3 center, float distanceToEnd, Shape* prev = nullptr);
     void setJumppointShape(vec3 center, float distanceToEnd, Shape* prev = nullptr);
     void setShapeCube(vec3 center);
@@ -134,9 +134,8 @@ public:
     vec3 get_scale();
 
     void set_InOut_longstDist(int nrOfVoxels, vec3& given_center);
-    //template <size_t rows, size_t cols>
-    //void set_InOut_firstLastDeclared(Center_busy_pair (&busyMatrix)[rows][cols], int matrixsize);
     void set_InOut_firstLastDeclared(std::vector<std::vector<Center_busy_pair>> busyMatrix, int matrixsize, vec3& given_center);
+    void update_InOut(Shape* prev = nullptr);
 
     void export_as_obj();
     inCorner inCorner;
@@ -157,7 +156,7 @@ public:
         int max_clamp_padding = 0;
         float plattform_voxel_margin = 2.f;
         bool tryRandom = false;
-        float scaleAnchor_XY_Factor = 2;
+        float scaleAnchor_XY_Factor = 3;
         int randomOccurances = 2; // use random everytime the random index is even nmbr
         int matrixSize = 11; // use random everytime the random index is even nmbr
     };
@@ -174,6 +173,7 @@ private:
     void init_shape_bottomTopSides();
     void updateBoundingBoxes();
     void setShape(vec3 center, int nrOfVoxels, Shape* prev = nullptr);
+    void setInOutPoints(vec3 center, Shape* prev = nullptr);
 
     int index = 0;
     static int index_incrementor;

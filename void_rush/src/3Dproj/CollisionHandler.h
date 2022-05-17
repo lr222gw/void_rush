@@ -1,8 +1,8 @@
 #pragma once
 #include "3Dproj/Collision3D.h"
 #include "3Dproj/Player.h"
-#include "3Dproj/Enemy.h"
-#include "3Dproj/Powerups.h"
+#include "enemies/Enemy.h"
+#include "powerups/Powerups.h"
 #include "3Dproj/GameObjectManager.h"
 #include "common/Shape.hpp"
 

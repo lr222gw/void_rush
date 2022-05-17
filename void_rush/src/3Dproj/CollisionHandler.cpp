@@ -99,7 +99,7 @@ void CollisionHandler::update()
 		{
 			done = true;
 
-			if (player->getGroundedTimer() > 0.5f)
+			if (player->getGroundedTimer() > 0.01f)
 			{
 				player->setGrounded();
 			}
@@ -144,7 +144,7 @@ void CollisionHandler::update()
 			{
 				done = true;
 				this->lastCollided_ShapePlatform = Generated_Platforms[i];
-				if (player->getGroundedTimer() > 0.5f )
+				if (player->getGroundedTimer() > 0.01f )
 				{
 					player->setGrounded();
 				}

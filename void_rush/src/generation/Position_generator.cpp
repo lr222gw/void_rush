@@ -1,6 +1,18 @@
 #include <iostream>
 #include "Position_generator.hpp"
 #include <algorithm>
+
+Position_generator::PowerUp_position_settings Position_generator::PU_conf;
+Position_generator::enemy_Position_settings Position_generator::enemyPos_conf;
+std::vector<Platform*> Position_generator::getAllPlatforms()
+{
+    
+    std::vector<Platform*> allPlatforms;
+    allPlatforms.insert(allPlatforms.begin(), this->anchors.begin(), this->anchors.end());
+    allPlatforms.insert(allPlatforms.end(), this->jumpPoints.begin(), this->jumpPoints.end());
+
+    return allPlatforms;
+}
 Position_generator::Position_generator(int _seed)
     : seed(_seed), pl(nullptr), startPlat(nullptr), firstJumpPoint(nullptr)
 {    
@@ -26,7 +38,8 @@ bool Position_generator::start (Difficulity selectedDiff)
     
     generate_anchor_positions(selectedDiff);
     generate_jumpPoints_positions(selectedDiff);
-    removeOverlappingPlatformVoxels();
+    //removeOverlappingPlatformVoxels();
+    removeUnnecessaryPlatformsVoxels();
 
     return true;
 }
@@ -82,7 +95,7 @@ void Position_generator::generate_anchor_positions(Difficulity selectedDiff)
         if (dvect_magnitude > stepMin && dvect_magnitude < stepMax)
         {
             newPlat = new Platform(position);            
-            newPlat->platformShape.setAnchorShape(*newPlat->getPos(), dVect.length());
+            newPlat->platformShape.setAnchorShape(*newPlat->getPos(), dVect.length(), &current->platformShape);
 
             pl->moveto(newPlat->platformShape.outCorner.pos);
             position = newPlat->platformShape.outCorner.pos;
@@ -170,7 +183,161 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
     trashBin.clear();
 }
 
+void Position_generator::select_powerUp_positions()
+{
+    this->powerup_positions.nrOfPositions = 0;
+    this->powerup_positions.positions.clear();
+    std::vector<Platform*> validJumpPoints = getInOrderVector_ValidJumppoints();
 
+    for (int i = 0; i < validJumpPoints.size(); i+=PU_conf.powerUp_occurance_rate) {
+                    
+        int pickVoxelPos = rand() % validJumpPoints[i]->platformShape.previousVoxels.size();
+        this->powerup_positions.nrOfPositions++;
+        this->powerup_positions.positions.push_back(
+            validJumpPoints[i]->platformShape.previousVoxels[pickVoxelPos].current_center + PU_conf.position_offset
+        );
+        
+    }     
+}
+
+void Position_generator::select_enemy_positions()
+{
+    this->enemy_positions.nrOfPositions = 0;
+    this->enemy_positions.positions.clear();
+    std::vector<Platform*> validAnchors = this->getInOrderVector_ValidAnchors();
+    this->enemy_positions.positions.resize(validAnchors.size());
+
+    //Note: we skip the first anchor since it's the startplatform...
+    //Random Positions
+    for (int i = 1; i < validAnchors.size(); i++) { 
+        std::vector <vec3> EnemyPositions;
+        std::vector <int> busyIndex;
+        for (int b = 0; b < validAnchors[i]->platformShape.previousVoxels.size(); b++) { busyIndex.push_back(b); }
+        int nrOfEnemyPositions = rand() % validAnchors[i]->platformShape.previousVoxels.size();
+        nrOfEnemyPositions = std::clamp(
+            nrOfEnemyPositions,
+            1,
+            static_cast<int>(validAnchors[i]->platformShape.previousVoxels.size() / 1.65f));
+
+        for (int j = 0; j < nrOfEnemyPositions; j++) {
+
+            int pickVoxelPos = rand() % busyIndex.size();
+            
+            int poses_x = (validAnchors[i]->platformShape.get_scale().x / Shape::shape_conf.default_scale.x) ; 
+            int poses_z = (validAnchors[i]->platformShape.get_scale().z / Shape::shape_conf.default_scale.z) ; 
+
+            vec3 final_random_pos =
+                validAnchors[i]->platformShape.previousVoxels[busyIndex[pickVoxelPos]].current_center;
+            final_random_pos.x += static_cast<float>( rand() % poses_x) * Shape::shape_conf.default_scale.x;
+            final_random_pos.z += static_cast<float>( rand() % poses_z) * Shape::shape_conf.default_scale.z;
+
+            this->enemy_positions.nrOfPositions++;
+            
+            EnemyPositions.push_back(final_random_pos + enemyPos_conf.enemy_offset);
+            busyIndex.erase(busyIndex.begin() + pickVoxelPos);
+            
+        }
+        this->enemy_positions.positions[i].ranmdomPositions = EnemyPositions;
+        
+    }
+
+    //Outside Positions
+    for (int i = 1; i < validAnchors.size(); i++) {
+        std::vector <vec3> EnemyPositions;
+        std::vector <vec3> positionsAlongZ;
+        
+        int nrOf = validAnchors[i]->platformShape.previousVoxels.size();
+        
+        for(auto p : validAnchors[i]->platformShape.previousVoxels){
+            
+            bool wasFound = false;
+            for(auto& v : positionsAlongZ){
+
+                if (p.current_center.x > v.x) {
+                    v.x = p.current_center.x;
+                }
+                if (p.current_center.z == v.z) {                    
+                    wasFound = true;
+                    break;
+                }
+            }
+            if (!wasFound) { positionsAlongZ.push_back(p.current_center); }
+        }
+
+        for (int j = 0; j < positionsAlongZ.size(); j++) {
+            
+            positionsAlongZ[j].x += 
+                Shape::shape_conf.default_scale.x * 
+                Shape::shape_conf.scaleAnchor_XY_Factor * 
+                enemyPos_conf.outsideOffset;
+            
+                
+            this->enemy_positions.nrOfPositions++;
+
+            EnemyPositions.push_back(positionsAlongZ[j] + enemyPos_conf.enemy_offset);
+        }
+        this->enemy_positions.positions[i].outsidePositions = EnemyPositions;
+    }    
+    struct vector_z_pair{
+        float z;
+        std::vector <vec3 > alongX_per_Z;
+    };
+    //Pattern Positions
+    for (int i = 1; i < validAnchors.size(); i++) {
+        std::vector <vec3> EnemyPositions;
+
+        std::vector<vector_z_pair> positionsAlongZ;
+        
+        int nrOf = validAnchors[i]->platformShape.previousVoxels.size();
+
+        for (auto& p : validAnchors[i]->platformShape.previousVoxels) {
+
+            bool wasFound = false;
+            for (auto& v : positionsAlongZ) {
+
+                if (p.current_center.z == v.z) {
+                    wasFound = true;                    
+                    break;
+                }
+            }
+            if (!wasFound) { positionsAlongZ.push_back(vector_z_pair{p.current_center.z}); }
+        }
+
+        for (auto& p : validAnchors[i]->platformShape.previousVoxels) {
+
+            bool wasFound = false;
+            for (auto& v : positionsAlongZ) {
+
+                if (p.current_center.z == v.z) {
+                    v.alongX_per_Z.push_back(p.current_center);
+                }
+            }           
+        }
+
+        for (int j = 0; j < positionsAlongZ.size(); j += 2) {
+
+            for(auto &row : positionsAlongZ[j].alongX_per_Z){
+
+                this->enemy_positions.nrOfPositions++;
+
+                EnemyPositions.push_back(row + enemyPos_conf.enemy_offset);
+            }
+            
+        }
+        this->enemy_positions.positions[i].patternPositions = EnemyPositions;
+    }
+
+}
+
+powerUp_positions* Position_generator::get_powerUp_positions()
+{
+    return &powerup_positions;
+}
+
+Enemy_positions* Position_generator::get_enemy_positions()
+{
+    return &enemy_positions;
+}
 
 FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platform* start, Platform* end)
 { 
@@ -195,14 +362,33 @@ FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platfor
     this->jumpPoints.push_back(midd_platform);    
 
     //////////////////////////
+    outCorner* startOutCorner = &start->platformShape.outCorner;
+    inCorner* middInCorner = &midd_platform->platformShape.inCorner;
+    outCorner* middOutCorner = &midd_platform->platformShape.outCorner;
+    inCorner* endInCorner = &end->platformShape.inCorner;
+    float prev_StartMidd_Dist = (startOutCorner->pos - middInCorner->pos).length();
+    float prev_MiddEnd_Dist = (middOutCorner->pos - endInCorner->pos).length();
+    float startMidd_dist = -1;
+    float middEnd_dist = -1;
+    for(int i = 0; i < middOutCorner->points.size(); i++){
+        for(int j = 0; j < endInCorner->points.size(); j++){
+            middEnd_dist = (middOutCorner->points[i] - endInCorner->points[j]).length();
+            startMidd_dist = (startOutCorner->points[i] - middInCorner->points[j]).length();
+            if(middEnd_dist < prev_MiddEnd_Dist){
+                middOutCorner->pos = middOutCorner->points[i];
+                endInCorner->pos = endInCorner->points[j];
+                prev_MiddEnd_Dist = middEnd_dist;
+            }
+            if(startMidd_dist < prev_StartMidd_Dist){
+                startOutCorner->pos = startOutCorner->points[i];
+                middInCorner->pos = middInCorner->points[j];
+                prev_StartMidd_Dist = startMidd_dist;
+            }
+        }
+    }
 
+    pl->moveto(midd_platform->platformShape.outCorner.pos);
 
-  //  midd_platform->platformShape.outCorner.pos.x < end->platformShape.inCorner.pos.x &&
-
-        //if(abs(end->platformShape.inCorner.pos.x) - abs(midd_platform->platformShape.outCorner.pos.x) >= 0) {}
-        //for(){
-        
-//        }
 
 
     //////////////////////////
@@ -319,6 +505,32 @@ int Position_generator::getNrOfValidJumppoints()
     }
     return validMeshes;
 }
+std::vector<Platform*> Position_generator::getInOrderVector_ValidJumppoints()
+{
+    Platform* currentJumppoint = this->firstJumpPoint;
+    std::vector<Platform*> validJPs;
+    while (currentJumppoint) {
+        if (!currentJumppoint->platformShape.get_is_Illegal()) {
+            validJPs.push_back(currentJumppoint);
+        }
+        currentJumppoint = currentJumppoint->next;
+    }
+    std::reverse(validJPs.begin(), validJPs.end());
+    return validJPs;
+}
+std::vector<Platform*> Position_generator::getInOrderVector_ValidAnchors()
+{
+    Platform* currentAnchor = this->anchors.front();
+    std::vector<Platform*> validAPs;
+    while (currentAnchor) {
+        if (!currentAnchor->platformShape.get_is_Illegal()) {
+            validAPs.push_back(currentAnchor);
+        }
+        currentAnchor = currentAnchor->next;
+    }
+    //std::reverse(validAPs.begin(), validAPs.end());
+    return validAPs;
+}
 
 Platform* Position_generator::getFirstJumppoint()
 {
@@ -347,15 +559,14 @@ mapDimensions Position_generator::getCurrentMapDimensions()
 {
     mapDimensions currentMapDimension{
         0,
-        0
+        0,
+        vec2(0,0),
+        vec2(0,0)
     }; 
-
     vec2 min; 
     vec2 max;
 
-    std::vector<Platform*> allPlatforms;
-    allPlatforms.insert(allPlatforms.begin(), this->anchors.begin(), this->anchors.end());
-    allPlatforms.insert(allPlatforms.end(), this->jumpPoints.begin(), this->jumpPoints.end());
+    std::vector<Platform*> allPlatforms = getAllPlatforms();
 
     //Get height    
     for (size_t i = 0; i < allPlatforms.size(); i++)
@@ -381,6 +592,8 @@ mapDimensions Position_generator::getCurrentMapDimensions()
 
     currentMapDimension.x_width = max.x - min.x;
     currentMapDimension.z_width = max.y - min.y;
+    currentMapDimension.highPoint = max;
+    currentMapDimension.lowPoint = min;
 
     return currentMapDimension;
 
@@ -421,6 +634,7 @@ void Position_generator::removeOverlappingPlatformVoxels()
                         J_voxel--;
                     }
                 }
+                //jumpPoints[j]->platformShape.update_InOut(&jumpPoints[j]->prev->platformShape);
             }
         }    
     }
@@ -457,12 +671,58 @@ void Position_generator::removeOverlappingPlatformVoxels()
                         J_voxel--;
                     }
                 }
+                jumpPoints[j]->platformShape.update_InOut(&jumpPoints[j]->prev->platformShape);
             }
         }
     }
 
     int breakME = 3;
 
+}
+
+void Position_generator::removeUnnecessaryPlatformsVoxels()
+{
+    int maxNrAhead = 5;
+    bool skipable = false; 
+    int iteration = 0;
+
+    Platform* startPoint = this->getFirstJumppoint();
+    Platform* toCheck = nullptr;
+
+    toCheck = startPoint->next;
+    while(toCheck && startPoint && toCheck->next && !startPoint->platformShape.get_is_Illegal()){
+        iteration = 0;
+        toCheck = startPoint->next;
+
+        while (iteration < maxNrAhead && toCheck->next) {
+
+            /*for (int j = 0; j < iteration && toCheck->next; j++) {
+                toCheck = toCheck->next;
+            }*/
+
+            this->pl->moveto(startPoint->platformShape.outCorner.pos);
+            float JumpDist = this->pl->getJumpDistance(toCheck->platformShape.inCorner.pos.y);
+            float distance = this->pl->distance(toCheck->platformShape.inCorner.pos);
+            float padding = JumpDist/4.f;
+            skipable = this->pl->isJumpPossible(toCheck->platformShape.inCorner.pos);
+
+            if (skipable && JumpDist > distance+padding) {
+                toCheck->platformShape.previousVoxels.clear();
+                toCheck->platformShape.set_is_Illegal(true);
+            }
+            else{
+                startPoint = toCheck;
+                break;
+            }
+            iteration++;
+            toCheck = toCheck->next;
+        }
+        startPoint = toCheck;
+    }
+   /* for(int i = 0; i < this->anchors.size(); i++){
+        this->pl->moveto(this->anchors[i]->platformShape.outCorner.pos);
+
+    }*/
 }
 
 
