@@ -38,6 +38,9 @@ bool Position_generator::start (Difficulity selectedDiff)
     
     generate_anchor_positions(selectedDiff);
     generate_jumpPoints_positions(selectedDiff);
+
+    replace_random_jumpPoints_with_obstacles_positions();
+
     //removeOverlappingPlatformVoxels();
     removeUnnecessaryPlatforms();
 
@@ -181,6 +184,69 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
        delete plat;
     }
     trashBin.clear();
+}
+
+void Position_generator::replace_random_jumpPoints_with_obstacles_positions()
+{
+    this->obstaclePositions.nrOfPositions = 0;
+    this->obstaclePositions.positions.clear();
+
+    std::vector<Platform*> replaceable_jumpPoints;
+
+    //Find all JPs with a size of max 4 voxels
+    for(auto& jp : this->getInOrderVector_ValidJumppoints()){
+
+        if(jp->platformShape.previousVoxels.size() < 5){
+            if(jp->prev &&
+                 jp->next &&
+                (jp->next->platformShape.get_midpoint() - jp->platformShape.get_midpoint()).length() > 3 && 
+                (jp->prev->platformShape.get_midpoint() - jp->platformShape.get_midpoint()).length() > 3)
+            {
+                replaceable_jumpPoints.push_back(jp);
+            }else{
+                int breakMe = 3;
+            }
+        }
+    }
+
+    for (auto& ap : this->getInOrderVector_ValidAnchors()) {
+
+        for (int i = 0; i < replaceable_jumpPoints.size(); i++) {
+
+            auto rp = replaceable_jumpPoints[i];
+            if (rp->prev &&
+                rp->next &&
+                ap->prev &&
+                ap->next &&
+                (ap->next->platformShape.get_midpoint() - rp->platformShape.get_midpoint()).length() < 3 &&
+                (ap->prev->platformShape.get_midpoint() - rp->platformShape.get_midpoint()).length() < 3)
+            {
+                replaceable_jumpPoints.erase(replaceable_jumpPoints.begin() + i);
+                
+            }
+            else {
+                int breakMe = 3;
+            }
+        }                
+    }
+
+    //try to look for this nr of JPs to replace
+    int nrOfObstacles = replaceable_jumpPoints.size() /2 ;
+    
+    for (int i = 0; i < nrOfObstacles; i++) {
+        int pick_index = rand() % replaceable_jumpPoints.size();
+        Platform* pick = replaceable_jumpPoints[pick_index];
+
+        obstaclePositions.positions.push_back(pick->platformShape.get_midpoint());
+        obstaclePositions.nrOfPositions++; 
+
+        pick->platformShape.remove_all_planes();
+        pick->platformShape.set_is_Illegal(true);
+
+        replaceable_jumpPoints.erase(replaceable_jumpPoints.begin() + pick_index);        
+    }
+
+
 }
 
 void Position_generator::select_powerUp_positions()
@@ -342,6 +408,11 @@ Enemy_positions* Position_generator::get_enemy_positions()
 ShortCut_positions* Position_generator::get_shortcut_positions()
 {
     return &shortcut_positions;
+}
+
+ShortCut_positions* Position_generator::get_obstacle_positions()
+{
+    return &this->obstaclePositions;
 }
 
 FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platform* start, Platform* end)
@@ -631,7 +702,9 @@ void Position_generator::generate_shortcut()
         mushroomJump.moveto(valid_anchors[randomAnchor]->platformShape.outCorner.pos);
         float start_current_len = 0; 
         float jumplen = mushroomJump.getJumpDistance();
-        while (!mushroomJump.isJumpPossible(valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos) &&
+
+        bool jumpPossible = !mushroomJump.isJumpPossible(valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos);
+        while (jumpPossible &&
             originalDir.length() - jumplen > start_current_len)
         {
 
@@ -646,18 +719,24 @@ void Position_generator::generate_shortcut()
             auto temp = newPos + offset;
             vec3 v = create_offset(temp, mushroomJump.getPos()) / 2.f;
             v.y = 0.f;
-            newPos = newPos + v;
+            //newPos = newPos + v;
 
             //Check that position is not above/below an existing platform
             bool notAbove = check_platform_y_intersection(newPos);
 
             vec3 currentPlayerPos = valid_anchors[randomAnchor]->platformShape.outCorner.pos;
-            if(notAbove){
+            if(!notAbove){
                 this->shortcut_positions.positions.push_back(newPos);
                 currentPlayerPos = this->shortcut_positions.positions.back();
                 mushroomJump.moveto(currentPlayerPos);
                 start_current_len = (newPos - valid_anchors[randomAnchor]->platformShape.outCorner.pos).length();
-            } 
+
+                jumpPossible = !mushroomJump.isJumpPossible(valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos);
+            }else{
+                jumpPossible = false;
+            }
+                                        
+            
         }
     }
 }

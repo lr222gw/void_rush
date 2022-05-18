@@ -311,6 +311,11 @@ void Shape::setInOutPoints(vec3 center, Shape* prev)
     this->inCorner.pos = inOut.pos_close;
     this->outCorner.pos = inOut.pos_far;
 
+    remove_all_planes();
+}
+
+void Shape::remove_all_planes()
+{
     for (int i = 0; i < planes.size(); i++) {
         delete planes[i];
     }

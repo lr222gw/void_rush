@@ -46,10 +46,12 @@ private:
     Platform*startPlat;
     std::vector<Platform*> anchors;
     std::vector<Platform*> jumpPoints;
+
     Player_jump_checker* pl;
     powerUp_positions powerup_positions;
     Enemy_positions enemy_positions;
     ShortCut_positions shortcut_positions;
+    ShortCut_positions obstaclePositions;
     
     std::vector<Platform*> getAllPlatforms();
     std::vector<Platform*> getInOrderVector_ValidJumppoints();
@@ -62,6 +64,7 @@ public:
     bool start (Difficulity diff);
     void generate_anchor_positions(Difficulity selectedDiff);
     void generate_jumpPoints_positions(Difficulity selectedDiff);   
+    void replace_random_jumpPoints_with_obstacles_positions();
 
     void generate_shortcut();    
     void select_powerUp_positions();
@@ -69,6 +72,7 @@ public:
     powerUp_positions* get_powerUp_positions();
     Enemy_positions* get_enemy_positions();
     ShortCut_positions* get_shortcut_positions();
+    ShortCut_positions* get_obstacle_positions();
 
     FirstLast_between_Anchor jumpPoint_generation_helper(Platform* start, Platform* end);    
     void jumpPoint_create_offset(Platform* plat, vec3& currentMiddle, vec3 start, vec3 end);
