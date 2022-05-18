@@ -437,24 +437,29 @@ FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platfor
 
 void Position_generator::jumpPoint_create_offset(Platform* plat,vec3& currentMiddle, vec3 start, vec3 end)
 {
+    vec3 offset = create_offset(end, start);
+
+    plat->setPosition(start + offset);
+}
+
+vec3 Position_generator::create_offset(vec3& end, const vec3& start)
+{
     vec3 temp = vec3(randF(-1.f, 1.f), randF(-1.f, 1.f), randF(-1.f, 1.f)).Normalize();
     vec3 start_End = (end - start);
     vec3 start_End_dir = vec3::Normalize(start_End);
     float randomDist = randF(0.f, start_End.length()) / JP_conf.random_dist_dividier;
 
-    while(  start_End_dir * temp > JP_conf.rand_dir_max_angle_percent || 
-            start_End_dir * temp < JP_conf.rand_dir_min_angle_percent)
+    while (start_End_dir * temp > JP_conf.rand_dir_max_angle_percent ||
+        start_End_dir * temp < JP_conf.rand_dir_min_angle_percent)
     {
         //to get all possible directions, use -1 and 1...
         temp = vec3(randF(-1.f, 1.f), randF(-1.f, 1.f), randF(-1.f, 1.f)).Normalize();
-    }    
-        
-    vec3 randomDir = start_End_dir.X(temp).Normalize();
-    randomDir.y = std::clamp(randomDir.y, JP_conf.y_min_clamp, JP_conf.y_max_clamp);    
-    
-    vec3 offset = randomDir * randomDist; 
+    }
 
-    plat->setPosition(start + offset);
+    vec3 randomDir = start_End_dir.X(temp).Normalize();
+    randomDir.y = std::clamp(randomDir.y, JP_conf.y_min_clamp, JP_conf.y_max_clamp);
+
+    return randomDir * randomDist; 
 }
 
 void Position_generator::reset_generation(vec3 player_position)
@@ -579,7 +584,7 @@ void Position_generator::generate_shortcut()
     
     Player_jump_checker mushroomJump;
     
-    mushroomJump.set_physics_params(20.f,5.f, -15.f);//TODO: do not hardcode
+    mushroomJump.set_physics_params(8.f,5.f, -15.f);//TODO: do not hardcode
     
     vec3 direction = 
         valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos - 
@@ -598,9 +603,11 @@ void Position_generator::generate_shortcut()
 
     int triedCounter = 0;
     
-    while (dot_angle < -this->JP_conf.minimumShortcutDotAngle || dot_angle > this->JP_conf.minimumShortcutDotAngle  && triedCounter < valid_anchors.size()) {
+    while (dot_angle < -this->JP_conf.minimumShortcutDotAngle || dot_angle > this->JP_conf.minimumShortcutDotAngle  
+        && triedCounter < valid_anchors.size()) 
+    {
 
-        randomAnchor     =  randomAnchor++ % (valid_anchors.size() - 2);
+        randomAnchor     = (++randomAnchor) % (valid_anchors.size() - 2);
         nextRandomAnchor =  randomAnchor + 2;
 
         controlDir = 
@@ -622,7 +629,10 @@ void Position_generator::generate_shortcut()
 
     
         mushroomJump.moveto(valid_anchors[randomAnchor]->platformShape.outCorner.pos);
-        while (!mushroomJump.isJumpPossible(valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos)) {
+        float start_current_len = 0; 
+        while (!mushroomJump.isJumpPossible(valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos) &&
+            direction.length() > start_current_len)
+        {
 
             //vec3 offset = dir_unitvec * mushroomJump.getJumpDistance(); // TODO: Look if we want to modify the distance betweeen ...
             vec3 offset = dir_unitvec * mushroomJump.getJumpDistance(); // TODO: Look if we want to modify the distance betweeen ...
@@ -631,7 +641,7 @@ void Position_generator::generate_shortcut()
 
             vec3 currentPlayerPos = this->shortcut_positions.positions.back();
             mushroomJump.moveto(currentPlayerPos);
-
+            start_current_len = (newPos - valid_anchors[randomAnchor]->platformShape.outCorner.pos).length();
         }
     }
 

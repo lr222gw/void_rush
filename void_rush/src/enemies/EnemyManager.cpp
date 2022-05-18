@@ -169,11 +169,7 @@ void EnemyManager::reset()
 	for (auto& e : this->enemies) {
 		e->setPos(FarFarFarAway);
 	}
-	get_Mushroom()->setPos(vec3(10.f,0.f,10.f));
-	get_FallingPlatform()->setPos(vec3(5.f, -9.f, 0.f));
-	get_FallingPlatform()->setPos(vec3(10.f, -9.f, 0.f));
-	get_FallingPlatform()->setPos(vec3(15.f, -9.f, 0.f));
-	get_FallingPlatform()->setPos(vec3(20.f, -9.f, 0.f));
+
 }
 
 
@@ -226,6 +222,9 @@ void EnemyManager::spawnObstacle(vec3 pos)
 	switch(obstacleType){
 	case (int)obstacle_enemyType::MUSHROOM:
 		get_Mushroom()->setPos(pos);
+		break;
+	case (int)obstacle_enemyType::FALLPLAT:
+		get_FallingPlatform()->setPos(pos);
 		break;
 
 	default:
