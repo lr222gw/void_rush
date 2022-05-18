@@ -63,7 +63,7 @@ public:
     void generate_anchor_positions(Difficulity selectedDiff);
     void generate_jumpPoints_positions(Difficulity selectedDiff);   
 
-    void generate_shortcut();
+    void generate_shortcut();    
     void select_powerUp_positions();
     void select_enemy_positions();
     powerUp_positions* get_powerUp_positions();
@@ -91,6 +91,7 @@ public:
 
     void removeOverlappingPlatformVoxels();
     void removeUnnecessaryPlatforms();
+    bool check_platform_y_intersection(const vec3& newPos);
 
 private: // Magic Numbers
     struct Anchor_point_settings{        
@@ -113,7 +114,7 @@ private: // Magic Numbers
         float y_max_clamp = 0.1f;     //between -1 and 1
         float rand_dir_min_angle_percent = -1.f;    
         float rand_dir_max_angle_percent = 1.f;
-        float minimumShortcutDotAngle = 0.75f;
+        float minimumShortcutDotAngle = 0.8f;
 
     };
     Jump_point_settings JP_conf;

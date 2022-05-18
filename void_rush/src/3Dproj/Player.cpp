@@ -629,7 +629,7 @@ void Player::bouncePlayer(vec2 bounceVec, float forceY)
 	this->bounced = true;
 	this->bounceVec = bounceVec;
 	sm->playSound("Bounce", getPos());
-	//ResetGhost(); //TODO: This should be removed, right?
+	ResetGhost(); //TODO: This should be removed, right?
 
 }
 

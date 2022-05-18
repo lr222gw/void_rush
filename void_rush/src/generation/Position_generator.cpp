@@ -604,7 +604,7 @@ void Position_generator::generate_shortcut()
     int triedCounter = 0;
     
     while (dot_angle < -this->JP_conf.minimumShortcutDotAngle || dot_angle > this->JP_conf.minimumShortcutDotAngle  
-        && triedCounter < valid_anchors.size()) 
+        && triedCounter <= valid_anchors.size()) 
     {
 
         randomAnchor     = (++randomAnchor) % (valid_anchors.size() - 2);
@@ -625,29 +625,59 @@ void Position_generator::generate_shortcut()
         triedCounter++;
     }
 
-    if (triedCounter < valid_anchors.size()) {
+    if (triedCounter <= valid_anchors.size()) {
 
-    
+        vec3 originalDir = direction;
         mushroomJump.moveto(valid_anchors[randomAnchor]->platformShape.outCorner.pos);
         float start_current_len = 0; 
+        float jumplen = mushroomJump.getJumpDistance();
         while (!mushroomJump.isJumpPossible(valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos) &&
-            direction.length() > start_current_len)
+            originalDir.length() - jumplen > start_current_len)
         {
 
-            //vec3 offset = dir_unitvec * mushroomJump.getJumpDistance(); // TODO: Look if we want to modify the distance betweeen ...
-            vec3 offset = dir_unitvec * mushroomJump.getJumpDistance(); // TODO: Look if we want to modify the distance betweeen ...
-            vec3 newPos = mushroomJump.getPos() + offset;
-            this->shortcut_positions.positions.push_back(newPos);
+            direction = valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos - mushroomJump.getPos();
+            dir_unitvec = vec3::Normalize(direction);
 
-            vec3 currentPlayerPos = this->shortcut_positions.positions.back();
-            mushroomJump.moveto(currentPlayerPos);
-            start_current_len = (newPos - valid_anchors[randomAnchor]->platformShape.outCorner.pos).length();
+            //calc position for next platform
+            vec3 offset = dir_unitvec * mushroomJump.getJumpDistance();
+            vec3 newPos = mushroomJump.getPos() + offset;
+
+            //get and set an random offset for newPos 
+            auto temp = newPos + offset;
+            vec3 v = create_offset(temp, mushroomJump.getPos()) / 2.f;
+            v.y = 0.f;
+            newPos = newPos + v;
+
+            //Check that position is not above/below an existing platform
+            bool notAbove = check_platform_y_intersection(newPos);
+
+            vec3 currentPlayerPos = valid_anchors[randomAnchor]->platformShape.outCorner.pos;
+            if(notAbove){
+                this->shortcut_positions.positions.push_back(newPos);
+                currentPlayerPos = this->shortcut_positions.positions.back();
+                mushroomJump.moveto(currentPlayerPos);
+                start_current_len = (newPos - valid_anchors[randomAnchor]->platformShape.outCorner.pos).length();
+            } 
         }
     }
+}
 
-
-
-    
+bool Position_generator::check_platform_y_intersection(const vec3& newPos)
+{
+    bool notAbove = true;
+    float radius = 5;
+    for (auto& p : this->getAllPlatforms()) {
+        for (auto& v : p->platformShape.previousVoxels) {
+            if ((v.current_center - newPos).length_XZ() < radius) {
+                notAbove = false;
+                break;
+            }
+        }
+        if (!notAbove) {
+            break;
+        }
+    }
+    return notAbove;
 }
 
 mapDimensions Position_generator::getCurrentMapDimensions()
