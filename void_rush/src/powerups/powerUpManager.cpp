@@ -25,23 +25,23 @@ void PowerupManager::init(Player* player, Ghost* ghost)
 
 void PowerupManager::update()
 {
-	static float invert = 1;
-	float amount = 0.001f;
-	float randomOffset = 0.f;
+	static float amount = 0.00075f;
+	static float randomOffset = 0.f;
+	static float speed = 50;
 	static DeltaTime timer;	
 	static double time = 0.0;	
+	static float dt;
 	timer.restartClock();
+	dt = timer.dt();
 	time += timer.dt();
-	if(time > 1.0){
-		time = 0.0;
-		invert *= -1;
-	}
-	
+
 	for (int i = 0; i < this->powers.size(); i++) { 
 		randomOffset = 0.1f / (rand() % 10 + 1);
-		this->powers[i]->addRot(vec3(0.f, deg_to_rad(1.f+ randomOffset), 0.f));
-		this->powers[i]->movePos(vec3(0.f, amount*invert ,0.f));
+		this->powers[i]->addRot(vec3(0.f, deg_to_rad(1.f+ randomOffset) * speed * dt, 0.f));	
+		this->powers[i]->movePos(vec3(0.f, sinf(time + dt) * amount,0.f));
+		
 	}
+
 }
 
 void PowerupManager::reset()
