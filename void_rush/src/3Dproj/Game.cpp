@@ -3,7 +3,7 @@
 
 Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam, int seed):
 	GameState(gfx,rm,imguimanager,mouse,keyboard,cam),
-	soundManager(1)//be able to change this later based on settings
+	soundManager()//be able to change this later based on settings
 {
 	/*sets in setup___*/
 	GameObjManager = new GameObjectManager(gfx, rm);
@@ -37,7 +37,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	this->setUpObject();
 	this->setUpLights();
 	//this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, (UINT)gfx->getClientWH().x, (UINT)gfx->getClientWH().y);
-	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, (UINT)3000, (UINT)3000);
+	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, (UINT)1920, (UINT)1920);
 	this->setUpParticles();
 	this->setUpSound();
 	this->setUpUI();
@@ -52,9 +52,6 @@ Game::~Game()
 	}
 
 	//objects
-	for (int i = 0; i < LightVisualizers.size(); i++) {
-		delete LightVisualizers[i];
-	}
 	for (int i = 0; i < nrOfLight; i++) {
 		delete light[i];
 	}
@@ -172,10 +169,6 @@ GameStateRet Game::update(float dt)
 		for (int i = 0; i < billboardGroups.size(); i++) {
 			billboardGroups[i]->update(dt, gfx);
 		}
-		for (int i = 0; i < LightVisualizers.size(); i++) {
-			LightVisualizers[i]->setPos(light[i]->getPos());
-			LightVisualizers[i]->setRot(vec3(0, light[i]->getRotation().x, -light[i]->getRotation().y) + vec3(0, 1.57f, 0));
-		}
 		camera->calcFURVectors();
 		skybox->update(camera->getPos());
 
@@ -189,7 +182,6 @@ GameStateRet Game::update(float dt)
 
 		/*update things*/
 		soundManager.update(camera->getPos(), camera->getForwardVec(), dt);
-		gfx->Update(dt, camera->getPos());
 
 		GameObjManager->update(dt);
 
@@ -312,17 +304,11 @@ void Game::updateShaders(bool vs, bool ps)
 	if (vs)
 	{
 		GameObjManager->updateVertex();
-		for (int i = 0; i < LightVisualizers.size(); i++) {
-			LightVisualizers[i]->updateVertexShader(gfx);
-		}
 		skybox->updateVertexShader(gfx);
 		player->updateVertexShader(gfx);
 	}
 	if (ps) {
 		GameObjManager->updatePixel();
-		for (int i = 0; i < LightVisualizers.size(); i++) {
-			LightVisualizers[i]->updatePixelShader(gfx);
-		}
 		skybox->updatePixelShader(gfx);
 		player->updatePixelShader(gfx);
 	}
@@ -357,12 +343,6 @@ void Game::DrawToBuffer()
 	gfx->get_IMctx()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
 	gfx->get_IMctx()->PSSetShader(gfx->getPS()[0], nullptr, 0);
-
-	if (getkey('F')) {
-		for (int i = 0; i < LightVisualizers.size(); i++) {
-			LightVisualizers[i]->draw(gfx, false);
-		}
-	}
 	letter3DHandler->draw();
 	if (pauseMenu && player->IsAlive()) {
 		pauseUI->draw();
@@ -447,10 +427,6 @@ void Game::setUpLights()
 	//set color for lights (deafault white)
 	light[0]->getColor() = vec3(1, 0, 0);
 	light[1]->getColor() = vec3(0.27f/3.f, 0.97f/3.f, 0.97f/3.f);
-
-	for (int i = 0; i < nrOfLight; i++) {
-		LightVisualizers.push_back(new GameObject(rm->get_Models("Camera.obj"), gfx, light[i]->getPos(), light[i]->getRotation()));
-	}
 	//say to graphics/shaders how many lights we have
 	gfx->getLightconstbufferforCS()->nrOfLights.element = nrOfLight;
 	gfx->takeLight(light, nrOfLight);
@@ -488,6 +464,7 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Portal7.wav", 10, "Portal");
 	soundManager.loadSound("assets/audio/Powerup6.wav", 10, "Pickup");
 	soundManager.loadSound("assets/audio/Jump4.wav", 3, "Jump");
+	soundManager.loadSound("assets/audio/Jump2.wav", 60, "Bounce");
 	soundManager.loadSound("assets/audio/Land4.wav", 30, "Land");
 	soundManager.loadSound("assets/audio/Fall1.wav", 30, "Scream");
 	soundManager.loadSound("assets/audio/Shoved2.wav", 30, "Shoved");
@@ -497,7 +474,7 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Wrong4.wav", 15, "Wrong");
 	soundManager.loadSound("assets/audio/Powerup7.wav", 10, "GoldApple");
 	soundManager.loadSound("assets/audio/Freeze1.wav", 10, "Freeze");
-	soundManager.loadSound("assets/audio/Portal1.wav", 10, "Rocket");
+	soundManager.loadSound("assets/audio/Farts.wav", 30, "Rocket");
 	soundManager.loadSound("assets/audio/EMP2.wav", 10, "EMP");
 	soundManager.loadSound("assets/audio/Pearl2.wav", 10, "Pearl");
 	soundManager.loadSound("assets/audio/Jump2.wav", 10, "Pad");
@@ -508,11 +485,10 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Coin1.wav", 10, "Money");
 	soundManager.loadSound("assets/audio/Hit2.wav", 70, "Hit");
 	soundManager.loadSound("assets/audio/German.wav", 40, "German");
+	soundManager.loadSound("assets/audio/RumbleFade.wav", 20, "Rumble");
 	soundManager.loadSound("assets/audio/wind1.wav", 0, "Wind");
 	soundManager.loadSound("assets/audio/sci-fi-gun-shot.wav", 10, "TurrShot");
 	soundManager.loadSound("assets/audio/HeartBeat.wav", 30, "HeartBeat");
-	//soundManager.playMusic("assets/audio/EpicBeat.wav", 7.0f);
-	//soundManager.setMusicLoop(true);
 	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicBase");
 	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicChange");
 	soundManager.playSound("MusicBase", player->getPos());

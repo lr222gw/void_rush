@@ -152,7 +152,6 @@ void Generation_manager::initialize()
     this->player->SetDifficulity(this->difficulity);
     this->player->SetStartPlatform(this->GetStartPlatform());
     
-
 }
 
 

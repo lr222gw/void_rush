@@ -36,5 +36,4 @@ private:
 	bool rocketActive;
 	float rocketTimer;
 	bool featherbooltest = false;
-
 };

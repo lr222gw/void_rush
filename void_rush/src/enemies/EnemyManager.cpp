@@ -76,6 +76,21 @@ void EnemyManager::createMushroom()
 	enemies.push_back(static_cast<Enemy*>(this->GameObjManager->getGameObject(name)));
 }
 
+void EnemyManager::createFallingPlatform()
+{
+	std::string name = "fallPlat" + std::to_string(nrOf.FALLPLAT++);
+	this->nrOfActive.FALLPLAT = this->nrOf.FALLPLAT;
+
+	GameObjManager->CreateEnemy(player, enemyType::FALLPLAT, *soundManager, "DCube.obj", name,
+		vec3(0.0f, 1.0f, 0.0f),
+		vec3(0.0f, 0.0f, 0.0f),
+		vec3(1.0f, 0.2f, 1.0f));
+
+	collisionHandler->addEnemies((Enemy*)GameObjManager->getGameObject(name));
+	collisionHandler->addPlatform(GameObjManager->getGameObject(name));
+	enemies.push_back(static_cast<Enemy*>(this->GameObjManager->getGameObject(name)));
+}
+
 Enemy* EnemyManager::get_Turret()
 {
 	int index = this->nrOfActive.TURRET;
@@ -124,6 +139,18 @@ Enemy* EnemyManager::get_Mushroom()
 	return static_cast<Enemy*>(this->GameObjManager->getGameObject("mushroom" + std::to_string(index)));
 }
 
+Enemy* EnemyManager::get_FallingPlatform()
+{
+	int index = this->nrOfActive.FALLPLAT;
+	if (this->nrOfActive.FALLPLAT >= this->nrOf.FALLPLAT) {
+		createFallingPlatform();
+	}
+	else {
+		this->nrOfActive.FALLPLAT++;
+	}
+	return static_cast<Enemy*>(this->GameObjManager->getGameObject("fallPlat" + std::to_string(index)));
+}
+
 EnemyManager::EnemyManager(GameObjectManager* GameObjManager, Graphics* gfx, ResourceManager* rm, CollisionHandler* collisionHandler, SoundManager* soundManager, Mouse* mouse, Keyboard* keyboard)
 	:  GameObjManager(GameObjManager), gfx(gfx), rm(rm), collisionHandler(collisionHandler), keyboard(keyboard), mouse(mouse), soundManager(soundManager),
 	player(nullptr), ghost(nullptr)
@@ -143,6 +170,10 @@ void EnemyManager::reset()
 		e->setPos(FarFarFarAway);
 	}
 	get_Mushroom()->setPos(vec3(10.f,0.f,10.f));
+	get_FallingPlatform()->setPos(vec3(5.f, -9.f, 0.f));
+	get_FallingPlatform()->setPos(vec3(10.f, -9.f, 0.f));
+	get_FallingPlatform()->setPos(vec3(15.f, -9.f, 0.f));
+	get_FallingPlatform()->setPos(vec3(20.f, -9.f, 0.f));
 }
 
 

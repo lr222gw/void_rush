@@ -37,10 +37,6 @@ void Powerups::UsePowerUp(float dt)
 		player->AddHealth();
 		player->setPlayerPowerPassiv(EMPTY_P);
 	}
-	else if (player->getPlayerPower() == KILL)
-	{
-		////ADD HERE WHAT KILL DOES WHEN ACTIVATED////
-	}
 	else if (player->getPlayerPower() == ROCKET || this->rocketActive == true)
 	{
 		if (this->keyboard->isKeyPressed('E'))
@@ -50,23 +46,20 @@ void Powerups::UsePowerUp(float dt)
 				this->rocketActive = true;
 				player->setPlayerPower(EMPTY);
 				player->useRocket(true);
+				player->getSm()->playSound("Rocket", player->getPos());
 			}
 		}
 		if (this->rocketActive == true)
 		{
-			player->getSm()->playSound("Rocket", player->getPos());
 			rocketTimer += dt;
 		}
-		if (rocketTimer >= 2.0f)
+		if (rocketTimer >= 5.0f)
 		{
+			player->getSm()->stopSound("Rocket");
 			rocketTimer = 0.0f;
 			player->useRocket(false);
 			rocketActive = false;
 		}
-	}
-	else if (player->getPlayerPower() == CARD)
-	{
-		////ADD HERE WHAT CARD DOES WHEN ACTIVATED////
 	}
 	if (player->getPlayerPower() == FREEZE || ghost->isFrozen())
 	{
@@ -82,30 +75,44 @@ void Powerups::UsePowerUp(float dt)
 		if (ghostFrozenTimer >= 10.0f)
 		{
 			ghost->freezeGhost();
-			ghostFrozenTimer = 0.0f;			std::cout << "unfrozen" << std::endl;
+			ghostFrozenTimer = 0.0f;
+			std::cout << "unfrozen" << std::endl;
 		}
 		if (ghostFrozenTimer != 0.0f)
 		{
 			ghostFrozenTimer += dt;
 		}
 	}
-	else if (player->getPassivePower() == PEARL_P)
+	else if (auto p = player->getPassivePower() == PEARL_P || pearlActive == true)
 	{
-		////ADD HERE WHAT PEARL DOES WHEN ACTIVATED////
-		//player->getSm()->playSound("Pearl", player->getPos());
+		if (p)
+		{
+			player->setPlayerPowerPassiv(EMPTY_P);
+			this->pearlActive = true;
+		}
+
 		if (mouse->isRightDown() && pearlTime == 0.0f)
 		{
 			pearlTime += dt;
 			player->SetPearlPos(player->getPos());
 			this->pearlVec = player->GetForwardVec();
+			player->getSm()->playSound("Pearl", player->getPos());
 		}
 		else if (pearlTime > 0.0f)
 		{
-			player->MovePearl(pearlVec / 3.0f);
-			pearlTime += dt;
+			if (!player->getPearlStatus())
+			{
+				this->pearlActive = false;
+			}
+			else
+			{
+				player->MovePearl(pearlVec / 3.0f);
+				pearlTime += dt;
+			}
 
 			if (pearlTime >= 3.0f)
 			{
+				this->pearlActive = false;
 				this->pearlTime = 0;
 				this->pearlVec = vec3(0.0f, 0.0f, 0.0f);
 				player->resetPearl();
@@ -119,16 +126,6 @@ void Powerups::UsePowerUp(float dt)
 			this->pearlVec = vec3(0.0f, 0.0f, 0.0f);
 		}
 
-	}
-	else if (player->getPlayerPower() == EMP)
-	{
-		////ADD HERE WHAT PEARL DOES WHEN ACTIVATED////
-		//player->getSm()->playSound("EMP", player->getPos());
-	}
-	else if (player->getPlayerPower() == PAD)
-	{
-		////ADD HERE WHAT TRAMPOLINE DOES WHEN ACTIVATED////
-		//player->getSm()->playSound("Pad", player->getPos());
 	}
 	if (auto p = player->getPassivePower() == FEATHER_P || featherActive == true)
 	{

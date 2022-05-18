@@ -2,6 +2,7 @@
 
 App::App(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
+	settingsSingleTon::GetInst().readSettings();
 	if (CoInitialize((LPVOID)NULL) != S_OK) {
 		exit(1);
 	}
@@ -84,6 +85,7 @@ void App::run()
 		gamestate->render();
 
 		handleGamestateChanges(theHandle);
+		mouse->clear();
 
 		dt.restartClock();
 	}
@@ -139,6 +141,15 @@ void App::handleGamestateChanges(GameStateRet handle)
 		//set gamestate to Menu
 		this->IMGUIManager.set_owner(nullptr);
 		gamestate = new HighScoreGameState(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
+		break;
+	case GameStatesEnum::TO_SETTINGS:
+		mouse->activateMouse(true);
+		gfx->getWindosClass().ShowCoursor();
+		//delete current gamestate
+		delete gamestate;
+		//set gamestate to Menu
+		this->IMGUIManager.set_owner(nullptr);
+		gamestate = new SettingsScene(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
 		break;
 	}
 	

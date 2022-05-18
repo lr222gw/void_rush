@@ -47,6 +47,11 @@ public:
 	bool IsLeftDown();
 	bool isMiddleDown();
 	bool isRightDown();
+
+	bool isLeftPressed();
+	bool isMiddlePressed();
+	bool isRightPressed();
+	
 	MousePoint getPos();
 	int getPosX();
 	int getPosY();
@@ -67,12 +72,14 @@ public:
 	void onWheelDown(int x, int y);
 	void onMouseMove(int x, int y);
 	void activateMouse(bool activate);
+	void clear();
 	
 private:
 	bool mouse_active;
 	bool once;
 	int x, y;
 	bool leaftIsDown, rightIsDown, midIsDown;
+	bool leaftDown, rightDown, midDown;
 	float mouseSense;
 	std::queue<mouseEvent>mouseBuffer;
 };

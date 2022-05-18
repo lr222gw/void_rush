@@ -32,6 +32,7 @@ private:
 		int SPIKES = 0;
 		int SNARE = 0;
 		int MUSHROOM = 0;
+		int FALLPLAT = 0;
 		
 	}nrOf, nrOfActive;
 
@@ -39,11 +40,13 @@ private:
 	void createSpikes();
 	void createSnare();
 	void createMushroom();
+	void createFallingPlatform();
 
 	Enemy* get_Turret();
 	Enemy* get_Spikes();
 	Enemy* get_Snare();
 	Enemy* get_Mushroom();
+	Enemy* get_FallingPlatform();
 
 	std::vector<Enemy*> enemies;
 	

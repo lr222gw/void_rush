@@ -9,6 +9,7 @@ public:
 	void update();
 	bool clicked();
 	bool hover();
+
 private:
 	bool hovered;
 	vec2 CWS;

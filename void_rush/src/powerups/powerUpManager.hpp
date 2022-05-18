@@ -31,11 +31,7 @@ private:
 		int Money	= 0;
 		int Snowflakes= 0;
 		int Pearls	= 0;
-		int EMPs	= 0;
-		int Kills	= 0;
-		int Pads	= 0;
 		int Rockets	= 0;
-		int Cards	= 0;
 	}nrOf,nrOfActive;
 	
 	void create_GoldenApple();
@@ -45,11 +41,7 @@ private:
 	void create_Money();
 	void create_Snowflake();
 	void create_Pearl();
-	void create_EMP();
-	void create_Pad();
-	void create_Kill();
 	void create_Rocket();
-	void create_Card();
 
 	GameObject*& get_GoldenApple();
 	GameObject*& get_Feather();
@@ -58,11 +50,7 @@ private:
 	GameObject*& get_Money();
 	GameObject*& get_Snowflake();
 	GameObject*& get_Pearl();
-	GameObject*& get_EMP();
-	GameObject*& get_Pad();
-	GameObject*& get_Kill();
 	GameObject*& get_Rocket();
-	GameObject*& get_Card();
 
 public: 
 	PowerupManager(GameObjectManager* GameObjManager, Graphics* gfx, ResourceManager* rm, CollisionHandler* collisionHandler, Mouse* mouse, Keyboard* keyboard);

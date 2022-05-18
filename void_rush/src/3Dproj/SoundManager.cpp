@@ -55,7 +55,7 @@ SoundManager::SoundManager()
 	if (!AnyAudio()) {
 		soundManagerActive = false;
 	}
-	this->volume = 1;
+	this->volume = (float)settingsSingleTon::GetInst().getSettings().volume;
 	musicLoop = false;
 	changingMusic = false;
 	activeMusic = 0;
@@ -133,6 +133,18 @@ void SoundManager::playSound(std::string soundName, vec3 soundposition)
 	}
 	sounds.find(soundName)->second->sound.setPosition(soundposition.x, soundposition.y, soundposition.z);
 	sounds.find(soundName)->second->sound.play();
+}
+
+void SoundManager::stopSound(std::string soundName)
+{
+	if (!soundManagerActive) {
+		return;
+	}
+	if (sounds.find(soundName) == sounds.end()) {
+		std::cout << "couldn't find sound: " << soundName << std::endl;
+		return;
+	}
+	sounds.find(soundName)->second->sound.stop();
 }
 
 void SoundManager::setSoundVolume(std::string soundName, float volume)
