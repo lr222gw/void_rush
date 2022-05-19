@@ -604,7 +604,7 @@ void Player::shovePlayer(vec2 shove, float forceY)
 {
 	if (hasShield != true)
 	{
-		this->groundedTimer = 0.11f;
+		this->groundedTimer = 0.51f;
 		this->grounded = false;
 		this->shoved = true;
 		this->shove = shove;

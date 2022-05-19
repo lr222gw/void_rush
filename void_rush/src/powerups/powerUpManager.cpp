@@ -263,6 +263,7 @@ void PowerupManager::create_Rocket()
 
 void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 {
+	GameObject* powerUpObject;
 	int chosenPower = 1 + (rand() % 100);
 	//Difficulty easy
 	if (chosenDiff == 1)
@@ -273,24 +274,32 @@ void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 			if (chosenPower <= 12)
 			{
 				//choose feather and moved into position
-				get_Feather()->setPos(pos);
+				powerUpObject = get_Feather();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 
 			}
 			else if (chosenPower > 12 && chosenPower <= 24)
 			{
 				//choose speed and moved into position
-				get_Potion()->setPos(pos);
+				powerUpObject = get_Potion();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 
 			}
 			else if (chosenPower > 24 && chosenPower <= 36)
 			{
 				//choose shield and moved into position
-				get_Shield()->setPos(pos);
+				powerUpObject = get_Shield();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 			}
 			else if (chosenPower > 36 && chosenPower <= 48)
 			{
 				// choose Money and moved into position
-				get_Money()->setPos(pos);
+				powerUpObject = get_Money();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 			}
 		}
 		else if (chosenPower > 48 && chosenPower <= 84)
@@ -299,12 +308,16 @@ void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 			if (chosenPower > 48 && chosenPower <= 66)
 			{
 				//Freeze
-				get_Snowflake()->setPos(pos);
+				powerUpObject = get_Snowflake();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 			}
 			else if (chosenPower > 66 && chosenPower <= 84)
 			{
 				//Pearl
-				get_Pearl()->setPos(pos);
+				powerUpObject = get_Pearl();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 			}
 		}
 		else if (chosenPower > 84)
@@ -313,12 +326,16 @@ void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 			if (chosenPower > 84 && chosenPower <= 92)
 			{
 				//Apple
-				get_GoldenApple()->setPos(pos);
+				powerUpObject = get_GoldenApple();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 			}
 			else if (chosenPower > 92 && chosenPower <= 100)
 			{
 				// Rocket
-				get_Rocket()->setPos(pos);
+				powerUpObject = get_Rocket();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 			}
 		}
 	}

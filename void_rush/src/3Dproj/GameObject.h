@@ -38,6 +38,8 @@ public:
 	float getWeight();
 	virtual void update(float dt);
 
+	void setWannaDraw(bool wannaDraw);
+
 	void getSoundManager(SoundManager& sm);
 
 	//DEBUG
@@ -56,6 +58,7 @@ private:
 	//Interaction Start
 private:
 	bool used;
+	bool wannaDraw;
 public:
 	void Use();
 	bool isUsed();
