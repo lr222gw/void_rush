@@ -127,6 +127,8 @@ public:
     void setShapeCube(vec3 center);
     void set_is_Illegal(bool status);
 
+    void remove_all_planes();
+
     void buildShape();
 
     bool get_is_Illegal();
@@ -174,6 +176,8 @@ private:
     void updateBoundingBoxes();
     void setShape(vec3 center, int nrOfVoxels, Shape* prev = nullptr);
     void setInOutPoints(vec3 center, Shape* prev = nullptr);
+
+    
 
     int index = 0;
     static int index_incrementor;

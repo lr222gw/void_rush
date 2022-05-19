@@ -445,32 +445,33 @@ void Player::handleEvents(float dt)
 			}
 			airDir = airDir + startingJumpDir;
 
-			velocity.x = speed.x * airDir.x;
-			velocity.z = speed.z * airDir.y;
+			velocity.x = speed.x  * airDir.x;
+			velocity.z = speed.z  * airDir.y;
 
 			velocity.x += bounceVec.x;
 			velocity.z += bounceVec.y;
 
 
-
+			float reduction = 2.f;
 			if (bounceVec.x > 0.1f) {
-				bounceVec.x -= 2.0f * dt;
+				bounceVec.x -= reduction * dt;
 			}
 			else if(bounceVec.x < -0.1f) {
-				bounceVec.x += 2.0f * dt;
+				bounceVec.x += reduction * dt;
 			}
 			else {
 				bounceVec.x = 0.0f;
 			}
 			if (bounceVec.y > 0.1f) {
-				bounceVec.y -= 2.0f * dt;
+				bounceVec.y -= reduction * dt;
 			}
 			else if (bounceVec.y < -0.1f) {
-				bounceVec.y += 2.0f * dt;
+				bounceVec.y += reduction * dt;
 			}
 			else {
 				bounceVec.y = 0.0f;
 			}
+			
 		}
 	}
 }
@@ -648,6 +649,9 @@ void Player::bouncePlayer(vec2 bounceVec, float forceY)
 	this->velocity.y = forceY;
 	this->bounced = true;
 	this->bounceVec = bounceVec;
+	this->jumpDir = vec2(0.f, 0.f);
+	this->startingJumpDir = vec2(0.f, 0.f);
+	this->startingJumpKey = 'N';
 	sm->playSound("Bounce", getPos());
 }
 

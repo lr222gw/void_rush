@@ -8,7 +8,11 @@ enum class enemyType {
 
 //NOTE: _COUNT is used to determine how many types of enemies there are...
 enum class respawnable_enemyType {
-	TURRET, SPIKES, SNARE, MUSHROOM, FALLPLAT, _COUNT
+	TURRET, SPIKES, SNARE, _COUNT
+}; 
+
+enum class obstacle_enemyType {
+	MUSHROOM, FALLPLAT, _COUNT
 }; 
 
 class Enemy : public GameObject {

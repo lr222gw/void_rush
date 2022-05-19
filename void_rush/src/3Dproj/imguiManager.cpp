@@ -154,6 +154,13 @@ void ImguiManager::render_generation_widgets()
 
 				ImGui::TreePop();
 			}
+			if (ImGui::TreeNode("Shortcuts")) {
+		
+				ImGui::InputFloat("minimumShortcutDotAngle", &owner->generationManager->position_gen->JP_conf.minimumShortcutDotAngle);
+				
+
+				ImGui::TreePop();
+			}
 			if (ImGui::TreeNode("PowerUp_Positions")) {
 				float* offset[3] = { 
 					&owner->generationManager->position_gen->PU_conf.position_offset.x,
