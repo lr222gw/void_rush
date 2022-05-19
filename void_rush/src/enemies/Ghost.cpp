@@ -200,19 +200,6 @@ bool Ghost::checkIfRangeOfPlayer()
 //Increseas the ghost speed during the game.
 void Ghost::GainSpeed(float dt)
 {
-	/*if (this->speed < player->getSpeed() + 1.2f)
-	{
-		if (this->Ghosts_Time >= this->ghost_Time_interval)
-		{
-			this->speed += this->speed_increase;
-			this->Ghosts_Time = 0.0f;
-		}
-		else
-		{
-			this->Ghosts_Time += dt;
-		}
-	}*/
-	
 	float distToPlayer = (this->player->getPos() - this->getPos()).length();
 
 	if (distToPlayer > this->ghost_max_dist_to_player) {
