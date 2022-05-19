@@ -125,6 +125,7 @@ GameStateRet Game::update(float dt)
 	GameStateRet theReturn;
 	theReturn.gameState = GameStatesEnum::NO_CHANGE;
 	theReturn.seed = 0;	
+	this->deltaT = dt;
 	if (pauseMenu) {
 		pauseUI->update();
 		gfx->Update(dt, camera->getPos());
@@ -220,43 +221,6 @@ GameStateRet Game::update(float dt)
 
 #pragma endregion camera_settings
 
-	
-		if (getkey('L'))
-		{
-			HUD->UpdateScore(100);
-		}
-
-		if (getkey('V') && testTime <= 0.0f)
-		{
-			testInt++;
-			if (testInt == 7)
-			{
-				testInt = 0;
-			}
-			testTime = 0.2f;
-			HUD->ChangeCurrentPowerUp(testInt);
-		}
-
-		if (getkey('B') && testTime <= 0.0f)
-		{
-			testTime = 0.2f;
-			if (HUD->GetStatusOfPassive(1))
-			{
-				HUD->TurnOffPassive(1);
-				HUD->TurnOffPassive(2);
-				HUD->TurnOffPassive(3);
-				HUD->TurnOffPassive(4);
-			}
-			else
-			{
-				HUD->TurnOnPassive(1);
-				HUD->TurnOnPassive(2);
-				HUD->TurnOnPassive(3);
-				HUD->TurnOnPassive(4);
-			}
-		}
-	
-
 		puzzleManager->UpdatePlayerPosition(this->player->getPos());
 
 		Interact(this->GameObjManager->getAllInteractGameObjects());
@@ -335,7 +299,7 @@ void Game::DrawToBuffer()
 	skybox->draw(gfx);
 
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
-	puzzleManager->Update(); 
+	puzzleManager->Update(this->deltaT); 
 	generationManager->draw(); //Todo: ask Simon where to put this...
 	GameObjManager->draw();
 	camera->calcFURVectors();
