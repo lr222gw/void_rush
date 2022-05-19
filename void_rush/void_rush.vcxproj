@@ -338,7 +338,6 @@
     <ClCompile Include="src\common\Helper.cpp" />
     <ClCompile Include="src\common\Shape.cpp" />
     <ClCompile Include="src\common\Shape_exporter.cpp" />
-    <ClCompile Include="src\common\Vector.cpp" />
     <ClCompile Include="src\generation\Player_jump_checker.cpp" />
     <ClCompile Include="src\generation\Position_generator.cpp" />
     <ClCompile Include="src\generation\Generation_manager.cpp" />
@@ -436,9 +435,7 @@
     <ClInclude Include="src\3Dproj\UIString.h" />
     <ClInclude Include="src\3Dproj\UISymbols.h" />
     <ClInclude Include="src\common\Helper.hpp" />
-    <ClInclude Include="src\common\Matrix.hpp" />
     <ClInclude Include="src\common\Shape.hpp" />
-    <ClInclude Include="src\common\Vector.hpp" />
     <ClInclude Include="src\enemies\EnemyManager.hpp" />
     <ClInclude Include="src\generation\Position_generator.hpp" />
     <ClInclude Include="src\generation\Generation_manager.hpp" />

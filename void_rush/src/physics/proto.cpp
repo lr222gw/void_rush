@@ -11,18 +11,18 @@ void physics_proto ()
     const double a = -9.81;
     int t = 0;
 
-    Vector2 acc;
-    Vector2 velocity = { 100, 150 };
-    Vector2 v0 = { 100, 150 };
-    Vector2 gravity;
-    Vector2 drag;
+    vec2 acc;
+    vec2 velocity = { 100, 150 };
+    vec2 v0 = { 100, 150 };
+    vec2 gravity;
+    vec2 drag;
     gravity.y = -9.82f;
-    Vector2 grav = Vector2 (0.0f, -9.82f);
-    Vector2 v = v0; // Vector2(0.0f, 0.0f);
-    Vector2 force_grav = grav * mass;
+    vec2 grav = vec2 (0.0f, -9.82f);
+    vec2 v = v0; // vec2(0.0f, 0.0f);
+    vec2 force_grav = grav * mass;
 
-    Vector2 startPos;
-    Vector2 pos;
+    vec2 startPos;
+    vec2 pos;
     //float h; //Not used?
     std::string content;
 
