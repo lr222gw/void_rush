@@ -131,6 +131,7 @@ private:
 	bool bounced;
 	vec2 bounceVec;
 	//Beat
+	bool heardBeat;
 	float heartBeatTimer;
 	float bpm;
 	float musicVol;

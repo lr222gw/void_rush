@@ -67,11 +67,8 @@ void Ghost::update(float dt)
 				len = 1.0f;
 			}
 			bpm = 60 + ((20 / len) * 10);
-			if (len > 10 && len < 15) {
+			if (len < 15) {
 				musicVol = 2 + (20 / len)*2;
-			}
-			else if (len < 10) {
-				musicVol = 2 + (20 / len)*4;
 			}
 		}
 		player->setBpm(bpm);

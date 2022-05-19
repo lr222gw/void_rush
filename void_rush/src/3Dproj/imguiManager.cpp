@@ -582,6 +582,7 @@ void ImguiManager::render_player_widgets()
 
 		ImGui::SliderFloat("ShakeTimer", &owner->camera->shakeTimerOrig, 0.0f, 0.1f);
 		ImGui::Checkbox("ScreenShake", &owner->player->screenShake);
+		ImGui::Checkbox("Heart Beat", &owner->player->heardBeat);
 	}
 	ImGui::End();
 }
