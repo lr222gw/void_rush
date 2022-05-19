@@ -719,24 +719,33 @@ void Position_generator::generate_shortcut()
             auto temp = newPos + offset;
             vec3 v = create_offset(temp, mushroomJump.getPos()) / 2.f;
             v.y = 0.f;
-            //newPos = newPos + v;
+            newPos = newPos + v;
 
-            //Check that position is not above/below an existing platform
-            bool notAbove = check_platform_y_intersection(newPos);
+            
 
             vec3 currentPlayerPos = valid_anchors[randomAnchor]->platformShape.outCorner.pos;
-            if(!notAbove){
-                this->shortcut_positions.positions.push_back(newPos);
-                currentPlayerPos = this->shortcut_positions.positions.back();
-                mushroomJump.moveto(currentPlayerPos);
-                start_current_len = (newPos - valid_anchors[randomAnchor]->platformShape.outCorner.pos).length();
-
-                jumpPossible = !mushroomJump.isJumpPossible(valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos);
-            }else{
-                jumpPossible = false;
-            }
-                                        
             
+            this->shortcut_positions.positions.push_back(newPos);
+            currentPlayerPos = this->shortcut_positions.positions.back();
+            mushroomJump.moveto(currentPlayerPos);
+            start_current_len = (newPos - valid_anchors[randomAnchor]->platformShape.outCorner.pos).length();
+
+            jumpPossible = !mushroomJump.isJumpPossible(valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos);
+            
+
+        }
+
+        for (int i = 0; i <  this->shortcut_positions.positions.size(); i++)
+        {
+
+            //Check that position is not above/below an existing platform
+            bool notAbove = check_platform_y_intersection(this->shortcut_positions.positions[i]);
+
+            if(!notAbove){
+                this->shortcut_positions.positions.erase(
+                    this->shortcut_positions.positions.begin() + i
+                );
+            }
         }
     }
 }
