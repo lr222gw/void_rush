@@ -50,7 +50,7 @@ void EnemyManager::createSnare()
 {
 	std::string name = "snare" + std::to_string(nrOf.SNARE++);
 	this->nrOfActive.SNARE = this->nrOf.SNARE;
-	GameObjManager->CreateEnemy(player, enemyType::SNARE, *soundManager, "DCube.obj", name,
+	GameObjManager->CreateEnemy(player, enemyType::SNARE, *soundManager, "snareTest.obj", name,
 		FarFarFarAway,
 		vec3(0.0f, 0.0f, 0.0f), 
 		vec3(Snare::snare_conf.Snare_scale, 

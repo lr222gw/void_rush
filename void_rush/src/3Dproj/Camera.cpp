@@ -192,47 +192,7 @@ void Camera::movement()
 
 void Camera::handleEvent(float dt)
 {
-	//handle this event in player
-	translation = DirectX::XMFLOAT3(0, 0, 0);
-	//movement
-	if (getkey('W')) {
-		translation = DirectX::XMFLOAT3(0, 0, -(float)dt);
-		Translate(dt);
-	}
-	if (getkey('D')) {
-		translation = DirectX::XMFLOAT3(-(float)dt, 0, 0);
-		Translate(dt);
-	}
-	if (getkey('S')) {
-		translation = DirectX::XMFLOAT3(0, 0, (float)dt);
-		Translate(dt);
-	}
-	if (getkey('A')) {
-		translation = DirectX::XMFLOAT3((float)dt, 0, 0);
-		Translate(dt);
-	}
-	if (GetKeyState(VK_SPACE) & 0x8000) {
-		yCamPos += movementspeed * (float)dt;
-	}
-	if (GetKeyState(VK_SHIFT) & 0x8000) {
-		yCamPos -= movementspeed * (float)dt;
-	}
-	
-	//rot
-	if (!mouse->getMouseActive()) {
-		if (GetKeyState(VK_RIGHT) & 0x8000) {
-			xCamRot += mouseSensitivity * (float)dt;
-		}
-		if (GetKeyState(VK_LEFT) & 0x8000) {
-			xCamRot -= mouseSensitivity * (float)dt;
-		}
-		if (GetKeyState(VK_UP) & 0x8000) {
-			yCamRot += mouseSensitivity * (float)dt;
-		}
-		if (GetKeyState(VK_DOWN) & 0x8000) {
-			yCamRot -= mouseSensitivity * (float)dt;
-		}
-	}
+
 }
 
 void Camera::shakeScreen(float dt)
