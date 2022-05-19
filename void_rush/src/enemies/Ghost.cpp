@@ -60,23 +60,29 @@ void Ghost::update(float dt)
 		}
 		//Adjusting players bpm and game music based on distance
 		float bpm = 60;
-		float musicVol = 3.0f;
+		float musicVol = 0.0f;
+		float minDist = 1.0f;
+		float maxDist = 70.0f;
 		float len = fabs((this->getPos() - player->getPos()).length());
-		if (len < 20.0f) {
-			if (len < 1.0f) {
-				len = 1.0f;
+		if (len < maxDist) {
+			player->EnableHeart();
+			if (len < minDist) {
+				len = minDist;
 			}
-			bpm = 60 + ((20 / len) * 10);
-			if (len < 15) {
-				musicVol = 2 + (20 / len)*2;
-			}
+			float part = minDist / len;
+			bpm = 60 + part * 150.0f;
+			musicVol = 10 + part*35.0f;
+		}
+		else {
+			player->DisableHeart();
 		}
 		player->setBpm(bpm);
 		player->setMusicVol(musicVol);
 	}
 	else {
-		player->setBpm(60.0f);
-		player->setMusicVol(3.0f);
+		
+		player->DisableHeart();
+		player->setMusicVol(0.0f);
 	}
 }
 
