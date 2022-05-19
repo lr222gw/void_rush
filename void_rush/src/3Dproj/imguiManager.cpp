@@ -348,11 +348,17 @@ void ImguiManager::render_physics_widgets()
 			*init_speed[1] = speedSlider;
 			*init_speed[2] = speedSlider;
 		}
+		if (ImGui::InputFloat("Speed not slider", &speedSlider)) {
+			*init_speed[0] = speedSlider;
+			*init_speed[1] = speedSlider;
+			*init_speed[2] = speedSlider;
+		}
 		ImGui::InputFloat("Gravity", &owner->player->gravity.y);
 		ImGui::InputFloat("Jumpforce", &owner->player->jumpForce);
 		static float min_MidAdj = 1;
 		static float max_MidAdj = 10;
 		ImGui::SliderFloat("Air adjustment", &owner->player->midAirAdj, min_MidAdj, max_MidAdj);
+		ImGui::InputFloat("Air adjustment not Slider", &owner->player->midAirAdj);
 		ImGui::InputFloat("Lives", &owner->player->health);
 	}
 	ImGui::End();

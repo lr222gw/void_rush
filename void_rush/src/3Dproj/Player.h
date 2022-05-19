@@ -39,6 +39,7 @@ public:
 	void setGrounded();
 	void setUngrounded();
 	float getSpeed();
+	float getBaseSpeed();
 	bool isGrounded();
 	float getJumpForce();
 	float getGravity();
@@ -108,6 +109,7 @@ private:
 	bool invincible;
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
 	vec3 speed;
+	vec3 baseSpeed;
 	float jumpForce;
 	float midAirAdj;
 	vec3 velocity;

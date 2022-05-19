@@ -8,7 +8,8 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->keyboard = keyboard;
 	this->cam = cam;
 	this->gravity = vec3(0.0f, -15.f, 0.0f);
-	this->speed = vec3(5.3f, 0.0f, 5.3f);
+	this->baseSpeed = vec3(5.3f, 0.0f, 5.3f);
+	this->speed = this->baseSpeed;
 	this->storeSpeed = this->speed.x;
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
 	this->jumpForce = 8.0f;
@@ -40,7 +41,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	for (int i = 0; i < maxLetters; i++) {
 		this->name += "_";
 	}
-	this->scoreManager.SetPlayerSpeed(speed.length());
+	this->scoreManager.SetPlayerSpeed(this->baseSpeed.length());
 	this->scoreManager.SetHUD(HUD);
 	fallCubeSize = vec3(50.0f, 200.0f, 50.0f);
 	UpdateFallBox();
@@ -364,7 +365,7 @@ void Player::handleEvents(float dt)
 			released = false;
 			rememberSpeed = this->speed;
 			//std::cout << "PRESSED \n";
-			this->speed = this->speed * 2;
+			this->speed = this->baseSpeed * 2;
 		}
 		else if (held && !released) {
 			//std::cout << "HELD \n";			
@@ -537,6 +538,12 @@ float Player::getSpeed()
 {
 	return this->speed.x;
 }
+
+float Player::getBaseSpeed()
+{
+	return this->baseSpeed.x;
+}
+
 
 bool Player::isGrounded()
 {
