@@ -53,7 +53,7 @@ void Powerups::UsePowerUp(float dt)
 		{
 			rocketTimer += dt;
 		}
-		if (rocketTimer >= 5.0f)
+		if (rocketTimer >= 3.0f)
 		{
 			player->getSm()->stopSound("Rocket");
 			rocketTimer = 0.0f;
