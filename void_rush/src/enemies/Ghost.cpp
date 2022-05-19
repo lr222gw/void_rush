@@ -71,7 +71,7 @@ void Ghost::update(float dt)
 			}
 			float part = minDist / len;
 			bpm = 60 + part * 150.0f;
-			musicVol = 10 + part*35.0f;
+			musicVol = 5 + part*40.0f;
 		}
 		else {
 			player->DisableHeart();
