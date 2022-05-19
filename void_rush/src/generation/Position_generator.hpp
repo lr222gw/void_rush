@@ -33,6 +33,11 @@ struct Enemy_positions {
     std::vector<PositionGroup> positions;        
 };
 
+struct ShortCut_positions {
+    int nrOfPositions;
+    std::vector<vec3> positions;
+};
+
 class Position_generator
 {
 private:
@@ -41,9 +46,12 @@ private:
     Platform*startPlat;
     std::vector<Platform*> anchors;
     std::vector<Platform*> jumpPoints;
+
     Player_jump_checker* pl;
     powerUp_positions powerup_positions;
     Enemy_positions enemy_positions;
+    ShortCut_positions shortcut_positions;
+    ShortCut_positions obstaclePositions;
     
     std::vector<Platform*> getAllPlatforms();
     std::vector<Platform*> getInOrderVector_ValidJumppoints();
@@ -55,14 +63,20 @@ public:
     ~Position_generator();
     bool start (Difficulity diff);
     void generate_anchor_positions(Difficulity selectedDiff);
-    void generate_jumpPoints_positions(Difficulity selectedDiff);        
+    void generate_jumpPoints_positions(Difficulity selectedDiff);   
+    void replace_random_jumpPoints_with_obstacles_positions();
+
+    void generate_shortcut();    
     void select_powerUp_positions();
     void select_enemy_positions();
     powerUp_positions* get_powerUp_positions();
     Enemy_positions* get_enemy_positions();
+    ShortCut_positions* get_shortcut_positions();
+    ShortCut_positions* get_obstacle_positions();
 
     FirstLast_between_Anchor jumpPoint_generation_helper(Platform* start, Platform* end);    
     void jumpPoint_create_offset(Platform* plat, vec3& currentMiddle, vec3 start, vec3 end);
+    vec3 create_offset(vec3& end, const vec3& start);    
     void reset_generation(vec3 player_position);
     void set_seed(int _seed);
     std::vector<Platform*>* getAnchors ();
@@ -80,7 +94,8 @@ public:
     Platform*& GetStartPlatform();
 
     void removeOverlappingPlatformVoxels();
-    void removeUnnecessaryPlatformsVoxels();
+    void removeUnnecessaryPlatforms();
+    bool check_platform_y_intersection(const vec3& newPos);
 
 private: // Magic Numbers
     struct Anchor_point_settings{        
@@ -92,7 +107,7 @@ private: // Magic Numbers
         float lowest_Height = -300.f;   //Lowest point for generation
         float freeFallModifier = -50.f;
         int freeFallRate = 3; // Procentage chance would be 1 / freeFallRate
-        float minZAngle = 0.f;
+        float minZAngle = 0.2f;
         float spawn_Y_offset_origo = -10.f;
     };
     Anchor_point_settings AP_conf;
@@ -103,6 +118,7 @@ private: // Magic Numbers
         float y_max_clamp = 0.1f;     //between -1 and 1
         float rand_dir_min_angle_percent = -1.f;    
         float rand_dir_max_angle_percent = 1.f;
+        float minimumShortcutDotAngle = 0.8f;
 
     };
     Jump_point_settings JP_conf;

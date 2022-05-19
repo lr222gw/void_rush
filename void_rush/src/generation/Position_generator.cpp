@@ -38,8 +38,11 @@ bool Position_generator::start (Difficulity selectedDiff)
     
     generate_anchor_positions(selectedDiff);
     generate_jumpPoints_positions(selectedDiff);
+
+    replace_random_jumpPoints_with_obstacles_positions();
+
     //removeOverlappingPlatformVoxels();
-    removeUnnecessaryPlatformsVoxels();
+    removeUnnecessaryPlatforms();
 
     return true;
 }
@@ -181,6 +184,69 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
        delete plat;
     }
     trashBin.clear();
+}
+
+void Position_generator::replace_random_jumpPoints_with_obstacles_positions()
+{
+    this->obstaclePositions.nrOfPositions = 0;
+    this->obstaclePositions.positions.clear();
+
+    std::vector<Platform*> replaceable_jumpPoints;
+
+    //Find all JPs with a size of max 4 voxels
+    for(auto& jp : this->getInOrderVector_ValidJumppoints()){
+
+        if(jp->platformShape.previousVoxels.size() < 5){
+            if(jp->prev &&
+                 jp->next &&
+                (jp->next->platformShape.get_midpoint() - jp->platformShape.get_midpoint()).length() > 3 && 
+                (jp->prev->platformShape.get_midpoint() - jp->platformShape.get_midpoint()).length() > 3)
+            {
+                replaceable_jumpPoints.push_back(jp);
+            }else{
+                int breakMe = 3;
+            }
+        }
+    }
+
+    for (auto& ap : this->getInOrderVector_ValidAnchors()) {
+
+        for (int i = 0; i < replaceable_jumpPoints.size(); i++) {
+
+            auto rp = replaceable_jumpPoints[i];
+            if (rp->prev &&
+                rp->next &&
+                ap->prev &&
+                ap->next &&
+                (ap->next->platformShape.get_midpoint() - rp->platformShape.get_midpoint()).length() < 3 &&
+                (ap->prev->platformShape.get_midpoint() - rp->platformShape.get_midpoint()).length() < 3)
+            {
+                replaceable_jumpPoints.erase(replaceable_jumpPoints.begin() + i);
+                
+            }
+            else {
+                int breakMe = 3;
+            }
+        }                
+    }
+
+    //try to look for this nr of JPs to replace
+    int nrOfObstacles = replaceable_jumpPoints.size() /2 ;
+    
+    for (int i = 0; i < nrOfObstacles; i++) {
+        int pick_index = rand() % replaceable_jumpPoints.size();
+        Platform* pick = replaceable_jumpPoints[pick_index];
+
+        obstaclePositions.positions.push_back(pick->platformShape.get_midpoint());
+        obstaclePositions.nrOfPositions++; 
+
+        pick->platformShape.remove_all_planes();
+        pick->platformShape.set_is_Illegal(true);
+
+        replaceable_jumpPoints.erase(replaceable_jumpPoints.begin() + pick_index);        
+    }
+
+
 }
 
 void Position_generator::select_powerUp_positions()
@@ -339,6 +405,16 @@ Enemy_positions* Position_generator::get_enemy_positions()
     return &enemy_positions;
 }
 
+ShortCut_positions* Position_generator::get_shortcut_positions()
+{
+    return &shortcut_positions;
+}
+
+ShortCut_positions* Position_generator::get_obstacle_positions()
+{
+    return &this->obstaclePositions;
+}
+
 FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platform* start, Platform* end)
 { 
 
@@ -432,24 +508,29 @@ FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platfor
 
 void Position_generator::jumpPoint_create_offset(Platform* plat,vec3& currentMiddle, vec3 start, vec3 end)
 {
+    vec3 offset = create_offset(end, start);
+
+    plat->setPosition(start + offset);
+}
+
+vec3 Position_generator::create_offset(vec3& end, const vec3& start)
+{
     vec3 temp = vec3(randF(-1.f, 1.f), randF(-1.f, 1.f), randF(-1.f, 1.f)).Normalize();
     vec3 start_End = (end - start);
     vec3 start_End_dir = vec3::Normalize(start_End);
     float randomDist = randF(0.f, start_End.length()) / JP_conf.random_dist_dividier;
 
-    while(  start_End_dir * temp > JP_conf.rand_dir_max_angle_percent || 
-            start_End_dir * temp < JP_conf.rand_dir_min_angle_percent)
+    while (start_End_dir * temp > JP_conf.rand_dir_max_angle_percent ||
+        start_End_dir * temp < JP_conf.rand_dir_min_angle_percent)
     {
         //to get all possible directions, use -1 and 1...
         temp = vec3(randF(-1.f, 1.f), randF(-1.f, 1.f), randF(-1.f, 1.f)).Normalize();
-    }    
-        
-    vec3 randomDir = start_End_dir.X(temp).Normalize();
-    randomDir.y = std::clamp(randomDir.y, JP_conf.y_min_clamp, JP_conf.y_max_clamp);    
-    
-    vec3 offset = randomDir * randomDist; 
+    }
 
-    plat->setPosition(start + offset);
+    vec3 randomDir = start_End_dir.X(temp).Normalize();
+    randomDir.y = std::clamp(randomDir.y, JP_conf.y_min_clamp, JP_conf.y_max_clamp);
+
+    return randomDir * randomDist; 
 }
 
 void Position_generator::reset_generation(vec3 player_position)
@@ -515,7 +596,7 @@ std::vector<Platform*> Position_generator::getInOrderVector_ValidJumppoints()
         }
         currentJumppoint = currentJumppoint->next;
     }
-    std::reverse(validJPs.begin(), validJPs.end());
+    //std::reverse(validJPs.begin(), validJPs.end());
     return validJPs;
 }
 std::vector<Platform*> Position_generator::getInOrderVector_ValidAnchors()
@@ -553,6 +634,138 @@ int Position_generator::getNrOfValidAnchorpoints()
         currentAnchor = currentAnchor->next;
     }
     return validMeshes;
+}
+
+void Position_generator::generate_shortcut()
+{
+    shortcut_positions.nrOfPositions = 0; 
+    shortcut_positions.positions.clear();
+
+    std::vector<Platform*> valid_anchors = getInOrderVector_ValidAnchors();
+
+    int randomAnchor = rand() % valid_anchors.size();
+    int nextRandomAnchor = randomAnchor + 2;
+
+    if(nextRandomAnchor >= (int)valid_anchors.size()) {
+        randomAnchor -= 2;
+        nextRandomAnchor -= 2;
+    }
+
+    //shortcut_positions.positions.push_back(valid_anchors[randomAnchor]->platformShape.outCorner.pos);
+    
+    Player_jump_checker mushroomJump;
+    
+    mushroomJump.set_physics_params(8.f,5.f, -15.f);//TODO: do not hardcode
+    
+    vec3 direction = 
+        valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos - 
+        valid_anchors[randomAnchor]->platformShape.outCorner.pos;
+
+    vec3 dir_unitvec = vec3::Normalize(direction);
+
+    vec3 controlDir = 
+        valid_anchors[nextRandomAnchor - 1]->platformShape.inCorner.pos - 
+        valid_anchors[randomAnchor]->platformShape.outCorner.pos;
+
+    
+
+    vec3 normalized_controlDir = vec3::Normalize(controlDir);
+    float dot_angle =  dir_unitvec * normalized_controlDir ;
+
+    int triedCounter = 0;
+    
+    while (dot_angle < -this->JP_conf.minimumShortcutDotAngle || dot_angle > this->JP_conf.minimumShortcutDotAngle  
+        && triedCounter <= valid_anchors.size()) 
+    {
+
+        randomAnchor     = (++randomAnchor) % (valid_anchors.size() - 2);
+        nextRandomAnchor =  randomAnchor + 2;
+
+        controlDir = 
+            valid_anchors[nextRandomAnchor - 1]->platformShape.inCorner.pos - 
+            valid_anchors[randomAnchor]->platformShape.outCorner.pos;
+
+        direction = 
+            valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos - 
+            valid_anchors[randomAnchor]->platformShape.outCorner.pos;
+
+        dir_unitvec = vec3::Normalize(direction);
+
+        normalized_controlDir = vec3::Normalize(controlDir);
+        dot_angle =  dir_unitvec * normalized_controlDir ;
+        triedCounter++;
+    }
+
+    if (triedCounter <= valid_anchors.size()) {
+
+        vec3 originalDir = direction;
+        mushroomJump.moveto(valid_anchors[randomAnchor]->platformShape.outCorner.pos);
+        float start_current_len = 0; 
+        float jumplen = mushroomJump.getJumpDistance();
+
+        bool jumpPossible = !mushroomJump.isJumpPossible(valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos);
+        while (jumpPossible &&
+            originalDir.length() - jumplen > start_current_len)
+        {
+
+            direction = valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos - mushroomJump.getPos();
+            dir_unitvec = vec3::Normalize(direction);
+
+            //calc position for next platform
+            vec3 offset = dir_unitvec * mushroomJump.getJumpDistance();
+            vec3 newPos = mushroomJump.getPos() + offset;
+
+            //get and set an random offset for newPos 
+            auto temp = newPos + offset;
+            vec3 v = create_offset(temp, mushroomJump.getPos()) / 2.f;
+            v.y = 0.f;
+            newPos = newPos + v;
+
+            
+
+            vec3 currentPlayerPos = valid_anchors[randomAnchor]->platformShape.outCorner.pos;
+            
+            this->shortcut_positions.positions.push_back(newPos);
+            currentPlayerPos = this->shortcut_positions.positions.back();
+            mushroomJump.moveto(currentPlayerPos);
+            start_current_len = (newPos - valid_anchors[randomAnchor]->platformShape.outCorner.pos).length();
+
+            jumpPossible = !mushroomJump.isJumpPossible(valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos);
+            
+
+        }
+
+        for (int i = 0; i <  this->shortcut_positions.positions.size(); i++)
+        {
+
+            //Check that position is not above/below an existing platform
+            bool notAbove = check_platform_y_intersection(this->shortcut_positions.positions[i]);
+
+            if(!notAbove){
+                this->shortcut_positions.positions.erase(
+                    this->shortcut_positions.positions.begin() + i
+                );
+            }
+        }
+    }
+}
+
+bool Position_generator::check_platform_y_intersection(const vec3& newPos)
+{
+    bool notAbove = true;
+    float radius = 5;
+    for (auto& p : this->getAllPlatforms()) {
+        for (auto& v : p->platformShape.previousVoxels) {
+            if ((v.current_center - newPos).length_XZ() < radius) {
+                notAbove = false;
+                break;
+            }
+        }
+        if (!notAbove) {
+            break;
+        }
+    }
+    return notAbove;
 }
 
 mapDimensions Position_generator::getCurrentMapDimensions()
@@ -680,49 +893,87 @@ void Position_generator::removeOverlappingPlatformVoxels()
 
 }
 
-void Position_generator::removeUnnecessaryPlatformsVoxels()
+void Position_generator::removeUnnecessaryPlatforms()
 {
     int maxNrAhead = 5;
     bool skipable = false; 
     int iteration = 0;
 
-    Platform* startPoint = this->getFirstJumppoint();
-    Platform* toCheck = nullptr;
+    //Platform* startPoint = this->getFirstJumppoint();
+    //Platform* toCheck = nullptr;
 
-    toCheck = startPoint->next;
-    while(toCheck && startPoint && toCheck->next && !startPoint->platformShape.get_is_Illegal()){
+    //toCheck = startPoint->next;
+    //while(toCheck && startPoint && toCheck->next && !startPoint->platformShape.get_is_Illegal()){
+    //    iteration = 0;
+    //    toCheck = startPoint->next;
+
+    //    while (iteration < maxNrAhead && toCheck->next) {
+
+    //        /*for (int j = 0; j < iteration && toCheck->next; j++) {
+    //            toCheck = toCheck->next;
+    //        }*/
+
+    //        this->pl->moveto(startPoint->platformShape.outCorner.pos);
+    //        float JumpDist = this->pl->getJumpDistance(toCheck->platformShape.inCorner.pos.y);
+    //        float distance = this->pl->distance(toCheck->platformShape.inCorner.pos);
+    //        float padding = JumpDist/4.f;
+    //        skipable = this->pl->isJumpPossible(toCheck->platformShape.inCorner.pos);
+
+    //        if (skipable && JumpDist > distance+padding) {
+    //            toCheck->platformShape.previousVoxels.clear();
+    //            toCheck->platformShape.set_is_Illegal(true);
+    //        }
+    //        else{
+    //            startPoint = toCheck;
+    //            break;
+    //        }
+    //        iteration++;
+    //        toCheck = toCheck->next;
+    //    }
+    //    startPoint = toCheck;
+    //}
+
+    std::vector<Platform*> inOrderJumpPoints = this->getInOrderVector_ValidJumppoints();
+    float jumpDist = 0;
+    float distance = 0;
+    float padding = 0;
+    int j = 0;
+    this->pl->moveto(this->anchors[0]->platformShape.outCorner.pos);
+    for (int i = 1; i < this->anchors.size(); i++) {
         iteration = 0;
-        toCheck = startPoint->next;
-
-        while (iteration < maxNrAhead && toCheck->next) {
-
-            /*for (int j = 0; j < iteration && toCheck->next; j++) {
-                toCheck = toCheck->next;
-            }*/
-
-            this->pl->moveto(startPoint->platformShape.outCorner.pos);
-            float JumpDist = this->pl->getJumpDistance(toCheck->platformShape.inCorner.pos.y);
-            float distance = this->pl->distance(toCheck->platformShape.inCorner.pos);
-            float padding = JumpDist/4.f;
-            skipable = this->pl->isJumpPossible(toCheck->platformShape.inCorner.pos);
-
-            if (skipable && JumpDist > distance+padding) {
-                toCheck->platformShape.previousVoxels.clear();
-                toCheck->platformShape.set_is_Illegal(true);
-            }
-            else{
-                startPoint = toCheck;
+        for (j;j < inOrderJumpPoints.size(); j++) {
+            jumpDist = this->pl->getJumpDistance(anchors[i]->platformShape.inCorner.pos.y);
+            distance = this->pl->distance(anchors[i]->platformShape.inCorner.pos);
+            //padding = jumpDist / jumpDist;
+            padding = jumpDist/10.0f;
+            if(jumpDist > distance+padding && this->pl->isJumpPossible(anchors[i]->platformShape.inCorner.pos)){
+                inOrderJumpPoints[j]->next->platformShape.previousVoxels.clear();
+                inOrderJumpPoints[j]->next->platformShape.set_is_Illegal(true);
+                this->pl->moveto(this->anchors[i]->platformShape.outCorner.pos);
                 break;
             }
-            iteration++;
-            toCheck = toCheck->next;
+            else {
+                iteration = 0;
+                while (iteration < maxNrAhead && inOrderJumpPoints[j + iteration]->next && j+iteration < inOrderJumpPoints.size()) {
+                    jumpDist = this->pl->getJumpDistance(inOrderJumpPoints[j+iteration]->platformShape.inCorner.pos.y);
+                    distance = this->pl->distance(inOrderJumpPoints[j+iteration]->platformShape.inCorner.pos);
+                    padding = jumpDist / 10.f;
+                    skipable = this->pl->isJumpPossible(inOrderJumpPoints[j+iteration]->platformShape.inCorner.pos);
+                    if (skipable && jumpDist > distance + padding) {
+                        inOrderJumpPoints[j+iteration]->platformShape.previousVoxels.clear();
+                        inOrderJumpPoints[j+iteration]->platformShape.set_is_Illegal(true);
+                        iteration++;
+                    }
+                    else {
+                        j += iteration;
+                        this->pl->moveto(inOrderJumpPoints[j]->platformShape.outCorner.pos);
+                        break;
+                    }
+                }
+            }
         }
-        startPoint = toCheck;
-    }
-   /* for(int i = 0; i < this->anchors.size(); i++){
-        this->pl->moveto(this->anchors[i]->platformShape.outCorner.pos);
 
-    }*/
+    }
 }
 
 

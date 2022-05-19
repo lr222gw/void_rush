@@ -33,6 +33,6 @@ public:
 	int ChoosePuzzle();
 	void Interact(vec3 playerPos, vec3 forwardVec);
 	void UpdatePlayerPosition(vec3 Pos);
-	void Update();
+	void Update(float dt);
 	bool isCompleted();
 };

@@ -167,7 +167,7 @@ void CollisionHandler::update()
 	for (size_t i = 0; i < Enemies.size(); i++) {
 		
 		if (collision3D(player->getPlayerObjPointer(), Enemies[i])) {
-			Enemies[i]->collidedWithPlayer();
+			Enemies[i]->collidedWithPlayer();			
 		}
 		else if (collision3D(player->getPlayerObjPointer(), Enemies[i], true, false)) {
 			Enemies[i]->collidedWithPlayer();

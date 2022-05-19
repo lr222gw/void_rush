@@ -445,12 +445,33 @@ void Player::handleEvents(float dt)
 			}
 			airDir = airDir + startingJumpDir;
 
-			velocity.x = speed.x * airDir.x;
-			velocity.z = speed.z * airDir.y;
+			velocity.x = speed.x  * airDir.x;
+			velocity.z = speed.z  * airDir.y;
 
 			velocity.x += bounceVec.x;
 			velocity.z += bounceVec.y;
 
+
+			float reduction = 2.f;
+			if (bounceVec.x > 0.1f) {
+				bounceVec.x -= reduction * dt;
+			}
+			else if(bounceVec.x < -0.1f) {
+				bounceVec.x += reduction * dt;
+			}
+			else {
+				bounceVec.x = 0.0f;
+			}
+			if (bounceVec.y > 0.1f) {
+				bounceVec.y -= reduction * dt;
+			}
+			else if (bounceVec.y < -0.1f) {
+				bounceVec.y += reduction * dt;
+			}
+			else {
+				bounceVec.y = 0.0f;
+			}
+			
 		}
 	}
 }
@@ -628,9 +649,10 @@ void Player::bouncePlayer(vec2 bounceVec, float forceY)
 	this->velocity.y = forceY;
 	this->bounced = true;
 	this->bounceVec = bounceVec;
+	this->jumpDir = vec2(0.f, 0.f);
+	this->startingJumpDir = vec2(0.f, 0.f);
+	this->startingJumpKey = 'N';
 	sm->playSound("Bounce", getPos());
-	ResetGhost();
-
 }
 
 void Player::setVelocity(vec3 vel)
@@ -728,13 +750,21 @@ void Player::getShield()
 	}
 }
 
-void Player::setPlayerSpeed(vec3 speed)
+void Player::setPlayerSpeed(vec3 speed, bool onAndoff)
 {
-	this->speed.x += speed.x;
-	this->speed.z += speed.z;
-	if (this->speed.x == this->storeSpeed)
+	if (onAndoff == true)
 	{
-		HUD->TurnOffPassive(POTION_P);
+		this->speed.x += speed.x;
+		this->speed.z += speed.z;
+	}
+	else
+	{
+		this->speed.x = storeSpeed;
+		this->speed.z = storeSpeed;
+		if (this->speed.x == this->storeSpeed)
+		{
+			HUD->TurnOffPassive(POTION_P);
+		}
 	}
 }
 

@@ -23,6 +23,7 @@ protected:
     vec3 position = vec3(0.0f, 0.0f, 0.0f);
     SoundManager* soundManager;
     vec3 playerPos = vec3(0.0f, 0.0f, 0.0f);
+    float deltaT = 0.0f;
 
 public:
     //Create puzzle
@@ -46,6 +47,10 @@ public:
     void SpawnDoor(vec3 pos);
 
     void UpdatePlayerPos(vec3 newPlayerPos);
+
+    void UpdateDT(float dt);
+
+    float getDT();
 
     virtual void Interaction(vec3 playerPos, vec3 forwardVec) = 0;
 

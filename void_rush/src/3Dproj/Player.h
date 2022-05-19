@@ -66,7 +66,7 @@ public:
 	void setCanDoubleJump();
 	bool canDoubleJump();
 	void getShield();
-	void setPlayerSpeed(vec3 speed);
+	void setPlayerSpeed(vec3 speed, bool onAndoff);
 	void useRocket(bool trueOrFalse);
 
 	void SetDifficulity(Difficulity diff);

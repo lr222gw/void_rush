@@ -72,3 +72,13 @@ void Puzzle::UpdatePlayerPos(vec3 newPlayerPos)
 {
     this->playerPos = newPlayerPos;
 }
+
+void Puzzle::UpdateDT(float dt)
+{
+    this->deltaT = dt;
+}
+
+float Puzzle::getDT()
+{
+    return this->deltaT;
+}
