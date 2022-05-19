@@ -451,6 +451,26 @@ void Player::handleEvents(float dt)
 			velocity.x += bounceVec.x / velocity.length();
 			velocity.z += bounceVec.y / velocity.length();
 
+
+
+			if (bounceVec.x > 0.1f) {
+				bounceVec.x -= 2.0f * dt;
+			}
+			else if(bounceVec.x < -0.1f) {
+				bounceVec.x += 2.0f * dt;
+			}
+			else {
+				bounceVec.x = 0.0f;
+			}
+			if (bounceVec.y > 0.1f) {
+				bounceVec.y -= 2.0f * dt;
+			}
+			else if (bounceVec.y < -0.1f) {
+				bounceVec.y += 2.0f * dt;
+			}
+			else {
+				bounceVec.y = 0.0f;
+			}
 		}
 	}
 }
@@ -629,8 +649,6 @@ void Player::bouncePlayer(vec2 bounceVec, float forceY)
 	this->bounced = true;
 	this->bounceVec = bounceVec;
 	sm->playSound("Bounce", getPos());
-	ResetGhost(); //TODO: This should be removed, right?
-
 }
 
 void Player::setVelocity(vec3 vel)
