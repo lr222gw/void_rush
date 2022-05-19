@@ -140,7 +140,7 @@ Graphics::Graphics(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 Graphics::~Graphics()
 {
 	ImGui_ImplDX11_Shutdown();
-	
+	swapChain->SetFullscreenState(FALSE, NULL);
 	inputLayout[0]->Release();
 	inputLayout[1]->Release();
 	delete[] inputLayout;
