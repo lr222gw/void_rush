@@ -136,7 +136,7 @@ GameStateRet Game::update(float dt)
 	if (player->IsAlive()) {
 
 		/*DEBUG*/
-		if (keyboard->isKeyPressed(VK_RETURN)) {
+		if (keyboard->isKeyPressed(VK_RETURN) && _DEBUG) {
 			ghost->setActive();
 		}
 		/*******/
@@ -149,17 +149,6 @@ GameStateRet Game::update(float dt)
 			camera->screenShake(3.0f);
 		}
 		camera->updateCamera(dt);
-		if (getkey('N')) {
-			DirectX::XMMATRIX viewMatrix = DirectX::XMMATRIX(
-				1.0f, 0.0f, 0.0f, 0.0f,
-				0.0f, 1.0f, 0.0f, 0.0f,
-				0.0f, 0.0f, 1.0f, 0.0f,
-				-GameObjManager->getGameObject(1)->getPos().x, -GameObjManager->getGameObject(1)->getPos().y, -GameObjManager->getGameObject(1)->getPos().z, 1.0f
-			);
-			XRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().x);
-			YRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().y);
-			gfx->getVertexconstbuffer()->view.element = viewMatrix;
-		}
 		for (int i = 0; i < billboardGroups.size(); i++) {
 			billboardGroups[i]->update(dt, gfx);
 		}
@@ -186,33 +175,13 @@ GameStateRet Game::update(float dt)
 		gfx->Update(dt, camera->getPos());
 		HUD->UpdateGhostBar(player->getPos(), generationManager->getPuzzelPos(), ghost->getPos(), distanceFromStartPosToPuzzle);
 		//HUD->UpdateScore(player->GetScore());
+		//let the two lights follow player
 		light[0]->getPos().x = player->getPos().x;
 		light[0]->getPos().y = player->getPos().y;
 		light[0]->getPos().z = player->getPos().z;
 
 		light[1]->getPos().x = player->getPos().x;
 		light[1]->getPos().z = player->getPos().z;
-
-#pragma region camera_settings
-
-		if (getkey('C')) {
-			camera->setPosition(light[lightNr]->getPos());
-			camera->setRotation(light[lightNr]->getRotation());
-		}
-		if (getkey('1') && getkey(VK_F1)) {
-			lightNr = 0;
-		}
-		if (getkey('2') && getkey(VK_F1)) {
-			lightNr = 1;
-		}
-		if (getkey('3') && getkey(VK_F1)) {
-			lightNr = 2;
-		}
-		if (getkey('4') && getkey(VK_F1)) {
-			lightNr = 3;
-		}
-
-#pragma endregion camera_settings
 
 		puzzleManager->UpdatePlayerPosition(this->player->getPos());
 
@@ -255,7 +224,7 @@ void Game::render()
 void Game::updateShaders(bool vs, bool ps)
 {
 
-	for (int i = 0; i < billboardGroups.size(); i++) {
+	for (int i = 0; i < billboardGroups.size(); i++) {//TODO: REMOVE?
 		billboardGroups[i]->updateShader(gfx, camera->getPos());
 	}
 	if (vs)
@@ -318,6 +287,7 @@ void Game::setUpObject()
 
 	player = new Player(rm->get_Models("Player.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f),vec3(0,0,0), vec3(0.2f,0.8f,0.2f));
 	player->getSoundManager(soundManager);
+	player->setWannaDraw(false);
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
@@ -507,15 +477,6 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			player->Reset(true);
 			generationManager->initialize();
 			soundManager.playSound("Portal", player->getPos());
-			vec2 Lpos = (generationManager->getMapDimensions().highPoint - generationManager->getMapDimensions().lowPoint) / 2 + generationManager->getMapDimensions().lowPoint;
-			//light[1]->getPos() = vec3(Lpos.x, 200, Lpos.y);
-			//light[1]->setProjection(
-			//	DirectX::XMMatrixOrthographicLH(
-			//		generationManager->getMapDimensions().x_width + 30,
-			//		generationManager->getMapDimensions().z_width + 30,
-			//	0.1f, 
-			//	40000.f
-			//	));
 		}
 	}
 }
