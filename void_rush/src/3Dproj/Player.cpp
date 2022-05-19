@@ -8,7 +8,8 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->keyboard = keyboard;
 	this->cam = cam;
 	this->gravity = vec3(0.0f, -15.f, 0.0f);
-	this->speed = vec3(5.3f, 0.0f, 5.3f);
+	this->baseSpeed = vec3(5.3f, 0.0f, 5.3f);
+	this->speed = this->baseSpeed;
 	this->storeSpeed = this->speed.x;
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
 	this->jumpForce = 8.0f;
@@ -40,7 +41,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	for (int i = 0; i < maxLetters; i++) {
 		this->name += "_";
 	}
-	this->scoreManager.SetPlayerSpeed(speed.length());
+	this->scoreManager.SetPlayerSpeed(this->baseSpeed.length());
 	this->scoreManager.SetHUD(HUD);
 	fallCubeSize = vec3(50.0f, 200.0f, 50.0f);
 	UpdateFallBox();
@@ -48,9 +49,10 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	scream = false;
 	this->shoveDelay = false;
 	this->shoveTimer = 0.0f;
+	this->heardBeat = true;
 	this->heartBeatTimer = 0.0f;
 	this->bpm = 60;
-	this->musicVol = 3.0f;
+	this->musicVol = 0.0f;
 
 	currentFOV = 45;
 	minFOV = 45;
@@ -129,8 +131,10 @@ void Player::update(float dt)
 		}
 	}
 	if (heartBeatTimer >= 60/bpm) {
-		sm->setSoundVolume("HeartBeat", 30 + 30/(260 / bpm));
-		//sm->playSound("HeartBeat", getPos());
+		if (heardBeat) {
+			sm->setSoundVolume("HeartBeat", 30 + 30/(260 / bpm));
+			sm->playSound("HeartBeat", getPos());
+		}
 		heartBeatTimer = 0.0f;
 	}
 	sm->setSoundVolume("MusicChange", musicVol);
@@ -316,8 +320,13 @@ void Player::handleEvents(float dt)
 			jumpDir = vec2(0.0f, 0.0f);
 		}
 	}
-	if ((keyboard->isKeyPressed(VK_SPACE) && (grounded || canDoublejump))) {
+	if ((keyboard->isKeyPressed(VK_SPACE) && (grounded || jumpAfterPlatformTimer > 0.0f || canDoublejump))) {
 		if(!noClip){
+			if (jumpAfterPlatformTimer > 0.0f)
+			{
+				jumpAfterPlatformTimer = 0.0f;
+			}
+
 			if (canDoublejump == true && grounded)
 			{
 				this->canDoublejump = false;
@@ -364,7 +373,7 @@ void Player::handleEvents(float dt)
 			released = false;
 			rememberSpeed = this->speed;
 			//std::cout << "PRESSED \n";
-			this->speed = this->speed * 2;
+			this->speed = this->baseSpeed * 2;
 		}
 		else if (held && !released) {
 			//std::cout << "HELD \n";			
@@ -421,7 +430,13 @@ void Player::handleEvents(float dt)
 			{
 				airDir = airDir / vec2(midAirAdj, midAirAdj);
 			}
+
 			airDir = airDir + startingJumpDir;
+
+			if (startingJumpDir.legth() == 0.0f)
+			{
+				airDir = airDir * 1.5f;
+			}
 
 			velocity.x = speed.x * airDir.x;
 			velocity.z = speed.z * airDir.y;
@@ -445,12 +460,42 @@ void Player::handleEvents(float dt)
 			}
 			airDir = airDir + startingJumpDir;
 
-			velocity.x = speed.x * airDir.x;
-			velocity.z = speed.z * airDir.y;
+			velocity.x = speed.x  * airDir.x * 2.0f;
+			velocity.z = speed.z  * airDir.y * 2.0f;
 
 			velocity.x += bounceVec.x;
 			velocity.z += bounceVec.y;
 
+
+			float reduction = 2.f;
+			if (bounceVec.x > 0.1f) {
+				bounceVec.x -= reduction * dt;
+			}
+			else if(bounceVec.x < -0.1f) {
+				bounceVec.x += reduction * dt;
+			}
+			else {
+				bounceVec.x = 0.0f;
+			}
+			if (bounceVec.y > 0.1f) {
+				bounceVec.y -= reduction * dt;
+			}
+			else if (bounceVec.y < -0.1f) {
+				bounceVec.y += reduction * dt;
+			}
+			else {
+				bounceVec.y = 0.0f;
+			}
+			
+		}
+	}
+	
+	if (this->jumpAfterPlatformTimer > 0.0f)
+	{
+		this->jumpAfterPlatformTimer -= dt;
+		if (this->jumpAfterPlatformTimer <= 0.0f)
+		{
+			this->jumpAfterPlatformTimer = 0.0f;
 		}
 	}
 }
@@ -495,6 +540,7 @@ void Player::setGrounded()
 		this->startingJumpKey = 'N';
 		this->fallBoxTimer = 0.0f;
 		this->scream = false;
+		this->jumpAfterPlatformTimer = 0.0f;
 
 		sm->setSoundVolume("Land", volume);
 		sm->playSound("Land", this->getPos());
@@ -509,6 +555,7 @@ void Player::setUngrounded()
 		this->grounded = false;
 		this->startingJumpDir = jumpDir / 2;
 		groundedTimer = 0.001f;
+		this->jumpAfterPlatformTimer = 0.15f;
 	}
 }
 
@@ -516,6 +563,12 @@ float Player::getSpeed()
 {
 	return this->speed.x;
 }
+
+float Player::getBaseSpeed()
+{
+	return this->baseSpeed.x;
+}
+
 
 bool Player::isGrounded()
 {
@@ -570,6 +623,7 @@ void Player::Reset(bool lvlClr)
 	this->startingJumpDir = vec2(0.0f, 0.0f);
 	this->fallBoxTimer = 0.0f;
 	this->lookat(this->resetLookat_dir);
+	this->jumpAfterPlatformTimer = 0.0f;
 
 	if (lvlClr) {
 		//Add points
@@ -604,7 +658,7 @@ void Player::shovePlayer(vec2 shove, float forceY)
 {
 	if (hasShield != true)
 	{
-		this->groundedTimer = 0.11f;
+		this->groundedTimer = 0.51f;
 		this->grounded = false;
 		this->shoved = true;
 		this->shove = shove;
@@ -628,9 +682,10 @@ void Player::bouncePlayer(vec2 bounceVec, float forceY)
 	this->velocity.y = forceY;
 	this->bounced = true;
 	this->bounceVec = bounceVec;
+	this->jumpDir = vec2(0.f, 0.f);
+	this->startingJumpDir = vec2(0.f, 0.f);
+	this->startingJumpKey = 'N';
 	sm->playSound("Bounce", getPos());
-	ResetGhost();
-
 }
 
 void Player::setVelocity(vec3 vel)
@@ -653,7 +708,7 @@ void Player::pickedUpPower(Powerup index)
 		this->HUD->TurnOnPassive(FEATHER_P);
 		this->passive_powerup = FEATHER_P;
 	}
-	else if (index == PEARL)
+	else if (index == PEARL && !pearlActive)
 	{
 		this->HUD->TurnOnPassive(PEARL_P);
 		this->passive_powerup = PEARL_P;
@@ -728,13 +783,21 @@ void Player::getShield()
 	}
 }
 
-void Player::setPlayerSpeed(vec3 speed)
+void Player::setPlayerSpeed(vec3 speed, bool onAndoff)
 {
-	this->speed.x += speed.x;
-	this->speed.z += speed.z;
-	if (this->speed.x == this->storeSpeed)
+	if (onAndoff == true)
 	{
-		HUD->TurnOffPassive(POTION_P);
+		this->speed.x += speed.x;
+		this->speed.z += speed.z;
+	}
+	else
+	{
+		this->speed.x = storeSpeed;
+		this->speed.z = storeSpeed;
+		if (this->speed.x == this->storeSpeed)
+		{
+			HUD->TurnOffPassive(POTION_P);
+		}
 	}
 }
 
@@ -824,9 +887,19 @@ bool Player::GetSubmitName()
 	return submitName;
 }
 
+void Player::DisableHeart()
+{
+	this->heardBeat = false;
+}
+
 void Player::SetSubmitName(bool val)
 {
 	submitName = val;
+}
+
+void Player::EnableHeart()
+{
+	this->heardBeat = true;
 }
 
 void Player::SetCurrentSeed(int seed)

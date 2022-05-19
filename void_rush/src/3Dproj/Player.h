@@ -39,6 +39,7 @@ public:
 	void setGrounded();
 	void setUngrounded();
 	float getSpeed();
+	float getBaseSpeed();
 	bool isGrounded();
 	float getJumpForce();
 	float getGravity();
@@ -66,7 +67,7 @@ public:
 	void setCanDoubleJump();
 	bool canDoubleJump();
 	void getShield();
-	void setPlayerSpeed(vec3 speed);
+	void setPlayerSpeed(vec3 speed, bool onAndoff);
 	void useRocket(bool trueOrFalse);
 
 	void SetDifficulity(Difficulity diff);
@@ -85,6 +86,8 @@ public:
 	void getSoundManager(SoundManager& sm);
 	SoundManager* getSm()const;
 
+	void DisableHeart();
+	void EnableHeart();
 	void setBpm(float bpm);
 	void setMusicVol(float vol);
 
@@ -108,8 +111,10 @@ private:
 	bool invincible;
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
 	vec3 speed;
+	vec3 baseSpeed;
 	float jumpForce;
 	float midAirAdj;
+	float jumpAfterPlatformTimer = 0.0f;
 	vec3 velocity;
 	vec3 acceleration;
 	vec3 resForce;
@@ -131,6 +136,7 @@ private:
 	bool bounced;
 	vec2 bounceVec;
 	//Beat
+	bool heardBeat;
 	float heartBeatTimer;
 	float bpm;
 	float musicVol;

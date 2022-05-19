@@ -71,6 +71,8 @@ void Graphics::CreateBlendState(int wBlend, bool transparance) {
 Graphics::Graphics(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow, Mouse*& mouse) :
 	speed(1.5f)
 {
+	WIDTH = resolutions[settingsSingleTon::GetInst().getSettings().resolution][0];
+	HEIGHT = resolutions[settingsSingleTon::GetInst().getSettings().resolution][1];
 	fov = 45.f;
 	ratio = 16.f / 9.f;
 	farPlane = 2000.f;
@@ -138,7 +140,7 @@ Graphics::Graphics(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 Graphics::~Graphics()
 {
 	ImGui_ImplDX11_Shutdown();
-	
+	swapChain->SetFullscreenState(FALSE, NULL);
 	inputLayout[0]->Release();
 	inputLayout[1]->Release();
 	delete[] inputLayout;

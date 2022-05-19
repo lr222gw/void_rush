@@ -2,6 +2,7 @@
 
 App::App(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
+	settingsSingleTon::GetInst().readSettings();
 	if (CoInitialize((LPVOID)NULL) != S_OK) {
 		exit(1);
 	}
@@ -84,6 +85,7 @@ void App::run()
 		gamestate->render();
 
 		handleGamestateChanges(theHandle);
+		mouse->clear();
 
 		dt.restartClock();
 	}

@@ -19,32 +19,29 @@ void PowerupManager::init(Player* player, Ghost* ghost)
 	create_Money();
 	create_Snowflake();
 	create_Pearl();
-	create_EMP();
-	create_Pad();
-	create_Kill();
 	create_Rocket();
 
 }
 
 void PowerupManager::update()
 {
-	static float invert = 1;
-	float amount = 0.001f;
-	float randomOffset = 0.f;
+	static float amount = 0.00075f;
+	static float randomOffset = 0.f;
+	static float speed = 50;
 	static DeltaTime timer;	
 	static double time = 0.0;	
+	static float dt;
 	timer.restartClock();
+	dt = timer.dt();
 	time += timer.dt();
-	if(time > 1.0){
-		time = 0.0;
-		invert *= -1;
-	}
-	
+
 	for (int i = 0; i < this->powers.size(); i++) { 
 		randomOffset = 0.1f / (rand() % 10 + 1);
-		this->powers[i]->addRot(vec3(0.f, deg_to_rad(1.f+ randomOffset), 0.f));
-		this->powers[i]->movePos(vec3(0.f, amount*invert ,0.f));
+		this->powers[i]->addRot(vec3(0.f, deg_to_rad(1.f+ randomOffset) * speed * dt, 0.f));	
+		this->powers[i]->movePos(vec3(0.f, sinf(time + dt) * amount,0.f));
+		
 	}
+
 }
 
 void PowerupManager::reset()
@@ -140,42 +137,6 @@ GameObject*& PowerupManager::get_Pearl()
 	return this->GameObjManager->getGameObject("Pearl"+std::to_string(index));
 }
 
-GameObject*& PowerupManager::get_EMP()
-{
-	int index = this->nrOfActive.EMPs;
-	if (this->nrOfActive.EMPs >= this->nrOf.EMPs ) {
-		create_EMP();
-	}
-	else {
-		this->nrOfActive.EMPs++;
-	}	
-	return this->GameObjManager->getGameObject("EMP"+std::to_string(index));
-}
-
-GameObject*& PowerupManager::get_Pad()
-{
-	int index = this->nrOfActive.Pads;
-	if (this->nrOfActive.Pads >= this->nrOf.Pads ) {
-		create_Pad();
-	}
-	else {
-		this->nrOfActive.Pads++;
-	}	
-	return this->GameObjManager->getGameObject("Pad"+std::to_string(index));
-}
-
-GameObject*& PowerupManager::get_Kill()
-{
-	int index = this->nrOfActive.Kills;
-	if (this->nrOfActive.Kills >= this->nrOf.Kills ) {
-		create_Kill();
-	}
-	else {
-		this->nrOfActive.Kills++;
-	}	
-	return this->GameObjManager->getGameObject("Kill"+std::to_string(index));
-}
-
 GameObject*& PowerupManager::get_Rocket()
 {
 	int index = this->nrOfActive.Rockets;
@@ -186,18 +147,6 @@ GameObject*& PowerupManager::get_Rocket()
 		this->nrOfActive.Rockets++;
 	}	
 	return this->GameObjManager->getGameObject("Rocket"+std::to_string(index));
-}
-
-GameObject*& PowerupManager::get_Card()
-{
-	int index = this->nrOfActive.Cards;
-	if (this->nrOfActive.Cards >= this->nrOf.Cards ) {
-		create_Card();
-	}
-	else {
-		this->nrOfActive.Cards++;
-	}	
-	return this->GameObjManager->getGameObject("Card"+std::to_string(index));
 }
 
 void PowerupManager::create_GoldenApple()
@@ -298,48 +247,6 @@ void PowerupManager::create_Pearl()
 	collisionHandler->addPowerups(powers.back());
 }
 
-void PowerupManager::create_EMP()
-{
-	std::string name = "EMP" + std::to_string(nrOf.EMPs++);
-	nrOfActive.EMPs = nrOf.EMPs;
-	powers.push_back(new Powerups(rm->get_Models("EMP.obj", gfx), gfx, player, ghost, mouse, keyboard,
-			 vec3(1000.0f, 1000.0f, 1000.0f),
-			 vec3(0.0f, 0.0f, 0.0f),
-			 vec3(0.2f, 0.2f, 0.2f),
-			 EMP));
-	
-	GameObjManager->addGameObject(powers.back(), name);
-	collisionHandler->addPowerups(powers.back());
-}
-
-void PowerupManager::create_Pad()
-{
-	std::string name = "Pad" + std::to_string(nrOf.Pads++);
-	nrOfActive.Pads = nrOf.Pads;
-	powers.push_back(new Powerups(rm->get_Models("GoldenApple.obj", gfx), gfx, player, ghost, mouse, keyboard,
-			 vec3(1000.0f, 1000.0f, 1000.0f),
-			 vec3(0.0f, 0.0f, 0.0f),
-			 vec3(0.1f, 0.1f, 0.1f),
-			 PAD));
-	
-	GameObjManager->addGameObject(powers.back(), name);
-	collisionHandler->addPowerups(powers.back());
-}
-
-void PowerupManager::create_Kill()
-{
-	std::string name = "Kill" + std::to_string(nrOf.Kills++);
-	nrOfActive.Kills = nrOf.Kills;
-	powers.push_back(new Powerups(rm->get_Models("Skull.obj", gfx), gfx, player, ghost, mouse, keyboard,
-			 vec3(1000.0f, 1000.0f, 1000.0f),
-			 vec3(0.0f, 0.0f, 0.0f),
-			 vec3(0.1f, 0.1f, 0.1f),
-			 KILL));
-	
-	GameObjManager->addGameObject(powers.back(), name);
-	collisionHandler->addPowerups(powers.back());
-}
-
 void PowerupManager::create_Rocket()
 {
 	std::string name = "Rocket" + std::to_string(nrOf.Rockets++);
@@ -354,253 +261,82 @@ void PowerupManager::create_Rocket()
 	collisionHandler->addPowerups(powers.back());
 }
 
-void PowerupManager::create_Card()
-{
-	std::string name = "Card" + std::to_string(nrOf.Cards++);
-	nrOfActive.Cards = nrOf.Cards;
-	powers.push_back(new Powerups(rm->get_Models("Rocket.obj", gfx), gfx, player, ghost, mouse, keyboard,
-			 vec3(1000.0f, 1000.0f, 1000.0f),
-			 vec3(0.0f, deg_to_rad(30.f), deg_to_rad(-30.f)),
-			 vec3(0.1f, 0.1f, 0.1f),
-			 CARD));
-	
-	GameObjManager->addGameObject(powers.back(), name);
-	collisionHandler->addPowerups(powers.back());
-}
-
 void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 {
+	GameObject* powerUpObject;
 	int chosenPower = 1 + (rand() % 100);
 	//Difficulty easy
 	if (chosenDiff == 1)
 	{
-		if (chosenPower <= 60)
+		if (chosenPower <= 48)
 		{
 			//Got F-tier
-			if (chosenPower <= 15)
+			if (chosenPower <= 12)
 			{
 				//choose feather and moved into position
-				get_Feather()->setPos(pos);
+				powerUpObject = get_Feather();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 
 			}
-			else if (chosenPower > 15 && chosenPower <= 30)
+			else if (chosenPower > 12 && chosenPower <= 24)
 			{
 				//choose speed and moved into position
-				get_Potion()->setPos(pos);
+				powerUpObject = get_Potion();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 
 			}
-			else if (chosenPower > 30 && chosenPower <= 45)
+			else if (chosenPower > 24 && chosenPower <= 36)
 			{
 				//choose shield and moved into position
-				get_Shield()->setPos(pos);
+				powerUpObject = get_Shield();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 			}
-			else if (chosenPower > 45 && chosenPower <= 60)
+			else if (chosenPower > 36 && chosenPower <= 48)
 			{
 				// choose Money and moved into position
-				get_Money()->setPos(pos);
+				powerUpObject = get_Money();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 			}
 		}
-		else if (chosenPower > 60 && chosenPower <= 92)
+		else if (chosenPower > 48 && chosenPower <= 84)
 		{
 			//Got C-tier
-			if (chosenPower > 60 && chosenPower <= 76)
+			if (chosenPower > 48 && chosenPower <= 66)
 			{
 				//Freeze
-				get_Snowflake()->setPos(pos);
+				powerUpObject = get_Snowflake();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 			}
-			else if (chosenPower > 76 && chosenPower <= 92)
+			else if (chosenPower > 66 && chosenPower <= 84)
 			{
 				//Pearl
-				get_Pearl()->setPos(pos);
+				powerUpObject = get_Pearl();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 			}
-			//else if (chosenPower > 76 && chosenPower <= 84)
-			//{
-			//	// EMP
-			//	get_EMP()->setPos(pos);
-			//}
-			//else if (chosenPower > 84 && chosenPower <= 92)
-			//{
-			//	// PAD
-			//	get_Pad()->setPos(pos);
-			//}
 		}
-		else if (chosenPower >= 93)
+		else if (chosenPower > 84)
 		{
 			//Got S-tier
-			if (chosenPower >= 93 && chosenPower <= 96)
+			if (chosenPower > 84 && chosenPower <= 92)
 			{
 				//Apple
-				get_GoldenApple()->setPos(pos);
+				powerUpObject = get_GoldenApple();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 			}
-			//else if (chosenPower > 94 && chosenPower <= 96)
-			//{
-			//	//Kill
-			//	get_Kill()->setPos(pos);
-			//}
-			else if (chosenPower > 96 && chosenPower <= 100)
+			else if (chosenPower > 92 && chosenPower <= 100)
 			{
 				// Rocket
-				get_Rocket()->setPos(pos);
+				powerUpObject = get_Rocket();
+				powerUpObject->setPos(pos);
+				powerUpObject->setWannaDraw(true);
 			}
-			//else if (chosenPower > 98 && chosenPower <= 100)
-			//{
-			//	// Card
-			//	//get_Card()->setPos(pos);
-			//}
 		}
 	}
-	//else if (chosenDiff == 2) //Difficult medium
-	//{
-	//	if (chosenPower <= 36)
-	//	{
-	//		//Got F-tier
-	//		if (chosenPower <= 9)
-	//		{
-	//			//choose feather and moved into position
-	//			get_Feather()->setPos(pos);
-
-	//		}
-	//		else if (chosenPower > 9 && chosenPower <= 18)
-	//		{
-	//			//choose speed and moved into position
-	//			get_Potion()->setPos(pos);
-
-	//		}
-	//		else if (chosenPower > 18 && chosenPower <= 27)
-	//		{
-	//			//choose shield and moved into position
-	//			get_Shield()->setPos(pos);
-	//		}
-	//		else if (chosenPower > 27 && chosenPower <= 36)
-	//		{
-	//			// choose Money and moved into position
-	//			get_Money()->setPos(pos);
-	//		}
-	//	}
-	//	else if (chosenPower > 36 && chosenPower <= 84)
-	//	{
-	//		//Got C-tier
-	//		if (chosenPower >= 37 && chosenPower <= 48)
-	//		{
-	//			//Freeze
-	//			get_Snowflake()->setPos(pos);
-	//		}
-	//		else if (chosenPower > 48 && chosenPower <= 60)
-	//		{
-	//			//Pearl
-	//			get_Pearl()->setPos(pos);
-	//		}
-	//		else if (chosenPower > 60 && chosenPower <= 72)
-	//		{
-	//			// EMP
-	//			get_EMP()->setPos(pos);
-	//		}
-	//		else if (chosenPower > 72 && chosenPower <= 84)
-	//		{
-	//			// PAD
-	//			get_Pad()->setPos(pos);
-	//		}
-	//	}
-	//	else if (chosenPower >= 85)
-	//	{
-	//		//Got S-tier
-	//		if (chosenPower >= 85 && chosenPower <= 88)
-	//		{
-	//			//Freeze
-	//			get_GoldenApple()->setPos(pos);
-	//		}
-	//		else if (chosenPower > 88 && chosenPower <= 92)
-	//		{
-	//			//Pearl
-	//			get_Kill()->setPos(pos);
-	//		}
-	//		else if (chosenPower > 92 && chosenPower <= 96)
-	//		{
-	//			// EMP
-	//			get_Rocket()->setPos(pos);
-	//		}
-	//		else if (chosenPower > 96 && chosenPower <= 100)
-	//		{
-	//			// PAD
-	//			//get_Pad()->setPos(pos);
-	//		}
-	//	}
-	//}
-	//else if (chosenDiff == 3)
-	//{
-	//	if (chosenPower <= 24)
-	//	{
-	//		//Got F-tier
-	//		if (chosenPower <= 6)
-	//		{
-	//			//choose feather and moved into position
-	//			get_Feather()->setPos(pos);
-
-	//		}
-	//		else if (chosenPower > 6 && chosenPower <= 12)
-	//		{
-	//			//choose speed and moved into position
-	//			get_Potion()->setPos(pos);
-
-	//		}
-	//		else if (chosenPower > 12 && chosenPower <= 18)
-	//		{
-	//			//choose shield and moved into position
-	//			get_Shield()->setPos(pos);
-	//		}
-	//		else if (chosenPower > 18 && chosenPower <= 24)
-	//		{
-	//			// choose Money and moved into position
-	//			get_Money()->setPos(pos);
-	//		}
-	//	}
-	//	else if (chosenPower > 24 && chosenPower <= 60)
-	//	{
-	//		//Got C-tier
-	//		if (chosenPower >= 24 && chosenPower <= 33)
-	//		{
-	//			//Freeze
-	//			get_Snowflake()->setPos(pos);
-	//		}
-	//		else if (chosenPower > 33 && chosenPower <= 42)
-	//		{
-	//			//Pearl
-	//			get_Pearl()->setPos(pos);
-	//		}
-	//		else if (chosenPower > 42 && chosenPower <= 51)
-	//		{
-	//			// EMP
-	//			get_EMP()->setPos(pos);
-	//		}
-	//		else if (chosenPower > 51 && chosenPower <= 60)
-	//		{
-	//			// PAD
-	//			get_Pad()->setPos(pos);
-	//		}
-	//	}
-	//	else if (chosenPower > 61)
-	//	{
-	//		//Got S-tier
-	//		if (chosenPower >= 61 && chosenPower <= 70)
-	//		{
-	//			//GoldenApple
-	//			get_GoldenApple()->setPos(pos);
-	//		}
-	//		else if (chosenPower > 70 && chosenPower <= 80)
-	//		{
-	//			//Kill
-	//			get_Kill()->setPos(pos);
-	//		}
-	//		else if (chosenPower > 80 && chosenPower <= 90)
-	//		{
-	//			// Rocket
-	//			get_Rocket()->setPos(pos);
-	//		}
-	//		else if (chosenPower > 90 && chosenPower <= 100)
-	//		{
-	//			// Card
-	//			get_Card()->setPos(pos);
-	//		}
-	//	}
-	//}
 }

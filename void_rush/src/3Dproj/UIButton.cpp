@@ -24,7 +24,7 @@ void UIButton::update()
 
 bool UIButton::clicked()
 {
-    return mouse->IsLeftDown() && hovered;
+    return mouse->isLeftPressed() && hovered;
 }
 
 bool UIButton::hover()

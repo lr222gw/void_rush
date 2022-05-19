@@ -26,6 +26,7 @@ void Hud::setUpUI()
 	UI->createUISprite("assets/textures/Empty.png", vec2(0.8f, -0.63f), vec2(0.05f, 0.05f));
 	UI->createUISprite("assets/textures/Empty.png", vec2(0.85f, -0.63f), vec2(0.05f, 0.05f));
 	UI->createUISprite("assets/textures/Empty.png", vec2(0.9f, -0.63f), vec2(0.05f, 0.05f));
+	UI->createUISprite("assets/textures/Crosshair.png", vec2(-0.01f, -0.015f), vec2(0.02f, 0.03f));
 }
 
 void Hud::LowerHealth()
@@ -141,24 +142,8 @@ void Hud::ChangeCurrentPowerUp(int index)
 		currentPowerUp = ROCKET;
 		break;
 	case 2:
-		UI->getElements(POWERUP)->replaceSprite(rm->getSprite("assets/textures/PowerUpCard.png", gfx));
-		currentPowerUp = CARD;
-		break;
-	case 3:
 		UI->getElements(POWERUP)->replaceSprite(rm->getSprite("assets/textures/PowerUpFreeze.png", gfx));
 		currentPowerUp = FREEZE;
-		break;
-	case 4:
-		UI->getElements(POWERUP)->replaceSprite(rm->getSprite("assets/textures/PowerUpDeath.png", gfx));
-		currentPowerUp = DEATH;
-		break;
-	case 5:
-		UI->getElements(POWERUP)->replaceSprite(rm->getSprite("assets/textures/PowerUpEMP.png", gfx));
-		currentPowerUp = EMP;
-		break;
-	case 6:
-		UI->getElements(POWERUP)->replaceSprite(rm->getSprite("assets/textures/PowerUpPad.png", gfx));
-		currentPowerUp = PAD;
 		break;
 	}
 }

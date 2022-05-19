@@ -4,6 +4,7 @@
 #include <map>
 #include <iostream>
 #include "Vec.h"
+#include "settings.h"
 #include <thread>
 
 bool AnyAudio();

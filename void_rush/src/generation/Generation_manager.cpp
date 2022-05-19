@@ -104,7 +104,7 @@ void Generation_manager::initialize()
     
     this->player_jump_checker->set_physics_params(
         player->getJumpForce(),
-        player->getSpeed(),
+        player->getBaseSpeed(),
         //5.f,
         player->getGravity());
 
@@ -139,9 +139,10 @@ void Generation_manager::initialize()
     }
 
     enemyManager->spawnEnemies(position_gen->get_enemy_positions());
-    /*for (auto& p : position_gen->get_enemy_positions()->ranmdomPositions) {
-        enemyManager->spawnEnemy(p);
-    }*/
+    
+    position_gen->generate_shortcut();
+    enemyManager->spawnObstacles(position_gen->get_shortcut_positions());
+    enemyManager->spawnObstacles(position_gen->get_obstacle_positions());
 
     this->player->set_resetLookat_dir(position_gen->firstJumpPoint->platformShape.get_midpoint());
     this->player->lookat(position_gen->firstJumpPoint->platformShape.get_midpoint(),

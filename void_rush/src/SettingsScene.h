@@ -16,6 +16,10 @@ private:
 	void saveSettings();
 	UIManager* UI;
 	SkyBox* skybox;
-
-
+	settings sett;
+	std::string VolumeToString();
+	std::string ResolutionToString();
+	std::string FullScreenToString();
+	float savedTime = 0;
+	bool exist = false;
 };

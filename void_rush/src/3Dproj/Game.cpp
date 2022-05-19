@@ -3,7 +3,7 @@
 
 Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam, int seed):
 	GameState(gfx,rm,imguimanager,mouse,keyboard,cam),
-	soundManager(1)//be able to change this later based on settings
+	soundManager()//be able to change this later based on settings
 {
 	/*sets in setup___*/
 	GameObjManager = new GameObjectManager(gfx, rm);
@@ -80,10 +80,6 @@ void Game::handleEvents()
 		if (e.getType() == mouseEvent::EventType::RAW_MOVE && !pauseMenu) {
 			player->rotateWithMouse(e.getPosX(), e.getPosY());
 		}
-		if (e.getType() == mouseEvent::EventType::RPress) {
-
-			soundManager.playSound("German", player->getPos());
-		}
 	}
 	if (keyboard->onceisKeyReleased('F') && player->IsAlive()) {
 		//set pause
@@ -125,6 +121,7 @@ GameStateRet Game::update(float dt)
 	GameStateRet theReturn;
 	theReturn.gameState = GameStatesEnum::NO_CHANGE;
 	theReturn.seed = 0;	
+	this->deltaT = dt;
 	if (pauseMenu) {
 		pauseUI->update();
 		gfx->Update(dt, camera->getPos());
@@ -220,43 +217,6 @@ GameStateRet Game::update(float dt)
 
 #pragma endregion camera_settings
 
-	
-		if (getkey('L'))
-		{
-			HUD->UpdateScore(100);
-		}
-
-		if (getkey('V') && testTime <= 0.0f)
-		{
-			testInt++;
-			if (testInt == 7)
-			{
-				testInt = 0;
-			}
-			testTime = 0.2f;
-			HUD->ChangeCurrentPowerUp(testInt);
-		}
-
-		if (getkey('B') && testTime <= 0.0f)
-		{
-			testTime = 0.2f;
-			if (HUD->GetStatusOfPassive(1))
-			{
-				HUD->TurnOffPassive(1);
-				HUD->TurnOffPassive(2);
-				HUD->TurnOffPassive(3);
-				HUD->TurnOffPassive(4);
-			}
-			else
-			{
-				HUD->TurnOnPassive(1);
-				HUD->TurnOnPassive(2);
-				HUD->TurnOnPassive(3);
-				HUD->TurnOnPassive(4);
-			}
-		}
-	
-
 		puzzleManager->UpdatePlayerPosition(this->player->getPos());
 
 		Interact(this->GameObjManager->getAllInteractGameObjects());
@@ -335,7 +295,7 @@ void Game::DrawToBuffer()
 	skybox->draw(gfx);
 
 	gfx->get_IMctx()->VSSetShader(gfx->getVS()[0], nullptr, 0);
-	puzzleManager->Update(); 
+	puzzleManager->Update(this->deltaT); 
 	generationManager->draw(); //Todo: ask Simon where to put this...
 	GameObjManager->draw();
 	camera->calcFURVectors();
@@ -466,8 +426,8 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Jump4.wav", 3, "Jump");
 	soundManager.loadSound("assets/audio/Jump2.wav", 60, "Bounce");
 	soundManager.loadSound("assets/audio/Land4.wav", 30, "Land");
-	soundManager.loadSound("assets/audio/Fall1.wav", 30, "Scream");
-	soundManager.loadSound("assets/audio/Shoved2.wav", 30, "Shoved");
+	soundManager.loadSound("assets/audio/Fall1.wav", 20, "Scream");
+	soundManager.loadSound("assets/audio/Shoved2.wav", 25, "Shoved");
 	soundManager.loadSound("assets/audio/game_over.wav", 10, "GameOver");
 	soundManager.loadSound("assets/audio/begin.wav", 10, "Start");
 	soundManager.loadSound("assets/audio/Correct2.wav", 15, "Correct");
@@ -484,13 +444,12 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Shield2.wav", 10, "Shield2");
 	soundManager.loadSound("assets/audio/Coin1.wav", 10, "Money");
 	soundManager.loadSound("assets/audio/Hit2.wav", 70, "Hit");
-	soundManager.loadSound("assets/audio/German.wav", 40, "German");
 	soundManager.loadSound("assets/audio/RumbleFade.wav", 20, "Rumble");
 	soundManager.loadSound("assets/audio/wind1.wav", 0, "Wind");
 	soundManager.loadSound("assets/audio/sci-fi-gun-shot.wav", 10, "TurrShot");
-	soundManager.loadSound("assets/audio/HeartBeat.wav", 30, "HeartBeat");
-	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicBase");
-	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicChange");
+	soundManager.loadSound("assets/audio/HeartBeatSimon.wav", 25, "HeartBeat");
+	soundManager.loadSound("assets/audio/EpicBeat.wav", 5.0f, "MusicBase");
+	soundManager.loadSound("assets/audio/MusicChange.wav", 0.0f, "MusicChange");
 	soundManager.playSound("MusicBase", player->getPos());
 	soundManager.playSound("MusicChange", player->getPos());
 	soundManager.setLoopSound("MusicBase", true);

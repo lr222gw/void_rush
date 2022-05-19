@@ -123,21 +123,8 @@ void CollisionHandler::update()
 		
 		for (size_t j = 0; j < Generated_Platforms[i]->bounding_boxes.size()&& !done; j++ ) {
 
-			//DirectX::XMVECTOR min_max_vec[2] = {
-			//	{Generated_Platforms[i]->bounding_boxes[j].first.x,
-			//	Generated_Platforms[i]->bounding_boxes[j].first.y,
-			//	Generated_Platforms[i]->bounding_boxes[j].first.z,
-			//	1.f},
-			//	{Generated_Platforms[i]->bounding_boxes[j].second.x,
-			//	Generated_Platforms[i]->bounding_boxes[j].second.y,
-			//	Generated_Platforms[i]->bounding_boxes[j].second.z,
-			//	1.f}
-			//};
-
 			DirectX::XMFLOAT4 min_max_bounds[2]{};
 			
-			//DirectX::XMStoreFloat4(&min_max_bounds[0], min_max_vec[0]);
-			//DirectX::XMStoreFloat4(&min_max_bounds[1], min_max_vec[1]);
 			min_max_bounds[0] = {Generated_Platforms[i]->bounding_boxes[j].first.x,
 				Generated_Platforms[i]->bounding_boxes[j].first.y,
 				Generated_Platforms[i]->bounding_boxes[j].first.z,
@@ -180,7 +167,7 @@ void CollisionHandler::update()
 	for (size_t i = 0; i < Enemies.size(); i++) {
 		
 		if (collision3D(player->getPlayerObjPointer(), Enemies[i])) {
-			Enemies[i]->collidedWithPlayer();
+			Enemies[i]->collidedWithPlayer();			
 		}
 		else if (collision3D(player->getPlayerObjPointer(), Enemies[i], true, false)) {
 			Enemies[i]->collidedWithPlayer();
@@ -196,23 +183,25 @@ void CollisionHandler::update()
 	//check enemies with platform
 	for (size_t i = 0; i < Enemies.size(); i++) {
 		for (size_t o = i; o < Custom_platforms.size(); o++) {
-
+			//check if projectile hit platform if it does disapear
 		}
 	}
 
 	//check enemies with Obstacle // don't know what happens here
-	for (size_t i = 0; i < Enemies.size(); i++) {
-		for (size_t o = i; o < Obstacle.size(); o++) {
-
-		}
-	}
+	//for (size_t i = 0; i < Enemies.size(); i++) {
+	//	for (size_t o = i; o < Obstacle.size(); o++) {
+	//
+	//	}
+	//}
 
 	for (size_t i = 0; i < powerups.size(); i++)
 	{
 		if (collision3D(player->getPlayerObjPointer(), powerups[i]))
 		{
 			player->pickedUpPower(powerups[i]->getPowerUpIndex());
+			//TODO: powerUP begone (no draw)
 			powerups[i]->setPos(vec3(1000.f, 1000.f, 1000.f));
+			powerups[i]->setWannaDraw(false);
 		}
 	}
 
@@ -225,21 +214,16 @@ void CollisionHandler::update()
 
 			for (size_t j = 0; j < Generated_Platforms[i]->bounding_boxes.size() && !done; j++) {
 
-				DirectX::XMVECTOR min_max_vec[2] = {
-					{Generated_Platforms[i]->bounding_boxes[j].first.x,
-					Generated_Platforms[i]->bounding_boxes[j].first.y,
-					Generated_Platforms[i]->bounding_boxes[j].first.z,
-					1.f},
-					{Generated_Platforms[i]->bounding_boxes[j].second.x,
-					Generated_Platforms[i]->bounding_boxes[j].second.y,
-					Generated_Platforms[i]->bounding_boxes[j].second.z,
-					1.f}
-				};
-
 				DirectX::XMFLOAT4 min_max_bounds[2]{};
 
-				DirectX::XMStoreFloat4(&min_max_bounds[0], min_max_vec[0]);
-				DirectX::XMStoreFloat4(&min_max_bounds[1], min_max_vec[1]);
+				min_max_bounds[0] = { Generated_Platforms[i]->bounding_boxes[j].first.x,
+					Generated_Platforms[i]->bounding_boxes[j].first.y,
+					Generated_Platforms[i]->bounding_boxes[j].first.z,
+					1.f };
+				min_max_bounds[1] = { Generated_Platforms[i]->bounding_boxes[j].second.x,
+					Generated_Platforms[i]->bounding_boxes[j].second.y,
+					Generated_Platforms[i]->bounding_boxes[j].second.z,
+					1.f };
 
 				if (!done && collision3D(pearl_bounding_box, min_max_bounds))
 				{

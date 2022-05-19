@@ -10,6 +10,7 @@
 #include "Keyboard.h"
 #include "WindowClass.h"
 #include "Mouse.h"
+#include "settings.h"
 
 class ImguiManager;
 
@@ -86,8 +87,8 @@ class Graphics {
 
 private:
 	//window
-	const UINT WIDTH = 1920;
-	const UINT HEIGHT = 1080;
+	UINT WIDTH = 1920;
+	UINT HEIGHT = 1080;
 public:
 	Graphics(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow, Mouse*& mouse);
 	virtual ~Graphics();

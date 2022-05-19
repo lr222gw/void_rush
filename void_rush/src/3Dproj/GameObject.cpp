@@ -1,6 +1,7 @@
 #include "GameObject.h"
 
-GameObject::GameObject(ModelObj*file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale, std::string otherTex)
+GameObject::GameObject(ModelObj*file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale, std::string otherTex):
+	wannaDraw(true)
 {
 	this->setPos(pos);
 	this->setScale(scale);
@@ -23,16 +24,20 @@ GameObject::~GameObject()
 
 void GameObject::draw(Graphics *&gfx, bool sm)
 {
-	drawed = true;
-	gfx->get_IMctx()->VSSetConstantBuffers(0, 1, &this->getVertexConstBuffer());
-	model->draw(gfx, sm);
+	if (wannaDraw) {
+		drawed = true;
+		gfx->get_IMctx()->VSSetConstantBuffers(0, 1, &this->getVertexConstBuffer());
+		model->draw(gfx, sm);
+	}
 }
 
 void GameObject::drawRaw(Graphics*& gfx)
 {
-	drawed = true;
-	gfx->get_IMctx()->VSSetConstantBuffers(0, 1, &this->getVertexConstBuffer());
-	model->drawRaw(gfx);
+	if (wannaDraw) {
+		drawed = true;
+		gfx->get_IMctx()->VSSetConstantBuffers(0, 1, &this->getVertexConstBuffer());
+		model->drawRaw(gfx);
+	}
 }
 
 vec3 GameObject::getlastPosition()
@@ -150,6 +155,11 @@ float GameObject::getWeight()
 void GameObject::update(float dt)
 {
 	object::update(dt);
+}
+
+void GameObject::setWannaDraw(bool wannaDraw)
+{
+	this->wannaDraw = wannaDraw;
 }
 
 void GameObject::getSoundManager(SoundManager& sm)

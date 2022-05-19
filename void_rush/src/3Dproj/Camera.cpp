@@ -159,7 +159,7 @@ void Camera::screenShake(float magnitude)
 {
 	this->shake = true;
 	this->magnitude = magnitude/100;
-	this->randomShake = rand() % 2;
+	this->randomShake = (float)(rand() % 2);
 	if (this->randomShake == 0)
 		this->randomShake = -1;
 }
