@@ -4,7 +4,7 @@
 Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, CollisionHandler& collisionHandler, int seed)
 	: gfx(_gfx), rm(_rm), seed(seed), difficulity(Difficulity::easy), 
     player(nullptr), puzzleManager(nullptr), gameObjManager(nullptr), 
-    incrementSeed(true)
+    incrementSeed(true), enemyManager(nullptr), powerupManager(nullptr)
 {            
 
 #ifdef _DEBUG

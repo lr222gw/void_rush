@@ -20,11 +20,11 @@ struct FirstLast_between_Anchor{
 };
 
 struct powerUp_positions {
-    int nrOfPositions;
+    int nrOfPositions = -1;
     std::vector<vec3> positions;
 };
 struct Enemy_positions {
-    int nrOfPositions;
+    int nrOfPositions = -1;
     struct PositionGroup {
         std::vector<vec3> ranmdomPositions;
         std::vector<vec3> outsidePositions;
@@ -34,7 +34,7 @@ struct Enemy_positions {
 };
 
 struct ShortCut_positions {
-    int nrOfPositions;
+    int nrOfPositions = -1;
     std::vector<vec3> positions;
 };
 
