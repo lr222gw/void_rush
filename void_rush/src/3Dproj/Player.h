@@ -110,6 +110,7 @@ private:
 	vec3 speed;
 	float jumpForce;
 	float midAirAdj;
+	float jumpAfterPlatformTimer = 0.0f;
 	vec3 velocity;
 	vec3 acceleration;
 	vec3 resForce;

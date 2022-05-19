@@ -319,8 +319,13 @@ void Player::handleEvents(float dt)
 			jumpDir = vec2(0.0f, 0.0f);
 		}
 	}
-	if ((keyboard->isKeyPressed(VK_SPACE) && (grounded || canDoublejump))) {
+	if ((keyboard->isKeyPressed(VK_SPACE) && (grounded || jumpAfterPlatformTimer > 0.0f || canDoublejump))) {
 		if(!noClip){
+			if (jumpAfterPlatformTimer > 0.0f)
+			{
+				jumpAfterPlatformTimer = 0.0f;
+			}
+
 			if (canDoublejump == true && grounded)
 			{
 				this->canDoublejump = false;
@@ -477,6 +482,15 @@ void Player::handleEvents(float dt)
 			
 		}
 	}
+	
+	if (this->jumpAfterPlatformTimer > 0.0f)
+	{
+		this->jumpAfterPlatformTimer -= dt;
+		if (this->jumpAfterPlatformTimer <= 0.0f)
+		{
+			this->jumpAfterPlatformTimer = 0.0f;
+		}
+	}
 }
 
 void Player::rotateWithMouse(int x, int y)
@@ -519,6 +533,7 @@ void Player::setGrounded()
 		this->startingJumpKey = 'N';
 		this->fallBoxTimer = 0.0f;
 		this->scream = false;
+		this->jumpAfterPlatformTimer = 0.0f;
 
 		sm->setSoundVolume("Land", volume);
 		sm->playSound("Land", this->getPos());
@@ -533,6 +548,7 @@ void Player::setUngrounded()
 		this->grounded = false;
 		this->startingJumpDir = jumpDir / 2;
 		groundedTimer = 0.001f;
+		this->jumpAfterPlatformTimer = 0.15f;
 	}
 }
 
@@ -594,6 +610,7 @@ void Player::Reset(bool lvlClr)
 	this->startingJumpDir = vec2(0.0f, 0.0f);
 	this->fallBoxTimer = 0.0f;
 	this->lookat(this->resetLookat_dir);
+	this->jumpAfterPlatformTimer = 0.0f;
 
 	if (lvlClr) {
 		//Add points
