@@ -376,8 +376,8 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Jump4.wav", 3, "Jump");
 	soundManager.loadSound("assets/audio/Jump2.wav", 60, "Bounce");
 	soundManager.loadSound("assets/audio/Land4.wav", 30, "Land");
-	soundManager.loadSound("assets/audio/Fall1.wav", 30, "Scream");
-	soundManager.loadSound("assets/audio/Shoved2.wav", 30, "Shoved");
+	soundManager.loadSound("assets/audio/Fall1.wav", 20, "Scream");
+	soundManager.loadSound("assets/audio/Shoved2.wav", 25, "Shoved");
 	soundManager.loadSound("assets/audio/game_over.wav", 10, "GameOver");
 	soundManager.loadSound("assets/audio/begin.wav", 10, "Start");
 	soundManager.loadSound("assets/audio/Correct2.wav", 15, "Correct");
@@ -397,9 +397,9 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/RumbleFade.wav", 20, "Rumble");
 	soundManager.loadSound("assets/audio/wind1.wav", 0, "Wind");
 	soundManager.loadSound("assets/audio/sci-fi-gun-shot.wav", 10, "TurrShot");
-	soundManager.loadSound("assets/audio/HeartBeat.wav", 30, "HeartBeat");
-	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicBase");
-	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicChange");
+	soundManager.loadSound("assets/audio/HeartBeatSimon.wav", 25, "HeartBeat");
+	soundManager.loadSound("assets/audio/EpicBeat.wav", 5.0f, "MusicBase");
+	soundManager.loadSound("assets/audio/MusicChange.wav", 0.0f, "MusicChange");
 	soundManager.playSound("MusicBase", player->getPos());
 	soundManager.playSound("MusicChange", player->getPos());
 	soundManager.setLoopSound("MusicBase", true);

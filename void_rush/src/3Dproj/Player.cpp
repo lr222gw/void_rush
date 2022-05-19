@@ -52,7 +52,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->heardBeat = true;
 	this->heartBeatTimer = 0.0f;
 	this->bpm = 60;
-	this->musicVol = 3.0f;
+	this->musicVol = 0.0f;
 
 	currentFOV = 45;
 	minFOV = 45;
@@ -887,9 +887,19 @@ bool Player::GetSubmitName()
 	return submitName;
 }
 
+void Player::DisableHeart()
+{
+	this->heardBeat = false;
+}
+
 void Player::SetSubmitName(bool val)
 {
 	submitName = val;
+}
+
+void Player::EnableHeart()
+{
+	this->heardBeat = true;
 }
 
 void Player::SetCurrentSeed(int seed)
