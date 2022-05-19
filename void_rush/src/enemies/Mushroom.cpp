@@ -52,7 +52,7 @@ void Mushroom::collidedWithPlayer()
 
 	
 
-	float yPush = (1 - howMuch) * forceY;
+	float yPush = forceY;
 	horPush = horPush * force;
 
 	
