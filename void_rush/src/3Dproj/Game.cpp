@@ -132,7 +132,7 @@ GameStateRet Game::update(float dt)
 	if (player->IsAlive()) {
 
 		/*DEBUG*/
-		if (keyboard->isKeyPressed(VK_RETURN) && _DEBUG) {
+		if (keyboard->isKeyPressed(VK_RETURN) && DEBUGMODE) {
 			ghost->setActive();
 		}
 		/*******/
