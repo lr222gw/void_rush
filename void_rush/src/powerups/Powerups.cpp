@@ -30,14 +30,14 @@ void Powerups::UsePowerUp(float dt)
 	{
 		//Do nothing
 	}
-	else if (player->getPassivePower() == APPLE_P)
+	if (player->getPassivePower() == APPLE_P)
 	{
 		std::cout << "picked apple" << std::endl;
 		player->getSm()->playSound("GoldApple", player->getPos());
 		player->AddHealth();
 		player->setPlayerPowerPassiv(EMPTY_P);
 	}
-	else if (player->getPlayerPower() == ROCKET || this->rocketActive == true)
+	if (player->getPlayerPower() == ROCKET || this->rocketActive == true)
 	{
 		if (this->keyboard->isKeyPressed('E'))
 		{
@@ -83,9 +83,9 @@ void Powerups::UsePowerUp(float dt)
 			ghostFrozenTimer += dt;
 		}
 	}
-	else if (auto p = player->getPassivePower() == PEARL_P || pearlActive == true)
+	if (player->getPassivePower() == PEARL_P || pearlActive == true)
 	{
-		if (p)
+		if (player->getPassivePower() == PEARL_P)
 		{
 			player->setPlayerPowerPassiv(EMPTY_P);
 			this->pearlActive = true;
@@ -127,9 +127,9 @@ void Powerups::UsePowerUp(float dt)
 		}
 
 	}
-	if (auto p = player->getPassivePower() == FEATHER_P || featherActive == true)
+	if (player->getPassivePower() == FEATHER_P || featherActive == true)
 	{
-		if (p)
+		if (player->getPassivePower() == FEATHER_P)
 		{
 			player->setPlayerPowerPassiv(EMPTY_P);
 		}
@@ -153,9 +153,9 @@ void Powerups::UsePowerUp(float dt)
 			featherbooltest = false;
 		}
 	}
-	else if (auto p = player->getPassivePower() == POTION_P || potionActive == true)
+	if (player->getPassivePower() == POTION_P || potionActive == true)
 	{
-		if (p)
+		if (player->getPassivePower() == POTION_P)
 		{
 			player->setPlayerPowerPassiv(EMPTY_P);
 		}
@@ -175,13 +175,13 @@ void Powerups::UsePowerUp(float dt)
 		}
 		potionTimer += dt;
 	}
-	else if (player->getPassivePower() == SHIELD_P)
+	if (player->getPassivePower() == SHIELD_P)
 	{
 		player->getSm()->playSound("Shield", player->getPos());
 		player->setPlayerPowerPassiv(EMPTY_P);
 		
 	}
-	else if (player->getPassivePower() == MONEY_P)
+	if (player->getPassivePower() == MONEY_P)
 	{
 		player->getSm()->playSound("Money", player->getPos());
 		player->setPlayerPowerPassiv(EMPTY_P);
