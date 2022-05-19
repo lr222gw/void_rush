@@ -18,7 +18,8 @@ void UISymbols::symbol_to_uv(char symbol)
 	xSymbol = intSymbol % 8;
 	ySymbol = intSymbol / 8;
 	this->setUVPosition((float)xSymbol, (float)ySymbol);
-	this->setUVSize(1.f / 8.f, 1.f / 16.f);
+	this->setUVSize(1.f / 8.f, 1.f / 15.f);
+	
 }
 
 void UISymbols::replaceSprite(ID3D11ShaderResourceView* _sprite)
