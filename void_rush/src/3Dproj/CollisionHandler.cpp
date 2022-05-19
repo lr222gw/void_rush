@@ -172,6 +172,12 @@ void CollisionHandler::update()
 		else if (collision3D(player->getPlayerObjPointer(), Enemies[i], true, false)) {
 			Enemies[i]->collidedWithPlayer();
 		}
+		Enemies[i]->getBoundingBox(bb);
+		obj.highPoint = vec3(bb[1].x, bb[1].y, bb[1].z);
+		obj.lowPoint = vec3(bb[0].x, bb[0].y, bb[0].z);
+		if (collision3D(player->getFallCube(), obj)) {
+			player->ResetFallBoxTimer();
+		}
 		
 	}
 	
