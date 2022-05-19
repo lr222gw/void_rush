@@ -122,7 +122,6 @@ GameStateRet Game::update(float dt)
 	this->deltaT = dt;
 	if (pauseMenu) {
 		pauseUI->update();
-		gfx->Update(dt, camera->getPos());
 		
 		if (pauseUI->getButton("continue")->clicked()) {
 			pauseMenu = false;
