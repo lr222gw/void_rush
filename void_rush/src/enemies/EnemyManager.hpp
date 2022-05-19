@@ -59,7 +59,7 @@ public:
 	void reset();
 
 	//void spawnEnemy(std::vector<vec3> pos);
-	void spawnEnemy(Enemy_positions::PositionGroup poses);
+	void spawnEnemy(Enemy_positions::PositionGroup poses, bool last = false);
 	void spawnEnemies(Enemy_positions* enemyPoses);
 
 	void spawnObstacle(vec3 pos);
