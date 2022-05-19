@@ -8,7 +8,7 @@ Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot,
 	rangeToPointBeforeNewPoint = 0.5;
 	this->Ghosts_Time = 0.0f;
 	this->ghost_Time_interval = 20.f;
-	this->speed_increase = 0.1f;
+	this->speed_increase = 0.2f;
 	this->force = vec3(10.0f, 3.0f, 10.f);
 	this->player = player;
 	this->frozen = false;
@@ -67,11 +67,8 @@ void Ghost::update(float dt)
 				len = 1.0f;
 			}
 			bpm = 60 + ((20 / len) * 10);
-			if (len > 10 && len < 15) {
+			if (len < 15) {
 				musicVol = 2 + (20 / len)*2;
-			}
-			else if (len < 10) {
-				musicVol = 2 + (20 / len)*4;
 			}
 		}
 		player->setBpm(bpm);
@@ -92,7 +89,7 @@ void Ghost::Reset()
 {
 	setPos(vec3(player->getPos().x, player->getPos().y, player->getPos().z - 10.f));
 	readyToAttack = true;
-	speed = 1;
+	speed = 2.5;
 	getPlayerPosCD = 1;
 	if (!PlayerPositions.empty())
 	{

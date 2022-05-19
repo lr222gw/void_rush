@@ -80,10 +80,6 @@ void Game::handleEvents()
 		if (e.getType() == mouseEvent::EventType::RAW_MOVE && !pauseMenu) {
 			player->rotateWithMouse(e.getPosX(), e.getPosY());
 		}
-		if (e.getType() == mouseEvent::EventType::RPress) {
-
-			soundManager.playSound("German", player->getPos());
-		}
 	}
 	if (keyboard->onceisKeyReleased('F') && player->IsAlive()) {
 		//set pause
@@ -448,7 +444,6 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Shield2.wav", 10, "Shield2");
 	soundManager.loadSound("assets/audio/Coin1.wav", 10, "Money");
 	soundManager.loadSound("assets/audio/Hit2.wav", 70, "Hit");
-	soundManager.loadSound("assets/audio/German.wav", 40, "German");
 	soundManager.loadSound("assets/audio/RumbleFade.wav", 20, "Rumble");
 	soundManager.loadSound("assets/audio/wind1.wav", 0, "Wind");
 	soundManager.loadSound("assets/audio/sci-fi-gun-shot.wav", 10, "TurrShot");
