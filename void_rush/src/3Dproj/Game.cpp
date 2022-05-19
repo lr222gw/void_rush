@@ -95,12 +95,6 @@ void Game::handleEvents()
 			gfx->getWindosClass().HideCoursor();
 		}
 	}
-	if (keyboard->onceisKeyReleased('N')) {
-		soundManager.changeMusic("assets/audio/More_Plastic-Rewind.wav", 7, 4);
-	}
-	if (keyboard->onceisKeyReleased('M')) {
-		soundManager.changeMusic("assets/audio/EpicBeat.wav", 7.0f, 4);
-	}
 }
 
 void Game::renderShadow()
