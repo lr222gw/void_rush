@@ -26,7 +26,7 @@ private:
 
 	static struct Snare_settings { 
 
-		float Snare_y_Offset = .5f;
+		float Snare_y_Offset = .25f;
 		float Snare_timer = 3.f;
 		float Snare_catchTimer = 0.1f;
 		float Snare_scale = 0.3f;

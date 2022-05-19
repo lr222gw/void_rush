@@ -25,7 +25,7 @@ private:
 
 	static struct Spikes_settings {
 
-		float Spikes_y_Offset = 0.2f;
+		float Spikes_y_Offset = 0.22f;
 		float Spikes_timer = 2.f;
 		float Spikes_scale = 0.0001f;
 

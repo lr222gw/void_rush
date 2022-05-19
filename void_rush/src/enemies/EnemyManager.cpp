@@ -50,7 +50,7 @@ void EnemyManager::createSnare()
 {
 	std::string name = "snare" + std::to_string(nrOf.SNARE++);
 	this->nrOfActive.SNARE = this->nrOf.SNARE;
-	GameObjManager->CreateEnemy(player, enemyType::SNARE, *soundManager, "DCube.obj", name,
+	GameObjManager->CreateEnemy(player, enemyType::SNARE, *soundManager, "snareTest.obj", name,
 		FarFarFarAway,
 		vec3(0.0f, 0.0f, 0.0f), 
 		vec3(Snare::snare_conf.Snare_scale, 
@@ -174,8 +174,16 @@ void EnemyManager::reset()
 
 
 void EnemyManager::spawnEnemies(Enemy_positions*  enemyPoses){
+	int c = 0; 
 	for (auto& p : enemyPoses->positions) {
-		spawnEnemy(p);
+		c++;
+		if(c != enemyPoses->positions.size()){
+			spawnEnemy(p);
+		}
+		else {
+			spawnEnemy(p, true);
+		}
+		
 	}
 }
 void EnemyManager::spawnObstacles(ShortCut_positions* shortcutPoses)
@@ -185,16 +193,21 @@ void EnemyManager::spawnObstacles(ShortCut_positions* shortcutPoses)
 	}
 }
 //void EnemyManager::spawnEnemy(std::vector<vec3> pos)
-void EnemyManager::spawnEnemy(Enemy_positions::PositionGroup poses)
+void EnemyManager::spawnEnemy(Enemy_positions::PositionGroup poses, bool last)
 {
 	int enemyType = rand() % (int)respawnable_enemyType::_COUNT ;
 
 	switch(enemyType){
 		case (int)respawnable_enemyType::TURRET:
 
-			for(auto p : poses.outsidePositions){
-				p.y = p.y + Turret::turret_conf.Turret_y_Offset;
-				get_Turret()->setPos(p);
+			if (!last) {
+				for(auto p : poses.outsidePositions){
+					p.y = p.y + Turret::turret_conf.Turret_y_Offset;
+					get_Turret()->setPos(p);
+				}
+			}
+			else {
+				spawnEnemy(poses, true);
 			}
 			
 			break;

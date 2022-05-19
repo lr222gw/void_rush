@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../common/Helper.hpp"
-#include "../common/Vector.hpp"
 #include "../physics/Jump.hpp"
 #include <fstream>
 #include "puzzle_math.hpp"
@@ -29,7 +28,7 @@ private:
 public:
 	ProtoPuzzle(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandler, SoundManager* soundManager);
 	~ProtoPuzzle();
-	void Initiate(vec3 platformPosition);
+	void Initiate(vec3 platformPosition, ExtraArgs extraArgs);
 	int ChoosePuzzle();
 	void Interact(vec3 playerPos, vec3 forwardVec);
 	void UpdatePlayerPosition(vec3 Pos);

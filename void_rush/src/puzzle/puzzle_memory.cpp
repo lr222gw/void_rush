@@ -73,7 +73,7 @@ void MemoryPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
     }
 }
 
-void MemoryPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position)
+void MemoryPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position, ExtraArgs extraArgs)
 {
     letters->removeAllText();
     answerLetters->removeAllText();
@@ -84,8 +84,8 @@ void MemoryPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 pos
     this->answer[0] = (int)rand() % 10;
     this->answer[1] = (int)rand() % 10;
     this->answer[2] = (int)rand() % 10;
-
-    answerLetters->createText(std::to_string(this->answer[0]) + std::to_string(this->answer[1]) + std::to_string(this->answer[2]), vec3(0.0f, -9.0f, 5.0f), vec2(0.2f, 0.2f), "Answer");
+    vec3 answerPos = extraArgs.nextPlatformPosition + vec3(0.0f, 2.0f, 0.0f);
+    answerLetters->createText(std::to_string(this->answer[0]) + std::to_string(this->answer[1]) + std::to_string(this->answer[2]), answerPos, vec2(0.2f, 0.2f), "Answer");
     puzzlePlatform = new GameObject(rm->get_Models("BasePlatformTexture.obj", gfx), gfx, position, vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
 
     puzzleObjects.push_back(new GameObject(rm->get_Models("Number0.obj", gfx), gfx, vec3(puzzlePlatform->getxPos(), puzzlePlatform->getyPos() + 5.1f, puzzlePlatform->getzPos() - 4.5f), vec3(0.0f, 0.0f, 0.0f), vec3(0.3f, 0.3f, 0.3f)));

@@ -1,5 +1,4 @@
 #pragma once
-#include "../common/Vector.hpp"
 #include "3Dproj/Vec.h"
 #include <math.h>
 #include <vector>

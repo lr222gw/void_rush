@@ -3,7 +3,6 @@
 #include "3Dproj/Mouse.h"
 #include "3Dproj/Keyboard.h"
 #include "3Dproj/Camera.h"
-#include "common/Vector.hpp"
 #include "hud/Hud.h"
 #include "3Dproj/Player.h"
 #include "enemies/Ghost.h"
