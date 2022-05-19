@@ -270,9 +270,6 @@
     <ClCompile Include="src\generation\Generation_manager.cpp">
       <Filter>Protoypes\generation</Filter>
     </ClCompile>
-    <ClCompile Include="src\common\Vector.cpp">
-      <Filter>Protoypes\common</Filter>
-    </ClCompile>
     <ClCompile Include="src\3Dproj\Player.cpp">
       <Filter>Void_Rush\Objects</Filter>
     </ClCompile>
@@ -444,6 +441,9 @@
     <ClCompile Include="src\settings.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\enemies\FallingPlatform.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/3Dproj/D311Helper.h">
@@ -578,9 +578,6 @@
     <ClInclude Include="src/3Dproj/skybox.h">
       <Filter>Engine\Header Files\Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="src\common\Vector.hpp">
-      <Filter>Protoypes\common</Filter>
-    </ClInclude>
     <ClInclude Include="src\physics\proto.hpp">
       <Filter>Protoypes\physics</Filter>
     </ClInclude>
@@ -625,9 +622,6 @@
     </ClInclude>
     <ClInclude Include="src\puzzle\puzzle_math.hpp">
       <Filter>Protoypes\puzzle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\common\Matrix.hpp">
-      <Filter>Protoypes\common</Filter>
     </ClInclude>
     <ClInclude Include="src\interact\interact.hpp">
       <Filter>Protoypes\interact</Filter>

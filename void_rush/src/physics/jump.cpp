@@ -16,9 +16,9 @@ void test::Start ()
         friction = 1.0f;
         time = 0;
         deltlaT = 1;
-        gravityAcceleration = Vector3 (0.0f, grav_a, 0.0f);
-        jumpSpeed = Vector3 (0.0f, jmp_spd, 0.0f);
-        SetVelocity (Vector3 (start_v, start_v, 0.0f));
+        gravityAcceleration = vec3 (0.0f, grav_a, 0.0f);
+        jumpSpeed = vec3 (0.0f, jmp_spd, 0.0f);
+        SetVelocity (vec3 (start_v, start_v, 0.0f));
 
         // Run
         Run (csv_file);
@@ -26,14 +26,14 @@ void test::Start ()
     }
    
 }
-Vector3 test::GetPushVector (Vector3 enemyPos, Vector3 playerPos)
+vec3 test::GetPushVector (vec3 enemyPos, vec3 playerPos)
 {
     return playerPos - enemyPos;
 }
-Vector3 test::GetPos () const { return position; }
-void test::Move (Vector3 step) { position += step; }
-void test::SetPos (Vector3 pos) { position = pos; }
-void test::SetVelocity (Vector3 vec) { velocity = vec; }
+vec3 test::GetPos () const { return position; }
+void test::Move (vec3 step) { position = position + step; }
+void test::SetPos (vec3 pos) { position = pos; }
+void test::SetVelocity (vec3 vec) { velocity = vec; }
 void test::Update (float deltaT)
 {
     if (!grounded)
@@ -72,11 +72,11 @@ void test::Jump ()
     }
     if (velocity.y > 0)
     {
-        velocity += jumpSpeed;
+        velocity = velocity + jumpSpeed;
     }
     else
     {
-        velocity = Vector3 (velocity.x, jumpSpeed.y, velocity.z);
+        velocity = vec3 (velocity.x, jumpSpeed.y, velocity.z);
     }
 }
 void test::WriteToFile (std::ofstream &csv_file) const

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../common/Vector.hpp"
 #include <random>
 #include <string>
 #include <iostream>

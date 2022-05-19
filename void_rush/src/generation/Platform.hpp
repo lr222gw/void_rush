@@ -1,9 +1,6 @@
 #pragma once
-#include "../common/Matrix.hpp"
 #include "../common/Shape.hpp"
-#include "../common/Vector.hpp"
 #include "../common/Shape.hpp"
-#include "../common/Matrix.hpp"
 #include "3Dproj/Vec.h"
 #include <math.h>
 #include <memory>
