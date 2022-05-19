@@ -141,9 +141,6 @@ GameStateRet Game::update(float dt)
 			testTime -= dt;
 		}
 		/*Move things*/
-		if (getkey('H')) {
-			camera->screenShake(3.0f);
-		}
 		camera->updateCamera(dt);
 		for (int i = 0; i < billboardGroups.size(); i++) {
 			billboardGroups[i]->update(dt, gfx);
