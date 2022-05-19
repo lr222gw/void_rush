@@ -8,7 +8,8 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	this->keyboard = keyboard;
 	this->cam = cam;
 	this->gravity = vec3(0.0f, -15.f, 0.0f);
-	this->speed = vec3(5.3f, 0.0f, 5.3f);
+	this->baseSpeed = vec3(5.3f, 0.0f, 5.3f);
+	this->speed = this->baseSpeed;
 	this->storeSpeed = this->speed.x;
 	this->velocity = vec3(0.0f, 0.0f, 0.0f);
 	this->jumpForce = 8.0f;
@@ -40,7 +41,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	for (int i = 0; i < maxLetters; i++) {
 		this->name += "_";
 	}
-	this->scoreManager.SetPlayerSpeed(speed.length());
+	this->scoreManager.SetPlayerSpeed(this->baseSpeed.length());
 	this->scoreManager.SetHUD(HUD);
 	fallCubeSize = vec3(50.0f, 200.0f, 50.0f);
 	UpdateFallBox();
@@ -48,6 +49,7 @@ Player::Player(ModelObj* file, Graphics*& gfx, Camera*& cam, Mouse* mouse, Keybo
 	scream = false;
 	this->shoveDelay = false;
 	this->shoveTimer = 0.0f;
+	this->heardBeat = true;
 	this->heartBeatTimer = 0.0f;
 	this->bpm = 60;
 	this->musicVol = 3.0f;
@@ -129,8 +131,10 @@ void Player::update(float dt)
 		}
 	}
 	if (heartBeatTimer >= 60/bpm) {
-		sm->setSoundVolume("HeartBeat", 30 + 30/(260 / bpm));
-		//sm->playSound("HeartBeat", getPos());
+		if (heardBeat) {
+			sm->setSoundVolume("HeartBeat", 30 + 30/(260 / bpm));
+			sm->playSound("HeartBeat", getPos());
+		}
 		heartBeatTimer = 0.0f;
 	}
 	sm->setSoundVolume("MusicChange", musicVol);
@@ -316,8 +320,13 @@ void Player::handleEvents(float dt)
 			jumpDir = vec2(0.0f, 0.0f);
 		}
 	}
-	if ((keyboard->isKeyPressed(VK_SPACE) && (grounded || canDoublejump))) {
+	if ((keyboard->isKeyPressed(VK_SPACE) && (grounded || jumpAfterPlatformTimer > 0.0f || canDoublejump))) {
 		if(!noClip){
+			if (jumpAfterPlatformTimer > 0.0f)
+			{
+				jumpAfterPlatformTimer = 0.0f;
+			}
+
 			if (canDoublejump == true && grounded)
 			{
 				this->canDoublejump = false;
@@ -364,7 +373,7 @@ void Player::handleEvents(float dt)
 			released = false;
 			rememberSpeed = this->speed;
 			//std::cout << "PRESSED \n";
-			this->speed = this->speed * 2;
+			this->speed = this->baseSpeed * 2;
 		}
 		else if (held && !released) {
 			//std::cout << "HELD \n";			
@@ -421,7 +430,13 @@ void Player::handleEvents(float dt)
 			{
 				airDir = airDir / vec2(midAirAdj, midAirAdj);
 			}
+
 			airDir = airDir + startingJumpDir;
+
+			if (startingJumpDir.legth() == 0.0f)
+			{
+				airDir = airDir * 1.5f;
+			}
 
 			velocity.x = speed.x * airDir.x;
 			velocity.z = speed.z * airDir.y;
@@ -445,8 +460,8 @@ void Player::handleEvents(float dt)
 			}
 			airDir = airDir + startingJumpDir;
 
-			velocity.x = speed.x  * airDir.x;
-			velocity.z = speed.z  * airDir.y;
+			velocity.x = speed.x  * airDir.x * 2.0f;
+			velocity.z = speed.z  * airDir.y * 2.0f;
 
 			velocity.x += bounceVec.x;
 			velocity.z += bounceVec.y;
@@ -472,6 +487,15 @@ void Player::handleEvents(float dt)
 				bounceVec.y = 0.0f;
 			}
 			
+		}
+	}
+	
+	if (this->jumpAfterPlatformTimer > 0.0f)
+	{
+		this->jumpAfterPlatformTimer -= dt;
+		if (this->jumpAfterPlatformTimer <= 0.0f)
+		{
+			this->jumpAfterPlatformTimer = 0.0f;
 		}
 	}
 }
@@ -516,6 +540,7 @@ void Player::setGrounded()
 		this->startingJumpKey = 'N';
 		this->fallBoxTimer = 0.0f;
 		this->scream = false;
+		this->jumpAfterPlatformTimer = 0.0f;
 
 		sm->setSoundVolume("Land", volume);
 		sm->playSound("Land", this->getPos());
@@ -530,6 +555,7 @@ void Player::setUngrounded()
 		this->grounded = false;
 		this->startingJumpDir = jumpDir / 2;
 		groundedTimer = 0.001f;
+		this->jumpAfterPlatformTimer = 0.15f;
 	}
 }
 
@@ -537,6 +563,12 @@ float Player::getSpeed()
 {
 	return this->speed.x;
 }
+
+float Player::getBaseSpeed()
+{
+	return this->baseSpeed.x;
+}
+
 
 bool Player::isGrounded()
 {
@@ -591,6 +623,7 @@ void Player::Reset(bool lvlClr)
 	this->startingJumpDir = vec2(0.0f, 0.0f);
 	this->fallBoxTimer = 0.0f;
 	this->lookat(this->resetLookat_dir);
+	this->jumpAfterPlatformTimer = 0.0f;
 
 	if (lvlClr) {
 		//Add points
@@ -675,7 +708,7 @@ void Player::pickedUpPower(Powerup index)
 		this->HUD->TurnOnPassive(FEATHER_P);
 		this->passive_powerup = FEATHER_P;
 	}
-	else if (index == PEARL)
+	else if (index == PEARL && !pearlActive)
 	{
 		this->HUD->TurnOnPassive(PEARL_P);
 		this->passive_powerup = PEARL_P;

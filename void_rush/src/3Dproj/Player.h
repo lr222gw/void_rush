@@ -39,6 +39,7 @@ public:
 	void setGrounded();
 	void setUngrounded();
 	float getSpeed();
+	float getBaseSpeed();
 	bool isGrounded();
 	float getJumpForce();
 	float getGravity();
@@ -108,8 +109,10 @@ private:
 	bool invincible;
 	void Translate(float dt, DirectX::XMFLOAT3 translate);
 	vec3 speed;
+	vec3 baseSpeed;
 	float jumpForce;
 	float midAirAdj;
+	float jumpAfterPlatformTimer = 0.0f;
 	vec3 velocity;
 	vec3 acceleration;
 	vec3 resForce;
@@ -131,6 +134,7 @@ private:
 	bool bounced;
 	vec2 bounceVec;
 	//Beat
+	bool heardBeat;
 	float heartBeatTimer;
 	float bpm;
 	float musicVol;
