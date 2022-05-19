@@ -746,13 +746,21 @@ void Player::getShield()
 	}
 }
 
-void Player::setPlayerSpeed(vec3 speed)
+void Player::setPlayerSpeed(vec3 speed, bool onAndoff)
 {
-	this->speed.x += speed.x;
-	this->speed.z += speed.z;
-	if (this->speed.x == this->storeSpeed)
+	if (onAndoff == true)
 	{
-		HUD->TurnOffPassive(POTION_P);
+		this->speed.x += speed.x;
+		this->speed.z += speed.z;
+	}
+	else
+	{
+		this->speed.x = storeSpeed;
+		this->speed.z = storeSpeed;
+		if (this->speed.x == this->storeSpeed)
+		{
+			HUD->TurnOffPassive(POTION_P);
+		}
 	}
 }
 
