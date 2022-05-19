@@ -356,15 +356,14 @@ void Game::setUpLights()
 	light = new Light * [nrOfLight];
 
 	//create the lights with 
-	//light[0] = new DirLight(vec3(0, 30, 8), vec3(0.1f, -PI / 2, 1.f), 100, 100);
 	light[0] = new PointLight(vec3(3, 25, 5), 0.5, vec3(1, 1, 1));
 	light[1] = new DirLight(vec3(
 		0,
 		200,
 		0),
 		vec3(0, -1.57f, 1),
-		75,
-		75
+		100,
+		100
 	);
 	
 	light[2] = new PointLight(generationManager->getPuzzelPos() + vec3(0, 10, 0), 10, vec3(0.5, 0.5, 0));
