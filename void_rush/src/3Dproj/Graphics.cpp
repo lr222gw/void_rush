@@ -205,12 +205,8 @@ float nextFpsUpdate = 0;
 void Graphics::Update(float dt, vec3 camPos)
 {
 
-	if (getkey('B')) {
-		LCBG.cameraPos.element[3] = 1;
-	}
-	else {
-		LCBG.cameraPos.element[3] = 0;
-	}
+
+	LCBG.cameraPos.element[3] = 0;
 
 	for (int i = 0; i < nrOfLights; i++) {
 		LCBG.lightPos.element[i][0] = light[i]->getPos().x;
@@ -233,7 +229,6 @@ void Graphics::Update(float dt, vec3 camPos)
 	immediateContext->Unmap(this->Pg_pConstantBuffer, 0);
 	ZeroMemory(&resource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 	this->immediateContext->PSSetConstantBuffers(6, 1, &this->Pg_pConstantBuffer);
-	this->immediateContext->CSSetConstantBuffers(6, 1, &this->Pg_pConstantBuffer);
 	 
 	this->CPCB.cameraPos.element[0] = camPos.x;
 	this->CPCB.cameraPos.element[1] = camPos.y;

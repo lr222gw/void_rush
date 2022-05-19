@@ -7,8 +7,6 @@ Letters3D::Letters3D(std::string str, vec3 pos, ResourceManager* rm, Graphics*& 
 		letters.push_back(new GameObject(rm->get_Models("3DText.obj", gfx), gfx, pos, vec3(0, 0, 0), vec3(1, size.y, size.x)));
 		float a = str.size() * size.x - str.size() / 2;
 		letters[i]->setPoint(vec3(0, 0,
-			//i * 2.f * size.x - (str.size() / 2.f)
-
 			 (i*2) + 1 - (float)str.size()
 		 ));
 		symbol_to_uv(str[i]);
@@ -94,8 +92,6 @@ void Letters3D::replaceText(std::string text)
 		letters.push_back(new GameObject(rm->get_Models("3DText.obj", gfx), gfx, pos, vec3(0, 0, 0), vec3(1, size.y, size.x)));
 		float a = text.size() * size.x - text.size() / 2;
 		letters[i]->setPoint(vec3(0, 0,
-			//i * 2.f * size.x - (str.size() / 2.f)
-
 			(i * 2) + 1 - (float)text.size()
 		));
 		symbol_to_uv(text[i]);

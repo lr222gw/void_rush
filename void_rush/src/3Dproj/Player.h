@@ -86,6 +86,8 @@ public:
 	void getSoundManager(SoundManager& sm);
 	SoundManager* getSm()const;
 
+	void DisableHeart();
+	void EnableHeart();
 	void setBpm(float bpm);
 	void setMusicVol(float vol);
 

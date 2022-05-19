@@ -91,12 +91,6 @@ void Game::handleEvents()
 			gfx->getWindosClass().HideCoursor();
 		}
 	}
-	if (keyboard->onceisKeyReleased('N')) {
-		soundManager.changeMusic("assets/audio/More_Plastic-Rewind.wav", 7, 4);
-	}
-	if (keyboard->onceisKeyReleased('M')) {
-		soundManager.changeMusic("assets/audio/EpicBeat.wav", 7.0f, 4);
-	}
 }
 
 void Game::renderShadow()
@@ -124,7 +118,6 @@ GameStateRet Game::update(float dt)
 	this->deltaT = dt;
 	if (pauseMenu) {
 		pauseUI->update();
-		gfx->Update(dt, camera->getPos());
 		
 		if (pauseUI->getButton("continue")->clicked()) {
 			pauseMenu = false;
@@ -139,7 +132,7 @@ GameStateRet Game::update(float dt)
 	if (player->IsAlive()) {
 
 		/*DEBUG*/
-		if (keyboard->isKeyPressed(VK_RETURN)) {
+		if (keyboard->isKeyPressed(VK_RETURN) && _DEBUG) {
 			ghost->setActive();
 		}
 		/*******/
@@ -152,17 +145,6 @@ GameStateRet Game::update(float dt)
 			camera->screenShake(3.0f);
 		}
 		camera->updateCamera(dt);
-		if (getkey('N')) {
-			DirectX::XMMATRIX viewMatrix = DirectX::XMMATRIX(
-				1.0f, 0.0f, 0.0f, 0.0f,
-				0.0f, 1.0f, 0.0f, 0.0f,
-				0.0f, 0.0f, 1.0f, 0.0f,
-				-GameObjManager->getGameObject(1)->getPos().x, -GameObjManager->getGameObject(1)->getPos().y, -GameObjManager->getGameObject(1)->getPos().z, 1.0f
-			);
-			XRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().x);
-			YRotation(viewMatrix, GameObjManager->getGameObject(1)->getRot().y);
-			gfx->getVertexconstbuffer()->view.element = viewMatrix;
-		}
 		for (int i = 0; i < billboardGroups.size(); i++) {
 			billboardGroups[i]->update(dt, gfx);
 		}
@@ -189,33 +171,13 @@ GameStateRet Game::update(float dt)
 		gfx->Update(dt, camera->getPos());
 		HUD->UpdateGhostBar(player->getPos(), generationManager->getPuzzelPos(), ghost->getPos(), distanceFromStartPosToPuzzle);
 		//HUD->UpdateScore(player->GetScore());
+		//let the two lights follow player
 		light[0]->getPos().x = player->getPos().x;
 		light[0]->getPos().y = player->getPos().y;
 		light[0]->getPos().z = player->getPos().z;
 
 		light[1]->getPos().x = player->getPos().x;
 		light[1]->getPos().z = player->getPos().z;
-
-#pragma region camera_settings
-
-		if (getkey('C')) {
-			camera->setPosition(light[lightNr]->getPos());
-			camera->setRotation(light[lightNr]->getRotation());
-		}
-		if (getkey('1') && getkey(VK_F1)) {
-			lightNr = 0;
-		}
-		if (getkey('2') && getkey(VK_F1)) {
-			lightNr = 1;
-		}
-		if (getkey('3') && getkey(VK_F1)) {
-			lightNr = 2;
-		}
-		if (getkey('4') && getkey(VK_F1)) {
-			lightNr = 3;
-		}
-
-#pragma endregion camera_settings
 
 		puzzleManager->UpdatePlayerPosition(this->player->getPos());
 
@@ -258,7 +220,7 @@ void Game::render()
 void Game::updateShaders(bool vs, bool ps)
 {
 
-	for (int i = 0; i < billboardGroups.size(); i++) {
+	for (int i = 0; i < billboardGroups.size(); i++) {//TODO: REMOVE?
 		billboardGroups[i]->updateShader(gfx, camera->getPos());
 	}
 	if (vs)
@@ -321,21 +283,10 @@ void Game::setUpObject()
 
 	player = new Player(rm->get_Models("Player.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f),vec3(0,0,0), vec3(0.2f,0.8f,0.2f));
 	player->getSoundManager(soundManager);
+	player->setWannaDraw(false);
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
-
-	/*GameObjManager->CreateGameObject("Bullet.obj", "bull", vec3(0, 10, 0));*/
-
-	//GameObjManager->CreateEnemy(player, enemyType::TURRET, soundManager, "Turret.obj", "turr", vec3(20, 1, 0));
-	/*const int MaxNrOfProjectiles = 5;
-	for (int i = 0; i < MaxNrOfProjectiles; i++) {
-		GameObjManager->CreateEnemy(player, enemyType::PROJECTILE, soundManager, "Bullet.obj", "proj" + std::to_string(i), vec3(5, 0, 0), vec3(0, 0, 0), vec3(0.4f, 0.4f, 0.4f));
-		collisionHandler.addEnemies((Enemy*)GameObjManager->getGameObject("proj"+ std::to_string(i)));
-		((Turret*)GameObjManager->getGameObject("turr"))->addProjectiles((TurrProjectile*)GameObjManager->getGameObject("proj" + std::to_string(i)));
-	}	*/
-
-		
 
 	ghost = new Ghost(player, rm->get_Models("ghost.obj", gfx), gfx, player->getPos() - vec3(0, 0, -5), vec3(0, 0, 0), vec3(0.2f, 0.2f, 0.2f));
 	ghost->getSoundManager(soundManager);
@@ -371,15 +322,14 @@ void Game::setUpLights()
 	light = new Light * [nrOfLight];
 
 	//create the lights with 
-	//light[0] = new DirLight(vec3(0, 30, 8), vec3(0.1f, -PI / 2, 1.f), 100, 100);
 	light[0] = new PointLight(vec3(3, 25, 5), 0.5, vec3(1, 1, 1));
 	light[1] = new DirLight(vec3(
 		0,
 		200,
 		0),
 		vec3(0, -1.57f, 1),
-		75,
-		75
+		100,
+		100
 	);
 	
 	light[2] = new PointLight(generationManager->getPuzzelPos() + vec3(0, 10, 0), 10, vec3(0.5, 0.5, 0));
@@ -426,8 +376,8 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Jump4.wav", 3, "Jump");
 	soundManager.loadSound("assets/audio/Jump2.wav", 60, "Bounce");
 	soundManager.loadSound("assets/audio/Land4.wav", 30, "Land");
-	soundManager.loadSound("assets/audio/Fall1.wav", 30, "Scream");
-	soundManager.loadSound("assets/audio/Shoved2.wav", 30, "Shoved");
+	soundManager.loadSound("assets/audio/Fall1.wav", 20, "Scream");
+	soundManager.loadSound("assets/audio/Shoved2.wav", 25, "Shoved");
 	soundManager.loadSound("assets/audio/game_over.wav", 10, "GameOver");
 	soundManager.loadSound("assets/audio/begin.wav", 10, "Start");
 	soundManager.loadSound("assets/audio/Correct2.wav", 15, "Correct");
@@ -447,9 +397,9 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/RumbleFade.wav", 20, "Rumble");
 	soundManager.loadSound("assets/audio/wind1.wav", 0, "Wind");
 	soundManager.loadSound("assets/audio/sci-fi-gun-shot.wav", 10, "TurrShot");
-	soundManager.loadSound("assets/audio/HeartBeat.wav", 30, "HeartBeat");
-	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicBase");
-	soundManager.loadSound("assets/audio/EpicBeat.wav", 3.0f, "MusicChange");
+	soundManager.loadSound("assets/audio/HeartBeatSimon.wav", 25, "HeartBeat");
+	soundManager.loadSound("assets/audio/EpicBeat.wav", 5.0f, "MusicBase");
+	soundManager.loadSound("assets/audio/MusicChange.wav", 0.0f, "MusicChange");
 	soundManager.playSound("MusicBase", player->getPos());
 	soundManager.playSound("MusicChange", player->getPos());
 	soundManager.setLoopSound("MusicBase", true);
@@ -522,15 +472,6 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			player->Reset(true);
 			generationManager->initialize();
 			soundManager.playSound("Portal", player->getPos());
-			vec2 Lpos = (generationManager->getMapDimensions().highPoint - generationManager->getMapDimensions().lowPoint) / 2 + generationManager->getMapDimensions().lowPoint;
-			//light[1]->getPos() = vec3(Lpos.x, 200, Lpos.y);
-			//light[1]->setProjection(
-			//	DirectX::XMMatrixOrthographicLH(
-			//		generationManager->getMapDimensions().x_width + 30,
-			//		generationManager->getMapDimensions().z_width + 30,
-			//	0.1f, 
-			//	40000.f
-			//	));
 		}
 	}
 }
