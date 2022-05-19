@@ -17,6 +17,7 @@ private:
 	float force;
 	float scaleTimer;
 	float resetScoreTime;
+	bool gaveScore;
 	//DeltaTime timer; 
 	vec3 origScale;
 	Player* player;

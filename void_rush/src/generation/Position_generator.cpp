@@ -39,10 +39,11 @@ bool Position_generator::start (Difficulity selectedDiff)
     generate_anchor_positions(selectedDiff);
     generate_jumpPoints_positions(selectedDiff);
 
-    replace_random_jumpPoints_with_obstacles_positions();
 
-    //removeOverlappingPlatformVoxels();
     removeUnnecessaryPlatforms();
+    removeOverlappingPlatformVoxels();
+
+    replace_random_jumpPoints_with_obstacles_positions();
 
     return true;
 }
@@ -314,7 +315,7 @@ void Position_generator::select_enemy_positions()
         
         int nrOf = validAnchors[i]->platformShape.previousVoxels.size();
         
-        for(auto p : validAnchors[i]->platformShape.previousVoxels){
+        for(auto &p : validAnchors[i]->platformShape.previousVoxels){
             
             bool wasFound = false;
             for(auto& v : positionsAlongZ){
@@ -888,8 +889,6 @@ void Position_generator::removeOverlappingPlatformVoxels()
             }
         }
     }
-
-    int breakME = 3;
 
 }
 

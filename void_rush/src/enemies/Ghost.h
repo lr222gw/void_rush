@@ -26,9 +26,11 @@ private:
 	float rangeToPlayerBeforeNearestWay;
 	float rangeToPointBeforeNewPoint;
 	float speed;
+	float initalSpeed; 
 	float getPlayerPosCD;
 	float Ghosts_Time;
 	float ghost_Time_interval; 
+	float ghost_max_dist_to_player;
 	float speed_increase;
 	bool readyToAttack;
 	bool fastestWayToPlayer;

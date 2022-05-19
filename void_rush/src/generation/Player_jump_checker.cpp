@@ -37,7 +37,7 @@ vec3 Player_jump_checker::getPos() const
 }
 float Player_jump_checker::getJumpDistance ()
 {
-    float angle = acos((speed * 1.0f + this->jumpvel * 0.0) /
+    float angle = acosf((speed * 1.0f + this->jumpvel * 0.0f ) /
         (sqrtf(powf(this->speed, 2) + powf(this->jumpvel, 2))));
 
     float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
@@ -52,7 +52,7 @@ float Player_jump_checker::getJumpDistance ()
 float Player_jump_checker::getJumpDistance (float height)
 {
 
-    float angle = acos((speed * 1.0f + this->jumpvel * 0.0 ) /
+    float angle = acosf((speed * 1.0f + this->jumpvel * 0.0f ) /
         (sqrtf(powf(this->speed, 2) + powf(this->jumpvel, 2))));
     
 
@@ -67,7 +67,7 @@ float Player_jump_checker::getJumpDistance (float height)
 
 float Player_jump_checker::jumpHeight ()
 {
-    float angle = acos((speed * 1.0f + this->jumpvel * 0.0) /
+    float angle = acosf((speed * 1.0f + this->jumpvel * 0.0f ) /
         (sqrtf(powf(this->speed, 2) + powf(this->jumpvel, 2))));
 
     //float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
