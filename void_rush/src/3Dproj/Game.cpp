@@ -81,7 +81,7 @@ void Game::handleEvents()
 			player->rotateWithMouse(e.getPosX(), e.getPosY());
 		}
 	}
-	if (keyboard->onceisKeyReleased('F') && player->IsAlive()) {
+	if (keyboard->onceisKeyReleased(VK_ESCAPE) && player->IsAlive()) {
 		//set pause
 		pauseMenu = !pauseMenu;
 		if (pauseMenu) {
@@ -280,7 +280,6 @@ void Game::setUpObject()
 
 	player = new Player(rm->get_Models("Player.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f),vec3(0,0,0), vec3(0.2f,0.8f,0.2f));
 	player->getSoundManager(soundManager);
-	player->setWannaDraw(false);
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);
 	generationManager->set_player(player);
