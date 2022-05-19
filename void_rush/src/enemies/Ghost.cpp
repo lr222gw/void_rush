@@ -8,15 +8,19 @@ Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot,
 	rangeToPointBeforeNewPoint = 0.5;
 	this->Ghosts_Time = 0.0f;
 	this->ghost_Time_interval = 20.f;
+	this->ghost_max_dist_to_player = 30.f;
 	this->speed_increase = 0.2f;
 	this->force = vec3(10.0f, 3.0f, 10.f);
+	this->initalSpeed = player->getSpeed() + 1.2;
+	this->speed = this->initalSpeed;
 	this->player = player;
 	this->frozen = false;
 	this->active = false;
 	this->attackCD = 0.0f;
 	Reset();
 	if (!(DEVMODE_ || DEBUGMODE))
-		active = true;
+	{ }
+	active = true;
 }
 
 void Ghost::collidedWithPlayer()
@@ -93,9 +97,9 @@ void Ghost::setActive(bool activate)
 
 void Ghost::Reset()
 {
-	setPos(vec3(player->getPos().x, player->getPos().y, player->getPos().z - 10.f));
+	setPos(vec3(player->getPos().x, player->getPos().y, player->getPos().z - 30.f));
 	readyToAttack = true;
-	speed = 2.5;
+	speed = this->initalSpeed;
 	getPlayerPosCD = 1;
 	if (!PlayerPositions.empty())
 	{
@@ -196,16 +200,15 @@ bool Ghost::checkIfRangeOfPlayer()
 //Increseas the ghost speed during the game.
 void Ghost::GainSpeed(float dt)
 {
-	if (this->speed < player->getSpeed())
-	{
-		if (this->Ghosts_Time >= this->ghost_Time_interval)
-		{
-			this->speed += this->speed_increase;
-			this->Ghosts_Time = 0.0f;
-		}
-		else
-		{
-			this->Ghosts_Time += dt;
-		}
+	float distToPlayer = (this->player->getPos() - this->getPos()).length();
+
+	if (distToPlayer > this->ghost_max_dist_to_player) {
+		this->speed = 10.f;
 	}
+	else {
+		this->speed = this->initalSpeed;
+	}
+
+	
+	
 }
