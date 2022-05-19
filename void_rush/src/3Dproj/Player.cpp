@@ -104,16 +104,16 @@ void Player::update(float dt)
 			currentFOV = lerp(currentFOV, minFOV, 1 * dt);
 		}
 		gfx->setFov(currentFOV);
+		fallBoxTimer+=dt;
 	}else{
 		this->movePos(vec3(velocity.x * dt, 0.0f, velocity.z * dt));
 	}
+	UpdateFallBox();
 
-	fallBoxTimer+=dt;
 	heartBeatTimer += dt;
 
 	this->setRot(vec3(0, cam->getRot().x, 0));
 	cam->setPosition(this->getPos());
-	UpdateFallBox();
 
 	if (this->velocity.y < -this->jumpForce) {
 		sm->setSoundPosition("Wind", this->getPos());
