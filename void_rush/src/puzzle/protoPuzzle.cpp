@@ -41,14 +41,14 @@ void ProtoPuzzle::UpdatePlayerPosition(vec3 Pos)
     memory->UpdatePlayerPos(Pos);
 }
 
-void ProtoPuzzle::Initiate(vec3 platformPosition)
+void ProtoPuzzle::Initiate(vec3 platformPosition, ExtraArgs extraArgs)
 {
     if (chosenPuzzle != -1)
     {
         this->puzzleList[chosenPuzzle]->ResetState();
     }
     chosenPuzzle = ChoosePuzzle();
-    this->puzzleList[chosenPuzzle]->InitiatePuzzle(this->gfxPuzzle, this->rmPuzzle, platformPosition);
+    this->puzzleList[chosenPuzzle]->InitiatePuzzle(this->gfxPuzzle, this->rmPuzzle, platformPosition, extraArgs);
 }
 
 void ProtoPuzzle::Update(float dt)

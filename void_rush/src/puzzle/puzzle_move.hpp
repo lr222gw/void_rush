@@ -14,7 +14,7 @@ public:
 
     void Interaction(vec3 playerPos, vec3 forwardVec) override;
 
-    void InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position) override;
+    void InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position, ExtraArgs extraArgs) override;
 
     void Update(Graphics*& gfx) override;
 };

@@ -51,7 +51,7 @@ void HiddenPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
     }
 }
 
-void HiddenPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position)
+void HiddenPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position, ExtraArgs extraArgs)
 {
     this->SetPosition(position);
     std::cout << "Hidden puzzle chosen" << std::endl;
