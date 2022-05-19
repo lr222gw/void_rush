@@ -429,7 +429,13 @@ void Player::handleEvents(float dt)
 			{
 				airDir = airDir / vec2(midAirAdj, midAirAdj);
 			}
+
 			airDir = airDir + startingJumpDir;
+
+			if (startingJumpDir.legth() == 0.0f)
+			{
+				airDir = airDir * 1.5f;
+			}
 
 			velocity.x = speed.x * airDir.x;
 			velocity.z = speed.z * airDir.y;
@@ -453,8 +459,8 @@ void Player::handleEvents(float dt)
 			}
 			airDir = airDir + startingJumpDir;
 
-			velocity.x = speed.x  * airDir.x;
-			velocity.z = speed.z  * airDir.y;
+			velocity.x = speed.x  * airDir.x * 2.0f;
+			velocity.z = speed.z  * airDir.y * 2.0f;
 
 			velocity.x += bounceVec.x;
 			velocity.z += bounceVec.y;
@@ -695,7 +701,7 @@ void Player::pickedUpPower(Powerup index)
 		this->HUD->TurnOnPassive(FEATHER_P);
 		this->passive_powerup = FEATHER_P;
 	}
-	else if (index == PEARL)
+	else if (index == PEARL && !pearlActive)
 	{
 		this->HUD->TurnOnPassive(PEARL_P);
 		this->passive_powerup = PEARL_P;
