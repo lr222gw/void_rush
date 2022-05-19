@@ -26,6 +26,7 @@ void Hud::setUpUI()
 	UI->createUISprite("assets/textures/Empty.png", vec2(0.8f, -0.63f), vec2(0.05f, 0.05f));
 	UI->createUISprite("assets/textures/Empty.png", vec2(0.85f, -0.63f), vec2(0.05f, 0.05f));
 	UI->createUISprite("assets/textures/Empty.png", vec2(0.9f, -0.63f), vec2(0.05f, 0.05f));
+	UI->createUISprite("assets/textures/Crosshair.png", vec2(-0.01f, -0.015f), vec2(0.02f, 0.03f));
 }
 
 void Hud::LowerHealth()

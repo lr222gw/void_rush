@@ -75,6 +75,9 @@ void MemoryPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
 
 void MemoryPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position)
 {
+    letters->removeAllText();
+    answerLetters->removeAllText();
+
     this->SetPosition(position);
     std::cout << "Memory puzzle chosen" << std::endl;
 

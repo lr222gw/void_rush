@@ -15,8 +15,6 @@ void MovePuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
         {
             speedDir = vec2(puzzleObjects[0]->getxPos(), puzzleObjects[0]->getzPos()) - vec2(playerPos.x, playerPos.z);
             speedDir.Normalize();
-            std::cout << speedDir.x << " " << speedDir.y << std::endl;
-            speed = 0.02f;
             this->moving = true;
         }
     }
@@ -72,7 +70,8 @@ void MovePuzzle::Update(Graphics*& gfx)
     {
         if (this->moving)
         {
-            puzzleObjects[0]->movePos(vec3(speedDir.x, 0.0f, speedDir.y) * speed);
+            this->deltaT = this->getDT() * 2.0f;
+            puzzleObjects[0]->movePos(vec3(speedDir.x, 0.0f, speedDir.y) * deltaT);
 
             if (puzzleObjects[0]->getxPos() >= (this->puzzlePlatform->getxPos() + this->puzzlePlatform->getWidthHeightDepth().x / 2) ||
                 puzzleObjects[0]->getxPos() <= (this->puzzlePlatform->getxPos() - this->puzzlePlatform->getWidthHeightDepth().x / 2) ||
@@ -80,7 +79,6 @@ void MovePuzzle::Update(Graphics*& gfx)
                 puzzleObjects[0]->getzPos() <= (this->puzzlePlatform->getzPos() - this->puzzlePlatform->getWidthHeightDepth().z / 2))
             {
                 puzzleObjects[0]->setPos(startPos);
-                this->speed = 0;
                 this->moving = false;
             }
         }
@@ -103,7 +101,6 @@ void MovePuzzle::Update(Graphics*& gfx)
             vec3 spawnPosition = vec3(puzzlePlatform->getxPos(), puzzlePlatform->getyPos(), puzzlePlatform->getzPos() + (puzzlePlatform->getWidthHeightDepth().z / 2.0f));
             this->SpawnDoor(spawnPosition);
             this->moving = false;
-            this->speed = 0;
         }
     }
     else

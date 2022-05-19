@@ -27,6 +27,7 @@ private:
 	void updateShaders(bool vs = true, bool ps = true);
 	bool pauseMenu;
 	float testTime = 0.0f;
+	float deltaT = 0.0f;
 	ProtoPuzzle* puzzleManager;
 	ShadowMap* shadowMap;
 	SkyBox* skybox;
