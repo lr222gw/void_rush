@@ -50,14 +50,16 @@ void App::run()
 			dt.setDeltaTime(0.2f);
 		}
 		/*DEBUG MOSUE*/
-		if (getkey('M')) {
-			mouse->activateMouse(true);
-			gfx->getWindosClass().HideCoursor();
-		}
-		else if (getkey('N')) {
-			mouse->activateMouse(false);
-			gfx->getWindosClass().ShowCoursor();
-		}
+		#if defined _DEBUG
+			if (getkey('M')) {
+				mouse->activateMouse(true);
+				gfx->getWindosClass().HideCoursor();
+			}
+			else if (getkey('N')) {
+				mouse->activateMouse(false);
+				gfx->getWindosClass().ShowCoursor();
+			}
+		#endif
 		
 
 		//handle events
