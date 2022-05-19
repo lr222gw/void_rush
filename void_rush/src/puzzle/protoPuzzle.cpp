@@ -51,8 +51,12 @@ void ProtoPuzzle::Initiate(vec3 platformPosition)
     this->puzzleList[chosenPuzzle]->InitiatePuzzle(this->gfxPuzzle, this->rmPuzzle, platformPosition);
 }
 
-void ProtoPuzzle::Update()
+void ProtoPuzzle::Update(float dt)
 {
+    if (chosenPuzzle == 3)
+    {
+        this->puzzleList[chosenPuzzle]->UpdateDT(dt);
+    }
     this->puzzleList[chosenPuzzle]->Update(gfxPuzzle);
 }
 
