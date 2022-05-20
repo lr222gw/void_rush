@@ -53,7 +53,7 @@ void Powerups::UsePowerUp(float dt)
 		{
 			rocketTimer += dt;
 		}
-		if (rocketTimer >= 2.5f)
+		if (rocketTimer >= 2.5f || player->isGrounded())
 		{
 			player->getSm()->stopSound("Rocket");
 			rocketTimer = 0.0f;
@@ -163,7 +163,6 @@ void Powerups::UsePowerUp(float dt)
 		if (potionActive == false)
 		{
 			potionActive = true;
-			//player->setPlayerPowerPassiv(EMPTY_P);
 			player->setPlayerSpeed(vec3(2.0f, 0.0f, 2.0f), true);
 		}
 		if (potionTimer >= 10.0f)

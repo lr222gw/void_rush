@@ -341,8 +341,7 @@ void Player::handleEvents(float dt)
 			if (velocity.y > 0.0f)
 			{
 				velocity.y = jumpForce;
-
-				if(canDoublejump == true)
+				if (canDoublejump == true)
 				{
 					sm->playSound("Feather");
 					this->canDoublejump = false;
@@ -498,6 +497,15 @@ void Player::handleEvents(float dt)
 			this->jumpAfterPlatformTimer = 0.0f;
 		}
 	}
+
+	if (this->rocketTimer > 0.0f)
+	{
+		this->rocketTimer -= dt;
+		if (this->rocketTimer <= 0.0f)
+		{
+			this->rocketTimer = 0.0f;
+		}
+	}
 }
 
 void Player::rotateWithMouse(int x, int y)
@@ -522,7 +530,7 @@ void Player::addRot(vec3 rot)
 
 void Player::setGrounded()
 {
-	if (!grounded && !usingRocket)
+	if (!grounded && rocketTimer == 0.0f)
 	{
 
 		float volume = (this->velocity.length() / this->speed.length())*15;
@@ -808,6 +816,11 @@ void Player::useRocket(bool trueOrFalse)
 	{
 		this->grounded = false;
 		this->groundedTimer = 0.01f;
+		this->rocketTimer = 0.5f;
+	}
+	else
+	{
+		this->rocketTimer = 0.0f;
 	}
 }
 
