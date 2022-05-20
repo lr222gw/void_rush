@@ -33,6 +33,7 @@ Menu::~Menu()
 	}
 	delete lights;
 	delete shadowMap;
+	gfx->takeLight(nullptr, 0);
 }
 
 void Menu::handleEvents()

@@ -50,7 +50,7 @@ Game::~Game()
 	if (shadowMap != nullptr) {
 		delete shadowMap;
 	}
-
+	gfx->takeLight(nullptr, 0);
 	//objects
 	for (int i = 0; i < nrOfLight; i++) {
 		delete light[i];

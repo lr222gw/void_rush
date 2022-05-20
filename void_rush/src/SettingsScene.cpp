@@ -5,8 +5,6 @@ SettingsScene::SettingsScene(Graphics*& gfx, ResourceManager*& rm, ImguiManager*
 {
 	UI = new UIManager(rm, gfx);
 
-	gfx->takeLight(nullptr, 0);
-
 	readSettings();
 
 	UI->createUIButton("assets/textures/buttonBack.png", "Back", mouse, vec2(-1, 0.8f), vec2(0.2f, 0.2f), "Back");
@@ -52,6 +50,7 @@ SettingsScene::~SettingsScene()
 {
 	delete UI;
 	delete skybox;
+	gfx->takeLight(nullptr, 0);
 }
 
 void SettingsScene::handleEvents()
