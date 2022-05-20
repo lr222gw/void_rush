@@ -66,10 +66,10 @@ void EnemyManager::createMushroom()
 	std::string name = "mushroom" + std::to_string(nrOf.MUSHROOM++);
 	this->nrOfActive.MUSHROOM = this->nrOf.MUSHROOM;
 
-	GameObjManager->CreateEnemy(player, enemyType::MUSHROOM, *soundManager, "golden-mushroom.obj", name,
+	GameObjManager->CreateEnemy(player, enemyType::MUSHROOM, *soundManager, "mushroom.obj", name,
 		vec3(0.0f, 1.0f, 0.0f), 
 		vec3(0.0f, 0.0f, 0.0f), 
-		vec3(1.0f, 0.2f, 1.0f));
+		vec3(0.5f, 0.5f, 0.5f));
 
 	collisionHandler->addEnemies((Enemy*)GameObjManager->getGameObject(name));
 	//collisionHandler->addPlatform(GameObjManager->getGameObject(name));
