@@ -51,8 +51,7 @@ GameStateRet Menu::update(float dt)
 	theReturn.seed = -1;
 
 	camera->updateCamera();
-	gfx->Update(dt);
-	//camera->addRotation(vec3(0.1f * dt, 0.3f * dt, 0));
+	gfx->Update();
 	skybox->addRot(vec3(0.0f, -0.08f * dt, 0.09f * dt));
 	UI->update();
 	soundManager.update(camera->getPos(), camera->getForwardVec());
@@ -168,7 +167,7 @@ void Menu::setUpLights()
 	nrOfLights = 1;
 	lights = new Light * [nrOfLights];
 
-	lights[0] = new PointLight(vec3(2.f, 0.f, 8.8f), 0.1f, vec3(1, 0.3f, 0.3f));
+	lights[0] = new PointLight(vec3(2.f, 0.f, 7.0f), 0.5f, vec3(1, 0.3f, 0.3f));
 
 	//say to graphics/shaders how many lights we have
 	gfx->getLightconstbufferforCS()->nrOfLights.element = nrOfLights;

@@ -28,7 +28,7 @@ SettingsScene::SettingsScene(Graphics*& gfx, ResourceManager*& rm, ImguiManager*
 	UI->createUIButton("assets/textures/buttonBack.png", "<", mouse, vec2(-0.5f, 0.0f), vec2(0.1f, 0.1f), "LRes");
 	UI->createUIButton("assets/textures/buttonBack.png", ">", mouse, vec2(0.5f, 0.0f), vec2(0.1f, 0.1f), "HRes");
 
-	UI->createUIString("FullScreen", vec2(-1.0, -0.25f), vec2(0.04, 0.1), "FullScreen");
+	UI->createUIString("FullScreen", vec2(-1.0f, -0.25f), vec2(0.04f, 0.1f), "FullScreen");
 	UI->createUIButton("assets/textures/buttonBack.png", "Y", mouse, vec2(0.f, -0.25f), vec2(0.2f, 0.2f), "FullScreenButton");
 	UI->getStringElement("FullScreenButton")->setText(FullScreenToString());
 
@@ -141,7 +141,7 @@ void SettingsScene::readSettings()
 	if (!input) {
 		sett.volume = 1;
 		sett.resolution = 4;
-		sett.mouseSence = 0.6;
+		sett.mouseSence = 0.6f;
 	}
 	input.read((char*)&sett, sizeof(sett));
 	input.close();

@@ -140,6 +140,7 @@ void ScoreManager::WriteScore(std::string name, std::string file)
 				if (std::stoi(tempScore) < (int)score) {
 					reWrite = true;
 					tempScore = std::to_string((int)score);
+					tempSeed = std::to_string(seed);
 				}
 			}
 			scores.push_back(tempScore);

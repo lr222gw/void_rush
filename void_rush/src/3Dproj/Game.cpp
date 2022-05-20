@@ -165,7 +165,7 @@ GameStateRet Game::update(float dt)
 
 		/*update things*/
 		soundManager.update(camera->getPos(), camera->getForwardVec());
-		gfx->Update(dt, camera->getPos());
+		gfx->Update(camera->getPos());
 		HUD->UpdateGhostBar(player->getPos(), generationManager->getPuzzelPos(), ghost->getPos(), distanceFromStartPosToPuzzle);
 		//HUD->UpdateScore(player->GetScore());
 		//let the two lights follow player
@@ -278,7 +278,7 @@ void Game::setUpObject()
 {
 	////////OBJECTS///////////
 
-	player = new Player(rm->get_Models("Player.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f),vec3(0,0,0), vec3(0.2f,0.8f,0.2f));
+	player = new Player(rm->get_Models("Player.obj", gfx), gfx, camera, mouse, keyboard, HUD, vec3(0.0f, 0.0f, 0.0f),vec3(0,0,0), vec3(0.2f,0.7f,0.2f));
 	player->getSoundManager(soundManager);
 	GameObjManager->addGameObject(player, "Player");
 	collisionHandler.addPlayer(player);

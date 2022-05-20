@@ -185,7 +185,8 @@ public:
 	Window& getWindosClass();
 
 	//update
-	void Update(float dt, vec3 camPos = vec3(0,0,0));
+	void Update(vec3 camPos = vec3(0,0,0));
+	void UpdateFPSCounter(float dt);
 
 	//draw
 	void clearScreen();
