@@ -168,6 +168,7 @@ void Powerups::UsePowerUp(float dt)
 		{
 			potionTimer = 0.0f;
 			player->setPlayerSpeed(vec3(-2.f, 0.0f, -2.f), false);
+			player->getSm()->playSound("PotionOff", player->getPos());
 			potionActive = false;
 
 		}

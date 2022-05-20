@@ -35,7 +35,7 @@ void FallingPlatform::update(float dt)
 		}
 		if (this->playSound) {
 			//PLaySound
-			sm->playSound("Rumble");
+			sm->playSound("Rumble", getPos());
 			this->playSound = false;
 		}
 	}
