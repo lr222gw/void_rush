@@ -746,6 +746,7 @@ void Position_generator::generate_shortcut()
                 this->shortcut_positions.positions.erase(
                     this->shortcut_positions.positions.begin() + i
                 );
+                i--;
             }
         }
     }
