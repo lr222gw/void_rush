@@ -1,6 +1,7 @@
 #include "UIString.h"
 
-UIString::UIString(Graphics*& gfx, std::string str, vec2 position, vec2 size)
+UIString::UIString(Graphics*& gfx, std::string str, vec2 position, vec2 size):
+	hiding(false)
 {
 	for (int i = 0; i < str.size(); i++) {
 		symbols.push_back(new UISymbols(gfx,vec2(position.x + size.x * i , position.y), size));
@@ -44,7 +45,7 @@ void UIString::hide(bool h)
 
 void UIString::draw(Graphics*& gfx)
 {
-	for (size_t i = 0; i < symbols.size(); i++) {
+	for (size_t i = 0; i < symbols.size() && !hiding; i++) {
 		symbols[i]->draw(gfx);
 	}
 }
