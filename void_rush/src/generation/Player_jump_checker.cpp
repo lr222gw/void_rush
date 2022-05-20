@@ -70,7 +70,6 @@ float Player_jump_checker::jumpHeight ()
     float angle = acosf((speed * 1.0f + this->jumpvel * 0.0f ) /
         (sqrtf(powf(this->speed, 2) + powf(this->jumpvel, 2))));
 
-    //float vel = sqrtf (powf (this->speed, 2.0) + powf (this->jumpvel, 2.0f));
     float vel = this->jumpvel;
     return this->pos.y
            + (powf (vel, 2.0f) * powf (sinf (angle), 2.0f)
