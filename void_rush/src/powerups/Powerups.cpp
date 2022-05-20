@@ -196,3 +196,8 @@ Powerup Powerups::getPowerUpIndex()
 {
 	return this->power_index;
 }
+
+void Powerups::setPickedUp(bool status)
+{
+	this->pickedUp = status;
+}

@@ -208,6 +208,7 @@ void CollisionHandler::update()
 			//TODO: powerUP begone (no draw)
 			powerups[i]->setPos(vec3(1000.f, 1000.f, 1000.f));
 			powerups[i]->setWannaDraw(false);
+			powerups[i]->setPickedUp(true);
 		}
 	}
 

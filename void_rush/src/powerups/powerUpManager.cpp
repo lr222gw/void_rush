@@ -37,9 +37,13 @@ void PowerupManager::update()
 
 	for (int i = 0; i < this->powers.size(); i++) { 
 		randomOffset = 0.1f / (rand() % 10 + 1);
-		this->powers[i]->addRot(vec3(0.f, deg_to_rad(1.f+ randomOffset) * speed * dt, 0.f));	
-		this->powers[i]->setPos(this->powers[i]->recievedPos + vec3(0.f, sinf(time + dt) * amount, 0.f));
 		
+		if (!this->powers[i]->pickedUp) {
+
+			this->powers[i]->addRot(vec3(0.f, deg_to_rad(1.f+ randomOffset) * speed * dt, 0.f));	
+			this->powers[i]->setPos(this->powers[i]->recievedPos + vec3(0.f, sinf(time + dt) * amount, 0.f));			
+		}
+				
 	}
 
 }
@@ -51,6 +55,7 @@ void PowerupManager::reset()
 	for (auto& p : this->powers ) {
 		p->setPos(vec3(1000.0f, 1000.0f, 1000.0f));
 		p->recievedPos = vec3(1000.0f, 1000.0f, 1000.0f);
+		p->setPickedUp(false);
 	}
 }
 

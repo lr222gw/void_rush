@@ -125,7 +125,7 @@ private:
 	float groundedTimer;
 	GameObject* pearl;
 	bool pearlActive = false;
-	float rocketTimer = 0.0f;
+	float rocketTimer = 0.0f;	
 
 	//For being shoved
 	bool shoved;

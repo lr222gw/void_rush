@@ -17,6 +17,7 @@ public:
 	void update(float dt) override;
 	void UsePowerUp(float dt);
 	Powerup getPowerUpIndex();
+	void setPickedUp(bool status);
 
 private:
 	friend class PowerupManager;
@@ -36,4 +37,5 @@ private:
 	bool rocketActive;
 	float rocketTimer;
 	bool featherbooltest = false;
+	bool pickedUp = false;
 };
