@@ -111,7 +111,7 @@ void Generation_manager::initialize()
  
     if (startSeed == -1) {
         startSeed = seed;
-        this->player->SetCurrentSeed(this->seed);
+        this->player->SetCurrentSeed(startSeed);
     }
     if (DEVMODE_ || DEBUGMODE) {        
         if (this->incrementSeed) {
