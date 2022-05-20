@@ -1,6 +1,6 @@
 # Blender 3.1.0
 # www.blender.org
-mtllib ghost.mtl
+mtllib ghost maybe_stronk.mtl
 o ghost
 v 0.907715 0.771057 -0.852714
 v 0.943336 -1.123623 -0.943336
