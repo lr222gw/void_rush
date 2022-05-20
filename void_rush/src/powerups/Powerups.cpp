@@ -65,7 +65,6 @@ void Powerups::UsePowerUp(float dt)
 	{
 		if (this->keyboard->isKeyPressed('E') && !ghost->isFrozen())
 		{
-			////ADD HERE WHAT FREEZE DOES WHEN ACTIVATED////
 			player->getSm()->playSound("Freeze", player->getPos());
 			ghostFrozenTimer = 0.1f;
 			ghost->freezeGhost();
@@ -158,8 +157,8 @@ void Powerups::UsePowerUp(float dt)
 		if (player->getPassivePower() == POTION_P)
 		{
 			player->setPlayerPowerPassiv(EMPTY_P);
+			player->getSm()->playSound("Potion", player->getPos());
 		}
-		player->getSm()->playSound("Potion", player->getPos());
 		if (potionActive == false)
 		{
 			potionActive = true;
