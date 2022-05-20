@@ -19,8 +19,10 @@ Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot,
 	this->attackCD = 0.0f;
 	Reset();
 	if (!(DEVMODE_ || DEBUGMODE))
-	{ }
-	active = true;
+	{ 
+		active = true;
+	}
+	
 }
 
 void Ghost::collidedWithPlayer()
