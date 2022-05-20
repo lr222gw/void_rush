@@ -342,7 +342,7 @@ void Game::setUpLights()
 void Game::setUpParticles()
 {
 	//add the billboards here
-	billboardGroups.push_back(new BillBoardGroup(gfx, rm->getFire(), 1, vec3(0, 0, 0), vec3(5, 5, 5)));
+	billboardGroups.push_back(new BillBoardGroup(gfx, rm->getFire(), 8, vec3(0, 0, 0), vec3(1, 1, 1)));
 
 	//if billboard have animation add it here
 	billboardGroups[0]->setAnimation(6, 1, 0.16f);
@@ -359,9 +359,9 @@ void Game::setUpUI()
 
 	//pause UI
 	pauseUI = new UIManager(rm, gfx);
-	pauseUI->createUIButton("assets/textures/buttonBack.png", " continue ", mouse, vec2(-0.75f, -0.2f), vec2(0.5f, 0.3f), "continue", vec2(0,0.05f), vec2(0,0.1f));
-	pauseUI->createUIButton("assets/textures/buttonBack.png", " main menu ", mouse, vec2(0.25f, -0.2f), vec2(0.5f, 0.3f), "menu", vec2(0, 0.05f), vec2(0,0.1f));
-	pauseUI->createUIString("Game Menu", vec2(-0.5f,0.3f), vec2(1/9.f,0.5f), "Game Menu");
+	pauseUI->createUIButton("assets/textures/buttonBack.png", " continue ", mouse, vec2(-0.75f, -0.2f), vec2(0.5f, 0.3f), "continue", vec2(0,0.04f), vec2(0,0.1f));
+	pauseUI->createUIButton("assets/textures/buttonBack.png", " main menu ", mouse, vec2(0.25f, -0.2f), vec2(0.5f, 0.3f), "menu", vec2(0, 0.04f), vec2(0,0.1f));
+	pauseUI->createUIString("Game Menu", vec2(-0.5f,0.3f), vec2(1/9.f,0.2f), "Game Menu");
 }
 
 void Game::setUpSound()
@@ -470,6 +470,8 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 			player->Reset(true);
 			generationManager->initialize();
 			soundManager.playSound("Portal", player->getPos());
+			light[2]->getPos() = (generationManager->getPuzzelPos() + vec3(0, 10, 0)); 
+
 		}
 	}
 }
