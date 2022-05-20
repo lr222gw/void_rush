@@ -25,7 +25,7 @@ void PowerupManager::init(Player* player, Ghost* ghost)
 
 void PowerupManager::update()
 {
-	static float amount = 0.00075f;
+	static float amount = 0.15f;
 	static float randomOffset = 0.f;
 	static float speed = 50;
 	static DeltaTime timer;	
@@ -38,7 +38,7 @@ void PowerupManager::update()
 	for (int i = 0; i < this->powers.size(); i++) { 
 		randomOffset = 0.1f / (rand() % 10 + 1);
 		this->powers[i]->addRot(vec3(0.f, deg_to_rad(1.f+ randomOffset) * speed * dt, 0.f));	
-		this->powers[i]->movePos(vec3(0.f, sinf(time + dt) * amount,0.f));
+		this->powers[i]->setPos(this->powers[i]->recievedPos + vec3(0.f, sinf(time + dt) * amount, 0.f));
 		
 	}
 
@@ -50,6 +50,7 @@ void PowerupManager::reset()
 
 	for (auto& p : this->powers ) {
 		p->setPos(vec3(1000.0f, 1000.0f, 1000.0f));
+		p->recievedPos = vec3(1000.0f, 1000.0f, 1000.0f);
 	}
 }
 
@@ -263,7 +264,7 @@ void PowerupManager::create_Rocket()
 
 void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 {
-	GameObject* powerUpObject;
+	GameObject* powerUpObject = nullptr;
 	int chosenPower = 1 + (rand() % 100);
 	//Difficulty easy
 	if (chosenDiff == 1)
@@ -338,5 +339,8 @@ void PowerupManager::setUpPowerups(int chosenDiff, vec3 pos)
 				powerUpObject->setWannaDraw(true);
 			}
 		}
+	}
+	if (powerUpObject) {
+		(dynamic_cast<Powerups*>(powerUpObject))->recievedPos = pos;
 	}
 }
