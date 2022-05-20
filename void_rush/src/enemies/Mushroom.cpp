@@ -1,6 +1,6 @@
 #include "Mushroom.h"
 
-
+Mushroom::Mushroom_settings Mushroom::mushroom_conf;
 Mushroom::Mushroom(ModelObj* file, Graphics*& gfx, Player* player, vec3 pos, vec3 rot, vec3 scale)
 	:Enemy(file, gfx, pos, rot, scale)
 {

@@ -387,6 +387,7 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Jump2.wav", 10, "Pad");
 	soundManager.loadSound("assets/audio/Feather1.wav", 10, "Feather");
 	soundManager.loadSound("assets/audio/Potion1.wav", 10, "Potion");
+	soundManager.loadSound("assets/audio/Coin3.wav", 10, "PotionOff");
 	soundManager.loadSound("assets/audio/Shield1.wav", 10, "Shield");
 	soundManager.loadSound("assets/audio/Shield2.wav", 10, "Shield2");
 	soundManager.loadSound("assets/audio/Coin1.wav", 10, "Money");

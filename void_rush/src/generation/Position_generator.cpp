@@ -232,9 +232,9 @@ void Position_generator::replace_random_jumpPoints_with_obstacles_positions()
     }
 
     //try to look for this nr of JPs to replace
-    int nrOfObstacles = replaceable_jumpPoints.size() /2 ;
+    size_t nrOfObstacles = replaceable_jumpPoints.size() /2 ;
     
-    for (int i = 0; i < nrOfObstacles; i++) {
+    for (size_t i = 0; i < nrOfObstacles; i++) {
         int pick_index = rand() % replaceable_jumpPoints.size();
         Platform* pick = replaceable_jumpPoints[pick_index];
 
@@ -246,7 +246,6 @@ void Position_generator::replace_random_jumpPoints_with_obstacles_positions()
 
         replaceable_jumpPoints.erase(replaceable_jumpPoints.begin() + pick_index);        
     }
-
 
 }
 
@@ -313,8 +312,6 @@ void Position_generator::select_enemy_positions()
         std::vector <vec3> EnemyPositions;
         std::vector <vec3> positionsAlongZ;
         
-        int nrOf = validAnchors[i]->platformShape.previousVoxels.size();
-        
         for(auto &p : validAnchors[i]->platformShape.previousVoxels){
             
             bool wasFound = false;
@@ -354,8 +351,6 @@ void Position_generator::select_enemy_positions()
         std::vector <vec3> EnemyPositions;
 
         std::vector<vector_z_pair> positionsAlongZ;
-        
-        int nrOf = validAnchors[i]->platformShape.previousVoxels.size();
 
         for (auto& p : validAnchors[i]->platformShape.previousVoxels) {
 
