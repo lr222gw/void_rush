@@ -75,7 +75,7 @@ float4 main(PixelShaderInput input) : SV_TARGET
         else
         {
             //we are in shadow
-            FinalPixel += float4((ka.xyz) * attenuation, 0);
+            FinalPixel += float4(ambient_light * attenuation, 0);
             
         }
     }

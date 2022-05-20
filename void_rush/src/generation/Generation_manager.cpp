@@ -349,7 +349,7 @@ Difficulity Generation_manager::getDifficulty() const
 
 vec3 Generation_manager::getPuzzelPos()
 {
-    vec3 platformPosOffset = vec3(0.f, -20.f, 0.f);
+    vec3 platformPosOffset = vec3(0.f, -10.f, 15.f);
     return *this->position_gen->getAnchors()->at(position_gen->getAnchors()->size()-1)->getPos() + platformPosOffset;
 }
 

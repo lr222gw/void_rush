@@ -66,10 +66,10 @@ void EnemyManager::createMushroom()
 	std::string name = "mushroom" + std::to_string(nrOf.MUSHROOM++);
 	this->nrOfActive.MUSHROOM = this->nrOf.MUSHROOM;
 
-	GameObjManager->CreateEnemy(player, enemyType::MUSHROOM, *soundManager, "golden-mushroom.obj", name,
+	GameObjManager->CreateEnemy(player, enemyType::MUSHROOM, *soundManager, "mushroom.obj", name,
 		vec3(0.0f, 1.0f, 0.0f), 
 		vec3(0.0f, 0.0f, 0.0f), 
-		vec3(1.0f, 0.2f, 1.0f));
+		vec3(0.5f, 0.5f, 0.5f));
 
 	collisionHandler->addEnemies((Enemy*)GameObjManager->getGameObject(name));
 	//collisionHandler->addPlatform(GameObjManager->getGameObject(name));
@@ -81,10 +81,10 @@ void EnemyManager::createFallingPlatform()
 	std::string name = "fallPlat" + std::to_string(nrOf.FALLPLAT++);
 	this->nrOfActive.FALLPLAT = this->nrOf.FALLPLAT;
 
-	GameObjManager->CreateEnemy(player, enemyType::FALLPLAT, *soundManager, "DCube.obj", name,
+	GameObjManager->CreateEnemy(player, enemyType::FALLPLAT, *soundManager, "fallingPlat.obj", name,
 		vec3(0.0f, 1.0f, 0.0f),
 		vec3(0.0f, 0.0f, 0.0f),
-		vec3(1.0f, 0.2f, 1.0f));
+		vec3(1.0f, 1.0f, 1.0f));
 
 	collisionHandler->addEnemies((Enemy*)GameObjManager->getGameObject(name));
 	collisionHandler->addPlatform(GameObjManager->getGameObject(name));
@@ -234,7 +234,7 @@ void EnemyManager::spawnObstacle(vec3 pos)
 
 	switch(obstacleType){
 	case (int)obstacle_enemyType::MUSHROOM:
-		get_Mushroom()->setPos(pos);
+		get_Mushroom()->setPos(pos + vec3(0.f, Mushroom::mushroom_conf.y_offset, 0.f));		
 		break;
 	case (int)obstacle_enemyType::FALLPLAT:
 		get_FallingPlatform()->setPos(pos);

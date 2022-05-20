@@ -98,7 +98,7 @@ void GameObjectManager::CreateEnemy(Player* player, enemyType typeofEnemy, Sound
 		break;
 	case enemyType::FALLPLAT:
 		if (modelFile == "") {
-			modelFile = "DCube.obj";
+			modelFile = "fallingPlat.obj";
 		}
 		objPtr = new FallingPlatform(rm->get_Models(modelFile, gfx), gfx, player, pos, rot, scale);
 		break;
