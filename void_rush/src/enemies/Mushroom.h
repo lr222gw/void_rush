@@ -29,6 +29,6 @@ private:
 	static struct Mushroom_settings {
 		float forceY = 20.0f;
 		float force = 10.0f;
-		float y_offset = 0.f;
+		float y_offset = -3.f;
 	}mushroom_conf;
 };

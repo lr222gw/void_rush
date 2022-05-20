@@ -167,7 +167,7 @@ void Menu::setUpLights()
 	nrOfLights = 1;
 	lights = new Light * [nrOfLights];
 
-	lights[0] = new PointLight(vec3(2.f, 0.f, 7.0f), 0.5f, vec3(1, 0.3f, 0.3f));
+	lights[0] = new PointLight(vec3(2.f, 0.f, 7.0f), 0.2f, vec3(1*2, 0.3f*2, 0.3f*2));
 
 	//say to graphics/shaders how many lights we have
 	gfx->getLightconstbufferforCS()->nrOfLights.element = nrOfLights;

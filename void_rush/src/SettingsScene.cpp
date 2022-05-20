@@ -5,34 +5,36 @@ SettingsScene::SettingsScene(Graphics*& gfx, ResourceManager*& rm, ImguiManager*
 {
 	UI = new UIManager(rm, gfx);
 
+	gfx->takeLight(nullptr, 0);
+
 	readSettings();
 
 	UI->createUIButton("assets/textures/buttonBack.png", "Back", mouse, vec2(-1, 0.8f), vec2(0.2f, 0.2f), "Back");
 
 
-	UI->createUIString("Volume", vec2(-1.0f, 0.51f), vec2(0.04f, 0.1f), "Volume");
-	UI->createUIString("00", vec2(-0.1f, 0.51f), vec2(0.2f, 0.2f), "VolumeFloat");
+	UI->createUIString("Volume", vec2(-1.0f, 0.51f), vec2(0.06f, 0.1f), "Volume");
+	UI->createUIString("00", vec2(-0.1f, 0.51f), vec2(0.1f, 0.1f), "VolumeFloat");
 	UI->getStringElement("VolumeFloat")->setText(VolumeToString());
-	UI->createUIButton("assets/textures/buttonBack.png", "-", mouse, vec2(-0.5f, 0.5f), vec2(0.1f, 0.1f), "LVol");
+	UI->createUIButton("assets/textures/buttonBack.png", "-", mouse, vec2(-0.3f, 0.5f), vec2(0.1f, 0.1f), "LVol");
 	UI->createUIButton("assets/textures/buttonBack.png", "+", mouse, vec2(0.5f, 0.5f), vec2(0.1f, 0.1f), "HVol");
 
-	UI->createUIString("Mouse", vec2(-1.0f, 0.251f), vec2(0.05f, 0.1f), "Mouse");
-	UI->createUIString("0.0", vec2(-0.1f, 0.25f), vec2(0.2f, 0.2f), "SenceFloat");
+	UI->createUIString("Mouse", vec2(-1.0f, 0.251f), vec2(0.06f, 0.1f), "Mouse");
+	UI->createUIString("0.0", vec2(-0.1f, 0.25f), vec2(0.1f, 0.1f), "SenceFloat");
 	UI->getStringElement("SenceFloat")->setText(std::to_string(sett.mouseSence));
-	UI->createUIButton("assets/textures/buttonBack.png", "-", mouse, vec2(-0.5f, 0.25f), vec2(0.1f, 0.1f), "LSence");
+	UI->createUIButton("assets/textures/buttonBack.png", "-", mouse, vec2(-0.3f, 0.25f), vec2(0.1f, 0.1f), "LSence");
 	UI->createUIButton("assets/textures/buttonBack.png", "+", mouse, vec2(0.5f, 0.25f), vec2(0.1f, 0.1f), "HSence");
 
-	UI->createUIString("Resolution", vec2(-1.0f, 0.01f), vec2(0.04f, 0.1f), "ResolutionString");
-	UI->createUIString("0000x0000", vec2(-0.25f, 0.01f), vec2(0.06f, 0.1f), "Resolution");
+	UI->createUIString("Resolution", vec2(-1.0f, 0.01f), vec2(0.06f, 0.1f), "ResolutionString");
+	UI->createUIString("0000x0000", vec2(-0.1f, 0.01f), vec2(0.06f, 0.1f), "Resolution");
 	UI->getStringElement("Resolution")->setText(ResolutionToString());
-	UI->createUIButton("assets/textures/buttonBack.png", "<", mouse, vec2(-0.5f, 0.0f), vec2(0.1f, 0.1f), "LRes");
+	UI->createUIButton("assets/textures/buttonBack.png", "<", mouse, vec2(-0.3f, 0.0f), vec2(0.1f, 0.1f), "LRes");
 	UI->createUIButton("assets/textures/buttonBack.png", ">", mouse, vec2(0.5f, 0.0f), vec2(0.1f, 0.1f), "HRes");
 
-	UI->createUIString("FullScreen", vec2(-1.0f, -0.25f), vec2(0.04f, 0.1f), "FullScreen");
-	UI->createUIButton("assets/textures/buttonBack.png", "Y", mouse, vec2(0.f, -0.25f), vec2(0.2f, 0.2f), "FullScreenButton");
+	UI->createUIString("FullScreen", vec2(-1.0f, -0.25f), vec2(0.06f, 0.1f), "FullScreen");
+	UI->createUIButton("assets/textures/buttonBack.png", "Y", mouse, vec2(-0.3f, -0.25f), vec2(0.15f, 0.15f), "FullScreenButton");
 	UI->getStringElement("FullScreenButton")->setText(FullScreenToString());
 
-	UI->createUIButton("assets/textures/buttonBack.png", "Save", mouse, vec2(0.75f, -0.75f), vec2(0.25f, 0.2f), "Save");
+	UI->createUIButton("assets/textures/buttonBack.png", "Save", mouse, vec2(-0.9f, -0.75f), vec2(0.25f, 0.2f), "Save");
 
 	std::string skyboxTextures[6] = {
 		"assets/textures/Skybox/posx.png",//x+
@@ -84,6 +86,9 @@ GameStateRet SettingsScene::update(float dt)
 	}
 	else if (UI->getButton("LSence")->clicked()) {
 		sett.mouseSence -= 0.1f;
+		if (sett.mouseSence < 0) {
+			sett.mouseSence = 0;
+		}
 		UI->getStringElement("SenceFloat")->setText(std::to_string(sett.mouseSence));
 	}
 	else if (UI->getButton("HRes")->clicked()) {
@@ -151,7 +156,7 @@ void SettingsScene::readSettings()
 void SettingsScene::saveSettings()
 {
 	UI->deleteString("saved");
-	UI->createUIString("saved", vec2(-0.5f, -0.5f), vec2(0.1f, 0.1f), "saved");
+	UI->createUIString("saved", vec2(-0.25f, -0.7f), vec2(0.1f, 0.1f), "saved");
 	exist = true;
 	savedTime = 2.f;
 	std::ofstream output("Setting.data", std::ios::out | std::ios::binary);

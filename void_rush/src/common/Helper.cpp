@@ -8,7 +8,6 @@ float deg_to_rad (float deg)
 }
 
 float get_distance(vec3 one, vec3 two){
-    //d = ((x2 - x1)2 + (y2 - y1)2 + (z2 - z1)2)1/2
     return powf((powf((two.x - one.x),2)+powf((two.y - one.y),2)+powf((two.z - one.z),2)),0.5f);
 }
 
