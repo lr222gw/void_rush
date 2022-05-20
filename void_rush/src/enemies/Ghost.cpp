@@ -8,7 +8,7 @@ Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot,
 	rangeToPointBeforeNewPoint = 0.5;
 	this->Ghosts_Time = 0.0f;
 	this->ghost_Time_interval = 20.f;
-	this->ghost_max_dist_to_player = 30.f;
+	this->ghost_max_dist_to_player = 40.f;
 	this->speed_increase = 0.2f;
 	this->force = vec3(10.0f, 3.0f, 10.f);
 	this->initalSpeed = player->getSpeed() + 1.2;
@@ -29,8 +29,11 @@ void Ghost::collidedWithPlayer()
 		std::cout << "Player loses a life" << std::endl;
 		readyToAttack = false;
 		attackCD = 1.0f;
-		vec3 ghostToPlayer = (player->getPos() - getPos()).Normalize();
-		vec2 shove = vec2(this->force.x * ghostToPlayer.x, this->force.z * ghostToPlayer.z);
+		vec2 ghostToPlayer = (vec2(player->getPos().x, player->getPos().z) - vec2(getPos().x, getPos().z)).Normalize();
+		vec2 shove = vec2(this->force.x * ghostToPlayer.x, this->force.z * ghostToPlayer.y);
+		if (shove.legth() == 0) {
+			shove = vec2(1, 1).Normalize();
+		}
 		player->shovePlayer(shove, this->force.y * 2);
 	}
 }
