@@ -234,7 +234,8 @@ void EnemyManager::spawnObstacle(vec3 pos)
 
 	switch(obstacleType){
 	case (int)obstacle_enemyType::MUSHROOM:
-		get_Mushroom()->setPos(pos);
+		//get_Mushroom()->setPos(pos + vec3(0.f, Mushroom::mushroom_conf.y_offset, 0.f));
+		get_Mushroom()->setPos(pos + vec3(0.f, -3.0f, 0.f));
 		break;
 	case (int)obstacle_enemyType::FALLPLAT:
 		get_FallingPlatform()->setPos(pos);

@@ -13,6 +13,7 @@ public:
 	void collidedWithPlayer();
 private:
 	friend class ImguiManager;
+	friend class EnemyManager;
 	float forceY;
 	float force;
 	float scaleTimer;
@@ -25,8 +26,9 @@ private:
 	vec3 pushVec;
 	
 
-	/*static struct Mushroom_settings {
+	static struct Mushroom_settings {
 		float forceY = 20.0f;
 		float force = 10.0f;
-	}mushroom_conf;*/
+		float y_offset = 0.f;
+	}mushroom_conf;
 };
