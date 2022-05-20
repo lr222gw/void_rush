@@ -53,9 +53,14 @@ void Powerups::UsePowerUp(float dt)
 		{
 			rocketTimer += dt;
 		}
-		if (rocketTimer >= 2.5f || player->isGrounded())
+		if (player->isGrounded())
 		{
 			player->getSm()->stopSound("Rocket");
+			rocketTimer = 0.0f;
+			player->useRocket(false);
+			rocketActive = false;
+		}
+		else if (rocketTimer >= 2.5f) {
 			rocketTimer = 0.0f;
 			player->useRocket(false);
 			rocketActive = false;
