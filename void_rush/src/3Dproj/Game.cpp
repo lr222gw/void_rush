@@ -165,7 +165,7 @@ GameStateRet Game::update(float dt)
 
 		/*update things*/
 		soundManager.update(camera->getPos(), camera->getForwardVec());
-		gfx->Update(dt, camera->getPos());
+		gfx->Update(camera->getPos());
 		HUD->UpdateGhostBar(player->getPos(), generationManager->getPuzzelPos(), ghost->getPos(), distanceFromStartPosToPuzzle);
 		//HUD->UpdateScore(player->GetScore());
 		//let the two lights follow player

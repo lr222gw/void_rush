@@ -8,7 +8,7 @@ Turret::Turret(ModelObj* file, Graphics*& gfx, Player* player, vec3 pos, vec3 ro
 	//setting values
 	range = Turret::turret_conf.Turret_range;
 	shootCD = Turret::turret_conf.Turret_CD;
-	currentTimeTillShoot = 0.f;
+	currentTimeTillShoot = shootCD;
 }
 
 void Turret::collidedWithPlayer()

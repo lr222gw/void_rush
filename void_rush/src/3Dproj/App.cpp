@@ -46,9 +46,11 @@ void App::run()
 
 	while (msg.message != WM_QUIT && gfx->getWindosClass().ProcessMessages() && !quit)
 	{
-		if (dt.dt() > 0.2f) {
-			dt.setDeltaTime(0.2f);
+		gfx->UpdateFPSCounter(dt.getRealTime());
+		if (dt.dt() > 0.016f) {
+			dt.setDeltaTime(0.016f);
 		}
+		gfx->Update();
 		/*DEBUG MOSUE*/
 		#if defined _DEBUG
 			if (getkey('M')) {
