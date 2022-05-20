@@ -270,8 +270,9 @@ void Game::DrawToBuffer()
 	{
 		HUD->Update();
 	}
-	UI->draw();
-
+	else {
+		UI->draw();
+	}
 }
 
 void Game::setUpObject()
