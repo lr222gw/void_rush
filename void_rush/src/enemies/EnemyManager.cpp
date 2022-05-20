@@ -81,10 +81,10 @@ void EnemyManager::createFallingPlatform()
 	std::string name = "fallPlat" + std::to_string(nrOf.FALLPLAT++);
 	this->nrOfActive.FALLPLAT = this->nrOf.FALLPLAT;
 
-	GameObjManager->CreateEnemy(player, enemyType::FALLPLAT, *soundManager, "DCube.obj", name,
+	GameObjManager->CreateEnemy(player, enemyType::FALLPLAT, *soundManager, "fallingPlat.obj", name,
 		vec3(0.0f, 1.0f, 0.0f),
 		vec3(0.0f, 0.0f, 0.0f),
-		vec3(1.0f, 0.2f, 1.0f));
+		vec3(1.0f, 1.0f, 1.0f));
 
 	collisionHandler->addEnemies((Enemy*)GameObjManager->getGameObject(name));
 	collisionHandler->addPlatform(GameObjManager->getGameObject(name));
