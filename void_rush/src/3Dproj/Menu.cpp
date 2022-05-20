@@ -89,7 +89,7 @@ GameStateRet Menu::update(float dt)
 	if (heightObject >= 2 * 3.14) {
 		heightObject = 0;
 	}
-	GameObjManager->getGameObject("Ghost")->setPos(vec3(3, (sin(heightObject) * 0.5f) - 3.0f, 10.0f));
+	GameObjManager->getGameObject("Ghost")->setPos(vec3(3, (sin(heightObject) * 0.5f) , 10.0f));
 	checkHover();
 	if (inputSeed) {
 		getSeedInput();
