@@ -11,6 +11,11 @@
 #include "Portal.h"
 #include <vector>
 
+
+struct ExtraArgs {
+    vec3 nextPlatformPosition;
+};
+
 class Puzzle : public Portal
 {
 private:
@@ -54,7 +59,7 @@ public:
     virtual void Interaction(vec3 playerPos, vec3 forwardVec) = 0;
 
     //Pick the correct type of puzzle and initiate it.
-    virtual void InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position) = 0;
+    virtual void InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position, ExtraArgs extra) = 0;
 
     virtual void Update(Graphics*& gfx) = 0;
 };

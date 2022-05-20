@@ -24,7 +24,7 @@ void MovePuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
     }
 }
 
-void MovePuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position)
+void MovePuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position, ExtraArgs extraArgs)
 {
     this->SetPosition(position);
     std::cout << "Move puzzle chosen" << std::endl;

@@ -149,7 +149,9 @@ void Generation_manager::initialize()
         vec3(0.f, 0.f, 0.f)
     );
     
-    puzzleManager->Initiate(this->getPuzzelPos());  
+    vec3 answerPos = position_gen->firstJumpPoint->platformShape.get_midpoint();
+    answerPos.y = this->GetStartPlatform()->getPos()->y;
+    puzzleManager->Initiate(this->getPuzzelPos(), { answerPos });
     this->player->SetDifficulity(this->difficulity);
     this->player->SetStartPlatform(this->GetStartPlatform());
     

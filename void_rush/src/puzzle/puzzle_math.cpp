@@ -69,7 +69,7 @@ void MathPuzzle::Interaction(vec3 playerPos, vec3 forwardVec)
     }
 }
 
-void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position)
+void MathPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position, ExtraArgs extraArgs)
 {
     letters->removeAllText();
 
