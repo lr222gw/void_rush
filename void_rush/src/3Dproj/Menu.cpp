@@ -51,8 +51,7 @@ GameStateRet Menu::update(float dt)
 	theReturn.seed = -1;
 
 	camera->updateCamera();
-	gfx->Update(dt);
-	//camera->addRotation(vec3(0.1f * dt, 0.3f * dt, 0));
+	gfx->Update();
 	skybox->addRot(vec3(0.0f, -0.08f * dt, 0.09f * dt));
 	UI->update();
 	soundManager.update(camera->getPos(), camera->getForwardVec());

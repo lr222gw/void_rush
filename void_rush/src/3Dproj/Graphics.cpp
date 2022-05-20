@@ -201,8 +201,7 @@ void Graphics::RsetViewPort()
 	immediateContext->RSSetViewports(1, &viewPort);
 }
 
-float nextFpsUpdate = 0;
-void Graphics::Update(float dt, vec3 camPos)
+void Graphics::Update(vec3 camPos)
 {
 
 
@@ -240,10 +239,15 @@ void Graphics::Update(float dt, vec3 camPos)
 	immediateContext->Unmap(camConstBuffer, 0);
 	ZeroMemory(&resource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 	immediateContext->PSSetConstantBuffers(5, 1, &camConstBuffer);
+}
 
+
+void Graphics::UpdateFPSCounter(float dt)
+{
 	//fps
-	static int a = 0; 
-	
+	static int a = 0;
+	static float nextFpsUpdate = 0;
+
 	nextFpsUpdate += (float)dt;
 	a++;
 	if (nextFpsUpdate >= 0.5f) {

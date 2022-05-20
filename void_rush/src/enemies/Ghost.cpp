@@ -11,7 +11,7 @@ Ghost::Ghost(Player* player, ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot,
 	this->ghost_max_dist_to_player = 40.f;
 	this->speed_increase = 0.2f;
 	this->force = vec3(10.0f, 3.0f, 10.f);
-	this->initalSpeed = player->getSpeed() + 1.2;
+	this->initalSpeed = player->getSpeed() + 1.2f;
 	this->speed = this->initalSpeed;
 	this->player = player;
 	this->frozen = false;
