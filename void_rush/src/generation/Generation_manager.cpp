@@ -142,18 +142,18 @@ void Generation_manager::initialize()
     
     position_gen->generate_shortcut();
     enemyManager->spawnObstacles(position_gen->get_shortcut_positions());
-    enemyManager->spawnObstacles(position_gen->get_obstacle_positions());
-
-    this->player->set_resetLookat_dir(position_gen->firstJumpPoint->platformShape.get_midpoint());
-    this->player->lookat(position_gen->firstJumpPoint->platformShape.get_midpoint(),
-        vec3(0.f, 0.f, 0.f)
-    );
+    enemyManager->spawnObstacles(position_gen->get_obstacle_positions());    
     
     vec3 answerPos = position_gen->firstJumpPoint->platformShape.get_midpoint();
     answerPos.y = this->GetStartPlatform()->getPos()->y;
     puzzleManager->Initiate(this->getPuzzelPos(), { answerPos });
     this->player->SetDifficulity(this->difficulity);
     this->player->SetStartPlatform(this->GetStartPlatform());
+
+    this->player->set_resetLookat_dir(position_gen->firstJumpPoint->platformShape.get_midpoint());
+    this->player->lookat(position_gen->firstJumpPoint->platformShape.get_midpoint(),
+        vec3(0.f, 0.f, 0.f)
+    );
     
 }
 
