@@ -31,6 +31,7 @@ private:
 	bool pearlActive = false;
 	float pearlTime = 0.0f;
 	vec3 pearlVec;
+	float pearlSpeed;
 	vec3 recievedPos;
 	bool potionActive;
 	float potionTimer;
