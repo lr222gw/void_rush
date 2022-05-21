@@ -73,6 +73,7 @@ public:
 	void onMouseMove(int x, int y);
 	void activateMouse(bool activate);
 	void clear();
+	void clearEventBuffer(); //Do this before game start...
 	
 private:
 	bool mouse_active;

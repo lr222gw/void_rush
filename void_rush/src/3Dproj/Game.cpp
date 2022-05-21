@@ -12,7 +12,8 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	nrOfLight = 0; 
 	player = nullptr;
 	skybox = nullptr;
-	
+	mouse->clearEventBuffer();
+
 	HUD = new Hud(gfx, rm);
 	lightNr = 0;
 	puzzleManager = new ProtoPuzzle(gfx, rm, collisionHandler, &soundManager); 
@@ -79,8 +80,9 @@ void Game::handleEvents()
 		mouseEvent e = mouse->ReadEvent();
 		if (e.getType() == mouseEvent::EventType::RAW_MOVE && !pauseMenu) {
 			player->rotateWithMouse(e.getPosX(), e.getPosY());
-		}
+		}	
 	}
+	
 	if (keyboard->onceisKeyReleased(VK_ESCAPE) && player->IsAlive()) {
 		//set pause
 		pauseMenu = !pauseMenu;

@@ -166,6 +166,13 @@ void Mouse::clear()
 	leaftDown = rightDown = midDown = false;
 }
 
+void Mouse::clearEventBuffer()
+{
+	while (!this->mouseBuffer.empty()) {
+		this->mouseBuffer.pop();
+	}
+}
+
 void Mouse::onMouseMoveRaw(int x, int y)
 {
 	this->mouseBuffer.push(mouseEvent(mouseEvent::EventType::RAW_MOVE, x, y));

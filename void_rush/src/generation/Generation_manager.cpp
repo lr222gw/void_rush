@@ -151,9 +151,7 @@ void Generation_manager::initialize()
     this->player->SetStartPlatform(this->GetStartPlatform());
 
     this->player->set_resetLookat_dir(position_gen->firstJumpPoint->platformShape.get_midpoint());
-    this->player->lookat(position_gen->firstJumpPoint->platformShape.get_midpoint(),
-        vec3(0.f, 0.f, 0.f)
-    );
+    this->player->lookat(position_gen->firstJumpPoint->platformShape.get_midpoint());
     
 }
 
