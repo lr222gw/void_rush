@@ -231,6 +231,6 @@ int Menu::getSeedInt()
 			cleanSeed += seed.at(i);
 		}
 	}
-	return std::stoi(cleanSeed);
+	return std::strtoimax(cleanSeed.c_str(), nullptr, 10);
 }
 
