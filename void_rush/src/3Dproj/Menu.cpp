@@ -61,6 +61,7 @@ GameStateRet Menu::update(float dt)
 		theReturn.gameState = GameStatesEnum::QUIT;
 	}
 	else if (UI->getButton("Start")->clicked() || keyboard->isKeyPressed(VK_RETURN)) {
+		
 		UI->createUIString("Loading...", vec2(-0.9f, -0.75f), vec2(0.2f, 0.2f), "loading");
 		theReturn.gameState = GameStatesEnum::TO_GAME;
 		theReturn.seed = getSeedInt();
@@ -199,6 +200,13 @@ void Menu::getSeedInput()
 		for (int i = 48; i < 58; i++) {
 			if (keyboard->isKeyPressed(i)) {
 				seed.at(currentNumber++) = char(i);
+				UI->getStringElement("Seed")->setText(seed);
+				keyboard->onKeyReleased(i);
+			}
+		}
+		for (int i = VK_NUMPAD0; i <= VK_NUMPAD9; i++) {
+			if (keyboard->isKeyPressed(i)) {
+				seed.at(currentNumber++) = char(i-48);
 				UI->getStringElement("Seed")->setText(seed);
 				keyboard->onKeyReleased(i);
 			}
