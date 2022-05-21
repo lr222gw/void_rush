@@ -11,8 +11,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	ghost = nullptr;
 	nrOfLight = 0; 
 	player = nullptr;
-	skybox = nullptr;
-	mouse->clearEventBuffer();
+	skybox = nullptr;	
 
 	HUD = new Hud(gfx, rm);
 	lightNr = 0;
@@ -43,7 +42,8 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	this->setUpSound();
 	this->setUpUI();
 	this->IMGUI->set_owner(this);
-
+	mouse->clearEventBuffer();
+	
 }
 
 Game::~Game()

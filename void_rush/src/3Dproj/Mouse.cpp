@@ -172,10 +172,18 @@ void Mouse::clearEventBuffer()
 		this->mouseBuffer.pop();
 	}
 }
+void Mouse::set_captureEvent(bool status)
+{
+	this->captureEvent = status;
+}
+
 
 void Mouse::onMouseMoveRaw(int x, int y)
 {
-	this->mouseBuffer.push(mouseEvent(mouseEvent::EventType::RAW_MOVE, x, y));
+	if (this->captureEvent) {
+
+		this->mouseBuffer.push(mouseEvent(mouseEvent::EventType::RAW_MOVE, x, y));
+	}
 }
 
 /*Mouse event*/
