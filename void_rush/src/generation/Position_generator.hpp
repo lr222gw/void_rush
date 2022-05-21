@@ -124,7 +124,7 @@ private: // Magic Numbers
     Jump_point_settings JP_conf;
 
     static struct PowerUp_position_settings{        
-        int powerUp_occurance_rate = 5;
+        int powerUp_occurance_rate = 3;
         vec3 position_offset = vec3(0.f, 1.f,0.f);
         
     }PU_conf;

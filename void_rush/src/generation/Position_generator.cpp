@@ -40,7 +40,7 @@ bool Position_generator::start (Difficulity selectedDiff)
     generate_jumpPoints_positions(selectedDiff);
 
 
-    removeUnnecessaryPlatforms();
+    //removeUnnecessaryPlatforms();
     removeOverlappingPlatformVoxels();
 
     replace_random_jumpPoints_with_obstacles_positions();
