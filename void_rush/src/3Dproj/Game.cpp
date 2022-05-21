@@ -15,13 +15,13 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	
 	HUD = new Hud(gfx, rm);
 	lightNr = 0;
-	puzzleManager = new ProtoPuzzle(gfx, rm, collisionHandler, &soundManager); //TODO: REMOVE COMMENT
+	puzzleManager = new ProtoPuzzle(gfx, rm, collisionHandler, &soundManager); 
 
 	powerupManager	= new PowerupManager(GameObjManager, gfx, rm, &this->collisionHandler, mouse, keyboard);
 	enemyManager	= new EnemyManager(GameObjManager, gfx, rm, &this->collisionHandler, &soundManager, mouse, keyboard);
 	
 	generationManager = new Generation_manager(gfx, rm, collisionHandler, seed);
-	generationManager->set_PuzzleManager(puzzleManager); //TODO: REMOVE COMMENT
+	generationManager->set_PuzzleManager(puzzleManager); 
 	generationManager->set_GameObjManager(GameObjManager);
 	generationManager->set_PowerupManager(powerupManager);
 	generationManager->set_EnemyManager(enemyManager);
@@ -465,14 +465,14 @@ void Game::Interact(std::vector<GameObject*>& interactables)
 		testTime = 1.0f;
 		//TODO: REMOVE COMMENT
 		puzzleManager->Interact(GameObjManager->getGameObject("Player")->getPos(), camera->getForwardVec());
-		if (puzzleManager->isCompleted())
-		{
-			player->Reset(true);
-			generationManager->initialize();
-			soundManager.playSound("Portal", player->getPos());
-			light[2]->getPos() = (generationManager->getPuzzelPos() + vec3(0, 10, 0)); 
+	}
+	if (puzzleManager->isCompleted())
+	{
+		player->Reset(true);
+		generationManager->initialize();
+		soundManager.playSound("Portal", player->getPos());
+		light[2]->getPos() = (generationManager->getPuzzelPos() + vec3(0, 10, 0)); 
 
-		}
 	}
 }
 

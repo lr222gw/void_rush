@@ -1,8 +1,14 @@
 #include "CollisionHandler.h"
+#include "puzzle/Portal.h"
 
 CollisionHandler::CollisionHandler()
-	:lastCollided_ShapePlatform(nullptr)
+	:lastCollided_ShapePlatform(nullptr),player(nullptr),Pearl(nullptr)
 {
+}
+
+void CollisionHandler::addPortal(portal_pair portalPair)
+{
+	this->portals.push_back(portalPair);
 }
 
 void CollisionHandler::addPlatform(GameObject* platform)
@@ -81,6 +87,15 @@ void CollisionHandler::deletePowerups(Powerups* ptr)
 	for (size_t i = 0; i < powerups.size(); i++) {
 		if (powerups[i] == ptr) {
 			powerups.erase(std::next(powerups.begin(), i));
+		}
+	}
+}
+
+void CollisionHandler::deletePortals(GameObject* ptr)
+{
+	for (size_t i = 0; i < portals.size(); i++) {
+		if (portals[i].portal == ptr) {
+			portals.erase(std::next(portals.begin(), i));
 		}
 	}
 }
@@ -192,6 +207,22 @@ void CollisionHandler::update()
 			//check if projectile hit platform if it does disapear
 		}
 	}
+
+	//check palyer collision with portal
+	for (size_t i = 0; i < portals.size(); i++) {
+		for (size_t o = i; o < portals.size(); o++) {
+
+			if (!done && collision3D(player->getPlayerObjPointer(), portals[i].portal, true, false))
+			{
+				done = true;
+				portals[i].portalManager->InteractPortal(player->getPos(), player->GetForwardVec());
+								
+				//this->deletePortals(portals[i].portal);
+				
+			}
+		}
+	}
+
 
 	//check enemies with Obstacle // don't know what happens here
 	//for (size_t i = 0; i < Enemies.size(); i++) {

@@ -7,7 +7,7 @@ Portal::Portal(Graphics*& gfx, ResourceManager*& rm, CollisionHandler& colHandle
 Portal::~Portal()
 {
     for (size_t i = 0; i < portals.size(); i++) {
-        colHandler->deletePlatform(portals[i]);
+        colHandler->deletePortals(portals[i]);
         delete portals[i];
     }
     portals.clear();
@@ -17,7 +17,7 @@ void Portal::Spawn(vec3 pos)
 {
     for (size_t i = 0; i < portals.size(); i++) 
     {
-        colHandler->deletePlatform(portals[i]);
+        colHandler->deletePortals(portals[i]);
         delete portals[i];
     }
     portals.clear();
@@ -28,7 +28,7 @@ void Portal::Spawn(vec3 pos)
     //portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(pos.x + 3.0f, pos.y + 6.7f, pos.z - 1.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f)));
     for (size_t i = 0; i < portals.size(); i++)
     {
-        colHandler->addPlatform(portals[i]);
+        colHandler->addPortal({this, portals[i]});
     }
 }
 
@@ -40,6 +40,9 @@ void Portal::InteractPortal(vec3 playerPos, vec3 forwardVec)
     if (CanInteract(playerPos, forwardVec, midPos, size / 2.0f, 1.5f, test))
     {
         this->completed = true;
+        for (auto portal : this->portals) {
+            this->colHandler->deletePortals(portal);
+        }
     }
     /*
     for (int i = 0; i < 3; i++)
