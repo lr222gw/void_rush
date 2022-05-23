@@ -2,7 +2,7 @@
 
 
 Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam, int seed):
-	GameState(gfx,rm,imguimanager,mouse,keyboard,cam),
+	GameState(gfx,rm,imguimanager,mouse,keyboard,cam), 
 	soundManager()//be able to change this later based on settings
 {
 	/*sets in setup___*/
@@ -25,6 +25,13 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	generationManager->set_GameObjManager(GameObjManager);
 	generationManager->set_PowerupManager(powerupManager);
 	generationManager->set_EnemyManager(enemyManager);
+
+	if (seed == -1) {
+		start_seed = generationManager->getSeed();
+	}
+	else {
+		start_seed = seed;
+	}
 	
 	camera->setRotation(vec3(0, 0, 0));
 	pauseMenu = false;
@@ -189,6 +196,22 @@ GameStateRet Game::update(float dt)
 		this->skybox->updateMatrix();
 		soundManager.update(camera->getPos(), camera->getForwardVec());
 		if (!player->GetSubmitName()) {
+
+			std::string startSeed = std::to_string(this->start_seed);
+			std::string playerScoreStr = std::to_string(static_cast<int>(player->GetScore()));
+			while (playerScoreStr.size() < 6) {
+				playerScoreStr.insert(playerScoreStr.begin(), '0');
+			}
+			while (startSeed.size() < 10) {
+				startSeed.push_back(' ');
+			}
+
+			UI->getStringElement("player_score")->setPosition(vec2(-0.8f, -0.4f));				
+			UI->getStringElement("score")->setPosition(vec2(-0.2f, -0.4f));								
+			UI->getStringElement("score")->setText(playerScoreStr);
+			UI->getStringElement("start_seed")->setPosition(vec2(-0.8f, -0.5f));
+			UI->getStringElement("played_seed")->setPosition(vec2(-0.2f, -0.5f));
+			UI->getStringElement("played_seed")->setText(startSeed);
 			UI->getStringElement("NameDesc")->setPosition(vec2(-0.8f, 0.3f));
 			UI->getStringElement("NameDesc2")->setPosition(vec2(-0.9f, 0.15f));
 			UI->getStringElement("Name")->setPosition(vec2(-0.5f, -0.2f));
@@ -359,6 +382,10 @@ void Game::setUpUI()
 	UI = new UIManager(rm, gfx);
 	
 	//Name Input
+	UI->createUIString("Score: ", vec2(-10.0f, 0.3f), vec2(0.08f, 0.08f), "player_score");
+	UI->createUIString("000000", vec2(-10.0f, 0.3f), vec2(0.08f, 0.08f), "score");
+	UI->createUIString("seed :  ", vec2(-10.0f, 0.3f), vec2(0.08f, 0.08f), "start_seed");
+	UI->createUIString("0000000000", vec2(-10.0f, 0.3f), vec2(0.08f, 0.08f), "played_seed");
 	UI->createUIString("Write your name and", vec2(-10.0f, 0.3f), vec2(0.08f, 0.08f), "NameDesc");
 	UI->createUIString("press Enter to submit!", vec2(-10.0f, 0.15f), vec2(0.08f, 0.08f), "NameDesc2");
 	UI->createUIString(player->GetName(), vec2(-10.0f, -0.2f), vec2(0.1f, 0.1f), "Name");

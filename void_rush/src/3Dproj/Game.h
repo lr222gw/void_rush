@@ -11,6 +11,8 @@
 #include "powerups/powerUpManager.hpp"
 #include "enemies/EnemyManager.hpp"
 
+#include <cinttypes>
+
 
 class Game : public GameState {
 public:
@@ -28,6 +30,7 @@ private:
 	bool pauseMenu;
 	float testTime = 0.0f;
 	float deltaT = 0.0f;
+	int start_seed;
 	ProtoPuzzle* puzzleManager;
 	ShadowMap* shadowMap;
 	SkyBox* skybox;

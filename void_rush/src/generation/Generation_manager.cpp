@@ -425,6 +425,11 @@ int Generation_manager::getStartSeed() const
     return startSeed;
 }
 
+int Generation_manager::getSeed() const
+{
+    return this->seed;
+}
+
 PlatformObj::PlatformObj(ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale)
     : GameObject(file,gfx, pos,rot,scale)
 {
