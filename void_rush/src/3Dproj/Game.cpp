@@ -189,9 +189,10 @@ GameStateRet Game::update(float dt)
 		this->skybox->updateMatrix();
 		soundManager.update(camera->getPos(), camera->getForwardVec());
 		if (!player->GetSubmitName()) {
-			UI->getStringElement("NameDesc")->setPosition(vec2(-0.9f, 0.3f));
+			UI->getStringElement("NameDesc")->setPosition(vec2(-0.8f, 0.3f));
 			UI->getStringElement("NameDesc2")->setPosition(vec2(-0.9f, 0.15f));
 			UI->getStringElement("Name")->setPosition(vec2(-0.5f, -0.2f));
+			UI->getElements("InputBack")->setPosition(-1.0f, -1.0f);
 			player->SetSubmitName(true);
 		}
 		if (keyboard->isKeyPressed(VK_RETURN)) {
@@ -361,6 +362,7 @@ void Game::setUpUI()
 	UI->createUIString("Write your name and", vec2(-10.0f, 0.3f), vec2(0.08f, 0.08f), "NameDesc");
 	UI->createUIString("press Enter to submit!", vec2(-10.0f, 0.15f), vec2(0.08f, 0.08f), "NameDesc2");
 	UI->createUIString(player->GetName(), vec2(-10.0f, -0.2f), vec2(0.1f, 0.1f), "Name");
+	UI->createUISprite("assets/StarrySky.jpg", vec2(0.0f, 0.0f), vec2(2.0f, 2.0f), "InputBack");
 
 	//pause UI
 	pauseUI = new UIManager(rm, gfx);
