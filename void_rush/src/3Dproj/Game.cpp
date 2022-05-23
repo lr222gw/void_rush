@@ -184,6 +184,9 @@ GameStateRet Game::update(float dt)
 
 	}
 	else {//player !alive
+		this->skybox->setPos(camera->getPos());
+		this->skybox->updateVertexShader(this->gfx);
+		this->skybox->updateMatrix();
 		soundManager.update(camera->getPos(), camera->getForwardVec());
 		if (!player->GetSubmitName()) {
 			UI->getStringElement("NameDesc")->setPosition(vec2(-0.9f, 0.3f));
@@ -344,7 +347,7 @@ void Game::setUpLights()
 void Game::setUpParticles()
 {
 	//add the billboards here
-	billboardGroups.push_back(new BillBoardGroup(gfx, rm->getFire(), 8, vec3(0, 0, 0), vec3(1, 1, 1)));
+	billboardGroups.push_back(new BillBoardGroup(gfx, rm->getFire(), 1, vec3(1000, 1000, 1000), vec3(1, 1, 1)));
 
 	//if billboard have animation add it here
 	billboardGroups[0]->setAnimation(6, 1, 0.16f);

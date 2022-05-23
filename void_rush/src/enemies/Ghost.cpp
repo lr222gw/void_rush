@@ -169,7 +169,7 @@ void Ghost::followPlayer(float dt)
 	if (!checkIfRangeOfPlayer() && !PlayerPositions.empty()) {
 		vec3 ghostToPoint = (PlayerPositions.front() - getPos()).Normalize();
 		this->movePos(ghostToPoint * dt * speed);
-		lookat(PlayerPositions.front(), vec3(3.14f, -1.57f,0));
+		lookat(PlayerPositions.front());
 	}
 	else{
 		if (!PlayerPositions.empty()) {
@@ -178,7 +178,7 @@ void Ghost::followPlayer(float dt)
 		//go to player
 		vec3 ghostToPlayer = (player->getPos() - getPos()).Normalize();
 		this->movePos(ghostToPlayer * dt * speed);
-		lookat(player->getPos(), vec3(3.14f, -1.57f, 0));
+		lookat(player->getPos());
 	}
 	if (checkIfInRangeOfPoint()) {
 		PlayerPositions.pop();

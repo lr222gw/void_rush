@@ -307,7 +307,7 @@ void ImguiManager::render_ghost_widgets()
 		ImGui::Checkbox("Activate Ghost", &owner->ghost->active);
 		static float min_speed = 0;
 		static float max_speed = 10;
-		ImGui::SliderFloat("Speed", &owner->ghost->speed, min_speed, max_speed);
+		ImGui::SliderFloat("Speed", &owner->ghost->initalSpeed, min_speed, max_speed);
 		ImGui::InputFloat("Point Limit", &owner->ghost->rangeToPointBeforeNewPoint);
 		ImGui::InputFloat("Player range Limit", &owner->ghost->rangeToPlayerBeforeNearestWay);
 		ImGui::InputFloat("Speed Increase", &owner->ghost->speed_increase);
@@ -325,6 +325,7 @@ void ImguiManager::render_ghost_widgets()
 		{
 			owner->ghost->Reset();
 		}
+
 	}
 	ImGui::End();
 }

@@ -158,7 +158,7 @@ void Menu::setUpObject()
 		"assets/textures/Skybox/posz.png",//z+
 		"assets/textures/Skybox/negz.png"//z-
 	};
-	GameObjManager->CreateGameObject("ghost.obj", "Ghost", vec3(0, 0, 20), vec3(0,0.7f,0));
+	GameObjManager->CreateGameObject("ghost.obj", "Ghost", vec3(0, 0, 20), vec3(1.57f,3.70f,0.f));
 	rm->getSpriteCube(skyboxTextures, gfx);
 	skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, vec3(0,0,0), rm->getSpriteCube(skyboxTextures,gfx));
 }
