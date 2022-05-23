@@ -135,7 +135,7 @@ void ScoreManager::WriteScore(std::string name, std::string file)
 			scoreFile >> tempScore;
 			scoreFile >> tempName;
 			scoreFile >> tempSeed;
-			if (tempName == name) {
+			if (tempName == name && stoi(tempSeed) == seed) {
 				nameExists = true;
 				if (std::stoi(tempScore) < (int)score) {
 					reWrite = true;

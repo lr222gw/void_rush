@@ -14,7 +14,7 @@ private:
 	void readHighScoreFile();
 	UIManager* UI;
 	SkyBox* skybox;
-	static const int numberOfHighScore = 5;
+	static const int numberOfHighScore = 10;
 	std::string scores[numberOfHighScore];
 	std::string seeds[numberOfHighScore];
 

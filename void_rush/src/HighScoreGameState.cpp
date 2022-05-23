@@ -6,9 +6,9 @@ HighScoreGameState::HighScoreGameState(Graphics*& gfx, ResourceManager*& rm, Img
 	readHighScoreFile();
 	UI = new UIManager(rm, gfx);
 	UI->createUIButton("assets/textures/buttonBack.png", "back", mouse, vec2(-1, 0.8f), vec2(0.2f, 0.2f), "back", vec2(0,0.1f));
-	for (int i = 0; i < 5; i++) {
-		UI->createUIString(scores[i], vec2(-0.9f, 0.5f - i * 0.2f),vec2(0.09f,0.1f));
-		UI->createUIString(seeds[i], vec2(-0.9f, 0.45f - i * 0.2f), vec2(0.03f, 0.03f));
+	for (int i = 0; i < numberOfHighScore; i++) {
+		UI->createUIString(scores[i], vec2(-0.7f, 0.88f - i * 0.2f),vec2(0.09f,0.1f));
+		UI->createUIString(seeds[i], vec2(-0.7f, 0.83f - i * 0.2f), vec2(0.03f, 0.03f));
 	}
 	std::string skyboxTextures[6] = {
 	"assets/textures/Skybox/posx.png",//x+
@@ -82,6 +82,9 @@ void HighScoreGameState::readHighScoreFile()
 		if (std::getline(highscoreFile, line)) {
 			//we assume first is a int
 			numberOfScores = std::atoi(line.c_str());
+		}
+		if (numberOfScores > numberOfHighScore) {
+			numberOfScores = numberOfHighScore;
 		}
 		while (std::getline(highscoreFile, line) && i < numberOfScores)
 		{
