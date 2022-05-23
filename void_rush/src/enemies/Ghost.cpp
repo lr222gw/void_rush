@@ -71,7 +71,7 @@ void Ghost::update(float dt)
 		float bpm = 60;
 		float musicVol = 0.0f;
 		float minDist = 1.0f;
-		float maxDist = 20.0f;
+		float maxDist = 40.0f;
 		float len = fabs((this->getPos() - player->getPos()).length());
 		if (len < maxDist) {
 			player->EnableHeart();
@@ -80,7 +80,7 @@ void Ghost::update(float dt)
 			}
 			float part = minDist / len;
 			bpm = 60 + part * 150.0f;
-			musicVol = 5 + part*40.0f;
+			musicVol = 1 + part * 34.0f;
 		}
 		else {
 			player->DisableHeart();
