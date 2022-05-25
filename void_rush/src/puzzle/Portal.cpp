@@ -24,7 +24,7 @@ void Portal::Spawn(vec3 pos)
 	this->spawned = true;
 
     //portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(pos.x -3.0f, pos.y + 6.7f, pos.z - 1.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f)));
-    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(pos.x, pos.y + 6.7f, pos.z - 1.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f)));
+    portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(pos.x, pos.y + 6.5f, pos.z - 1.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f)));
     //portals.push_back(new GameObject(rm->get_Models("Portal.obj", gfx), gfx, vec3(pos.x + 3.0f, pos.y + 6.7f, pos.z - 1.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f)));
     for (size_t i = 0; i < portals.size(); i++)
     {
@@ -32,12 +32,12 @@ void Portal::Spawn(vec3 pos)
     }
 }
 
-void Portal::InteractPortal(vec3 playerPos, vec3 forwardVec)
+void Portal::InteractPortal(vec3 playerPos, vec3 forwardVec, bool collided)
 {
     float size, test;
     vec3 midPos;
     midPos = GetMidPos(portals[0], size);
-    if (CanInteract(playerPos, forwardVec, midPos, size / 2.0f, 1.5f, test))
+    if (collided || CanInteract(playerPos, forwardVec, midPos, size / 2.0f, 1.5f, test))
     {
         this->completed = true;
         for (auto portal : this->portals) {

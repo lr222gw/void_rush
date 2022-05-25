@@ -209,13 +209,14 @@ void CollisionHandler::update()
 	}
 
 	//check palyer collision with portal
+	done = false;
 	for (size_t i = 0; i < portals.size(); i++) {
 		for (size_t o = i; o < portals.size(); o++) {
 
 			if (!done && collision3D(player->getPlayerObjPointer(), portals[i].portal, true, false))
 			{
 				done = true;
-				portals[i].portalManager->InteractPortal(player->getPos(), player->GetForwardVec());
+ 				portals[i].portalManager->InteractPortal(player->getPos(), player->GetForwardVec(), true);
 								
 				//this->deletePortals(portals[i].portal);
 				
