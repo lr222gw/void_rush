@@ -26,6 +26,7 @@ public:
 private:
 	Letters3D* text;
 
+	void UpdatePauseMenuButtons();
 	void updateShaders(bool vs = true, bool ps = true);
 	bool pauseMenu;
 	float testTime = 0.0f;
@@ -67,6 +68,9 @@ private:
 	//game objects
 	Light** light;
 	std::vector<BillBoardGroup*> billboardGroups;
+
+	//Menu buttons vars
+	vec2 buttonSize, continuePos, menuPos;
 
 
 	//var
