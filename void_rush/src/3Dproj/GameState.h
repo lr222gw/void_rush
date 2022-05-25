@@ -21,6 +21,7 @@ struct GameStateRet {
 	float initialGhostSpeed_offset	= 1.2f; 
 	int powerUp_occurance_rate		= 5;
 	vec3 default_shape_scale		= vec3(0.5f,0.2f,0.5f);
+	Difficulity difficulty				= Difficulity::hard;
 	int seed						= -1;
 };
 
