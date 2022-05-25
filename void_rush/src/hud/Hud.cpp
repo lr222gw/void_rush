@@ -12,6 +12,10 @@ Hud::~Hud()
 
 void Hud::setUpUI()
 {
+	vec2 wh = gfx->getClientWH();
+	float passive_width = 0.05f;
+	float passive_height = wh.x / wh.y * passive_width;
+
 	UI = new UIManager(rm, gfx);
 	UI->createUIString("x3", vec2(-0.88f, 0.9f), vec2(0.05f, 0.05f), "Health");
 	UI->createUISprite("assets/textures/Zelda Heart.png", vec2(-0.99f, 0.88f), vec2(0.1f, 0.1f));
@@ -22,10 +26,10 @@ void Hud::setUpUI()
 	UI->createUISprite("assets/textures/ScoreText.png", vec2(0.54f, 0.88f), vec2(0.15f, 0.1f));
 	UI->createUIString("000000", vec2(0.7f, 0.88f), vec2(0.05f, 0.08f), "Score");
 	UI->createUISprite("assets/textures/PowerUpFrame.png", vec2(0.7f, -0.95f), vec2(0.3f, 0.3f));
-	UI->createUISprite("assets/textures/Empty.png", vec2(0.75f, -0.63f), vec2(0.05f, 0.05f));
-	UI->createUISprite("assets/textures/Empty.png", vec2(0.8f, -0.63f), vec2(0.05f, 0.05f));
-	UI->createUISprite("assets/textures/Empty.png", vec2(0.85f, -0.63f), vec2(0.05f, 0.05f));
-	UI->createUISprite("assets/textures/Empty.png", vec2(0.9f, -0.63f), vec2(0.05f, 0.05f));
+	UI->createUISprite("assets/textures/Empty.png", vec2(0.75f, -0.63f),	vec2(passive_width,passive_height));
+	UI->createUISprite("assets/textures/Empty.png", vec2(0.8f, -0.63f),		vec2(passive_width,passive_height));
+	UI->createUISprite("assets/textures/Empty.png", vec2(0.85f, -0.63f),	vec2(passive_width,passive_height));
+	UI->createUISprite("assets/textures/Empty.png", vec2(0.9f, -0.63f),		vec2(passive_width,passive_height));
 	UI->createUISprite("assets/textures/Crosshair.png", vec2(-0.01f, -0.015f), vec2(0.02f, 0.03f));
 }
 
