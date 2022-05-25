@@ -40,7 +40,7 @@ bool Position_generator::start (Difficulity selectedDiff)
     generate_anchor_positions(selectedDiff);
     generate_jumpPoints_positions(selectedDiff);
 
-    if(Position_generator::positionGen_conf.useUnecessaryPlatforms){
+    if(!Position_generator::positionGen_conf.useUnecessaryPlatforms){
         removeUnnecessaryPlatforms();
     }
 
