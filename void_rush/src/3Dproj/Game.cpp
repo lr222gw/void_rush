@@ -134,7 +134,7 @@ GameStateRet Game::update(float dt)
 	this->deltaT = dt;
 	if (pauseMenu) {
 		pauseUI->update();
-		
+		UpdatePauseMenuButtons();
 		if (pauseUI->getButton("continue")->clicked()) {
 			pauseMenu = false;
 			//disepear mouse
@@ -248,6 +248,26 @@ void Game::render()
 	this->ForwardDraw();
 	
 	gfx->present(this->lightNr);	
+}
+
+void Game::UpdatePauseMenuButtons()
+{
+	if (pauseUI->getButton("continue")->hover()) {
+		pauseUI->getButton("continue")->setSize(buttonSize.x * 1.1f, buttonSize.y * 1.1f);
+		pauseUI->getButton("continue")->setPosition(continuePos.x - 0.01f, continuePos.y - 0.01f);
+	}
+	else {
+		pauseUI->getButton("continue")->setSize(buttonSize.x, buttonSize.y);
+		pauseUI->getButton("continue")->setPosition(continuePos.x + 0.0f, continuePos.y + 0.0f);
+	}
+	if (pauseUI->getButton("menu")->hover()) {
+		pauseUI->getButton("menu")->setSize(buttonSize.x * 1.1f, buttonSize.y * 1.1f);
+		pauseUI->getButton("menu")->setPosition(menuPos.x - 0.01f, menuPos.y - 0.01f);
+	}
+	else {
+		pauseUI->getButton("menu")->setSize(buttonSize.x, buttonSize.y);
+		pauseUI->getButton("menu")->setPosition(menuPos.x + 0.0f, menuPos.y + 0.0f);
+	}
 }
 
 void Game::updateShaders(bool vs, bool ps)
@@ -390,6 +410,8 @@ void Game::setUpParticles()
 
 void Game::setUpUI()
 {
+	float aspect = gfx->getClientWH().x / gfx->getClientWH().y;
+
 	UI = new UIManager(rm, gfx);
 	
 	//Name Input
@@ -404,8 +426,11 @@ void Game::setUpUI()
 
 	//pause UI
 	pauseUI = new UIManager(rm, gfx);
-	UI->createUIButton("assets/textures/Easy.png", mouse, vec2(-0.8f, 0.5f), vec2(1.0f, 1.0f), "continue");
-	UI->createUIButton("assets/textures/Medium.png", mouse, vec2(-0.8f, 0.5f), vec2(1.0f, 1.0f), "menu");
+	buttonSize = vec2(0.3f * aspect, 0.3f);
+	continuePos = vec2(-0.5f, -0.2f);
+	menuPos = vec2(0.3f, -0.2f);
+	pauseUI->createUIButton("assets/textures/Continue.png", mouse, continuePos, buttonSize, "continue");
+	pauseUI->createUIButton("assets/textures/Menu.png", mouse, menuPos, buttonSize, "menu");
 	pauseUI->createUIString("Game Menu", vec2(-0.5f,0.3f), vec2(1/9.f,0.2f), "Game Menu");
 }
 
