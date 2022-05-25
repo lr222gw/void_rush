@@ -27,7 +27,7 @@ public:
 
 	void Spawn(vec3 pos);
 
-	void InteractPortal(vec3 playerPos, vec3 forwardVec);
+	void InteractPortal(vec3 playerPos, vec3 forwardVec, bool collided = false);
 
 	void ResetPortal();
 
