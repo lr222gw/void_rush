@@ -404,8 +404,8 @@ void Game::setUpUI()
 
 	//pause UI
 	pauseUI = new UIManager(rm, gfx);
-	pauseUI->createUIButton("assets/textures/buttonBack.png", " continue ", mouse, vec2(-0.75f, -0.2f), vec2(0.5f, 0.3f), "continue", vec2(0,0.04f), vec2(0,0.1f));
-	pauseUI->createUIButton("assets/textures/buttonBack.png", " main menu ", mouse, vec2(0.25f, -0.2f), vec2(0.5f, 0.3f), "menu", vec2(0, 0.04f), vec2(0,0.1f));
+	UI->createUIButton("assets/textures/Easy.png", mouse, vec2(-0.8f, 0.5f), vec2(1.0f, 1.0f), "continue");
+	UI->createUIButton("assets/textures/Medium.png", mouse, vec2(-0.8f, 0.5f), vec2(1.0f, 1.0f), "menu");
 	pauseUI->createUIString("Game Menu", vec2(-0.5f,0.3f), vec2(1/9.f,0.2f), "Game Menu");
 }
 
