@@ -233,7 +233,7 @@ void UIManager::init(Graphics*& gfx)
 		UIVertex(1,1,1,0)
 	};
 	ID3D11Texture2D* tex;
-	if (!CreateTexture("assets/textures/Fonts/CustomFont2.png", gfx->getDevice(), tex, font)) {
+	if (!CreateTexture("assets/textures/Fonts/CustomFont3.png", gfx->getDevice(), tex, font)) {
 		std::cout << "error cannot load font" << std::endl;
 	}
 

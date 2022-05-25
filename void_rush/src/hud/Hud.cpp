@@ -24,7 +24,7 @@ void Hud::setUpUI()
 	UI->createUISprite("assets/textures/Ghost Bar.png", vec2(-0.233f, 0.85f), vec2(this->noBar, 0.1f));
 	UI->createUISprite("assets/textures/Ghost Frame.png", vec2(-0.25f, 0.8f), vec2(0.5f, 0.2f));
 	UI->createUISprite("assets/textures/Ghost Pointer.png", vec2(-0.26f, 0.71f), vec2(0.05f, 0.1f));
-	UI->createUIString("00m", vec2(-0.27f, 0.65f), vec2(0.03f, 0.03f), "GhostDistance");
+	UI->createUIString("00m", vec2(-0.23f, 0.65f), vec2(0.045f, 0.045f), "GhostDistance");
 	UI->createUISprite("assets/textures/ScoreText.png", vec2(0.54f, 0.88f), vec2(0.15f, 0.1f));
 	UI->createUIString("000000", vec2(0.7f, 0.88f), vec2(0.05f, 0.08f), "Score");
 	UI->createUISprite("assets/textures/PowerUpFrame.png", vec2(0.7f, -0.95f), vec2(0.3f, 0.3f));

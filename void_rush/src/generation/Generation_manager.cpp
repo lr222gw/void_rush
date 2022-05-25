@@ -150,7 +150,7 @@ void Generation_manager::initialize()
     this->player->SetDifficulity(this->difficulity);
     this->player->SetStartPlatform(this->GetStartPlatform());
 
-    this->player->set_resetLookat_dir(position_gen->firstJumpPoint->platformShape.get_midpoint());
+    this->player->set_resetLookat_dir(position_gen->firstJumpPoint->next->next->platformShape.get_midpoint());
     this->player->lookat(position_gen->firstJumpPoint->platformShape.get_midpoint());
     
 }
