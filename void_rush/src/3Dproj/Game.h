@@ -12,7 +12,7 @@
 #include "enemies/EnemyManager.hpp"
 
 #include <cinttypes>
-
+#include <filesystem>
 
 class Game : public GameState {
 public:
@@ -25,7 +25,7 @@ public:
 	virtual void render();		//then this 
 private:
 	Letters3D* text;
-
+	std::string pathToHighScore;
 	void UpdatePauseMenuButtons();
 	void updateShaders(bool vs = true, bool ps = true);
 	bool pauseMenu;

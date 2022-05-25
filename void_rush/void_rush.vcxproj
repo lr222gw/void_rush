@@ -447,8 +447,6 @@
     <ClInclude Include="src\enemies\Mushroom.h" />
     <ClInclude Include="src\physics\Jump.hpp" />
     <ClInclude Include="src\physics\proto.hpp" />
-    <ClInclude Include="src\Platform.h" />
-    <ClInclude Include="src\playerGen.h" />
     <ClInclude Include="src\powerups\PowerUpDefs.hpp" />
     <ClInclude Include="src\powerups\powerUpManager.hpp" />
     <ClInclude Include="src\puzzle\Portal.h" />

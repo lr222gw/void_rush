@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "void_rush", "void_rush\void_rush.vcxproj", "{47100E34-A38D-4373-BFB1-E128854494E8}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "void_rush_installer", "void_rush_installer\void_rush_installer.vdproj", "{16FABB73-781F-4CCA-91BA-834CDFB3FA8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_skipMenu|x64 = Debug_skipMenu|x64
@@ -27,6 +29,12 @@ Global
 		{47100E34-A38D-4373-BFB1-E128854494E8}.Release|x64.Build.0 = Release|x64
 		{47100E34-A38D-4373-BFB1-E128854494E8}.Release|x86.ActiveCfg = Release|Win32
 		{47100E34-A38D-4373-BFB1-E128854494E8}.Release|x86.Build.0 = Release|Win32
+		{16FABB73-781F-4CCA-91BA-834CDFB3FA8F}.Debug_skipMenu|x64.ActiveCfg = Debug
+		{16FABB73-781F-4CCA-91BA-834CDFB3FA8F}.Debug_skipMenu|x86.ActiveCfg = Debug
+		{16FABB73-781F-4CCA-91BA-834CDFB3FA8F}.Debug|x64.ActiveCfg = Debug
+		{16FABB73-781F-4CCA-91BA-834CDFB3FA8F}.Debug|x86.ActiveCfg = Debug
+		{16FABB73-781F-4CCA-91BA-834CDFB3FA8F}.Release|x64.ActiveCfg = Release
+		{16FABB73-781F-4CCA-91BA-834CDFB3FA8F}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

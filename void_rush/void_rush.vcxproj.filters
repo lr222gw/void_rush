@@ -133,6 +133,9 @@
     <Filter Include="Void_Rush\Scenes">
       <UniqueIdentifier>{a6db6fb4-5d2a-4f39-a7f1-f275c20a532f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content">
+      <UniqueIdentifier>{a200efd9-bd77-43b2-a43d-d81e6706d970}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src/3Dproj/D311Helper.cpp">
@@ -717,12 +720,6 @@
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\powerups\PowerUpDefs.hpp">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\playerGen.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\score\ScoreManager.hpp">

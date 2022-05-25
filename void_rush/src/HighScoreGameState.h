@@ -1,5 +1,6 @@
 #pragma once
 #include "3Dproj/GameState.h"
+#include <filesystem>
 
 class HighScoreGameState : public GameState {
 public:
@@ -12,6 +13,7 @@ public:
 	virtual void render();		//then this 
 private:
 	void readHighScoreFile();
+	std::string pathToHighScore;
 	UIManager* UI;
 	SkyBox* skybox;
 	static const int numberOfHighScore = 10;
