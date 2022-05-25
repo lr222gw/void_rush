@@ -1,7 +1,7 @@
 #include "Game.h"
 
 
-Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam, int seed):
+Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam, GameStateRet extra):
 	GameState(gfx,rm,imguimanager,mouse,keyboard,cam), 
 	soundManager()//be able to change this later based on settings
 {
@@ -20,18 +20,27 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	powerupManager	= new PowerupManager(GameObjManager, gfx, rm, &this->collisionHandler, mouse, keyboard);
 	enemyManager	= new EnemyManager(GameObjManager, gfx, rm, &this->collisionHandler, &soundManager, mouse, keyboard);
 	
-	generationManager = new Generation_manager(gfx, rm, collisionHandler, seed);
+	generationManager = new Generation_manager(gfx, rm, collisionHandler, extra.seed);
 	generationManager->set_PuzzleManager(puzzleManager); 
 	generationManager->set_GameObjManager(GameObjManager);
 	generationManager->set_PowerupManager(powerupManager);
 	generationManager->set_EnemyManager(enemyManager);
 
-	if (seed == -1) {
+	if (extra.seed == -1) {
 		start_seed = generationManager->getSeed();
 	}
 	else {
-		start_seed = seed;
+		start_seed = extra.seed;
 	}
+
+	Shape::shape_conf.default_scale = extra.default_shape_scale;
+	
+	auto powerUpPos_conf = generationManager->get_PowerUp_position_settings();
+	powerUpPos_conf->powerUp_occurance_rate = extra.powerUp_occurance_rate;
+	auto posGen_conf = generationManager->get_positionGen_settings();
+	posGen_conf->useUnecessaryPlatforms = extra.useUnecessaryPlatforms;
+	posGen_conf->useReplaceRandomJumpPointsWithObstacles = extra.useReplaceRandomJumpPosWithObstacles;
+
 	
 	camera->setRotation(vec3(0, 0, 0));
 	pauseMenu = false;
@@ -41,7 +50,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	
 	
 	/*set ups*/
-	this->setUpObject();
+	this->setUpObject(extra);
 	this->setUpLights();
 	//this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, (UINT)gfx->getClientWH().x, (UINT)gfx->getClientWH().y);
 	this->shadowMap = new ShadowMap((SpotLight**)light, nrOfLight, gfx, (UINT)1920, (UINT)1920);
@@ -304,7 +313,7 @@ void Game::DrawToBuffer()
 	}
 }
 
-void Game::setUpObject()
+void Game::setUpObject(GameStateRet extra)
 {
 	////////OBJECTS///////////
 
@@ -321,6 +330,8 @@ void Game::setUpObject()
 
 	powerupManager->init(player, ghost);
 	enemyManager->init(player, ghost);
+
+	ghost->setInitialSpeed(player->getSpeed() +extra.initialGhostSpeed_offset);
 
 	GameObjManager->CreateGameObject("Pearl.obj", "playerPearl", vec3(1000.0f, 1000.0f, 1000.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.05f, 0.05f, 0.05f));
 	collisionHandler.addPearl(GameObjManager->getGameObject("playerPearl"));

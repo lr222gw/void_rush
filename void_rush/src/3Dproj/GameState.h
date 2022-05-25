@@ -16,7 +16,12 @@ enum class GameStatesEnum { NO_CHANGE, QUIT, TO_MENU, TO_GAME, TO_HIGHSCORE, TO_
 //Return struct
 struct GameStateRet {
 	GameStatesEnum gameState;
-	int seed;
+	bool useUnecessaryPlatforms		= false;
+	bool useReplaceRandomJumpPosWithObstacles = true;
+	float initialGhostSpeed_offset	= 1.2f; 
+	int powerUp_occurance_rate		= 5;
+	vec3 default_shape_scale		= vec3(0.5f,0.2f,0.5f);
+	int seed						= -1;
 };
 
 class GameState {

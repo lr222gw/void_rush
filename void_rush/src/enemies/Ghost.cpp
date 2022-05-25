@@ -100,6 +100,12 @@ void Ghost::setActive(bool activate)
 	this->active = activate;
 }
 
+void Ghost::setInitialSpeed(float speed)
+{
+	this->initalSpeed = speed;
+	this->speed = this->initalSpeed;
+}
+
 void Ghost::Reset()
 {
 	setPos(vec3(player->getPos().x, player->getPos().y, player->getPos().z - 30.f));

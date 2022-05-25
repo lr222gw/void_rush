@@ -90,15 +90,35 @@ public:
     int getNrOfValidJumppoints();
     int getNrOfValidAnchorpoints();    
     mapDimensions getCurrentMapDimensions();
+    vec3 getPuzzlePos();
 
     Platform*& GetStartPlatform();
 
     void removeOverlappingPlatformVoxels();
     void removeUnnecessaryPlatforms();
     bool check_platform_y_intersection(const vec3& newPos);
+    void cull_voxel_y_intersection(const vec3& newPos, Platform* platform);
+
+public: //Public structDef
+    struct PowerUp_position_settings {
+        //NOTE: ! Some values might be overridden in Game Constructor!
+        int powerUp_occurance_rate = 5;
+        vec3 position_offset = vec3(0.f, 1.f, 0.f);
+    };
+
+    struct PositionGen_settings {
+        //NOTE: ! Some values might be overridden in Game Constructor!
+        bool useUnecessaryPlatforms = false;        
+        bool useReplaceRandomJumpPointsWithObstacles = true;        
+    };
+
+    PositionGen_settings* get_positionGen_settings();
+
+    PowerUp_position_settings* get_PowerUp_position_settings();
 
 private: // Magic Numbers
     struct Anchor_point_settings{        
+        //NOTE: ! Some values might be overridden in Game Constructor!
         int nrOfAnchors = 6; 
         float minStepMod = 2.f; //2 is half, recommended
         float stepMax = 100.f;    //Max distance between platforms
@@ -113,6 +133,7 @@ private: // Magic Numbers
     Anchor_point_settings AP_conf;
 
     struct Jump_point_settings{        
+        //NOTE: ! Some values might be overridden in Game Constructor!
         float random_dist_dividier = 2.f; //2 is half, recommended...
         float y_min_clamp = -0.2f;    //between -1 and 1
         float y_max_clamp = 0.1f;     //between -1 and 1
@@ -123,13 +144,11 @@ private: // Magic Numbers
     };
     Jump_point_settings JP_conf;
 
-    static struct PowerUp_position_settings{        
-        int powerUp_occurance_rate = 5;
-        vec3 position_offset = vec3(0.f, 1.f,0.f);
-        
-    }PU_conf;
+    static PowerUp_position_settings PU_conf;
+    static PositionGen_settings positionGen_conf;
 
     static struct enemy_Position_settings {
+        //NOTE: ! Some values might be overridden in Game Constructor!
         vec3 enemy_offset = vec3(0.f, 0.f, 0.f);
         float outsideOffset = 5.f;
     }enemyPos_conf;

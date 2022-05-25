@@ -60,6 +60,9 @@ public:
 	int getStartSeed()const;
 	int getSeed()const;
 
+	Position_generator::PowerUp_position_settings* get_PowerUp_position_settings();
+	Position_generator::PositionGen_settings* get_positionGen_settings();
+
 	void draw();	
 private:
 	Player* player;

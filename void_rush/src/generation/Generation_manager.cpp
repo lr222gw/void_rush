@@ -347,8 +347,7 @@ Difficulity Generation_manager::getDifficulty() const
 
 vec3 Generation_manager::getPuzzelPos()
 {
-    vec3 platformPosOffset = vec3(0.f, -10.f, 15.f);
-    return *this->position_gen->getAnchors()->at(position_gen->getAnchors()->size()-1)->getPos() + platformPosOffset;
+    return position_gen->getPuzzlePos();
 }
 
 Platform*& Generation_manager::GetStartPlatform()
@@ -428,6 +427,16 @@ int Generation_manager::getStartSeed() const
 int Generation_manager::getSeed() const
 {
     return this->seed;
+}
+
+Position_generator::PowerUp_position_settings* Generation_manager::get_PowerUp_position_settings()
+{
+    return this->position_gen->get_PowerUp_position_settings();
+}
+
+Position_generator::PositionGen_settings* Generation_manager::get_positionGen_settings()
+{
+    return this->position_gen->get_positionGen_settings();
 }
 
 PlatformObj::PlatformObj(ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale)

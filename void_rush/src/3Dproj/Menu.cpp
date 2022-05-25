@@ -60,6 +60,16 @@ GameStateRet Menu::update(float dt)
 	if (UI->getButton("Quit")->clicked()) {
 		theReturn.gameState = GameStatesEnum::QUIT;
 	}
+	else if(UI->getButton("Easy")->clicked()){
+		UI->createUIString("Loading...", vec2(-0.9f, -0.75f), vec2(0.2f, 0.2f), "loading");
+		theReturn.gameState					= GameStatesEnum::TO_GAME;
+		theReturn.default_shape_scale		= vec3(1.f, 0.2f, 1.f);
+		theReturn.initialGhostSpeed_offset	= -2.5f;
+		theReturn.powerUp_occurance_rate	= 3;
+		theReturn.useUnecessaryPlatforms	= true;
+		theReturn.useReplaceRandomJumpPosWithObstacles = false;
+		theReturn.seed = getSeedInt();
+	}
 	else if (UI->getButton("Start")->clicked() || keyboard->isKeyPressed(VK_RETURN)) {
 		
 		UI->createUIString("Loading...", vec2(-0.9f, -0.75f), vec2(0.2f, 0.2f), "loading");
@@ -132,12 +142,14 @@ void Menu::setUpUI()
 	//UI->createUIButton("assets/textures/buttonBack.png", "InputSeed", mouse, vec2(0.0f, 0.4f), buttonSize, "InputSeed", vec2(0.0f, 0.0f), vec2(0.0f, 0.1f));
 	UI->createUISprite("assets/textures/VoidRush.png", vec2(-0.5f, 0.65f), vec2(1.0f, 0.3f), "Title");
 	UI->createUIButton("assets/textures/Start.png", mouse, vec2(-0.8f, 0.4f), vec2(1.0f, 1.0f), "Start");
+	UI->createUIButton("assets/textures/Start.png", mouse, vec2(-0.8f, 0.5f), vec2(1.0f, 1.0f), "Easy");
 	UI->createUIButton("assets/textures/Highscores.png", mouse, vec2(-0.8f, 0.1f), vec2(1.0f, 1.0f), "HighScores");
 	UI->createUIButton("assets/textures/Seed.png", mouse, vec2(-0.8f, -0.2f), vec2(1.0f, 1.0f), "InputSeed");
 	UI->createUIButton("assets/textures/End.png", mouse, vec2(-0.8f, -0.5f), vec2(1.0f, 1.0f), "Quit");
 	UI->createUIString("__________", vec2(-0.2f, 10.0f), vec2(0.1f, 0.1f), "Seed");
 	UI->createUIButton("assets/textures/Gear.png", mouse, vec2(-1.0f, -1.0f), vec2(0.15f, 0.2f), "settings");
 	//Used for scaling buttons
+	buttonNames.push_back("Easy");
 	buttonNames.push_back("Start");
 	buttonNames.push_back("Quit");
 	buttonNames.push_back("HighScores");

@@ -101,7 +101,7 @@ void App::set_initial_gamestate(GameStatesEnum gameStateType)
 	if(gameStateType == GameStatesEnum::TO_GAME){
 		mouse->activateMouse(true);
 		gfx->getWindosClass().HideCoursor();
-		gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
+		gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera, GameStateRet());
 	}else if(gameStateType == GameStatesEnum::TO_MENU){
 		mouse->activateMouse(true);
 		gfx->getWindosClass().ShowCoursor();
@@ -127,7 +127,7 @@ void App::handleGamestateChanges(GameStateRet handle)
 		//delete current gamestate
 		delete gamestate;
 		//set gamestate to Game
-		gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera, handle.seed);
+		gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera, handle);
 		mouse->clearEventBuffer();
 		
 		break;

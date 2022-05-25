@@ -149,6 +149,7 @@ public:
     std::vector<Center_Index_Pair> previousVoxels;    
 
     struct Shape_settings{
+        //NOTE: ! Some values might be overridden in Game Constructor!
         vec3 default_scale = vec3(0.5f,0.2f,0.5f);
         int maxNrOfVoxels_JP = 25;
         int minNrOfVoxels_JP = 1;

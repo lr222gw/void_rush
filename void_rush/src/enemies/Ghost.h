@@ -8,6 +8,7 @@ public:
 	void collidedWithPlayer();
 	void update(float dt) override;
 	void setActive(bool activate = true);
+	void setInitialSpeed(float speed);
 	void Reset();
 	void getSoundManager(SoundManager& sm);
 	//Functions for freeze power

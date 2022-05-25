@@ -3,6 +3,7 @@
 #include <algorithm>
 
 Position_generator::PowerUp_position_settings Position_generator::PU_conf;
+Position_generator::PositionGen_settings Position_generator::positionGen_conf;
 Position_generator::enemy_Position_settings Position_generator::enemyPos_conf;
 std::vector<Platform*> Position_generator::getAllPlatforms()
 {
@@ -39,13 +40,25 @@ bool Position_generator::start (Difficulity selectedDiff)
     generate_anchor_positions(selectedDiff);
     generate_jumpPoints_positions(selectedDiff);
 
+    if(Position_generator::positionGen_conf.useUnecessaryPlatforms){
+        removeUnnecessaryPlatforms();
+    }
 
-    removeUnnecessaryPlatforms();
     removeOverlappingPlatformVoxels();
 
-    replace_random_jumpPoints_with_obstacles_positions();
+    if (Position_generator::positionGen_conf.useReplaceRandomJumpPointsWithObstacles) {
+        replace_random_jumpPoints_with_obstacles_positions();
+    }    
+
+    cull_voxel_y_intersection(getPuzzlePos(), anchors.back());
+
 
     return true;
+}
+
+vec3 Position_generator::getPuzzlePos(){
+    vec3 platformPosOffset = vec3(0.f, -10.f, 15.f);    
+    return *anchors[anchors.size() - 1]->getPos() + platformPosOffset;
 }
 
 void Position_generator::generate_anchor_positions(Difficulity selectedDiff)
@@ -204,8 +217,6 @@ void Position_generator::replace_random_jumpPoints_with_obstacles_positions()
                 (jp->prev->platformShape.get_midpoint() - jp->platformShape.get_midpoint()).length() > 3)
             {
                 replaceable_jumpPoints.push_back(jp);
-            }else{
-                int breakMe = 3;
             }
         }
     }
@@ -224,9 +235,6 @@ void Position_generator::replace_random_jumpPoints_with_obstacles_positions()
             {
                 replaceable_jumpPoints.erase(replaceable_jumpPoints.begin() + i);
                 
-            }
-            else {
-                int breakMe = 3;
             }
         }                
     }
@@ -421,11 +429,7 @@ FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platfor
 
     Platform* midd_platform = new Platform() ;    
     midd_platform->setPosition(start->platformShape.outCorner.pos + middle);
-    //auto t = start->platformShape.previousVoxels[0].current_center - *midd_platform->getPos();
 
-    
-    
-    ///
     midd_platform->platformShape.setJumppointShape(*midd_platform->getPos(), distanceToEnd, &start->platformShape);
 
 
@@ -433,7 +437,6 @@ FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platfor
     
     this->jumpPoints.push_back(midd_platform);    
 
-    //////////////////////////
     outCorner* startOutCorner = &start->platformShape.outCorner;
     inCorner* middInCorner = &midd_platform->platformShape.inCorner;
     outCorner* middOutCorner = &midd_platform->platformShape.outCorner;
@@ -460,10 +463,6 @@ FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platfor
     }
 
     pl->moveto(midd_platform->platformShape.outCorner.pos);
-
-
-
-    //////////////////////////
 
     //Create jumppoint between new middle and end if jump not possible    
     if(!this->pl->isJumpPossible(end->platformShape.inCorner.pos)){
@@ -763,6 +762,39 @@ bool Position_generator::check_platform_y_intersection(const vec3& newPos)
         }
     }
     return notAbove;
+}
+
+void Position_generator::cull_voxel_y_intersection(const vec3& newPos, Platform* platform )
+{
+    bool notAbove = true;
+    float radius = 5;
+    int index_voxel = 0;
+    //for (auto& p : this->getAllPlatforms()) {
+    for (auto& p : this->anchors) {
+        index_voxel = 0;
+        for (auto& v : p->platformShape.previousVoxels) {
+            if ((v.current_center - newPos).length_XZ() < radius) {
+                
+                auto iterator = p->platformShape.previousVoxels.begin() + index_voxel;
+                p->platformShape.previousVoxels.erase(iterator);
+                if (p->platformShape.previousVoxels.size() == 0) {
+                    p->platformShape.set_is_Illegal(true);
+                }
+                index_voxel--;
+            }
+            index_voxel++;
+        }
+    }    
+}
+
+Position_generator::PositionGen_settings* Position_generator::get_positionGen_settings()
+{
+    return &Position_generator::positionGen_conf;
+}
+
+Position_generator::PowerUp_position_settings* Position_generator::get_PowerUp_position_settings()
+{
+    return &Position_generator::PU_conf;
 }
 
 mapDimensions Position_generator::getCurrentMapDimensions()
