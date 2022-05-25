@@ -85,7 +85,7 @@ void MemoryPuzzle::InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 pos
     this->answer[1] = (int)rand() % 10;
     this->answer[2] = (int)rand() % 10;
     vec3 answerPos = extraArgs.nextPlatformPosition + vec3(0.0f, 1.0f, 0.0f);
-    answerLetters->createText(std::to_string(this->answer[0]) + std::to_string(this->answer[1]) + std::to_string(this->answer[2]), answerPos, vec2(0.2f, 0.2f), "Answer");
+    answerLetters->createText(std::to_string(this->answer[0]) + std::to_string(this->answer[1]) + std::to_string(this->answer[2]), answerPos, vec2(0.7f, 0.7f), "Answer");
     puzzlePlatform = new GameObject(rm->get_Models("BasePlatformTexture.obj", gfx), gfx, position, vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f));
 
     puzzleObjects.push_back(new GameObject(rm->get_Models("Number0.obj", gfx), gfx, vec3(puzzlePlatform->getxPos(), puzzlePlatform->getyPos() + 5.1f, puzzlePlatform->getzPos() - 4.5f), vec3(0.0f, 0.0f, 0.0f), vec3(0.3f, 0.3f, 0.3f)));

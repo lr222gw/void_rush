@@ -144,7 +144,7 @@ void Generation_manager::initialize()
     enemyManager->spawnObstacles(position_gen->get_shortcut_positions());
     enemyManager->spawnObstacles(position_gen->get_obstacle_positions());    
     
-    vec3 answerPos = position_gen->firstJumpPoint->platformShape.get_midpoint();
+    vec3 answerPos = position_gen->firstJumpPoint->next->next->platformShape.get_midpoint();
     answerPos.y = this->GetStartPlatform()->getPos()->y;
     puzzleManager->Initiate(this->getPuzzelPos(), { answerPos });
     this->player->SetDifficulity(this->difficulity);
