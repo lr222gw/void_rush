@@ -46,8 +46,6 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	pauseMenu = false;
 	
 	letter3DHandler = new Letters3DHandler(rm, gfx);
-
-	
 	
 	/*set ups*/
 	this->setUpObject(extra);
@@ -350,6 +348,8 @@ void Game::setUpObject(GameStateRet extra)
 		"assets/textures/Skybox/negz.png"//z-
 	};
 	skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, player->getPos(), rm->getSpriteCube(skyboxTextures,gfx));
+
+	player->SetDifficulity(extra.difficulty);
 }
 
 void Game::setUpLights()
