@@ -87,7 +87,7 @@ void App::run()
 		
 
 		gamestate->render();
-
+		this->mouse->set_captureEvent(true);
 		handleGamestateChanges(theHandle);
 		mouse->clear();
 
@@ -121,12 +121,15 @@ void App::handleGamestateChanges(GameStateRet handle)
 		quit = true;
 		break;
 	case GameStatesEnum::TO_GAME:
+		this->mouse->set_captureEvent(false);
 		mouse->activateMouse(true);
 		gfx->getWindosClass().HideCoursor();
 		//delete current gamestate
 		delete gamestate;
 		//set gamestate to Game
 		gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera, handle.seed);
+		mouse->clearEventBuffer();
+		
 		break;
 	case GameStatesEnum::TO_MENU:
 		mouse->activateMouse(true);

@@ -13,6 +13,7 @@ Powerups::Powerups(ModelObj* file, Graphics*& gfx, Player* player, Ghost* ghost,
 	this->potionTimer = 0.0f;
 	this->rocketActive = false;
 	this->rocketTimer = 0.0f;
+	this->pearlSpeed = 250.f;
 }
 
 Powerups::~Powerups()
@@ -109,8 +110,8 @@ void Powerups::UsePowerUp(float dt)
 				this->pearlActive = false;
 			}
 			else
-			{
-				player->MovePearl(pearlVec / 3.0f);
+			{				
+				player->MovePearl((pearlVec / 3.0f) * dt * this->pearlSpeed);
 				pearlTime += dt;
 			}
 

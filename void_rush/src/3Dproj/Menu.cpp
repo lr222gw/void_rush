@@ -61,6 +61,7 @@ GameStateRet Menu::update(float dt)
 		theReturn.gameState = GameStatesEnum::QUIT;
 	}
 	else if (UI->getButton("Start")->clicked() || keyboard->isKeyPressed(VK_RETURN)) {
+		
 		UI->createUIString("Loading...", vec2(-0.9f, -0.75f), vec2(0.2f, 0.2f), "loading");
 		theReturn.gameState = GameStatesEnum::TO_GAME;
 		theReturn.seed = getSeedInt();
@@ -157,7 +158,7 @@ void Menu::setUpObject()
 		"assets/textures/Skybox/posz.png",//z+
 		"assets/textures/Skybox/negz.png"//z-
 	};
-	GameObjManager->CreateGameObject("ghost.obj", "Ghost", vec3(0, 0, 20), vec3(0,0.7f,0));
+	GameObjManager->CreateGameObject("ghost.obj", "Ghost", vec3(0, 0, 20), vec3(1.57f,3.70f,0.f));
 	rm->getSpriteCube(skyboxTextures, gfx);
 	skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, vec3(0,0,0), rm->getSpriteCube(skyboxTextures,gfx));
 }
@@ -203,6 +204,13 @@ void Menu::getSeedInput()
 				keyboard->onKeyReleased(i);
 			}
 		}
+		for (int i = VK_NUMPAD0; i <= VK_NUMPAD9; i++) {
+			if (keyboard->isKeyPressed(i)) {
+				seed.at(currentNumber++) = char(i-48);
+				UI->getStringElement("Seed")->setText(seed);
+				keyboard->onKeyReleased(i);
+			}
+		}
 	}
 	
 	if (currentNumber > 0) {
@@ -231,6 +239,6 @@ int Menu::getSeedInt()
 			cleanSeed += seed.at(i);
 		}
 	}
-	return std::stoi(cleanSeed);
+	return std::strtoimax(cleanSeed.c_str(), nullptr, 10);
 }
 

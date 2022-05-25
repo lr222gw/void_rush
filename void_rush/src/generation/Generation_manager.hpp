@@ -58,6 +58,7 @@ public:
 
 	void generateGraph();
 	int getStartSeed()const;
+	int getSeed()const;
 
 	void draw();	
 private:

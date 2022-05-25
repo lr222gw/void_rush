@@ -71,7 +71,7 @@ void Ghost::update(float dt)
 		float bpm = 60;
 		float musicVol = 0.0f;
 		float minDist = 1.0f;
-		float maxDist = 20.0f;
+		float maxDist = 40.0f;
 		float len = fabs((this->getPos() - player->getPos()).length());
 		if (len < maxDist) {
 			player->EnableHeart();
@@ -80,7 +80,7 @@ void Ghost::update(float dt)
 			}
 			float part = minDist / len;
 			bpm = 60 + part * 150.0f;
-			musicVol = 5 + part*40.0f;
+			musicVol = 1 + part * 34.0f;
 		}
 		else {
 			player->DisableHeart();
@@ -169,7 +169,7 @@ void Ghost::followPlayer(float dt)
 	if (!checkIfRangeOfPlayer() && !PlayerPositions.empty()) {
 		vec3 ghostToPoint = (PlayerPositions.front() - getPos()).Normalize();
 		this->movePos(ghostToPoint * dt * speed);
-		lookat(PlayerPositions.front(), vec3(3.14f, -1.57f,0));
+		lookat(PlayerPositions.front());
 	}
 	else{
 		if (!PlayerPositions.empty()) {
@@ -178,7 +178,7 @@ void Ghost::followPlayer(float dt)
 		//go to player
 		vec3 ghostToPlayer = (player->getPos() - getPos()).Normalize();
 		this->movePos(ghostToPlayer * dt * speed);
-		lookat(player->getPos(), vec3(3.14f, -1.57f, 0));
+		lookat(player->getPos());
 	}
 	if (checkIfInRangeOfPoint()) {
 		PlayerPositions.pop();
