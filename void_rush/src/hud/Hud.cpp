@@ -14,11 +14,13 @@ void Hud::setUpUI()
 {
 	vec2 wh = gfx->getClientWH();
 	float passive_width = 0.05f;
+	float passive_width_heart = 0.065f;
 	float passive_height = wh.x / wh.y * passive_width;
+	float passive_height_heart = wh.x / wh.y * passive_width_heart;
 
 	UI = new UIManager(rm, gfx);
-	UI->createUIString("x3", vec2(-0.88f, 0.9f), vec2(0.05f, 0.05f), "Health");
-	UI->createUISprite("assets/textures/Zelda Heart.png", vec2(-0.99f, 0.88f), vec2(0.1f, 0.1f));
+	UI->createUIString("x3", vec2(-0.88f, 0.87f), vec2(0.05f, 0.05f), "Health");
+	UI->createUISprite("assets/textures/apple_heart.png", vec2(-0.94f, 0.86f), vec2(passive_width_heart, passive_height_heart));
 	UI->createUISprite("assets/textures/Ghost Bar.png", vec2(-0.233f, 0.85f), vec2(this->noBar, 0.1f));
 	UI->createUISprite("assets/textures/Ghost Frame.png", vec2(-0.25f, 0.8f), vec2(0.5f, 0.2f));
 	UI->createUISprite("assets/textures/Ghost Pointer.png", vec2(-0.26f, 0.71f), vec2(0.05f, 0.1f));
