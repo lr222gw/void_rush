@@ -52,7 +52,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON1               ICON                    "D:\\GitHub\\void_rush\\assets\\void-rush.ico"
+IDI_ICON1               ICON                    "..\\void-rush.ico"
 
 #endif    // Swedish (Sweden) resources
 /////////////////////////////////////////////////////////////////////////////
