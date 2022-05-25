@@ -303,9 +303,6 @@
     <ClCompile Include="src\interact\interact.cpp">
       <Filter>Protoypes\interact</Filter>
     </ClCompile>
-    <ClCompile Include="src\common\Vector.cpp">
-      <Filter>Protoypes\common</Filter>
-    </ClCompile>
     <ClCompile Include="src\enemies\Ghost.cpp">
       <Filter>Void_Rush\Objects</Filter>
     </ClCompile>
@@ -752,6 +749,9 @@
     <ClInclude Include="src\enemies\FallingPlatform.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src/3Dproj/Transforms.hlsli">
@@ -810,5 +810,15 @@
     <FxCompile Include="src\3Dproj\UIVertexShader.hlsl">
       <Filter>Engine\Resource Files\Shaders\Vertex</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="void_rush.rc">
+      <Filter>Engine\Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\assets\void-rush.ico">
+      <Filter>Engine\Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

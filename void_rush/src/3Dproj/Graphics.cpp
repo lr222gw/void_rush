@@ -254,7 +254,7 @@ void Graphics::UpdateFPSCounter(float dt)
 		nextFpsUpdate = 0;
 		float fps = (float)(a * 2);
 		a = 0;
-		SetWindowTextA(windowClass.getRenderWindow().getHandle(), std::to_string(fps).c_str());
+		SetWindowTextA(windowClass.getRenderWindow().getHandle(), ("Void Rush || fps: " + std::to_string(static_cast<int>(fps))).c_str());
 	}
 }
 
