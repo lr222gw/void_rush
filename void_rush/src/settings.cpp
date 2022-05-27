@@ -7,7 +7,7 @@ settingsSingleTon& settingsSingleTon::GetInst()
 
 void settingsSingleTon::readSettings()
 {
-	std::ifstream input("Setting.data", std::ios::out | std::ios::binary);
+	std::ifstream input(this->pathToSettingsFile, std::ios::out | std::ios::binary);
 	if (!input) {
 		sett.volume = 1;
 		sett.resolution = 4;
