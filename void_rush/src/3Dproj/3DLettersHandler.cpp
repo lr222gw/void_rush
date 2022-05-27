@@ -4,7 +4,7 @@ Letters3DHandler::Letters3DHandler(ResourceManager*& rm, Graphics*& gfx):
 	rm(rm),gfx(gfx)
 {
 	ID3D11Texture2D* tex;
-	if (!CreateTexture("assets/textures/Fonts/TheFont.png", gfx->getDevice(), tex, font)) {
+	if (!CreateTexture("assets/textures/Fonts/CustomFont2.png", gfx->getDevice(), tex, font)) {
 		std::cout << "error cannot load font" << std::endl;
 	}
 	std::string a;

@@ -12,20 +12,27 @@ Hud::~Hud()
 
 void Hud::setUpUI()
 {
+	vec2 wh = gfx->getClientWH();
+	float passive_width = 0.05f;
+	float passive_width_heart = 0.065f;
+	float passive_height = wh.x / wh.y * passive_width;
+	float passive_height_heart = wh.x / wh.y * passive_width_heart;
+
 	UI = new UIManager(rm, gfx);
-	UI->createUIString("x3", vec2(-0.88f, 0.9f), vec2(0.05f, 0.05f), "Health");
-	UI->createUISprite("assets/textures/Zelda Heart.png", vec2(-0.99f, 0.88f), vec2(0.1f, 0.1f));
+	UI->createUIString("x3", vec2(-0.88f, 0.87f), vec2(0.05f, 0.05f), "Health");
+	UI->createUISprite("assets/textures/apple_heart.png", vec2(-0.94f, 0.86f), vec2(passive_width_heart, passive_height_heart));
 	UI->createUISprite("assets/textures/Ghost Bar.png", vec2(-0.233f, 0.85f), vec2(this->noBar, 0.1f));
 	UI->createUISprite("assets/textures/Ghost Frame.png", vec2(-0.25f, 0.8f), vec2(0.5f, 0.2f));
 	UI->createUISprite("assets/textures/Ghost Pointer.png", vec2(-0.26f, 0.71f), vec2(0.05f, 0.1f));
-	UI->createUIString("00m", vec2(-0.27f, 0.65f), vec2(0.03f, 0.03f), "GhostDistance");
+	UI->createUIString("00m", vec2(-0.23f, 0.65f), vec2(0.045f, 0.045f), "GhostDistance");
 	UI->createUISprite("assets/textures/ScoreText.png", vec2(0.54f, 0.88f), vec2(0.15f, 0.1f));
 	UI->createUIString("000000", vec2(0.7f, 0.88f), vec2(0.05f, 0.08f), "Score");
 	UI->createUISprite("assets/textures/PowerUpFrame.png", vec2(0.7f, -0.95f), vec2(0.3f, 0.3f));
-	UI->createUISprite("assets/textures/Empty.png", vec2(0.75f, -0.63f), vec2(0.05f, 0.05f));
-	UI->createUISprite("assets/textures/Empty.png", vec2(0.8f, -0.63f), vec2(0.05f, 0.05f));
-	UI->createUISprite("assets/textures/Empty.png", vec2(0.85f, -0.63f), vec2(0.05f, 0.05f));
-	UI->createUISprite("assets/textures/Empty.png", vec2(0.9f, -0.63f), vec2(0.05f, 0.05f));
+	UI->createUISprite("assets/textures/Empty.png", vec2(0.75f, -0.63f),	vec2(passive_width,passive_height));
+	UI->createUISprite("assets/textures/Empty.png", vec2(0.8f, -0.63f),		vec2(passive_width,passive_height));
+	UI->createUISprite("assets/textures/Empty.png", vec2(0.85f, -0.63f),	vec2(passive_width,passive_height));
+	UI->createUISprite("assets/textures/Empty.png", vec2(0.9f, -0.63f),		vec2(passive_width,passive_height));
+	UI->createUISprite("assets/textures/Crosshair.png", vec2(-0.01f, -0.015f), vec2(0.02f, 0.03f));
 }
 
 void Hud::LowerHealth()
@@ -141,24 +148,8 @@ void Hud::ChangeCurrentPowerUp(int index)
 		currentPowerUp = ROCKET;
 		break;
 	case 2:
-		UI->getElements(POWERUP)->replaceSprite(rm->getSprite("assets/textures/PowerUpCard.png", gfx));
-		currentPowerUp = CARD;
-		break;
-	case 3:
 		UI->getElements(POWERUP)->replaceSprite(rm->getSprite("assets/textures/PowerUpFreeze.png", gfx));
 		currentPowerUp = FREEZE;
-		break;
-	case 4:
-		UI->getElements(POWERUP)->replaceSprite(rm->getSprite("assets/textures/PowerUpDeath.png", gfx));
-		currentPowerUp = DEATH;
-		break;
-	case 5:
-		UI->getElements(POWERUP)->replaceSprite(rm->getSprite("assets/textures/PowerUpEMP.png", gfx));
-		currentPowerUp = EMP;
-		break;
-	case 6:
-		UI->getElements(POWERUP)->replaceSprite(rm->getSprite("assets/textures/PowerUpPad.png", gfx));
-		currentPowerUp = PAD;
 		break;
 	}
 }

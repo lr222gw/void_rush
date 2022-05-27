@@ -100,7 +100,7 @@ void Shape_exporter::init(texturesEnum texture)
 
     scene->mMaterials[0]->AddProperty(&textures[(int)texture], AI_MATKEY_TEXTURE_DIFFUSE(0));
     aiColor3D diffuse(1.f);
-    aiColor3D ambient(0.25f);
+    aiColor3D ambient(0.4f);
     aiColor3D specular(0.25f);
     float shiny = 0.65f;
     scene->mMaterials[0]->AddProperty<aiColor3D>(&diffuse, 1, AI_MATKEY_COLOR_DIFFUSE);

@@ -1,7 +1,5 @@
 #include "TrashCollector.h"
 
-std::mutex SRV_mutex;
-
 TC& TC::GetInst()
 {
     return s_Instance;
@@ -25,10 +23,8 @@ void TC::add(Material* matrial)
 void TC::add(ID3D11ShaderResourceView* SRV)
 {
     //std::lock_guard<std::mutex> guard(SRV_mutex);
-    SRV_mutex.lock();
     shaderRSV.push_back(SRV);
     //guard.
-    SRV_mutex.unlock();
     
 }
 

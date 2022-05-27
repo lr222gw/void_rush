@@ -71,6 +71,8 @@ void Graphics::CreateBlendState(int wBlend, bool transparance) {
 Graphics::Graphics(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow, Mouse*& mouse) :
 	speed(1.5f)
 {
+	WIDTH = resolutions[settingsSingleTon::GetInst().getSettings().resolution][0];
+	HEIGHT = resolutions[settingsSingleTon::GetInst().getSettings().resolution][1];
 	fov = 45.f;
 	ratio = 16.f / 9.f;
 	farPlane = 2000.f;
@@ -138,7 +140,7 @@ Graphics::Graphics(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 Graphics::~Graphics()
 {
 	ImGui_ImplDX11_Shutdown();
-	
+	swapChain->SetFullscreenState(FALSE, NULL);
 	inputLayout[0]->Release();
 	inputLayout[1]->Release();
 	delete[] inputLayout;
@@ -199,16 +201,11 @@ void Graphics::RsetViewPort()
 	immediateContext->RSSetViewports(1, &viewPort);
 }
 
-float nextFpsUpdate = 0;
-void Graphics::Update(float dt, vec3 camPos)
+void Graphics::Update(vec3 camPos)
 {
 
-	if (getkey('B')) {
-		LCBG.cameraPos.element[3] = 1;
-	}
-	else {
-		LCBG.cameraPos.element[3] = 0;
-	}
+
+	LCBG.cameraPos.element[3] = 0;
 
 	for (int i = 0; i < nrOfLights; i++) {
 		LCBG.lightPos.element[i][0] = light[i]->getPos().x;
@@ -231,7 +228,6 @@ void Graphics::Update(float dt, vec3 camPos)
 	immediateContext->Unmap(this->Pg_pConstantBuffer, 0);
 	ZeroMemory(&resource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 	this->immediateContext->PSSetConstantBuffers(6, 1, &this->Pg_pConstantBuffer);
-	this->immediateContext->CSSetConstantBuffers(6, 1, &this->Pg_pConstantBuffer);
 	 
 	this->CPCB.cameraPos.element[0] = camPos.x;
 	this->CPCB.cameraPos.element[1] = camPos.y;
@@ -243,17 +239,22 @@ void Graphics::Update(float dt, vec3 camPos)
 	immediateContext->Unmap(camConstBuffer, 0);
 	ZeroMemory(&resource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 	immediateContext->PSSetConstantBuffers(5, 1, &camConstBuffer);
+}
 
+
+void Graphics::UpdateFPSCounter(float dt)
+{
 	//fps
-	static int a = 0; 
-	
+	static int a = 0;
+	static float nextFpsUpdate = 0;
+
 	nextFpsUpdate += (float)dt;
 	a++;
 	if (nextFpsUpdate >= 0.5f) {
 		nextFpsUpdate = 0;
 		float fps = (float)(a * 2);
 		a = 0;
-		SetWindowTextA(windowClass.getRenderWindow().getHandle(), std::to_string(fps).c_str());
+		SetWindowTextA(windowClass.getRenderWindow().getHandle(), ("Void Rush || fps: " + std::to_string(static_cast<int>(fps))).c_str());
 	}
 }
 

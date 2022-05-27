@@ -4,6 +4,7 @@
 #include <map>
 #include <iostream>
 #include "Vec.h"
+#include "settings.h"
 #include <thread>
 
 bool AnyAudio();
@@ -17,6 +18,7 @@ public:
 	void loadSound(std::string filePath, float volume = 1, std::string name = "");
 	void playSound(std::string soundName);
 	void playSound(std::string soundName, vec3 soundposition);
+	void stopSound(std::string soundName);
 	void setSoundVolume(std::string soundName, float volume);
 	void setSoundPosition(std::string soundName, vec3 position);
 	void setSoundOffset(std::string soundName, sf::Time time);

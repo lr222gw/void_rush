@@ -2,8 +2,15 @@
 #include "3Dproj/flags.h"
 
 Generation_manager::Generation_manager(Graphics*& _gfx, ResourceManager*& _rm, CollisionHandler& collisionHandler, int seed)
-	: gfx(_gfx), rm(_rm), seed(seed), difficulity(Difficulity::easy), player(nullptr), puzzleManager(nullptr), gameObjManager(nullptr)
+	: gfx(_gfx), rm(_rm), seed(seed), difficulity(Difficulity::easy), 
+    player(nullptr), puzzleManager(nullptr), gameObjManager(nullptr), 
+    incrementSeed(true), enemyManager(nullptr), powerupManager(nullptr)
 {            
+
+#ifdef _DEBUG
+    this->incrementSeed = false;
+#endif // DEBUG
+    
     this->shape_export = new Shape_exporter();
     this->position_gen = new Position_generator(this->seed);
     this->player_jump_checker = new Player_jump_checker();
@@ -59,6 +66,14 @@ void Generation_manager::set_GameObjManager(GameObjectManager* goMan)
     this->gameObjManager = goMan;
 }
 
+void Generation_manager::set_PowerupManager(PowerupManager* PowerupManager)
+{
+    this->powerupManager = PowerupManager;
+}
+void Generation_manager::set_EnemyManager(EnemyManager* EnemyManager)
+{
+    this->enemyManager = EnemyManager;
+}
 void Generation_manager::initialize()
 {
     //Removes previous data and platforms if any
@@ -89,30 +104,55 @@ void Generation_manager::initialize()
     
     this->player_jump_checker->set_physics_params(
         player->getJumpForce(),
-        player->getSpeed(),
+        player->getBaseSpeed(),
         //5.f,
         player->getGravity());
 
  
     if (startSeed == -1) {
         startSeed = seed;
-        this->player->SetCurrentSeed(this->seed);
+        this->player->SetCurrentSeed(startSeed);
     }
-    if (DEVMODE_ || DEBUGMODE) {
-        position_gen->set_seed(this->seed);
+    if (DEVMODE_ || DEBUGMODE) {        
+        if (this->incrementSeed) {
+            position_gen->set_seed(this->seed++);
+        }else{
+            position_gen->set_seed(this->seed);
+        }
     }
     else {
         position_gen->set_seed(this->seed++);
     }
     
+    
     position_gen->start(difficulity);
     
     place_anchorPoints();  
     place_jumpPoints();  
-           
-    puzzleManager->Initiate(this->getPuzzelPos());  
+    position_gen->select_powerUp_positions();
+    position_gen->select_enemy_positions();
+    powerupManager->reset();    
+    enemyManager->reset();
+
+    for (auto& p : position_gen->get_powerUp_positions()->positions) {
+        powerupManager->setUpPowerups((int)this->difficulity, p);
+    }
+
+    enemyManager->spawnEnemies(position_gen->get_enemy_positions());
+    
+    position_gen->generate_shortcut();
+    enemyManager->spawnObstacles(position_gen->get_shortcut_positions());
+    enemyManager->spawnObstacles(position_gen->get_obstacle_positions());    
+    
+    vec3 answerPos = position_gen->firstJumpPoint->next->next->platformShape.get_midpoint();
+    answerPos.y = this->GetStartPlatform()->getPos()->y;
+    puzzleManager->Initiate(this->getPuzzelPos(), { answerPos });
     this->player->SetDifficulity(this->difficulity);
     this->player->SetStartPlatform(this->GetStartPlatform());
+
+    this->player->set_resetLookat_dir(position_gen->firstJumpPoint->next->next->platformShape.get_midpoint());
+    this->player->lookat(position_gen->firstJumpPoint->platformShape.get_midpoint());
+    
 }
 
 
@@ -307,8 +347,7 @@ Difficulity Generation_manager::getDifficulty() const
 
 vec3 Generation_manager::getPuzzelPos()
 {
-    vec3 platformPosOffset = vec3(0.f, -20.f, 0.f);
-    return *this->position_gen->getAnchors()->at(position_gen->getAnchors()->size()-1)->getPos() + platformPosOffset;
+    return position_gen->getPuzzlePos();
 }
 
 Platform*& Generation_manager::GetStartPlatform()
@@ -383,6 +422,21 @@ void Generation_manager::generateGraph()
 int Generation_manager::getStartSeed() const
 {
     return startSeed;
+}
+
+int Generation_manager::getSeed() const
+{
+    return this->seed;
+}
+
+Position_generator::PowerUp_position_settings* Generation_manager::get_PowerUp_position_settings()
+{
+    return this->position_gen->get_PowerUp_position_settings();
+}
+
+Position_generator::PositionGen_settings* Generation_manager::get_positionGen_settings()
+{
+    return this->position_gen->get_positionGen_settings();
 }
 
 PlatformObj::PlatformObj(ModelObj* file, Graphics*& gfx, vec3 pos, vec3 rot, vec3 scale)

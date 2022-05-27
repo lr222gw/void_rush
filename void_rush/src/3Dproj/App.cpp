@@ -2,6 +2,7 @@
 
 App::App(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
+	settingsSingleTon::GetInst().readSettings();
 	if (CoInitialize((LPVOID)NULL) != S_OK) {
 		exit(1);
 	}
@@ -45,18 +46,22 @@ void App::run()
 
 	while (msg.message != WM_QUIT && gfx->getWindosClass().ProcessMessages() && !quit)
 	{
-		if (dt.dt() > 0.2f) {
-			dt.setDeltaTime(0.2f);
+		gfx->UpdateFPSCounter(dt.getRealTime());
+		if (dt.dt() > 0.016f) {
+			dt.setDeltaTime(0.016f);
 		}
+		gfx->Update();
 		/*DEBUG MOSUE*/
-		if (getkey('P')) {
-			mouse->activateMouse(true);
-			gfx->getWindosClass().HideCoursor();
-		}
-		else if (getkey(VK_ESCAPE)) {
-			mouse->activateMouse(false);
-			gfx->getWindosClass().ShowCoursor();
-		}
+		#if defined _DEBUG
+			if (getkey('M')) {
+				mouse->activateMouse(true);
+				gfx->getWindosClass().HideCoursor();
+			}
+			else if (getkey('N')) {
+				mouse->activateMouse(false);
+				gfx->getWindosClass().ShowCoursor();
+			}
+		#endif
 		
 
 		//handle events
@@ -82,8 +87,9 @@ void App::run()
 		
 
 		gamestate->render();
-
+		this->mouse->set_captureEvent(true);
 		handleGamestateChanges(theHandle);
+		mouse->clear();
 
 		dt.restartClock();
 	}
@@ -95,7 +101,7 @@ void App::set_initial_gamestate(GameStatesEnum gameStateType)
 	if(gameStateType == GameStatesEnum::TO_GAME){
 		mouse->activateMouse(true);
 		gfx->getWindosClass().HideCoursor();
-		gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
+		gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera, GameStateRet());
 	}else if(gameStateType == GameStatesEnum::TO_MENU){
 		mouse->activateMouse(true);
 		gfx->getWindosClass().ShowCoursor();
@@ -115,12 +121,15 @@ void App::handleGamestateChanges(GameStateRet handle)
 		quit = true;
 		break;
 	case GameStatesEnum::TO_GAME:
+		this->mouse->set_captureEvent(false);
 		mouse->activateMouse(true);
 		gfx->getWindosClass().HideCoursor();
 		//delete current gamestate
 		delete gamestate;
 		//set gamestate to Game
-		gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera, handle.seed);
+		gamestate = new Game(gfx, rm, &IMGUIManager, mouse, keyboard, camera, handle);
+		mouse->clearEventBuffer();
+		
 		break;
 	case GameStatesEnum::TO_MENU:
 		mouse->activateMouse(true);
@@ -139,6 +148,15 @@ void App::handleGamestateChanges(GameStateRet handle)
 		//set gamestate to Menu
 		this->IMGUIManager.set_owner(nullptr);
 		gamestate = new HighScoreGameState(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
+		break;
+	case GameStatesEnum::TO_SETTINGS:
+		mouse->activateMouse(true);
+		gfx->getWindosClass().ShowCoursor();
+		//delete current gamestate
+		delete gamestate;
+		//set gamestate to Menu
+		this->IMGUIManager.set_owner(nullptr);
+		gamestate = new SettingsScene(gfx, rm, &IMGUIManager, mouse, keyboard, camera);
 		break;
 	}
 	

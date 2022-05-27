@@ -73,17 +73,17 @@ void ScoreManager::AddScore(float points)
 void ScoreManager::LevelDone()
 {
 	//Add points
-	float scoreMultiplyer = 1.0f;
-	float puzzleTime = 10.0f;
+	float scoreMultiplyer = 0.3f;
+	float puzzleTime = 20.0f;
 	switch (levelDifficulty)
 	{
 	case Difficulity::medium:
-		scoreMultiplyer = 1.5f;
+		scoreMultiplyer = 0.6f;
 		puzzleTime = 15.0f;
 		break;
 	case Difficulity::hard:
-		scoreMultiplyer = 2.0f;
-		puzzleTime = 20.0f;
+		scoreMultiplyer = 1.0f;
+		puzzleTime = 10.0f;
 		break;
 	}
 	float optimalTime = puzzleTime + (levelLength / playerSpeed);//Time it would take to go in a straight line (* some multiplyer)
@@ -135,11 +135,12 @@ void ScoreManager::WriteScore(std::string name, std::string file)
 			scoreFile >> tempScore;
 			scoreFile >> tempName;
 			scoreFile >> tempSeed;
-			if (tempName == name) {
+			if (tempName == name && stoi(tempSeed) == seed) {
 				nameExists = true;
 				if (std::stoi(tempScore) < (int)score) {
 					reWrite = true;
 					tempScore = std::to_string((int)score);
+					tempSeed = std::to_string(seed);
 				}
 			}
 			scores.push_back(tempScore);

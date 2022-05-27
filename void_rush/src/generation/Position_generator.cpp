@@ -1,6 +1,19 @@
 #include <iostream>
 #include "Position_generator.hpp"
 #include <algorithm>
+
+Position_generator::PowerUp_position_settings Position_generator::PU_conf;
+Position_generator::PositionGen_settings Position_generator::positionGen_conf;
+Position_generator::enemy_Position_settings Position_generator::enemyPos_conf;
+std::vector<Platform*> Position_generator::getAllPlatforms()
+{
+    
+    std::vector<Platform*> allPlatforms;
+    allPlatforms.insert(allPlatforms.begin(), this->anchors.begin(), this->anchors.end());
+    allPlatforms.insert(allPlatforms.end(), this->jumpPoints.begin(), this->jumpPoints.end());
+
+    return allPlatforms;
+}
 Position_generator::Position_generator(int _seed)
     : seed(_seed), pl(nullptr), startPlat(nullptr), firstJumpPoint(nullptr)
 {    
@@ -26,9 +39,26 @@ bool Position_generator::start (Difficulity selectedDiff)
     
     generate_anchor_positions(selectedDiff);
     generate_jumpPoints_positions(selectedDiff);
+
+    if(!Position_generator::positionGen_conf.useUnecessaryPlatforms){
+        removeUnnecessaryPlatforms();
+    }
+
     removeOverlappingPlatformVoxels();
 
+    if (Position_generator::positionGen_conf.useReplaceRandomJumpPointsWithObstacles) {
+        replace_random_jumpPoints_with_obstacles_positions();
+    }    
+
+    cull_voxel_y_intersection(getPuzzlePos(), anchors.back());
+
+
     return true;
+}
+
+vec3 Position_generator::getPuzzlePos(){
+    vec3 platformPosOffset = vec3(0.f, -10.f, 15.f);    
+    return *anchors[anchors.size() - 1]->getPos() + platformPosOffset;
 }
 
 void Position_generator::generate_anchor_positions(Difficulity selectedDiff)
@@ -82,7 +112,7 @@ void Position_generator::generate_anchor_positions(Difficulity selectedDiff)
         if (dvect_magnitude > stepMin && dvect_magnitude < stepMax)
         {
             newPlat = new Platform(position);            
-            newPlat->platformShape.setAnchorShape(*newPlat->getPos(), dVect.length());
+            newPlat->platformShape.setAnchorShape(*newPlat->getPos(), dVect.length(), &current->platformShape);
 
             pl->moveto(newPlat->platformShape.outCorner.pos);
             position = newPlat->platformShape.outCorner.pos;
@@ -170,7 +200,224 @@ void Position_generator::generate_jumpPoints_positions(Difficulity selectedDiff)
     trashBin.clear();
 }
 
+void Position_generator::replace_random_jumpPoints_with_obstacles_positions()
+{
+    this->obstaclePositions.nrOfPositions = 0;
+    this->obstaclePositions.positions.clear();
 
+    std::vector<Platform*> replaceable_jumpPoints;
+
+    //Find all JPs with a size of max 4 voxels
+    for(auto& jp : this->getInOrderVector_ValidJumppoints()){
+
+        if(jp->platformShape.previousVoxels.size() < 5){
+            if(jp->prev &&
+                 jp->next &&
+                (jp->next->platformShape.get_midpoint() - jp->platformShape.get_midpoint()).length() > 3 && 
+                (jp->prev->platformShape.get_midpoint() - jp->platformShape.get_midpoint()).length() > 3)
+            {
+                replaceable_jumpPoints.push_back(jp);
+            }
+        }
+    }
+
+    for (auto& ap : this->getInOrderVector_ValidAnchors()) {
+
+        for (int i = 0; i < replaceable_jumpPoints.size(); i++) {
+
+            auto rp = replaceable_jumpPoints[i];
+            if (rp->prev &&
+                rp->next &&
+                ap->prev &&
+                ap->next &&
+                (ap->next->platformShape.get_midpoint() - rp->platformShape.get_midpoint()).length() < 3 &&
+                (ap->prev->platformShape.get_midpoint() - rp->platformShape.get_midpoint()).length() < 3)
+            {
+                replaceable_jumpPoints.erase(replaceable_jumpPoints.begin() + i);
+                
+            }
+        }                
+    }
+
+    //try to look for this nr of JPs to replace
+    size_t nrOfObstacles = replaceable_jumpPoints.size() /2 ;
+    
+    for (size_t i = 0; i < nrOfObstacles; i++) {
+        int pick_index = rand() % replaceable_jumpPoints.size();
+        Platform* pick = replaceable_jumpPoints[pick_index];
+
+        obstaclePositions.positions.push_back(pick->platformShape.get_midpoint());
+        obstaclePositions.nrOfPositions++; 
+
+        pick->platformShape.remove_all_planes();
+        pick->platformShape.set_is_Illegal(true);
+
+        replaceable_jumpPoints.erase(replaceable_jumpPoints.begin() + pick_index);        
+    }
+
+}
+
+void Position_generator::select_powerUp_positions()
+{
+    this->powerup_positions.nrOfPositions = 0;
+    this->powerup_positions.positions.clear();
+    std::vector<Platform*> validJumpPoints = getInOrderVector_ValidJumppoints();
+
+    for (int i = 0; i < validJumpPoints.size(); i+=PU_conf.powerUp_occurance_rate) {
+                    
+        int pickVoxelPos = rand() % validJumpPoints[i]->platformShape.previousVoxels.size();
+        this->powerup_positions.nrOfPositions++;
+        this->powerup_positions.positions.push_back(
+            validJumpPoints[i]->platformShape.previousVoxels[pickVoxelPos].current_center + PU_conf.position_offset
+        );
+        
+    }     
+}
+
+void Position_generator::select_enemy_positions()
+{
+    this->enemy_positions.nrOfPositions = 0;
+    this->enemy_positions.positions.clear();
+    std::vector<Platform*> validAnchors = this->getInOrderVector_ValidAnchors();
+    this->enemy_positions.positions.resize(validAnchors.size());
+
+    //Note: we skip the first anchor since it's the startplatform...
+    //Random Positions
+    for (int i = 1; i < validAnchors.size(); i++) { 
+        std::vector <vec3> EnemyPositions;
+        std::vector <int> busyIndex;
+        for (int b = 0; b < validAnchors[i]->platformShape.previousVoxels.size(); b++) { busyIndex.push_back(b); }
+        int nrOfEnemyPositions = rand() % validAnchors[i]->platformShape.previousVoxels.size();
+        nrOfEnemyPositions = std::clamp(
+            nrOfEnemyPositions,
+            1,
+            static_cast<int>(validAnchors[i]->platformShape.previousVoxels.size() / 1.65f));
+
+        for (int j = 0; j < nrOfEnemyPositions; j++) {
+
+            int pickVoxelPos = rand() % busyIndex.size();
+            
+            int poses_x = (validAnchors[i]->platformShape.get_scale().x / Shape::shape_conf.default_scale.x) ; 
+            int poses_z = (validAnchors[i]->platformShape.get_scale().z / Shape::shape_conf.default_scale.z) ; 
+
+            vec3 final_random_pos =
+                validAnchors[i]->platformShape.previousVoxels[busyIndex[pickVoxelPos]].current_center;
+            final_random_pos.x += static_cast<float>( rand() % poses_x) * Shape::shape_conf.default_scale.x;
+            final_random_pos.z += static_cast<float>( rand() % poses_z) * Shape::shape_conf.default_scale.z;
+
+            this->enemy_positions.nrOfPositions++;
+            
+            EnemyPositions.push_back(final_random_pos + enemyPos_conf.enemy_offset);
+            busyIndex.erase(busyIndex.begin() + pickVoxelPos);
+            
+        }
+        this->enemy_positions.positions[i].ranmdomPositions = EnemyPositions;
+        
+    }
+
+    //Outside Positions
+    for (int i = 1; i < validAnchors.size(); i++) {
+        std::vector <vec3> EnemyPositions;
+        std::vector <vec3> positionsAlongZ;
+        
+        for(auto &p : validAnchors[i]->platformShape.previousVoxels){
+            
+            bool wasFound = false;
+            for(auto& v : positionsAlongZ){
+
+                if (p.current_center.x > v.x) {
+                    v.x = p.current_center.x;
+                }
+                if (p.current_center.z == v.z) {                    
+                    wasFound = true;
+                    break;
+                }
+            }
+            if (!wasFound) { positionsAlongZ.push_back(p.current_center); }
+        }
+
+        for (int j = 0; j < positionsAlongZ.size(); j++) {
+            
+            positionsAlongZ[j].x += 
+                Shape::shape_conf.default_scale.x * 
+                Shape::shape_conf.scaleAnchor_XY_Factor * 
+                enemyPos_conf.outsideOffset;
+            
+                
+            this->enemy_positions.nrOfPositions++;
+
+            EnemyPositions.push_back(positionsAlongZ[j] + enemyPos_conf.enemy_offset);
+        }
+        this->enemy_positions.positions[i].outsidePositions = EnemyPositions;
+    }    
+    struct vector_z_pair{
+        float z;
+        std::vector <vec3 > alongX_per_Z;
+    };
+    //Pattern Positions
+    for (int i = 1; i < validAnchors.size(); i++) {
+        std::vector <vec3> EnemyPositions;
+
+        std::vector<vector_z_pair> positionsAlongZ;
+
+        for (auto& p : validAnchors[i]->platformShape.previousVoxels) {
+
+            bool wasFound = false;
+            for (auto& v : positionsAlongZ) {
+
+                if (p.current_center.z == v.z) {
+                    wasFound = true;                    
+                    break;
+                }
+            }
+            if (!wasFound) { positionsAlongZ.push_back(vector_z_pair{p.current_center.z}); }
+        }
+
+        for (auto& p : validAnchors[i]->platformShape.previousVoxels) {
+
+            bool wasFound = false;
+            for (auto& v : positionsAlongZ) {
+
+                if (p.current_center.z == v.z) {
+                    v.alongX_per_Z.push_back(p.current_center);
+                }
+            }           
+        }
+
+        for (int j = 0; j < positionsAlongZ.size(); j += 2) {
+
+            for(auto &row : positionsAlongZ[j].alongX_per_Z){
+
+                this->enemy_positions.nrOfPositions++;
+
+                EnemyPositions.push_back(row + enemyPos_conf.enemy_offset);
+            }
+            
+        }
+        this->enemy_positions.positions[i].patternPositions = EnemyPositions;
+    }
+
+}
+
+powerUp_positions* Position_generator::get_powerUp_positions()
+{
+    return &powerup_positions;
+}
+
+Enemy_positions* Position_generator::get_enemy_positions()
+{
+    return &enemy_positions;
+}
+
+ShortCut_positions* Position_generator::get_shortcut_positions()
+{
+    return &shortcut_positions;
+}
+
+ShortCut_positions* Position_generator::get_obstacle_positions()
+{
+    return &this->obstaclePositions;
+}
 
 FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platform* start, Platform* end)
 { 
@@ -182,11 +429,7 @@ FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platfor
 
     Platform* midd_platform = new Platform() ;    
     midd_platform->setPosition(start->platformShape.outCorner.pos + middle);
-    //auto t = start->platformShape.previousVoxels[0].current_center - *midd_platform->getPos();
 
-    
-    
-    ///
     midd_platform->platformShape.setJumppointShape(*midd_platform->getPos(), distanceToEnd, &start->platformShape);
 
 
@@ -194,18 +437,32 @@ FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platfor
     
     this->jumpPoints.push_back(midd_platform);    
 
-    //////////////////////////
+    outCorner* startOutCorner = &start->platformShape.outCorner;
+    inCorner* middInCorner = &midd_platform->platformShape.inCorner;
+    outCorner* middOutCorner = &midd_platform->platformShape.outCorner;
+    inCorner* endInCorner = &end->platformShape.inCorner;
+    float prev_StartMidd_Dist = (startOutCorner->pos - middInCorner->pos).length();
+    float prev_MiddEnd_Dist = (middOutCorner->pos - endInCorner->pos).length();
+    float startMidd_dist = -1;
+    float middEnd_dist = -1;
+    for(int i = 0; i < middOutCorner->points.size(); i++){
+        for(int j = 0; j < endInCorner->points.size(); j++){
+            middEnd_dist = (middOutCorner->points[i] - endInCorner->points[j]).length();
+            startMidd_dist = (startOutCorner->points[i] - middInCorner->points[j]).length();
+            if(middEnd_dist < prev_MiddEnd_Dist){
+                middOutCorner->pos = middOutCorner->points[i];
+                endInCorner->pos = endInCorner->points[j];
+                prev_MiddEnd_Dist = middEnd_dist;
+            }
+            if(startMidd_dist < prev_StartMidd_Dist){
+                startOutCorner->pos = startOutCorner->points[i];
+                middInCorner->pos = middInCorner->points[j];
+                prev_StartMidd_Dist = startMidd_dist;
+            }
+        }
+    }
 
-
-  //  midd_platform->platformShape.outCorner.pos.x < end->platformShape.inCorner.pos.x &&
-
-        //if(abs(end->platformShape.inCorner.pos.x) - abs(midd_platform->platformShape.outCorner.pos.x) >= 0) {}
-        //for(){
-        
-//        }
-
-
-    //////////////////////////
+    pl->moveto(midd_platform->platformShape.outCorner.pos);
 
     //Create jumppoint between new middle and end if jump not possible    
     if(!this->pl->isJumpPossible(end->platformShape.inCorner.pos)){
@@ -246,24 +503,29 @@ FirstLast_between_Anchor Position_generator::jumpPoint_generation_helper(Platfor
 
 void Position_generator::jumpPoint_create_offset(Platform* plat,vec3& currentMiddle, vec3 start, vec3 end)
 {
+    vec3 offset = create_offset(end, start);
+
+    plat->setPosition(start + offset);
+}
+
+vec3 Position_generator::create_offset(vec3& end, const vec3& start)
+{
     vec3 temp = vec3(randF(-1.f, 1.f), randF(-1.f, 1.f), randF(-1.f, 1.f)).Normalize();
     vec3 start_End = (end - start);
     vec3 start_End_dir = vec3::Normalize(start_End);
     float randomDist = randF(0.f, start_End.length()) / JP_conf.random_dist_dividier;
 
-    while(  start_End_dir * temp > JP_conf.rand_dir_max_angle_percent || 
-            start_End_dir * temp < JP_conf.rand_dir_min_angle_percent)
+    while (start_End_dir * temp > JP_conf.rand_dir_max_angle_percent ||
+        start_End_dir * temp < JP_conf.rand_dir_min_angle_percent)
     {
         //to get all possible directions, use -1 and 1...
         temp = vec3(randF(-1.f, 1.f), randF(-1.f, 1.f), randF(-1.f, 1.f)).Normalize();
-    }    
-        
-    vec3 randomDir = start_End_dir.X(temp).Normalize();
-    randomDir.y = std::clamp(randomDir.y, JP_conf.y_min_clamp, JP_conf.y_max_clamp);    
-    
-    vec3 offset = randomDir * randomDist; 
+    }
 
-    plat->setPosition(start + offset);
+    vec3 randomDir = start_End_dir.X(temp).Normalize();
+    randomDir.y = std::clamp(randomDir.y, JP_conf.y_min_clamp, JP_conf.y_max_clamp);
+
+    return randomDir * randomDist; 
 }
 
 void Position_generator::reset_generation(vec3 player_position)
@@ -319,6 +581,32 @@ int Position_generator::getNrOfValidJumppoints()
     }
     return validMeshes;
 }
+std::vector<Platform*> Position_generator::getInOrderVector_ValidJumppoints()
+{
+    Platform* currentJumppoint = this->firstJumpPoint;
+    std::vector<Platform*> validJPs;
+    while (currentJumppoint) {
+        if (!currentJumppoint->platformShape.get_is_Illegal()) {
+            validJPs.push_back(currentJumppoint);
+        }
+        currentJumppoint = currentJumppoint->next;
+    }
+    //std::reverse(validJPs.begin(), validJPs.end());
+    return validJPs;
+}
+std::vector<Platform*> Position_generator::getInOrderVector_ValidAnchors()
+{
+    Platform* currentAnchor = this->anchors.front();
+    std::vector<Platform*> validAPs;
+    while (currentAnchor) {
+        if (!currentAnchor->platformShape.get_is_Illegal()) {
+            validAPs.push_back(currentAnchor);
+        }
+        currentAnchor = currentAnchor->next;
+    }
+    //std::reverse(validAPs.begin(), validAPs.end());
+    return validAPs;
+}
 
 Platform* Position_generator::getFirstJumppoint()
 {
@@ -343,19 +631,184 @@ int Position_generator::getNrOfValidAnchorpoints()
     return validMeshes;
 }
 
+void Position_generator::generate_shortcut()
+{
+    shortcut_positions.nrOfPositions = 0; 
+    shortcut_positions.positions.clear();
+
+    std::vector<Platform*> valid_anchors = getInOrderVector_ValidAnchors();
+
+    int randomAnchor = rand() % valid_anchors.size();
+    int nextRandomAnchor = randomAnchor + 2;
+
+    if(nextRandomAnchor >= (int)valid_anchors.size()) {
+        randomAnchor -= 2;
+        nextRandomAnchor -= 2;
+    }
+
+    //shortcut_positions.positions.push_back(valid_anchors[randomAnchor]->platformShape.outCorner.pos);
+    
+    Player_jump_checker mushroomJump;
+    
+    mushroomJump.set_physics_params(8.f,5.f, -15.f);//TODO: do not hardcode
+    
+    vec3 direction = 
+        valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos - 
+        valid_anchors[randomAnchor]->platformShape.outCorner.pos;
+
+    vec3 dir_unitvec = vec3::Normalize(direction);
+
+    vec3 controlDir = 
+        valid_anchors[nextRandomAnchor - 1]->platformShape.inCorner.pos - 
+        valid_anchors[randomAnchor]->platformShape.outCorner.pos;
+
+    
+
+    vec3 normalized_controlDir = vec3::Normalize(controlDir);
+    float dot_angle =  dir_unitvec * normalized_controlDir ;
+
+    int triedCounter = 0;
+    
+    while (dot_angle < -this->JP_conf.minimumShortcutDotAngle || dot_angle > this->JP_conf.minimumShortcutDotAngle  
+        && triedCounter <= valid_anchors.size()) 
+    {
+
+        randomAnchor     = (++randomAnchor) % (valid_anchors.size() - 2);
+        nextRandomAnchor =  randomAnchor + 2;
+
+        controlDir = 
+            valid_anchors[nextRandomAnchor - 1]->platformShape.inCorner.pos - 
+            valid_anchors[randomAnchor]->platformShape.outCorner.pos;
+
+        direction = 
+            valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos - 
+            valid_anchors[randomAnchor]->platformShape.outCorner.pos;
+
+        dir_unitvec = vec3::Normalize(direction);
+
+        normalized_controlDir = vec3::Normalize(controlDir);
+        dot_angle =  dir_unitvec * normalized_controlDir ;
+        triedCounter++;
+    }
+
+    if (triedCounter <= valid_anchors.size()) {
+
+        vec3 originalDir = direction;
+        mushroomJump.moveto(valid_anchors[randomAnchor]->platformShape.outCorner.pos);
+        float start_current_len = 0; 
+        float jumplen = mushroomJump.getJumpDistance();
+
+        bool jumpPossible = !mushroomJump.isJumpPossible(valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos);
+        while (jumpPossible &&
+            originalDir.length() - jumplen > start_current_len)
+        {
+
+            direction = valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos - mushroomJump.getPos();
+            dir_unitvec = vec3::Normalize(direction);
+
+            //calc position for next platform
+            vec3 offset = dir_unitvec * mushroomJump.getJumpDistance();
+            vec3 newPos = mushroomJump.getPos() + offset;
+
+            //get and set an random offset for newPos 
+            auto temp = newPos + offset;
+            vec3 v = create_offset(temp, mushroomJump.getPos()) / 2.f;
+            v.y = 0.f;
+            newPos = newPos + v;
+
+            
+
+            vec3 currentPlayerPos = valid_anchors[randomAnchor]->platformShape.outCorner.pos;
+            
+            this->shortcut_positions.positions.push_back(newPos);
+            currentPlayerPos = this->shortcut_positions.positions.back();
+            mushroomJump.moveto(currentPlayerPos);
+            start_current_len = (newPos - valid_anchors[randomAnchor]->platformShape.outCorner.pos).length();
+
+            jumpPossible = !mushroomJump.isJumpPossible(valid_anchors[nextRandomAnchor]->platformShape.inCorner.pos);
+            
+
+        }
+
+        for (int i = 0; i <  this->shortcut_positions.positions.size(); i++)
+        {
+
+            //Check that position is not above/below an existing platform
+            bool notAbove = check_platform_y_intersection(this->shortcut_positions.positions[i]);
+
+            if(!notAbove){
+                this->shortcut_positions.positions.erase(
+                    this->shortcut_positions.positions.begin() + i
+                );
+                i--;
+            }
+        }
+    }
+}
+
+bool Position_generator::check_platform_y_intersection(const vec3& newPos)
+{
+    bool notAbove = true;
+    float radius = 5;
+    for (auto& p : this->getAllPlatforms()) {
+        for (auto& v : p->platformShape.previousVoxels) {
+            if ((v.current_center - newPos).length_XZ() < radius) {
+                notAbove = false;
+                break;
+            }
+        }
+        if (!notAbove) {
+            break;
+        }
+    }
+    return notAbove;
+}
+
+void Position_generator::cull_voxel_y_intersection(const vec3& newPos, Platform* platform )
+{
+    bool notAbove = true;
+    float radius = 5;
+    int index_voxel = 0;
+    //for (auto& p : this->getAllPlatforms()) {
+    for (auto& p : this->anchors) {
+        index_voxel = 0;
+        for (auto& v : p->platformShape.previousVoxels) {
+            if ((v.current_center - newPos).length_XZ() < radius) {
+                
+                auto iterator = p->platformShape.previousVoxels.begin() + index_voxel;
+                p->platformShape.previousVoxels.erase(iterator);
+                if (p->platformShape.previousVoxels.size() == 0) {
+                    p->platformShape.set_is_Illegal(true);
+                }
+                index_voxel--;
+            }
+            index_voxel++;
+        }
+    }    
+}
+
+Position_generator::PositionGen_settings* Position_generator::get_positionGen_settings()
+{
+    return &Position_generator::positionGen_conf;
+}
+
+Position_generator::PowerUp_position_settings* Position_generator::get_PowerUp_position_settings()
+{
+    return &Position_generator::PU_conf;
+}
+
 mapDimensions Position_generator::getCurrentMapDimensions()
 {
     mapDimensions currentMapDimension{
         0,
-        0
+        0,
+        vec2(0,0),
+        vec2(0,0)
     }; 
-
     vec2 min; 
     vec2 max;
 
-    std::vector<Platform*> allPlatforms;
-    allPlatforms.insert(allPlatforms.begin(), this->anchors.begin(), this->anchors.end());
-    allPlatforms.insert(allPlatforms.end(), this->jumpPoints.begin(), this->jumpPoints.end());
+    std::vector<Platform*> allPlatforms = getAllPlatforms();
 
     //Get height    
     for (size_t i = 0; i < allPlatforms.size(); i++)
@@ -381,6 +834,8 @@ mapDimensions Position_generator::getCurrentMapDimensions()
 
     currentMapDimension.x_width = max.x - min.x;
     currentMapDimension.z_width = max.y - min.y;
+    currentMapDimension.highPoint = max;
+    currentMapDimension.lowPoint = min;
 
     return currentMapDimension;
 
@@ -421,6 +876,7 @@ void Position_generator::removeOverlappingPlatformVoxels()
                         J_voxel--;
                     }
                 }
+                //jumpPoints[j]->platformShape.update_InOut(&jumpPoints[j]->prev->platformShape);
             }
         }    
     }
@@ -457,12 +913,94 @@ void Position_generator::removeOverlappingPlatformVoxels()
                         J_voxel--;
                     }
                 }
+                jumpPoints[j]->platformShape.update_InOut(&jumpPoints[j]->prev->platformShape);
             }
         }
     }
 
-    int breakME = 3;
+}
 
+void Position_generator::removeUnnecessaryPlatforms()
+{
+    int maxNrAhead = 5;
+    bool skipable = false; 
+    int iteration = 0;
+
+    //Platform* startPoint = this->getFirstJumppoint();
+    //Platform* toCheck = nullptr;
+
+    //toCheck = startPoint->next;
+    //while(toCheck && startPoint && toCheck->next && !startPoint->platformShape.get_is_Illegal()){
+    //    iteration = 0;
+    //    toCheck = startPoint->next;
+
+    //    while (iteration < maxNrAhead && toCheck->next) {
+
+    //        /*for (int j = 0; j < iteration && toCheck->next; j++) {
+    //            toCheck = toCheck->next;
+    //        }*/
+
+    //        this->pl->moveto(startPoint->platformShape.outCorner.pos);
+    //        float JumpDist = this->pl->getJumpDistance(toCheck->platformShape.inCorner.pos.y);
+    //        float distance = this->pl->distance(toCheck->platformShape.inCorner.pos);
+    //        float padding = JumpDist/4.f;
+    //        skipable = this->pl->isJumpPossible(toCheck->platformShape.inCorner.pos);
+
+    //        if (skipable && JumpDist > distance+padding) {
+    //            toCheck->platformShape.previousVoxels.clear();
+    //            toCheck->platformShape.set_is_Illegal(true);
+    //        }
+    //        else{
+    //            startPoint = toCheck;
+    //            break;
+    //        }
+    //        iteration++;
+    //        toCheck = toCheck->next;
+    //    }
+    //    startPoint = toCheck;
+    //}
+
+    std::vector<Platform*> inOrderJumpPoints = this->getInOrderVector_ValidJumppoints();
+    float jumpDist = 0;
+    float distance = 0;
+    float padding = 0;
+    int j = 0;
+    this->pl->moveto(this->anchors[0]->platformShape.outCorner.pos);
+    for (int i = 1; i < this->anchors.size(); i++) {
+        iteration = 0;
+        for (j;j < inOrderJumpPoints.size(); j++) {
+            jumpDist = this->pl->getJumpDistance(anchors[i]->platformShape.inCorner.pos.y);
+            distance = this->pl->distance(anchors[i]->platformShape.inCorner.pos);
+            //padding = jumpDist / jumpDist;
+            padding = jumpDist/10.0f;
+            if(jumpDist > distance+padding && this->pl->isJumpPossible(anchors[i]->platformShape.inCorner.pos)){
+                inOrderJumpPoints[j]->next->platformShape.previousVoxels.clear();
+                inOrderJumpPoints[j]->next->platformShape.set_is_Illegal(true);
+                this->pl->moveto(this->anchors[i]->platformShape.outCorner.pos);
+                break;
+            }
+            else {
+                iteration = 0;
+                while (iteration < maxNrAhead && inOrderJumpPoints[j + iteration]->next && j+iteration < inOrderJumpPoints.size()) {
+                    jumpDist = this->pl->getJumpDistance(inOrderJumpPoints[j+iteration]->platformShape.inCorner.pos.y);
+                    distance = this->pl->distance(inOrderJumpPoints[j+iteration]->platformShape.inCorner.pos);
+                    padding = jumpDist / 10.f;
+                    skipable = this->pl->isJumpPossible(inOrderJumpPoints[j+iteration]->platformShape.inCorner.pos);
+                    if (skipable && jumpDist > distance + padding) {
+                        inOrderJumpPoints[j+iteration]->platformShape.previousVoxels.clear();
+                        inOrderJumpPoints[j+iteration]->platformShape.set_is_Illegal(true);
+                        iteration++;
+                    }
+                    else {
+                        j += iteration;
+                        this->pl->moveto(inOrderJumpPoints[j]->platformShape.outCorner.pos);
+                        break;
+                    }
+                }
+            }
+        }
+
+    }
 }
 
 

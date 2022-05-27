@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 
+#include "../resource.h"
+
 class WindowContainer;
 
 class RenderWindow

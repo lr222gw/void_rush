@@ -1,7 +1,6 @@
 #pragma once
 
 //Add includes here
-#include "../common/Vector.hpp"
 #include <random>
 #include <string>
 #include <iostream>
@@ -11,6 +10,11 @@
 #include "3Dproj/SoundManager.h"
 #include "Portal.h"
 #include <vector>
+
+
+struct ExtraArgs {
+    vec3 nextPlatformPosition;
+};
 
 class Puzzle : public Portal
 {
@@ -23,6 +27,7 @@ protected:
     vec3 position = vec3(0.0f, 0.0f, 0.0f);
     SoundManager* soundManager;
     vec3 playerPos = vec3(0.0f, 0.0f, 0.0f);
+    float deltaT = 0.0f;
 
 public:
     //Create puzzle
@@ -47,10 +52,14 @@ public:
 
     void UpdatePlayerPos(vec3 newPlayerPos);
 
+    void UpdateDT(float dt);
+
+    float getDT();
+
     virtual void Interaction(vec3 playerPos, vec3 forwardVec) = 0;
 
     //Pick the correct type of puzzle and initiate it.
-    virtual void InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position) = 0;
+    virtual void InitiatePuzzle(Graphics*& gfx, ResourceManager*& rm, vec3 position, ExtraArgs extra) = 0;
 
     virtual void Update(Graphics*& gfx) = 0;
 };

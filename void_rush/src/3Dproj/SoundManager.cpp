@@ -55,7 +55,7 @@ SoundManager::SoundManager()
 	if (!AnyAudio()) {
 		soundManagerActive = false;
 	}
-	this->volume = 1;
+	this->volume = (float)settingsSingleTon::GetInst().getSettings().volume;
 	musicLoop = false;
 	changingMusic = false;
 	activeMusic = 0;
@@ -135,6 +135,18 @@ void SoundManager::playSound(std::string soundName, vec3 soundposition)
 	sounds.find(soundName)->second->sound.play();
 }
 
+void SoundManager::stopSound(std::string soundName)
+{
+	if (!soundManagerActive) {
+		return;
+	}
+	if (sounds.find(soundName) == sounds.end()) {
+		std::cout << "couldn't find sound: " << soundName << std::endl;
+		return;
+	}
+	sounds.find(soundName)->second->sound.stop();
+}
+
 void SoundManager::setSoundVolume(std::string soundName, float volume)
 {
 	if (!soundManagerActive) {
@@ -144,7 +156,7 @@ void SoundManager::setSoundVolume(std::string soundName, float volume)
 		std::cout << "couldn't find sound: " << soundName << std::endl;
 		return;
 	}
-	sounds.find(soundName)->second->sound.setVolume(volume);
+	sounds.find(soundName)->second->sound.setVolume(this->volume * volume);
 }
 
 void SoundManager::setSoundPosition(std::string soundName, vec3 position)
@@ -230,8 +242,8 @@ void SoundManager::changeMusic(std::string NewMusic, float volume, float timeToC
 		std::cout << "cant find file: " << NewMusic << std::endl;
 	}
 	currentVolumeDiv[0] = Music[activeMusic].getVolume() / timeToChange;
-	currentVolumeDiv[1] = volume / timeToChange;
-	toVolume = volume;
+	currentVolumeDiv[1] = (this->volume * volume) / timeToChange;
+	toVolume = this->volume * volume;
 	changingMusic = true;
 	activeMusic++;
 	activeMusic %= 2;

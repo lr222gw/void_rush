@@ -1,9 +1,9 @@
 #include "Mouse.h"
+#include "settings.h"
 
-//use sfml
 Mouse::Mouse()
 {
-	mouseSense = 0.6f;
+	mouseSense = settingsSingleTon::GetInst().getSettings().mouseSence * 0.5f;
 	mouse_active = false;
 	once = false;
 	x = y = 0;
@@ -28,6 +28,21 @@ bool Mouse::isMiddleDown()
 bool Mouse::isRightDown()
 {
 	return this->rightIsDown;
+}
+
+bool Mouse::isLeftPressed()
+{
+	return leaftDown;
+}
+
+bool Mouse::isMiddlePressed()
+{
+	return midDown;
+}
+
+bool Mouse::isRightPressed()
+{
+	return rightDown;
 }
 
 MousePoint Mouse::getPos()
@@ -62,7 +77,7 @@ mouseEvent Mouse::ReadEvent()
 
 void Mouse::changeSense(float newSence)
 {
-	this->mouseSense = newSence;
+	this->mouseSense = newSence * 0.5f;
 }
 
 
@@ -78,6 +93,7 @@ bool Mouse::getMouseActive()
 
 void Mouse::onLeftPressed(int x, int y)
 {
+	leaftDown = true;
 	this->leaftIsDown = true;
 	mouseEvent m(mouseEvent::EventType::LPress, x, y);
 	mouseBuffer.push(m);
@@ -92,6 +108,7 @@ void Mouse::onLeftReleased(int x, int y)
 
 void Mouse::onRightPressed(int x, int y)
 {
+	rightDown = true;
 	this->rightIsDown = true;
 	mouseEvent m(mouseEvent::EventType::RPress, x, y);
 	mouseBuffer.push(m);
@@ -106,6 +123,7 @@ void Mouse::onRightReleased(int x, int y)
 
 void Mouse::onMiddlePressed(int x, int y)
 {
+	midDown = true;
 	this->midIsDown = true;
 	mouseEvent m(mouseEvent::EventType::MPress, x, y);
 	mouseBuffer.push(m);
@@ -143,9 +161,29 @@ void Mouse::activateMouse(bool activate)
 	mouse_active = activate;
 }
 
+void Mouse::clear()
+{
+	leaftDown = rightDown = midDown = false;
+}
+
+void Mouse::clearEventBuffer()
+{
+	while (!this->mouseBuffer.empty()) {
+		this->mouseBuffer.pop();
+	}
+}
+void Mouse::set_captureEvent(bool status)
+{
+	this->captureEvent = status;
+}
+
+
 void Mouse::onMouseMoveRaw(int x, int y)
 {
-	this->mouseBuffer.push(mouseEvent(mouseEvent::EventType::RAW_MOVE, x, y));
+	if (this->captureEvent) {
+
+		this->mouseBuffer.push(mouseEvent(mouseEvent::EventType::RAW_MOVE, x, y));
+	}
 }
 
 /*Mouse event*/

@@ -3,12 +3,28 @@
 HighScoreGameState::HighScoreGameState(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam):
 	GameState(gfx,rm,imguimanager,mouse,keyboard,cam)
 {
+	//Check if folder exists
+	char* t = new char[100];
+
+	auto size = sizeof(t);
+	_dupenv_s(&t, &size, "APPDATA");
+	std::string path = std::string(t) + "\\void_rush";
+	if (!std::filesystem::exists(path)) {
+		std::filesystem::create_directory(path);
+	}
+	path = path + "\\highscore.txt";
+	if (!std::filesystem::exists(path)) {
+		std::ofstream f(path);
+		f.close();
+	}
+	this->pathToHighScore = path;
+
 	readHighScoreFile();
 	UI = new UIManager(rm, gfx);
 	UI->createUIButton("assets/textures/buttonBack.png", "back", mouse, vec2(-1, 0.8f), vec2(0.2f, 0.2f), "back", vec2(0,0.1f));
-	for (int i = 0; i < 5; i++) {
-		UI->createUIString(scores[i], vec2(-0.9f, 0.5f - i * 0.2f),vec2(0.09f,0.1f));
-		UI->createUIString(seeds[i], vec2(-0.9f, 0.45f - i * 0.2f), vec2(0.03f, 0.03f));
+	for (int i = 0; i < numberOfHighScore; i++) {
+		UI->createUIString(scores[i], vec2(-0.7f, 0.88f - i * 0.2f),vec2(0.09f,0.1f));
+		UI->createUIString(seeds[i], vec2(-0.7f, 0.83f - i * 0.2f), vec2(0.03f, 0.03f));
 	}
 	std::string skyboxTextures[6] = {
 	"assets/textures/Skybox/posx.png",//x+
@@ -77,11 +93,15 @@ void HighScoreGameState::readHighScoreFile()
 	int i, numberOfScores;
 	i = 0;
 	numberOfScores = 0;
-	std::ifstream highscoreFile("assets/files/highScores.txt");
+	//std::ifstream highscoreFile("assets/files/highScores.txt");
+	std::ifstream highscoreFile(this->pathToHighScore);
 	if (highscoreFile.is_open()) {
 		if (std::getline(highscoreFile, line)) {
 			//we assume first is a int
 			numberOfScores = std::atoi(line.c_str());
+		}
+		if (numberOfScores > numberOfHighScore) {
+			numberOfScores = numberOfHighScore;
 		}
 		while (std::getline(highscoreFile, line) && i < numberOfScores)
 		{

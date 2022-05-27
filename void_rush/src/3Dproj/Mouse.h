@@ -29,12 +29,13 @@ private:
 	EventType type;
 	int x;
 	int y;
+	
 public:
 	mouseEvent();
 	mouseEvent(const EventType type, const int x, const int y);
 	bool IsValid();
 	EventType getType() const;
-	MousePoint getPos() const;
+	MousePoint getPos() const;	
 	int getPosX() const;
 	int getPosY() const;
 };
@@ -47,6 +48,11 @@ public:
 	bool IsLeftDown();
 	bool isMiddleDown();
 	bool isRightDown();
+
+	bool isLeftPressed();
+	bool isMiddlePressed();
+	bool isRightPressed();
+	
 	MousePoint getPos();
 	int getPosX();
 	int getPosY();
@@ -67,13 +73,17 @@ public:
 	void onWheelDown(int x, int y);
 	void onMouseMove(int x, int y);
 	void activateMouse(bool activate);
-	
+	void clear();
+	void clearEventBuffer(); //Do this before game start...	
+	void set_captureEvent(bool status);
 private:
 	bool mouse_active;
 	bool once;
 	int x, y;
 	bool leaftIsDown, rightIsDown, midIsDown;
+	bool leaftDown, rightDown, midDown;
 	float mouseSense;
+	bool captureEvent = true;
 	std::queue<mouseEvent>mouseBuffer;
 };
 

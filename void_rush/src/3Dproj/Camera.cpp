@@ -16,6 +16,9 @@ Camera::Camera(Graphics *&gfx, Mouse* mouse, vec3 pos, vec3 rot)
 	this->yCamRot = rot.y;
 	this->zCamRot = rot.z;
 	this->calcFURVectors();
+
+	this->shakeTimerOrig = 0.01f;
+	resetShake();
 }
 
 Camera::~Camera()
@@ -50,6 +53,11 @@ void Camera::updateCamera(float dt)
 	//just add it to the pixel shader
 	movement();
 	Vcbd->view.element = viewMatrix;
+
+	//ScreenShake
+	if (shake) {
+		shakeScreen(dt);
+	}
 
 }
 
@@ -147,6 +155,15 @@ void Camera::movePos(vec3 move)
 	zCamPos += move.z;
 }
 
+void Camera::screenShake(float magnitude)
+{
+	this->shake = true;
+	this->magnitude = magnitude/100;
+	this->randomShake = (float)(rand() % 2);
+	if (this->randomShake == 0)
+		this->randomShake = -1;
+}
+
 void Camera::setData(float FOVRadians, float viewRatio, float nearDist, float farDist)
 {
 	this->ratio = viewRatio;
@@ -175,47 +192,49 @@ void Camera::movement()
 
 void Camera::handleEvent(float dt)
 {
-	//handle this event in player
-	translation = DirectX::XMFLOAT3(0, 0, 0);
-	//movement
-	if (getkey('W')) {
-		translation = DirectX::XMFLOAT3(0, 0, -(float)dt);
-		Translate(dt);
+
+}
+
+void Camera::shakeScreen(float dt)
+{
+	if (shakeTimer > 0) {
+		shakeTimer -= dt;
+		return;
 	}
-	if (getkey('D')) {
-		translation = DirectX::XMFLOAT3(-(float)dt, 0, 0);
-		Translate(dt);
-	}
-	if (getkey('S')) {
-		translation = DirectX::XMFLOAT3(0, 0, (float)dt);
-		Translate(dt);
-	}
-	if (getkey('A')) {
-		translation = DirectX::XMFLOAT3((float)dt, 0, 0);
-		Translate(dt);
-	}
-	if (GetKeyState(VK_SPACE) & 0x8000) {
-		yCamPos += movementspeed * (float)dt;
-	}
-	if (GetKeyState(VK_SHIFT) & 0x8000) {
-		yCamPos -= movementspeed * (float)dt;
-	}
-	
-	//rot
-	if (!mouse->getMouseActive()) {
-		if (GetKeyState(VK_RIGHT) & 0x8000) {
-			xCamRot += mouseSensitivity * (float)dt;
-		}
-		if (GetKeyState(VK_LEFT) & 0x8000) {
-			xCamRot -= mouseSensitivity * (float)dt;
-		}
-		if (GetKeyState(VK_UP) & 0x8000) {
-			yCamRot += mouseSensitivity * (float)dt;
-		}
-		if (GetKeyState(VK_DOWN) & 0x8000) {
-			yCamRot -= mouseSensitivity * (float)dt;
+	resetShakeTimer();
+	if (this->shakeCounter > 0) {
+		switch (shakeCounter--)
+		{
+		case 1://Left
+			this->xCamRot -= this->magnitude * randomShake;
+			break;
+		case 2://Right
+			this->xCamRot += this->magnitude * randomShake;
+			break;
+		case 3://Up
+			this->yCamRot += this->magnitude * randomShake;
+			break;
+		case 4://Down
+			this->yCamRot -= this->magnitude * randomShake;
+			break;
 		}
 	}
+	else {
+		resetShake();
+	}
+}
+
+void Camera::resetShake()
+{
+	this->shakeCounter = 4;
+	resetShakeTimer();
+	this->magnitude = 1.0f;
+	this->shake = false;
+}
+
+void Camera::resetShakeTimer()
+{
+	this->shakeTimer = this->shakeTimerOrig;
 }
 
 void Camera::Translate(float dt)

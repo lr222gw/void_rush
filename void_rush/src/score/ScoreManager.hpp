@@ -3,6 +3,7 @@
 #include <fstream>
 #include "generation/Position_generator.hpp"//To use difficulty
 #include "hud/Hud.h"
+#define USE_APPDATA
 
 class ScoreManager {
 public:
@@ -23,9 +24,17 @@ public:
 	void Reset();
 
 	void SetHUD(Hud*& hud);
+#ifdef USE_APPDATA
+	void WriteScore(std::string name, std::string file);
+#else 
 	void WriteScore(std::string name, std::string file = "assets/files/highScores.txt");
+#endif
 private:
+#ifdef USE_APPDATA
+	void SortScores(std::string file);
+#else 
 	void SortScores(std::string file = "assets/files/highScores.txt");
+#endif
 	float levelTime;
 	float levelLength;
 	Difficulity levelDifficulty;
@@ -39,5 +48,5 @@ private:
 	const float levelPoints = 1000.0f;//Points given when level is done (Depends on how fast the player is)
 	const float deathPoints = -50.0f;//Points given when player looses a life
 
-	const int maxScores = 5;
+	const int maxScores = 100;
 };

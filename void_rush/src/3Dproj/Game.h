@@ -8,10 +8,15 @@
 #include "BillBoardManager.h"
 #include "hud/Hud.h"
 #include "3DLettersHandler.h"
+#include "powerups/powerUpManager.hpp"
+#include "enemies/EnemyManager.hpp"
+
+#include <cinttypes>
+#include <filesystem>
 
 class Game : public GameState {
 public:
-	Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam, int seed = -1);
+	Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam, GameStateRet extra);
 	virtual ~Game();
 	//very important that they are done in order
 	virtual void handleEvents();//this first
@@ -20,22 +25,28 @@ public:
 	virtual void render();		//then this 
 private:
 	Letters3D* text;
-
+	std::string pathToHighScore;
+	void UpdatePauseMenuButtons();
 	void updateShaders(bool vs = true, bool ps = true);
 	bool pauseMenu;
 	float testTime = 0.0f;
+	float deltaT = 0.0f;
+	int start_seed;
 	ProtoPuzzle* puzzleManager;
 	ShadowMap* shadowMap;
 	SkyBox* skybox;
 	SoundManager soundManager;
 	UIManager* UI;
 	UIManager* pauseUI;
-	Player* player;
-	std::vector<Powerups*> powers;
-	Ghost* ghost;
+	Player* player;	
+		 
+
+	Ghost* ghost;	
 	GameObjectManager* GameObjManager;
 	Generation_manager* generationManager;
 	CollisionHandler collisionHandler;
+	PowerupManager* powerupManager;
+	EnemyManager* enemyManager;
 	Hud* HUD;
 	int testInt = 0;
 	float distanceFromStartPosToPuzzle = 0.0f;
@@ -46,19 +57,20 @@ private:
 	void DrawToBuffer();
 
 	/*set up things*/
-	void setUpObject();
+	void setUpObject(GameStateRet extra);
 	void setUpLights();
 	void setUpParticles();
 	void setUpUI();
 	void setUpSound();
-	void setUpPowerups(int chosenDiff, vec3 pos);
 	void Interact(std::vector<GameObject*>& interactables);
 	void SetName();
 
 	//game objects
 	Light** light;
-	std::vector<GameObject*> LightVisualizers;
 	std::vector<BillBoardGroup*> billboardGroups;
+
+	//Menu buttons vars
+	vec2 buttonSize, continuePos, menuPos;
 
 
 	//var

@@ -1,8 +1,14 @@
 #include "CollisionHandler.h"
+#include "puzzle/Portal.h"
 
 CollisionHandler::CollisionHandler()
-	:lastCollided_ShapePlatform(nullptr)
+	:lastCollided_ShapePlatform(nullptr),player(nullptr),Pearl(nullptr)
 {
+}
+
+void CollisionHandler::addPortal(portal_pair portalPair)
+{
+	this->portals.push_back(portalPair);
 }
 
 void CollisionHandler::addPlatform(GameObject* platform)
@@ -28,6 +34,11 @@ void CollisionHandler::addEnemies(Enemy* enemies)
 void CollisionHandler::addObstacle(GameObject* Obstacle)
 {
 	this->Obstacle.push_back(Obstacle);
+}
+
+void CollisionHandler::addPearl(GameObject* pearl)
+{
+	this->Pearl = pearl;
 }
 
 void CollisionHandler::addPowerups(Powerups* powerups)
@@ -80,6 +91,15 @@ void CollisionHandler::deletePowerups(Powerups* ptr)
 	}
 }
 
+void CollisionHandler::deletePortals(GameObject* ptr)
+{
+	for (size_t i = 0; i < portals.size(); i++) {
+		if (portals[i].portal == ptr) {
+			portals.erase(std::next(portals.begin(), i));
+		}
+	}
+}
+
 void CollisionHandler::update()
 {
 	//check player with Custom platforms (Pussels and other(?) handmade)
@@ -94,7 +114,7 @@ void CollisionHandler::update()
 		{
 			done = true;
 
-			if (player->getGroundedTimer() > 0.5f)
+			if (player->getGroundedTimer() > 0.01f)
 			{
 				player->setGrounded();
 			}
@@ -118,28 +138,23 @@ void CollisionHandler::update()
 		
 		for (size_t j = 0; j < Generated_Platforms[i]->bounding_boxes.size()&& !done; j++ ) {
 
-			DirectX::XMVECTOR min_max_vec[2] = {
-				{Generated_Platforms[i]->bounding_boxes[j].first.x,
-				Generated_Platforms[i]->bounding_boxes[j].first.y,
-				Generated_Platforms[i]->bounding_boxes[j].first.z,
-				1.f},
-				{Generated_Platforms[i]->bounding_boxes[j].second.x,
-				Generated_Platforms[i]->bounding_boxes[j].second.y,
-				Generated_Platforms[i]->bounding_boxes[j].second.z,
-				1.f}
-			};
-
 			DirectX::XMFLOAT4 min_max_bounds[2]{};
 			
-			DirectX::XMStoreFloat4(&min_max_bounds[0], min_max_vec[0]);
-			DirectX::XMStoreFloat4(&min_max_bounds[1], min_max_vec[1]);
+			min_max_bounds[0] = {Generated_Platforms[i]->bounding_boxes[j].first.x,
+				Generated_Platforms[i]->bounding_boxes[j].first.y,
+				Generated_Platforms[i]->bounding_boxes[j].first.z,
+				1.f};
+			min_max_bounds[1] = { Generated_Platforms[i]->bounding_boxes[j].second.x,
+				Generated_Platforms[i]->bounding_boxes[j].second.y,
+				Generated_Platforms[i]->bounding_boxes[j].second.z,
+				1.f };
 
 			
 			if (!done && collision3D(player_bounding_box, min_max_bounds))
 			{
 				done = true;
 				this->lastCollided_ShapePlatform = Generated_Platforms[i];
-				if (player->getGroundedTimer() > 0.5f )
+				if (player->getGroundedTimer() > 0.01f )
 				{
 					player->setGrounded();
 				}
@@ -165,9 +180,20 @@ void CollisionHandler::update()
 
 	//check player with enemies // different things happens based on what enemy it is
 	for (size_t i = 0; i < Enemies.size(); i++) {
+		
 		if (collision3D(player->getPlayerObjPointer(), Enemies[i])) {
+			Enemies[i]->collidedWithPlayer();			
+		}
+		else if (collision3D(player->getPlayerObjPointer(), Enemies[i], true, false)) {
 			Enemies[i]->collidedWithPlayer();
 		}
+		Enemies[i]->getBoundingBox(bb);
+		obj.highPoint = vec3(bb[1].x, bb[1].y, bb[1].z);
+		obj.lowPoint = vec3(bb[0].x, bb[0].y, bb[0].z);
+		if (collision3D(player->getFallCube(), obj)) {
+			player->ResetFallBoxTimer();
+		}
+		
 	}
 	
 	//check player with Obstacle // different things happens based on what Obstacle it is
@@ -178,23 +204,79 @@ void CollisionHandler::update()
 	//check enemies with platform
 	for (size_t i = 0; i < Enemies.size(); i++) {
 		for (size_t o = i; o < Custom_platforms.size(); o++) {
-
+			//check if projectile hit platform if it does disapear
 		}
 	}
+
+	//check palyer collision with portal
+	done = false;
+	for (size_t i = 0; i < portals.size(); i++) {
+		for (size_t o = i; o < portals.size(); o++) {
+
+			if (!done && collision3D(player->getPlayerObjPointer(), portals[i].portal, true, false))
+			{
+				done = true;
+ 				portals[i].portalManager->InteractPortal(player->getPos(), player->GetForwardVec(), true);
+								
+				//this->deletePortals(portals[i].portal);
+				
+			}
+		}
+	}
+
 
 	//check enemies with Obstacle // don't know what happens here
-	for (size_t i = 0; i < Enemies.size(); i++) {
-		for (size_t o = i; o < Obstacle.size(); o++) {
-
-		}
-	}
+	//for (size_t i = 0; i < Enemies.size(); i++) {
+	//	for (size_t o = i; o < Obstacle.size(); o++) {
+	//
+	//	}
+	//}
 
 	for (size_t i = 0; i < powerups.size(); i++)
 	{
 		if (collision3D(player->getPlayerObjPointer(), powerups[i]))
 		{
 			player->pickedUpPower(powerups[i]->getPowerUpIndex());
+			//TODO: powerUP begone (no draw)
 			powerups[i]->setPos(vec3(1000.f, 1000.f, 1000.f));
+			powerups[i]->setWannaDraw(false);
+			powerups[i]->setPickedUp(true);
+		}
+	}
+
+	if (player->getPearlStatus())
+	{
+		done = false;
+		DirectX::XMFLOAT4 pearl_bounding_box[2];
+		player->GetPearl()->getBoundingBoxFromObject(pearl_bounding_box);
+		for (size_t i = 0; i < Generated_Platforms.size() && !done; i++) {
+
+			for (size_t j = 0; j < Generated_Platforms[i]->bounding_boxes.size() && !done; j++) {
+
+				DirectX::XMFLOAT4 min_max_bounds[2]{};
+
+				min_max_bounds[0] = { Generated_Platforms[i]->bounding_boxes[j].first.x,
+					Generated_Platforms[i]->bounding_boxes[j].first.y,
+					Generated_Platforms[i]->bounding_boxes[j].first.z,
+					1.f };
+				min_max_bounds[1] = { Generated_Platforms[i]->bounding_boxes[j].second.x,
+					Generated_Platforms[i]->bounding_boxes[j].second.y,
+					Generated_Platforms[i]->bounding_boxes[j].second.z,
+					1.f };
+
+				if (!done && collision3D(pearl_bounding_box, min_max_bounds))
+				{
+					done = true;
+					player->PearlHit();
+				}
+			}
+		}
+		for (size_t i = 0; i < Custom_platforms.size(); i++) {
+			if (!done && collision3D(player->GetPearl(), Custom_platforms[i], true, false))
+			{
+				done = true;
+				player->PearlHit();
+			}
 		}
 	}
 }

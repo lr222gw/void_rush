@@ -59,7 +59,7 @@ void UIManager::createUIButton(std::string rmsprite, std::string str, Mouse* mou
 	if (name != "") {
 		mapOfButtons.insert(std::make_pair(name, buttons[buttons.size() - 1]));
 	}
-	this->strings.push_back(new UIString(gfx, str, pos + pos_offset, (size / (float)str.size()) + size_offset));
+	strings.push_back(new UIString(gfx, str, pos + pos_offset, (size / (float)str.size()) + size_offset));
 	if (name != "") {
 		mapOfString.insert(std::make_pair(name, strings[strings.size() - 1]));
 	}
@@ -160,13 +160,16 @@ void UIManager::deleteString(std::string name)
 {
 	std::map<std::string, UIString*>::iterator it;
 	it = mapOfString.find(name);
+	if (it == mapOfString.end()) {
+		return;
+	}
 	for (int i = 0; i < strings.size(); i++) {
 		if (strings[i] == it->second) {
 			strings.erase(std::next(strings.begin(), i));
 		}
 	}
-	delete it->second;
-	mapOfString.erase(it);
+		delete it->second;
+		mapOfString.erase(it);
 }
 
 void UIManager::deleteButton(std::string name)
@@ -230,8 +233,7 @@ void UIManager::init(Graphics*& gfx)
 		UIVertex(1,1,1,0)
 	};
 	ID3D11Texture2D* tex;
-	//if (!CreateTexture("assets/textures/Fonts/ExportedFont.bmp", gfx->getDevice(), tex, font)) {
-	if (!CreateTexture("assets/textures/Fonts/TheFont.png", gfx->getDevice(), tex, font)) {
+	if (!CreateTexture("assets/textures/Fonts/CustomFont3.png", gfx->getDevice(), tex, font)) {
 		std::cout << "error cannot load font" << std::endl;
 	}
 

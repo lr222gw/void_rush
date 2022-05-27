@@ -321,11 +321,13 @@
     <ClCompile Include="src\3Dproj\CollisionHandler.cpp" />
     <ClCompile Include="src\3Dproj\Enemy.cpp" />
     <ClCompile Include="src\3Dproj\GameObjectManager.cpp" />
-    <ClCompile Include="src\3Dproj\Ghost.cpp" />
+    <ClCompile Include="src\enemies\EnemyManager.cpp" />
+    <ClCompile Include="src\enemies\FallingPlatform.cpp" />
+    <ClCompile Include="src\enemies\Ghost.cpp" />
     <ClCompile Include="src\3Dproj\GameState.cpp" />
     <ClCompile Include="src\3Dproj\Menu.cpp" />
-    <ClCompile Include="src\3Dproj\Powerups.cpp" />
-    <ClCompile Include="src\3Dproj\Projectile.cpp" />
+    <ClCompile Include="src\powerups\Powerups.cpp" />
+    <ClCompile Include="src\enemies\Projectile.cpp" />
     <ClCompile Include="src\3Dproj\UIButton.cpp" />
     <ClCompile Include="src\3Dproj\UIElements.cpp" />
     <ClCompile Include="src\3Dproj\UIManager.cpp" />
@@ -336,7 +338,6 @@
     <ClCompile Include="src\common\Helper.cpp" />
     <ClCompile Include="src\common\Shape.cpp" />
     <ClCompile Include="src\common\Shape_exporter.cpp" />
-    <ClCompile Include="src\common\Vector.cpp" />
     <ClCompile Include="src\generation\Player_jump_checker.cpp" />
     <ClCompile Include="src\generation\Position_generator.cpp" />
     <ClCompile Include="src\generation\Generation_manager.cpp" />
@@ -345,8 +346,10 @@
     <ClCompile Include="src\hud\Hud.cpp" />
     <ClCompile Include="src\interact\interact.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\enemies\Mushroom.cpp" />
     <ClCompile Include="src\physics\jump.cpp" />
     <ClCompile Include="src\physics\proto.cpp" />
+    <ClCompile Include="src\powerups\powerUpManager.cpp" />
     <ClCompile Include="src\puzzle\Portal.cpp" />
     <ClCompile Include="src\puzzle\protoPuzzle.cpp" />
     <ClCompile Include="src\puzzle\puzzle.cpp" />
@@ -355,11 +358,18 @@
     <ClCompile Include="src\puzzle\puzzle_memory.cpp" />
     <ClCompile Include="src\puzzle\puzzle_move.cpp" />
     <ClCompile Include="src\score\ScoreManager.cpp" />
-    <ClCompile Include="src\Turret.cpp" />
+    <ClCompile Include="src\enemies\Snare.cpp" />
+    <ClCompile Include="src\enemies\Spikes.cpp" />
+    <ClCompile Include="src\enemies\Turret.cpp" />
+    <ClCompile Include="src\settings.cpp" />
+    <ClCompile Include="src\SettingsScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\3Dproj\Powerups.h" />
-    <ClInclude Include="src\3Dproj\Projectile.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\enemies\EnemySettings.hpp" />
+    <ClInclude Include="src\enemies\FallingPlatform.h" />
+    <ClInclude Include="src\powerups\Powerups.h" />
+    <ClInclude Include="src\enemies\Projectile.h" />
     <ClInclude Include="src\common\Shape_exporter.hpp" />
     <ClInclude Include="src/3Dproj/BillBoard.h" />
     <ClInclude Include="src/3Dproj/BillBoardManager.h" />
@@ -413,9 +423,9 @@
     <ClInclude Include="src\3Dproj\App.h" />
     <ClInclude Include="src\3Dproj\Collision3D.h" />
     <ClInclude Include="src\3Dproj\CollisionHandler.h" />
-    <ClInclude Include="src\3Dproj\Enemy.h" />
+    <ClInclude Include="src\enemies\Enemy.h" />
     <ClInclude Include="src\3Dproj\GameObjectManager.h" />
-    <ClInclude Include="src\3Dproj\Ghost.h" />
+    <ClInclude Include="src\enemies\Ghost.h" />
     <ClInclude Include="src\3Dproj\Menu.h" />
     <ClInclude Include="src\3Dproj\Player.h" />
     <ClInclude Include="src\3Dproj\GameState.h" />
@@ -426,17 +436,21 @@
     <ClInclude Include="src\3Dproj\UIString.h" />
     <ClInclude Include="src\3Dproj\UISymbols.h" />
     <ClInclude Include="src\common\Helper.hpp" />
-    <ClInclude Include="src\common\Matrix.hpp" />
     <ClInclude Include="src\common\Shape.hpp" />
-    <ClInclude Include="src\common\Vector.hpp" />
+    <ClInclude Include="src\enemies\EnemyManager.hpp" />
     <ClInclude Include="src\generation\Position_generator.hpp" />
     <ClInclude Include="src\generation\Generation_manager.hpp" />
     <ClInclude Include="src\generation\Platform.hpp" />
     <ClInclude Include="src\generation\Player_jump_checker.hpp" />
     <ClInclude Include="src\HighScoreGameState.h" />
     <ClInclude Include="src\hud\Hud.h" />
+    <ClInclude Include="src\enemies\Mushroom.h" />
     <ClInclude Include="src\physics\Jump.hpp" />
     <ClInclude Include="src\physics\proto.hpp" />
+    <ClInclude Include="src\Platform.h" />
+    <ClInclude Include="src\playerGen.h" />
+    <ClInclude Include="src\powerups\PowerUpDefs.hpp" />
+    <ClInclude Include="src\powerups\powerUpManager.hpp" />
     <ClInclude Include="src\puzzle\Portal.h" />
     <ClInclude Include="src\puzzle\protoPuzzle.hpp" />
     <ClInclude Include="src\puzzle\puzzle.hpp" />
@@ -445,8 +459,12 @@
     <ClInclude Include="src\puzzle\puzzle_memory.hpp" />
     <ClInclude Include="src\puzzle\puzzle_move.hpp" />
     <ClInclude Include="src\score\ScoreManager.hpp" />
-    <ClInclude Include="src\Turret.h" />
+    <ClInclude Include="src\enemies\Snare.h" />
+    <ClInclude Include="src\enemies\Spikes.h" />
+    <ClInclude Include="src\enemies\Turret.h" />
     <ClInclude Include="src\interact\interact.hpp" />
+    <ClInclude Include="src\settings.h" />
+    <ClInclude Include="src\SettingsScene.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="NoShadowPS.hlsl">
@@ -590,6 +608,12 @@
   <ItemGroup>
     <None Include="src/3Dproj/MVP.hlsli" />
     <None Include="src/3Dproj/Transforms.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="void_rush.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\assets\void-rush.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,6 +2,7 @@
 #include "SoundManager.h"
 #include "GameState.h"
 #include "ShadowMap.h"
+#include <cinttypes>
 
 class Menu : public GameState {
 public:

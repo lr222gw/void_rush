@@ -1,7 +1,11 @@
 #pragma once
 #include "Player.h"
-#include "Turret.h"
-#include "Ghost.h"
+#include "enemies/Turret.h"
+#include "enemies/Ghost.h"
+#include "enemies/Spikes.h"
+#include "enemies/Snare.h"
+#include "enemies/Mushroom.h"
+#include "enemies/FallingPlatform.h"
 #include <map>
 #include "ResourceManager.h"
 #include "Light.h"
@@ -15,7 +19,7 @@ public:
 	//cannot remove a object that ha
 	void removeGameObject(std::string name, bool del = true);
 	void CreateGameObject(std::string modelFile, std::string name = "", vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
-	void CreateEnemy(Player* player, enemyType typeofEnemy, SoundManager& sm, std::string modelFile = "", std::string name = "", vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1));
+	void CreateEnemy(Player* player, enemyType typeofEnemy, SoundManager& sm, std::string modelFile = "", std::string name = "", vec3 pos = vec3(0, 0, 0), vec3 rot = vec3(0, 0, 0), vec3 scale = vec3(1, 1, 1), bool moving = false);
 	std::vector<GameObject*>& getAllGameObjects();
 	std::vector<GameObject*>& getAllInteractGameObjects();
 	void update(float dt);

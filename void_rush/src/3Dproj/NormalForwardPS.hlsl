@@ -51,11 +51,11 @@ float4 main(PixelShaderInput input) : SV_TARGET
         {
             attenuation = Attenuate(1, 1 / lightColor[i].w, 0.001f, dist);
         }
-        if (lightPos[i].w == 2 ||
+        if (lightPos[i].w == 2 && lightColor[i].w < dist * dist * 10 ||
             SM.r > shadowMapCoords.z - bias &&
             shadowMapCoords.z <= 1.0f && //E
-            shadowMapCoords.x < 1 && shadowMapCoords.x > 0 &&
-            shadowMapCoords.y < 1 && shadowMapCoords.y > 0 &&
+            //shadowMapCoords.x < 1 && shadowMapCoords.x > 0 &&
+            //shadowMapCoords.y < 1 && shadowMapCoords.y > 0 &&
             dot(input.normal, lightDir) > -0.2f
             )
         {
@@ -75,7 +75,8 @@ float4 main(PixelShaderInput input) : SV_TARGET
         else
         {
             //we are in shadow
-            FinalPixel += float4((ka.xyz) * attenuation, 0);
+            FinalPixel += float4(ambient_light * attenuation, 0);
+            
         }
     }
     //return float4(FinalPixel.xyz, 1);
