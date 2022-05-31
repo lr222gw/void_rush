@@ -456,8 +456,6 @@ void Game::setUpUI()
 
 void Game::setUpSound()
 {
-	soundManager.loadSound("assets/audio/ah.wav", 5, "ah1");
-	soundManager.loadSound("assets/audio/Goat.wav", 5, "Goat");
 	soundManager.loadSound("assets/audio/Portal7.wav", 10, "Portal");
 	soundManager.loadSound("assets/audio/Powerup6.wav", 10, "Pickup");
 	soundManager.loadSound("assets/audio/Jump4.wav", 3, "Jump");
@@ -472,7 +470,6 @@ void Game::setUpSound()
 	soundManager.loadSound("assets/audio/Powerup7.wav", 10, "GoldApple");
 	soundManager.loadSound("assets/audio/Freeze1.wav", 10, "Freeze");
 	soundManager.loadSound("assets/audio/Rocket.wav", 30, "Rocket");
-	soundManager.loadSound("assets/audio/EMP2.wav", 10, "EMP");
 	soundManager.loadSound("assets/audio/Pearl2.wav", 10, "Pearl");
 	soundManager.loadSound("assets/audio/Jump2.wav", 10, "Pad");
 	soundManager.loadSound("assets/audio/Feather1.wav", 10, "Feather");
