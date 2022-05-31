@@ -165,8 +165,15 @@ void SettingsScene::readSettings()
 		sett.volume = 1;
 		sett.resolution = 4;
 		sett.mouseSence = 0.6f;
+		sett.fullscreen = true;
+		//Saving settings
+		std::ofstream output(this->pathToSettingsFile, std::ios::out | std::ios::binary);
+		output.write((char*)&sett, sizeof(sett));
+		output.close();
 	}
-	input.read((char*)&sett, sizeof(sett));
+	else {
+		input.read((char*)&sett, sizeof(sett)); sett.fullscreen = true;
+	}
 	input.close();
 	settingsSingleTon::GetInst().setSettings(sett);
 }

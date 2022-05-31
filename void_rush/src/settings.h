@@ -41,6 +41,16 @@ private:
 		path = path + "\\Setting.data";
 		if (!std::filesystem::exists(path)) {
 			std::ofstream f(path);
+			
+			sett.volume = 1;
+			sett.resolution = 4;
+			sett.mouseSence = 0.6f;
+			sett.fullscreen = true;
+			//Saving settings
+			std::ofstream output(path, std::ios::out | std::ios::binary);
+			output.write((char*)&sett, sizeof(sett));
+			output.close();
+
 			f.close();
 		}
 		this->pathToSettingsFile = path;
