@@ -39,12 +39,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_04BD69B37B994DDC812E46AF6E0B48D1"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_05B1C968D66A4E2EBBF88DAAA7AB6D8E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -81,12 +75,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_09E9FDA8BB0B45D6A8CCCA8F0E8BC0A8"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_0A70B8C2E56E4E7588449A3E486C58B1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -100,12 +88,6 @@
         "Entry"
         {
         "MsmKey" = "8:_0A76B4DAED9F4D749A1C2D9BD23B87A8"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0BB758C486F7491689615FB3D4E00768"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -129,12 +111,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_0DB8B07055BE407FB227AF5854EA33A5"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_0EC29879987A4AECB01CD891A69C3DD1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -142,12 +118,6 @@
         "Entry"
         {
         "MsmKey" = "8:_0EE368B9B38B4C5089CF9C6AF1992D57"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0F704FDACD214205BD5744F210420097"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -184,12 +154,6 @@
         "Entry"
         {
         "MsmKey" = "8:_179B503ECD5C4997BDAB8D96F9E28FE4"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_181771EE7DDD48C38D1827E877868BB0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -286,24 +250,6 @@
         "Entry"
         {
         "MsmKey" = "8:_2083FF08756842F095DFF908D31E1686"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_20AFE2A3E5814A03B03E815F2C1204DC"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_213340EF9ABA42DF973660B6A9A081E5"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2200156C781141F9BF7E6C46DDE62002"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -471,12 +417,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_433DD07CA9474DBF8FE14F41334911DF"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_441B6B6697264704AD6DE3921C3CF72D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -525,24 +465,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_4D2F8EFFAB9D49EBAE799346C1DBA959"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_4D352A4598D54085A1950A9AE1C511A8"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_4D3A92260A944D73858E7FA91DAED4C8"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_4D97E5F0D754483BBF1FF375D29650BC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -573,12 +495,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5241195DC61644BBB6387560485087A6"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_5407E3625198425795BB4A8BA299063D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -597,19 +513,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_562C0342BD7C420DAE12D7ADAEDF1528"
+        "MsmKey" = "8:_587B0DDCE3DD43BDBACA070F3B90A2C2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_58D42E3D092F4F9ABEE106E48A25C3E2"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_59044D153A9C40AFA5852CB04A69ADDA"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -657,25 +567,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5EFD3C3271F54C3DABABD3B7723BE239"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5F40C64C63F342908627E68D510B11F6"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_5F5E169CEF8046C18714FD403F1659C9"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5F993644DC3D499F873E83F0B28A7F6A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -688,12 +580,6 @@
         "Entry"
         {
         "MsmKey" = "8:_6198A7651B9B45DD9A73132A94BD1D45"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_62D2D33D114143ADAB5F615A4528A47D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -873,12 +759,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_772FC9199673444A89FC9899720D8150"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_7757E5A6DB4B4DAF8A570191D4EC84C3"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -916,12 +796,6 @@
         "Entry"
         {
         "MsmKey" = "8:_7AAF32907F8D4DC4B257720999F527AA"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7AC88E5AC52442B1B7739E4EBDD1C019"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1047,13 +921,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_8B56DBBA3FA5417082965BC137617A60"
+        "MsmKey" = "8:_8B61E149758049CAB762BC7A11674E7E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_8B61E149758049CAB762BC7A11674E7E"
+        "MsmKey" = "8:_8BE7B17FA9A948FA9654688D9798B2CE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1101,12 +975,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_96536E58418F4864BE6D6569551255C8"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_96EF6D01C2B24F61A922507D81FD1B77"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1119,13 +987,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_982540201BE8459D8F82EC88EE750107"
+        "MsmKey" = "8:_97E4BE2FD8844BE8B4E954D2DBEA03F6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_983373A7F137489786B888218892510C"
+        "MsmKey" = "8:_982540201BE8459D8F82EC88EE750107"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1167,12 +1035,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_9F1F3B7744CB423BB8DBEEE686D4DE4D"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_9F2ADE07AB894BEBBA8FD6CBA78B45A3"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1192,12 +1054,6 @@
         "Entry"
         {
         "MsmKey" = "8:_A009530391964EF0A425DDC9061C075D"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A04C3FFAE6DE4B3282C9D2D6224858C2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1227,24 +1083,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_A40A3EFDA3E9436A94ED55999469D489"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A411EA6F0B9C492085ABFC4DD7034A4C"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A44AF17082C6477B8F1EC4A4A5432E10"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_A476225EA9C34A9086FF91F5B56B9319"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1263,12 +1101,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_A7AF9DBD8C6848238F112875701321E8"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_AA98CA5DB3064E8393BFDC8D836F36E7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1276,12 +1108,6 @@
         "Entry"
         {
         "MsmKey" = "8:_AABF5C8EE2934AE381664D628BC764CC"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AAE64BB03CED4FB6BFA944922B38D526"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1341,25 +1167,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B17B0BD13D1347CB85CDE78C1B6C3318"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_B29AA0921F9C4064B0DFF7A445C60E3C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B50DCB239FBC42BD80F34C71A63A251B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B7183A0539A041B49A5EA8919E266F61"
+        "MsmKey" = "8:_B4A7A22F16204E248DE6BD6EC2B7A59D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1425,12 +1239,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_BDFDFDD1E553423784E9B5E73E7A142C"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_BE2B974FD59A44B2B4AD8D2B2102364A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1450,6 +1258,12 @@
         "Entry"
         {
         "MsmKey" = "8:_C1C02B556E694206887566378FAF2EE5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C331A67D551F468EB849CF740D1759E9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1491,12 +1305,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_CA0978E110AE4562AB25AF2399A3DC0C"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_CAAC0E121361406DBB38A452C96AEFB1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1510,18 +1318,6 @@
         "Entry"
         {
         "MsmKey" = "8:_CB128B5821CE4A10AF67AA6C6504EF93"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CB1AE78C1DE840519C854955B5B12D4F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CBB2CF19F0DF4DFD8D09A10A9A10504E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1623,25 +1419,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_D5CC74CD6899445C8DB095C4C4953BFE"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D5DFC47477EA4AE49D1FAD2658863AAF"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_D66F50DD0B724DFBBC75B1B1A75509AB"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D68307292DD141A385A8B8C6100B75A4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1660,12 +1438,6 @@
         "Entry"
         {
         "MsmKey" = "8:_D84205F27042417CB1C4287A04164A64"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_DB0DF521ED0343D388C63489093E2EF3"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1827,19 +1599,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_EC5BED5D0E884CBE80CE5A21807A661F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_F013CA3966564EF49D29E47B9CD3D2DE"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F0BBFAF4B36345F8A98CFEBC2E6402C6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1887,12 +1647,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F5449B21E5A9484C8EAE18D41003346F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_F60737857E804D829DE715A5A46CA0AA"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1918,12 +1672,6 @@
         "Entry"
         {
         "MsmKey" = "8:_FB40527627514C839E2B640EB4B3ABF4"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FB82D6C4CB5541D396004201EE324815"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1982,6 +1730,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -2116,26 +1872,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_04BD69B37B994DDC812E46AF6E0B48D1"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Portal3.wav"
-            "TargetName" = "8:Portal3.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_05B1C968D66A4E2EBBF88DAAA7AB6D8E"
             {
             "SourcePath" = "8:..\\assets\\obj\\platform.mtl"
@@ -2256,26 +1992,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_09E9FDA8BB0B45D6A8CCCA8F0E8BC0A8"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Jump1.wav"
-            "TargetName" = "8:Jump1.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0A70B8C2E56E4E7588449A3E486C58B1"
             {
             "SourcePath" = "8:..\\assets\\textures\\Skybox\\negy.png"
@@ -2322,26 +2038,6 @@
             "TargetName" = "8:posz.png"
             "Tag" = "8:"
             "Folder" = "8:_31668346C0CF4F2EA6531D9F5228062C"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0BB758C486F7491689615FB3D4E00768"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\More_Plastic-Rewind.wav"
-            "TargetName" = "8:More_Plastic-Rewind.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2416,26 +2112,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0DB8B07055BE407FB227AF5854EA33A5"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Jump3.wav"
-            "TargetName" = "8:Jump3.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0EC29879987A4AECB01CD891A69C3DD1"
             {
             "SourcePath" = "8:..\\assets\\obj\\Number7.mtl"
@@ -2462,26 +2138,6 @@
             "TargetName" = "8:Pearl.obj"
             "Tag" = "8:"
             "Folder" = "8:_CDBC37F1680946FE8170017FFAF77344"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0F704FDACD214205BD5744F210420097"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Goat.wav"
-            "TargetName" = "8:Goat.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2602,26 +2258,6 @@
             "TargetName" = "8:Easy.png"
             "Tag" = "8:"
             "Folder" = "8:_EEC82F6B4F8B4509AC3680691C2CF75D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_181771EE7DDD48C38D1827E877868BB0"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Fall3.wav"
-            "TargetName" = "8:Fall3.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2942,66 +2578,6 @@
             "TargetName" = "8:Hard.png"
             "Tag" = "8:"
             "Folder" = "8:_EEC82F6B4F8B4509AC3680691C2CF75D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_20AFE2A3E5814A03B03E815F2C1204DC"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Correct1.wav"
-            "TargetName" = "8:Correct1.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_213340EF9ABA42DF973660B6A9A081E5"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Powerup3.wav"
-            "TargetName" = "8:Powerup3.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2200156C781141F9BF7E6C46DDE62002"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Portal4.wav"
-            "TargetName" = "8:Portal4.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -3556,26 +3132,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_433DD07CA9474DBF8FE14F41334911DF"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Coin2.wav"
-            "TargetName" = "8:Coin2.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_441B6B6697264704AD6DE3921C3CF72D"
             {
             "SourcePath" = "8:..\\assets\\obj\\Player.mtl"
@@ -3736,66 +3292,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4D2F8EFFAB9D49EBAE799346C1DBA959"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Pearl1.wav"
-            "TargetName" = "8:Pearl1.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4D352A4598D54085A1950A9AE1C511A8"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Shoved3.wav"
-            "TargetName" = "8:Shoved3.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4D3A92260A944D73858E7FA91DAED4C8"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Powerup1.wav"
-            "TargetName" = "8:Powerup1.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4D97E5F0D754483BBF1FF375D29650BC"
             {
             "SourcePath" = "8:..\\assets\\obj\\Number1.obj"
@@ -3896,26 +3392,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5241195DC61644BBB6387560485087A6"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Powerup4.wav"
-            "TargetName" = "8:Powerup4.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5407E3625198425795BB4A8BA299063D"
             {
             "SourcePath" = "8:..\\assets\\textures\\Zelda Heart.png"
@@ -3976,12 +3452,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_562C0342BD7C420DAE12D7ADAEDF1528"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_587B0DDCE3DD43BDBACA070F3B90A2C2"
             {
-            "SourcePath" = "8:..\\assets\\audio\\Portal5.wav"
-            "TargetName" = "8:Portal5.wav"
+            "SourcePath" = "8:..\\assets\\installer_images\\poster.jpg"
+            "TargetName" = "8:poster.jpg"
             "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
+            "Folder" = "8:_3AC5474D10E948758B9A2BEFC8CC5722"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -3992,7 +3468,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
@@ -4002,26 +3478,6 @@
             "TargetName" = "8:p2.png"
             "Tag" = "8:"
             "Folder" = "8:_EEC82F6B4F8B4509AC3680691C2CF75D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_59044D153A9C40AFA5852CB04A69ADDA"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\German.wav"
-            "TargetName" = "8:German.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -4176,72 +3632,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5EFD3C3271F54C3DABABD3B7723BE239"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Pearl3.wav"
-            "TargetName" = "8:Pearl3.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5F40C64C63F342908627E68D510B11F6"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Powerup5.wav"
-            "TargetName" = "8:Powerup5.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5F5E169CEF8046C18714FD403F1659C9"
             {
             "SourcePath" = "8:..\\assets\\textures\\Fonts\\TheFontOld.png"
             "TargetName" = "8:TheFontOld.png"
             "Tag" = "8:"
             "Folder" = "8:_C9950924F1B2447896A90982B6242FF5"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5F993644DC3D499F873E83F0B28A7F6A"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\EMP1.wav"
-            "TargetName" = "8:EMP1.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -4282,26 +3678,6 @@
             "TargetName" = "8:skybox_cube.mtl"
             "Tag" = "8:"
             "Folder" = "8:_CDBC37F1680946FE8170017FFAF77344"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_62D2D33D114143ADAB5F615A4528A47D"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Farts.wav"
-            "TargetName" = "8:Farts.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -4896,26 +4272,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_772FC9199673444A89FC9899720D8150"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\ah.wav"
-            "TargetName" = "8:ah.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7757E5A6DB4B4DAF8A570191D4EC84C3"
             {
             "SourcePath" = "8:..\\assets\\audio\\Shield2.wav"
@@ -5042,26 +4398,6 @@
             "TargetName" = "8:posy.png"
             "Tag" = "8:"
             "Folder" = "8:_31668346C0CF4F2EA6531D9F5228062C"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7AC88E5AC52442B1B7739E4EBDD1C019"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Portal6.wav"
-            "TargetName" = "8:Portal6.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -5476,26 +4812,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8B56DBBA3FA5417082965BC137617A60"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\moh.wav"
-            "TargetName" = "8:moh.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8B61E149758049CAB762BC7A11674E7E"
             {
             "SourcePath" = "8:..\\assets\\Feather.png"
@@ -5513,6 +4829,26 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8BE7B17FA9A948FA9654688D9798B2CE"
+            {
+            "SourcePath" = "8:..\\assets\\installer_images\\poster.png"
+            "TargetName" = "8:poster.png"
+            "Tag" = "8:"
+            "Folder" = "8:_3AC5474D10E948758B9A2BEFC8CC5722"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
@@ -5656,26 +4992,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_96536E58418F4864BE6D6569551255C8"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Fall2.wav"
-            "TargetName" = "8:Fall2.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_96EF6D01C2B24F61A922507D81FD1B77"
             {
             "SourcePath" = "8:..\\assets\\obj\\_ghost.mtl"
@@ -5716,12 +5032,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_982540201BE8459D8F82EC88EE750107"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_97E4BE2FD8844BE8B4E954D2DBEA03F6"
             {
-            "SourcePath" = "8:..\\assets\\textures\\Fonts\\ethnocentric rg.otf"
-            "TargetName" = "8:ethnocentric rg.otf"
+            "SourcePath" = "8:..\\About - Lore and Features.rtf"
+            "TargetName" = "8:About - Lore and Features.rtf"
             "Tag" = "8:"
-            "Folder" = "8:_C9950924F1B2447896A90982B6242FF5"
+            "Folder" = "8:_CD72A64D88CC490187A47F8C827D8D72"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -5736,12 +5052,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_983373A7F137489786B888218892510C"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_982540201BE8459D8F82EC88EE750107"
             {
-            "SourcePath" = "8:..\\assets\\audio\\oh1.wav"
-            "TargetName" = "8:oh1.wav"
+            "SourcePath" = "8:..\\assets\\textures\\Fonts\\ethnocentric rg.otf"
+            "TargetName" = "8:ethnocentric rg.otf"
             "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
+            "Folder" = "8:_C9950924F1B2447896A90982B6242FF5"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -5856,26 +5172,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9F1F3B7744CB423BB8DBEEE686D4DE4D"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Land1.wav"
-            "TargetName" = "8:Land1.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9F2ADE07AB894BEBBA8FD6CBA78B45A3"
             {
             "SourcePath" = "8:..\\assets\\obj\\fbxtest.fbx"
@@ -5942,26 +5238,6 @@
             "TargetName" = "8:Potion.mtl"
             "Tag" = "8:"
             "Folder" = "8:_CDBC37F1680946FE8170017FFAF77344"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A04C3FFAE6DE4B3282C9D2D6224858C2"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Potion3.wav"
-            "TargetName" = "8:Potion3.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -6056,66 +5332,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A40A3EFDA3E9436A94ED55999469D489"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Hit.wav"
-            "TargetName" = "8:Hit.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A411EA6F0B9C492085ABFC4DD7034A4C"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\HeartBeat.wav"
-            "TargetName" = "8:HeartBeat.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A44AF17082C6477B8F1EC4A4A5432E10"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Wrong2.wav"
-            "TargetName" = "8:Wrong2.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A476225EA9C34A9086FF91F5B56B9319"
             {
             "SourcePath" = "8:..\\assets\\obj\\Money.obj"
@@ -6176,26 +5392,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A7AF9DBD8C6848238F112875701321E8"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Shoved1.wav"
-            "TargetName" = "8:Shoved1.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AA98CA5DB3064E8393BFDC8D836F36E7"
             {
             "SourcePath" = "8:..\\assets\\obj\\Rocket.mtl"
@@ -6222,26 +5418,6 @@
             "TargetName" = "8:Number6.png"
             "Tag" = "8:"
             "Folder" = "8:_3AC5474D10E948758B9A2BEFC8CC5722"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AAE64BB03CED4FB6BFA944922B38D526"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\ah2.wav"
-            "TargetName" = "8:ah2.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -6436,26 +5612,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B17B0BD13D1347CB85CDE78C1B6C3318"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Land5.wav"
-            "TargetName" = "8:Land5.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B29AA0921F9C4064B0DFF7A445C60E3C"
             {
             "SourcePath" = "8:..\\assets\\textures\\shield_texture.png"
@@ -6476,12 +5632,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B50DCB239FBC42BD80F34C71A63A251B"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B4A7A22F16204E248DE6BD6EC2B7A59D"
             {
-            "SourcePath" = "8:..\\assets\\audio\\Rumble.wav"
-            "TargetName" = "8:Rumble.wav"
+            "SourcePath" = "8:..\\assets\\installer_images\\poster.jpg"
+            "TargetName" = "8:poster.jpg"
             "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
+            "Folder" = "8:_3AC5474D10E948758B9A2BEFC8CC5722"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -6492,27 +5648,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B7183A0539A041B49A5EA8919E266F61"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Potion2.wav"
-            "TargetName" = "8:Potion2.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
@@ -6716,26 +5852,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BDFDFDD1E553423784E9B5E73E7A142C"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Portal1.wav"
-            "TargetName" = "8:Portal1.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BE2B974FD59A44B2B4AD8D2B2102364A"
             {
             "SourcePath" = "8:..\\assets\\audio\\HeartBeatSimon.wav"
@@ -6802,6 +5918,26 @@
             "TargetName" = "8:TurrettBotTop.png"
             "Tag" = "8:"
             "Folder" = "8:_EEC82F6B4F8B4509AC3680691C2CF75D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C331A67D551F468EB849CF740D1759E9"
+            {
+            "SourcePath" = "8:..\\About - How To Play.rtf"
+            "TargetName" = "8:About - How To Play.rtf"
+            "Tag" = "8:"
+            "Folder" = "8:_CD72A64D88CC490187A47F8C827D8D72"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -6936,26 +6072,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CA0978E110AE4562AB25AF2399A3DC0C"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Wrong1.wav"
-            "TargetName" = "8:Wrong1.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CAAC0E121361406DBB38A452C96AEFB1"
             {
             "SourcePath" = "8:..\\assets\\obj\\Feather.mtl"
@@ -7002,46 +6118,6 @@
             "TargetName" = "8:fallingPlat.png"
             "Tag" = "8:"
             "Folder" = "8:_EEC82F6B4F8B4509AC3680691C2CF75D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CB1AE78C1DE840519C854955B5B12D4F"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Powerup2.wav"
-            "TargetName" = "8:Powerup2.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CBB2CF19F0DF4DFD8D09A10A9A10504E"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Potion4.wav"
-            "TargetName" = "8:Potion4.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -7376,72 +6452,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D5CC74CD6899445C8DB095C4C4953BFE"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Fartsmp3.mp3"
-            "TargetName" = "8:Fartsmp3.mp3"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D5DFC47477EA4AE49D1FAD2658863AAF"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Wrong3.wav"
-            "TargetName" = "8:Wrong3.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D66F50DD0B724DFBBC75B1B1A75509AB"
             {
             "SourcePath" = "8:..\\assets\\textures\\Crosshair.png"
             "TargetName" = "8:Crosshair.png"
             "Tag" = "8:"
             "Folder" = "8:_EEC82F6B4F8B4509AC3680691C2CF75D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D68307292DD141A385A8B8C6100B75A4"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Portal2.wav"
-            "TargetName" = "8:Portal2.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -7502,26 +6518,6 @@
             "TargetName" = "8:backbebap.png"
             "Tag" = "8:"
             "Folder" = "8:_EEC82F6B4F8B4509AC3680691C2CF75D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DB0DF521ED0343D388C63489093E2EF3"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Feather2.wav"
-            "TargetName" = "8:Feather2.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -8056,50 +7052,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EC5BED5D0E884CBE80CE5A21807A661F"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Land3.wav"
-            "TargetName" = "8:Land3.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F013CA3966564EF49D29E47B9CD3D2DE"
             {
             "SourcePath" = "8:..\\assets\\audio\\Freeze1.wav"
             "TargetName" = "8:Freeze1.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F0BBFAF4B36345F8A98CFEBC2E6402C6"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\EMP2.wav"
-            "TargetName" = "8:EMP2.wav"
             "Tag" = "8:"
             "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
             "Condition" = "8:"
@@ -8256,26 +7212,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F5449B21E5A9484C8EAE18D41003346F"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\Land2.wav"
-            "TargetName" = "8:Land2.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F60737857E804D829DE715A5A46CA0AA"
             {
             "SourcePath" = "8:..\\assets\\obj\\DoubleMesh.obj"
@@ -8362,26 +7298,6 @@
             "TargetName" = "8:Gear.png"
             "Tag" = "8:"
             "Folder" = "8:_EEC82F6B4F8B4509AC3680691C2CF75D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FB82D6C4CB5541D396004201EE324815"
-            {
-            "SourcePath" = "8:..\\assets\\audio\\TheWilhelmScream.wav"
-            "TargetName" = "8:TheWilhelmScream.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_4D032BBE224448B8A908E22DEAFCF2A0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -8651,15 +7567,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Void Rush"
-        "ProductCode" = "8:{99801C4E-8E50-400E-A3E4-10454F4865FB}"
-        "PackageCode" = "8:{904A5317-BFF3-412F-BAE1-ECDD304FCEFE}"
+        "ProductCode" = "8:{70171A0D-160A-4C87-9671-B403D2DDE25A}"
+        "PackageCode" = "8:{CF1EAD1A-2CE2-4B8A-B297-7242587D52E1}"
         "UpgradeCode" = "8:{6A6FCDEB-853B-490D-B949-8D2802783B0C}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.1"
         "Manufacturer" = "8:Void Rush Team"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/lr222gw/void_rush"
@@ -8860,8 +7776,8 @@
                             "Type" = "3:3"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
-                            "Setting" = "3:1"
-                            "Value" = "8:#1202"
+                            "Setting" = "3:2"
+                            "Value" = "8:This is not a copyrighted game, the source is available at github."
                             "DefaultValue" = "8:#1202"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -8873,8 +7789,8 @@
                             "Type" = "3:3"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
-                            "Setting" = "3:1"
-                            "Value" = "8:#1203"
+                            "Setting" = "3:2"
+                            "Value" = "8:Install Void Rush! "
                             "DefaultValue" = "8:#1203"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -8913,7 +7829,7 @@
                 {
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_9A0F2CED98A24D649D21E9E18E2210D5"
                     {
-                    "Sequence" = "3:100"
+                    "Sequence" = "3:110"
                     "DisplayName" = "8:Finished"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
@@ -8963,7 +7879,7 @@
                 {
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_AD45E872082F4FE6920CA75B69D72459"
                     {
-                    "Sequence" = "3:100"
+                    "Sequence" = "3:110"
                     "DisplayName" = "8:Progress"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
@@ -9007,7 +7923,7 @@
                 {
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_112550460B954DA58C5C5BC0E67E0FE5"
                     {
-                    "Sequence" = "3:200"
+                    "Sequence" = "3:400"
                     "DisplayName" = "8:Installation Folder"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
@@ -9042,7 +7958,7 @@
                     }
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_1EED5780BCB94DE69E1A0488F559A4B3"
                     {
-                    "Sequence" = "3:100"
+                    "Sequence" = "3:200"
                     "DisplayName" = "8:Welcome"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
@@ -9057,7 +7973,7 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:0"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "CopyrightWarning"
@@ -9068,8 +7984,8 @@
                             "Type" = "3:3"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
-                            "Setting" = "3:1"
-                            "Value" = "8:#1202"
+                            "Setting" = "3:2"
+                            "Value" = "8:This is not a copyrighted game, the source is available at github."
                             "DefaultValue" = "8:#1202"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -9081,8 +7997,8 @@
                             "Type" = "3:3"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
-                            "Setting" = "3:1"
-                            "Value" = "8:#1203"
+                            "Setting" = "3:2"
+                            "Value" = "8:Install Void Rush! Void rush is a game about an intergalactic game show where the participant must jump through a curse and complete a puzzle as fast as possible. The participant can use powerups spread out in the course to get an advantage. Escape the Ghost and get the highest score!"
                             "DefaultValue" = "8:#1203"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -9090,7 +8006,7 @@
                     }
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_2064F8DE34F8472D814FD4ACD9EAE27C"
                     {
-                    "Sequence" = "3:300"
+                    "Sequence" = "3:500"
                     "DisplayName" = "8:Confirm Installation"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
@@ -9106,6 +8022,89 @@
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
                             "Setting" = "3:1"
+                            "UsePlugInResources" = "11:TRUE"
+                            }
+                        }
+                    }
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_9E89333023DE454AB0728A9408CF094F"
+                    {
+                    "Sequence" = "3:100"
+                    "DisplayName" = "8:Splash"
+                    "UseDynamicProperties" = "11:TRUE"
+                    "IsDependency" = "11:FALSE"
+                    "SourcePath" = "8:<VsdDialogDir>\\VsdSplashDlg.wid"
+                        "Properties"
+                        {
+                            "SplashBitmap"
+                            {
+                            "Name" = "8:SplashBitmap"
+                            "DisplayName" = "8:#1013"
+                            "Description" = "8:#1113"
+                            "Type" = "3:8"
+                            "ContextData" = "8:Bitmap"
+                            "Attributes" = "3:0"
+                            "Setting" = "3:2"
+                            "Value" = "8:_587B0DDCE3DD43BDBACA070F3B90A2C2"
+                            "UsePlugInResources" = "11:TRUE"
+                            }
+                            "Sunken"
+                            {
+                            "Name" = "8:Sunken"
+                            "DisplayName" = "8:#1007"
+                            "Description" = "8:#1107"
+                            "Type" = "3:5"
+                            "ContextData" = "8:4;True=4;False=0"
+                            "Attributes" = "3:0"
+                            "Setting" = "3:0"
+                            "Value" = "3:4"
+                            "DefaultValue" = "3:4"
+                            "UsePlugInResources" = "11:TRUE"
+                            }
+                        }
+                    }
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_FCA52A540E58486EB3C730ADB7E1518B"
+                    {
+                    "Sequence" = "3:300"
+                    "DisplayName" = "8:Read Me"
+                    "UseDynamicProperties" = "11:TRUE"
+                    "IsDependency" = "11:FALSE"
+                    "SourcePath" = "8:<VsdDialogDir>\\VsdReadmeDlg.wid"
+                        "Properties"
+                        {
+                            "BannerBitmap"
+                            {
+                            "Name" = "8:BannerBitmap"
+                            "DisplayName" = "8:#1001"
+                            "Description" = "8:#1101"
+                            "Type" = "3:8"
+                            "ContextData" = "8:Bitmap"
+                            "Attributes" = "3:4"
+                            "Setting" = "3:1"
+                            "UsePlugInResources" = "11:TRUE"
+                            }
+                            "ReadmeText"
+                            {
+                            "Name" = "8:ReadmeText"
+                            "DisplayName" = "8:#1010"
+                            "Description" = "8:#1110"
+                            "Type" = "3:6"
+                            "ContextData" = "8:"
+                            "Attributes" = "3:0"
+                            "Setting" = "3:2"
+                            "Value" = "8:_C331A67D551F468EB849CF740D1759E9"
+                            "UsePlugInResources" = "11:TRUE"
+                            }
+                            "Sunken"
+                            {
+                            "Name" = "8:Sunken"
+                            "DisplayName" = "8:#1007"
+                            "Description" = "8:#1107"
+                            "Type" = "3:5"
+                            "ContextData" = "8:4;True=4;False=0"
+                            "Attributes" = "3:0"
+                            "Setting" = "3:0"
+                            "Value" = "3:4"
+                            "DefaultValue" = "3:4"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
