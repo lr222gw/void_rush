@@ -17,7 +17,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 	lightNr = 0;
 
 	//Check if folder exists
-	char* t = new char[100];
+	char* t;
 
 	auto size = sizeof(t);
 	_dupenv_s(&t, &size, "APPDATA");	
@@ -31,7 +31,7 @@ Game::Game(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mou
 		f.close();
 	}
 	this->pathToHighScore = path;
-
+	free(t);
 
 	puzzleManager = new ProtoPuzzle(gfx, rm, collisionHandler, &soundManager); 
 

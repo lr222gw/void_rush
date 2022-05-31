@@ -4,7 +4,7 @@ HighScoreGameState::HighScoreGameState(Graphics*& gfx, ResourceManager*& rm, Img
 	GameState(gfx,rm,imguimanager,mouse,keyboard,cam)
 {
 	//Check if folder exists
-	char* t = new char[100];
+	char* t;
 
 	auto size = sizeof(t);
 	_dupenv_s(&t, &size, "APPDATA");
@@ -18,7 +18,7 @@ HighScoreGameState::HighScoreGameState(Graphics*& gfx, ResourceManager*& rm, Img
 		f.close();
 	}
 	this->pathToHighScore = path;
-
+	free(t);
 	readHighScoreFile();
 	UI = new UIManager(rm, gfx);
 	UI->createUIButton("assets/textures/buttonBack.png", "back", mouse, vec2(-1, 0.8f), vec2(0.2f, 0.2f), "back", vec2(0,0.1f));
