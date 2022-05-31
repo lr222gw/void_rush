@@ -30,7 +30,7 @@ public:
 private:
 	settingsSingleTon() {
 		//Check if folder exists
-		char* t = new char[100];
+		char* t;
 
 		auto size = sizeof(t);
 		_dupenv_s(&t, &size, "APPDATA");
@@ -54,6 +54,7 @@ private:
 			f.close();
 		}
 		this->pathToSettingsFile = path;
+		free(t);
 	};
 	static settingsSingleTon s_Instance;
 	settings sett;

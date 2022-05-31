@@ -5,7 +5,7 @@ SettingsScene::SettingsScene(Graphics*& gfx, ResourceManager*& rm, ImguiManager*
 {
 
 	//Check if folder exists
-	char* t = new char[100];
+	char* t;
 
 	auto size = sizeof(t);
 	_dupenv_s(&t, &size, "APPDATA");
@@ -19,7 +19,7 @@ SettingsScene::SettingsScene(Graphics*& gfx, ResourceManager*& rm, ImguiManager*
 		f.close();
 	}
 	this->pathToSettingsFile = path;
-
+	free(t);
 	UI = new UIManager(rm, gfx);
 
 	readSettings();
