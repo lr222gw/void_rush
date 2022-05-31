@@ -2,6 +2,8 @@
 #include "3Dproj/GameState.h"
 #include "settings.h"
 
+#include <filesystem>
+
 class SettingsScene : public GameState {
 public:
 	SettingsScene(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam);
@@ -14,6 +16,7 @@ public:
 private:
 	void readSettings();
 	void saveSettings();
+
 	UIManager* UI;
 	SkyBox* skybox;
 	settings sett;
@@ -22,4 +25,5 @@ private:
 	std::string FullScreenToString();
 	float savedTime = 0;
 	bool exist = false;
+	std::string pathToSettingsFile;
 };

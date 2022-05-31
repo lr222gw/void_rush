@@ -3,6 +3,23 @@
 SettingsScene::SettingsScene(Graphics*& gfx, ResourceManager*& rm, ImguiManager* imguimanager, Mouse* mouse, Keyboard* keyboard, Camera* cam):
 	GameState(gfx,rm,imguimanager,mouse,keyboard,cam)
 {
+
+	//Check if folder exists
+	char* t = new char[100];
+
+	auto size = sizeof(t);
+	_dupenv_s(&t, &size, "APPDATA");
+	std::string path = std::string(t) + "\\void_rush";
+	if (!std::filesystem::exists(path)) {
+		std::filesystem::create_directory(path);
+	}
+	path = path + "\\Setting.data";
+	if (!std::filesystem::exists(path)) {
+		std::ofstream f(path);
+		f.close();
+	}
+	this->pathToSettingsFile = path;
+
 	UI = new UIManager(rm, gfx);
 
 	readSettings();
@@ -43,6 +60,8 @@ SettingsScene::SettingsScene(Graphics*& gfx, ResourceManager*& rm, ImguiManager*
 		"assets/textures/Skybox/negz.png"//z-
 	};
 	skybox = new SkyBox(rm->get_Models("skybox_cube.obj", gfx), gfx, vec3(0, 0, 0), rm->getSpriteCube(skyboxTextures, gfx));
+
+	
 
 }
 
@@ -141,7 +160,7 @@ void SettingsScene::render()
 
 void SettingsScene::readSettings()
 {
-	std::ifstream input("Setting.data", std::ios::out | std::ios::binary);
+	std::ifstream input(this->pathToSettingsFile, std::ios::out | std::ios::binary);
 	if (!input) {
 		sett.volume = 1;
 		sett.resolution = 4;
@@ -158,7 +177,7 @@ void SettingsScene::saveSettings()
 	UI->createUIString("saved", vec2(-0.25f, -0.7f), vec2(0.1f, 0.1f), "saved");
 	exist = true;
 	savedTime = 2.f;
-	std::ofstream output("Setting.data", std::ios::out | std::ios::binary);
+	std::ofstream output(this->pathToSettingsFile, std::ios::out | std::ios::binary);
 	output.write((char*)&sett, sizeof(sett));
 	output.close();
 	settingsSingleTon::GetInst().setSettings(sett);
