@@ -2,6 +2,7 @@
 
 Letters3D::Letters3D(std::string str, vec3 pos, ResourceManager* rm, Graphics*& gfx, vec2 size) : rm(rm), gfx(gfx), size(size)
 {
+	//test
 	this->pos = pos;
 	for (size_t i = 0; i < str.size(); i++) {
 		letters.push_back(new GameObject(rm->get_Models("3DText.obj", gfx), gfx, pos, vec3(0, 0, 0), vec3(1, size.y, size.x)));
